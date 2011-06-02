@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="phasesQualificatives">
+	<fichiers>
+		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Liste des matchs d'une phase qualificative.pdf" transformation="fop-pdf" principal="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" />
+		<parametre id="idPoule" nom="Poule" type="idPoule" dependance="idCategorie" />
+		<parametre id="idPhase" nom="Phase" type="idPhase" dependance="idPoule" />
+	</parametres>
+</configuration>

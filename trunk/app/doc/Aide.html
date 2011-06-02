@@ -1,0 +1,629 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>ContestOrg</title><meta name="generator" content="DocBook XSL Stylesheets V1.76.1"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div lang="fr" class="book" title="ContestOrg"><div class="titlepage"><div><div><h1 class="title"><a name="d53e1"></a>ContestOrg</h1></div><div><h2 class="subtitle">Logiciel d'organisation de tournois</h2></div><div><div class="author"><h3 class="author"><span class="firstname">Cyril</span> <span class="surname">Perrin</span></h3></div></div><div><p class="releaseinfo">2.0.0.0a</p></div></div><div></div><hr></div><div class="toc"><p><b>Table des matières</b></p><dl><dt><span class="chapter"><a href="#d53e17">1. Mot de l'initiateur du projet</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e20">La petite histoire</a></span></dt><dt><span class="section"><a href="#d53e42">Vision des choses</a></span></dt><dt><span class="section"><a href="#d53e71">Remerciements</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d53e76">2. Introduction</a></span></dt><dt><span class="chapter"><a href="#d53e138">3. Lancer l'application</a></span></dt><dt><span class="chapter"><a href="#d53e159">4. Utilisation de l'application</a></span></dt><dd><dl><dt><span class="section"><a href="#interface-generale">Interface générale</a></span></dt><dt><span class="section"><a href="#d53e260">Ouvrir un concours</a></span></dt><dt><span class="section"><a href="#configurer">Créer/Configurer le concours</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e299">Onglet "Informations générales"</a></span></dt><dt><span class="section"><a href="#configurer-points-classement">Onglet "Points et classement"</a></span></dt><dt><span class="section"><a href="#d53e410">Onglet "Lieux et emplacements"</a></span></dt><dt><span class="section"><a href="#configurer-prix">Onglet "Prix"</a></span></dt><dt><span class="section"><a href="#d53e516">Onglet "Programmation des matchs"</a></span></dt><dt><span class="section"><a href="#configurer-proprietes-equipe">Onglet "Propriétés de participant"</a></span></dt><dt><span class="section"><a href="#configurer-exportations-diffusions">Onglet "Exportations et diffusions"</a></span></dt></dl></dd><dt><span class="section"><a href="#equipes">Fenêtre des équipes</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e773">Gérer les catégories</a></span></dt><dt><span class="section"><a href="#d53e825">Gérer les poules</a></span></dt><dt><span class="section"><a href="#d53e885">Ajouter/Editer une équipe</a></span></dt><dt><span class="section"><a href="#d53e933">Importer des équipes</a></span></dt></dl></dd><dt><span class="section"><a href="#phases-qualificatives">Fenêtre des phases qualificatives</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1025">Créer/Editer une phase</a></span></dt><dt><span class="section"><a href="#d53e1112">Créer/Editer un match</a></span></dt></dl></dd><dt><span class="section"><a href="#phases-eliminatoires">Fenêtre des phases éliminatoires</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1178">Créer les phases</a></span></dt><dt><span class="section"><a href="#d53e1197">Renseigner les résultats</a></span></dt></dl></dd><dt><span class="section"><a href="#exporter">Exporter les informations du concours</a></span></dt><dd><dl><dt><span class="section"><a href="#exportations-predefinies">Exportations prédéfinies</a></span></dt><dt><span class="section"><a href="#exportations-volee">Exportations à la volée</a></span></dt></dl></dd><dt><span class="section"><a href="#diffuser">Diffuser les informations du concours</a></span></dt><dt><span class="section"><a href="#themes">Thèmes des exportations et des diffusions</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1318">Fichier de configuration</a></span></dt><dt><span class="section"><a href="#d53e1338">Données à fournir</a></span></dt></dl></dd><dt><span class="section"><a href="#modules">Modules externes</a></span></dt><dd><dl><dt><span class="section"><a href="#module-inscription-equipes">Inscription des équipes</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#d53e1407">5. Guide d'organisation d'un tournois sportif</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1436">Gérer la logistique</a></span></dt><dt><span class="section"><a href="#d53e1443">Assurer votre événement</a></span></dt><dt><span class="section"><a href="#d53e1448">Communiquer sur l'événement</a></span></dt><dt><span class="section"><a href="#d53e1453">Organiser l'événement</a></span></dt><dt><span class="section"><a href="#d53e1473">Le stand buvette</a></span></dt><dt><span class="section"><a href="#d53e1478">Animez les tribunes</a></span></dt><dt><span class="section"><a href="#d53e1483">La remise des prix</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d53e1488">6. Contribuer au projet</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1491">Rejoindre l'équipe</a></span></dt><dt><span class="section"><a href="#d53e1519">Contribuer occasionnellement</a></span></dt></dl></dd><dt><span class="chapter"><a href="#d53e1530">7. Crédits</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1533">Membres de l'équipe</a></span></dt><dt><span class="section"><a href="#d53e1561">Donateurs</a></span></dt><dt><span class="section"><a href="#d53e1578">Contributeurs occasionnels</a></span></dt><dt><span class="section"><a href="#d53e1600">Packs d'icônes utilisés</a></span></dt><dt><span class="section"><a href="#d53e1628">Outils utilisés</a></span></dt><dt><span class="section"><a href="#d53e1723">Librairies utilisées</a></span></dt><dt><span class="section"><a href="#d53e1841">Sources</a></span></dt></dl></dd></dl></div><div class="list-of-tables"><p><b>Liste des tableaux</b></p><dl><dt>7.1. <a href="#d53e1536">Liste des membres de l'équipe</a></dt><dt>7.2. <a href="#d53e1564">Liste des donateurs</a></dt><dt>7.3. <a href="#d53e1581">Liste des contributeurs occasionnels</a></dt><dt>7.4. <a href="#d53e1603">Liste des packs d'icônes utilisés</a></dt><dt>7.5. <a href="#d53e1631">Liste des outils utilisés</a></dt><dt>7.6. <a href="#d53e1726">Liste des librairies utilisées</a></dt><dt>7.7. <a href="#d53e1844">Sources utilisés</a></dt></dl></div><div class="list-of-examples"><p><b>Liste des exemples</b></p><dl><dt>4.1. <a href="#d53e310">Exemple d'utilisation du choix du type de
+          participants</a></dt><dt>4.2. <a href="#d53e350">Exemple de mise en place d'un objectif à points</a></dt><dt>4.3. <a href="#d53e383">Exemple de mise en place d'un objectif à
+              pourcentage</a></dt><dt>4.4. <a href="#d53e472">Exemple d'utilisation des lieux, horaires et
+          emplacements</a></dt><dt>4.5. <a href="#d53e538">Exemple d'utilisation des propriétés d'équipe</a></dt><dt>4.6. <a href="#d53e566">Exemple d'utilisation des exportations prédéfinies</a></dt><dt>4.7. <a href="#d53e669">Exemple d'utilisation des diffusions</a></dt><dt>4.8. <a href="#d53e808">Exemple de catégories</a></dt></dl></div><div class="chapter" title="Chapitre&nbsp;1.&nbsp;Mot de l'initiateur du projet"><div class="titlepage"><div><div><h2 class="title"><a name="d53e17"></a>Chapitre&nbsp;1.&nbsp;Mot de l'initiateur du projet</h2></div></div><div></div></div><div class="toc"><p><b>Table des matières</b></p><dl><dt><span class="section"><a href="#d53e20">La petite histoire</a></span></dt><dt><span class="section"><a href="#d53e42">Vision des choses</a></span></dt><dt><span class="section"><a href="#d53e71">Remerciements</a></span></dt></dl></div><div class="section" title="La petite histoire"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e20"></a>La petite histoire</h2></div></div><div></div></div><p>Lorsque que j'ai commencé à développer
+      <span class="application">ContestOrg</span> en 2009, mon objectif était de
+      générer un site Web dans le cadre d'un concours de robotique pour que
+      les participants puissent accéder à leurs résultats en ligne. Au cours
+      du développement, <span class="application">ContestOrg</span> est devenu petit
+      à petit une application plus ou moins complète d'organisation de
+      concours. Quelques mois suivant la version finale de
+      <span class="application">ContestOrg 1</span>, j'ai décidé de le mettre en
+      ligne sans trop d'espoir que celui-ci rencontre un certain
+      succès.</p><p>A ma grande surprise, <span class="application">ContestOrg</span> a vite
+      trouvé ses utilisateurs. L'idée de développer une deuxième version de
+      l'application s'est rapidement transformé en nécessité à la vue des
+      différents retours des utilisateurs. En plus de mes notes personnelles,
+      tous ces retours, qu'ils soient positifs ou négatifs, ont été d'une
+      grande aide pour l'établissement du cahier des charges de cette deuxième
+      version. C'est ainsi que j'ai commencé le développement de
+      <span class="application">ContestOrg 2</span> à la fin de l'été 2010. Désireux
+      de livrer une application complète, la date de sortie a subi de nombreux
+      reports. Après de longs mois d'effort, la nouvelle version voit enfin le
+      jour au printemps 2011.</p></div><div class="section" title="Vision des choses"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e42"></a>Vision des choses</h2></div></div><div></div></div><p>Au delà du service rendu à ses utilisateurs, j'ai voulu faire de
+      <span class="application">ContestOrg</span> un logiciel libre. L'objectif
+      recherché est de créer une communauté où chacun peut apporter sa pierre
+      à l'édifice : signalement d'erreurs, proposition d'améliorations,
+      développement de fonctionnalités, aide aux utilisateurs, rédaction de
+      documentation... L'application ne pourra que s'en porter mieux. En tant
+      qu'initiateur du projet, j'aurais toujours mon mot à dire dans les
+      grandes lignes mais je ne serais en aucun cas amené à verrouiller le
+      projet. <span class="application">ContestOrg</span> doit devenir un projet
+      vivant de par sa communauté.</p><p>Différentes valeurs venant du monde libre sont portés par le
+      projet :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>partage : libre échange de la connaissance</p></li><li class="listitem"><p>passion : amour du travail bien fait</p></li><li class="listitem"><p>ouverture : pas de barrières entre utilisateurs et
+          contributeurs</p></li><li class="listitem"><p>liberté : accès aux sources</p></li><li class="listitem"><p>autonomie : appartenance à la communauté et non à une
+          quelconque entité</p></li></ul></div></div><div class="section" title="Remerciements"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e71"></a>Remerciements</h2></div></div><div></div></div><p>Se lancer dans un tel projet n'est pas chose aisée et je me plaît
+      à dire que si j'avais su à l'avance le travail que cela aurait engendré,
+      je ne me serais pas lancé dans l'aventure. Ainsi, je tiens à remercier
+      les personnes qui m'ont soutenus et qui me soutiennent encore : ma
+      fiancée Gaëlle, mes deux frères Luke et Allan, ma soeur Céline et mes
+      deux parents Etienne et Pascale. J'en profite pour remercier également
+      tous utilisateurs qui m'ont envoyé leurs réactions ainsi que tous les
+      développeurs qui sont à l'origine des librairies que l'application
+      réutilise.</p></div></div><div class="chapter" title="Chapitre&nbsp;2.&nbsp;Introduction"><div class="titlepage"><div><div><h2 class="title"><a name="d53e76"></a>Chapitre&nbsp;2.&nbsp;Introduction</h2></div></div><div></div></div><p><span class="application">ContestOrg</span> est une application visant à
+    organiser n'importe quel type de tournois. Celle-ci a été pensée et
+    développée de manière générique, c'est à dire qu'aucune spécificité lié à
+    un type de tournois en particulier n'est présente. Ainsi, les usages que
+    l'on peut avoir de <span class="application">ContestOrg</span> différent selon
+    des besoins des utilisateurs.</p><p>Il y a trois grandes parties dans
+    <span class="application">ContestOrg</span> :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="#equipes" title="Fenêtre des équipes">Équipes</a> : création/importation
+        des équipes, répartition au sein des catégories/poules.</p></li><li class="listitem"><p><a class="link" href="#phases-qualificatives" title="Fenêtre des phases qualificatives">Phases
+        qualificatives</a> : gestion des matchs à caractère non
+        éliminatoire au sein des poules.</p></li><li class="listitem"><p><a class="link" href="#phases-eliminatoires" title="Fenêtre des phases éliminatoires">Phases éliminatoires</a>
+        : gestion des matchs à caractère éliminatoire au sein des
+        catégories.</p></li></ul></div><p>A ces trois grandes parties viennent se greffer différents
+    utilitaires :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="#exporter" title="Exporter les informations du concours">Exportations</a> : permettent
+        d'obtenir des fichiers tirés des données du tournois</p></li><li class="listitem"><p><a class="link" href="#diffuser" title="Diffuser les informations du concours">Diffusions</a> : permettent
+        d'afficher sur des écrans distants des informations du tournois</p></li></ul></div><p><span class="application">ContestOrg</span> est également doté de modules
+    externes :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><a class="link" href="#module-inscription-equipes" title="Inscription des équipes">Inscription des
+        équipes</a> : permet l'inscription d'équipes au sein d'un site
+        Web</p></li></ul></div><p>Dans ce document, nous verrons en détail l'ensemble des
+    fonctionnalités proposées par l'application. Si vous ne trouvez pas les
+    informations que vous cherchez dans ce document, vous pouvez nous
+    contacter en utilisant : <a class="ulink" href="http://www.elfangels.fr/contestorg/forum/index/" target="_top">le forum</a> ou
+    <a class="ulink" href="http://www.elfangels.fr/contestorg/index/contact/" target="_top">le
+    formulaire de contact</a>.</p></div><div class="chapter" title="Chapitre&nbsp;3.&nbsp;Lancer l'application"><div class="titlepage"><div><div><h2 class="title"><a name="d53e138"></a>Chapitre&nbsp;3.&nbsp;Lancer l'application</h2></div></div><div></div></div><p><span class="application">ContestOrg</span> est une application développée
+    en Java. Celle-ci a donc besoin de la machine virtuelle Java ainsi que les
+    bibliothèques standards Java pour fonctionner. Il faut donc s'assurer que
+    l'environnement d'exécution Java soit bien installé sur votre ordinateur.
+    Suivez la <a class="ulink" href="http://www.java.com/fr/download/help/download_options.xml" target="_top">procédure
+    d'installation</a> en fonction de votre système d'exploitation pour
+    être en mesure de pouvoir lancer
+    <span class="application">ContestOrg</span>.</p><p>Pour lancer l'application sous Windows, il vous faut double cliquer
+    sur <code class="filename">ContestOrg.exe</code>. Sous Linux et Mac OS, il vous
+    faut lancer le terminal et exécuter la ligne suivante : <span class="command"><strong>$ java
+    -jar ContestOrg.jar</strong></span>.</p></div><div class="chapter" title="Chapitre&nbsp;4.&nbsp;Utilisation de l'application"><div class="titlepage"><div><div><h2 class="title"><a name="d53e159"></a>Chapitre&nbsp;4.&nbsp;Utilisation de l'application</h2></div></div><div></div></div><div class="toc"><p><b>Table des matières</b></p><dl><dt><span class="section"><a href="#interface-generale">Interface générale</a></span></dt><dt><span class="section"><a href="#d53e260">Ouvrir un concours</a></span></dt><dt><span class="section"><a href="#configurer">Créer/Configurer le concours</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e299">Onglet "Informations générales"</a></span></dt><dt><span class="section"><a href="#configurer-points-classement">Onglet "Points et classement"</a></span></dt><dt><span class="section"><a href="#d53e410">Onglet "Lieux et emplacements"</a></span></dt><dt><span class="section"><a href="#configurer-prix">Onglet "Prix"</a></span></dt><dt><span class="section"><a href="#d53e516">Onglet "Programmation des matchs"</a></span></dt><dt><span class="section"><a href="#configurer-proprietes-equipe">Onglet "Propriétés de participant"</a></span></dt><dt><span class="section"><a href="#configurer-exportations-diffusions">Onglet "Exportations et diffusions"</a></span></dt></dl></dd><dt><span class="section"><a href="#equipes">Fenêtre des équipes</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e773">Gérer les catégories</a></span></dt><dt><span class="section"><a href="#d53e825">Gérer les poules</a></span></dt><dt><span class="section"><a href="#d53e885">Ajouter/Editer une équipe</a></span></dt><dt><span class="section"><a href="#d53e933">Importer des équipes</a></span></dt></dl></dd><dt><span class="section"><a href="#phases-qualificatives">Fenêtre des phases qualificatives</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1025">Créer/Editer une phase</a></span></dt><dt><span class="section"><a href="#d53e1112">Créer/Editer un match</a></span></dt></dl></dd><dt><span class="section"><a href="#phases-eliminatoires">Fenêtre des phases éliminatoires</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1178">Créer les phases</a></span></dt><dt><span class="section"><a href="#d53e1197">Renseigner les résultats</a></span></dt></dl></dd><dt><span class="section"><a href="#exporter">Exporter les informations du concours</a></span></dt><dd><dl><dt><span class="section"><a href="#exportations-predefinies">Exportations prédéfinies</a></span></dt><dt><span class="section"><a href="#exportations-volee">Exportations à la volée</a></span></dt></dl></dd><dt><span class="section"><a href="#diffuser">Diffuser les informations du concours</a></span></dt><dt><span class="section"><a href="#themes">Thèmes des exportations et des diffusions</a></span></dt><dd><dl><dt><span class="section"><a href="#d53e1318">Fichier de configuration</a></span></dt><dt><span class="section"><a href="#d53e1338">Données à fournir</a></span></dt></dl></dd><dt><span class="section"><a href="#modules">Modules externes</a></span></dt><dd><dl><dt><span class="section"><a href="#module-inscription-equipes">Inscription des équipes</a></span></dt></dl></dd></dl></div><div class="section" title="Interface générale"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="interface-generale"></a>Interface générale</h2></div></div><div></div></div><p>Lorsque vous lancez <span class="application">ContestOrg</span>, nous
+      pouvons observer sur la gauche une barre latérale composée de différents
+      boutons. Cette barre latérale est divisée en trois zones : une zone de
+      création/chargement de tournois, une zone dédiée au tournois courant et
+      une zone dédiée à l'application.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr style="height: 273px"><td><img src="images/ecrans/interface-generale.png" height="273"></td></tr></table></div></div><p>Description des boutons de la barre de menus :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau</span></span> : créer un nouveau
+          tournois</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Ouvrir</span></span> : ouvrir un fichier de
+          tournois</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Connexion</span></span> : se connecter à un serveur
+          (pas encore disponible)</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span> : prendre le jeton d'édition
+          (pas encore disponible)</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exportations</span></span> : afficher la fenêtre des
+          exportations</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Publier</span></span> : lancer l'exportation définie
+          pour la publication</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Diffuser</span></span> : afficher la fenêtre des
+          diffusions</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Configurer</span></span> : configurer le
+          tournois</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Fermer</span></span> : fermer le tournois</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Aide</span></span> : afficher l'aide
+          <acronym class="acronym">PDF</acronym></p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Site Web</span></span> : afficher le site Web de
+          <span class="application">ContestOrg</span></p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Crédits</span></span> : afficher les crédits</p></li><li class="listitem"><p><span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Quitter</span></span> : quitter l'application</p></li></ul></div><p>Sur la zone de droite, nous retrouvons les trois grandes parties
+      de l'application (<a class="link" href="#equipes" title="Fenêtre des équipes">équipes</a>, <a class="link" href="#phases-qualificatives" title="Fenêtre des phases qualificatives">phases qualificatives</a> et <a class="link" href="#phases-eliminatoires" title="Fenêtre des phases éliminatoires">phases éliminatoires</a>) disponibles
+      sous la forme d'onglets. Chacune de ces trois parties est divisée en
+      quatre zones : une zone dédiée à l'arborescence catégories/poules, une
+      zone dédiée aux données de l'onglet courant, une zone dédiée aux actions
+      sur l'arborescence, une zone dédiée aux actions sur les données. Notez
+      que la zone dédiée aux données de l'onglet courant dépendent de la
+      sélection effectuée dans l'arborescence.</p></div><div class="section" title="Ouvrir un concours"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e260"></a>Ouvrir un concours</h2></div></div><div></div></div><p>Pour ouvrir un concours, cliquez sur le bouton
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Ouvrir</span></span> puis sélectionnez le fichier de concours
+      désiré. L'extension choisie est <span class="quote">«&nbsp;<span class="quote">.co</span>&nbsp;»</span> reprenant les
+      initiales de ContestOrg.</p><p>Concernant le format de fichier contenant les données du concours,
+      il s'agit d'un fichier <acronym class="acronym">XML</acronym> respectant la
+      <acronym class="acronym">DTD</acronym> fournie dans le fichier
+      <code class="filename">dtds/concours.dtd</code> au sein du répertoire de
+      ContestOrg. La <acronym class="acronym">DTD</acronym> est également disponible sur le
+      site Web de ContestOrg à l'adresse
+      <code class="uri">http://www.elfangels.fr/contestorg/data/dtds/concours.dtd</code>.</p></div><div class="section" title="Créer/Configurer le concours"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="configurer"></a>Créer/Configurer le concours</h2></div></div><div></div></div><p>Dans la barre latérale de gauche, cliquez sur
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau</span></span> ou <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Configurer</span></span> pour
+      lancer la fenêtre de création/configuration du tournois.</p><div class="section" title="Onglet &#34;Informations générales&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="d53e299"></a>Onglet "Informations générales"</h3></div></div><div></div></div><p>Dans cet onglet, nous retrouvons la configuration générale du
+        tournois, à savoir : les informations du tournois, les informations de
+        l'organisme et le type de participant. Le type de participant permet
+        de définir si ce sont des équipes ou des joueurs qui participent au
+        tournois.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-general.png" width="350"></td></tr></table></div></div><div class="example"><a name="d53e310"></a><p class="title"><b>Exemple&nbsp;4.1.&nbsp;Exemple d'utilisation du choix du type de
+          participants</b></p><div class="example-contents"><p>Au football, il s'agira d'un tournois d'équipes, au judo, il
+          s'agira d'un tournois de joueurs.</p></div></div><br class="example-break"></div><div class="section" title="Onglet &#34;Points et classement&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="configurer-points-classement"></a>Onglet "Points et classement"</h3></div></div><div></div></div><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-points-classement.png" width="350"></td></tr></table></div></div><div class="section" title="Points"><div class="titlepage"><div><div><h4 class="title"><a name="d53e324"></a>Points</h4></div></div><div></div></div><p>Cette zone permet de spécifier le nombre de points remportés
+          en cas de victoire, d'égalité ou de défaite. Il n'y a aucun point de
+          remporté si l'équipe est déclaré forfait au match. Si votre tournois
+          n'attribue aucun points en fonction du résultat d'un match,
+          spécifiez <span class="quote">«&nbsp;<span class="quote">0</span>&nbsp;»</span> dans chacun des entrées.</p></div><div class="section" title="Objectifs"><div class="titlepage"><div><div><h4 class="title"><a name="d53e332"></a>Objectifs</h4></div></div><div></div></div><p>Cette zone permet de spécifier la liste des objectifs qu'une
+          équipe peut remporter au cours d'un match. Trois types d'objectifs
+          sont disponibles : les objectifs à points, les objectifs à
+          pourcentage et les objectifs nuls. Notez que l'ordre des objectifs
+          importe dans l'attribution des points.</p><div class="section" title="Objectifs à points"><div class="titlepage"><div><div><h5 class="title"><a name="d53e337"></a>Objectifs à points</h5></div></div><div></div></div><p>Ce type d'objectif rapporte un certain nombre de points à
+            l'équipe le remporte. Il est possible de définir une borne de
+            participation que le nombre de points remportés au cours du match
+            ne pourra par dépasser. Notez qu'il est possible de spécifier un
+            nombre de points négatif (pour les pénalités par exemple), il en
+            va de même pour la borne de participation.</p><pre class="programlisting">// Calcul des points remportés via un objectif à points
+PROCEDURE OBJECTIF_POINTS (
+   points_participation,
+   points_objectif,
+   borne_participation
+)
+DEBUT PROCEDURE
+   // Incrémenter les points de la participation du nombre de points de l'objectif
+   points_participation = points_participation + points_objectif;
+
+   // Vérifier si les points de la participation a dépassé la borne de participation
+   SI
+      DEFINI(borne_score) ET (
+         (points_objectif &lt; 0 ET points_participation &lt; borne_participation)
+         OU
+         (points_objectif &gt; 0 ET points_participation &gt; borne_participation)
+      )
+   ALORS
+      points_participation = borne_participation;
+   FIN SI;
+
+   // Retourner les points de la participation
+   RETOURNER points_participation;
+FIN PROCEDURE;</pre><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="200"><tr style="height: 158px"><td><img src="images/ecrans/configurer-objectif-points.png" width="200"></td></tr></table></div></div><div class="example"><a name="d53e350"></a><p class="title"><b>Exemple&nbsp;4.2.&nbsp;Exemple de mise en place d'un objectif à points</b></p><div class="example-contents"><p>Dans le cadre d'un tournois de judo, le responsable de
+              l'organisation du tournois a définit 4 objectifs à points
+              :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Koka : 3 points</p></li><li class="listitem"><p>Yuko : 5 points</p></li><li class="listitem"><p>Wazari : 7 points</p></li><li class="listitem"><p>Ippon : 10 points</p></li></ul></div><p>Lorsqu'un joueur remporte un de ces objectifs, son score
+              est crédité du nombre de points associé à l'objectif
+              remporté.</p></div></div><br class="example-break"></div><div class="section" title="Objectifs à pourcentage"><div class="titlepage"><div><div><h5 class="title"><a name="d53e370"></a>Objectifs à pourcentage</h5></div></div><div></div></div><p>Ce type d'objectif rapporte à l'équipe qui le remporte un
+            certain pourcentage du nombre de points gagnés au cours du match.
+            Il est possible de définir une borne d'augmentation que
+            l'augmentation du nombre du points remportés au cours du match ne
+            pourra pas dépasser. Il est possible de définir une borne de
+            participation que le nombre de points gagnés au cours du match ne
+            pourra par dépasser. Notez qu'il est possible de spécifier un
+            pourcentage négatif (pour les pénalités par exemple), il en va de
+            même pour les bornes d'augmentation et de participation.</p><pre class="programlisting">// Calcul des points remportés via un objectif à pourcentage
+PROCEDURE OBJECTIF_POURCENTAGE (
+   points_participation,
+   pourcentage_objectif,
+   borne_augmentation,
+   borne_participation
+)
+DEBUT PROCEDURE
+   // Calculer l'augmentation du nombre de points de la participation
+   VAR augmentation = points_participation * pourcentage_objectif;
+
+   // Vérifier si l'augmentation n'a pas dépassé la borne d'augmentation
+   SI
+      DEFINI(borne_augmentation) ET (
+         (pourcentage_objectif &lt; 0 ET augmentation &lt; borne_augmentation)
+         OU
+         (pourcentage_objectif &gt; 0 ET augmentation &gt; borne_augmentation)
+      )
+   ALORS
+      augmentation = borne_augmentation;
+   FIN SI;
+
+   // Incrémenter les points de la participation de l'augmentation
+   points_participation = points_participation + augmentation;
+
+   // Vérifier si les points de la participation n'a pas dépassé la borne de participation
+   SI
+      DEFINI(borne_score_objectif) ET (
+         (pourcentage_objectif &lt; 0 ET points_participation &lt; borne_participation)
+         OU
+         (pourcentage_objectif &gt; 0 ET points_participation &gt; borne_participation)
+      )
+   ALORS
+      points_participation = borne_participation;
+   FIN SI;
+
+   // Retourner les points de la participation
+   RETOURNER points_participation;
+FIN PROCEDURE;</pre><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="200"><tr style="height: 158px"><td><img src="images/ecrans/configurer-objectif-pourcentage.png" width="200"></td></tr></table></div></div><div class="example"><a name="d53e383"></a><p class="title"><b>Exemple&nbsp;4.3.&nbsp;Exemple de mise en place d'un objectif à
+              pourcentage</b></p><div class="example-contents"><p>Dans le cadre d'un tournois de robotique, le responsable
+              de l'organisation du tournois à définit une pénalité à
+              pourcentage :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Pénalité : -15%, borne de score : 0 points</p></li></ul></div><p>Lorsqu'une équipe reçoit cette pénalité, son nombre de
+              points remportés au cours du match est diminué de 15%. Si ce
+              nombre de points devient négatif, celui-ci est ramené à
+              zéro.</p></div></div><br class="example-break"></div><div class="section" title="Objectifs nuls"><div class="titlepage"><div><div><h5 class="title"><a name="d53e394"></a>Objectifs nuls</h5></div></div><div></div></div><p>Ce type d'objectif ne rapport rien à l'équipe qui le
+            remporte.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="200"><tr style="height: 158px"><td><img src="images/ecrans/configurer-objectif-nul.png" width="200"></td></tr></table></div></div></div></div><div class="section" title="Classement"><div class="titlepage"><div><div><h4 class="title"><a name="d53e405"></a>Classement</h4></div></div><div></div></div><p>Cette zone permet de spécifier l'ordre des critère de
+          classement. Trois types de critères de classement sont disponibles :
+          nombre de points, nombre de victoires et nombre d'un type d'objectif
+          donné remportés. Les critères situés en haut du tableau ont le poids
+          le plus fort.</p></div></div><div class="section" title="Onglet &#34;Lieux et emplacements&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="d53e410"></a>Onglet "Lieux et emplacements"</h3></div></div><div></div></div><p>Dans cet onglet, nous retrouvons la configuration des lieux et
+        emplacements dédiés aux matchs du tournois. Un lieu est une collection
+        d'horaires et d'emplacements. Les horaires permettent de déterminer à
+        quelle heures les lieux sont disponibles les matchs. Les emplacements
+        permettent de déterminer à quels endroits il est possible d'effectuer
+        un match.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-lieux-emplacements.png" width="350"></td></tr></table></div></div><p>Cliquez sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau</span></span> ou
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span> pour créer/editer un lieu. Un lieu doit
+        comprendre au moins un emplacement.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 444px"><td><img src="images/ecrans/configurer-lieu.png" width="350"></td></tr></table></div></div><p>Cliquez sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau</span></span> ou
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span> de la zone <span class="guilabel">Horaires</span>
+        pour créer/éditer un horaire. Dans la fenêtre de création/édition
+        d'horaire, il est possible de sélectionner plusieurs jours en
+        maintenant la touche <span class="keycode">CTRL</span> enfoncée.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="280"><tr style="height: 218px"><td><img src="images/ecrans/configurer-lieu-horaire.png" width="280"></td></tr></table></div></div><p>Cliquez sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau</span></span> ou
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span> de la zone
+        <span class="guilabel">Emplacements</span> pour créer/éditer un
+        emplacement.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="280"><tr style="height: 151px"><td><img src="images/ecrans/configurer-lieu-emplacement.png" height="151"></td></tr></table></div></div><div class="example"><a name="d53e472"></a><p class="title"><b>Exemple&nbsp;4.4.&nbsp;Exemple d'utilisation des lieux, horaires et
+          emplacements</b></p><div class="example-contents"><p>Dans le cadre d'un tournois de rugby, le responsable de
+          l'organisation du tournois désire fournir sur le site Web les
+          informations sur le lieu où se déroule le tournois. Pour cela, il
+          ajout le lieu <span class="quote">«&nbsp;<span class="quote">Complexe sportif</span>&nbsp;»</span>. Celui-ci possède les
+          horaires <span class="quote">«&nbsp;<span class="quote">Samedi de 9h à 12h</span>&nbsp;»</span>, <span class="quote">«&nbsp;<span class="quote">Samedi de 14h à
+          18h</span>&nbsp;»</span> et <span class="quote">«&nbsp;<span class="quote">Dimanche de 15h à 18h</span>&nbsp;»</span> ainsi que les
+          emplacements <span class="quote">«&nbsp;<span class="quote">Terrain 1</span>&nbsp;»</span>, <span class="quote">«&nbsp;<span class="quote">Terrain 2</span>&nbsp;»</span> et
+          <span class="quote">«&nbsp;<span class="quote">Terrain 3</span>&nbsp;»</span>.</p><p><em><span class="remark">Rendez-vous dans l'<a class="link" href="#configurer-exportations-diffusions" title="Onglet &#34;Exportations et diffusions&#34;">onglet "Exportations et
+          diffusions"</a> pour configurer la publication des données sur un
+          site Web.</span></em></p></div></div><br class="example-break"></div><div class="section" title="Onglet &#34;Prix&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="configurer-prix"></a>Onglet "Prix"</h3></div></div><div></div></div><p>Dans cet onglet, nous retrouvons la configuration des prix que
+        peuvent recevoir les équipes.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-prix.png" width="350"></td></tr></table></div></div></div><div class="section" title="Onglet &#34;Programmation des matchs&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="d53e516"></a>Onglet "Programmation des matchs"</h3></div></div><div></div></div><p>Dans cet onglet, nous retrouvons la configuration des
+        informations de programmation des matchs telles que : la durée d'un
+        match, la durée de pause minimale d'une équipe entre chaque match et
+        la durée minimale qui sépare chaque match sur un même
+        emplacement.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-programmation-matchs.png" width="350"></td></tr></table></div></div></div><div class="section" title="Onglet &#34;Propriétés de participant&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="configurer-proprietes-equipe"></a>Onglet "Propriétés de participant"</h3></div></div><div></div></div><p>Dans cet onglet, nous retrouvons la configuration des
+        participants d'équipe. L'objectif est de pouvoir palier au manque de
+        propriétés proposées par défaut lors de la création d'un participant.
+        Une propriété possède trois paramètres : son nom, son type (nombre
+        entier, nombre décimal et texte) et s'il s'agit d'une propriété
+        obligatoire.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-proprietes-participant.png" width="350"></td></tr></table></div></div><div class="example"><a name="d53e538"></a><p class="title"><b>Exemple&nbsp;4.5.&nbsp;Exemple d'utilisation des propriétés d'équipe</b></p><div class="example-contents"><p>Dans le cadre d'un tournois de judo, le responsable de
+          l'organisation du tournois désire pouvoir renseigner le poids de
+          chaque participant. Pour cela, il crée une propriété d'équipe
+          <span class="quote">«&nbsp;<span class="quote">Poids</span>&nbsp;»</span> de type <span class="quote">«&nbsp;<span class="quote">Nombre réel</span>&nbsp;»</span>. Ainsi, à la
+          création d'un participant, son poids est demandé.</p></div></div><br class="example-break"></div><div class="section" title="Onglet &#34;Exportations et diffusions&#34;"><div class="titlepage"><div><div><h3 class="title"><a name="configurer-exportations-diffusions"></a>Onglet "Exportations et diffusions"</h3></div></div><div></div></div><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 370px"><td><img src="images/ecrans/configurer-exportations-diffusions.png" width="350"></td></tr></table></div></div><div class="section" title="Exportations"><div class="titlepage"><div><div><h4 class="title"><a name="d53e558"></a>Exportations</h4></div></div><div></div></div><p>Cette zone permet de spécifier une liste d'exportations
+          prédéfinies disponibles depuis la <a class="link" href="#exportations-predefinies" title="Exportations prédéfinies">fenêtre des exportations</a>.
+          L'intérêt est de pouvoir définir à l'avance les exportations que
+          vous serez amener à utiliser au cours du tournois.</p><div class="example"><a name="d53e566"></a><p class="title"><b>Exemple&nbsp;4.6.&nbsp;Exemple d'utilisation des exportations prédéfinies</b></p><div class="example-contents"><p>Dans le cadre d'un tournois quelconque, le responsable
+            d'organisation désire informer les participants, visiteurs et
+            journalistes des informations relative au tournois. Pour cela, il
+            crée l'exportation ayant pour thème <span class="quote">«&nbsp;<span class="quote">Site Web</span>&nbsp;»</span> et
+            pour emplacement <span class="quote">«&nbsp;<span class="quote">Serveur <acronym class="acronym">FTP</acronym></span>&nbsp;»</span>.
+            Après avoir renseigné les informations nécessaires, il valide le
+            formulaire et spécifie la nouvelle exportation comme étant la
+            publication. Il ne lui reste plus qu'à cliquer sur le bouton
+            <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Publier</span></span> pour générer le site Web et
+            l'envoyer sur le serveur <acronym class="acronym">FTP</acronym>.</p><p><em><span class="remark">Pour obtenir un serveur <acronym class="acronym">FTP</acronym>, il
+            vous faut souscrire à une offre d'hébergement : <a class="ulink" href="http://www.ovh.com" target="_top">OVH</a>, <a class="ulink" href="http://www.gandi.net/" target="_top">Gandi</a>, <a class="ulink" href="http://www.infomaniak.com/" target="_top">Infomaniak</a>...</span></em></p></div></div><br class="example-break"><div class="section" title="Créer/Editer une exportation"><div class="titlepage"><div><div><h5 class="title"><a name="d53e600"></a>Créer/Editer une exportation</h5></div></div><div></div></div><p>Pour ajouter/éditer une exportation, cliquez sur le bouton
+            <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Ajouter</span></span> ou <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span>.
+            Nous pouvons observer dans la fenêtre de création/édition
+            d'exportation trois zones : la zone <span class="guilabel">Informations de
+            l'exportation</span> concernant informations propres à
+            l'exportation, la zone <span class="guilabel">Thème</span> concernant les
+            données à exporter et la zone <span class="guilabel">Chemin</span>
+            concernant l'emplacement de destination. Pour un chemin de type
+            <span class="quote">«&nbsp;<span class="quote">Serveur <acronym class="acronym">FTP</acronym></span>&nbsp;»</span>, il vous est
+            possible de tester si la connexion <acronym class="acronym">FTP</acronym>
+            s'établit correctement en cliquez sur le bouton
+            <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Tester</span></span>. Ce test comprend : la connexion au
+            serveur <acronym class="acronym">FTP</acronym>, l'identification avec les
+            identifiants fournis, l'envoi d'un fichier de test dans le
+            répertoire de destination indiqué, la suppression de ce fichier et
+            la déconnexion du serveur <acronym class="acronym">FTP</acronym>.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="300"><tr style="height: 469px"><td><img src="images/ecrans/configurer-exportation.png" width="300"></td></tr></table></div></div><p><em><span class="remark">Rendez-vous dans le chapitre <a class="link" href="#themes" title="Thèmes des exportations et des diffusions">Thèmes des exportations</a> et des diffusions
+            pour se documenter sur la création et l'édition de
+            thèmes.</span></em></p></div></div><div class="section" title="Publication"><div class="titlepage"><div><div><h4 class="title"><a name="d53e650"></a>Publication</h4></div></div><div></div></div><p>Cette zone permet de spécifier quelle exportation sera lancée
+          lors de l'appel au bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Publier</span></span> dans la
+          fenêtre.</p></div><div class="section" title="Diffusions"><div class="titlepage"><div><div><h4 class="title"><a name="d53e658"></a>Diffusions</h4></div></div><div></div></div><p>Cette zone permet de spécifier la liste des diffusions
+          disponibles depuis la <a class="link" href="#diffuser" title="Diffuser les informations du concours">fenêtre des
+          diffusions</a>. L'intérêt est de pouvoir diffuser des
+          informations du tournois mises à jour en temps réel sur des écrans
+          distants. Tous les thèmes de base permettent le défilement
+          automatique si jamais la hauteur de l'écran ne permet pas d'afficher
+          toutes les données d'un coup.</p><p><em><span class="remark">Pour pouvoir diffuser des informations sur des écrans
+          distants, il faut que les ordinateurs reliés à ces écrans et
+          l'ordinateur qui héberge ContestOrg doivent être connectés sur le
+          même réseau.</span></em></p><div class="example"><a name="d53e669"></a><p class="title"><b>Exemple&nbsp;4.7.&nbsp;Exemple d'utilisation des diffusions</b></p><div class="example-contents"><p>Dans le cadre d'un tournois quelconque, le responsable
+            d'organisation désire afficher sur plusieurs écrans dispersés à
+            travers tout le lieu du tournois le classement actuel des équipes.
+            Pour cela il crée une diffusion ayant pour port
+            <span class="quote">«&nbsp;<span class="quote">8080</span>&nbsp;»</span> et pour thème <span class="quote">«&nbsp;<span class="quote">Classement des équipes
+            aux phases qualificatives</span>&nbsp;»</span>. Il se rend ensuite dans la
+            <a class="link" href="#diffuser" title="Diffuser les informations du concours">fenêtre des diffusions</a>, puis
+            démarre la diffusion qu'il vient de créer. Muni de son
+            <acronym class="acronym">IP</acronym>, il se rend sur les différents ordinateurs
+            reliés aux différents écrans, ouvrir un navigateur et rentre dans
+            la barre d'<acronym class="acronym">URL</acronym> : <code class="uri">http://IP:8080/</code>.
+            Sur les écrans s'affiche le classement actuel des équipes.</p></div></div><br class="example-break"><div class="section" title="Créer/Editer une diffusion"><div class="titlepage"><div><div><h5 class="title"><a name="d53e693"></a>Créer/Editer une diffusion</h5></div></div><div></div></div><p>Pour ajouter/éditer une édition, cliquez sur le bouton
+            Ajouter ou Éditer. Nous pouvons observer dans la fenêtre de
+            création/édition de diffusion deux zones : la zone
+            <span class="guilabel">Informations de la diffusion</span> concernant les
+            informations propres à la diffusion et la zone
+            <span class="guilabel">Thème</span> concernant les données à diffuser. Il
+            vous est possible de tester la diffusion en cliquant sur le bouton
+            <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Tester</span></span>. Ce test comprend : le démarrage
+            d'un serveur <acronym class="acronym">HTTP</acronym> sur le port indiqué, la mise
+            à disponibilité d'un fichier de test via le serveur
+            <acronym class="acronym">HTTP</acronym>, la requête <acronym class="acronym">HTTP</acronym> pour
+            récupérer le contenu du fichier de test et l'arrêt du serveur
+            <acronym class="acronym">HTTP</acronym>.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="300"><tr style="height: 293px"><td><img src="images/ecrans/configurer-diffusion.png" width="300"></td></tr></table></div></div><p><em><span class="remark">Rendez-vous dans le chapitre <a class="link" href="#themes" title="Thèmes des exportations et des diffusions">Thèmes des exportations et des diffusions</a>
+            pour se documenter sur la création et l'édition de
+            thèmes.</span></em></p></div></div></div></div><div class="section" title="Fenêtre des équipes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="equipes"></a>Fenêtre des équipes</h2></div></div><div></div></div><p>Dans cette fenêtre, nous avons le bandeau du haut et le bandeau du
+      bas de disponibles. Dans le bandeau du haut, nous retrouvons les boutons
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Catégories</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Poules</span></span>,
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouvelle équipe</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Importer
+      équipes</span></span> et <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>. Dans le bandeau
+      du bas, nous retrouvons les boutons <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer équipe</span></span>
+      et <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Supprimer équipes</span></span> ainsi qu'une liste
+      déroulante permettant de changer le statut d'une ou plusieurs équipes.
+      Sur la zone dédiée aux données, nous retrouvons la liste des équipes de
+      la sélection courante.</p><p class="remark"><em><span class="remark">Pour l'utilisation du bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>,
+      rendez-vous dans le chapitre <a class="link" href="#exportations-volee" title="Exportations à la volée">Exportations à la volée</a>.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr style="height: 277px"><td><img src="images/ecrans/onglet-equipes.png" height="277"></td></tr></table></div></div><div class="section" title="Gérer les catégories"><div class="titlepage"><div><div><h3 class="title"><a name="d53e773"></a>Gérer les catégories</h3></div></div><div></div></div><p>Pour gérer les catégories, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Catégorie</span></span>. Dans cette fenêtre, nous retrouvons
+        la liste des catégories que nous pouvons modifier avec les boutons
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Ajouter</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span>,
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Monter</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Baisser</span></span> et
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Supprimer</span></span>. Les catégories définissent des
+        groupes d'équipes qui ne pourront pas jouer ensemble.</p><p>Notez qu'aucune opération ne peut être effectué sur la catégorie
+        <span class="quote">«&nbsp;<span class="quote">Défaut</span>&nbsp;»</span>. Il s'agit d'une catégorie neutre dans laquelle
+        pourront être placées les équipes qui ne sont pas encore affectées à
+        une catégorie. Cette catégorie peut également servir de catégorie
+        unique si votre tournois de comprend pas de catégorie.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 208px"><td><img src="images/ecrans/gerer-categories.png" height="208"></td></tr></table></div></div><div class="example"><a name="d53e808"></a><p class="title"><b>Exemple&nbsp;4.8.&nbsp;Exemple de catégories</b></p><div class="example-contents"><p>Dans le cadre d'un tournois de judo, le responsable de
+          l'organisation du tournois doit mettre en place différentes
+          catégories de joueurs qui ne joueront pas ensemble. Pour cela, il
+          crée différentes catégories : <span class="quote">«&nbsp;<span class="quote">-50kgs</span>&nbsp;»</span>,
+          <span class="quote">«&nbsp;<span class="quote">50-60kgs</span>&nbsp;»</span>, <span class="quote">«&nbsp;<span class="quote">60-70kgs</span>&nbsp;»</span>,
+          <span class="quote">«&nbsp;<span class="quote">+70kgs</span>&nbsp;»</span>.</p></div></div><br class="example-break"></div><div class="section" title="Gérer les poules"><div class="titlepage"><div><div><h3 class="title"><a name="d53e825"></a>Gérer les poules</h3></div></div><div></div></div><p>Pour gérer les poules, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Poules</span></span>. Dans cette fenêtre, nous retrouvons
+        deux zones : la zone <span class="guilabel">Catégorie</span> dédiée au choix de
+        la catégorie (optionnel), la zone <span class="guilabel">Création des
+        poules</span> dédiée à la création des poules et la zone
+        <span class="guilabel">Affectation des équipes</span> dédiée à l'affectation
+        des équipes au sein des poules.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="400"><tr style="height: 515px"><td><img src="images/ecrans/gerer-poules.png" width="400"></td></tr></table></div></div><div class="section" title="Création des poules"><div class="titlepage"><div><div><h4 class="title"><a name="d53e848"></a>Création des poules</h4></div></div><div></div></div><p>Cette zone permet de créer des poules manuellement ou
+          automatiquement. Pour ajouter/éditer une poule manuellement, cliquez
+          sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Ajouter</span></span> ou
+          <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer</span></span>. Pour créer automatiquement les
+          poules, indiquez le nombre de poules désiré ou bien le nombre
+          maximal d'équipes au sein d'une poule. Ces deux champs sont
+          fortement liés, c'est pourquoi si vous modifier l'un, l'autre est
+          impacté. Cliquez ensuite sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Création
+          automatique</span></span>.</p><p>Notez qu'aucune opération ne peut être effectué sur la poule
+          <span class="quote">«&nbsp;<span class="quote">Défaut</span>&nbsp;»</span>. Il s'agit d'une poule neutre dans laquelle
+          pourront être placées les équipes qui ne sont pas encore affectées à
+          une poule. Cette poule peut également servir de poule unique si
+          votre tournois de comprend pas de poule.</p></div><div class="section" title="Affectation des équipes"><div class="titlepage"><div><div><h4 class="title"><a name="d53e867"></a>Affectation des équipes</h4></div></div><div></div></div><p>Cette zone permet d'affecter manuellement ou automatiquement
+          les équipes aux poules précédemment créées.</p><p>Pour affecter manuellement une ou plusieurs équipes à une
+          poule, sélectionner la poule de destination dans la liste des
+          poules, sélectionnez les équipes que vous désirez affecter à la
+          poule dans la liste des équipes disponibles puis cliquez sur le
+          bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Ajouter</span></span>. Pour retirer une ou plusieurs
+          équipes d'une poule, sélectionnez les équipes dans la liste des
+          équipes de la poule puis cliquez sur le bouton
+          <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Retirer</span></span>.</p><p>Pour affecter automatiquement les équipes aux poules, cliquez
+          sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Affectation automatique</span></span>. Notez
+          que l'affectation des équipes se fait de manière aléatoire.</p></div></div><div class="section" title="Ajouter/Editer une équipe"><div class="titlepage"><div><div><h3 class="title"><a name="d53e885"></a>Ajouter/Editer une équipe</h3></div></div><div></div></div><p>Ajouter ajouter/éditer une équipe, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouvelle équipe</span></span> ou <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer
+        équipe</span></span>. Pour éditer une équipe, vous pouvez également
+        effectuer un double-clic sur la ligne dans la liste des équipes. Dans
+        la fenêtre de création/édition, nous retrouvons plusieurs zones : la
+        zone <span class="guilabel">Catégorie et poule</span> concernant le choix de la
+        catégorie et de la poule de destination (optionnel), la zone
+        <span class="guilabel">Informations de l'équipe</span> concernant les
+        informations propres à l'équipe, la zone <span class="guilabel">Propriétés
+        personnalisées</span> concernant les propriétés personnalisées
+        (optionnel) et la zone <span class="guilabel">Prix</span> concernant les prix
+        remportés (optionnel). Pour sélectionner plusieurs prix, sélectionner
+        les prix en maintenant la touche <span class="keycode">CTRL</span> enfoncée.
+        Notez qu'une équipe doit avoir le statut homologuée pour pouvoir
+        participer à un match.</p><p><em><span class="remark">Rendez-vous dans l'<a class="link" href="#configurer-proprietes-equipe" title="Onglet &#34;Propriétés de participant&#34;">onglet "Propriétés
+        d'équipe"</a> de la fenêtre <a class="link" href="#configurer" title="Créer/Configurer le concours">Configurer
+        le concours</a> pour éditer la liste des propriétés personnalisées.
+        Rendez-vous dans l'<a class="link" href="#configurer-prix" title="Onglet &#34;Prix&#34;">onglet
+        "Prix"</a> de la fenêtre <a class="link" href="#configurer" title="Créer/Configurer le concours">Configurer le
+        concours</a> pour éditer la liste des prix à
+        remporter.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 460px"><td><img src="images/ecrans/creer-editer-equipe.png" width="350"></td></tr></table></div></div></div><div class="section" title="Importer des équipes"><div class="titlepage"><div><div><h3 class="title"><a name="d53e933"></a>Importer des équipes</h3></div></div><div></div></div><p>Pour importer une liste d'équipes, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Importer équipes</span></span>. Dans la fenêtre d'importation
+        d'équipes nous retrouvons trois zones : la zone <span class="guilabel">Catégorie et
+        poule</span> dédiée au choix de la catégorie et de la poule de
+        destination (optionnel), la zone <span class="guilabel">Choix du fichier</span>
+        dédiée au choix du fichier contenant la liste des équipes et la zone
+        <span class="guilabel">Équipes trouvées</span> dédiée à la liste des équipes
+        trouvées dans le fichier spécifié. Notez que dans la liste des équipes
+        trouvées, vous pouvez déselectionner les équipes que vous ne désirez
+        pas importer.</p><p>Concernant le format de fichier contenant la liste des équipes,
+        il s'agit d'un fichier <acronym class="acronym">XML</acronym> respectant la
+        <acronym class="acronym">DTD</acronym> fournie dans le fichier
+        <code class="filename">dtds/import-equipes.dtd</code> au sein du répertoire de
+        ContestOrg. La <acronym class="acronym">DTD</acronym> est également disponible sur le
+        site Web de ContestOrg à l'adresse
+        <code class="uri">http://www.elfangels.fr/contestorg/data/dtds/import-equipes.dtd</code>.</p><p class="remark"><em><span class="remark">Rendez-vous au module externe <a class="link" href="#module-inscription-equipes" title="Inscription des équipes">Inscription des équipes</a> du
+        chapitre <a class="link" href="#modules" title="Modules externes">Modules externes</a> pour mettre
+        en place un site Web permettant l'inscription des équipes et
+        fournissant un fichier <acronym class="acronym">XML</acronym> à importer dans
+        ContestOrg.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 361px"><td><img src="images/ecrans/importer-equipes.png" width="350"></td></tr></table></div></div></div></div><div class="section" title="Fenêtre des phases qualificatives"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="phases-qualificatives"></a>Fenêtre des phases qualificatives</h2></div></div><div></div></div><p>Dans cette fenêtre, nous avons le bandeau du haut et le bandeau du
+      bas de disponibles. Dans le bandeau du haut, nous retrouvons les boutons
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouvelle phase</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau
+      match</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer phase</span></span>,
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Supprimer phase</span></span> et
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>. Dans le bandeau du bas, nous retrouvons
+      les boutons <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Résultats du match</span></span> et
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Supprimer match</span></span>. Sur la zone dédiée aux données,
+      nous retrouvons la liste des matchs de la sélection courante.</p><p class="remark"><em><span class="remark">Pour l'utilisation du bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>,
+      rendez-vous dans le chapitre <a class="link" href="#exportations-volee" title="Exportations à la volée">Exportations à la volée</a>.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr style="height: 277px"><td><img src="images/ecrans/onglet-phases-qualificatives.png" height="277"></td></tr></table></div></div><div class="section" title="Créer/Editer une phase"><div class="titlepage"><div><div><h3 class="title"><a name="d53e1025"></a>Créer/Editer une phase</h3></div></div><div></div></div><p>Pour créer/éditer une phase qualificative, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouvelle phase</span></span> ou <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Éditer
+        phase</span></span>. Lors de la création d'une phase qualificative,
+        pensez à sélectionner la poule de destination au préalable. Dans la
+        fenêtre de création de phase qualificative, nous retrouvons trois
+        zones : la zone <span class="guilabel">Paramètres de la génération</span>
+        dédiée aux paramètres utilisés pour la génération, la zone
+        <span class="guilabel">Avancement de la génération</span> dédiée à l'exécution
+        de la génération et la zone <span class="guilabel">Meilleure configuration
+        trouvée</span> dédiée à retourner les informations de la meilleure
+        configuration trouvée.</p><p>ContestOrg, quelque soit le mode de génération utilisé, prend en
+        compte trois critères pour trouver la meilleure configuration :</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>Est-ce que les équipes ont déjà joué ensemble ?</p></li><li class="listitem"><p>Est-ce que les équipes sont de même niveau ?</p></li><li class="listitem"><p>Est-ce que les équipes viennent de la même ville ?</p></li></ol></div><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="400"><tr style="height: 475px"><td><img src="images/ecrans/creer-editer-phase-qualificative.png" width="400"></td></tr></table></div></div><div class="section" title="Paramètres de la génération"><div class="titlepage"><div><div><h4 class="title"><a name="d53e1063"></a>Paramètres de la génération</h4></div></div><div></div></div><p>Cette zone permet de configurer la génération. Deux paramètres
+          sont disponibles : le mode de génération utilisée et la liste des
+          équipes participantes.</p><div class="section" title="Mode avancé"><div class="titlepage"><div><div><h5 class="title"><a name="d53e1068"></a>Mode avancé</h5></div></div><div></div></div><p>Le mode avancé teste l'ensemble des configurations
+            possibles. Dès que l'algorithme remonte une meilleure
+            configuration que celle précédemment trouvée, celle-ci apparaît
+            dans le cadre <span class="guilabel">Meilleure configuration
+            trouvée</span>. Au delà de 8 équipes, le temps de génération
+            devient exponentiellement long. Vous pouvez arrêter la génération
+            à tout moment et considérer la meilleure configuration trouvée
+            jusque là.</p></div><div class="section" title="Mode basique"><div class="titlepage"><div><div><h5 class="title"><a name="d53e1076"></a>Mode basique</h5></div></div><div></div></div><p>Le mode basique est bien moins gourmand en ressource que le
+            mode avancé. Il génère tous les couples d'équipes possibles et les
+            trie en fonction de l'affinité des équipes que les composent.
+            L'algorithme choisit ensuite des couples compatibles en retrouvés
+            en haut de classement. Celui ci peut parfois donner de bon
+            résultats mais il ne s'agit pas forcement de la meilleure
+            configuration.</p></div></div><div class="section" title="Avancement de la génération"><div class="titlepage"><div><div><h4 class="title"><a name="d53e1081"></a>Avancement de la génération</h4></div></div><div></div></div><p>Cette zone permet de lancer/arrêter la génération. Pour lancer
+          la génération de la configuration, cliquez sur le bouton
+          <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Générer</span></span>. Pour arrêter la génération, cliquez
+          sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Arrêter</span></span>. La barre de
+          progression indique l'avancement de la génération. Au cours de la
+          génération, la zone <span class="guilabel">Meilleure configuration
+          trouvée</span> est mise à jour en temps réelle.</p></div><div class="section" title="Meilleure configuration trouvée"><div class="titlepage"><div><div><h4 class="title"><a name="d53e1095"></a>Meilleure configuration trouvée</h4></div></div><div></div></div><p>Cette zone permet de restituer la meilleure configurer trouvée
+          ainsi que plusieurs indicateurs qui s'y rattachent. En plus cela,
+          elle permet également de configurer manuellement la phase
+          qualificative. Notez l'importance des couleurs : le rouge pour un
+          problème, l'orange pour un avertissement et le vert pour signaler
+          qu'aucun problème n'est détecté. Cette zone possède deux boutons qui
+          peuvent s'avérer pratique : les boutons
+          <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Conserver</span></span> et
+          <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Restaurer</span></span>. Le bouton
+          <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Conserver</span></span> permet d'enregistrer en mémoire la
+          configuration courante. Le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Restaurer</span></span>
+          permet de restaurer la configuration enregistrée en mémoire
+          précédemment.</p></div></div><div class="section" title="Créer/Editer un match"><div class="titlepage"><div><div><h3 class="title"><a name="d53e1112"></a>Créer/Editer un match</h3></div></div><div></div></div><p>Pour créer/éditer un match, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Nouveau match</span></span> ou <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Résultats du
+        match</span></span>. Lors de la création d'un match, pensez à
+        sélectionner la phase qualificative de destination au préalable. Pour
+        éditer un match, vous pouvez également effectuer un double-clic sur la
+        ligne dans la liste des matchs. Dans la fenêtre de création/édition de
+        match, nous retrouvons quatre zones : la zone
+        <span class="guilabel">Équipes</span> concernant le choix des deux équipes
+        participantes, la zone <span class="guilabel">Résultats</span> concernant les
+        résultats des deux équipes, la zone <span class="guilabel">Objectifs
+        remportés</span> concernant la liste des objectifs remportés par
+        les deux équipes (optionnel) et la zone <span class="guilabel">Détails</span>
+        concernant d'éventuels commentaires sur le match.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="240"><tr style="height: 296px"><td><img src="images/ecrans/creer-editer-match-phases-qualificatives.png" width="240"></td></tr></table></div></div><p class="remark"><em><span class="remark">Rendez-vous dans l'<a class="link" href="#configurer-points-classement" title="Onglet &#34;Points et classement&#34;">onglet "Points et
+        classement"</a> de la fenêtre <a class="link" href="#configurer" title="Créer/Configurer le concours">Configurer
+        le concours</a> pour éditer la liste des objectifs à remporter au
+        cours d'un match.</span></em></p></div></div><div class="section" title="Fenêtre des phases éliminatoires"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="phases-eliminatoires"></a>Fenêtre des phases éliminatoires</h2></div></div><div></div></div><p>Dans cette fenêtre, nous avons uniquement le bandeau du haut de
+      disponible. Dans cet unique bandeau, nous retrouvons les boutons
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Générer</span></span>, <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Réinitialiser</span></span> et
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>. Nous retrouvons également une liste
+      déroulante dans laquelle nous pouvons spécifier le nombre d'équipes
+      participantes lors de la génération. Dans la zone dédiée aux données,
+      nous retrouvons un diagramme interactif représentatif des phases
+      éliminatoires de la catégorie sélectionnée.</p><p class="remark"><em><span class="remark">Pour l'utilisation du bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>,
+      rendez-vous dans le chapitre <a class="link" href="#exportations-volee" title="Exportations à la volée">Exportations à la volée</a>.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="450"><tr style="height: 277px"><td><img src="images/ecrans/onglet-phases-eliminatoires.png" height="277"></td></tr></table></div></div><div class="section" title="Créer les phases"><div class="titlepage"><div><div><h3 class="title"><a name="d53e1178"></a>Créer les phases</h3></div></div><div></div></div><p>Pour créer les phases éliminatoires, sélectionnez la catégorie
+        dans laquelle vous désirez générer les phases éliminatoires,
+        sélectionnez le nombre d'équipes participantes puis cliquez sur le
+        bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Générer</span></span>. Pour réinitialiser les phases
+        éliminatoires d'un catégorie, sélectionnez cette dernière puis cliquez
+        sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Réinitialiser</span></span>. Si vous désirez
+        modifier manuellement une équipe, cliquez sur la case bleue associée à
+        l'équipe puis sélectionnez l'équipe de votre choix dans la liste qui
+        apparaît. Si le match qui suit est renseigné, il n'est plus possible
+        d'éditer cette équipe.</p><p>Lors de la génération des phases éliminatoires, ContestOrg
+        n'effectue par un tirage au sort. Il prend en compte le rang des
+        équipes aux phases qualificatives lors de sa génération. C'est à dire
+        que l'algorithme de génération crée les matchs de manière à ce que si
+        chaque équipe gagne face à une équipe de rang inférieur, celle-ci
+        obtient le même rang obtenu lors des phases qualificatives. Imaginez
+        que l'équipe de premier et de deuxième rang se rencontrent dès le
+        début des phases éliminatoires, ceci n'aurait pas de sens.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="250"><tr style="height: 126px"><td><img src="images/ecrans/editer-equipe-phases-eliminatoires.png" height="126"></td></tr></table></div></div></div><div class="section" title="Renseigner les résultats"><div class="titlepage"><div><div><h3 class="title"><a name="d53e1197"></a>Renseigner les résultats</h3></div></div><div></div></div><p>Pour renseigner les résultats d'un match, cliquez sur la case
+        bleue associée au match. Dans la fenêtre d'édition du match, nous
+        retrouvons quatre zones : la zone <span class="guilabel">Équipes</span>
+        concernant les deux équipes participantes, la zone
+        <span class="guilabel">Résultats</span> concernant les résultats des deux
+        équipes, la zone <span class="guilabel">Objectifs remportés</span> concernant
+        la liste des objectifs remportés par les deux équipes (optionnel) et
+        la zone <span class="guilabel">Détails</span> concernant d'éventuels
+        commentaires sur le match. Cette fenêtre est identique la fenêtre
+        d'édition d'un match d'une phase qualificative à la différence près
+        que le choix des équipes participantes n'est pas possible car les deux
+        équipes affichées correspondent aux équipes vainqueurs du match
+        précédant. Si le match suivant est renseigné, il n'est plus possible
+        de modifier les résultats car de nouveaux résultats seraient pas
+        conformes avec les équipes participantes à celui-ci.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="240"><tr style="height: 295px"><td><img src="images/ecrans/editer-match-phases-eliminatoires.png" width="240"></td></tr></table></div></div></div></div><div class="section" title="Exporter les informations du concours"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="exporter"></a>Exporter les informations du concours</h2></div></div><div></div></div><div class="section" title="Exportations prédéfinies"><div class="titlepage"><div><div><h3 class="title"><a name="exportations-predefinies"></a>Exportations prédéfinies</h3></div></div><div></div></div><p>Pour lancer une exportation prédéfinie, cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span> situé sur la barre lattérale sur la
+        gauche de la <a class="link" href="#interface-generale" title="Interface générale">Fenêtre
+        principale</a>. Dans la fenêtre d'exportation, nous retrouvons la
+        liste des exportations prédéfinies. Pour lancer une exportation,
+        cliquez sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Lancer</span></span>.</p><p class="remark"><em><span class="remark">Rendez-vous dans l'<a class="link" href="#configurer-points-classement" title="Onglet &#34;Points et classement&#34;">onglet "Exportations et
+        diffusions"</a> de la fenêtre <a class="link" href="#configurer" title="Créer/Configurer le concours">Configurer
+        le concours</a> pour éditer la liste des exportations
+        prédéfinies.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 139px"><td><img src="images/ecrans/exportations-predefinies.png" height="139"></td></tr></table></div></div></div><div class="section" title="Exportations à la volée"><div class="titlepage"><div><div><h3 class="title"><a name="exportations-volee"></a>Exportations à la volée</h3></div></div><div></div></div><p>Vous n'avez pas besoin de défininr à l'avance une exportation
+        pour la lancer. Pour cela, rendez-vous dans l'onglet de votre choix
+        (Equipes, Phases qualificatives ou Phases éliminatoires) puis cliquez
+        sur le bouton <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Exporter</span></span>. Les exportations
+        affichées concernent l'onglet courant. Choisissez le thème de votre
+        choix, renseignez les différents paramètres puis cliquez sur le bouton
+        <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Valider</span></span>. Il vous sera alors demander
+        l'emplacement de destination.</p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="280"><tr style="height: 179px"><td><img src="images/ecrans/exportations-volee.png" height="179"></td></tr></table></div></div></div></div><div class="section" title="Diffuser les informations du concours"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="diffuser"></a>Diffuser les informations du concours</h2></div></div><div></div></div><p>Pour démarrer une diffusion, cliquez sur le bouton
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">DIffuser</span></span> situé sur la barre lattérale sur la
+      gauche de la <a class="link" href="#interface-generale" title="Interface générale">Fenêtre
+      principale</a>. Dans la fenêtre de diffusion, nous retrouvons la
+      liste des diffusions. Pour démarrer une diffusion, cliquez sur le bouton
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Démarrer</span></span>. Si une diffusion est active, le voyant
+      associé est vert. Si une diffusion n'est pas active, le voyant associé
+      est rouge. Pour arrêter une diffusion, cliquez sur le bouton
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Arrêter</span></span>. Pour afficher le résultat de la
+      diffusion dans votre navigateur, cliquez sur le bouton
+      <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><span class="guibutton">Afficher</span></span>. Notez que si une diffusion active est
+      modifiée, celle-ci est automatiquement arrêté.</p><p class="remark"><em><span class="remark">Rendez-vous dans l'<a class="link" href="#configurer-points-classement" title="Onglet &#34;Points et classement&#34;">onglet "Exportations et
+      diffusions"</a> de la fenêtre <a class="link" href="#configurer" title="Créer/Configurer le concours">Configurer
+      le concours</a> pour éditer la liste des diffusions.</span></em></p><div class="screenshot"><div class="mediaobject"><table border="0" summary="manufactured viewport for HTML img" cellspacing="0" cellpadding="0" width="350"><tr style="height: 154px"><td><img src="images/ecrans/diffuser.png" height="154"></td></tr></table></div></div></div><div class="section" title="Thèmes des exportations et des diffusions"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="themes"></a>Thèmes des exportations et des diffusions</h2></div></div><div></div></div><p>La possibilité de personnaliser entièrement les thèmes des
+      exportations et des diffusions est l'une des forces de
+      <span class="application">ContestOrg</span>. Les thèmes des exportations sont
+      présents dans le répertoire <code class="filename">themes/exportations</code> et
+      ceux des diffusions dans le répertoire
+      <code class="filename">themes/diffusions</code>.</p><p class="remark"><em><span class="remark">Pour mieux comprendre la construction d'un thème, n'hésitez pas
+      à prendre exemple sur les thèmes déjà existants.</span></em></p><div class="section" title="Fichier de configuration"><div class="titlepage"><div><div><h3 class="title"><a name="d53e1318"></a>Fichier de configuration</h3></div></div><div></div></div><p>Un thème doit comporter obligatoirement un fichier de
+        configuration intitulé <code class="filename">configuration.xml</code>.
+        Celui-ci est écrit en <acronym class="acronym">XML</acronym> et sa
+        <acronym class="acronym">DTD</acronym> est disponible dans le fichier
+        <code class="filename">dtds/theme.dtd</code> ou à l'adresse
+        <code class="uri">http://www.elfangels.fr/contestorg/data/dtds/theme.dtd</code>.
+        Nous retrouvons dans ce fichier de configuration la liste des fichiers
+        à fournir dans l'exportation ou la diffusion ainsi que la liste des
+        paramètres à demander à l'utilisateur.</p></div><div class="section" title="Données à fournir"><div class="titlepage"><div><div><h3 class="title"><a name="d53e1338"></a>Données à fournir</h3></div></div><div></div></div><p>Les différents fichiers définis dans le fichier de configuration
+        peuvent subir une transformation. La transformation est effectuée via
+        la technologie <acronym class="acronym">XSLT</acronym>. Il vous suffit d'éditer une
+        feuille <acronym class="acronym">XSL</acronym> et de l'associer dans le fichier de
+        configuration à une transformation. Référez-vous à la
+        <acronym class="acronym">DTD</acronym> des données <acronym class="acronym">XML</acronym> que vos
+        feuilles <acronym class="acronym">XSL</acronym> auront à transformer dans le fichier
+        <code class="filename">dtds/concours.dtd</code> ou à l'adresse
+        <code class="uri">http://www.elfangels.fr/contestorg/data/dtds/concours.dtd</code>.
+        Les paramètres demandés à l'utilisateur seront passés à vos feuilles
+        <acronym class="acronym">XSL</acronym>.</p></div></div><div class="section" title="Modules externes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="modules"></a>Modules externes</h2></div></div><div></div></div><div class="section" title="Inscription des équipes"><div class="titlepage"><div><div><h3 class="title"><a name="module-inscription-equipes"></a>Inscription des équipes</h3></div></div><div></div></div><p>ContestOrg dispose d'un outil d'importation d'équipes. Celui
+        permet d'extraire des équipes depuis un fichier <acronym class="acronym">XML</acronym>
+        dont la <acronym class="acronym">DTD</acronym> est fournie dans le fichier
+        <code class="filename">dtds/import-equipes.dtd</code> et disponible à l'adresse
+        <code class="uri">http://www.elfangels.fr/contestorg/data/dtds/import-equipes.dtd</code>.
+        Vous pouvez créer votre propre fichier à l'aide de cette
+        <acronym class="acronym">DTD</acronym> ou bien utiliser le module externe
+        <span class="quote">«&nbsp;<span class="quote">Inscription des équipes</span>&nbsp;»</span> disponible dans le répertoire
+        <code class="filename">modules/inscription/</code>. Il s'agit d'un fichier
+        <acronym class="acronym">PHP</acronym> à mettre à disposition de vos participants via
+        un serveur Web. Celui-ci permettra à vos futurs participants de
+        s'inscrire facilement et à vous de récupérer le fichier
+        <acronym class="acronym">XML</acronym> à importer au sein de
+        <span class="application">ContestOrg</span>.</p></div></div></div><div class="chapter" title="Chapitre&nbsp;5.&nbsp;Guide d'organisation d'un tournois sportif"><div class="titlepage"><div><div><h2 class="title"><a name="d53e1407"></a>Chapitre&nbsp;5.&nbsp;Guide d'organisation d'un tournois sportif</h2></div></div><div></div></div><div class="toc"><p><b>Table des matières</b></p><dl><dt><span class="section"><a href="#d53e1436">Gérer la logistique</a></span></dt><dt><span class="section"><a href="#d53e1443">Assurer votre événement</a></span></dt><dt><span class="section"><a href="#d53e1448">Communiquer sur l'événement</a></span></dt><dt><span class="section"><a href="#d53e1453">Organiser l'événement</a></span></dt><dt><span class="section"><a href="#d53e1473">Le stand buvette</a></span></dt><dt><span class="section"><a href="#d53e1478">Animez les tribunes</a></span></dt><dt><span class="section"><a href="#d53e1483">La remise des prix</a></span></dt></dl></div><p>Organiser un évènement sportif, c'est partager un moment conviviale
+    et rencontrer de nouveaux sportifs. Mais avant d'organiser quoi que ce
+    soit, il est bon de définir le cadre de l'évènement ainsi que ses
+    objectifs en répondant aux questions suivantes :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>A qui s'adresse le tournois ?</p></li><li class="listitem"><p>Quand aura lieu le tournois ? Quelle durée ?</p></li><li class="listitem"><p>Quelle équipe d'organisation ?</p></li><li class="listitem"><p>Quel budget ? Des sponsors ? Des aides ?</p></li><li class="listitem"><p>Quels infrastructures ? Quels moyens ?</p></li><li class="listitem"><p>Combien de participants ? De visiteurs ?</p></li><li class="listitem"><p>Comment promouvoir l'évenement ?</p></li></ul></div><p>Suite à ces interrogations, nous allons détailler certains points
+    importants.</p><div class="section" title="Gérer la logistique"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1436"></a>Gérer la logistique</h2></div></div><div></div></div><p>Pour un tournois sportif, vous aurez besoin de salles de sport et
+      de matériel. Il vous faudra donc obtenir des autorisations selon le lieu
+      de votre événement. Vous choisir des créneaux horaires disponibles pour
+      effectuer votre tournois et vous assurer de disposer de suffisemment de
+      temps pour mettre en place les différents dispositifs et remettre dans
+      l'état la salle après le tournois.</p><p>Pour la demande d'autorisation, effectuez la le plus tôt possible,
+      au moins un ou deux mois avant l'événement ce qui vous laissera le temps
+      de préparer le tournois et de communiquer aux participants et visiteurs
+      les diverses informations sur le où et le quand de l'évenement.</p></div><div class="section" title="Assurer votre événement"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1443"></a>Assurer votre événement</h2></div></div><div></div></div><p>Comme tous les événements sportifs, votre tournois doit être
+      couvert par une assurance. Les assurances sportives sont spécifiques car
+      vos participants doivent être couverts individuellement.</p></div><div class="section" title="Communiquer sur l'événement"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1448"></a>Communiquer sur l'événement</h2></div></div><div></div></div><p>Un tournois sportif est un événement comme les autres, il faut
+      mener une bonne campagne de communication auprès de potentiels visiteurs
+      et participants. Pensez à commencer votre campagne assez tôt et à
+      l'adapter avec la date limite des inscriptions. Plusieurs voies
+      s'offrent à vous : des tracts, des encarts dans les journaux locaux,
+      site web...</p></div><div class="section" title="Organiser l'événement"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1453"></a>Organiser l'événement</h2></div></div><div></div></div><p>Pour mener à bien votre événement, il faut une bonne équipe
+      d'organisation composée de :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>encadrants pour les participants</p></li><li class="listitem"><p>arbitres pour les matchs</p></li><li class="listitem"><p>comptabilisateurs des scores</p></li><li class="listitem"><p>organisateurs des matchs</p></li></ul></div><p>N'hésitez pas à prévenir les pompiers, la croix rouge ou la
+      médecine préventive pour soigner les petits bobos ou pour prodiguer des
+      conseils d'échauffement avant les matchs.</p></div><div class="section" title="Le stand buvette"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1473"></a>Le stand buvette</h2></div></div><div></div></div><p>Certains diront qu'un tournoi sans buvette n'est pas un bon
+      tournoi... Sachez que la loi Evin interdit tout débit à proximité de
+      pratiques sportives. Optez donc pour les jus de fruits et autres
+      boissons non alcoolisées.</p></div><div class="section" title="Animez les tribunes"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1478"></a>Animez les tribunes</h2></div></div><div></div></div><p>Pour assurer une bonne ambiance durant tout l'événement, vous
+      pouvez prévoir des animations dans les gradins pour les supporters. Pour
+      cela, prévoyez du matériel (draps, marqueurs, papiers, agraphes...) et
+      organisez le concours du plus beau drapeau de supporters, le concours de
+      la mascotte... Pensez également à un présentateur et un disc jockey.
+      Faites en sorte que le spectacle soit aussi dans les tribunes !</p></div><div class="section" title="La remise des prix"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1483"></a>La remise des prix</h2></div></div><div></div></div><p>Un bon tournois se termine toujours par une remise des prix : une
+      coupe ou des cadeaux données par vos partneaires pour les équipes en
+      haut du podium. Il est également possible d'attribuer des prix spéciaux
+      pour les équipes portant des valeurs notables telles que le fair-play.
+      Pensez à faire quelques photos de la remise des prix. Dans le discours
+      final, n'oubliez surtout pas de remercier vos partenaires, votre équipe
+      d'organisation et les participants.</p></div></div><div class="chapter" title="Chapitre&nbsp;6.&nbsp;Contribuer au projet"><div class="titlepage"><div><div><h2 class="title"><a name="d53e1488"></a>Chapitre&nbsp;6.&nbsp;Contribuer au projet</h2></div></div><div></div></div><div class="toc"><p><b>Table des matières</b></p><dl><dt><span class="section"><a href="#d53e1491">Rejoindre l'équipe</a></span></dt><dt><span class="section"><a href="#d53e1519">Contribuer occasionnellement</a></span></dt></dl></div><div class="section" title="Rejoindre l'équipe"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1491"></a>Rejoindre l'équipe</h2></div></div><div></div></div><p>L'équipe de <span class="application">ContestOrg</span> n'est pas
+      fermée. Elle est prête à accueillir tout nouvel arrivant désireux
+      d'apporter sa contribution au projet. Quelque soit ses compétences, il
+      pourra trouver un rôle adapté. Une chose est malgré tout requise : la
+      motivation.</p><p>Liste des rôles :</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Développeur : développe des fonctionnalités</p></li><li class="listitem"><p>Testeur : remonter des erreurs</p></li><li class="listitem"><p>Rédacteur : rédige de la documentation</p></li><li class="listitem"><p>Accompagnateur : aide les utilisateurs</p></li></ul></div><p>Pour rejoindre l'équipe, <a class="ulink" href="http://www.elfangels.fr/contestorg/index/contact/" target="_top">contactez-nous</a>
+      en n'oubliant pas d'inclure vos motivations et vos compétences pour
+      le(s) rôle(s) que vous désirez remplir.</p></div><div class="section" title="Contribuer occasionnellement"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1519"></a>Contribuer occasionnellement</h2></div></div><div></div></div><p>Pas besoin de s'engager pour contribuer au projet. Il est tout à
+      faire possible de contribuer occasionnellement. Il suffit de nous
+      contacter pour <a class="ulink" href="http://www.elfangels.fr/contestorg/contribuer/index/" target="_top">signaler des
+      erreurs</a> ou <a class="ulink" href="http://www.elfangels.fr/contestorg/contribuer/index/" target="_top">proposer des
+      améliorations</a>.</p></div></div><div class="chapter" title="Chapitre&nbsp;7.&nbsp;Crédits"><div class="titlepage"><div><div><h2 class="title"><a name="d53e1530"></a>Chapitre&nbsp;7.&nbsp;Crédits</h2></div></div><div></div></div><div class="toc"><p><b>Table des matières</b></p><dl><dt><span class="section"><a href="#d53e1533">Membres de l'équipe</a></span></dt><dt><span class="section"><a href="#d53e1561">Donateurs</a></span></dt><dt><span class="section"><a href="#d53e1578">Contributeurs occasionnels</a></span></dt><dt><span class="section"><a href="#d53e1600">Packs d'icônes utilisés</a></span></dt><dt><span class="section"><a href="#d53e1628">Outils utilisés</a></span></dt><dt><span class="section"><a href="#d53e1723">Librairies utilisées</a></span></dt><dt><span class="section"><a href="#d53e1841">Sources</a></span></dt></dl></div><div class="section" title="Membres de l'équipe"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1533"></a>Membres de l'équipe</h2></div></div><div></div></div><div class="table"><a name="d53e1536"></a><p class="title"><b>Tableau&nbsp;7.1.&nbsp;Liste des membres de l'équipe</b></p><div class="table-contents"><table summary="Liste des membres de l'équipe" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Prénom/Nom</th><th>Rôles remplis</th><th>Contact</th></tr></thead><tbody><tr><td>Cyril Perrin</td><td>Tous</td><td><a class="ulink" href="#" target="_top">Cliquez ici</a></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" title="Donateurs"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1561"></a>Donateurs</h2></div></div><div></div></div><div class="table"><a name="d53e1564"></a><p class="title"><b>Tableau&nbsp;7.2.&nbsp;Liste des donateurs</b></p><div class="table-contents"><table summary="Liste des donateurs" border="1"><colgroup><col><col></colgroup><thead><tr><th>Prénom/Nom</th><th>Montant du don</th></tr></thead><tbody><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" title="Contributeurs occasionnels"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1578"></a>Contributeurs occasionnels</h2></div></div><div></div></div><div class="table"><a name="d53e1581"></a><p class="title"><b>Tableau&nbsp;7.3.&nbsp;Liste des contributeurs occasionnels</b></p><div class="table-contents"><table summary="Liste des contributeurs occasionnels" border="1"><colgroup><col><col></colgroup><thead><tr><th>Prénom/Nom</th><th>Tâche effectuée</th></tr></thead><tbody><tr><td>Gaëlle Bély</td><td>Voix de la présentation vidéo</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" title="Packs d'icônes utilisés"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1600"></a>Packs d'icônes utilisés</h2></div></div><div></div></div><div class="table"><a name="d53e1603"></a><p class="title"><b>Tableau&nbsp;7.4.&nbsp;Liste des packs d'icônes utilisés</b></p><div class="table-contents"><table summary="Liste des packs d'icônes utilisés" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Nom</th><th>Page Web</th><th>Licence</th></tr></thead><tbody><tr><td>Farm</td><td><a class="ulink" href="http://www.fatcow.com/" target="_top">Cliquez-ici</a></td><td>Creative Commons Attribution 3.0</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" title="Outils utilisés"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1628"></a>Outils utilisés</h2></div></div><div></div></div><div class="table"><a name="d53e1631"></a><p class="title"><b>Tableau&nbsp;7.5.&nbsp;Liste des outils utilisés</b></p><div class="table-contents"><table summary="Liste des outils utilisés" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Nom</th><th>Description</th><th>Page Web</th></tr></thead><tbody><tr><td><span class="application">Eclipse</span></td><td>Environnement de développement intégré</td><td><a class="ulink" href="http://www.eclipse.org/" target="_top">Cliquez-ici</a></td></tr><tr><td><span class="application">Sourceforge</span></td><td>Plateforme de développement collaboratif</td><td><a class="ulink" href="http://www.sourceforge.net/" target="_top">Cliquez-ici</a></td></tr><tr><td><span class="application">Cacoo</span></td><td>Outil de réalisation de diagrammes en ligne</td><td><a class="ulink" href="http://www.cacoo.com/" target="_top">Cliquez-ici</a></td></tr><tr><td><span class="application">DocBook</span></td><td>Langage à destination de documentation technique</td><td><a class="ulink" href="http://www.docbook.org/" target="_top">Cliquez-ici</a></td></tr><tr><td><span class="application">Pencil</span></td><td>Logiciel de maquettes d'interfaces graphiques</td><td><a class="ulink" href="http://pencil.evolus.vn/" target="_top">Cliquez-ici</a></td></tr><tr><td><span class="application">Launch4j</span></td><td>Encapsuleur <acronym class="acronym">EXE</acronym> pour
+              <acronym class="acronym">JAR</acronym> à destination de Windows</td><td><a class="ulink" href="http://launch4j.sourceforge.net/" target="_top">Cliquez-ici</a></td></tr><tr><td><span class="application">XMLMind</span></td><td>Editeur <acronym class="acronym">XML</acronym> prenant en charge la
+              <acronym class="acronym">DTD</acronym> DocBook</td><td><a class="ulink" href="http://www.xmlmind.com/xmleditor/" target="_top">Cliquez-ici</a></td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" title="Librairies utilisées"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1723"></a>Librairies utilisées</h2></div></div><div></div></div><div class="table"><a name="d53e1726"></a><p class="title"><b>Tableau&nbsp;7.6.&nbsp;Liste des librairies utilisées</b></p><div class="table-contents"><table summary="Liste des librairies utilisées" border="1"><colgroup><col><col><col><col></colgroup><thead><tr><th>Nom</th><th>Description</th><th>Page Web</th><th>Licence</th></tr></thead><tbody><tr><td>jGraph</td><td>Réalisation de graphes</td><td><a class="ulink" href="http://www.jgraph.com/" target="_top">Cliquez-ici</a></td><td>BSD</td></tr><tr><td>jDom</td><td>Manipulation du <acronym class="acronym">DOM</acronym>
+              <acronym class="acronym">XML</acronym></td><td><a class="ulink" href="http://www.jdom.org/" target="_top">Cliquez-ici</a></td><td>~Apache License</td></tr><tr><td>jUnit</td><td>Réalisation de tests unitaires</td><td><a class="ulink" href="http://www.junit.org/" target="_top">Cliquez-ici</a></td><td>Common Public License 1.0</td></tr><tr><td>FOP</td><td>Processeur <acronym class="acronym">FOP</acronym></td><td><a class="ulink" href="http://xmlgraphics.apache.org/fop/" target="_top">Cliquez-ici</a></td><td>Apache License</td></tr><tr><td>HttpComponents</td><td>Création d'un serveur et de requêtes
+              <acronym class="acronym">HTTP</acronym></td><td><a class="ulink" href="http://hc.apache.org/" target="_top">Cliquez-ici</a></td><td>Apache License</td></tr><tr><td>Commons Net</td><td>Réalisation de requêtes <acronym class="acronym">FTP</acronym>...</td><td><a class="ulink" href="http://commons.apache.org/net/" target="_top">Cliquez-ici</a></td><td>Apache License</td></tr><tr><td>Log4J</td><td>Persistance de traces d'éxecution</td><td><a class="ulink" href="http://logging.apache.org/log4j/" target="_top">Cliquez-ici</a></td><td>Apache License</td></tr><tr><td>Saxon</td><td>Processeur <acronym class="acronym">XSLT</acronym> autonome</td><td><a class="ulink" href="http://saxon.sourceforge.net/" target="_top">Cliquez-ici</a></td><td>Mozilla Public License 1.0</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"></div><div class="section" title="Sources"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d53e1841"></a>Sources</h2></div></div><div></div></div><div class="table"><a name="d53e1844"></a><p class="title"><b>Tableau&nbsp;7.7.&nbsp;Sources utilisés</b></p><div class="table-contents"><table summary="Sources utilisés" border="1"><colgroup><col><col></colgroup><thead><tr><th>Contenu</th><th>Page Web</th></tr></thead><tbody><tr><td>Chapitre "Guide d'organisation un tournois
+              sportif"</td><td><a class="ulink" href="http://www.le-pongiste.com" target="_top">Le
+              Pongiste</a> avec l'autorisation de l'auteur</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table></div></div><br class="table-break"><p></p></div></div></div></body></html>

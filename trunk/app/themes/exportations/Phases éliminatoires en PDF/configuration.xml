@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="phasesEliminatoires">
+	<fichiers>
+		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Phases éliminatoires.pdf" transformation="fop-pdf" principal="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" />
+	</parametres>
+</configuration>
