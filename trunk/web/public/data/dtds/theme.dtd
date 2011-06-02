@@ -1,0 +1,31 @@
+<!-- Configuration du thême -->
+<!ELEMENT configuration (fichiers,parametres?)>
+<!ATTLIST configuration categorie (equipes|phasesQualificatives|phasesEliminatoires) #IMPLIED> <!-- Indique à quelle catégorie peut correspondre le thème -->
+<!ATTLIST configuration description	CDATA #IMPLIED> <!-- Description du thème -->
+
+<!-- Liste des fichiers -->
+<!ELEMENT fichiers (fichiers*)>
+
+<!-- Fichier -->
+<!ELEMENT fichier EMPTY>
+<!ATTLIST fichier id				ID				#REQUIRED> 	<!-- Chaine servant d'identifiant au fichier -->
+<!ATTLIST fichier nom				CDATA			#REQUIRED> 	<!-- Nom du fichier -->
+<!ATTLIST fichier source			CDATA			#REQUIRED> 	<!-- Chemin du fichier source -->
+<!ATTLIST fichier cible				CDATA			#IMPLIED>	<!-- Chemin du fichier cible, s'il n'est pas défini, il prend la valeur du chemin du fichier source --> 
+<!ATTLIST fichier transformation	(xslt|fop-pdf)	#IMPLIED>	<!-- Transformation à utiliser -->  
+<!ATTLIST fichier principal			(oui|non) 		"non">		<!-- S'agit-il du fichier principal du thème ? -->
+<!ATTLIST fichier fixe				(oui|non) 		"non">		<!-- Le chemin du fichier cible est-il impossible à modifier pour l'utilisateur ? --> 
+<!ATTLIST fichier description		CDATA			#IMPLIED>	<!-- Description du fichier -->
+
+<!-- Liste des paramètres -->
+<!ELEMENT parametres (parametre*)>
+
+<!-- Paramètre -->
+<!ELEMENT parametre EMPTY>
+<!ATTLIST parametre id			ID				#REQUIRED> 	<!-- Chaine servant d'identifiant au paramètre -->
+<!ATTLIST parametre nom			CDATA			#REQUIRED> 	<!-- Nom du paramètre -->
+<!ATTLIST parametre type		(entier|reel|texte|idCategorie|idPoule|idPoule) #REQUIRED> <!-- Type du paramètre -->
+<!ATTLIST parametre optionnel	(oui|non) 		"non"> 		<!-- S'agit-il d'un paramètre optionnel ? -->
+<!ATTLIST parametre dependance	IDREF			#IMPLIED> 	<!-- Id du paramètre dont dépent le paramètre courant -->
+<!ATTLIST parametre description	CDATA			#IMPLIED>	<!-- Description du paramètre -->
+<!ATTLIST parametre defaut		CDATA			#IMPLIED>	<!-- Valeur par défaut -->

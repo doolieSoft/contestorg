@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<!-- Titre -->
+		<title>ContestOrg - Le logiciel pour organiser tous vos tournois</title>
+		
+		<!-- Favicon -->
+		<link rel="shortcut icon" type="image/x-icon" href="<?php echo $this->base(); ?>media/farm/32x32/sport.png" />
+		
+		<!-- Librairies CSS -->
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->base(); ?>css/general.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->base(); ?>css/titles.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->base(); ?>css/messages.css" />
+		
+		<!-- Librairies JS -->
+		<script type="text/javascript" src="<?php echo $this->base(); ?>js/jquery.js"></script>
+		<script type="text/javascript" src="<?php echo $this->base(); ?>js/jquery.lightbox/jquery.lightbox.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?php echo $this->base(); ?>js/jquery.lightbox/jquery.lightbox.css" />
+		
+		<!-- Quand le DOM de la page est prêt -->
+		<script type="text/javascript">
+			$(document).ready(function() {
+				// Images lightbox
+				$('a.lightbox').lightBox();
+			});
+		</script>
+		
+		<!-- Balises meta -->
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8;" />
+		<meta http-equiv="Content-Language" content="fr">
+		<meta http-equiv="Description" content="ContestOrg est un logiciel d’organisation de tournois : football, judo, rugby… En quelques clics, créez les équipes, générez les séries de matchs et renseignez les résultats.">
+		<meta http-equiv="Keywords" content="logiciel software concours tournois organisation organiser équipes matchs phases qualificatives éliminatoires finales sportif exportation diffusion publication FTP HTTP PDF site web mise mettre en ligne résultats football rugby judo pétanque belote">
+		<meta http-equiv="Subject" content="Logiciel d'organisation de tournois">
+		
+		<!--  Code analytics -->
+		<script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-9937933-7']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
+	</head>
+	<body>
+		<!-- Page -->
+		<div id="page">
+			<!-- Entete -->
+			<div id="header">
+				<div id="title" onclick="window.location='<?php echo $this->base(); ?>';" title="Se rendre sur la page d'accueil">
+					<h1>ContestOrg</h1>
+				</div>
+				<div id="beta" onclick="window.location='<?php echo $this->base(); ?>';" title="Se rendre sur la page d'accueil">
+					<p><b>Version beta</b></p>
+				</div>
+				<div id="subtitle">
+					<p>Le logiciel pour organiser tous vos tournois</p>
+				</div>
+			</div>
+			
+			<!-- Menu -->
+			<div id="menu">
+				<ul>
+					<li><a class="button" href="<?php echo $this->url(null,'index','actualites'); ?>" title="Afficher les actualités">Actualités</a></li>
+					<li><a class="button" href="<?php echo $this->url(null,'index','documentation'); ?>" title="Consulter la documentation">Documentation</a></li>
+					<li><a class="button" href="<?php echo $this->url(null,'index','telecharger'); ?>" title="Accéder à la page de téléchargement">Télécharger</a></li>
+					<li><a class="button" href="<?php echo $this->url(null,'index','forum'); ?>" title="Accéder au forum">Forum</a></li>
+					<li><a class="button" href="<?php echo $this->url(null,'index','contribuer'); ?>" title="Contribuer au projet">Contribuer</a></li>
+				</ul>
+			</div>
+			
+			<!-- Contenu de la page -->
+			<div id="content">
+				<?php echo $this->content; ?>
+			</div>
+			
+			<!-- Pied de page -->
+			<div id="footer">
+				<p>
+					<a href="<?php echo $this->url(null,'connexion','index'); ?>" title="Se connecter à son compte">Se connecter</a>
+					-
+					<a href="<?php echo $this->url(null,'contact','index'); ?>" title="Se rendre sur le formulaire de contact">Contact</a>
+					-
+					<a href="<?php echo $this->url(null,'credits','index'); ?>" title="Consulter les crédits">Crédits</a>
+				</p>
+			</div>
+		</div>
+	</body>
+</html> 

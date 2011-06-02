@@ -1,0 +1,9 @@
+// Générateur : http://www.elfangels.fr/webprojecthelper/fr/
+
+// Livre d'or
+(c)[signature,"Signature sur le livre d'or":
+   |prenom,string/20,"Prénom de la personne qui a signé le livre d'or"|,
+   |date,datetime,"Date du message"|,
+   |email,string/130,"Email de la personne qui a signé le livre d'or"|,
+   |message,string/2000,"Message laisser par la personne qui a signé le livre d'or"|
+]

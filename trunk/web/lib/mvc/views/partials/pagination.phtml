@@ -1,0 +1,45 @@
+<ul class="pagination">
+	<?php
+	
+	// Ancre
+	$anchor = isset($this->anchor) ? '#'.$this->anchor : '';
+	
+	// Première page
+	if($this->paginator->getCurrent() == 0) {
+		echo '<li><a href="#" class="disabled" title="Première page" onclick="return false;">&lt;&lt;</a></li>';
+	} else {
+		echo '<li><a href="',$this->url(array('page' => 0),null,null,false),$anchor,'" title="Première page">&lt;&lt;</a></li>';
+	}
+	
+	// Page précédante
+	if($this->paginator->getCurrent() == 0) {
+		echo '<li><a href="#" class="disabled" title="Page précédante" onclick="return false;">&lt;</a></li>';
+	} else {
+		echo '<li><a href="',$this->url(array('page' => $this->paginator->getCurrent()-1),null,null,false),$anchor,'" title="Page précédante">&lt;&lt;</a></li>';
+	}
+	
+	// Pages
+	for($i=0;$i<$this->paginator->getCount();$i++) {
+		if($i == $this->paginator->getCurrent()) {
+			echo '<li><a href="#" class="current" title="Se rendre sur la page ',$i+1,'" onclick="return false;">',$i+1,'</a></li>';
+		} else {
+			echo '<li><a href="',$this->url(array('page' => $i),null,null,false),$anchor,'" title="Se rendre sur la page ',$i+1,'">',$i+1,'</a></li>';
+		}
+	}
+	
+	// Page suivante
+	if($this->paginator->getCurrent() == $this->paginator->getCount()-1) {
+		echo '<li><a href="#" class="disabled" title="Page suivante" onclick="return false;">&gt;</a></li>';
+	} else {
+		echo '<li><a href="',$this->url(array('page' => $this->paginator->getCurrent()+1),null,null,false),$anchor,'" title="Page suivante">&gt;</a></li>';
+	}
+
+	// Dernière page
+	if($this->paginator->getCurrent() == $this->paginator->getCount()-1) {
+		echo '<li><a href="#" class="disabled" title="Dernière page" onclick="return false;">&gt;&gt;</a></li>';
+	} else {
+		echo '<li><a href="',$this->url(array('page' => $this->paginator->getCount()-1),null,null,false),$anchor,'" title="Dernière page">&gt;&gt;</a></li>';
+	} 
+	
+	?>
+</ul>

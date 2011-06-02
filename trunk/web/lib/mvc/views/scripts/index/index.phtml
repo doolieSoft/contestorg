@@ -1,0 +1,76 @@
+<!-- A propos -->
+<div id="about">
+	<!-- Description de l'application -->
+	<div id="description">
+		<h2>Description de l'application</h2>
+		<p>
+			<strong>ContestOrg</strong> est un logiciel d’<strong>organisation de tournois</strong>.
+			Celui-ci est particulièrement bien adapté aux <strong>tournois sportifs</strong> (football,
+			judo, rugby…) mais peut également convenir pour d'autres types de tournois (jeux vidéo, jeux
+			de société, robotique...).
+		</p>
+		<p>
+			Doté d'une <b>interface agréable</b> et <b>fonctionelle</b>, vous pourrez en quelques clics
+			<b>créer</b> les équipes, <b>générer</b> les séries de matchs et <b>renseigner</b> les
+			résultats. Pas besoin de connaissance particulière en informatique !
+		</p>
+		<p>
+			Notez que <strong>ContestOrg</strong> est proposé <b>gratuitement</b>.
+		</p>
+		<a href="<?php echo $this->url(null,'index','telecharger'); ?>" class="button" title="Se rendre sur la page de téléchargement">Télécharger...</a>
+	</div>
+	<!-- Apercu de l'application -->
+	<div id="preview">
+		<h2>Apercu de l'application</h2>
+		<iframe title="Présentation de ContestOrg" width="373" height="240" frameborder="0" src="http://www.youtube.com/embed/Ttb8tBfPKIs"></iframe>
+	</div>
+</div>
+
+<!-- Fonctionnalités de l'application -->
+<div id="features">
+	<h2>Fonctionnalités</h2>
+	<!-- Liste des équipes -->
+	<div>
+		<h3>Liste des équipes</h3>
+		<a href="<?php echo $this->base(); ?>media/ecrans/larges/onglet-equipes.png" class="lightbox"><img src="<?php echo $this->base(); ?>media/ecrans/minis/onglet-equipes.png" alt="Fenêtre de la liste des équipes" /></a>
+		<ul>
+			<li>Ajout manuel d'équipes</li>
+			<li>Importation d'équipes depuis un fichier XML</li>
+			<li>Répartition manuelle des équipes au sein de catégories</li>
+			<li>Répartition manuelle des équipes au sein de poules</li>
+			<li>Répartition automatique des équipes au sein de poules</li>
+			<li>Possibilité d'ajout de propriétés personnalisées</li>
+			<li>...</li>
+		</ul>
+	</div>
+	<!-- Phases qualificatives -->
+	<div>
+		<h3>Phases qualificatives</h3>
+		<a href="<?php echo $this->base(); ?>media/ecrans/larges/onglet-phases-qualificatives.png" class="lightbox"><img src="<?php echo $this->base(); ?>media/ecrans/minis/onglet-phases-qualificatives.png" alt="Fenêtre des phases qualificatives" /></a>
+		<ul>
+			<li>Création manuelle de phases qualificatives</li>
+			<li>Génération automatique et optimisée de phases qualificatives</li>
+			<li>Création manuelle de matchs</li>
+			<li>Points attribués aux équipes en fonction du résultat</li>
+			<li>Possibilité de spécifier une liste d'objectifs à remporter</li>
+			<li>...</li>
+		</ul>
+	</div>
+	<!-- Phases éliminatoires -->
+	<div>
+		<h3>Phases éliminatoires</h3>
+		<a href="<?php echo $this->base(); ?>media/ecrans/larges/onglet-phases-eliminatoires.png" class="lightbox"><img src="<?php echo $this->base(); ?>media/ecrans/minis/onglet-phases-eliminatoires.png" alt="Fenêtre des phases éliminatoires" /></a>
+		<ul>
+			<li>Représentation graphique sous forme de diagramme</li>
+			<li>Création manuelle des phases éliminatoires</li>
+			<li>Génération automatique et optimisée des phases éliminatoires</li>
+			<li>Prise en charge de la petite finale</li>
+			<li>...</li>
+		</ul>
+	</div>
+	
+	<!-- En savoir plus -->
+	<p>
+		<a href="<?php echo $this->url(null,'index','documentation'); ?>" class="button" title="Consulter la documentation">En savoir plus...</a>
+	</p>
+</div>
