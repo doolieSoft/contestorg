@@ -1,0 +1,18 @@
+/* Tableau */
+table, tr, td, th {
+	border:none;
+}
+td {	
+	padding:0px;
+	background-color:transparent;
+}
+td.equipePhasesEliminatoires, td.matchPhasesEliminatoires {
+	background-color:#CCCCCC;
+	border:1px solid #AAAAAA;
+}
+td.equipePhasesEliminatoires, td.matchPhasesEliminatoires, td.videPhasesEliminatoires {
+	padding:4px;
+	height:35px;
+	vertical-align:middle;
+	font-size:0.9em;
+}
