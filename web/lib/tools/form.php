@@ -206,6 +206,14 @@ class Form
 	}
 	
 	/**
+	 * Set action
+	 * @param $action string action
+	 */
+	public function setAction($action) {
+		$this->action = $action;
+	}
+	
+	/**
 	 * Get form start 
 	 * @return string form start
 	 */
