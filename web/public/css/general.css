@@ -1,0 +1,175 @@
+/* Body */
+body {
+	font-family:arial;
+	font-size:1em;
+}
+
+/* Titres */
+h1 { font-size:1.4em; }
+h2 { font-size:1.2em; }
+h3 { font-size:1.1em; }
+
+/* Listes */
+ul, ol { margin:0px; }
+
+/* Liens */
+a { color:#3C81F0; }
+a:hover { text-decoration:none; }
+a img { border:none; }
+
+/* Boutons */
+a.button {
+	font-size:1.2em;
+	padding:6px;
+	display:inline-block;
+	text-decoration:none;
+	color:white;
+	background-color:#599FF5;
+}
+a.button:hover { background-color:#7BB3F7; }
+
+ul.buttons, ol.buttons { display:inline-block; }
+ul.buttons li, ol.buttons li { margin:4px; }
+ul.buttons li a, ol.buttons li a { display:block; }
+
+/* Pagination */
+ul.pagination {
+	overflow:hidden;
+	list-style:none;
+	margin:0px;
+	padding:0px;
+}
+ul.pagination li {
+	float:left;
+	margin:2px;
+}
+ul.pagination li a {
+	display:block;
+	padding:4px;
+	display:inline-block;
+	text-decoration:none;
+	color:white;
+	background-color:#599FF5;
+}
+ul.pagination li a:hover { background-color:#7BB3F7; }
+ul.pagination li a.disabled {
+	background-color:#7BB3F7;
+	cursor:default;
+}
+ul.pagination li a.current {
+	background-color:#FF7F2A;
+	cursor:default;
+}
+
+/* Page */
+#page {
+	width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+}
+
+/* Entête */
+#header {
+	height:60px;
+}
+#header h1 {
+	display:none;
+}
+#header #title {
+	cursor:pointer;
+	background-image:url(../media/logo.png);
+	background-repeat:no-repeat;
+	width:300px;
+	height:56px;
+}
+#header #beta {
+	cursor:pointer;
+	width:80px;
+	height:40px;
+	background-image:url('../media/beta.png');
+	background-repeat:no-repeat;
+	position:absolute;
+	top:8px;
+	left:270px;
+}
+#header #beta p {
+	display:none;
+}
+#header #subtitle {
+	display:none;
+}
+
+/* Menu */
+#menu {
+	position:absolute;
+	top:0px;
+	right:0px;
+}
+#menu ul {
+	list-style:none;
+	padding:0px;
+	margin:0px;
+	overflow:hidden;
+}
+#menu ul li {
+	padding:0px;
+	margin:4px;
+	float:left;
+}
+
+/* A propos */
+#about {
+	background-color:#E7E7E7;
+	border:1px solid #CBCBCB;
+	position:relative;
+	padding:10px;
+	text-align:justify;
+	min-height:240px;
+}
+#about  h2 {
+	display:none;
+}
+#about p {
+	margin-top:0px;
+	margin-bottom:15px;
+}
+#about a.button {
+	background-color:#A0D430;
+	font-size:1.4em;
+	padding:8px;
+}
+#about a.button:hover {
+	background-color:#B8DF63;
+}
+#about #description {
+	margin-right:400px;
+}
+#about #preview {
+	width:380px;
+	position:absolute;
+	top:10px;
+	right:10px;
+}
+
+/* Fonctionnalités */
+#features div {
+	position:relative;
+	padding:10px;
+	overflow:hidden;
+}
+#features div h3, #features div ul {
+	margin-top:0px;
+	margin-bottom:5px;
+	margin-left:300px;
+}
+#features div img {
+	float:left;
+	margin-top:-25px;
+	width:280px;
+}
+
+/* Pied de page */
+#footer {
+	text-align:center;
+}

@@ -1,0 +1,27 @@
+<h2 class="h_contact">Contact</h2>
+<?php 
+
+// Vérifier si le formulaire n'a pas été envoyé 
+if(empty($this->success)) {
+	// Vérifier si erreur
+	if(isset($this->success)) {
+		echo '<p class="p_error">Erreur lors de l\'envoie du message</p>';
+	}
+	
+	// Largeurs des champs 
+	$this->form->nom->addExtra('style="width:400px;"');
+	$this->form->email->addExtra('style="width:400px;"');
+	$this->form->sujet->addExtra('style="width:400px;"');
+	$this->form->message->addExtra('style="width:400px;"');
+	
+	// Afficher le formulaire 
+	$this->form->setMsgRequired('<p class="p_error">Champ requis</p>');
+	$this->form->setMsgInvalid('<p class="p_error">Champ invalide</p>');
+	echo $this->form;
+} else {
+	// Message de réussite
+	echo '<p class="p_success">Votre message a bien été envoyé</p>';
+}
+
+?>
+<p><i>Vous pouvez contacter l'équipe en envoyant un email directement à <a href="mailto:<?php echo $this->email; ?>"><?php echo $this->email; ?></a>.</i></p>
