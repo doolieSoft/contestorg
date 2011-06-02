@@ -16,7 +16,7 @@
 	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-1.1-jar.zip" class="button">ContestOrg 1.1 (Mac)</a></li>
 </ul>
 
-<h2 class="h_livre_or">Livre d'or</h2>
+<h2 class="h_livre_or" id="livredor">Livre d'or</h2>
 <?php
 
 // Vérifier si le formulaire n'a pas été envoyé 
@@ -28,6 +28,9 @@ if(empty($this->success)) {
 	if(isset($this->success)) {
 		echo '<p class="p_error">Erreur lors de l\'ajout du message</p>';
 	}
+	
+	// Action
+	$this->form->setAction('#livredor');
 	
 	// Largeurs des champs 
 	$this->form->prenom->addExtra('style="width:400px;"');
