@@ -1920,12 +1920,12 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry><application>Sourceforge</application></entry>
+              <entry><application>Google Code</application></entry>
 
               <entry>Plateforme de développement collaboratif</entry>
 
               <entry><ulink
-              url="http://www.sourceforge.net/">Cliquez-ici</ulink></entry>
+              url="http://code.google.com/">Cliquez-ici</ulink></entry>
             </row>
 
             <row>
@@ -1973,6 +1973,33 @@ FIN PROCEDURE;</programlisting>
 
               <entry><ulink
               url="http://www.xmlmind.com/xmleditor/">Cliquez-ici</ulink></entry>
+            </row>
+
+            <row>
+              <entry>Inkscape</entry>
+
+              <entry>Editeur de graphismes vectoriels</entry>
+
+              <entry><ulink
+              url="http://inkscape.org/">Cliquez-ici</ulink></entry>
+            </row>
+
+            <row>
+              <entry>OptiPNG</entry>
+
+              <entry>Optimiseur pour images PNG</entry>
+
+              <entry><ulink
+              url="http://optipng.sourceforge.net/">Cliquez-ici</ulink></entry>
+            </row>
+
+            <row>
+              <entry>Pngnq</entry>
+
+              <entry>Optimiseur pour images PNG</entry>
+
+              <entry><ulink
+              url="http://pngnq.sourceforge.net/">Cliquez-ici</ulink></entry>
             </row>
 
             <row>
@@ -2128,7 +2155,7 @@ FIN PROCEDURE;</programlisting>
 
           <tbody>
             <row>
-              <entry>Chapitre "Guide d'organisation un tournois
+              <entry>Chapitre "Guide d'organisation d'un tournois
               sportif"</entry>
 
               <entry><ulink url="http://www.le-pongiste.com">Le
