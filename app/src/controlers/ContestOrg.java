@@ -96,7 +96,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		FrontModel.get().getHistory().addListener(this);
 
 		// Lancer la fenetre generale
-		this.jf_general = new JFPrincipal("ContestOrg 2.0.0.0a");
+		this.jf_general = new JFPrincipal("ContestOrg 2.0.0.0b");
 		this.addListener(this.jf_general);
 		this.jf_general.setVisible(true);
 	}

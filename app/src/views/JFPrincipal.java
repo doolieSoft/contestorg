@@ -290,7 +290,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 			ViewHelper.dinformation(
 				this, "A propos",
 				"<font size=+1>Informations générales</font>\n" +
-				"Version : 2.0.0.0a\n" +
+				"Version : 2.0.0.0b\n" +
 				"Site web : <a href=\"#\">http://www.elfangels.fr/contestorg/</a>\n" +
 				"\n" +
 				"ContestOrg est un logiciel d’organisation de tournois. Celui-ci est\n" +
