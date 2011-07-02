@@ -15,7 +15,7 @@
 	if($this->paginator->getCurrent() == 0) {
 		echo '<li><a href="#" class="disabled" title="Page précédante" onclick="return false;">&lt;</a></li>';
 	} else {
-		echo '<li><a href="',$this->url(array('page' => $this->paginator->getCurrent()-1),null,null,false),$anchor,'" title="Page précédante">&lt;&lt;</a></li>';
+		echo '<li><a href="',$this->url(array('page' => $this->paginator->getCurrent()-1),null,null,false),$anchor,'" title="Page précédante">&lt;</a></li>';
 	}
 	
 	// Pages
