@@ -24,7 +24,7 @@ input[type="submit"], button {
 }
 
 /* Liens */
-a { color:#3C81F0; }
+a { color:#3C81F0; outline:none; }
 a:hover { text-decoration:none; }
 a img { border:none; }
 
