@@ -1,5 +1,8 @@
 <?php
 
+// Forcer l'utilisation des cookies pour la session
+ini_set('session.use_only_cookies', '1');
+
 // Définir la racine
 define('ROOT_DIR', realpath(dirname(__FILE__).'/..').'/');
 
