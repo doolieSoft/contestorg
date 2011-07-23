@@ -18,7 +18,7 @@ class IndexController extends Controller
 		$this->view->form->add(new FormText('sujet', 'Votre sujet', FormText::TYPE_MONOLINE, 50, 100));
 		$this->view->form->add(new FormText('message', 'Votre message', FormText::TYPE_MULTILINE, array(50,6), 2000));
 		// $this->view->form->add(new FormCaptcha($conf['RECAPTCHA']['PUBLIC_KEY'],$conf['RECAPTCHA']['PRIVATE_KEY']));
-		$this->view->form->add(new FormSubmit());
+		$this->view->form->add(new FormSubmit('envoyer','Envoyer'));
 		
 		// Vérification de l'email
 		function form_check_email(FormText $email) {
