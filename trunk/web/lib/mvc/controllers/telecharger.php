@@ -21,7 +21,7 @@ class TelechargerController extends Controller
 		$this->view->form->add(new FormText('email', 'Votre email', FormText::TYPE_MONOLINE, 50, 130));
 		$this->view->form->add(new FormText('message', 'Votre message', FormText::TYPE_MULTILINE, array(50,6), 2000));
 		//$this->view->form->add(new FormCaptcha($conf['RECAPTCHA']['PUBLIC_KEY'],$conf['RECAPTCHA']['PRIVATE_KEY']));
-		$this->view->form->add(new FormSubmit());
+		$this->view->form->add(new FormSubmit('valider','Valider'));
 		
 		// Vérification de l'email
 		function form_check_email(FormText $email) {
