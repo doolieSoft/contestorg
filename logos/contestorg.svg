@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="250"
+   height="50"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="test.png"
+   inkscape:export-filename="D:\Developpement\Web\Workspace\ContestOrg\public\media\logo.png"
+   inkscape:export-xdpi="99.817154"
+   inkscape:export-ydpi="99.817154">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3807"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#5d9ef0;stop-opacity:1;"
+         offset="0"
+         id="stop3809" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3801"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3803" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3807"
+       id="linearGradient3805"
+       x1="180.77315"
+       y1="1027.2346"
+       x2="275.56335"
+       y2="1027.2346"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.71807074,0,0,1.0325577,43.574982,-32.334534)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3807"
+       id="linearGradient3811"
+       x1="180.77315"
+       y1="1027.2346"
+       x2="275.56335"
+       y2="1027.2346"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.71807074,0,0,1.0325577,43.574982,-32.334534)" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="128.5887"
+     inkscape:cy="28.482749"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     inkscape:window-x="1432"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1002.3622)">
+    <rect
+       style="fill:url(#linearGradient3811);fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient3805);stroke-width:7.65144157;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect3029"
+       width="61.685349"
+       height="36.027489"
+       x="176.57324"
+       y="1010.3307"
+       inkscape:export-xdpi="383.91"
+       inkscape:export-ydpi="383.91" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2997"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       transform="matrix(1.0847499,0,0,1.2348313,3.0422618,994.01666)"><flowRegion
+         id="flowRegion2999"><rect
+           id="rect3001"
+           width="245.21452"
+           height="45.204327"
+           x="3.0304577"
+           y="2.7753685"
+           style="fill:#000000" /></flowRegion><flowPara
+         id="flowPara3003">contest</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3005"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       transform="translate(0,1002.3622)"><flowRegion
+         id="flowRegion3007"><rect
+           id="rect3009"
+           width="71.215752"
+           height="45.456863"
+           x="177.53432"
+           y="3.0279067" /></flowRegion><flowPara
+         id="flowPara3011">Org</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3013"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       transform="translate(0,1002.3622)"><flowRegion
+         id="flowRegion3015"><rect
+           id="rect3017"
+           width="95.459419"
+           height="43.436558"
+           x="179.80716"
+           y="4.0380592" /></flowRegion><flowPara
+         id="flowPara3019">&lt;Org</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       x="175.33488"
+       y="1041.9215"
+       id="text3021"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3023"
+         x="175.33488"
+         y="1041.9215">org</tspan></text>
+  </g>
+</svg>
