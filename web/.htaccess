@@ -2,4 +2,5 @@ RewriteEngine On
 
 RedirectMatch permanent telecharger.php http://www.elfangels.fr/contestorg/telecharger/index/
 
+RewriteCond %{REQUEST_URI} !^public.*$
 RewriteRule ^(.*)$ public/$1 [NC,L]
