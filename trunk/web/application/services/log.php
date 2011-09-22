@@ -18,8 +18,8 @@ class LogService extends Service
 		$log_data = new LogData_File_XML(ROOT_DIR.$conf['LOG']['PATH'],$conf['LOG']['DURATION'],$conf['LOG']['NB_MAX']);
 		$this->logger = new Log($log_data,$conf['MISC']['DEV']?E_ALL:0,E_ALL&~E_NOTICE,E_ALL&~E_NOTICE,$conf['MISC']['DEV']);
 		if (!$conf['MISC']['DEV']) {
-			$this->logger->addErrorsPage(Request::url('error','error',null),'Request::redirect');
-			$this->logger->setExceptionsPage(Request::url('error','error',null),'Request::redirect');
+			$this->logger->addErrorsPage(Request::buildURL(null,'error','error'),'Request::redirect');
+			$this->logger->setExceptionsPage(Request::buildURL(null,'error','error'),'Request::redirect');
 		}
 		
 		// Errors and exceptions handler
