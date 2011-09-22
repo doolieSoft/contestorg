@@ -12,7 +12,7 @@ class ConfService extends Service
 		require('tools/conf_data.php');
 		
 		// Charger la configuration
-		$cong_data = new ConfData_Ini(ROOT_DIR.'configuration/configuration.ini');
+		$cong_data = new ConfData_Ini(ROOT_DIR.'conf/app.ini');
 		$this->conf = new Conf($cong_data);
 	}
 	
