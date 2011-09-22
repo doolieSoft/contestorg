@@ -7,7 +7,7 @@ ini_set('session.use_only_cookies', '1');
 define('ROOT_DIR', realpath(dirname(__FILE__).'/..').'/');
 
 // Ajouter des répertoires dans le chemin utilisé pour les includes et requires
-set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'library',ROOT_DIR.'application/models',get_include_path())));
+set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'lib',ROOT_DIR.'app/models',get_include_path())));
 
 // Inclure l'application
 require('mvc/require.php');
@@ -38,7 +38,7 @@ Request::addRoute(new Route(
 ));
 
 // Définir le chemin de l'application
-Configuration::getInstance()->set(Configuration::PATH_MODULE,ROOT_DIR.'application/');
+Configuration::getInstance()->set(Configuration::PATH_MODULE,ROOT_DIR.'app/');
 
 // Définir le layout par défaut
 Configuration::getInstance()->set(Configuration::LAYOUT_DEFAULT,'main');
