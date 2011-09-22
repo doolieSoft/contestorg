@@ -7,20 +7,48 @@ ini_set('session.use_only_cookies', '1');
 define('ROOT_DIR', realpath(dirname(__FILE__).'/..').'/');
 
 // Ajouter des répertoires dans le chemin utilisé pour les includes et requires
-set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'lib/tools',ROOT_DIR.'lib/mvc/models',get_include_path())));
+set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'library',ROOT_DIR.'application/models',get_include_path())));
 
 // Inclure l'application
-require(ROOT_DIR.'lib/mvc/application.php');
+require('mvc/require.php');
 
-// Retirer "public/" de l'url de base
-Request::setBaseUrl(substr(Request::getBaseUrl(),0,-7));
+// Définir les routes
+Request::addRoute(new Route(
+	array(
+		':controller/:action:parameters',
+		array(
+			':parameters' => array(
+				'/:name/:value'
+			)
+		)
+	),
+	array(
+		'(:controller(/:action(:parameters)?)?)?',
+		array(
+			':controller' => '[a-zA-Z][a-zA-Z0-9]*',
+			':action' => '[a-zA-Z][a-zA-Z0-9]*',
+			':parameters' => array(
+				'/:name(/:value)?', array(
+					':name' => '[a-zA-Z][a-zA-Z0-9]*',
+					':value' => '[^\/]*'
+				)
+			)
+		)
+	)
+));
+
+// Définir le chemin de l'application
+Configuration::getInstance()->set(Configuration::PATH_MODULE,ROOT_DIR.'application/');
+
+// Définir le layout par défaut
+Configuration::getInstance()->set(Configuration::LAYOUT_DEFAULT,'main');
+
+// Définir le filtre par défaut
+Configuration::getInstance()->set(Configuration::FILTERS_DEFAULT,array('connected'));
 
 // Démarrer les services de log et de session
 Application::startService('log');
 Application::startService('session');
-
-// Transmettre les requetes au filtre de connexion
-Application::setFilterName('connected');
 
 // Démarrer l'application
 Application::run();

@@ -1,0 +1,63 @@
+<h2 class="h_telecharger">Télécharger</h2>
+
+<p>Séléctionnez le fichier à télécharger selon votre plateforme :</p>
+
+<ul class="buttons">
+	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.0.0.0b-exe.zip" class="button">ContestOrg 2.0.0.0b (Windows)</a></li>
+	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.0.0.0b-jar.zip" class="button">ContestOrg 2.0.0.0b (Linux)</a></li>
+	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.0.0.0b-jar.zip" class="button">ContestOrg 2.0.0.0b (Mac)</a></li>
+</ul>
+
+<p><i><a href="#" onclick="var liste = $(this).parent().parent().next('ul'); if(liste.css('display') == 'none') $(this).html('Masquer les anciennes versions'); else $(this).html('Afficher les anciennes versions'); liste.slideToggle('slow');return false;">Afficher les anciennes versions</a></i></p>
+
+<ul class="buttons" style="display:none;">
+	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-1.1-exe.zip" class="button">ContestOrg 1.1 (Windows)</a></li>
+	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-1.1-jar.zip" class="button">ContestOrg 1.1 (Linux)</a></li>
+	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-1.1-jar.zip" class="button">ContestOrg 1.1 (Mac)</a></li>
+</ul>
+
+<h2 class="h_livre_or" id="livredor">Livre d'or</h2>
+<?php
+
+// Vérifier si le formulaire n'a pas été envoyé 
+if(empty($this->success)) {
+	// Encourager l'ajout de message
+	echo '<p>N\'hésitez pas à laisser un message sur le livre d\'or :</p>';
+	
+	// Vérifier si erreur
+	if(isset($this->success)) {
+		echo '<p class="p_error">Erreur lors de l\'ajout du message</p>';
+	}
+	
+	// Action
+	$this->form->setAction('#livredor');
+	
+	// Largeurs des champs 
+	$this->form->prenom->addExtra('style="width:400px;"');
+	$this->form->email->addExtra('style="width:400px;"');
+	$this->form->message->addExtra('style="width:400px;"');
+	
+	// Afficher le formulaire 
+	$this->form->setMsgRequired('<p class="p_error">Champ requis</p>');
+	$this->form->setMsgInvalid('<p class="p_error">Champ invalide</p>');
+	echo $this->form;
+} else {
+	// Message de réussite
+	echo '<p class="p_success">Merci d\'avoir signé notre livre d\'or</p>';
+}
+
+// Require de la fonction de BBCode
+require_once('tools/bbcode.php');
+
+// Liste des signatures
+echo '<h3 id="messages">Messages</h3>';
+if($this->paginator->getCount() != 0) {
+	foreach($this->paginator as $signatures) {
+		echo '<b>',date('d/m/Y',$signatures->getDate()),' : ',$signatures->getPrenom(),'</b><p>',bbcode($signatures->getMessage()),'</p>';
+	}
+	$this->partial('pagination',array('paginator' => $this->paginator,'anchor' => 'messages'));
+} else {
+	echo 'Pas de messages';
+}
+
+?>
