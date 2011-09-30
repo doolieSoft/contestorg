@@ -28,7 +28,7 @@ Request::addRoute(new Route(
 			':controller' => '[a-zA-Z][a-zA-Z0-9]*',
 			':action' => '[a-zA-Z][a-zA-Z0-9]*',
 			':parameters' => array(
-				'/:name(/:value)?', array(
+				'/?:name(/:value)?', array(
 					':name' => '[a-zA-Z][a-zA-Z0-9]*',
 					':value' => '[^\/]*'
 				)
