@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration>
 	<fichiers>
-		<fichier id="index" nom="Page d'accueil" source="index.xsl" cible="index.html" transformation="xslt" principal="oui" fixe="oui" />
-		<fichier id="infos" nom="Informations pratiques" source="pratique.xsl" cible="pratique.html" transformation="xslt" principal="oui" fixe="oui" />
-		<fichier id="css" nom="Feuille de style" source="style.css" fixe="oui" />
-		<fichier id="favicon" nom="Favicon" source="favicon.png" fixe="oui" />
-		<fichier id="jquery" nom="jQuery" source="jquery.js" fixe="oui" />
+		<fichier id="html-index" nom="Page d'accueil" source="index.xsl" cible="index.html" transformation="xslt" principal="oui" fixe="oui" />
+		<fichier id="html-pratique" nom="Page d'informations pratiques" source="pratique.xsl" cible="pratique.html" transformation="xslt" principal="oui" fixe="oui" />
+		<fichier id="css-specific" nom="Feuille de style spécifique" source="style.css" fixe="oui" />
+		<fichier id="css-common" nom="Feuille de style commune" source="../common.css" cible="common.css" fixe="oui" />
+		<fichier id="img-favicon" nom="Favicon" source="../favicon.png" cible="favicon.png" fixe="oui" />
+		<fichier id="js-jquery" nom="jQuery" source="../jquery.js" cible="jquery.js" fixe="oui" />
 	</fichiers>
 </configuration>

@@ -21,6 +21,9 @@
 					<!-- Header -->
 					<xsl:call-template name="header" />
 					
+					<!-- Menu -->
+					<xsl:call-template name="menu" />
+					
 					<!-- Informations sur le tournois -->
 					<h2>Informations sur le tournois</h2>
 					<div class="bloc">
