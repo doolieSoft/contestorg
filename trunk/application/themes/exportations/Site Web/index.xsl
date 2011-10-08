@@ -21,6 +21,9 @@
 					<!-- Header -->
 					<xsl:call-template name="header" />
 					
+					<!-- Menu -->
+					<xsl:call-template name="menu" />
+					
 					<!-- Liste des catégories -->
 					<xsl:apply-templates select="/concours/listeCategories">
 					</xsl:apply-templates>
