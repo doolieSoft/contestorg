@@ -22,7 +22,6 @@
 	<classpathentry kind="lib" path="lib/httpclient-4.1/httpmime-4.1.jar"/>
 	<classpathentry kind="lib" path="lib/jdom-1.1.1/jdom-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jgraph-5.8.3.1/jgraph-5.8.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/junit-4.9/junit-4.9.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.16/log4j-1.2.16.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
