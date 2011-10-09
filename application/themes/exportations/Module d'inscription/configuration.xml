@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<fichiers>
+		<fichier id="php-index" nom="Page d'accueil" source="index.xsl" cible="index.php" transformation="xslt" principal="oui" fixe="oui" />
+		<fichier id="php-inscription" nom="Page d'inscription" source="inscription.xsl" cible="inscription.php" transformation="xslt" fixe="oui" />
+		<fichier id="php-administration" nom="Page d'administration" source="administration.xsl" cible="administration.php" transformation="xslt" fixe="oui" />
+		<fichier id="css-specific" nom="Feuille de style spécifique" source="style.css" fixe="oui" />
+		<fichier id="css-common" nom="Feuille de style commune" source="../common.css" cible="common.css" fixe="oui" />
+		<fichier id="img-favicon" nom="Favicon" source="../favicon.png" cible="favicon.png" fixe="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="password" nom="Mot de passe administrateur" type="texte" optionnel="non" />
+	</parametres>
+</configuration>
