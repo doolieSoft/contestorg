@@ -1763,14 +1763,12 @@ FIN PROCEDURE;</programlisting>
       <table>
         <title>Liste des membres de l'équipe</title>
 
-        <tgroup cols="3">
+        <tgroup cols="2">
           <thead>
             <row>
               <entry>Prénom/Nom</entry>
 
               <entry>Rôles remplis</entry>
-
-              <entry>Contact</entry>
             </row>
           </thead>
 
@@ -1779,13 +1777,9 @@ FIN PROCEDURE;</programlisting>
               <entry>Cyril Perrin</entry>
 
               <entry>Tous</entry>
-
-              <entry><ulink url="#">Cliquez ici</ulink></entry>
             </row>
 
             <row>
-              <entry></entry>
-
               <entry></entry>
 
               <entry></entry>
@@ -1929,12 +1923,12 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry><application>Cacoo</application></entry>
+              <entry>TopCased</entry>
 
-              <entry>Outil de réalisation de diagrammes en ligne</entry>
+              <entry>Outil de modélisation basé sur Eclipse</entry>
 
               <entry><ulink
-              url="http://www.cacoo.com/">Cliquez-ici</ulink></entry>
+              url="http://www.topcased.org/">Cliquez-ici</ulink></entry>
             </row>
 
             <row>
@@ -1944,25 +1938,6 @@ FIN PROCEDURE;</programlisting>
 
               <entry><ulink
               url="http://www.docbook.org/">Cliquez-ici</ulink></entry>
-            </row>
-
-            <row>
-              <entry><application>Pencil</application></entry>
-
-              <entry>Logiciel de maquettes d'interfaces graphiques</entry>
-
-              <entry><ulink
-              url="http://pencil.evolus.vn/">Cliquez-ici</ulink></entry>
-            </row>
-
-            <row>
-              <entry><application>Launch4j</application></entry>
-
-              <entry>Encapsuleur <acronym>EXE</acronym> pour
-              <acronym>JAR</acronym> à destination de Windows</entry>
-
-              <entry><ulink
-              url="http://launch4j.sourceforge.net/">Cliquez-ici</ulink></entry>
             </row>
 
             <row>
@@ -1976,9 +1951,28 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
+              <entry><application>Launch4j</application></entry>
+
+              <entry>Encapsuleur <acronym>EXE</acronym> pour
+              <acronym>JAR</acronym> à destination de Windows</entry>
+
+              <entry><ulink
+              url="http://launch4j.sourceforge.net/">Cliquez-ici</ulink></entry>
+            </row>
+
+            <row>
+              <entry><application>Pencil</application></entry>
+
+              <entry>Logiciel de maquettes d'interfaces graphiques</entry>
+
+              <entry><ulink
+              url="http://pencil.evolus.vn/">Cliquez-ici</ulink></entry>
+            </row>
+
+            <row>
               <entry>Inkscape</entry>
 
-              <entry>Editeur de graphismes vectoriels</entry>
+              <entry>Editeur de dessins vectoriels</entry>
 
               <entry><ulink
               url="http://inkscape.org/">Cliquez-ici</ulink></entry>
@@ -1987,7 +1981,7 @@ FIN PROCEDURE;</programlisting>
             <row>
               <entry>OptiPNG</entry>
 
-              <entry>Optimiseur pour images PNG</entry>
+              <entry>Optimiseur pour images <acronym>PNG</acronym></entry>
 
               <entry><ulink
               url="http://optipng.sourceforge.net/">Cliquez-ici</ulink></entry>
@@ -1996,7 +1990,7 @@ FIN PROCEDURE;</programlisting>
             <row>
               <entry>Pngnq</entry>
 
-              <entry>Optimiseur pour images PNG</entry>
+              <entry>Optimiseur pour images <acronym>PNG</acronym></entry>
 
               <entry><ulink
               url="http://pngnq.sourceforge.net/">Cliquez-ici</ulink></entry>
