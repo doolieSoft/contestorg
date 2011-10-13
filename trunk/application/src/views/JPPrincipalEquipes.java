@@ -365,10 +365,9 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 	// Rafraichir les boutons
 	private void refreshButtons() {
 		// Compter le nombre de catégories et de poules
-		int nbCategories = 0, nbPoules = 0;
+		int nbPoules = 0;
 		ITreeNode root = (ITreeNode)this.jtree.getModel().getRoot();
 		for(int i=0;i<root.getChildCount();i++) {
-			nbCategories++;
 			nbPoules += ((ITreeNode)root.getChildAt(i)).getChildCount();
 		}
 		
