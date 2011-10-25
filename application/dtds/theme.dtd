@@ -24,7 +24,7 @@
 <!ELEMENT parametre EMPTY>
 <!ATTLIST parametre id			ID				#REQUIRED> 	<!-- Chaine servant d'identifiant au paramètre -->
 <!ATTLIST parametre nom			CDATA			#REQUIRED> 	<!-- Nom du paramètre -->
-<!ATTLIST parametre type		(entier|reel|texte|idCategorie|idPoule|idPoule) #REQUIRED> <!-- Type du paramètre -->
+<!ATTLIST parametre type		(entier|reel|texte|idCategorie|idPoule|idPoule|motDePasse) #REQUIRED> <!-- Type du paramètre -->
 <!ATTLIST parametre optionnel	(oui|non) 		"non"> 		<!-- S'agit-il d'un paramètre optionnel ? -->
 <!ATTLIST parametre dependance	IDREF			#IMPLIED> 	<!-- Id du paramètre dont dépent le paramètre courant -->
 <!ATTLIST parametre description	CDATA			#IMPLIED>	<!-- Description du paramètre -->
