@@ -2,11 +2,18 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 public class Tools
 {
-	// Méthode permettant d'effectuer un case avec un string
+	/**
+	 * Méthode permettant d'effectuer un case avec une chaîne de caractères
+	 * @param string String chaîne de caractères d'entrée
+	 * @param strings Array chaînes de caractères à comparer avec la chaîne de caractères d'entrée
+	 * @return int indice de la chaîne de caractères correspondant
+	 */
 	public static int StringCase (String string, String... strings) {
 		for (int i = 0; i < strings.length; i++) {
 			if (strings[i].equals(string)) {
@@ -16,7 +23,13 @@ public class Tools
 		return -1;
 	}
 	
-	// Trouver le chemin relatif entre deux fichiers
+	/**
+	 * Trouver le chemin relatif entre deux fichiers
+	 * @param target File fichier cible
+	 * @param base File fichier base
+	 * @return String chemin relatif entre les deux fichiers
+	 * @throws IOException
+	 */
 	public static String getRelativePath (File target, File base) throws IOException {
 		String[] baseComponents = base.getCanonicalPath().split(Pattern.quote(File.separator));
 		String[] targetComponents = target.getCanonicalPath().split(Pattern.quote(File.separator));
@@ -39,5 +52,34 @@ public class Tools
 			result.delete(result.length() - "/".length(), result.length());
 		}
 		return result.toString();
+	}
+
+	// Types de hashage
+	public static final String HASH_MD5 = "MD5";
+	public static final String HASH_SHA1 = "SHA-1";
+	
+	/**
+	 * Réalise le hashing d'une chaîne de caractères
+	 * @param string String chaine de caractère à hasher
+	 * @param hash String hashage à utiliser
+	 * @return String hashage
+	 * @throws NoSuchAlgorithmException 
+	 */
+	public static String hash(String string, String hash) throws NoSuchAlgorithmException {
+		byte[] digest = MessageDigest.getInstance(hash).digest(string.getBytes());
+        StringBuffer buffer = new StringBuffer();
+        for (int i=0;i<digest.length;i++) { 
+            int halfbyte = (digest[i] >>> 4) & 0x0F;
+            int j = 0;
+            do {
+                if (0 <= halfbyte && halfbyte <= 9) {
+                	buffer.append((char) ('0' + halfbyte));
+                } else { 
+                    buffer.append((char) ('a' + (halfbyte - 10)));
+                }
+                halfbyte = digest[i] & 0x0F;
+            } while(j++ < 1);
+        }
+        return buffer.toString();
 	}
 }
