@@ -16,6 +16,7 @@ public abstract class JCParametreAbstract extends JPanel
 			case Parametre.TYPE_CATEGORIE: return new JCParametreCategorie(parametre);
 			case Parametre.TYPE_POULE: return new JCParametrePoule(parametre);
 			case Parametre.TYPE_PHASE: return new JCParametrePhase(parametre);
+			case Parametre.TYPE_MOTDEPASSE: return new JCParametreMotDePasse(parametre);
 		}
 		return null;
 	}

@@ -9,6 +9,7 @@ public class Parametre
 	public static final int TYPE_CATEGORIE = 4;
 	public static final int TYPE_POULE = 5;
 	public static final int TYPE_PHASE = 6;
+	public static final int TYPE_MOTDEPASSE = 7;
 	
 	// Attributs
 	private String id;
