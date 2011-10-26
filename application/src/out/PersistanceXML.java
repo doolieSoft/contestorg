@@ -238,7 +238,7 @@ public class PersistanceXML extends PersistanceAbstract
 				while (iteratorProprietes.hasNext()) {
 					Element elementPropriete = (Element)iteratorProprietes.next();
 					int type = -1;
-					switch (Tools.StringCase(elementPropriete.getAttributeValue("type"), "entier", "decimal", "caracteres")) {
+					switch (Tools.StringCase(elementPropriete.getAttributeValue("type"), "entier", "decimal", "texte")) {
 						case 0:
 							type = InfosModelPropriete.TYPE_INT;
 							break;
@@ -776,7 +776,7 @@ public class PersistanceXML extends PersistanceAbstract
 						type = "decimal";
 						break;
 					case InfosModelPropriete.TYPE_STRING:
-						type = "caracteres";
+						type = "texte";
 						break;
 				}
 				elementPropriete.setAttribute("type", type);
