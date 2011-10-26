@@ -272,31 +272,36 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	protected void ok () {
 		// Vérifier si une génération n'est pas en cours
 		if(this.generation == null) {
+			// Récupérer la liste des équipes séléctionnées
+			ArrayList<String> equipesSelectionnees = this.getEquipesSelectionnees();
+			
 			// Vérifier la conformité de la configuration choisie
 			boolean erreur = false;
 			ArrayList<String> equipesConfiguration = new ArrayList<String>();
 			for(int i=0;i<this.jcbs_equipesA.length;i++) {
+				// Vérifier si une équipe joue avec elle-même
 				if(this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesB[i].getSelectedIndex()) {
 					// Récupérer le nom de l'équipe
-					String nomEquipe = this.isFantome() && this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesA[i].getItemCount()-1 ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : this.equipesParticipantes.get(this.jcbs_equipesA[i].getSelectedIndex());
+					String nomEquipe = this.isFantome() && this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesA[i].getItemCount()-1 ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex());
 					
 					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+nomEquipe+"\" a un match contre "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "elle même" : "lui même")+".");
+					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+nomEquipe+"\" a un match contre "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "elle-même" : "lui-même")+".");
 					erreur = true;
 				}
 				if(!erreur) {
+					// Vérifier si une équipe participe plusieurs fois dans la phase qualificative 
 					if(!this.isFantome() || this.jcbs_equipesA[i].getSelectedIndex() != this.jcbs_equipesA[i].getItemCount()-1) {
-						if(equipesConfiguration.contains(this.equipesParticipantes.get(this.jcbs_equipesA[i].getSelectedIndex()))) {
-							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+this.equipesParticipantes.get(this.jcbs_equipesA[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
+						if(equipesConfiguration.contains(equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex()))) {
+							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
 						} else {
-							equipesConfiguration.add(this.equipesParticipantes.get(this.jcbs_equipesA[i].getSelectedIndex()));
+							equipesConfiguration.add(equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex()));
 						}
 					}
 					if(!this.isFantome() || this.jcbs_equipesB[i].getSelectedIndex() != this.jcbs_equipesB[i].getItemCount()-1) {
-						if(equipesConfiguration.contains(this.equipesParticipantes.get(this.jcbs_equipesB[i].getSelectedIndex()))) {
-							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+this.equipesParticipantes.get(this.jcbs_equipesB[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
+						if(equipesConfiguration.contains(equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex()))) {
+							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
 						} else {
-							equipesConfiguration.add(this.equipesParticipantes.get(this.jcbs_equipesB[i].getSelectedIndex()));
+							equipesConfiguration.add(equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex()));
 						}
 					}
 				}
