@@ -306,12 +306,15 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 				"<font size=+1>Outils utilisés</font>\n" +
 				"<ul>" +
 				"<li>Eclipse, <a href=\"#\">http://www.eclipse.org/</a></li>" +
-				"<li>Sourceforge, <a href=\"#\">http://www.sourceforge.net/</a></li>" +
-				"<li>Cacoo, <a href=\"#\">http://www.cacoo.com/</a></li>" +
+				"<li>Google Code, <a href=\"#\">http://code.google.com/</a></li>" +
+				"<li>TopCased, <a href=\"#\">http://www.topcased.org/</a></li>" +
 				"<li>DocBook, <a href=\"#\">http://www.docbook.org/</a></li>" +
-				"<li>Pencil, <a href=\"#\">http://pencil.evolus.vn/</a></li>" +
-				"<li>Launch4j, <a href=\"#\">http://launch4j.sourceforge.net/</a></li>" +
 				"<li>XMLMind, <a href=\"#\">http://www.xmlmind.com/xmleditor/</a></li>" +
+				"<li>Launch4j, <a href=\"#\">http://launch4j.sourceforge.net/</a></li>" +
+				"<li>Pencil, <a href=\"#\">http://pencil.evolus.vn/</a></li>" +
+				"<li>Inkscape, <a href=\"#\">http://inkscape.org/</a></li>" +
+				"<li>OptiPNG, <a href=\"#\">http://optipng.sourceforge.net/</a></li>" +
+				"<li>Pngnq, <a href=\"#\">[http://pngnq.sourceforge.net</a></li>" +
 				"</ul>" +
 				"\n" +
 				"<font size=+1>Librairies utilisées</font>\n" +
