@@ -94,7 +94,7 @@
 <!ELEMENT propriete EMPTY>
 <!ATTLIST propriete	id			ID								#REQUIRED>	<!-- Identifiant de la propriété -->
 <!ATTLIST propriete	nom			CDATA							#REQUIRED>	<!-- Nom de la propriété -->
-<!ATTLIST propriete	type		(entier|decimal|caracteres) 	"entier">	<!-- Type de la propriété -->
+<!ATTLIST propriete	type		(entier|decimal|texte) 			"entier">	<!-- Type de la propriété -->
 <!ATTLIST propriete	obligatoire	(oui|non) 						"oui">		<!-- S'agit-il d'un propriété obligatoire ? -->
 
 <!-- Liste des exportations -->
