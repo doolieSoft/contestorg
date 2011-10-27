@@ -144,6 +144,7 @@ public class PersistanceXML extends PersistanceAbstract
 			
 			// Construire le concours
 			ModelConcours concours = new ModelConcours(new InfosModelConcours(concoursNom, concoursSite, concoursLieu, concoursEmail, concoursTelephone, concoursDescription, organismeNom, organismeSite, organismeLieu, organismeEmail, organismeTelephone, organismeDescription, typeQualifications, typeParticipants, pointsVictoire, pointsEgalite, pointsDefaite, programmationDuree, programmationInterval, programmationPause));
+			concours.setId(root.getAttribute("id") == null ? -1 : Integer.parseInt(root.getAttributeValue("id")));
 			
 			// Ajouter les objectifs
 			if (root.getChild("listeObjectifs") != null) {
@@ -598,6 +599,7 @@ public class PersistanceXML extends PersistanceAbstract
 		Document document = new Document(root);
 		
 		// Ajouter les informations du concours
+		root.setAttribute("id", String.valueOf(concours.getId()));
 		root.setAttribute("nom", concours.getConcoursNom());
 		if (concours.getConcoursSite() != null && !concours.getConcoursSite().isEmpty())
 			root.setAttribute("site", concours.getConcoursSite());
