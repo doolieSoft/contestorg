@@ -57,7 +57,7 @@ public class TMProprietes extends TMAbstract<InfosModelPropriete>
 				switch(this.get(row).getType()) {
 					case InfosModelPropriete.TYPE_INT: return "Nombre entier";
 					case InfosModelPropriete.TYPE_FLOAT: return "Nombre décimal";
-					case InfosModelPropriete.TYPE_STRING: return "Chaine de caractères";
+					case InfosModelPropriete.TYPE_STRING: return "Texte";
 				}
 		}
 		return null;
