@@ -23,7 +23,7 @@ Request::addRoute(new Route(
 		)
 	),
 	array(
-		'(:controller(/:action(:parameters)?)?)?',
+		'(:controller(/:action(:parameters)?)?)?/?',
 		array(
 			':controller' => '[a-zA-Z][a-zA-Z0-9]*',
 			':action' => '[a-zA-Z][a-zA-Z0-9]*',
