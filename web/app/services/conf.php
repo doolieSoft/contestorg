@@ -7,13 +7,8 @@ class ConfService extends Service
 	
 	// Démarrer le service
 	public function start() {
-		// Importer les classes de configuration
-		require('tools/conf.php');
-		require('tools/conf_data.php');
-		
-		// Charger la configuration
-		$cong_data = new ConfData_Ini(ROOT_DIR.'conf/app.ini');
-		$this->conf = new Conf($cong_data);
+		// Parser le fichier de configuration
+		$this->conf = parse_ini_file(ROOT_DIR.'conf/app.ini',true);
 	}
 	
 	// Récupérer la ressource du service
