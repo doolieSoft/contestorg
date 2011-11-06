@@ -6,12 +6,7 @@ class ErrorController extends Controller
 	public function errorAction()
 	{
 		// Récupérer le message d'erreur
-		$this->view->message = $this->request->getParameter('message');
-		
-		// Vérifier si un message a bien été donné
-		if($this->view->message === null) {
-			$this->view->message = 'Une erreur s\'est produite.';
-		}
+		$this->view->message = $this->request->getParameter('message','Une erreur s\'est produite.');
 		
 		// Render sur la vue associée à l'action
 		$this->render();
