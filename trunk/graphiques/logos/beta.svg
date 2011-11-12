@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="50"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="logo beta.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="49.429803"
+     inkscape:cy="19.933035"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1002.3622)">
+    <rect
+       style="fill:#f9c03b;fill-opacity:1;fill-rule:evenodd;stroke:#f9c03b;stroke-width:10.26097012000000000;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2985"
+       width="87.326271"
+       height="38.452549"
+       x="6.3094392"
+       y="1008.3145"
+       inkscape:export-filename="D:\Developpement\Web\Workspace\ContestOrg\public\media\beta.png"
+       inkscape:export-xdpi="73.775215"
+       inkscape:export-ydpi="73.775215" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3755"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       transform="translate(0,1002.3622)"><flowRegion
+         id="flowRegion3757"><rect
+           id="rect3759"
+           width="90.89286"
+           height="42.32143"
+           x="5"
+           y="4.2857141" /></flowRegion><flowPara
+         id="flowPara3761">bebetafsgfdsg</flowPara><flowPara
+         id="flowPara3763" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       x="25.178572"
+       y="21.428572"
+       id="text3765"
+       sodipodi:linespacing="125%"
+       transform="translate(0,1002.3622)"><tspan
+         sodipodi:role="line"
+         id="tspan3767"></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Kristen ITC;-inkscape-font-specification:Kristen ITC"
+       x="6.0714288"
+       y="41.42857"
+       id="text3769"
+       sodipodi:linespacing="125%"
+       transform="translate(0,1002.3622)"
+       inkscape:export-filename="D:\Developpement\Web\Workspace\ContestOrg\public\media\beta.png"
+       inkscape:export-xdpi="86.881927"
+       inkscape:export-ydpi="86.881927"><tspan
+         sodipodi:role="line"
+         id="tspan3771"
+         x="6.0714288"
+         y="41.42857">beta</tspan></text>
+  </g>
+</svg>
