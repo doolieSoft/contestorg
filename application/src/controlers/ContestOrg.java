@@ -51,8 +51,11 @@ import events.Action;
  */
 public class ContestOrg extends MoodyAbstract implements IHistoryListener
 {
+	
+	// Version de ContestOrg
+	public static final String VERSION = "2.0.0b";  
 
-	// Instance unique de contestOrg
+	// Instance unique de ContestOrg
 	private static ContestOrg contestOrg;
 	
 	// Etats possibles
@@ -96,7 +99,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		FrontModel.get().getHistory().addListener(this);
 
 		// Lancer la fenetre generale
-		this.jf_general = new JFPrincipal("ContestOrg 2.0.0.0b");
+		this.jf_general = new JFPrincipal("ContestOrg "+ContestOrg.VERSION);
 		this.addListener(this.jf_general);
 		this.jf_general.setVisible(true);
 	}
