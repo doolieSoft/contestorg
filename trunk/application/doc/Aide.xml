@@ -1099,10 +1099,9 @@ FIN PROCEDURE;</programlisting>
         site Web de ContestOrg à l'adresse
         <uri>http://www.elfangels.fr/contestorg/data/dtds/importation.dtd</uri>.</para>
 
-        <remark>L'exportation "Inscription des équipes" permet la mise en
-        place d'un site web permettant l'inscription des équipes et
-        fournissant un fichier <acronym>XML</acronym> à importer dans
-        ContestOrg.</remark>
+        <remark>L'exportation "Module d'inscription" permet la mise en place
+        d'un site web permettant l'inscription des équipes et fournissant un
+        fichier <acronym>XML</acronym> à importer dans ContestOrg.</remark>
 
         <screenshot>
           <screeninfo>Fenêtre d'importation d'équipes</screeninfo>
