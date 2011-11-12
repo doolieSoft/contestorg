@@ -5,9 +5,12 @@ import infos.InfosModelTheme;
 import interfaces.ICollector;
 import interfaces.IOperation;
 
+import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,7 +24,7 @@ import common.Pair;
 import controlers.ContestOrg;
 
 @SuppressWarnings("serial")
-public abstract class JDDiffusionAbstract extends JDPattern
+public abstract class JDDiffusionAbstract extends JDPattern implements ItemListener
 {
 	// Collector d'informations sur la diffusion
 	private ICollector<Pair<InfosModelDiffusion,InfosModelTheme>> collector;
@@ -62,6 +65,9 @@ public abstract class JDDiffusionAbstract extends JDPattern
 		this.jp_contenu.add(this.jp_theme);
 		if(this.jp_theme.isError()) {
 			this.jb_valider.setEnabled(false);
+		}else {
+			this.jtf_nom.setText(this.jp_theme.getTheme().getNom());
+			this.jp_theme.addItemListener(this);
 		}
 
 		// Pack
@@ -117,7 +123,7 @@ public abstract class JDDiffusionAbstract extends JDPattern
 		InfosModelDiffusion diffusion = this.getInfosModelDiffusion();
 		
 		// Récupérer les informations du thème
-		InfosModelTheme theme = this.jp_theme.getTheme();
+		InfosModelTheme theme = this.jp_theme.getInfosModelTheme();
 
 		// Envoyer les informations au collector
 		if (diffusion != null && theme != null) {
@@ -148,6 +154,12 @@ public abstract class JDDiffusionAbstract extends JDPattern
 			// Appeller l'implémentation du parent
 			super.actionPerformed(event);
 		}
+	}
+
+	// Implémentation de ItemListener
+	@Override
+	public void itemStateChanged (ItemEvent event) {
+		this.jtf_nom.setText(this.jp_theme.getTheme().getNom());
 	}
 
 }

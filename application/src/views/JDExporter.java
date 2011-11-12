@@ -39,7 +39,7 @@ public class JDExporter extends JDPattern
 	@Override
 	protected void ok () {
 		// Vérifier si le thème est correcte
-		if(this.jp_theme.getTheme() != null) {
+		if(this.jp_theme.getInfosModelTheme() != null) {
 			// Récupérer le chemin de destination
 			String chemin;
 			if(this.jp_theme.getNbFichiers() == 1) {
@@ -71,7 +71,7 @@ public class JDExporter extends JDPattern
 				chemin = chemin.endsWith(File.separator) ? chemin : chemin+File.separator;
 				
 				// Récupérer l'opération
-				IOperation operation = ContestOrg.get().getCtrlOut().getLancerExportationOperation(chemin, this.jp_theme.getTheme());
+				IOperation operation = ContestOrg.get().getCtrlOut().getLancerExportationOperation(chemin, this.jp_theme.getInfosModelTheme());
 				
 				// Créer la fenetre associée à l'opération
 				JDOperation jd_operation = new JDOperation(this,"Exportation",operation,true,true);

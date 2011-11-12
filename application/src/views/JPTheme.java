@@ -168,7 +168,12 @@ public class JPTheme extends JPanel implements ItemListener
 	}
 	
 	// Récupérer le thème
-	public InfosModelTheme getTheme() {
+	public Theme getTheme() {
+		return this.themes.get(this.jcb_themes.getSelectedIndex());
+	}
+	
+	// Récupérer le thème
+	public InfosModelTheme getInfosModelTheme() {
 		// Récupérer le thème séléctionné
 		Theme theme = this.themes.get(this.jcb_themes.getSelectedIndex());
 		
@@ -323,6 +328,11 @@ public class JPTheme extends JPanel implements ItemListener
 	public void itemStateChanged (ItemEvent event) {
 		CardLayout layout = (CardLayout)(this.jp_themes.getLayout());
 		layout.show(this.jp_themes, (String)event.getItem());
+	}
+	
+	// Ecouter la liste des thèmes
+	public void addItemListener(ItemListener listener) {
+		this.jcb_themes.addItemListener(listener);
 	}
 		
 	// Savoir s'il y a des erreurs

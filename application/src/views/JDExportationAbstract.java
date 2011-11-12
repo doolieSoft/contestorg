@@ -105,6 +105,9 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		this.jp_contenu.add(this.jp_theme);
 		if(this.jp_theme.isError()) {
 			this.jb_valider.setEnabled(false);
+		} else {
+			this.jtf_nom.setText(this.jp_theme.getTheme().getNom());
+			this.jp_theme.addItemListener(this);
 		}
 
 		// Informations sur le chemin
@@ -307,7 +310,7 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		}
 
 		// Vérifier les données et créer les informations de l'exportation
-		theme = this.jp_theme.getTheme();
+		theme = this.jp_theme.getInfosModelTheme();
 
 		// Vérifier les données et créer les informations de l'exportation
 		chemin = this.getInfosModelChemin();
@@ -352,8 +355,12 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 	// Implémentation de ItemListener
 	@Override
 	public void itemStateChanged (ItemEvent event) {
-		CardLayout layout = (CardLayout)(this.jp_chemins.getLayout());
-		layout.show(this.jp_chemins, (String)event.getItem());
+		if(event.getSource() == this.jcb_chemins) {
+			CardLayout layout = (CardLayout)(this.jp_chemins.getLayout());
+			layout.show(this.jp_chemins, (String)event.getItem());
+		} else {
+			this.jtf_nom.setText(this.jp_theme.getTheme().getNom());
+		}
 	}
 
 }
