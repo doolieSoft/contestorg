@@ -13,9 +13,9 @@
       <surname>Perrin</surname>
     </author>
 
-    <date>20 avril 2011</date>
+    <date>12 novembre 2012</date>
 
-    <releaseinfo>2.0.0.0a</releaseinfo>
+    <releaseinfo>2.0.0.0b</releaseinfo>
 
     <subtitle>Logiciel d'organisation de tournois</subtitle>
   </bookinfo>
@@ -151,17 +151,6 @@
       <listitem>
         <para><link linkend="diffuser">Diffusions</link> : permettent
         d'afficher sur des écrans distants des informations du tournois</para>
-      </listitem>
-    </itemizedlist>
-
-    <para><application>ContestOrg</application> est également doté de modules
-    externes :</para>
-
-    <itemizedlist>
-      <listitem>
-        <para><link linkend="module-inscription-equipes">Inscription des
-        équipes</link> : permet l'inscription d'équipes au sein d'un site
-        Web</para>
       </listitem>
     </itemizedlist>
 
@@ -1105,15 +1094,13 @@ FIN PROCEDURE;</programlisting>
         <para>Concernant le format de fichier contenant la liste des équipes,
         il s'agit d'un fichier <acronym>XML</acronym> respectant la
         <acronym>DTD</acronym> fournie dans le fichier
-        <filename>dtds/import-equipes.dtd</filename> au sein du répertoire de
+        <filename>dtds/importation.dtd</filename> au sein du répertoire de
         ContestOrg. La <acronym>DTD</acronym> est également disponible sur le
         site Web de ContestOrg à l'adresse
-        <uri>http://www.elfangels.fr/contestorg/data/dtds/import-equipes.dtd</uri>.</para>
+        <uri>http://www.elfangels.fr/contestorg/data/dtds/importation.dtd</uri>.</para>
 
-        <remark>Rendez-vous au module externe <link
-        linkend="module-inscription-equipes">Inscription des équipes</link> du
-        chapitre <link linkend="modules">Modules externes</link> pour mettre
-        en place un site Web permettant l'inscription des équipes et
+        <remark>L'exportation "Inscription des équipes" permet la mise en
+        place d'un site web permettant l'inscription des équipes et
         fournissant un fichier <acronym>XML</acronym> à importer dans
         ContestOrg.</remark>
 
@@ -1538,29 +1525,6 @@ FIN PROCEDURE;</programlisting>
         <uri>http://www.elfangels.fr/contestorg/data/dtds/concours.dtd</uri>.
         Les paramètres demandés à l'utilisateur seront passés à vos feuilles
         <acronym>XSL</acronym>.</para>
-      </section>
-    </section>
-
-    <section id="modules">
-      <title>Modules externes</title>
-
-      <section id="module-inscription-equipes">
-        <title>Inscription des équipes</title>
-
-        <para>ContestOrg dispose d'un outil d'importation d'équipes. Celui
-        permet d'extraire des équipes depuis un fichier <acronym>XML</acronym>
-        dont la <acronym>DTD</acronym> est fournie dans le fichier
-        <filename>dtds/import-equipes.dtd</filename> et disponible à l'adresse
-        <uri>http://www.elfangels.fr/contestorg/data/dtds/import-equipes.dtd</uri>.
-        Vous pouvez créer votre propre fichier à l'aide de cette
-        <acronym>DTD</acronym> ou bien utiliser le module externe
-        <quote>Inscription des équipes</quote> disponible dans le répertoire
-        <filename>modules/inscription/</filename>. Il s'agit d'un fichier
-        <acronym>PHP</acronym> à mettre à disposition de vos participants via
-        un serveur Web. Celui-ci permettra à vos futurs participants de
-        s'inscrire facilement et à vous de récupérer le fichier
-        <acronym>XML</acronym> à importer au sein de
-        <application>ContestOrg</application>.</para>
       </section>
     </section>
   </chapter>
