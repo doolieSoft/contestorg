@@ -15,7 +15,7 @@
 
     <date>12 novembre 2012</date>
 
-    <releaseinfo>2.0.0.0b</releaseinfo>
+    <releaseinfo>2.0.0b</releaseinfo>
 
     <subtitle>Logiciel d'organisation de tournois</subtitle>
   </bookinfo>
@@ -122,8 +122,9 @@
 
     <itemizedlist>
       <listitem>
-        <para><link linkend="equipes">Équipes</link> : création/importation
-        des équipes, répartition au sein des catégories/poules.</para>
+        <para><link linkend="participants">Équipes/Joueurs</link> :
+        création/importation des participants, répartition au sein des
+        catégories/poules.</para>
       </listitem>
 
       <listitem>
@@ -246,11 +247,11 @@
 
         <listitem>
           <para><guibutton>Configurer</guibutton> : configurer le
-          tournois</para>
+          tournoi</para>
         </listitem>
 
         <listitem>
-          <para><guibutton>Fermer</guibutton> : fermer le tournois</para>
+          <para><guibutton>Fermer</guibutton> : fermer le tournoi</para>
         </listitem>
 
         <listitem>
@@ -273,7 +274,7 @@
       </itemizedlist>
 
       <para>Sur la zone de droite, nous retrouvons les trois grandes parties
-      de l'application (<link linkend="equipes">équipes</link>, <link
+      de l'application (<link linkend="participants">équipes/joueurs</link>, <link
       linkend="phases-qualificatives">phases qualificatives</link> et <link
       linkend="phases-eliminatoires">phases éliminatoires</link>) disponibles
       sous la forme d'onglets. Chacune de ces trois parties est divisée en
@@ -333,8 +334,8 @@
           <title>Exemple d'utilisation du choix du type de
           participants</title>
 
-          <para>Au football, il s'agira d'un tournois d'équipes, au judo, il
-          s'agira d'un tournois de joueurs.</para>
+          <para>Au football, il s'agira d'un tournoi d'équipes, au judo, il
+          s'agira d'un tournoi de joueurs.</para>
         </example>
       </section>
 
@@ -358,29 +359,29 @@
 
           <para>Cette zone permet de spécifier le nombre de points remportés
           en cas de victoire, d'égalité ou de défaite. Il n'y a aucun point de
-          remporté si l'équipe est déclaré forfait au match. Si votre tournois
-          n'attribue aucun points en fonction du résultat d'un match,
+          remporté si le participant est déclaré forfait au match. Si votre
+          tournois n'attribue aucun points en fonction du résultat d'un match,
           spécifiez <quote>0</quote> dans chacun des entrées.</para>
         </section>
 
         <section>
           <title>Objectifs</title>
 
-          <para>Cette zone permet de spécifier la liste des objectifs qu'une
-          équipe peut remporter au cours d'un match. Trois types d'objectifs
-          sont disponibles : les objectifs à points, les objectifs à
-          pourcentage et les objectifs nuls. Notez que l'ordre des objectifs
+          <para>Cette zone permet de spécifier la liste des objectifs qu'un
+          participant peut remporter au cours d'un match. Trois types
+          d'objectifs sont disponibles : les objectifs à points, les objectifs
+          à pourcentage et les objectifs nuls. Notez que l'ordre des objectifs
           importe dans l'attribution des points.</para>
 
           <section>
             <title>Objectifs à points</title>
 
-            <para>Ce type d'objectif rapporte un certain nombre de points à
-            l'équipe le remporte. Il est possible de définir une borne de
-            participation que le nombre de points remportés au cours du match
-            ne pourra par dépasser. Notez qu'il est possible de spécifier un
-            nombre de points négatif (pour les pénalités par exemple), il en
-            va de même pour la borne de participation.</para>
+            <para>Ce type d'objectif rapporte un certain nombre de points au
+            participant qui le remporte. Il est possible de définir une borne
+            de participation que le nombre de points remportés au cours du
+            match ne pourra par dépasser. Notez qu'il est possible de
+            spécifier un nombre de points négatif (pour les pénalités par
+            exemple), il en va de même pour la borne de participation.</para>
 
             <programlisting>// Calcul des points remportés via un objectif à points
 PROCEDURE OBJECTIF_POINTS (
@@ -423,7 +424,7 @@ FIN PROCEDURE;</programlisting>
             <example>
               <title>Exemple de mise en place d'un objectif à points</title>
 
-              <para>Dans le cadre d'un tournois de judo, le responsable de
+              <para>Dans le cadre d'un tournoi de judo, le responsable de
               l'organisation du tournois a définit 4 objectifs à points
               :</para>
 
@@ -454,9 +455,9 @@ FIN PROCEDURE;</programlisting>
           <section>
             <title>Objectifs à pourcentage</title>
 
-            <para>Ce type d'objectif rapporte à l'équipe qui le remporte un
-            certain pourcentage du nombre de points gagnés au cours du match.
-            Il est possible de définir une borne d'augmentation que
+            <para>Ce type d'objectif rapporte au participant qui le remporte
+            un certain pourcentage du nombre de points gagnés au cours du
+            match. Il est possible de définir une borne d'augmentation que
             l'augmentation du nombre du points remportés au cours du match ne
             pourra pas dépasser. Il est possible de définir une borne de
             participation que le nombre de points gagnés au cours du match ne
@@ -521,9 +522,9 @@ FIN PROCEDURE;</programlisting>
               <title>Exemple de mise en place d'un objectif à
               pourcentage</title>
 
-              <para>Dans le cadre d'un tournois de robotique, le responsable
-              de l'organisation du tournois à définit une pénalité à
-              pourcentage :</para>
+              <para>Dans le cadre d'un tournoi de robotique, le responsable de
+              l'organisation du tournois à définit une pénalité à pourcentage
+              :</para>
 
               <itemizedlist>
                 <listitem>
@@ -531,7 +532,7 @@ FIN PROCEDURE;</programlisting>
                 </listitem>
               </itemizedlist>
 
-              <para>Lorsqu'une équipe reçoit cette pénalité, son nombre de
+              <para>Lorsqu'un participant reçoit cette pénalité, son nombre de
               points remportés au cours du match est diminué de 15%. Si ce
               nombre de points devient négatif, celui-ci est ramené à
               zéro.</para>
@@ -541,7 +542,7 @@ FIN PROCEDURE;</programlisting>
           <section>
             <title>Objectifs nuls</title>
 
-            <para>Ce type d'objectif ne rapport rien à l'équipe qui le
+            <para>Ce type d'objectif ne rapport rien au participant qui le
             remporte.</para>
 
             <screenshot>
@@ -648,9 +649,9 @@ FIN PROCEDURE;</programlisting>
           <title>Exemple d'utilisation des lieux, horaires et
           emplacements</title>
 
-          <para>Dans le cadre d'un tournois de rugby, le responsable de
+          <para>Dans le cadre d'un tournoi de rugby, le responsable de
           l'organisation du tournois désire fournir sur le site Web les
-          informations sur le lieu où se déroule le tournois. Pour cela, il
+          informations sur le lieu où se déroule le tournoi. Pour cela, il
           ajout le lieu <quote>Complexe sportif</quote>. Celui-ci possède les
           horaires <quote>Samedi de 9h à 12h</quote>, <quote>Samedi de 14h à
           18h</quote> et <quote>Dimanche de 15h à 18h</quote> ainsi que les
@@ -668,7 +669,7 @@ FIN PROCEDURE;</programlisting>
         <title>Onglet "Prix"</title>
 
         <para>Dans cet onglet, nous retrouvons la configuration des prix que
-        peuvent recevoir les équipes.</para>
+        peuvent recevoir les participants.</para>
 
         <screenshot>
           <screeninfo>Onglet "Prix"</screeninfo>
@@ -688,8 +689,8 @@ FIN PROCEDURE;</programlisting>
 
         <para>Dans cet onglet, nous retrouvons la configuration des
         informations de programmation des matchs telles que : la durée d'un
-        match, la durée de pause minimale d'une équipe entre chaque match et
-        la durée minimale qui sépare chaque match sur un même
+        match, la durée de pause minimale d'un participant entre chaque match
+        et la durée minimale qui sépare chaque match sur un même
         emplacement.</para>
 
         <screenshot>
@@ -705,18 +706,18 @@ FIN PROCEDURE;</programlisting>
         </screenshot>
       </section>
 
-      <section id="configurer-proprietes-equipe">
+      <section id="configurer-proprietes-participant">
         <title>Onglet "Propriétés de participant"</title>
 
-        <para>Dans cet onglet, nous retrouvons la configuration des
-        participants d'équipe. L'objectif est de pouvoir palier au manque de
+        <para>Dans cet onglet, nous retrouvons la configuration des propriétés
+        de participant. L'objectif est de pouvoir palier au manque de
         propriétés proposées par défaut lors de la création d'un participant.
         Une propriété possède trois paramètres : son nom, son type (nombre
         entier, nombre décimal et texte) et s'il s'agit d'une propriété
         obligatoire.</para>
 
         <screenshot>
-          <screeninfo>Onglet "Propriétés d'équipe"</screeninfo>
+          <screeninfo>Onglet "Propriétés de participant"</screeninfo>
 
           <mediaobject>
             <imageobject>
@@ -728,13 +729,13 @@ FIN PROCEDURE;</programlisting>
         </screenshot>
 
         <example>
-          <title>Exemple d'utilisation des propriétés d'équipe</title>
+          <title>Exemple d'utilisation des propriétés de participant</title>
 
-          <para>Dans le cadre d'un tournois de judo, le responsable de
+          <para>Dans le cadre d'un tournoi de judo, le responsable de
           l'organisation du tournois désire pouvoir renseigner le poids de
-          chaque participant. Pour cela, il crée une propriété d'équipe
-          <quote>Poids</quote> de type <quote>Nombre réel</quote>. Ainsi, à la
-          création d'un participant, son poids est demandé.</para>
+          chaque participant. Pour cela, il crée une propriété de participant
+          <quote>Poids</quote> de type <quote>Nombre décimal</quote>. Ainsi, à
+          la création d'un participant, son poids est demandé.</para>
         </example>
       </section>
 
@@ -765,7 +766,7 @@ FIN PROCEDURE;</programlisting>
           <example>
             <title>Exemple d'utilisation des exportations prédéfinies</title>
 
-            <para>Dans le cadre d'un tournois quelconque, le responsable
+            <para>Dans le cadre d'un tournoi quelconque, le responsable
             d'organisation désire informer les participants, visiteurs et
             journalistes des informations relative au tournois. Pour cela, il
             crée l'exportation ayant pour thème <quote>Site Web</quote> et
@@ -850,18 +851,19 @@ FIN PROCEDURE;</programlisting>
           <example>
             <title>Exemple d'utilisation des diffusions</title>
 
-            <para>Dans le cadre d'un tournois quelconque, le responsable
+            <para>Dans le cadre d'un tournoi quelconque, le responsable
             d'organisation désire afficher sur plusieurs écrans dispersés à
-            travers tout le lieu du tournois le classement actuel des équipes.
-            Pour cela il crée une diffusion ayant pour port
-            <quote>8080</quote> et pour thème <quote>Classement des équipes
-            aux phases qualificatives</quote>. Il se rend ensuite dans la
-            <link linkend="diffuser">fenêtre des diffusions</link>, puis
-            démarre la diffusion qu'il vient de créer. Muni de son
+            travers tout le lieu du tournois le classement actuel des
+            participants. Pour cela il crée une diffusion ayant pour port
+            <quote>8080</quote> et pour thème <quote>Classement des
+            participants aux phases qualificatives</quote>. Il se rend ensuite
+            dans la <link linkend="diffuser">fenêtre des diffusions</link>,
+            puis démarre la diffusion qu'il vient de créer. Muni de son
             <acronym>IP</acronym>, il se rend sur les différents ordinateurs
-            reliés aux différents écrans, ouvrir un navigateur et rentre dans
+            reliés aux différents écrans, ouvre un navigateur et rentre dans
             la barre d'<acronym>URL</acronym> : <uri>http://IP:8080/</uri>.
-            Sur les écrans s'affiche le classement actuel des équipes.</para>
+            Sur les écrans s'affiche le classement actuel des
+            participants.</para>
           </example>
 
           <section>
@@ -903,30 +905,33 @@ FIN PROCEDURE;</programlisting>
       </section>
     </section>
 
-    <section id="equipes">
-      <title>Fenêtre des équipes</title>
+    <section id="participants">
+      <title>Fenêtre des participants</title>
 
       <para>Dans cette fenêtre, nous avons le bandeau du haut et le bandeau du
       bas de disponibles. Dans le bandeau du haut, nous retrouvons les boutons
       <guibutton>Catégories</guibutton>, <guibutton>Poules</guibutton>,
-      <guibutton>Nouvelle équipe</guibutton>, <guibutton>Importer
-      équipes</guibutton> et <guibutton>Exporter</guibutton>. Dans le bandeau
-      du bas, nous retrouvons les boutons <guibutton>Éditer équipe</guibutton>
-      et <guibutton>Supprimer équipes</guibutton> ainsi qu'une liste
-      déroulante permettant de changer le statut d'une ou plusieurs équipes.
-      Sur la zone dédiée aux données, nous retrouvons la liste des équipes de
-      la sélection courante.</para>
+      <guibutton>Nouvelle équipe</guibutton>/<guibutton>Nouveau
+      joueur</guibutton>, <guibutton>Importer
+      équipes</guibutton>/<guibutton>Importer joueurs</guibutton> et
+      <guibutton>Exporter</guibutton>. Dans le bandeau du bas, nous retrouvons
+      les boutons <guibutton>Éditer équipe</guibutton>/<guibutton>Éditer
+      joueur</guibutton> et <guibutton>Supprimer
+      équipes</guibutton>/<guibutton>Supprimer joueurs</guibutton> ainsi
+      qu'une liste déroulante permettant de changer le statut d'une ou
+      plusieurs participants. Sur la zone dédiée aux données, nous retrouvons
+      la liste des participants de la sélection courante.</para>
 
       <remark>Pour l'utilisation du bouton <guibutton>Exporter</guibutton>,
       rendez-vous dans le chapitre <link
       linkend="exportations-volee">Exportations à la volée</link>.</remark>
 
       <screenshot>
-        <screeninfo>Fenêtre des équipes</screeninfo>
+        <screeninfo>Fenêtre des participants</screeninfo>
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="277" fileref="images/ecrans/onglet-equipes.png"
+            <imagedata depth="277" fileref="images/ecrans/onglet-participants.png"
                        width="450" />
           </imageobject>
         </mediaobject>
@@ -941,12 +946,12 @@ FIN PROCEDURE;</programlisting>
         <guibutton>Ajouter</guibutton>, <guibutton>Éditer</guibutton>,
         <guibutton>Monter</guibutton>, <guibutton>Baisser</guibutton> et
         <guibutton>Supprimer</guibutton>. Les catégories définissent des
-        groupes d'équipes qui ne pourront pas jouer ensemble.</para>
+        groupes de participants qui ne pourront pas jouer ensemble.</para>
 
         <para>Notez qu'aucune opération ne peut être effectué sur la catégorie
         <quote>Défaut</quote>. Il s'agit d'une catégorie neutre dans laquelle
-        pourront être placées les équipes qui ne sont pas encore affectées à
-        une catégorie. Cette catégorie peut également servir de catégorie
+        pourront être placées les participants qui ne sont pas encore affectés
+        à une catégorie. Cette catégorie peut également servir de catégorie
         unique si votre tournois de comprend pas de catégorie.</para>
 
         <screenshot>
@@ -964,7 +969,7 @@ FIN PROCEDURE;</programlisting>
         <example>
           <title>Exemple de catégories</title>
 
-          <para>Dans le cadre d'un tournois de judo, le responsable de
+          <para>Dans le cadre d'un tournoi de judo, le responsable de
           l'organisation du tournois doit mettre en place différentes
           catégories de joueurs qui ne joueront pas ensemble. Pour cela, il
           crée différentes catégories : <quote>-50kgs</quote>,
@@ -981,8 +986,9 @@ FIN PROCEDURE;</programlisting>
         deux zones : la zone <guilabel>Catégorie</guilabel> dédiée au choix de
         la catégorie (optionnel), la zone <guilabel>Création des
         poules</guilabel> dédiée à la création des poules et la zone
-        <guilabel>Affectation des équipes</guilabel> dédiée à l'affectation
-        des équipes au sein des poules.</para>
+        <guilabel>Affectation des équipes</guilabel>/<guilabel>Affectation des
+        joueurs</guilabel> dédiée à l'affectation des participants au sein des
+        poules.</para>
 
         <screenshot>
           <screeninfo>Fenêtre de gestion des poules</screeninfo>
@@ -1003,74 +1009,78 @@ FIN PROCEDURE;</programlisting>
           sur le bouton <guibutton>Ajouter</guibutton> ou
           <guibutton>Éditer</guibutton>. Pour créer automatiquement les
           poules, indiquez le nombre de poules désiré ou bien le nombre
-          maximal d'équipes au sein d'une poule. Ces deux champs sont
+          maximal de participants au sein d'une poule. Ces deux champs sont
           fortement liés, c'est pourquoi si vous modifier l'un, l'autre est
           impacté. Cliquez ensuite sur le bouton <guibutton>Création
           automatique</guibutton>.</para>
 
           <para>Notez qu'aucune opération ne peut être effectué sur la poule
           <quote>Défaut</quote>. Il s'agit d'une poule neutre dans laquelle
-          pourront être placées les équipes qui ne sont pas encore affectées à
-          une poule. Cette poule peut également servir de poule unique si
-          votre tournois de comprend pas de poule.</para>
+          pourront être placés les participants qui ne sont pas encore
+          affectés à une poule. Cette poule peut également servir de poule
+          unique si votre tournois de comprend pas de poule.</para>
         </section>
 
         <section>
-          <title>Affectation des équipes</title>
+          <title>Affectation des participants</title>
 
           <para>Cette zone permet d'affecter manuellement ou automatiquement
-          les équipes aux poules précédemment créées.</para>
+          les participants aux poules précédemment créées.</para>
 
-          <para>Pour affecter manuellement une ou plusieurs équipes à une
+          <para>Pour affecter manuellement une ou plusieurs participants à une
           poule, sélectionner la poule de destination dans la liste des
-          poules, sélectionnez les équipes que vous désirez affecter à la
-          poule dans la liste des équipes disponibles puis cliquez sur le
-          bouton <guibutton>Ajouter</guibutton>. Pour retirer une ou plusieurs
-          équipes d'une poule, sélectionnez les équipes dans la liste des
-          équipes de la poule puis cliquez sur le bouton
+          poules, sélectionnez les participants que vous désirez affecter à la
+          poule dans la liste des participants disponibles puis cliquez sur le
+          bouton <guibutton>Ajouter</guibutton>. Pour retirer un ou plusieurs
+          participants d'une poule, sélectionnez les participants dans la
+          liste des participants de la poule puis cliquez sur le bouton
           <guibutton>Retirer</guibutton>.</para>
 
-          <para>Pour affecter automatiquement les équipes aux poules, cliquez
-          sur le bouton <guibutton>Affectation automatique</guibutton>. Notez
-          que l'affectation des équipes se fait de manière aléatoire.</para>
+          <para>Pour affecter automatiquement les participants aux poules,
+          cliquez sur le bouton <guibutton>Affectation
+          automatique</guibutton>. Notez que l'affectation des participants se
+          fait de manière aléatoire.</para>
         </section>
       </section>
 
       <section>
-        <title>Ajouter/Editer une équipe</title>
+        <title>Ajouter/Editer un participant</title>
 
-        <para>Ajouter ajouter/éditer une équipe, cliquez sur le bouton
-        <guibutton>Nouvelle équipe</guibutton> ou <guibutton>Éditer
-        équipe</guibutton>. Pour éditer une équipe, vous pouvez également
-        effectuer un double-clic sur la ligne dans la liste des équipes. Dans
-        la fenêtre de création/édition, nous retrouvons plusieurs zones : la
-        zone <guilabel>Catégorie et poule</guilabel> concernant le choix de la
+        <para>Ajouter ajouter/éditer un participant, cliquez sur le bouton
+        <guibutton>Nouvelle équipe</guibutton>/<guibutton>Nouveau
+        joueur</guibutton> ou <guibutton>Éditer
+        équipe</guibutton>/<guibutton>Éditer joueur</guibutton>. Pour éditer
+        un participant, vous pouvez également effectuer un double-clic sur la
+        ligne dans la liste des participants. Dans la fenêtre de
+        création/édition, nous retrouvons plusieurs zones : la zone
+        <guilabel>Catégorie et poule</guilabel> concernant le choix de la
         catégorie et de la poule de destination (optionnel), la zone
-        <guilabel>Informations de l'équipe</guilabel> concernant les
-        informations propres à l'équipe, la zone <guilabel>Propriétés
-        personnalisées</guilabel> concernant les propriétés personnalisées
-        (optionnel) et la zone <guilabel>Prix</guilabel> concernant les prix
-        remportés (optionnel). Pour sélectionner plusieurs prix, sélectionner
-        les prix en maintenant la touche <keycode>CTRL</keycode> enfoncée.
-        Notez qu'une équipe doit avoir le statut homologuée pour pouvoir
-        participer à un match.</para>
+        <guilabel>Informations de l'équipe</guilabel>/<guilabel>Informations
+        du joueur</guilabel> concernant les informations propres au
+        participant, la zone <guilabel>Propriétés personnalisées</guilabel>
+        concernant les propriétés personnalisées (optionnel) et la zone
+        <guilabel>Prix</guilabel> concernant les prix remportés (optionnel).
+        Pour sélectionner plusieurs prix, sélectionner les prix en maintenant
+        la touche <keycode>CTRL</keycode> enfoncée. Notez qu'un participant
+        doit avoir le statut homologuée pour pouvoir participer à un
+        match.</para>
 
         <para><remark>Rendez-vous dans l'<link
-        linkend="configurer-proprietes-equipe">onglet "Propriétés
-        d'équipe"</link> de la fenêtre <link linkend="configurer">Configurer
-        le concours</link> pour éditer la liste des propriétés personnalisées.
-        Rendez-vous dans l'<link linkend="configurer-prix">onglet
-        "Prix"</link> de la fenêtre <link linkend="configurer">Configurer le
-        concours</link> pour éditer la liste des prix à
-        remporter.</remark></para>
+        linkend="configurer-proprietes-participant">onglet "Propriétés de
+        participants"</link> de la fenêtre <link
+        linkend="configurer">Configurer le concours</link> pour éditer la
+        liste des propriétés personnalisées. Rendez-vous dans l'<link
+        linkend="configurer-prix">onglet "Prix"</link> de la fenêtre <link
+        linkend="configurer">Configurer le concours</link> pour éditer la
+        liste des prix à remporter.</remark></para>
 
         <screenshot>
-          <screeninfo>Fenêtre de création/édition d'équipe</screeninfo>
+          <screeninfo>Fenêtre de création/édition de participant</screeninfo>
 
           <mediaobject>
             <imageobject>
               <imagedata depth="460"
-                         fileref="images/ecrans/creer-editer-equipe.png"
+                         fileref="images/ecrans/creer-editer-participant.png"
                          width="350" />
             </imageobject>
           </mediaobject>
@@ -1078,30 +1088,32 @@ FIN PROCEDURE;</programlisting>
       </section>
 
       <section>
-        <title>Importer des équipes</title>
+        <title>Importer des participants</title>
 
-        <para>Pour importer une liste d'équipes, cliquez sur le bouton
-        <guibutton>Importer équipes</guibutton>. Dans la fenêtre d'importation
-        d'équipes nous retrouvons trois zones : la zone <guilabel>Catégorie et
+        <para>Pour importer une liste de participants, cliquez sur le bouton
+        <guibutton>Importer équipes</guibutton>/<guibutton>Importer
+        joueurs</guibutton>. Dans la fenêtre d'importation des participants
+        nous retrouvons trois zones : la zone <guilabel>Catégorie et
         poule</guilabel> dédiée au choix de la catégorie et de la poule de
         destination (optionnel), la zone <guilabel>Choix du fichier</guilabel>
-        dédiée au choix du fichier contenant la liste des équipes et la zone
-        <guilabel>Équipes trouvées</guilabel> dédiée à la liste des équipes
-        trouvées dans le fichier spécifié. Notez que dans la liste des équipes
-        trouvées, vous pouvez déselectionner les équipes que vous ne désirez
-        pas importer.</para>
+        dédiée au choix du fichier contenant la liste des participants et la
+        zone <guilabel>Équipes trouvées</guilabel>/<guilabel>Joueurs
+        trouvés</guilabel> dédiée à la liste des participants trouvées dans le
+        fichier spécifié. Notez que dans la liste des participants trouvés,
+        vous pouvez déselectionner ceux que vous ne désirez pas
+        importer.</para>
 
-        <para>Concernant le format de fichier contenant la liste des équipes,
-        il s'agit d'un fichier <acronym>XML</acronym> respectant la
-        <acronym>DTD</acronym> fournie dans le fichier
+        <para>Concernant le format de fichier contenant la liste des
+        participants, il s'agit d'un fichier <acronym>XML</acronym> respectant
+        la <acronym>DTD</acronym> fournie dans le fichier
         <filename>dtds/importation.dtd</filename> au sein du répertoire de
         ContestOrg. La <acronym>DTD</acronym> est également disponible sur le
         site Web de ContestOrg à l'adresse
         <uri>http://www.elfangels.fr/contestorg/data/dtds/importation.dtd</uri>.</para>
 
         <remark>L'exportation "Module d'inscription" permet la mise en place
-        d'un site web permettant l'inscription des équipes et fournissant un
-        fichier <acronym>XML</acronym> à importer dans ContestOrg.</remark>
+        d'un site web permettant l'inscription des participants et fournissant
+        un fichier <acronym>XML</acronym> à importer dans ContestOrg.</remark>
 
         <screenshot>
           <screeninfo>Fenêtre d'importation d'équipes</screeninfo>
@@ -1109,7 +1121,7 @@ FIN PROCEDURE;</programlisting>
           <mediaobject>
             <imageobject>
               <imagedata depth="361"
-                         fileref="images/ecrans/importer-equipes.png"
+                         fileref="images/ecrans/importer-participants.png"
                          width="350" />
             </imageobject>
           </mediaobject>
@@ -1166,15 +1178,16 @@ FIN PROCEDURE;</programlisting>
 
         <orderedlist>
           <listitem>
-            <para>Est-ce que les équipes ont déjà joué ensemble ?</para>
+            <para>Est-ce que les participants ont déjà joué ensemble ?</para>
           </listitem>
 
           <listitem>
-            <para>Est-ce que les équipes sont de même niveau ?</para>
+            <para>Est-ce que les participants sont de même niveau ?</para>
           </listitem>
 
           <listitem>
-            <para>Est-ce que les équipes viennent de la même ville ?</para>
+            <para>Est-ce que les participants viennent de la même ville
+            ?</para>
           </listitem>
         </orderedlist>
 
@@ -1196,7 +1209,7 @@ FIN PROCEDURE;</programlisting>
 
           <para>Cette zone permet de configurer la génération. Deux paramètres
           sont disponibles : le mode de génération utilisée et la liste des
-          équipes participantes.</para>
+          participants.</para>
 
           <section>
             <title>Mode avancé</title>
@@ -1205,22 +1218,21 @@ FIN PROCEDURE;</programlisting>
             possibles. Dès que l'algorithme remonte une meilleure
             configuration que celle précédemment trouvée, celle-ci apparaît
             dans le cadre <guilabel>Meilleure configuration
-            trouvée</guilabel>. Au delà de 8 équipes, le temps de génération
-            devient exponentiellement long. Vous pouvez arrêter la génération
-            à tout moment et considérer la meilleure configuration trouvée
-            jusque là.</para>
+            trouvée</guilabel>. Au delà de 8 participants, le temps de
+            génération devient exponentiellement long. Vous pouvez arrêter la
+            génération à tout moment et considérer la meilleure configuration
+            trouvée jusque là.</para>
           </section>
 
           <section>
             <title>Mode basique</title>
 
             <para>Le mode basique est bien moins gourmand en ressource que le
-            mode avancé. Il génère tous les couples d'équipes possibles et les
-            trie en fonction de l'affinité des équipes que les composent.
-            L'algorithme choisit ensuite des couples compatibles en retrouvés
-            en haut de classement. Celui ci peut parfois donner de bon
-            résultats mais il ne s'agit pas forcement de la meilleure
-            configuration.</para>
+            mode avancé. Il génère tous les couples de participants possibles
+            et les trie en fonction des affinités des participants.
+            L'algorithme séléctionne ensuite des couples retrouvés en haut de
+            classement. Celui-ci peut donner de bon résultats mais il ne
+            s'agit pas forcement de la meilleure configuration.</para>
           </section>
         </section>
 
@@ -1265,12 +1277,13 @@ FIN PROCEDURE;</programlisting>
         éditer un match, vous pouvez également effectuer un double-clic sur la
         ligne dans la liste des matchs. Dans la fenêtre de création/édition de
         match, nous retrouvons quatre zones : la zone
-        <guilabel>Équipes</guilabel> concernant le choix des deux équipes
-        participantes, la zone <guilabel>Résultats</guilabel> concernant les
-        résultats des deux équipes, la zone <guilabel>Objectifs
-        remportés</guilabel> concernant la liste des objectifs remportés par
-        les deux équipes (optionnel) et la zone <guilabel>Détails</guilabel>
-        concernant d'éventuels commentaires sur le match.</para>
+        <guilabel>Équipes</guilabel>/<guilabel>Joueurs</guilabel> concernant
+        le choix des deux participants, la zone <guilabel>Résultats</guilabel>
+        concernant les résultats des deux participants, la zone
+        <guilabel>Objectifs remportés</guilabel> concernant la liste des
+        objectifs remportés par les deux participants (optionnel) et la zone
+        <guilabel>Détails</guilabel> concernant d'éventuels commentaires sur
+        le match.</para>
 
         <screenshot>
           <screeninfo>Fenêtre de création/édition d'un match de phase
@@ -1300,8 +1313,8 @@ FIN PROCEDURE;</programlisting>
       disponible. Dans cet unique bandeau, nous retrouvons les boutons
       <guibutton>Générer</guibutton>, <guibutton>Réinitialiser</guibutton> et
       <guibutton>Exporter</guibutton>. Nous retrouvons également une liste
-      déroulante dans laquelle nous pouvons spécifier le nombre d'équipes
-      participantes lors de la génération. Dans la zone dédiée aux données,
+      déroulante dans laquelle nous pouvons spécifier le nombre de
+      participants lors de la génération. Dans la zone dédiée aux données,
       nous retrouvons un diagramme interactif représentatif des phases
       éliminatoires de la catégorie sélectionnée.</para>
 
@@ -1326,32 +1339,33 @@ FIN PROCEDURE;</programlisting>
 
         <para>Pour créer les phases éliminatoires, sélectionnez la catégorie
         dans laquelle vous désirez générer les phases éliminatoires,
-        sélectionnez le nombre d'équipes participantes puis cliquez sur le
-        bouton <guibutton>Générer</guibutton>. Pour réinitialiser les phases
+        sélectionnez le nombre de participants puis cliquez sur le bouton
+        <guibutton>Générer</guibutton>. Pour réinitialiser les phases
         éliminatoires d'un catégorie, sélectionnez cette dernière puis cliquez
         sur le bouton <guibutton>Réinitialiser</guibutton>. Si vous désirez
-        modifier manuellement une équipe, cliquez sur la case bleue associée à
-        l'équipe puis sélectionnez l'équipe de votre choix dans la liste qui
-        apparaît. Si le match qui suit est renseigné, il n'est plus possible
-        d'éditer cette équipe.</para>
+        modifier manuellement un participant, cliquez sur la case bleue
+        associée à l'équipe puis sélectionnez le participant de votre choix
+        dans la liste qui apparaît. Si le match qui suit est renseigné, il
+        n'est plus possible d'éditer ce participant.</para>
 
         <para>Lors de la génération des phases éliminatoires, ContestOrg
         n'effectue par un tirage au sort. Il prend en compte le rang des
-        équipes aux phases qualificatives lors de sa génération. C'est à dire
-        que l'algorithme de génération crée les matchs de manière à ce que si
-        chaque équipe gagne face à une équipe de rang inférieur, celle-ci
-        obtient le même rang obtenu lors des phases qualificatives. Imaginez
-        que l'équipe de premier et de deuxième rang se rencontrent dès le
-        début des phases éliminatoires, ceci n'aurait pas de sens.</para>
+        participants aux phases qualificatives lors de sa génération. C'est à
+        dire que l'algorithme de génération crée les matchs de manière à ce
+        que si chaque participant gagne face à un participant de rang
+        inférieur, celui-ci obtient le même rang obtenu lors des phases
+        qualificatives. Imaginez que le participant de premier et de deuxième
+        rang se rencontrent dès le début des phases éliminatoires, cela
+        n'aurait pas de sens.</para>
 
         <screenshot>
-          <screeninfo>Liste déroulante de choix d'une équipe participante aux
-          phases éliminatoires</screeninfo>
+          <screeninfo>Liste déroulante de choix d'un participant aux phases
+          éliminatoires</screeninfo>
 
           <mediaobject>
             <imageobject>
               <imagedata depth="126"
-                         fileref="images/ecrans/editer-equipe-phases-eliminatoires.png"
+                         fileref="images/ecrans/editer-participant-phases-eliminatoires.png"
                          width="250" />
             </imageobject>
           </mediaobject>
@@ -1363,19 +1377,20 @@ FIN PROCEDURE;</programlisting>
 
         <para>Pour renseigner les résultats d'un match, cliquez sur la case
         bleue associée au match. Dans la fenêtre d'édition du match, nous
-        retrouvons quatre zones : la zone <guilabel>Équipes</guilabel>
-        concernant les deux équipes participantes, la zone
-        <guilabel>Résultats</guilabel> concernant les résultats des deux
-        équipes, la zone <guilabel>Objectifs remportés</guilabel> concernant
-        la liste des objectifs remportés par les deux équipes (optionnel) et
-        la zone <guilabel>Détails</guilabel> concernant d'éventuels
-        commentaires sur le match. Cette fenêtre est identique la fenêtre
-        d'édition d'un match d'une phase qualificative à la différence près
-        que le choix des équipes participantes n'est pas possible car les deux
-        équipes affichées correspondent aux équipes vainqueurs du match
-        précédant. Si le match suivant est renseigné, il n'est plus possible
-        de modifier les résultats car de nouveaux résultats seraient pas
-        conformes avec les équipes participantes à celui-ci.</para>
+        retrouvons quatre zones : la zone
+        <guilabel>Équipes</guilabel>/<guibutton>Joueurs</guibutton> concernant
+        les deux participants, la zone <guilabel>Résultats</guilabel>
+        concernant les résultats des deux participants, la zone
+        <guilabel>Objectifs remportés</guilabel> concernant la liste des
+        objectifs remportés par les deux participants (optionnel) et la zone
+        <guilabel>Détails</guilabel> concernant d'éventuels commentaires sur
+        le match. Cette fenêtre est identique la fenêtre d'édition d'un match
+        d'une phase qualificative à la différence près que le choix des
+        participants n'est pas possible car les deux participants affichés
+        correspondent aux participants vainqueurs du match précédant. Si le
+        match suivant est renseigné, il n'est plus possible de modifier les
+        résultats car de nouveaux résultats seraient pas conformes avec les
+        participants du match suivant.</para>
 
         <screenshot>
           <screeninfo>Fenêtre d'édition d'un match des phases
@@ -1429,12 +1444,12 @@ FIN PROCEDURE;</programlisting>
 
         <para>Vous n'avez pas besoin de défininr à l'avance une exportation
         pour la lancer. Pour cela, rendez-vous dans l'onglet de votre choix
-        (Equipes, Phases qualificatives ou Phases éliminatoires) puis cliquez
-        sur le bouton <guibutton>Exporter</guibutton>. Les exportations
-        affichées concernent l'onglet courant. Choisissez le thème de votre
-        choix, renseignez les différents paramètres puis cliquez sur le bouton
-        <guibutton>Valider</guibutton>. Il vous sera alors demander
-        l'emplacement de destination.</para>
+        (participants/Joueurs, Phases qualificatives ou Phases éliminatoires) puis
+        cliquez sur le bouton <guibutton>Exporter</guibutton>. Les
+        exportations affichées concernent l'onglet courant. Choisissez le
+        thème de votre choix, renseignez les différents paramètres puis
+        cliquez sur le bouton <guibutton>Valider</guibutton>. Il vous sera
+        alors demander l'emplacement de destination.</para>
 
         <screenshot>
           <screeninfo>Fenêtre des exportations à la volée</screeninfo>
@@ -1529,7 +1544,7 @@ FIN PROCEDURE;</programlisting>
   </chapter>
 
   <chapter>
-    <title>Guide d'organisation d'un tournois sportif</title>
+    <title>Guide d'organisation d'un tournoi sportif</title>
 
     <para>Organiser un évènement sportif, c'est partager un moment conviviale
     et rencontrer de nouveaux sportifs. Mais avant d'organiser quoi que ce
@@ -1538,11 +1553,11 @@ FIN PROCEDURE;</programlisting>
 
     <itemizedlist>
       <listitem>
-        <para>A qui s'adresse le tournois ?</para>
+        <para>A qui s'adresse le tournoi ?</para>
       </listitem>
 
       <listitem>
-        <para>Quand aura lieu le tournois ? Quelle durée ?</para>
+        <para>Quand aura lieu le tournoi ? Quelle durée ?</para>
       </listitem>
 
       <listitem>
@@ -1572,16 +1587,16 @@ FIN PROCEDURE;</programlisting>
     <section>
       <title>Gérer la logistique</title>
 
-      <para>Pour un tournois sportif, vous aurez besoin de salles de sport et
+      <para>Pour un tournoi sportif, vous aurez besoin de salles de sport et
       de matériel. Il vous faudra donc obtenir des autorisations selon le lieu
       de votre événement. Vous choisir des créneaux horaires disponibles pour
       effectuer votre tournois et vous assurer de disposer de suffisemment de
       temps pour mettre en place les différents dispositifs et remettre dans
-      l'état la salle après le tournois.</para>
+      l'état la salle après le tournoi.</para>
 
       <para>Pour la demande d'autorisation, effectuez la le plus tôt possible,
       au moins un ou deux mois avant l'événement ce qui vous laissera le temps
-      de préparer le tournois et de communiquer aux participants et visiteurs
+      de préparer le tournoi et de communiquer aux participants et visiteurs
       les diverses informations sur le où et le quand de l'évenement.</para>
     </section>
 
@@ -1596,7 +1611,7 @@ FIN PROCEDURE;</programlisting>
     <section>
       <title>Communiquer sur l'événement</title>
 
-      <para>Un tournois sportif est un événement comme les autres, il faut
+      <para>un tournoi sportif est un événement comme les autres, il faut
       mener une bonne campagne de communication auprès de potentiels visiteurs
       et participants. Pensez à commencer votre campagne assez tôt et à
       l'adapter avec la date limite des inscriptions. Plusieurs voies
@@ -1657,12 +1672,12 @@ FIN PROCEDURE;</programlisting>
       <title>La remise des prix</title>
 
       <para>Un bon tournois se termine toujours par une remise des prix : une
-      coupe ou des cadeaux données par vos partneaires pour les équipes en
-      haut du podium. Il est également possible d'attribuer des prix spéciaux
-      pour les équipes portant des valeurs notables telles que le fair-play.
-      Pensez à faire quelques photos de la remise des prix. Dans le discours
-      final, n'oubliez surtout pas de remercier vos partenaires, votre équipe
-      d'organisation et les participants.</para>
+      coupe ou des cadeaux données par vos partneaires pour les participants
+      en haut du podium. Il est également possible d'attribuer des prix
+      spéciaux pour les participants portant des valeurs notables telles que
+      le fair-play. Pensez à faire quelques photos de la remise des prix. Dans
+      le discours final, n'oubliez surtout pas de remercier vos partenaires,
+      votre équipe d'organisation et les participants.</para>
     </section>
   </chapter>
 
@@ -2112,7 +2127,7 @@ FIN PROCEDURE;</programlisting>
 
           <tbody>
             <row>
-              <entry>Chapitre "Guide d'organisation d'un tournois
+              <entry>Chapitre "Guide d'organisation d'un tournoi
               sportif"</entry>
 
               <entry><ulink url="http://www.le-pongiste.com">Le
