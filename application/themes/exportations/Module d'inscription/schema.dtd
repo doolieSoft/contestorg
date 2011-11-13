@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Noeud racine -->
+<!ELEMENT inscription (listeStatuts,listeEquipes)>
+
+<!-- Liste des statuts -->
+<!ELEMENT listeStatuts (statut*)>
+
+<!-- Statut -->
+<!ELEMENT statut (listeSuivants?)>
+<!ATTLIST statut id				ID		#REQUIRED> 	<!-- Identifiant du statut -->
+<!ATTLIST statut nom			CDATA	#REQUIRED> 	<!-- Nom du statut -->
+<!ATTLIST statut participants	(nouveau|accepte|refuse)	"nouveau">	<!-- Type du statut -->
+
+<!-- Workflow de statuts -->
+<!ELEMENT listeSuivants (suivant*)>
+<!ELEMENT suivant EMPTY>
+<!ATTLIST suivant refStatut IDREF #REQUIRED>
+
+<!-- Liste des équipes -->
+<!ELEMENT listeEquipes (equipe*)>
+
+<!-- Equipe -->
+<!ELEMENT equipe (listeProprietes?)>
+
+<!-- Liste de propriétés -->
+<!ELEMENT listeProprietes (propriete*)>
+
+<!-- Priopriété -->
+<!ELEMENT propriete EMPTY>
+<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété -->
+<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété -->

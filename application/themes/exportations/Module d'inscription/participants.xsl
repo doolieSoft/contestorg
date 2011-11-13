@@ -29,15 +29,49 @@
 					<!-- Menu -->
 					<xsl:call-template name="menu" />
 					
-					<h2>Accueil</h2>
-					
-					<div class="bloc">
-						Bienvenue sur l'interface d'inscription des
+					<!-- Titre de la page -->
+					<h2>
+						Espace des 
 						<xsl:choose>
 							<xsl:when test="/concours/@participants = 'equipes'">équipes</xsl:when>
 							<xsl:otherwise>joueurs</xsl:otherwise> 
-						</xsl:choose> !
-					</div>
+						</xsl:choose>
+					</h2>
+					
+					<xsl:call-template name="php-start" />							
+						// Vérifier si l'utilisateur courant est connecté en tant que participant
+						if(isset($_SESSION['participant'])) {
+					<xsl:call-template name="php-end" />
+					
+						<!-- Avancement de l'inscription -->
+						<h3>Avancement de votre inscription</h3>
+						<div class="bloc">
+							
+						</div>
+					
+					<xsl:call-template name="php-start" />
+						} else {
+					<xsl:call-template name="php-end" />
+					
+						<!-- Inscription -->
+						<a name="inscription"></a>
+						<h3>Inscription</h3>
+						<div class="bloc">
+							<!-- Formulaire d'inscription -->
+							<xsl:call-template name="participants-inscription" />
+						</div>
+						
+						<!-- Connexion -->
+						<a name="connexion"></a>
+						<h3>Connexion</h3>
+						<div class="bloc">
+							<!-- Formulaire de connexion -->
+							<xsl:call-template name="participants-connexion" />
+						</div>
+				
+					<xsl:call-template name="php-start" />
+						}
+					<xsl:call-template name="php-end" />
 					
 					<!-- Footer -->
 					<xsl:call-template name="html-footer" />

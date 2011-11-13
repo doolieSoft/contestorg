@@ -5,7 +5,7 @@
 		<fichier id="style.css" nom="Feuille de style" source="style.css" fixe="oui" />
 		<fichier id="common.css" nom="Feuille de style partagée" source="../common.css" cible="common.css" fixe="oui" />
 		<fichier id="common.js" nom="Librairie JS partagée" source="../common.js" cible="common.js" fixe="oui" />
-		<fichier id="favicon" nom="Favicon" source="../sport.png" cible="sport.png" fixe="oui" />
+		<fichier id="favicon" nom="Favicon" source="../../favicon.png" cible="favicon.png" fixe="oui" />
 	</fichiers>
 	<parametres>
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" optionnel="oui" />

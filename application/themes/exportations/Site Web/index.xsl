@@ -19,7 +19,7 @@
 				<!-- Page -->
 				<div id="page">
 					<!-- Header -->
-					<xsl:call-template name="header" />
+					<xsl:call-template name="html-header" />
 					
 					<!-- Menu -->
 					<xsl:call-template name="menu" />
@@ -29,7 +29,7 @@
 					</xsl:apply-templates>
 					
 					<!-- Footer -->
-					<xsl:call-template name="footer" />
+					<xsl:call-template name="html-footer" />
 				</div>
 			</body>
 		</html>

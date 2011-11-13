@@ -1,3 +1,22 @@
+/* Boutons */
+.buttons-categories, .buttons-poules {
+	text-align: center;
+	margin-bottom: 10px;
+}
+.buttons-categories a, .buttons-poules a {
+	background-color: #6085B0;
+	color: #FFFFFF;
+	font-weight:bold;
+	font-size: 1.2em;
+	padding: 12px;
+	margin:5px;
+	display: inline-block;
+	text-decoration: none;
+}
+.buttons-categories a:hover, .buttons-categories a.selected, .buttons-poules a:hover, .buttons-poules a.selected {
+	background-color:#9FB5CF;
+}
+
 /* Cellules du tableau des phases éliminatoires */
 td.equipePhasesEliminatoires, td.matchPhasesEliminatoires {
 	background-color:#BDD6F3;
@@ -7,4 +26,9 @@ td.equipePhasesEliminatoires, td.matchPhasesEliminatoires, td.videPhasesEliminat
 	height:35px;
 	vertical-align:middle;
 	font-size:0.9em;
+}
+
+/* Tableaux */
+td {	
+	padding:0px;
 }

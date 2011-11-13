@@ -15,7 +15,7 @@
 		<html>
 			<head>
 				<title>Phases éliminatoires</title>
-				<link rel="shortcut icon" href="sport.png" type="image/x-icon" />
+				<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 				<link href="common.css" rel="stylesheet" type="text/css" />
 				<link href="style.css" rel="stylesheet" type="text/css" />
 				<script type="text/javascript" src="common.js"></script>

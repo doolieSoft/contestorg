@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
 	<!-- Template pour le head -->
-	<xsl:template name="header">
+	<xsl:template name="html-header">
 		<div id="header">
 			<!-- Barre colorée -->
 			<div id="bar">
@@ -29,7 +29,7 @@
 	</xsl:template>
 	
 	<!-- Template pour le footer -->
-	<xsl:template name="footer">
+	<xsl:template name="html-footer">
 		<div id="footer">Page générée à l'aide du logiciel d'organisation de concours <a href="http://www.elfangels.fr/contestorg/">ContestOrg</a></div>
 	</xsl:template>
 	
