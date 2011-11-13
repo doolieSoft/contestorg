@@ -83,25 +83,6 @@ body {
 a { color: #000000; outline: none; }
 a:hover { text-decoration: none; }
 
-/* Boutons */
-.buttons-categories, .buttons-poules {
-	text-align: center;
-	margin-bottom: 10px;
-}
-.buttons-categories a, .buttons-poules a {
-	background-color: #6085B0;
-	color: #FFFFFF;
-	font-weight:bold;
-	font-size: 1.2em;
-	padding: 12px;
-	margin:5px;
-	display: inline-block;
-	text-decoration: none;
-}
-.buttons-categories a:hover, .buttons-categories a.selected, .buttons-poules a:hover, .buttons-poules a.selected {
-	background-color:#9FB5CF;
-}
-
 /* Titres */
 h1 {
 	background-color: #6085B0;
@@ -146,6 +127,51 @@ th {
 	text-align:center;
 	padding-bottom:10px;
 }
-td {	
+
+/* Formulaires */
+form {
+	margin:0px;
 	padding:0px;
 }
+input[type="text"], input[type="password"], textarea {
+	border:2px solid #9CCA30;
+}
+input[type="submit"] {
+	background-color:#669EB7;
+	border:none;
+	padding:5px;
+	margin-top:5px;
+	margin-bottom:5px;
+	cursor:pointer;
+	color:#FFFFFF;
+	font-weight:bold;
+	font-size:1.1em;
+}
+fieldset {
+	margin-bottom:10px;
+	padding-top:10px;
+	border:2px solid #669EB7;
+}
+legend {
+	background-color:#BDD6F3;
+	padding:5px;
+	font-size:1.1em;
+}
+input[type="submit"]:hover {
+	background-color:#98AED3;
+}
+
+/* Messages */
+.success {
+	padding:5px;
+	background-color:#A7C7D7;
+	color:#FFFFFF;
+	font-weight: bold;
+}
+.error {
+	padding:5px;
+	background-color:#F95B3B;
+	color:#FFFFFF;
+	font-weight: bold;
+}
+	
