@@ -1,11 +1,11 @@
-<h2 class="h_contact">Contact</h2>
+<h2 class="title t_contact">Contact</h2>
 <?php 
 
 // Vérifier si le formulaire n'a pas été envoyé 
 if(empty($this->success)) {
 	// Vérifier si erreur
 	if(isset($this->success)) {
-		echo '<p class="p_error">Erreur lors de l\'envoie du message</p>';
+		echo '<p class="message m_error">Erreur lors de l\'envoie du message</p>';
 	}
 	
 	// Largeurs des champs 
@@ -15,12 +15,12 @@ if(empty($this->success)) {
 	$this->form->message->addExtra('style="width:400px;"');
 	
 	// Afficher le formulaire 
-	$this->form->setMsgRequired('<p class="p_error">Champ requis</p>');
-	$this->form->setMsgInvalid('<p class="p_error">Champ invalide</p>');
+	$this->form->setMsgRequired('<p class="message m_error">Champ requis</p>');
+	$this->form->setMsgInvalid('<p class="message m_error">Champ invalide</p>');
 	echo $this->form;
 } else {
 	// Message de réussite
-	echo '<p class="p_success">Votre message a bien été envoyé</p>';
+	echo '<p class="message m_success">Votre message a bien été envoyé</p>';
 }
 
 ?>

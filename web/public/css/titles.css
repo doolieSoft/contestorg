@@ -1,23 +1,22 @@
 /* Titres */
-.h_contact, .h_forum, .h_actualites, .h_documentation, .h_telecharger, .h_livre_or, .h_support, .h_credits, .h_connexion,
-.h_rejoindre_equipe, .h_signaler_erreurs, .h_proposer_ameliorations, .h_promouvoir_projet, .h_effectuer_don {
+.title {
 	background-repeat:no-repeat;
 	background-position: left center;
 	padding-left:40px;
 	height:30px;
 	padding-top:8px;
 }
-.h_contact { background-image:url('../media/farm/32x32/email.png'); }
-.h_forum { background-image:url('../media/farm/32x32/comments.png'); }
-.h_actualites { background-image:url('../media/farm/32x32/newspaper.png'); }
-.h_documentation { background-image:url('../media/farm/32x32/book_open.png'); }
-.h_telecharger { background-image:url('../media/farm/32x32/ftp.png'); }
-.h_livre_or { background-image:url('../media/farm/32x32/book_edit.png'); }
-.h_support { background-image:url('../media/farm/32x32/support.png'); }
-.h_rejoindre_equipe { background-image:url('../media/farm/32x32/group.png'); }
-.h_signaler_erreurs { background-image:url('../media/farm/32x32/error.png'); }
-.h_proposer_ameliorations { background-image:url('../media/farm/32x32/update.png'); }
-.h_promouvoir_projet { background-image:url('../media/farm/32x32/events.png'); }
-.h_effectuer_don { background-image:url('../media/farm/32x32/money.png'); }
-.h_credits { background-image:url('../media/farm/32x32/rosette.png'); }
-.h_connexion { background-image:url('../media/farm/32x32/user_go.png'); }
+.t_contact { background-image:url('../media/farm/32x32/email.png'); }
+.t_forum { background-image:url('../media/farm/32x32/comments.png'); }
+.t_actualites { background-image:url('../media/farm/32x32/newspaper.png'); }
+.t_documentation { background-image:url('../media/farm/32x32/book_open.png'); }
+.t_telecharger { background-image:url('../media/farm/32x32/ftp.png'); }
+.t_livre_or { background-image:url('../media/farm/32x32/book_edit.png'); }
+.t_support { background-image:url('../media/farm/32x32/support.png'); }
+.t_rejoindre_equipe { background-image:url('../media/farm/32x32/group.png'); }
+.t_signaler_erreurs { background-image:url('../media/farm/32x32/error.png'); }
+.t_proposer_ameliorations { background-image:url('../media/farm/32x32/update.png'); }
+.t_promouvoir_projet { background-image:url('../media/farm/32x32/events.png'); }
+.t_effectuer_don { background-image:url('../media/farm/32x32/money.png'); }
+.t_credits { background-image:url('../media/farm/32x32/rosette.png'); }
+.t_connexion { background-image:url('../media/farm/32x32/user_go.png'); }

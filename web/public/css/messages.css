@@ -1,5 +1,5 @@
 /* Messages */
-.p_information, .p_error, .p_construct, .p_success {
+.message {
 	font-weight:bold;
 	min-height:25px;
 	padding:5px;
@@ -8,21 +8,21 @@
 	background-position:5px 5px;
 	background-repeat:no-repeat;
 }
-.p_information {
+.m_information {
 	background-color:#B3D6F7;
 	background-image:url(../media/farm/32x32/information.png);
 }
-.p_error {
+.m_error {
 	color:#FFFFFF;
 	background-color:#F3754B;
 	background-image:url(../media/farm/32x32/error.png);
 }
-.p_construct {
+.m_construct {
 	color:#FFFFFF;
 	background-color:#F9C03B;
 	background-image:url(../media/farm/32x32/construction.png);
 }
-.p_success {
+.m_success {
 	color:#FFFFFF;
 	background-color:#97DB43;
 	background-image:url(../media/farm/32x32/tick.png);

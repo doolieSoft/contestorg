@@ -1,4 +1,4 @@
-<h2 class="h_telecharger">Télécharger</h2>
+<h2 class="title t_telecharger">Télécharger</h2>
 
 <p>Séléctionnez le fichier à télécharger selon votre plateforme :</p>
 
@@ -16,7 +16,7 @@
 	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-1.1-jar.zip" class="button">ContestOrg 1.1 (Mac)</a></li>
 </ul>
 
-<h2 class="h_livre_or" id="livredor">Livre d'or</h2>
+<h2 class="title t_livre_or" id="livredor">Livre d'or</h2>
 <?php
 
 // Vérifier si le formulaire n'a pas été envoyé 
@@ -26,7 +26,7 @@ if(empty($this->success)) {
 	
 	// Vérifier si erreur
 	if(isset($this->success)) {
-		echo '<p class="p_error">Erreur lors de l\'ajout du message</p>';
+		echo '<p class="message m_error">Erreur lors de l\'ajout du message</p>';
 	}
 	
 	// Action
@@ -38,12 +38,12 @@ if(empty($this->success)) {
 	$this->form->message->addExtra('style="width:400px;"');
 	
 	// Afficher le formulaire 
-	$this->form->setMsgRequired('<p class="p_error">Champ requis</p>');
-	$this->form->setMsgInvalid('<p class="p_error">Champ invalide</p>');
+	$this->form->setMsgRequired('<p class="message m_error">Champ requis</p>');
+	$this->form->setMsgInvalid('<p class="message m_error">Champ invalide</p>');
 	echo $this->form;
 } else {
 	// Message de réussite
-	echo '<p class="p_success">Merci d\'avoir signé notre livre d\'or</p>';
+	echo '<p class="message m_success">Merci d\'avoir signé notre livre d\'or</p>';
 }
 
 // Require de la fonction de BBCode

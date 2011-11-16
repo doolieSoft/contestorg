@@ -1,6 +1,6 @@
 /* Body */
 body {
-	font-family:arial;
+	font-family:arial, helvetica, sans-serif;
 	font-size:1em;
 }
 
@@ -39,6 +39,7 @@ a.button {
 }
 a.button:hover { background-color:#7BB3F7; }
 
+/* Listes de boutons */
 ul.buttons, ol.buttons { display:inline-block; }
 ul.buttons li, ol.buttons li { margin:4px; }
 ul.buttons li a, ol.buttons li a { display:block; }
@@ -89,7 +90,7 @@ ul.pagination li a.current {
 }
 #header #title {
 	cursor:pointer;
-	background-image:url(../media/logo.png);
+	background-image:url('../media/logo.png');
 	background-repeat:no-repeat;
 	width:300px;
 	height:56px;
