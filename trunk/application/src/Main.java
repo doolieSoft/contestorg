@@ -1,4 +1,4 @@
-﻿import controlers.ContestOrg;
+﻿import org.contestorg.controlers.ContestOrg;
 
 public class Main
 {
