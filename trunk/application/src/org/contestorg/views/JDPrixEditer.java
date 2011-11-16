@@ -1,0 +1,22 @@
+﻿package org.contestorg.views;
+
+
+import java.awt.Window;
+
+import org.contestorg.infos.InfosModelPrix;
+import org.contestorg.interfaces.ICollector;
+
+@SuppressWarnings("serial")
+public class JDPrixEditer extends JDPrixAbstract
+{
+
+	// Constructeur
+	public JDPrixEditer(Window w_parent, ICollector<InfosModelPrix> collector, InfosModelPrix infos) {
+		// Appeller le constructeur du parent
+		super(w_parent, "Editer un prix", collector);
+		
+		// Remplir les champs avec les données du prix
+		this.jtf_nom.setText(infos.getNom());
+	}
+
+}
