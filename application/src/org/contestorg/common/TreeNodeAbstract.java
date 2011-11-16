@@ -1,12 +1,13 @@
-﻿package common;
+﻿package org.contestorg.common;
 
-import interfaces.ITreeNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
+
+import org.contestorg.interfaces.ITreeNode;
 
 public abstract class TreeNodeAbstract<T> implements ITreeNode
 {

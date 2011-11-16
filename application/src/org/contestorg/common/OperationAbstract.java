@@ -1,7 +1,7 @@
-﻿package common;
+﻿package org.contestorg.common;
 
-import interfaces.IOperation;
-import interfaces.IOperationListener;
+import org.contestorg.interfaces.IOperation;
+import org.contestorg.interfaces.IOperationListener;
 
 public abstract class OperationAbstract implements IOperation
 {

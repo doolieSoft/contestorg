@@ -1,4 +1,4 @@
-﻿package common;
+﻿package org.contestorg.common;
 
 /**
  * Cette classe permet d'obtenir toutes les permutations d'un tableau

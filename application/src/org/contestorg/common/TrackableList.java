@@ -1,11 +1,12 @@
-﻿package common;
+﻿package org.contestorg.common;
 
-import interfaces.IListListener;
-import interfaces.IListValidator;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+
+import org.contestorg.interfaces.IListListener;
+import org.contestorg.interfaces.IListValidator;
 
 public class TrackableList<T> implements Iterable<T>
 {
