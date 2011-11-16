@@ -1,4 +1,4 @@
-﻿package common;
+﻿package org.contestorg.common;
 
 public class Pair<L,M>
 {

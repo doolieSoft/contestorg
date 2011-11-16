@@ -1,4 +1,4 @@
-﻿package common;
+﻿package org.contestorg.common;
 
 import java.io.File;
 import java.io.IOException;
