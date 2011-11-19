@@ -27,7 +27,7 @@
 				<!-- Page -->
 				<div id="page">
 					<!-- Header -->
-					<xsl:call-template name="html-header" />
+					<xsl:call-template name="html-entete" />
 					
 					<!-- Menu -->
 					<xsl:call-template name="menu" />
@@ -74,7 +74,7 @@
 					<xsl:call-template name="php-end" />
 					
 					<!-- Footer -->
-					<xsl:call-template name="html-footer" />
+					<xsl:call-template name="html-pied" />
 				</div>
 			</body>
 		</html>
