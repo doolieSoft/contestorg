@@ -19,7 +19,7 @@
 				<!-- Page -->
 				<div id="page">
 					<!-- Header -->
-					<xsl:call-template name="html-header" />
+					<xsl:call-template name="html-entete" />
 					
 					<!-- Menu -->
 					<xsl:call-template name="menu" />
@@ -45,7 +45,7 @@
 						<xsl:if test="count(/concours/@description) = 1">
 							<b>Description :</b>
 							<p>
-								<xsl:call-template name="brs">
+								<xsl:call-template name="html-nl2br">
 						          <xsl:with-param name="text" select="/concours/@description"/>
 						        </xsl:call-template>
         					</p>
@@ -74,7 +74,7 @@
 							<xsl:if test="count(/concours/organisateur/@description) = 1">
 								<b>Description :</b>
 								<p>
-									<xsl:call-template name="brs">
+									<xsl:call-template name="html-nl2br">
 							          <xsl:with-param name="text" select="/concours/organisateur/@description"/>
 							        </xsl:call-template>
 	        					</p>
@@ -90,7 +90,7 @@
 					</xsl:if>
 					
 					<!-- Footer -->
-					<xsl:call-template name="html-footer" />
+					<xsl:call-template name="html-pied" />
 				</div>
 			</body>
 		</html>
