@@ -2,7 +2,7 @@
 
 <!-- Configuration du thême -->
 <!ELEMENT configuration (fichiers,parametres?)>
-<!ATTLIST configuration categorie (equipes|phasesQualificatives|phasesEliminatoires) #IMPLIED> <!-- Indique à quelle catégorie peut correspondre le thème -->
+<!ATTLIST configuration categorie (participants|phasesQualificatives|phasesEliminatoires) #IMPLIED> <!-- Indique à quelle catégorie peut correspondre le thème -->
 <!ATTLIST configuration description	CDATA #IMPLIED> <!-- Description du thème -->
 
 <!-- Liste des fichiers -->
