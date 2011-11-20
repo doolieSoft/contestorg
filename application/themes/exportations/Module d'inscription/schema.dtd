@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Noeud racine -->
-<!ELEMENT inscription (listeStatuts,listeEquipes)>
+<!ELEMENT inscription (listeStatuts,listeParticipants)>
 
 <!-- Liste des statuts -->
 <!ELEMENT listeStatuts (statut*)>
@@ -17,11 +17,11 @@
 <!ELEMENT suivant EMPTY>
 <!ATTLIST suivant refStatut IDREF #REQUIRED>
 
-<!-- Liste des équipes -->
-<!ELEMENT listeEquipes (equipe*)>
+<!-- Liste des participants -->
+<!ELEMENT listeParticipants (participant*)>
 
-<!-- Equipe -->
-<!ELEMENT equipe (listeProprietes?)>
+<!-- Participant -->
+<!ELEMENT participant (listeProprietes?)>
 
 <!-- Liste de propriétés -->
 <!ELEMENT listeProprietes (propriete*)>

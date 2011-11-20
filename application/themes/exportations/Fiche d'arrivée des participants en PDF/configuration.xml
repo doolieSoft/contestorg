@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration categorie="participants">
 	<fichiers>
-		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Objectifs remportés.pdf" transformation="fop-pdf" principal="oui" />
+		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Fiche d'arrivée des participants.pdf" transformation="fop-pdf" principal="oui" />
 	</fichiers>
 	<parametres>
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" optionnel="oui" />

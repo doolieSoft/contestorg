@@ -38,9 +38,9 @@
 	<!-- Template d'une liste de catégories -->
 	<xsl:template match="listeCategories">
 		<!-- Choix de la catégorie -->
-		<xsl:if test="count(./categorie[count(./listePoules/poule/listeEquipes/equipe) > 0]) > 1">
+		<xsl:if test="count(./categorie[count(./listePoules/poule/listeParticipants/participant) > 0]) > 1">
 			<div class="buttons-categories">
-				<xsl:for-each select="./categorie[count(./listePoules/poule/listeEquipes/equipe) > 0]">
+				<xsl:for-each select="./categorie[count(./listePoules/poule/listeParticipants/participant) > 0]">
 					<a href="#" onclick="$(this).parent().children().removeAttr('class');$(this).attr('class','selected');show('categorie-{./@id}');return false;"><xsl:value-of select="./@nom" /></a>
 				</xsl:for-each>
 			</div>
@@ -48,7 +48,7 @@
 		
 		<!-- Liste des catégories -->
 		<div>
-			<xsl:apply-templates select="./categorie[count(./listePoules/poule/listeEquipes/equipe) > 0]">
+			<xsl:apply-templates select="./categorie[count(./listePoules/poule/listeParticipants/participant) > 0]">
 			</xsl:apply-templates>
 		</div>
 	</xsl:template>
@@ -91,7 +91,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 						</th>
-						<!-- Equipes -->
+						<!-- Participants -->
 						<xsl:for-each select="./phaseEliminatoire">
 							<xsl:sort select="@numero" data-type="number" />
 							<th width="{100 div (count(../phaseEliminatoire)+1)}%">Phase <xsl:value-of select="./@numero+1" /></th>
@@ -102,7 +102,7 @@
 					<tr>
 						<td>
 							<table width="100%">
-								<xsl:apply-templates select="./phaseEliminatoire[position() = 1]" mode="diagramme-equipes">
+								<xsl:apply-templates select="./phaseEliminatoire[position() = 1]" mode="diagramme-participants">
 									<xsl:sort select="@numero" data-type="number" />
 									<xsl:with-param name="nbCellulesA">1</xsl:with-param>
 									<xsl:with-param name="nbCellulesB">3</xsl:with-param>
@@ -130,10 +130,10 @@
 		<!-- Titre -->
 		<h3>Classement</h3>
 		
-		<!-- Liste des équipes -->
+		<!-- Liste des participants -->
 		<div class="bloc">
 			<ul>
-				<xsl:apply-templates select="./listeClassementEquipes/classementEquipe">
+				<xsl:apply-templates select="./listeClassementParticipants/classementParticipant">
 			  		<xsl:sort select="@rang" data-type="number" />
 				</xsl:apply-templates>
 			</ul>
@@ -141,8 +141,8 @@
 	</xsl:template>
 		
 	<!-- Template d'une phase éliminatoire -->
-	<xsl:template match="phaseEliminatoire" mode="diagramme-equipes">
-		<xsl:apply-templates select="./matchPhaseEliminatoire" mode="diagramme-equipes">
+	<xsl:template match="phaseEliminatoire" mode="diagramme-participants">
+		<xsl:apply-templates select="./matchPhaseEliminatoire" mode="diagramme-participants">
 		</xsl:apply-templates>
 	</xsl:template>
 	<xsl:template match="phaseEliminatoire" mode="diagramme-matchs">
@@ -194,12 +194,12 @@
 	</xsl:template>
 	
 	<!-- Template d'un match de phase éliminatoire -->
-	<xsl:template match="matchPhaseEliminatoire" mode="diagramme-equipes">
+	<xsl:template match="matchPhaseEliminatoire" mode="diagramme-participants">
 		<tr>
-			<td class="equipePhasesEliminatoires">
-				<!-- Equipe A -->
-				<xsl:call-template name="equipe">
-				  <xsl:with-param name="id" select="./participation[1]/@refEquipe" />
+			<td class="participantPhasesEliminatoires">
+				<!-- Participant A -->
+				<xsl:call-template name="participant">
+				  <xsl:with-param name="id" select="./participation[1]/@refParticipant" />
 				</xsl:call-template>
 			</td>
 		</tr>
@@ -207,10 +207,10 @@
 			<td class="videPhasesEliminatoires"></td>
 		</tr>
 		<tr>
-			<td class="equipePhasesEliminatoires">
-				<!-- Equipe B -->
-				<xsl:call-template name="equipe">
-				  <xsl:with-param name="id" select="./participation[2]/@refEquipe" />
+			<td class="participantPhasesEliminatoires">
+				<!-- Participant B -->
+				<xsl:call-template name="participant">
+				  <xsl:with-param name="id" select="./participation[2]/@refParticipant" />
 				</xsl:call-template>
 			</td>
 		</tr>
@@ -236,9 +236,9 @@
 			<tr>
 				<td class="matchPhasesEliminatoires">
 					<xsl:choose>
-						<xsl:when test="count(./participation[@resultat = 'victoire']/@refEquipe) = 1">
-							<xsl:call-template name="equipe">
-							  <xsl:with-param name="id" select="./participation[@resultat = 'victoire']/@refEquipe" />
+						<xsl:when test="count(./participation[@resultat = 'victoire']/@refParticipant) = 1">
+							<xsl:call-template name="participant">
+							  <xsl:with-param name="id" select="./participation[@resultat = 'victoire']/@refParticipant" />
 							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
@@ -262,9 +262,9 @@
 			<!-- Participation A -->
 			<xsl:choose>
 				<xsl:when test="count(./participation) > 0">
-					<!-- Equipe -->
-					<xsl:call-template name="equipe">
-					  <xsl:with-param name="id" select="./participation[1]/@refEquipe" />
+					<!-- Participant -->
+					<xsl:call-template name="participant">
+					  <xsl:with-param name="id" select="./participation[1]/@refParticipant" />
 					</xsl:call-template>
 					
 					-
@@ -289,9 +289,9 @@
 					
 					-
 					
-					<!-- Equipe -->
-					<xsl:call-template name="equipe">
-					  <xsl:with-param name="id" select="./participation[2]/@refEquipe" />
+					<!-- Participant -->
+					<xsl:call-template name="participant">
+					  <xsl:with-param name="id" select="./participation[2]/@refParticipant" />
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
@@ -304,9 +304,9 @@
 	<!-- Template d'une liste de poules -->
 	<xsl:template match="listePoules">
 		<!-- Choix de la poule -->
-		<xsl:if test="count(./poule[count(./listeEquipes/equipe) > 0]) > 1">
+		<xsl:if test="count(./poule[count(./listeParticipants/participant) > 0]) > 1">
 			<div class="buttons-poules">
-				<xsl:for-each select="./poule[count(./listeEquipes/equipe) > 0]">
+				<xsl:for-each select="./poule[count(./listeParticipants/participant) > 0]">
 					<a href="#" onclick="$(this).parent().children().removeAttr('class');$(this).attr('class','selected');show('poule-{./@id}');return false;"><xsl:value-of select="./@nom" /></a>
 				</xsl:for-each>
 			</div>
@@ -314,7 +314,7 @@
 		
 		<!-- Liste des poules -->
 		<div>
-			<xsl:apply-templates select="./poule[count(./listeEquipes/equipe) > 0]">
+			<xsl:apply-templates select="./poule[count(./listeParticipants/participant) > 0]">
 			</xsl:apply-templates>
 		</div>
 	</xsl:template>
@@ -337,8 +337,8 @@
 				</xsl:apply-templates>
 			</xsl:if>
 			
-			<!-- Equipes -->
-			<xsl:if test="count(./listeEquipes/equipe) != 0">	
+			<!-- Participants -->
+			<xsl:if test="count(./listeParticipants/participant) != 0">	
 				<!-- Titre -->
 				<h2>
 					<xsl:choose>
@@ -351,8 +351,8 @@
 					</xsl:choose>
 				</h2>
 				
-				<!-- Equipes -->
-				<xsl:apply-templates select="./listeEquipes/equipe">
+				<!-- Participants -->
+				<xsl:apply-templates select="./listeParticipants/participant">
 				  <xsl:sort select="@nom" />
 				</xsl:apply-templates>
 			</xsl:if>
@@ -364,25 +364,25 @@
 		<!-- Titre -->
 		<h3>Classement</h3>
 		
-		<!-- Liste des équipes -->
+		<!-- Liste des participants -->
 		<div class="bloc">
 			<ul>
-				<xsl:apply-templates select="./listeClassementEquipes/classementEquipe">
+				<xsl:apply-templates select="./listeClassementParticipants/classementParticipant">
 			  		<xsl:sort select="@rang" data-type="number" />
 				</xsl:apply-templates>
 			</ul>
 		</div>
 	</xsl:template>
 	
-	<!-- Template d'une équipe dans un classement -->
-	<xsl:template match="classementEquipe">
+	<!-- Template d'un participant dans un classement -->
+	<xsl:template match="classementParticipant">
 		<li>
-			<!-- Rang de l'équipe -->
+			<!-- Rang du participant -->
 			<xsl:value-of select="./@rang" /> -
 		
-			<!-- Nom de l'équipe -->
-			<xsl:call-template name="equipe">
-			  <xsl:with-param name="id" select="./@refEquipe" />
+			<!-- Nom du participant -->
+			<xsl:call-template name="participant">
+			  <xsl:with-param name="id" select="./@refParticipant" />
 			</xsl:call-template>
 		</li>
 	</xsl:template>
@@ -404,9 +404,9 @@
 	<!-- Template d'un match de phase qualificative -->
 	<xsl:template match="matchPhaseQualificative">
 		<li>		
-			<!-- Equipe A -->
-			<xsl:call-template name="equipe">
-			  <xsl:with-param name="id" select="./participation[1]/@refEquipe" />
+			<!-- Participant A -->
+			<xsl:call-template name="participant">
+			  <xsl:with-param name="id" select="./participation[1]/@refParticipant" />
 			</xsl:call-template>
 			
 			
@@ -426,20 +426,20 @@
 			
 			-
 				
-			<!-- Equipe B -->
-			<xsl:call-template name="equipe">
-			  <xsl:with-param name="id" select="./participation[2]/@refEquipe" />
+			<!-- Participant B -->
+			<xsl:call-template name="participant">
+			  <xsl:with-param name="id" select="./participation[2]/@refParticipant" />
 			</xsl:call-template>
 		</li>
 	</xsl:template>
 	
-	<!-- Template d'une équipe -->
-	<xsl:template name="equipe">
+	<!-- Template d'un participant -->
+	<xsl:template name="participant">
 		<xsl:param name="id" />
 		<xsl:choose>
 			<xsl:when test="$id != ''">
-				<a href="#equipe-{$id}" title="Se rendre sur la fiche du participant">
-					<xsl:value-of select="//equipe[@id=$id]/@nom" />
+				<a href="#participant-{$id}" title="Se rendre sur la fiche du participant">
+					<xsl:value-of select="//participant[@id=$id]/@nom" />
 				</a>
 			</xsl:when>
 			<xsl:otherwise>
@@ -454,9 +454,9 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	<xsl:template match="equipe">
+	<xsl:template match="participant">
 		<!-- Ancre -->
-		<a name="equipe-{./@id}" />
+		<a name="participant-{./@id}" />
 	
 		<!-- Nom -->
 		<h3>
@@ -470,7 +470,7 @@
 		<div class="bloc">
 			<!-- Statut -->
 			<b>Statut :</b>
-			<xsl:call-template name="html-equipe-statut">
+			<xsl:call-template name="html-participant-statut">
 			  <xsl:with-param name="id" select="./@id" />
 			</xsl:call-template>
 			<br/>
@@ -501,13 +501,13 @@
 		</div>
 	</xsl:template>
 	
-	<!-- Template des participations d'une équipe -->
+	<!-- Template des participations d'un participant -->
 	<xsl:template name="participations">
 		<xsl:param name="id" />
 		<xsl:choose>
-			<xsl:when test="count(//participation[@refEquipe = $id]) != 0">
+			<xsl:when test="count(//participation[@refParticipant = $id]) != 0">
 				<ul>
-					<xsl:apply-templates select="//matchPhaseQualificative[participation/@refEquipe = $id]">
+					<xsl:apply-templates select="//matchPhaseQualificative[participation/@refParticipant = $id]">
 					</xsl:apply-templates>
 				</ul>
 			</xsl:when>

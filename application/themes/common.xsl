@@ -2,11 +2,11 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<!-- Templates pour documents HTML -->
-	<xsl:template name="html-equipe-statut">
+	<xsl:template name="html-participant-statut">
 		<xsl:param name="id" />
-		<span class="statut-{//equipe[@id=$id]/@statut}">
+		<span class="statut-{//participant[@id=$id]/@statut}">
 			<xsl:choose>
-				<xsl:when test="//equipe[@id=$id]/@statut = 'absente'">
+				<xsl:when test="//participant[@id=$id]/@statut = 'absente'">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
 							Absente
@@ -16,7 +16,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
-				<xsl:when test="//equipe[@id=$id]/@statut = 'presente'">
+				<xsl:when test="//participant[@id=$id]/@statut = 'presente'">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
 							Présente
@@ -26,7 +26,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
-				<xsl:when test="//equipe[@id=$id]/@statut = 'homologuee'">
+				<xsl:when test="//participant[@id=$id]/@statut = 'homologuee'">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
 							Homologuée
@@ -36,10 +36,10 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
-				<xsl:when test="//equipe[@id=$id]/@statut = 'forfait'">
+				<xsl:when test="//participant[@id=$id]/@statut = 'forfait'">
 					Forfait
 				</xsl:when>
-				<xsl:when test="//equipe[@id=$id]/@statut = 'disqualifiee'">
+				<xsl:when test="//participant[@id=$id]/@statut = 'disqualifiee'">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
 							Disqualifiée

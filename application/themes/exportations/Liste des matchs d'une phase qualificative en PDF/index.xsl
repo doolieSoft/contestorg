@@ -116,14 +116,14 @@
 	
 	<!-- Template d'un match -->
 	<xsl:template match="matchPhaseQualificative">
-		<xsl:variable name="idA" select="./participation[1]/@refEquipe" />
-		<xsl:variable name="idB" select="./participation[2]/@refEquipe" />
+		<xsl:variable name="idA" select="./participation[1]/@refParticipant" />
+		<xsl:variable name="idB" select="./participation[2]/@refParticipant" />
 		<fo:table-row>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
 				<fo:block text-align="left">
 					<xsl:choose>
 						<xsl:when test="$idA != ''">
-							<xsl:value-of select="//equipe[@id=$idA]/@nom" />
+							<xsl:value-of select="//participant[@id=$idA]/@nom" />
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:choose>
@@ -142,7 +142,7 @@
 				<fo:block text-align="right">
 					<xsl:choose>
 						<xsl:when test="$idB != ''">
-							<xsl:value-of select="//equipe[@id=$idB]/@nom" />
+							<xsl:value-of select="//participant[@id=$idB]/@nom" />
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:choose>

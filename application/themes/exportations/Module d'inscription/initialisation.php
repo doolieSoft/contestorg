@@ -44,8 +44,8 @@ if(!file_exists('donnees.xml')) {
 	$statut->appendChild($document->createAttribute('nom'))->value = 'Participant refusé';
 	$statut->appendChild($document->createAttribute('type'))->value = 'refuse';
 	
-	// Ajouter la liste des équipes
-	$root->appendChild($document->createElement('listeEquipes'));
+	// Ajouter la liste des participants
+	$root->appendChild($document->createElement('listeParticipants'));
 	
 	// Crer le fichier XML
 	$document->save('donnees.xml');
