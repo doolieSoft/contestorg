@@ -22,9 +22,9 @@ public abstract class ExportationAbstract
 	public static IOperation export(ModelExportation exportation) {
 		IOperation operation = null;
 		if(exportation.getChemin() instanceof ModelCheminLocal) {
-			operation = new ExportationLocal(exportation.getTheme().toInformation(), ((ModelCheminLocal)exportation.getChemin()).getChemin()).export();
+			operation = new ExportationLocal(exportation.getTheme().toInfos(), ((ModelCheminLocal)exportation.getChemin()).getChemin()).export();
 		} else if(exportation.getChemin() instanceof ModelCheminFTP) {
-			operation = new ExportationFTP(exportation.getTheme().toInformation(), ((ModelCheminFTP)exportation.getChemin()).toInformation().getInfosFTP()).export();
+			operation = new ExportationFTP(exportation.getTheme().toInfos(), ((ModelCheminFTP)exportation.getChemin()).toInfos().getInfosFTP()).export();
 		}
 		return operation;
 	}

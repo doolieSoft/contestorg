@@ -34,7 +34,7 @@ public class JDOperation extends JDPattern implements IOperationListener
 	// Opération terminée ?
 	private boolean operationTerminee = false;
 	
-	// Fermer la fenetre si opération réussie ?
+	// Fermer la fenêtre si opération réussie ?
 	private boolean autoexit;
 	
 	// Operation associée
@@ -103,7 +103,7 @@ public class JDOperation extends JDPattern implements IOperationListener
 	@Override
 	protected void ok () {
 		if (this.operationTerminee) {
-			// Masquer la fenetre
+			// Masquer la fenêtre
 			this.setVisible(false);
 		} else {
 			// Demander à l'utilisateur d'attendre la fin de l'opération
@@ -116,7 +116,7 @@ public class JDOperation extends JDPattern implements IOperationListener
 	protected void quit () {		
 		// Vérifier si l'opération est bien terminée
 		if(this.operationTerminee) {
-			// Masquer la fenetre
+			// Masquer la fenêtre
 			this.setVisible(false);
 			
 			// Signaler aux listeners que l'opération est terminée
@@ -147,7 +147,7 @@ public class JDOperation extends JDPattern implements IOperationListener
 		// Retenir la fin de l'opération 
 		this.operationTerminee = true;
 		
-		// Quitter la fenetre si il y a eu une demande d'annulation
+		// Quitter la fenêtre si il y a eu une demande d'annulation
 		if(this.demandeAnnulation) {
 			this.quit();
 		}

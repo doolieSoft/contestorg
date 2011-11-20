@@ -38,7 +38,7 @@ public class ModelExportation extends ModelAbstract
 	}
 	protected ModelExportation(ModelConcours concours,ModelCheminAbstract chemin, ModelTheme theme, ModelExportation exportation) {
 		// Appeller le constructeur principal
-		this(concours, chemin, theme, exportation.toInformation());
+		this(concours, chemin, theme, exportation.toInfos());
 		
 		// Récupérer l'id
 		this.setId(exportation.getId());
@@ -95,7 +95,7 @@ public class ModelExportation extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelExportation toInformation () {
+	public InfosModelExportation toInfos () {
 		InfosModelExportation infos = new InfosModelExportation(this.nom, this.auto);
 		infos.setId(this.getId());
 		return infos;

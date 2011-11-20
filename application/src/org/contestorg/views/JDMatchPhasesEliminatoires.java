@@ -49,22 +49,22 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		// Retenir le collector
 		this.collector = collector;
 		
-		// Equipes
+		// Participants
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
-		JPanel jp_equipes = new JPanel(new GridLayout(1,2));
+		JPanel jp_participants = new JPanel(new GridLayout(1,2));
 		
-		JComboBox jcb_equipeA = new JComboBox();
-		jcb_equipeA.addItem(infos.getFirst().getFirst());
-		jcb_equipeA.setEnabled(false);
+		JComboBox jcb_participantA = new JComboBox();
+		jcb_participantA.addItem(infos.getFirst().getFirst());
+		jcb_participantA.setEnabled(false);
 		
-		JComboBox jcb_equipeB = new JComboBox();
-		jcb_equipeB.addItem(infos.getSecond().getFirst());
-		jcb_equipeB.setEnabled(false);
+		JComboBox jcb_participantB = new JComboBox();
+		jcb_participantB.addItem(infos.getSecond().getFirst());
+		jcb_participantB.setEnabled(false);
 		
-		jp_equipes.add(jcb_equipeA);
-		jp_equipes.add(jcb_equipeB);
+		jp_participants.add(jcb_participantA);
+		jp_participants.add(jcb_participantB);
 		
-		this.jp_contenu.add(jp_equipes);
+		this.jp_contenu.add(jp_participants);
 		
 		// Résultats
 		this.jp_contenu.add(Box.createVerticalStrut(5));

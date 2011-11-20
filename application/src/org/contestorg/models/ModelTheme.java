@@ -20,7 +20,7 @@ public class ModelTheme extends ModelAbstract
 	}
 	protected ModelTheme(ModelTheme ressources) {
 		// Appeller le constructeur principal
-		this(ressources.toInformation());
+		this(ressources.toInfos());
 		
 		// Récupérer l'id
 		this.setId(ressources.getId());
@@ -57,7 +57,7 @@ public class ModelTheme extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelTheme toInformation () {
+	public InfosModelTheme toInfos () {
 		InfosModelTheme infos = new InfosModelTheme(this.chemin, this.parametres, this.fichiers);
 		infos.setId(this.getId());
 		return infos;

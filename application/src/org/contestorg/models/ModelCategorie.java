@@ -39,7 +39,7 @@ public class ModelCategorie extends ModelAbstract
 	}
 	protected ModelCategorie(ModelConcours concours, ModelCategorie categorie) {
 		// Appeller le constructeur principal
-		this(concours, categorie.toInformation());
+		this(concours, categorie.toInfos());
 		
 		// Récupérer l'id
 		this.setId(categorie.getId());
@@ -63,29 +63,29 @@ public class ModelCategorie extends ModelAbstract
 		}
 		return null;
 	}
-	public ArrayList<ModelEquipe> getEquipes () {
-		// Initialiser la liste des équipes
-		ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
+	public ArrayList<ModelParticipant> getParticipants () {
+		// Initialiser la liste des participants
+		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 		
-		// Ajouter les équipes
+		// Ajouter les participants
 		for (ModelPoule poule : this.poules) {
-			equipes.addAll(poule.getEquipes());
+			participants.addAll(poule.getParticipants());
 		}
 		
-		// Retourner la liste des équipes
-		return equipes;
+		// Retourner la liste des participants
+		return participants;
 	}
-	public int getNbEquipes() {
-		int nbEquipes = 0;
+	public int getNbParticipants() {
+		int nbParticipants = 0;
 		for(ModelPoule poule : this.poules) {
-			nbEquipes += poule.getNbEquipes();
+			nbParticipants += poule.getNbParticipants();
 		}
-		return nbEquipes;
+		return nbParticipants;
 	}
-	public ModelEquipe getEquipeByNom (String nom) {
-		for (ModelEquipe equipe : this.getEquipes()) {
-			if (equipe.getNom().equals(nom)) {
-				return equipe;
+	public ModelParticipant getParticipantByNom (String nom) {
+		for (ModelParticipant participant : this.getParticipants()) {
+			if (participant.getNom().equals(nom)) {
+				return participant;
 			}
 		}
 		return null;
@@ -100,11 +100,11 @@ public class ModelCategorie extends ModelAbstract
 	public ModelPhasesEliminatoires getPhasesEliminatoires () {
 		return this.phasesEliminatoires;
 	}
-	public ArrayList<ModelEquipe> getEquipesParticipantes () {
-		// Créer et retourner la liste des équipes qui peuvent participer
-		ArrayList<ModelEquipe> participantes = new ArrayList<ModelEquipe>();
+	public ArrayList<ModelParticipant> getParticipantsParticipants () {
+		// Créer et retourner la liste des participants qui peuvent participer
+		ArrayList<ModelParticipant> participantes = new ArrayList<ModelParticipant>();
 		for (ModelPoule poule : this.poules) {
-			participantes.addAll(poule.getEquipesParticipantes());
+			participantes.addAll(poule.getParticipantsParticipants());
 		}
 		return participantes;
 	}
@@ -189,7 +189,7 @@ public class ModelCategorie extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelCategorie toInformation () {
+	public InfosModelCategorie toInfos () {
 		InfosModelCategorie infos = new InfosModelCategorie(this.nom);
 		infos.setId(this.getId());
 		return infos;

@@ -3,7 +3,7 @@
 public class InfosModelCompPhasesQualifsObjectif extends InfosModelCompPhasesQualifsAbstract
 {
 	
-	// Note : l'utilisation des informations n'a d'interet que pour faciliter l'information entre la fenetre de configuration du concours et le frontmodel
+	// Note : l'utilisation des informations n'a d'interet que pour faciliter l'information entre la fenêtre de configuration du concours et le frontmodel
 	
 	// Objectif associé
 	private InfosModelObjectif objectif;

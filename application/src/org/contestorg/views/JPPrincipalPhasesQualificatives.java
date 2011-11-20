@@ -116,10 +116,10 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		if (this.jtable.getColumnCount() >= 7) {
 			this.jtable.getColumnModel().getColumn(2 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Phase());
 		}
-		this.jtable.getColumnModel().getColumn(3 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Equipe());
+		this.jtable.getColumnModel().getColumn(3 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Participant());
 		this.jtable.getColumnModel().getColumn(4 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Resultat());
 		this.jtable.getColumnModel().getColumn(5 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.NbPoints());
-		this.jtable.getColumnModel().getColumn(6 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Equipe());
+		this.jtable.getColumnModel().getColumn(6 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Participant());
 		this.jtable.getColumnModel().getColumn(7 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Resultat());
 		this.jtable.getColumnModel().getColumn(8 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.NbPoints());
 		
@@ -203,10 +203,10 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		if (this.jtable.getColumnCount() >= 7) {
 			this.jtable.getColumnModel().getColumn(2 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Phase());
 		}
-		this.jtable.getColumnModel().getColumn(3 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Equipe());
+		this.jtable.getColumnModel().getColumn(3 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Participant());
 		this.jtable.getColumnModel().getColumn(4 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Resultat());
 		this.jtable.getColumnModel().getColumn(5 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.NbPoints());
-		this.jtable.getColumnModel().getColumn(6 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Equipe());
+		this.jtable.getColumnModel().getColumn(6 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Participant());
 		this.jtable.getColumnModel().getColumn(7 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Resultat());
 		this.jtable.getColumnModel().getColumn(8 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.NbPoints());
 		
@@ -238,12 +238,12 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			
 			// Vérifier si la séléction est correcte
 			if (selection != null) {
-				// Récupérer les équipes participantes
-				ArrayList<String> equipesParticipantes = ContestOrg.get().getCtrlPhasesQualificatives().getListeEquipesParticipantes(selection.getFirst(), selection.getSecond());
+				// Récupérer les participants qui peuvent participer
+				ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipants(selection.getFirst(), selection.getSecond());
 				
-				// Vérifier s'il y a des équipes participantes
-				if (equipesParticipantes.size() >= 2) {
-					// Créer et afficher la fenetre de création
+				// Vérifier s'il y a des participants qui peuvent participer
+				if (participants.size() >= 2) {
+					// Créer et afficher la fenêtre de création
 					CollectorPhaseQualifCreer collector = new CollectorPhaseQualifCreer(selection.getFirst(), selection.getSecond());
 					JDialog jd_phase = new JDPhaseQualifCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond());
 					collector.setWindow(jd_phase);
@@ -259,7 +259,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			
 			// Vérifier si la séléction est correcte
 			if (selection != null) {
-				// Créer et afficher la fenetre de création
+				// Créer et afficher la fenêtre de création
 				CollectorMatchPhasesQualifsCreer collector = new CollectorMatchPhasesQualifsCreer(selection.getFirst(), selection.getSecond(), selection.getThird());
 				JDialog jd_match = new JDMatchPhasesQualifsCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond(), selection.getThird());
 				collector.setWindow(jd_match);
@@ -276,7 +276,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 					// Récupérer les informations de la phase qualificative à éditer
 					Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					
-					// Créer et afficher la fenetre d'édition (en prenant soin de supprimer la phase qualificative)
+					// Créer et afficher la fenêtre d'édition (en prenant soin de supprimer la phase qualificative)
 					CollectorPhaseQualifEditer collector = new CollectorPhaseQualifEditer(selection.getFirst(), selection.getSecond(), selection.getThird());
 					JDialog jd_phase = new JDPhaseQualifEditer(this.w_parent, collector, selection.getFirst(), selection.getSecond(), infos);
 					ContestOrg.get().getCtrlPhasesQualificatives().removePhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
@@ -306,7 +306,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			// Récupérer la catégorie, la poule et la phase qualificative
 			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 
-			// Créer et afficher la fenetre de gestion d'exportation
+			// Créer et afficher la fenêtre de gestion d'exportation
 			new JDExporter(this.w_parent, Theme.CATEGORIE_PHASES_QUALIFICATIVES, selection.getFirst(), selection.getSecond(), null).setVisible(true);
 		} else if (event.getSource() == this.jb_editerMatch) {
 			// Récupérer la catégorie, la poule et la phase qualificative
@@ -320,7 +320,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 				// Récupérer les informations du match à éditer
 				Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatchPhaseQualif(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 				
-				// Créer et afficher la fenetre d'édition
+				// Créer et afficher la fenêtre d'édition
 				CollectorMatchPhasesQualifsEditer collector = new CollectorMatchPhasesQualifsEditer(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 				JDialog jd_match = new JDMatchPhasesQualifsEditer(this.w_parent, collector, resolution.getFirst(), resolution.getSecond(), resolution.getThird(), infos);
 				collector.setWindow(jd_match);
@@ -508,7 +508,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 					// Récupérer les informations du match à éditer
 					Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatchPhaseQualif(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 					
-					// Créer et afficher la fenetre d'édition
+					// Créer et afficher la fenêtre d'édition
 					CollectorMatchPhasesQualifsEditer collector = new CollectorMatchPhasesQualifsEditer(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 					JDialog jd_match = new JDMatchPhasesQualifsEditer(this.w_parent, collector, resolution.getFirst(), resolution.getSecond(), resolution.getThird(), infos);
 					collector.setWindow(jd_match);

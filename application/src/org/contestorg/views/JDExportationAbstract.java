@@ -343,9 +343,9 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 			InfosConnexionFTP infos = this.getInfosModelCheminFTP();
 			if (infos != null) {
 				IOperation tester = ContestOrg.get().getCtrlOut().getTesterExportationFtpOperation(infos);	// Créer le testeur
-				JDOperation jd_test = new JDOperation(this, "Test de connexion au serveur FTP",tester);		// Créer la fenetre de test
+				JDOperation jd_test = new JDOperation(this, "Test de connexion au serveur FTP",tester);		// Créer la fenêtre de test
 				tester.operationStart();																	// Demarrer le test
-				jd_test.setVisible(true);																	// Afficher la fenetre de test
+				jd_test.setVisible(true);																	// Afficher la fenêtre de test
 			}
 		} else {
 			// Appeller l'implémentation du parent

@@ -31,7 +31,7 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Récupérer les catégories et leurs poules
-		ArrayList<Pair<InfosModelCategorie, ArrayList<InfosModelPoule>>> categoriesPoules = ContestOrg.get().getCtrlEquipes().getListeCategoriesPoules();
+		ArrayList<Pair<InfosModelCategorie, ArrayList<InfosModelPoule>>> categoriesPoules = ContestOrg.get().getCtrlParticipants().getListeCategoriesPoules();
 		
 		// Récupérer le nombre de catégories et le nombre de poules
 		int nbCategories = 0; int nbPoules = 0;
@@ -92,7 +92,7 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 		String nomCategorie = (String)event.getItem();
 		
 		// Remplir la liste des poules avec les poules de la catégorie
-		for(InfosModelPoule poule : ContestOrg.get().getCtrlEquipes().getListePoules(nomCategorie)) {
+		for(InfosModelPoule poule : ContestOrg.get().getCtrlParticipants().getListePoules(nomCategorie)) {
 			this.jcb_poule.addItem(poule.getNom());
 		}
 	}

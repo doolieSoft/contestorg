@@ -10,13 +10,13 @@ import org.contestorg.infos.InfosModelParticipationObjectif;
 
 
 /**
- * Lien entre une équipe et un match
+ * Lien entre un participant et un match
  */
 public class ModelParticipation extends ModelAbstract
 {
 	
 	// Attributs objets
-	private ModelEquipe equipe;
+	private ModelParticipant participant;
 	private ModelMatchAbstract match;
 	private ArrayList<ModelObjectifRemporte> objectifsRemportes = new ArrayList<ModelObjectifRemporte>();
 	
@@ -24,17 +24,17 @@ public class ModelParticipation extends ModelAbstract
 	private int resultat;
 	
 	// Constructeur
-	public ModelParticipation(ModelEquipe equipe, ModelMatchAbstract match, InfosModelParticipation infos) {
-		// Retenir l'équipe et le match
-		this.equipe = equipe;
+	public ModelParticipation(ModelParticipant participant, ModelMatchAbstract match, InfosModelParticipation infos) {
+		// Retenir le participant et le match
+		this.participant = participant;
 		this.match = match;
 		
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
-	protected ModelParticipation(ModelEquipe equipe, ModelMatchAbstract match, ModelParticipation participation) {
+	protected ModelParticipation(ModelParticipant participant, ModelMatchAbstract match, ModelParticipation participation) {
 		// Appeller le constructeur principal
-		this(equipe, match, participation.toInformation());
+		this(participant, match, participation.toInfos());
 		
 		// Récupérer l'id
 		this.setId(participation.getId());
@@ -44,8 +44,8 @@ public class ModelParticipation extends ModelAbstract
 	public int getResultat () {
 		return resultat;
 	}
-	public ModelEquipe getEquipe () {
-		return this.equipe;
+	public ModelParticipant getParticipant () {
+		return this.participant;
 	}
 	public ModelMatchAbstract getMatch () {
 		return this.match;
@@ -119,9 +119,9 @@ public class ModelParticipation extends ModelAbstract
 		// Fire update
 		this.fireUpdate();
 	}
-	protected void setEquipe(ModelEquipe equipe) throws ContestOrgModelException {
-		// Retenir la nouvelle équipe
-		this.equipe = equipe;
+	protected void setParticipant(ModelParticipant participant) throws ContestOrgModelException {
+		// Retenir le nouveau participant
+		this.participant = participant;
 		
 		// Fire update
 		this.fireUpdate();
@@ -166,12 +166,12 @@ public class ModelParticipation extends ModelAbstract
 	}
 	
 	// Clone
-	protected ModelParticipation clone (ModelEquipe equipe, ModelMatchAbstract match) {
-		return new ModelParticipation(equipe, match, this);
+	protected ModelParticipation clone (ModelParticipant participant, ModelMatchAbstract match) {
+		return new ModelParticipation(participant, match, this);
 	}
 	
 	// ToInformation
-	public InfosModelParticipation toInformation () {
+	public InfosModelParticipation toInfos () {
 		InfosModelParticipation infos = new InfosModelParticipation(this.resultat);
 		infos.setId(this.getId());
 		return infos;
@@ -191,13 +191,13 @@ public class ModelParticipation extends ModelAbstract
 			}
 			this.fireClear(ModelObjectif.class);
 			
-			// Retirer la participation de l'équipe
-			if (this.equipe != null) {
-				if (!removers.contains(this.equipe)) {
-					this.equipe.removeParticipation(this);
+			// Retirer la participation du participant
+			if (this.participant != null) {
+				if (!removers.contains(this.participant)) {
+					this.participant.removeParticipation(this);
 				}
-				this.equipe = null;
-				this.fireClear(ModelEquipe.class);
+				this.participant = null;
+				this.fireClear(ModelParticipant.class);
 			}
 			
 			// Retirer la participation du match

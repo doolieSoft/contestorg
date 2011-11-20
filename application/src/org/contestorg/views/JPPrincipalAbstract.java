@@ -16,7 +16,7 @@ import org.contestorg.interfaces.IMoodyListener;
 abstract public class JPPrincipalAbstract extends JPanel implements IMoodyListener
 {
 	
-	// Fenetre parente
+	// fenêtre parente
 	protected Window w_parent;
 
 	// Panels
@@ -26,7 +26,7 @@ abstract public class JPPrincipalAbstract extends JPanel implements IMoodyListen
 
 	// Constructeur
 	public JPPrincipalAbstract(Window w_parent) {
-		// Retenir la fenetre parente
+		// Retenir la fenêtre parente
 		this.w_parent = w_parent;
 
 		// Layout

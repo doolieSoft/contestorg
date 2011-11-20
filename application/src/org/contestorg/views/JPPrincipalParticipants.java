@@ -35,7 +35,7 @@ import org.contestorg.common.Pair;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IClosableTableModel;
@@ -45,7 +45,7 @@ import org.contestorg.interfaces.ITreeNode;
 
 
 @SuppressWarnings("serial")
-public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelectionListener, ListSelectionListener, ActionListener, ItemListener, MouseListener
+public class JPPrincipalParticipants extends JPPrincipalAbstract implements TreeSelectionListener, ListSelectionListener, ActionListener, ItemListener, MouseListener
 {
 	
 	// Panneau du haut
@@ -63,11 +63,11 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 	// JTree des catégorie/poules
 	private JTree jtree;
 	
-	// JTable des équipes
+	// JTable des participants
 	private JTable jtable;
 	
 	// Constructeur
-	public JPPrincipalEquipes(Window w_parent) {
+	public JPPrincipalParticipants(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
 		
@@ -100,14 +100,14 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		this.jp_haut.add(this.jb_exporter);
 		
 		// Panneau de contenu
-		this.jtree = new JTree(ContestOrg.get().getCtrlEquipes().getTreeModelPoules());
-		this.jtree.setCellRenderer(new TreeCellRendererEquipes());
+		this.jtree = new JTree(ContestOrg.get().getCtrlParticipants().getTreeModelPoules());
+		this.jtree.setCellRenderer(new TreeCellRendererParticipants());
 		this.jtree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.jtree.addTreeSelectionListener(this);
 		this.jtree.setBorder(new LineBorder(new Color(254, 254, 254), 4));
 		this.jtree.setToggleClickCount(-1);
 		
-		this.jtable = new JTable(ContestOrg.get().getCtrlEquipes().getTableModelEquipes());
+		this.jtable = new JTable(ContestOrg.get().getCtrlParticipants().getTableModelParticipants());
 		this.jtable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		this.jtable.getSelectionModel().addListSelectionListener(this);
 		
@@ -117,7 +117,7 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		this.jtable.getColumnModel().getColumn(8 - 9 + this.jtable.getColumnCount()).setCellRenderer(new TableCellRenderers.Statut());
 		
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(this.jtable.getModel());
-		sorter.setStringConverter(new TableStringConverterEquipes());
+		sorter.setStringConverter(new TableStringConverterParticipants());
 		this.jtable.setRowSorter(sorter);
 		
 		this.jtable.addMouseListener(this);
@@ -128,7 +128,7 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		
 		// Panneau du bas
 		this.jcb_statut = new JComboBox();
-		for (InfosModelEquipe.Statut statut : InfosModelEquipe.Statut.values()) {
+		for (InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
 			this.jcb_statut.addItem(statut.getNomEquipe());
 		}
 		this.jb_editer = new JButton("Editer équipe", new ImageIcon("img/farm/16x16/pencil.png"));
@@ -182,10 +182,10 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 			this.jb_editer.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer l'équipe séléctionnée" : "Editer le joueur séléctionné");
 			this.jb_supprimer.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Supprimer les équipes séléctionnées" : "Supprimer les joueurs séléctionnés");
 			
-			// Statuts d'équipe
+			// Statuts de participant
 			this.jcb_statut.removeItemListener(this);
 			this.jcb_statut.removeAllItems();
-			for (InfosModelEquipe.Statut statut : InfosModelEquipe.Statut.values()) {
+			for (InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
 				this.jcb_statut.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur());
 			}
 			this.jcb_statut.addItemListener(this);
@@ -208,20 +208,20 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 				case 1: // Catégorie
 					// Modifier le mode de la jtable
 					nomCategorie = ((InfosModelCategorie)node.getObject()).getNom();
-					this.jtable.setModel(ContestOrg.get().getCtrlEquipes().getTableModelEquipes(nomCategorie));
+					this.jtable.setModel(ContestOrg.get().getCtrlParticipants().getTableModelParticipants(nomCategorie));
 					break;
 				case 2: // Poule
 					// Modifier le mode de la jtable
 					nomCategorie = ((InfosModelCategorie)node.getParent().getObject()).getNom();
 					nomPoule = ((InfosModelPoule)node.getObject()).getNom();
-					this.jtable.setModel(ContestOrg.get().getCtrlEquipes().getTableModelEquipes(nomCategorie, nomPoule));
+					this.jtable.setModel(ContestOrg.get().getCtrlParticipants().getTableModelParticipants(nomCategorie, nomPoule));
 					break;
 				default: // Concours
 					// Modifier le mode de la jtable
-					this.jtable.setModel(ContestOrg.get().getCtrlEquipes().getTableModelEquipes());
+					this.jtable.setModel(ContestOrg.get().getCtrlParticipants().getTableModelParticipants());
 			}
 		} else {
-			this.jtable.setModel(ContestOrg.get().getCtrlEquipes().getTableModelEquipes());
+			this.jtable.setModel(ContestOrg.get().getCtrlParticipants().getTableModelParticipants());
 		}
 		
 		// Redéfinir le renderer de certaines colonnes
@@ -232,7 +232,7 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		
 		// Rédéfinir le trie des colonnes
 		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(this.jtable.getModel());
-		sorter.setStringConverter(new TableStringConverterEquipes());
+		sorter.setStringConverter(new TableStringConverterParticipants());
 		this.jtable.setRowSorter(sorter);
 		
 		// Rafraichir les boutons
@@ -248,7 +248,7 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		// Changer le statut de la liste
 		if (this.jtable.getSelectedRow() != -1) {
 			this.jcb_statut.removeItemListener(this);
-			this.jcb_statut.setSelectedIndex(((InfosModelEquipe.Statut)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()), this.jtable.getModel().getColumnCount() - 1)).ordinal());
+			this.jcb_statut.setSelectedIndex(((InfosModelParticipant.Statut)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()), this.jtable.getModel().getColumnCount() - 1)).ordinal());
 			this.jcb_statut.addItemListener(this);
 		}
 	}
@@ -260,12 +260,12 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		TreePath path = this.jtree.getSelectionPath();
 		
 		if (event.getSource() == this.jb_categories) {
-			// Créer et afficher la fenetre de gestion des catégories
+			// Créer et afficher la fenêtre de gestion des catégories
 			new JDCategories(this.w_parent).setVisible(true);
 		} else if (event.getSource() == this.jb_poules) {
-			// Vérifier s'il y a suffisement d'équipes
-			if(ContestOrg.get().getCtrlEquipes().getNbEquipes() >= 4) {
-				// Créer et afficher la fenetre de gestion des poules
+			// Vérifier s'il y a suffisement de participants
+			if(ContestOrg.get().getCtrlParticipants().getNbParticipants() >= 4) {
+				// Créer et afficher la fenêtre de gestion des poules
 				new JDPoules(this.w_parent).setVisible(true);
 			} else {
 				// Erreur
@@ -275,34 +275,34 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 			// Récupérer la catégorie et la poule séléctionnées
 			Pair<String,String> selection = this.getSelection();
 			
-			// Créer et afficher la fenetre de création d'équipe
-			CollectorEquipeCreer collector = new CollectorEquipeCreer();
-			JDialog jd_equipe = new JDEquipeCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond());
-			collector.setWindow(jd_equipe);
-			jd_equipe.setVisible(true);
+			// Créer et afficher la fenêtre de création de participant
+			CollectorParticipantCreer collector = new CollectorParticipantCreer();
+			JDialog jd_participant = new JDParticipantCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond());
+			collector.setWindow(jd_participant);
+			jd_participant.setVisible(true);
 		} else if (event.getSource() == this.jb_importer) {
 			// Récupérer la catégorie et la poule séléctionnées
 			Pair<String,String> selection = this.getSelection();
 
-			// Créer et afficher la fenetre d'importation
-			new JDImporterEquipes(this.w_parent, selection.getFirst(), selection.getSecond()).setVisible(true);
+			// Créer et afficher la fenêtre d'importation
+			new JDImporterParticipants(this.w_parent, selection.getFirst(), selection.getSecond()).setVisible(true);
 		} else if (event.getSource() == this.jb_exporter) {
 			// Récupérer la catégorie et la poule séléctionnées
 			Pair<String,String> selection = this.getSelection();
 
-			// Créer et afficher la fenetre de gestion d'exportation
-			new JDExporter(this.w_parent, Theme.CATEGORIE_EQUIPES, selection.getFirst(), selection.getSecond(), null).setVisible(true);
+			// Créer et afficher la fenêtre de gestion d'exportation
+			new JDExporter(this.w_parent, Theme.CATEGORIE_PARTICIPANTS, selection.getFirst(), selection.getSecond(), null).setVisible(true);
 		} else if (event.getSource() == this.jb_editer) {
 			// Vérifier s'il y a une ligne de séléctionnée
 			if (this.jtable.getSelectedRow() != -1) {
-				// Récupérer le nom de l'équipe séléctionné
-				String nomEquipe = this.getNomEquipe();
+				// Récupérer le nom du participant séléctionné
+				String nomParticipant = this.getNomParticipant();
 				
-				// Créer et afficher la fenetre de modification d'équipe
-				CollectorEquipeEditer collector = new CollectorEquipeEditer(nomEquipe);
-				JDialog jd_equipe = new JDEquipeEditer(this.w_parent, collector, ContestOrg.get().getCtrlEquipes().getInfosEquipe(nomEquipe));
-				collector.setWindow(jd_equipe);
-				jd_equipe.setVisible(true);
+				// Créer et afficher la fenêtre de modification de participant
+				CollectorParticipantEditer collector = new CollectorParticipantEditer(nomParticipant);
+				JDialog jd_participant = new JDParticipantEditer(this.w_parent, collector, ContestOrg.get().getCtrlParticipants().getInfosParticipant(nomParticipant));
+				collector.setWindow(jd_participant);
+				jd_participant.setVisible(true);
 			} else {
 				// Message d'erreur
 				ViewHelper.derror(this.w_parent, "Veuillez sélectionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez éditer.");
@@ -311,23 +311,23 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 			// Vérifier s'il y a une ligne de séléctionnée
 			if (this.jtable.getSelectedRow() != -1) {
 				if (this.jtable.getSelectedRowCount() == 1) {
-					// Récupérer le nom de l'équipe séléctionné
-					String nomEquipe = this.getNomEquipe();
+					// Récupérer le nom du participant séléctionné
+					String nomParticipant = this.getNomParticipant();
 					
-					// Demander la suppression de l'équipe
-					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" \"" + nomEquipe + "\" ?")) {
-						ContestOrg.get().getCtrlEquipes().removeEquipe(nomEquipe);
+					// Demander la suppression du participant
+					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" \"" + nomParticipant + "\" ?")) {
+						ContestOrg.get().getCtrlParticipants().removeParticipant(nomParticipant);
 					}
 				} else {
-					// Récupérer les noms des équipes séléctionnées
-					ArrayList<String> nomEquipes = new ArrayList<String>();
+					// Récupérer les noms des participants séléctionnés
+					ArrayList<String> nomParticipants = new ArrayList<String>();
 					for (int index : this.jtable.getSelectedRows()) {
-						nomEquipes.add((String)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(index), this.jtable.getModel().getColumnCount() - 6));
+						nomParticipants.add((String)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(index), this.jtable.getModel().getColumnCount() - 6));
 					}
 					
-					// Demander la suppression des équipes
+					// Demander la suppression des participants
 					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "les équipe séléctionnées" : "les joueurs séléctionnés")+" ?")) {
-						ContestOrg.get().getCtrlEquipes().removeEquipes(nomEquipes);
+						ContestOrg.get().getCtrlParticipants().removeParticipants(nomParticipants);
 					}
 				}
 			} else {
@@ -345,20 +345,20 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 	public void itemStateChanged (ItemEvent event) {
 		if (event.getStateChange() == ItemEvent.SELECTED) {
 			if (this.jtable.getSelectedRowCount() == 1) {
-				// Récupérer le nom de l'équipe séléctionné
-				String nomEquipe = this.getNomEquipe();
+				// Récupérer le nom du participant séléctionné
+				String nomParticipant = this.getNomParticipant();
 				
-				// Demander la modification du statut de l'équipe
-				ContestOrg.get().getCtrlEquipes().updateEquipe(nomEquipe, InfosModelEquipe.Statut.values()[this.jcb_statut.getSelectedIndex()]);
+				// Demander la modification du statut du participant
+				ContestOrg.get().getCtrlParticipants().updateParticipant(nomParticipant, InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()]);
 			} else {
-				// Récupérer les noms des équipes séléctionnées
-				ArrayList<String> nomEquipes = new ArrayList<String>();
+				// Récupérer les noms des participants séléctionnés
+				ArrayList<String> nomParticipants = new ArrayList<String>();
 				for (int index : this.jtable.getSelectedRows()) {
-					nomEquipes.add(this.getEquipe(index));
+					nomParticipants.add(this.getParticipant(index));
 				}
 				
-				// Demander la modification du statut de l'équipe
-				ContestOrg.get().getCtrlEquipes().updateEquipes(nomEquipes, InfosModelEquipe.Statut.values()[this.jcb_statut.getSelectedIndex()]);
+				// Demander la modification du statut du participant
+				ContestOrg.get().getCtrlParticipants().updateParticipants(nomParticipants, InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()]);
 			}
 		}
 	}
@@ -378,7 +378,7 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		this.jb_supprimer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() != 0);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
 		this.jb_categories.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
-		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && ContestOrg.get().getCtrlEquipes().getNbEquipes() >= 4);
+		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && ContestOrg.get().getCtrlParticipants().getNbParticipants() >= 4);
 		this.jb_nouvelle.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && nbPoules != 0);
 		this.jb_importer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}
@@ -427,11 +427,11 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 		return new Pair<String, String>(nomCategorie, nomPoule);
 	}
 	
-	// Récuperer l'équipe séléctionnée
-	private String getNomEquipe() {
-		return this.getEquipe(this.jtable.getSelectedRow());
+	// Récuperer le participant séléctionné
+	private String getNomParticipant() {
+		return this.getParticipant(this.jtable.getSelectedRow());
 	}
-	private String getEquipe(int index) {
+	private String getParticipant(int index) {
 		return (String)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(index), this.jtable.getModel().getColumnCount() - 6);
 	}
 	
@@ -443,14 +443,14 @@ public class JPPrincipalEquipes extends JPPrincipalAbstract implements TreeSelec
 			if(event.getClickCount() == 2) {
 				// Vérifier s'il y a une ligne de séléctionnée
 				if (this.jtable.getSelectedRow() != -1) {
-					// Récupérer le nom de l'équipe séléctionnée
-					String nomEquipe = this.getNomEquipe();
+					// Récupérer le nom du participant séléctionné
+					String nomParticipant = this.getNomParticipant();
 					
-					// Créer et afficher la fenetre de modification d'équipe
-					CollectorEquipeEditer collector = new CollectorEquipeEditer(nomEquipe);
-					JDialog jd_equipe = new JDEquipeEditer(this.w_parent, collector, ContestOrg.get().getCtrlEquipes().getInfosEquipe(nomEquipe));
-					collector.setWindow(jd_equipe);
-					jd_equipe.setVisible(true);
+					// Créer et afficher la fenêtre de modification de participant
+					CollectorParticipantEditer collector = new CollectorParticipantEditer(nomParticipant);
+					JDialog jd_participant = new JDParticipantEditer(this.w_parent, collector, ContestOrg.get().getCtrlParticipants().getInfosParticipant(nomParticipant));
+					collector.setWindow(jd_participant);
+					jd_participant.setVisible(true);
 				}
 			}
 		}

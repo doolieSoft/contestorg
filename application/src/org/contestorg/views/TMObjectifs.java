@@ -24,7 +24,7 @@ public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 		return new JDObjectifCreer(this.w_parent, this);
 	}
 	public Window getUpdateWindow (InfosModelObjectif infos) {
-		// Créer et retourner la fenetre de création
+		// Créer et retourner la fenêtre de création
 		return new JDObjectifEditer(this.w_parent, this, infos);
 	}
 	public boolean acceptDelete (InfosModelObjectif infos) {

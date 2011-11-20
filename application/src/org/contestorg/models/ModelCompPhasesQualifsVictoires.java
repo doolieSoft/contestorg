@@ -27,7 +27,7 @@ public class ModelCompPhasesQualifsVictoires extends ModelCompPhasesQualifsAbstr
 	
 	// Implémentation de toInformation
 	@Override
-	public InfosModelCompPhasesQualifsVictoires toInformation () {
+	public InfosModelCompPhasesQualifsVictoires toInfos () {
 		InfosModelCompPhasesQualifsVictoires infos = new InfosModelCompPhasesQualifsVictoires();
 		infos.setId(this.getId());
 		return infos;

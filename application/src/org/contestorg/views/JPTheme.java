@@ -41,7 +41,7 @@ public class JPTheme extends JPanel implements ItemListener
 	// Erreur ?
 	private boolean error = false;
 	
-	// Fenetre
+	// fenêtre
 	private Window w_parent;
 		
 	// Constructeur
@@ -52,7 +52,7 @@ public class JPTheme extends JPanel implements ItemListener
 		// Configurer le panel
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		// Retenir la fenetre
+		// Retenir la fenêtre
 		this.w_parent = w_parent;
 		
 		// Retenir les thèmes

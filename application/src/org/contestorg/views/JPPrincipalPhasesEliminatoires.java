@@ -84,7 +84,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		
 		// Panneau de contenu
 		this.jtree = new JTree(ContestOrg.get().getCtrlPhasesEliminatoires().getTreeModelCategories());
-		this.jtree.setCellRenderer(new TreeCellRendererEquipes());
+		this.jtree.setCellRenderer(new TreeCellRendererParticipants());
 		this.jtree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.jtree.addTreeSelectionListener(this);
 		this.jtree.setBorder(new LineBorder(new Color(254, 254, 254), 4));
@@ -137,7 +137,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 			// Récupérer la catégorie
 			String nomCategorie = this.getSelection();
 
-			// Créer et afficher la fenetre de gestion d'exportation
+			// Créer et afficher la fenêtre de gestion d'exportation
 			new JDExporter(this.w_parent, Theme.CATEGORIE_PHASES_ELIMINATOIRES, nomCategorie, null, null).setVisible(true);
 		} else if(event.getSource() == this.jb_generer) {
 			// Récupérer le nombre de phases à générer

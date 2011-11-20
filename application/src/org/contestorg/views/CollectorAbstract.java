@@ -7,10 +7,10 @@ import org.contestorg.interfaces.ICollector;
 
 public abstract class CollectorAbstract<T> implements ICollector<T>
 {
-	// Fenetre associée
+	// fenêtre associée
 	protected Window window;
 	
-	// Définir la fenetre associée
+	// Définir la fenêtre associée
 	public void setWindow(Window window) {
 		this.window = window;
 	}
@@ -25,7 +25,7 @@ public abstract class CollectorAbstract<T> implements ICollector<T>
 	// Fermer le collector
 	public void close() {
 		if(this.window != null) {
-			// Masquer et détruire la fenetre
+			// Masquer et détruire la fenêtre
 			this.window.setVisible(false);
 			this.window = null;
 		}

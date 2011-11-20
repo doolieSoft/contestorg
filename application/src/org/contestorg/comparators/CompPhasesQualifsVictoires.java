@@ -1,9 +1,9 @@
 ﻿package org.contestorg.comparators;
 
-import org.contestorg.models.ModelEquipe;
+import org.contestorg.models.ModelParticipant;
 
 /**
- * Comparateur retournant l'équipe qui a le plus de victoires dans les phases qualificatives
+ * Comparateur retournant le participant qui a le plus de victoires dans les phases qualificatives
  */
 public class CompPhasesQualifsVictoires extends CompPhasesQualifs
 {
@@ -18,8 +18,8 @@ public class CompPhasesQualifsVictoires extends CompPhasesQualifs
 
 	// Implémentation de getValue
 	@Override
-	protected double getValue (ModelEquipe equipe) {
-		return equipe == null ? 0 : (double)equipe.getNbVictoires(this.phaseQualifMax);
+	protected double getValue (ModelParticipant participant) {
+		return participant == null ? 0 : (double)participant.getNbVictoires(this.phaseQualifMax);
 	}
 
 	// Implémentation de sens

@@ -21,7 +21,7 @@ import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.infos.InfosModelLieu;
@@ -35,7 +35,7 @@ import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
-import org.contestorg.infos.InfosModelProprieteEquipe;
+import org.contestorg.infos.InfosModelProprieteParticipant;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IGeneration;
@@ -57,9 +57,9 @@ public class FrontModel
 	private History history;
 	
 	// TreeModels
-	private TreeModelEquipes tm_categories;
-	private TreeModelEquipes tm_poules;
-	private TreeModelEquipes tm_equipes;
+	private TreeModelParticipants tm_categories;
+	private TreeModelParticipants tm_poules;
+	private TreeModelParticipants tm_participants;
 	private TreeModelPhasesQualifs tm_qualifs;
 	
 	// Récupérer l'instance du front
@@ -163,19 +163,19 @@ public class FrontModel
 	}
 	
 	// Récupérer des données calculées
-	public int getNbEquipes() {
-		return this.concours.getNbEquipes();
+	public int getNbParticipants() {
+		return this.concours.getNbParticipants();
 	}
-	public boolean isEquipeExiste (String nomEquipe) {
-		return this.concours.getEquipeByNom(nomEquipe) != null;
+	public boolean isParticipantExiste (String nomParticipant) {
+		return this.concours.getParticipantByNom(nomParticipant) != null;
 	}
 	public int getNbVillesCommunes(Configuration<String> configuration) {
 		int nbVillesCommunes = 0;
 		for(Couple<String> couple : configuration.getCouples()) {
-			if(couple.getEquipeA() != null && couple.getEquipeB() != null) {
-				ModelEquipe equipeA = this.concours.getEquipeByNom(couple.getEquipeA());
-				ModelEquipe equipeB = this.concours.getEquipeByNom(couple.getEquipeB());
-				if(equipeA.getVille() != null && !equipeA.getVille().isEmpty() && equipeB.getVille() != null && !equipeB.getVille().isEmpty() && equipeA.getVille().equals(equipeB.getVille())) {
+			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
+				ModelParticipant participantA = this.concours.getParticipantByNom(couple.getParticipantA());
+				ModelParticipant participantB = this.concours.getParticipantByNom(couple.getParticipantB());
+				if(participantA.getVille() != null && !participantA.getVille().isEmpty() && participantB.getVille() != null && !participantB.getVille().isEmpty() && participantA.getVille().equals(participantB.getVille())) {
 					nbVillesCommunes++;
 				}
 			}
@@ -185,21 +185,21 @@ public class FrontModel
 	public int getNbMatchDejaJoues(Configuration<String> configuration) {
 		int nbMatchDejaJoues = 0;
 		for(Couple<String> couple : configuration.getCouples()) {
-			if(couple.getEquipeA() != null && couple.getEquipeB() != null) {
-				ModelEquipe equipeA = this.concours.getEquipeByNom(couple.getEquipeA());
-				ModelEquipe equipeB = this.concours.getEquipeByNom(couple.getEquipeB());
-				nbMatchDejaJoues += equipeA.getNbRencontres(equipeB);
+			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
+				ModelParticipant participantA = this.concours.getParticipantByNom(couple.getParticipantA());
+				ModelParticipant participantB = this.concours.getParticipantByNom(couple.getParticipantB());
+				nbMatchDejaJoues += participantA.getNbRencontres(participantB);
 			}
 		}
 		return nbMatchDejaJoues;
 	}
-	public boolean isEquipeParticipantePhasesQualif(String nomCategorie, String nomPoule, int numeroPhase, String nomEquipe) {
+	public boolean isParticipantPhasesQualif(String nomCategorie, String nomPoule, int numeroPhase, String nomParticipant) {
 		ModelPhaseQualificative phase = this.concours.getCategorieByNom(nomCategorie).getPouleByNom(nomPoule).getPhasesQualificatives().get(numeroPhase);
 		for(ModelMatchPhasesQualifs match : phase.getMatchs()) {
-			if(match.getParticipationA().getEquipe() != null && match.getParticipationA().getEquipe().getNom().equals(nomEquipe)) {
+			if(match.getParticipationA().getParticipant() != null && match.getParticipationA().getParticipant().getNom().equals(nomParticipant)) {
 				return true;
 			}
-			if(match.getParticipationB().getEquipe() != null && match.getParticipationB().getEquipe().getNom().equals(nomEquipe)) {
+			if(match.getParticipationB().getParticipant() != null && match.getParticipationB().getParticipant().getNom().equals(nomParticipant)) {
 				return true;
 			}
 		}
@@ -233,19 +233,19 @@ public class FrontModel
 		// Retourner les informations
 		return new Quadruple<String,String,Integer,Integer>(categorie.getNom(),poule.getNom(),phase.getNumero(),match.getNumero());
 	}
-	public int getRangEquipePhasesQualificatives(String nomEquipe) {
-		return this.concours.getEquipeByNom(nomEquipe).getRangPhasesQualifs();
+	public int getRangParticipantPhasesQualificatives(String nomParticipant) {
+		return this.concours.getParticipantByNom(nomParticipant).getRangPhasesQualifs();
 	}
-	public int getRangEquipePhasesEliminatoires(String nomEquipe) {
-		return this.concours.getEquipeByNom(nomEquipe).getRangPhasesElims();
+	public int getRangParticipantPhasesEliminatoires(String nomParticipant) {
+		return this.concours.getParticipantByNom(nomParticipant).getRangPhasesElims();
 	}
 	public int getNbPhasesElimsPossibles(String nomCategorie) {
-		// Récupérer le nombre d'équipe participantes
-		int nbEquipesParticipantes = this.concours.getCategorieByNom(nomCategorie).getEquipesParticipantes().size();
+		// Récupérer le nombre de participants
+		int nbParticipants = this.concours.getCategorieByNom(nomCategorie).getParticipantsParticipants().size();
 		
 		// Compter le nombre de phases possibles
 		int nbPhases = 0;
-		for(int i=nbEquipesParticipantes;i>1;i=i/2) {
+		for(int i=nbParticipants;i>1;i=i/2) {
 			nbPhases++;
 		}
 		
@@ -260,8 +260,8 @@ public class FrontModel
 			return 0;
 		}
 	}
-	public int getNbRencontres(String nomEquipeA, String nomEquipeB) {
-		return nomEquipeA != null ? this.concours.getEquipeByNom(nomEquipeA).getNbRencontres(this.concours.getEquipeByNom(nomEquipeB)) : (nomEquipeB == null ? 0 : this.concours.getEquipeByNom(nomEquipeB).getNbRencontres(this.concours.getEquipeByNom(nomEquipeA)));
+	public int getNbRencontres(String nomParticipantA, String nomParticipantB) {
+		return nomParticipantA != null ? this.concours.getParticipantByNom(nomParticipantA).getNbRencontres(this.concours.getParticipantByNom(nomParticipantB)) : (nomParticipantB == null ? 0 : this.concours.getParticipantByNom(nomParticipantB).getNbRencontres(this.concours.getParticipantByNom(nomParticipantA)));
 	}
 	public boolean isMatchPhasesElimsResultatsEditables(String nomCategorie, int numeroMatch) {
 		// Récupérer le match
@@ -280,28 +280,28 @@ public class FrontModel
 	}
 	public Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> getInfosPublication () {
 		if (concours.getPublication() != null) {
-			return new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(concours.getPublication().toInformation(), concours.getPublication().getChemin().toInformation(), concours.getPublication().getTheme().toInformation());
+			return new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(concours.getPublication().toInfos(), concours.getPublication().getChemin().toInfos(), concours.getPublication().getTheme().toInfos());
 		}
 		return null;
 	}
-	public Quintuple<String, String, InfosModelEquipe, ArrayList<Pair<String, InfosModelProprieteEquipe>>, ArrayList<String>> getInfosEquipe (String nomEquipe) {
-		// Récupérer l'équipe
-		ModelEquipe equipe = this.concours.getEquipeByNom(nomEquipe);
+	public Quintuple<String, String, InfosModelParticipant, ArrayList<Pair<String, InfosModelProprieteParticipant>>, ArrayList<String>> getInfosParticipant (String nomParticipant) {
+		// Récupérer le participant
+		ModelParticipant participant = this.concours.getParticipantByNom(nomParticipant);
 		
 		// Récupérer la liste des propriétés
-		ArrayList<Pair<String, InfosModelProprieteEquipe>> proprietes = new ArrayList<Pair<String, InfosModelProprieteEquipe>>();
-		for (ModelProprietePossedee propriete : equipe.getProprietesEquipe()) {
-			proprietes.add(new Pair<String, InfosModelProprieteEquipe>(propriete.getPropriete().getNom(), propriete.toInformation()));
+		ArrayList<Pair<String, InfosModelProprieteParticipant>> proprietes = new ArrayList<Pair<String, InfosModelProprieteParticipant>>();
+		for (ModelProprietePossedee propriete : participant.getProprietesParticipant()) {
+			proprietes.add(new Pair<String, InfosModelProprieteParticipant>(propriete.getPropriete().getNom(), propriete.toInfos()));
 		}
 		
 		// Récupérer la liste des prix
 		ArrayList<String> prixs = new ArrayList<String>();
-		for (ModelPrix prix : equipe.getPrix()) {
+		for (ModelPrix prix : participant.getPrix()) {
 			prixs.add(prix.getNom());
 		}
 		
-		// Retourner les informations de l'équipe
-		return new Quintuple<String, String, InfosModelEquipe, ArrayList<Pair<String, InfosModelProprieteEquipe>>, ArrayList<String>>(equipe.getPoule().getCategorie().getNom(), equipe.getPoule().getNom(), equipe.toInformation(), proprietes, prixs);
+		// Retourner les informations du participant
+		return new Quintuple<String, String, InfosModelParticipant, ArrayList<Pair<String, InfosModelProprieteParticipant>>, ArrayList<String>>(participant.getPoule().getCategorie().getNom(), participant.getPoule().getNom(), participant.toInfos(), proprietes, prixs);
 	} 
 	public Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> getInfosMatchPhaseQualif(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch) {
 		// Récupérer le match
@@ -320,7 +320,7 @@ public class FrontModel
 		Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
 		
 		// Retourner les informations du match
-		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(infos.getFirst(), infos.getSecond(), match.toInformation());
+		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(infos.getFirst(), infos.getSecond(), match.toInfos());
 	}
 	public Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>,InfosModelMatchPhasesElims> getInfosMatchPhaseElims(String nomCategorie, int numeroMatch) {
 		// Récupérer le match
@@ -330,7 +330,7 @@ public class FrontModel
 		Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
 		
 		// Retourner les informations du match
-		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.toInformation());
+		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.toInfos());
 	}
 	public Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>,InfosModelMatchPhasesElims> getInfosMatchPetiteFinale(String nomCategorie) {
 		// Récupérer le match
@@ -340,24 +340,24 @@ public class FrontModel
 		Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
 		
 		// Retourner les informations du match
-		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.toInformation());
+		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.toInfos());
 	}
 	private Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> getInfosMatch(ModelMatchAbstract match) {
-		// Récupérer les informations de participation de l'équipe A
-		String nomEquipeA = match.getParticipationA() == null || match.getParticipationA().getEquipe() == null ? null : match.getParticipationA().getEquipe().getNom();
+		// Récupérer les informations de participation du participant A
+		String nomParticipantA = match.getParticipationA() == null || match.getParticipationA().getParticipant() == null ? null : match.getParticipationA().getParticipant().getNom();
 		ArrayList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesA = new ArrayList<Pair<String,InfosModelParticipationObjectif>>();
 		for(ModelObjectifRemporte objectifRemporte : match.getParticipationA().getObjectifsRemportes()) {
-			objectifsRemportesA.add(new Pair<String, InfosModelParticipationObjectif>(objectifRemporte.getObjectif().getNom(), objectifRemporte.toInformation()));
+			objectifsRemportesA.add(new Pair<String, InfosModelParticipationObjectif>(objectifRemporte.getObjectif().getNom(), objectifRemporte.toInfos()));
 		}
-		Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> infosParticipationA = new Triple<String, ArrayList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomEquipeA, objectifsRemportesA, match.getParticipationA().toInformation());
+		Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> infosParticipationA = new Triple<String, ArrayList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomParticipantA, objectifsRemportesA, match.getParticipationA().toInfos());
 		
-		// Récupérer les informations de participation de l'équipe B
-		String nomEquipeB = match.getParticipationB() == null || match.getParticipationB().getEquipe() == null ? null : match.getParticipationB().getEquipe().getNom();
+		// Récupérer les informations de participation du participant B
+		String nomParticipantB = match.getParticipationB() == null || match.getParticipationB().getParticipant() == null ? null : match.getParticipationB().getParticipant().getNom();
 		ArrayList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesB = new ArrayList<Pair<String,InfosModelParticipationObjectif>>();
 		for(ModelObjectifRemporte objectifRemporte : match.getParticipationB().getObjectifsRemportes()) {
-			objectifsRemportesB.add(new Pair<String, InfosModelParticipationObjectif>(objectifRemporte.getObjectif().getNom(), objectifRemporte.toInformation()));
+			objectifsRemportesB.add(new Pair<String, InfosModelParticipationObjectif>(objectifRemporte.getObjectif().getNom(), objectifRemporte.toInfos()));
 		}
-		Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> infosParticipationB = new Triple<String, ArrayList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomEquipeB, objectifsRemportesB, match.getParticipationB().toInformation());
+		Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> infosParticipationB = new Triple<String, ArrayList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomParticipantB, objectifsRemportesB, match.getParticipationB().toInfos());
 		
 		// Assembler les informations demandées et les retourner
 		return new Pair<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>>(infosParticipationA, infosParticipationB);
@@ -369,13 +369,13 @@ public class FrontModel
 		// Construire la configuration
 		Configuration<String> configuration = new Configuration<String>(phase.getMatchs().size());
 		for(ModelMatchPhasesQualifs match : phase.getMatchs()) {
-			ModelEquipe equipeA = match.getParticipationA().getEquipe();
-			ModelEquipe equipeB = match.getParticipationB().getEquipe();
-			configuration.addCouple(new Couple<String>(equipeA == null ? null : equipeA.getNom(), equipeB == null ? null : equipeB.getNom()));
+			ModelParticipant participantA = match.getParticipationA().getParticipant();
+			ModelParticipant participantB = match.getParticipationB().getParticipant();
+			configuration.addCouple(new Couple<String>(participantA == null ? null : participantA.getNom(), participantB == null ? null : participantB.getNom()));
 		}
 		
 		// Récupérer les informations de la phase qualificative
-		InfosModelPhaseQualificative infosPhase = phase.toInformation();
+		InfosModelPhaseQualificative infosPhase = phase.toInfos();
 		
 		// Récupérer les informations des matchs de la phase qualificative
 		InfosModelMatchPhasesQualifs infosMatchs = new InfosModelMatchPhasesQualifs(null,null);
@@ -388,28 +388,28 @@ public class FrontModel
 	public ArrayList<InfosModelObjectif> getListeObjectifs () {
 		ArrayList<InfosModelObjectif> objectifs = new ArrayList<InfosModelObjectif>();
 		for (ModelObjectif objectif : concours.getObjectifs()) {
-			objectifs.add(objectif.toInformation());
+			objectifs.add(objectif.toInfos());
 		}
 		return objectifs;
 	}
 	public ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getListeExportations () {
 		ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations = new ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>>();
 		for (ModelExportation exportation : concours.getExportations()) {
-			exportations.add(new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(exportation.toInformation(), exportation.getChemin().toInformation(), exportation.getTheme().toInformation()));
+			exportations.add(new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(exportation.toInfos(), exportation.getChemin().toInfos(), exportation.getTheme().toInfos()));
 		}
 		return exportations;
 	}
 	public ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>> getListeDiffusions () {
 		ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>> diffusions = new ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>>();
 		for (ModelDiffusion diffusion : concours.getDiffusions()) {
-			diffusions.add(new Pair<InfosModelDiffusion, InfosModelTheme>(diffusion.toInformation(), diffusion.getTheme().toInformation()));
+			diffusions.add(new Pair<InfosModelDiffusion, InfosModelTheme>(diffusion.toInfos(), diffusion.getTheme().toInfos()));
 		}
 		return diffusions;
 	}
 	public ArrayList<InfosModelPrix> getListePrix () {
 		ArrayList<InfosModelPrix> prixs = new ArrayList<InfosModelPrix>();
 		for (ModelPrix prix : concours.getPrix()) {
-			prixs.add(prix.toInformation());
+			prixs.add(prix.toInfos());
 		}
 		return prixs;
 	}
@@ -418,20 +418,20 @@ public class FrontModel
 		for (ModelLieu lieu : concours.getLieux()) {
 			ArrayList<InfosModelEmplacement> emplacements = new ArrayList<InfosModelEmplacement>();
 			for (ModelEmplacement emplacement : lieu.getEmplacements()) {
-				emplacements.add(emplacement.toInformation());
+				emplacements.add(emplacement.toInfos());
 			}
 			ArrayList<InfosModelHoraire> horaires = new ArrayList<InfosModelHoraire>();
 			for (ModelHoraire horaire : lieu.getHoraires()) {
-				horaires.add(horaire.toInformation());
+				horaires.add(horaire.toInfos());
 			}
-			lieux.add(new Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>(lieu.toInformation(), emplacements, horaires));
+			lieux.add(new Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>(lieu.toInfos(), emplacements, horaires));
 		}
 		return lieux;
 	}
 	public ArrayList<InfosModelPropriete> getListeProprietes () {
 		ArrayList<InfosModelPropriete> proprietes = new ArrayList<InfosModelPropriete>();
 		for (ModelPropriete propriete : concours.getProprietes()) {
-			proprietes.add(propriete.toInformation());
+			proprietes.add(propriete.toInfos());
 		}
 		return proprietes;
 	}
@@ -440,24 +440,24 @@ public class FrontModel
 		for (ModelCategorie categorie : this.concours.getCategories()) {
 			ArrayList<InfosModelPoule> poules = new ArrayList<InfosModelPoule>();
 			for (ModelPoule poule : categorie.getPoules()) {
-				poules.add(poule.toInformation());
+				poules.add(poule.toInfos());
 			}
-			categories.add(new Pair<InfosModelCategorie, ArrayList<InfosModelPoule>>(categorie.toInformation(), poules));
+			categories.add(new Pair<InfosModelCategorie, ArrayList<InfosModelPoule>>(categorie.toInfos(), poules));
 		}
 		return categories;
 	}
-	public ArrayList<Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelEquipe>>>>> getListeCategoriesPoulesEquipes() {
-		ArrayList<Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelEquipe>>>>> categories = new ArrayList<Pair<InfosModelCategorie,ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelEquipe>>>>>();
+	public ArrayList<Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelParticipant>>>>> getListeCategoriesPoulesParticipants() {
+		ArrayList<Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelParticipant>>>>> categories = new ArrayList<Pair<InfosModelCategorie,ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelParticipant>>>>>();
 		for(ModelCategorie categorie : this.concours.getCategories()) {
-			ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelEquipe>>> poules = new ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelEquipe>>>();
+			ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelParticipant>>> poules = new ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelParticipant>>>();
 			for(ModelPoule poule : categorie.getPoules()) {
-				ArrayList<InfosModelEquipe> equipes = new ArrayList<InfosModelEquipe>();
-				for(ModelEquipe equipe : poule.getEquipes()) {
-					equipes.add(equipe.toInformation());
+				ArrayList<InfosModelParticipant> participants = new ArrayList<InfosModelParticipant>();
+				for(ModelParticipant participant : poule.getParticipants()) {
+					participants.add(participant.toInfos());
 				}
-				poules.add(new Pair<InfosModelPoule, ArrayList<InfosModelEquipe>>(poule.toInformation(), equipes));
+				poules.add(new Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>(poule.toInfos(), participants));
 			}
-			categories.add(new Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelEquipe>>>>(categorie.toInformation(), poules));
+			categories.add(new Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelParticipant>>>>(categorie.toInfos(), poules));
 		}
 		return categories;
 	}
@@ -468,46 +468,46 @@ public class FrontModel
 			for(ModelPoule poule : categorie.getPoules()) {
 				ArrayList<InfosModelPhaseQualificative> phases = new ArrayList<InfosModelPhaseQualificative>();
 				for(ModelPhaseQualificative phase : poule.getPhasesQualificatives()) {
-					phases.add(phase.toInformation());
+					phases.add(phase.toInfos());
 				}
-				poules.add(new Pair<InfosModelPoule, ArrayList<InfosModelPhaseQualificative>>(poule.toInformation(), phases));
+				poules.add(new Pair<InfosModelPoule, ArrayList<InfosModelPhaseQualificative>>(poule.toInfos(), phases));
 			}
-			categories.add(new Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelPhaseQualificative>>>>(categorie.toInformation(), poules));
+			categories.add(new Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule,ArrayList<InfosModelPhaseQualificative>>>>(categorie.toInfos(), poules));
 		}
 		return categories;
 	}
-	public ArrayList<String> getListeEquipesParticipantes(String nomCategorie,String nomPoule) {
+	public ArrayList<String> getListeParticipants(String nomCategorie,String nomPoule) {
 		ArrayList<String> participantes = new ArrayList<String>();
-		for(ModelEquipe equipe : this.concours.getCategorieByNom(nomCategorie).getPouleByNom(nomPoule).getEquipesParticipantes()) {
-			participantes.add(equipe.getNom());
+		for(ModelParticipant participant : this.concours.getCategorieByNom(nomCategorie).getPouleByNom(nomPoule).getParticipantsParticipants()) {
+			participantes.add(participant.getNom());
 		}
 		return participantes;
 	}
-	public ArrayList<String> getListeEquipesParticipantes(String nomCategorie) {
+	public ArrayList<String> getListeParticipants(String nomCategorie) {
 		ArrayList<String> participantes = new ArrayList<String>();
-		for(ModelEquipe equipe : this.concours.getCategorieByNom(nomCategorie).getEquipesParticipantes()) {
-			participantes.add(equipe.getNom());
+		for(ModelParticipant participant : this.concours.getCategorieByNom(nomCategorie).getParticipantsParticipants()) {
+			participantes.add(participant.getNom());
 		}
 		return participantes;
 	}
 	public ArrayList<InfosModelCategorie> getListeCategories() {
 		ArrayList<InfosModelCategorie> categories = new ArrayList<InfosModelCategorie>();
 		for(ModelCategorie categorie : this.concours.getCategories()) {
-			categories.add(categorie.toInformation());
+			categories.add(categorie.toInfos());
 		}
 		return categories;
 	}
 	public ArrayList<InfosModelPoule> getListePoules(String nomCategorie) {
 		ArrayList<InfosModelPoule> poules = new ArrayList<InfosModelPoule>();
 		for(ModelPoule poule : this.concours.getCategorieByNom(nomCategorie).getPoules()) {
-			poules.add(poule.toInformation());
+			poules.add(poule.toInfos());
 		}
 		return poules;
 	}
 	public ArrayList<InfosModelCompPhasesQualifsAbstract> getListeComparateurs () {
 		ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs = new ArrayList<InfosModelCompPhasesQualifsAbstract>();
 		for (ModelCompPhasesQualifsAbstract comparateur : concours.getCompsPhasesQualifs()) {
-			comparateurs.add(comparateur.toInformation());
+			comparateurs.add(comparateur.toInfos());
 		}
 		return comparateurs;
 	}
@@ -550,21 +550,21 @@ public class FrontModel
 	// Récupérer les TreeModel
 	public TreeModel getTreeModelCategories () {
 		if (this.tm_categories == null) {
-			this.tm_categories = new TreeModelEquipes(false, false);
+			this.tm_categories = new TreeModelParticipants(false, false);
 		}
 		return this.tm_categories;
 	}
 	public TreeModel getTreeModelPoules () {
 		if (this.tm_poules == null) {
-			this.tm_poules = new TreeModelEquipes(true, false);
+			this.tm_poules = new TreeModelParticipants(true, false);
 		}
 		return this.tm_poules;
 	}
-	public TreeModel getTreeModelEquipes () {
-		if (this.tm_equipes == null) {
-			this.tm_equipes = new TreeModelEquipes(true, true);
+	public TreeModel getTreeModelParticipants () {
+		if (this.tm_participants == null) {
+			this.tm_participants = new TreeModelParticipants(true, true);
 		}
-		return this.tm_equipes;
+		return this.tm_participants;
 	}
 	public TreeModel getTreeModelPhasesQualifs () {
 		if (this.tm_qualifs == null) {
@@ -574,14 +574,14 @@ public class FrontModel
 	}
 	
 	// Récupérer des TableModel
-	public IClosableTableModel getTableModelEquipes () {
-		return new TableModelEquipes(this.concours);
+	public IClosableTableModel getTableModelParticipants () {
+		return new TableModelParticipants(this.concours);
 	}
-	public IClosableTableModel getTableModelEquipes (String nomCategorie) {
-		return new TableModelEquipes(this.concours.getCategorieByNom(nomCategorie));
+	public IClosableTableModel getTableModelParticipants (String nomCategorie) {
+		return new TableModelParticipants(this.concours.getCategorieByNom(nomCategorie));
 	}
-	public IClosableTableModel getTableModelEquipes (String nomCategorie, String nomPoule) {
-		return new TableModelEquipes(this.concours.getCategorieByNom(nomCategorie).getPouleByNom(nomPoule));
+	public IClosableTableModel getTableModelParticipants (String nomCategorie, String nomPoule) {
+		return new TableModelParticipants(this.concours.getCategorieByNom(nomCategorie).getPouleByNom(nomPoule));
 	}
 	public IClosableTableModel getTableModelMatchsPhasesQualifs () {
 		return new TableModelPhasesQualifsMatchs(this.concours);
@@ -597,10 +597,10 @@ public class FrontModel
 	}
 	
 	// Récupérer des GrapheModel
-	public IGraphModel<InfosModelCategorie,InfosModelEquipe> getGraphModelPhasesElimsGrandeFinale(String nomCategorie) {
+	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPhasesElimsGrandeFinale(String nomCategorie) {
 		return new GraphModelPhasesElimsGrandeFinale(this.concours.getCategorieByNom(nomCategorie));
 	}
-	public IGraphModel<InfosModelCategorie,InfosModelEquipe> getGraphModelPhasesElimsPetiteFinale(String nomCategorie) {
+	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPhasesElimsPetiteFinale(String nomCategorie) {
 		return new GraphModelPhasesElimsPetiteFinale(this.concours.getCategorieByNom(nomCategorie));
 	}
 	
@@ -629,77 +629,77 @@ public class FrontModel
 		this.history.close();
 	}
 	
-	// Ajouter/Modifier/Supprimer une équipe
-	public void addEquipe (Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String, InfosModelProprieteEquipe>>, TrackableList<String>> infos) throws ContestOrgModelException {
+	// Ajouter/Modifier/Supprimer un participant
+	public void addParticipant (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) throws ContestOrgModelException {
 		// Démarrer l'action de création
-		this.history.start("Ajout de l'équipe \"" + infos.getThird().getNom() + "\"");
+		this.history.start("Ajout du participant \"" + infos.getThird().getNom() + "\"");
 		
-		// Ajouter l'équipe
-		new ModelEquipe.Updater(this.concours).create(infos);
+		// Ajouter le participant
+		new ModelParticipant.Updater(this.concours).create(infos);
 		
 		// Fermer l'action de création
 		this.history.close();
 	}
-	public void updateEquipe (String nomEquipe, Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String, InfosModelProprieteEquipe>>, TrackableList<String>> infos) throws ContestOrgModelException {
-		// Récupérer l'équipe
-		ModelEquipe equipe = this.concours.getEquipeByNom(nomEquipe);
+	public void updateParticipant (String nomParticipant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) throws ContestOrgModelException {
+		// Récupérer le participant
+		ModelParticipant participant = this.concours.getParticipantByNom(nomParticipant);
 		
 		// Démarrer l'action de modification
-		this.history.start("Modification de l'équipe \"" + equipe.getNom() + "\"");
+		this.history.start("Modification du participant \"" + participant.getNom() + "\"");
 		
-		// Modifier l'équipe
-		new ModelEquipe.Updater(this.concours).update(equipe, infos);
+		// Modifier le participant
+		new ModelParticipant.Updater(this.concours).update(participant, infos);
 		
 		// Fermer l'action de modification
 		this.history.close();
 	}
-	public void updateEquipe (String nomEquipe, InfosModelEquipe.Statut statut) {
-		// Récupérer l'équipe
-		ModelEquipe equipe = this.concours.getEquipeByNom(nomEquipe);
+	public void updateParticipant (String nomParticipant, InfosModelParticipant.Statut statut) {
+		// Récupérer le participant
+		ModelParticipant participant = this.concours.getParticipantByNom(nomParticipant);
 		
 		// Démarrer l'action de modification
-		this.history.start("Changement du statut de l'équipe \"" + equipe.getNom() + "\"");
+		this.history.start("Changement du statut du participant \"" + participant.getNom() + "\"");
 		
-		// Modifier l'équipe
-		equipe.setStatut(statut);
+		// Modifier le participant
+		participant.setStatut(statut);
 		
 		// Fermer l'action de modification
 		this.history.close();
 	}
-	public void updateEquipes(ArrayList<String> nomEquipes, InfosModelEquipe.Statut statut) {
+	public void updateParticipants(ArrayList<String> nomParticipants, InfosModelParticipant.Statut statut) {
 		// Démarrer l'action de modification
-		this.history.start("Changement du statut de plusieurs équipes");
+		this.history.start("Changement du statut de plusieurs participants");
 		
-		// Pour chaque équipe
-		for(String nomEquipe : nomEquipes) {
-			// Récupérer l'équipe et modifier son statut
-			this.concours.getEquipeByNom(nomEquipe).setStatut(statut);
+		// Pour chaque participant
+		for(String nomParticipant : nomParticipants) {
+			// Récupérer le participant et modifier son statut
+			this.concours.getParticipantByNom(nomParticipant).setStatut(statut);
 		}
 		
 		// Fermer l'action de modification
 		this.history.close();
 	}
-	public void removeEquipe (String nomEquipe) throws ContestOrgModelException {
-		// Récupérer l'équipe
-		ModelEquipe equipe = this.concours.getEquipeByNom(nomEquipe);
+	public void removeParticipant (String nomParticipant) throws ContestOrgModelException {
+		// Récupérer le participant
+		ModelParticipant participant = this.concours.getParticipantByNom(nomParticipant);
 		
 		// Démarrer l'action de suppression
-		this.history.start("Suppression de l'équipe \"" + equipe.getNom() + "\"");
+		this.history.start("Suppression du participant \"" + participant.getNom() + "\"");
 		
-		// Chercher l'équipe et la supprimer
-		equipe.delete();
+		// Chercher le participant et le supprimer
+		participant.delete();
 		
 		// Fermer l'action de suppression
 		this.history.close();
 	}
-	public void removeEquipes (ArrayList<String> nomEquipes) throws ContestOrgModelException {
+	public void removeParticipants (ArrayList<String> nomParticipants) throws ContestOrgModelException {
 		// Démarrer l'action de suppression
-		this.history.start("Suppression de plusieurs équipes");
+		this.history.start("Suppression de plusieurs participants");
 		
-		// Pour chaque équipe
-		for(String nomEquipe : nomEquipes) {
-			// Récupérer l'équipe et la supprimer
-			this.concours.getEquipeByNom(nomEquipe).delete();
+		// Pour chaque participant
+		for(String nomParticipant : nomParticipants) {
+			// Récupérer le participant et le supprimer
+			this.concours.getParticipantByNom(nomParticipant).delete();
 		}
 		
 		// Fermer l'action de suppression
@@ -708,59 +708,59 @@ public class FrontModel
 	
 	// Ajouter/Modifier/Supprimer une phase qualificative
 	@SuppressWarnings("unchecked")
-	public IGeneration<Configuration<String>> genererPhaseQualifAvance (String nomCategorie, String nomPoule, ArrayList<String> participantes) {
-		// Récupérer les équipes participantes
-		ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
-		for(String participante : participantes) {
-			equipes.add(this.concours.getEquipeByNom(participante));
+	public IGeneration<Configuration<String>> genererPhaseQualifAvance (String nomCategorie, String nomPoule, ArrayList<String> nomParticipants) {
+		// Récupérer les participants
+		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
+		for(String nomParticipant : nomParticipants) {
+			participants.add(this.concours.getParticipantByNom(nomParticipant));
 		}
 		
-		// Ajouter l'équipe fantome si le nombre d'équipe est impaire
-		if (equipes.size() % 2 == 1) {
-			equipes.add(null);
+		// Ajouter le participant fantome si le nombre de participants est impaire
+		if (participants.size() % 2 == 1) {
+			participants.add(null);
 		}
 		
 		// Récupérer la génération
-		IGeneration<Configuration<ModelEquipe>> generation = ModelPhaseQualificative.genererConfigurationAvance(equipes.toArray(new ModelEquipe[equipes.size()]), new CompGenerationPhasesQualifs(this.concours.getComparateurPhasesQualificatives()));
+		IGeneration<Configuration<ModelParticipant>> generation = ModelPhaseQualificative.genererConfigurationAvance(participants.toArray(new ModelParticipant[participants.size()]), new CompGenerationPhasesQualifs(this.concours.getComparateurPhasesQualificatives()));
 		
-		// Transformer et retourner la génération
+		// Retourner le résultat de la génération
 		return this.transformGeneration(generation);
 	}
 	@SuppressWarnings("unchecked")
-	public IGeneration<Configuration<String>> genererPhaseQualifBasique (String nomCategorie, String nomPoule, ArrayList<String> participantes) {
-		// Récupérer les équipes participantes
-		ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
-		for(String participante : participantes) {
-			equipes.add(this.concours.getEquipeByNom(participante));
+	public IGeneration<Configuration<String>> genererPhaseQualifBasique (String nomCategorie, String nomPoule, ArrayList<String> nomParticipants) {
+		// Récupérer les participants
+		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
+		for(String nomParticipant : nomParticipants) {
+			participants.add(this.concours.getParticipantByNom(nomParticipant));
 		}
 		
-		// Ajouter l'équipe fantome si le nombre d'équipe est impaire
-		if (equipes.size() % 2 == 1) {
-			equipes.add(null);
+		// Ajouter le participant fantome si le nombre de participants est impaire
+		if (participants.size() % 2 == 1) {
+			participants.add(null);
 		}
 
 		// Récupérer la génération		
-		IGeneration<Configuration<ModelEquipe>> generation = ModelPhaseQualificative.genererConfigurationBasique(equipes.toArray(new ModelEquipe[equipes.size()]), new CompGenerationPhasesQualifs(this.concours.getComparateurPhasesQualificatives()));
+		IGeneration<Configuration<ModelParticipant>> generation = ModelPhaseQualificative.genererConfigurationBasique(participants.toArray(new ModelParticipant[participants.size()]), new CompGenerationPhasesQualifs(this.concours.getComparateurPhasesQualificatives()));
 		
-		// Récupérer et retourner la génération
+		// Retourner le résultat de la génération
 		return this.transformGeneration(generation);
 	}
-	private IGeneration<Configuration<String>> transformGeneration(IGeneration<Configuration<ModelEquipe>> generation) {
+	private IGeneration<Configuration<String>> transformGeneration(IGeneration<Configuration<ModelParticipant>> generation) {
 		// Transformeur
-		ITransformer<Configuration<ModelEquipe>, Configuration<String>> transformer = new ITransformer<Configuration<ModelEquipe>, Configuration<String>>() {	
+		ITransformer<Configuration<ModelParticipant>, Configuration<String>> transformer = new ITransformer<Configuration<ModelParticipant>, Configuration<String>>() {	
 			@Override
-			public Configuration<String> transform (Configuration<ModelEquipe> configuration) {
-				return configuration.transform(new ITransformer<ModelEquipe, String>() {
+			public Configuration<String> transform (Configuration<ModelParticipant> configuration) {
+				return configuration.transform(new ITransformer<ModelParticipant, String>() {
 					@Override
-					public String transform (ModelEquipe equipe) {
-						return equipe == null ? null : equipe.getNom();
+					public String transform (ModelParticipant participant) {
+						return participant == null ? null : participant.getNom();
 					}
 				});
 			}
 		};
 		
 		// Appliquer le décorateur et retourner la génération
-		return new GenerationDecorator<Configuration<ModelEquipe>, Configuration<String>>(generation, transformer);
+		return new GenerationDecorator<Configuration<ModelParticipant>, Configuration<String>>(generation, transformer);
 	}
 	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgModelException {
 		// Démarrer l'action d'ajout
@@ -789,15 +789,15 @@ public class FrontModel
 		// Fermer l'action de modification
 		this.history.close();
 	}
-	private Configuration<ModelEquipe> transformConfiguration(Configuration<String> configuration) {
+	private Configuration<ModelParticipant> transformConfiguration(Configuration<String> configuration) {
 		// Placer le concours en variable local finale
 		final ModelConcours concours = this.concours;
 		
 		// Transformer la configuration et la retourner
-		return configuration.transform(new ITransformer<String, ModelEquipe>() {
+		return configuration.transform(new ITransformer<String, ModelParticipant>() {
 			@Override
-			public ModelEquipe transform (String nomEquipe) {
-				return nomEquipe == null ? null : concours.getEquipeByNom(nomEquipe);
+			public ModelParticipant transform (String nomParticipant) {
+				return nomParticipant == null ? null : concours.getParticipantByNom(nomParticipant);
 			}
 		});
 	} 
@@ -888,9 +888,9 @@ public class FrontModel
 		// Fermer l'action de reset
 		this.history.close();
 	}
-	public void setEquipePhasesElims(String nomCategorie, int numeroCellule, String nomEquipe) throws ContestOrgModelException {
+	public void setParticipantPhasesElims(String nomCategorie, int numeroCellule, String nomParticipant) throws ContestOrgModelException {
 		// Démarrer l'action de modification
-		this.history.start("Modification d'une équipe dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
+		this.history.start("Modification d'un participant dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		
 		// Récupérer la phases éliminatoires
 		ModelPhasesEliminatoires phases = this.concours.getCategorieByNom(nomCategorie).getPhasesEliminatoires();
@@ -901,19 +901,19 @@ public class FrontModel
 		// Récupérer la participation
 		ModelParticipation participation = numeroCellule%2 == 0 ? match.getParticipationA() : match.getParticipationB();
 		
-		// Récupérer l'équipe
-		ModelEquipe equipe = this.concours.getEquipeByNom(nomEquipe);
+		// Récupérer le participant
+		ModelParticipant participant = this.concours.getParticipantByNom(nomParticipant);
 		
-		// Retirer la participation de l'ancienne équipe
-		if(participation.getEquipe() != null) {
-			participation.getEquipe().removeParticipation(participation);
+		// Retirer la participation de l'ancien participant
+		if(participation.getParticipant() != null) {
+			participation.getParticipant().removeParticipation(participation);
 		}
 		
-		// Modifier l'équipe de la participation
-		participation.setEquipe(equipe);
+		// Modifier le participant de la participation
+		participation.setParticipant(participant);
 		
-		// Ajouter la participation à la nouvelle équipe
-		equipe.addParticipation(participation);
+		// Ajouter la participation au nouveau participant
+		participant.addParticipation(participation);
 		
 		// Fermer l'action de modification
 		this.history.close();

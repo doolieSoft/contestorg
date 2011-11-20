@@ -36,7 +36,7 @@ public abstract class ModelCheminAbstract extends ModelAbstract
 	protected abstract ModelCheminAbstract clone ();
 	
 	// "Implémentation" de toInformation
-	public abstract InfosModelChemin toInformation ();
+	public abstract InfosModelChemin toInfos ();
 	
 	// Remove
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {

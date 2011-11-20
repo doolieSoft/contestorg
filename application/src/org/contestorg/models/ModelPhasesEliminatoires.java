@@ -33,7 +33,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	}
 	protected ModelPhasesEliminatoires(ModelCategorie categorie, ModelPhasesEliminatoires phasesEliminatoires) {
 		// Appeller le constructeur principal
-		this(categorie, phasesEliminatoires.toInformation());
+		this(categorie, phasesEliminatoires.toInfos());
 		
 		// Récupérer l'id
 		this.setId(phasesEliminatoires.getId());
@@ -49,29 +49,29 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	public ModelMatchPhasesElims getPetiteFinale () {
 		return this.petiteFinale;
 	}
-	public ArrayList<ModelEquipe> getClassement () {
+	public ArrayList<ModelParticipant> getClassement () {
 		if (this.grandeFinale != null) {
-			// Récupérer, trier et retourner la liste des équipes
-			ArrayList<ModelEquipe> equipes = this.grandeFinale.getEquipes();
-			Collections.sort(equipes, new CompPhasesElims());
-			return equipes;
+			// Récupérer, trier et retourner la liste des participants
+			ArrayList<ModelParticipant> participants = this.grandeFinale.getParticipants();
+			Collections.sort(participants, new CompPhasesElims());
+			return participants;
 		}
-		return new ArrayList<ModelEquipe>();
+		return new ArrayList<ModelParticipant>();
 	}
-	public int getRang (ModelEquipe equipe) {
-		// Est ce que l'équipe a participé à la petite finale ?
+	public int getRang (ModelParticipant participant) {
+		// Est ce que le participant a participé à la petite finale ?
 		if (this.petiteFinale != null && this.petiteFinale.getParticipationA() != null && this.petiteFinale.getParticipationB() != null) {
-			if (this.petiteFinale.getParticipationA().getEquipe().equals(equipe)) {
+			if (this.petiteFinale.getParticipationA().getParticipant().equals(participant)) {
 				return this.petiteFinale.getParticipationA().getResultat() == InfosModelParticipation.RESULTAT_VICTOIRE ? 3 : 4;
 			}
-			if (this.petiteFinale.getParticipationB().getEquipe().equals(equipe)) {
+			if (this.petiteFinale.getParticipationB().getParticipant().equals(participant)) {
 				return this.petiteFinale.getParticipationB().getResultat() == InfosModelParticipation.RESULTAT_VICTOIRE ? 3 : 4;
 			}
 		}
 		
-		// Rechercher le rang de l'équipe dans les phases éliminatoires
+		// Rechercher le rang du participant dans les phases éliminatoires
 		if (this.grandeFinale != null) {
-			return this.grandeFinale.getRang(equipe);
+			return this.grandeFinale.getRang(participant);
 		}
 		
 		// Retourner -1 si les phases éliminatoires ne sont pas encore générées
@@ -98,8 +98,8 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		// Calculer et retourner le nombre de matchs pour la première phase
 		return new Double(Math.pow(2, this.getNbPhases()-1)).intValue();
 	}
-	public int getNbEquipes() {
-		// Calculer et retourner le nombre d'équipes participantes
+	public int getNbParticipants() {
+		// Calculer et retourner le nombre de participants qui ont participer
 		return new Double(Math.pow(2, this.getNbPhases())).intValue();
 	}
 	public ArrayList<ModelMatchPhasesElims> getMatchs (int numPhase) {
@@ -175,30 +175,30 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	// Actions
 	@SuppressWarnings("unchecked")
 	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhaseEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
-		// Trier les équipes d'après leur score aux phases qualificatives
-		List<ModelEquipe> equipes = categorie.getEquipesParticipantes();
-		Collections.sort(equipes, categorie.getConcours().getComparateurPhasesQualificatives());
-		Collections.reverse(equipes);
+		// Trier les participants d'après leur score aux phases qualificatives
+		List<ModelParticipant> participants = categorie.getParticipantsParticipants();
+		Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
+		Collections.reverse(participants);
 		
-		// Garder les équipes participantes aux phases finales
-		int nbEquipes = (int)Math.pow(2, nbPhases);
-		equipes = equipes.subList(0, nbEquipes);
+		// Garder les participant qui vont participer aux phases finales
+		int nbParticipants = (int)Math.pow(2, nbPhases);
+		participants = participants.subList(0, nbParticipants);
 		
-		// FIXME Eviter les rencontres entre équipes venant de même poule
+		// FIXME Eviter les rencontres entre participants venant de même poule
 		
-		// Tirer les couples d'équipes de la première phase
+		// Tirer les couples de participants de la première phase
 		/*
 		 * Explication de l'algorythme :
-		 * - on ajoute la premiere equipe
-		 * - a chaque tour on ajoute des equipes :
-		 * - de maniere a doubler le nombre d'equipes
-		 * - les plus mauvaises equipes se placent sous les meilleures
+		 * - on ajoute le premiere participant
+		 * - a chaque tour on ajoute des participant :
+		 *    - de maniere a doubler le nombre de participants
+		 *    - les plus "mauvais" participants se placent sous les "meilleurs"
 		 */
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
 		numeros.add(0);
-		for (int i = 2; i < nbEquipes * 2; i = i * 2) { // i : Nombre d'équipes restantes dans la phase
-			for (int j = 0; j < i; j = j + 2) { // j : Curseur sur les bonnes équipes
-				numeros.add(j + 1, i - numeros.get(j) - 1); // Ajouter l'équipe de niveau inférieur sous l'équipe de niveau supérieur
+		for (int i = 2; i < nbParticipants * 2; i = i * 2) { // i : Nombre de participants restants dans la phase
+			for (int j = 0; j < i; j = j + 2) { // j : Curseur sur les bons participants
+				numeros.add(j + 1, i - numeros.get(j) - 1); // Ajouter le participant de rang inférieur sous le participant de rang supérieur
 			}
 		}
 		
@@ -211,13 +211,13 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		ModelMatchPhasesElims matchPrecedantB = null;
 		ArrayList<ModelMatchPhasesElims> matchs = new ArrayList<ModelMatchPhasesElims>();
 		for (int i=0;i<nbPhases; i++) { // i : Numero de phase
-			int nbEquipesPhase = (int)Math.pow(2, nbPhases-i); // Nombre d'équipes dans la phase
-			for (int j=0; j<nbEquipesPhase; j+=2) { // j : Curseur sur la première équipe de chaque match
+			int nbParticipantsPhase = (int)Math.pow(2, nbPhases-i); // Nombre de participants dans la phase
+			for (int j=0; j<nbParticipantsPhase; j+=2) { // j : Curseur sur le premièr participant de chaque match
 				// Matchs précédants
 				matchPrecedantA = null;
 				matchPrecedantB = null;
 				if (i != 0) {
-					int index = matchs.size()+(j/2)-nbEquipesPhase;
+					int index = matchs.size()+(j/2)-nbParticipantsPhase;
 					matchPrecedantA = (ModelMatchPhasesElims)matchs.get(index+0);
 					matchPrecedantB = (ModelMatchPhasesElims)matchs.get(index+1);
 				}
@@ -227,21 +227,21 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 				
 				// Participations
 				if (i == 0) {
-					// Récupérer les équipes A et B
-					ModelEquipe equipeA = equipes.get(numeros.get(j+0));
-					ModelEquipe equipeB = equipes.get(numeros.get(j+1));
+					// Récupérer les participants A et B
+					ModelParticipant participantA = participants.get(numeros.get(j+0));
+					ModelParticipant participantB = participants.get(numeros.get(j+1));
 					
 					// Créer les participations A et B
-					ModelParticipation participationA = new ModelParticipation(equipeA, match, InfosModelParticipation.defaut());
-					ModelParticipation participationB = new ModelParticipation(equipeB, match, InfosModelParticipation.defaut());
+					ModelParticipation participationA = new ModelParticipation(participantA, match, InfosModelParticipation.defaut());
+					ModelParticipation participationB = new ModelParticipation(participantB, match, InfosModelParticipation.defaut());
 					
 					// Ajouter les participations A et B au match
 					match.setParticipationA(participationA);
 					match.setParticipationB(participationB);
 					
-					// Ajouter les participations A et B aux équipes A et B
-					equipeA.addParticipation(participationA);
-					equipeB.addParticipation(participationB);
+					// Ajouter les participations A et B aux participants A et B
+					participantA.addParticipation(participationA);
+					participantB.addParticipation(participationB);
 				}
 				
 				// Match suivant
@@ -271,7 +271,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelPhaseEliminatoires toInformation () {
+	public InfosModelPhaseEliminatoires toInfos () {
 		InfosModelPhaseEliminatoires infos = new InfosModelPhaseEliminatoires();
 		infos.setId(this.getId());
 		return infos;

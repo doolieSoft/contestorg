@@ -18,7 +18,7 @@ public class ModelCheminLocal extends ModelCheminAbstract
 	}
 	protected ModelCheminLocal(ModelCheminLocal chemin) {
 		// Appeller le constructeur principal
-		this(chemin.toInformation());
+		this(chemin.toInfos());
 		
 		// Récupérer l'id
 		this.setId(chemin.getId());
@@ -47,7 +47,7 @@ public class ModelCheminLocal extends ModelCheminAbstract
 	}
 	
 	// ToInformation
-	public InfosModelCheminLocal toInformation () {
+	public InfosModelCheminLocal toInfos () {
 		InfosModelCheminLocal infos = new InfosModelCheminLocal(this.chemin);
 		infos.setId(this.getId());
 		return infos;

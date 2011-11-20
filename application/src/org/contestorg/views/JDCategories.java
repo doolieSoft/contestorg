@@ -12,7 +12,7 @@ import org.contestorg.infos.InfosModelCategorie;
 @SuppressWarnings("serial")
 public class JDCategories extends JDPattern
 {
-	// Fenetre parent
+	// fenêtre parent
 	private Window w_parent;
 	
 	// TableModel de la liste des catégories
@@ -23,13 +23,13 @@ public class JDCategories extends JDPattern
 		// Appeller le constructeur du parent
 		super(w_parent, "Gestion des catégories");
 		
-		// Retenir la fenetre parent
+		// Retenir la fenêtre parent
 		this.w_parent = w_parent;
 		
 		// Liste des catégories
 		this.jp_contenu.add(ViewHelper.title("Liste des catégories", ViewHelper.H1));
 		this.tm_categories = new TMCategories(this);
-		this.tm_categories.fill(ContestOrg.get().getCtrlEquipes().getListeCategories());
+		this.tm_categories.fill(ContestOrg.get().getCtrlParticipants().getListeCategories());
 		this.tm_categories.addValidator(ContestOrg.get().getCategoriesValidator());
 		this.jp_contenu.add(new JPTable<InfosModelCategorie>(this.w_parent, this.tm_categories, true, true, true, true, true, 10));
 		
@@ -46,9 +46,9 @@ public class JDCategories extends JDPattern
 			ViewHelper.derror(this, "Il doit y avoir au moins une catégorie.");
 		} else {
 			// Demander la modification des catégories
-			ContestOrg.get().getCtrlEquipes().updateCategories(new TrackableList<InfosModelCategorie>(this.tm_categories));
+			ContestOrg.get().getCtrlParticipants().updateCategories(new TrackableList<InfosModelCategorie>(this.tm_categories));
 			
-			// Fermer la fenetre
+			// Fermer la fenêtre
 			this.quit();
 		}
 	}
@@ -56,7 +56,7 @@ public class JDCategories extends JDPattern
 	// Implémentation de quit
 	@Override
 	protected void quit () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	

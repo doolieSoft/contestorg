@@ -82,7 +82,7 @@ public class ModelConcours extends ModelAbstract
 	}
 	protected ModelConcours(ModelConcours concours) {
 		// Appeller le constructeur principal
-		this(concours.toInformation());
+		this(concours.toInfos());
 		
 		// Récupérer l'id
 		this.setId(concours.getId());
@@ -256,24 +256,24 @@ public class ModelConcours extends ModelAbstract
 	public ArrayList<ModelCompPhasesQualifsAbstract> getCompsPhasesQualifs () {
 		return new ArrayList<ModelCompPhasesQualifsAbstract>(this.compsPhasesQualifs);
 	}
-	public ArrayList<ModelEquipe> getEquipes () {
-		ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
+	public ArrayList<ModelParticipant> getParticipants () {
+		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 		for (ModelCategorie categorie : this.categories) {
-			equipes.addAll(categorie.getEquipes());
+			participants.addAll(categorie.getParticipants());
 		}
-		return equipes;
+		return participants;
 	}
-	public int getNbEquipes() {
-		int nbEquipes = 0;
+	public int getNbParticipants() {
+		int nbParticipants = 0;
 		for(ModelCategorie categorie : this.categories) {
-			nbEquipes += categorie.getNbEquipes();
+			nbParticipants += categorie.getNbParticipants();
 		}
-		return nbEquipes;
+		return nbParticipants;
 	}
-	public ModelEquipe getEquipeByNom (String nom) {
-		for (ModelEquipe equipe : this.getEquipes()) {
-			if (equipe.getNom().equals(nom)) {
-				return equipe;
+	public ModelParticipant getParticipantByNom (String nom) {
+		for (ModelParticipant participant : this.getParticipants()) {
+			if (participant.getNom().equals(nom)) {
+				return participant;
 			}
 		}
 		return null;
@@ -567,7 +567,7 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelConcours toInformation () {
+	public InfosModelConcours toInfos () {
 		InfosModelConcours infos = new InfosModelConcours(this.concoursNom, this.concoursSite, this.concoursLieu, this.concoursEmail, this.concoursTelephone, this.concoursDescription, this.organisateurNom, this.organisateurSite, this.organisateurLieu, this.organisateurEmail, this.organisateurTelephone, this.organisateurDescription, this.typeQualifications, this.typeParticipants, this.pointsVictoire, this.pointsEgalite, this.pointsDefaite, this.programmationDuree, this.programmationInterval, this.programmationPause);
 		infos.setId(this.getId());
 		return infos;

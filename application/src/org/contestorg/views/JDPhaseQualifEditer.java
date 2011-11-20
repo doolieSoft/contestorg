@@ -22,16 +22,16 @@ public class JDPhaseQualifEditer extends JDPhaseQualifAbstract
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer une phase qualificative", collector, nomCategorie, nomPoule);
 		
-		// Déséléctionner les équipes non participantes
-		for(JCheckBox checkbox : this.jcbs_equipesParticipantes) {
+		// Déséléctionner les participants qui ne peuvent pas participer
+		for(JCheckBox checkbox : this.jcbs_participants) {
 			checkbox.setSelected(false);
 		}
 		for(Couple<String> couple : infos.getFirst().getCouples()) {
-			if(couple.getEquipeA() != null) {
-				this.jcbs_equipesParticipantes[this.equipesParticipantes.indexOf(couple.getEquipeA())].setSelected(true);
+			if(couple.getParticipantA() != null) {
+				this.jcbs_participants[this.participants.indexOf(couple.getParticipantA())].setSelected(true);
 			}
-			if(couple.getEquipeB() != null) {
-				this.jcbs_equipesParticipantes[this.equipesParticipantes.indexOf(couple.getEquipeB())].setSelected(true);
+			if(couple.getParticipantB() != null) {
+				this.jcbs_participants[this.participants.indexOf(couple.getParticipantB())].setSelected(true);
 			}
 		}
 		

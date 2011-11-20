@@ -20,13 +20,13 @@ import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
-import org.contestorg.infos.InfosModelProprieteEquipe;
+import org.contestorg.infos.InfosModelParticipant;
+import org.contestorg.infos.InfosModelProprieteParticipant;
 
 
 
 @SuppressWarnings("serial")
-public class JDImporterEquipes extends JDPattern
+public class JDImporterParticipants extends JDPattern
 {
 	// Panel des catégories et poules
 	private JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
@@ -34,17 +34,17 @@ public class JDImporterEquipes extends JDPattern
 	// Bouton de choix du fichier
 	private JButton jb_fichier = new JButton("Séléctionner", new ImageIcon("img/farm/16x16/folder.png"));
 	
-	// Panel des équipes
-	private JPanel jp_equipes = new JPanel();
+	// Panel des participants
+	private JPanel jp_participants = new JPanel();
 	
-	// Liste des équipes
-	private ArrayList<InfosModelEquipe> equipes = new ArrayList<InfosModelEquipe>();
+	// Liste des participants
+	private ArrayList<InfosModelParticipant> participants = new ArrayList<InfosModelParticipant>();
 	
-	// Cases à cocher des équipes
-	private ArrayList<JCheckBox> cs_equipes = new ArrayList<JCheckBox>();
+	// Cases à cocher des participants
+	private ArrayList<JCheckBox> cs_participants = new ArrayList<JCheckBox>();
 	
 	// Constructeur
-	public JDImporterEquipes(Window w_parent, String nomCategorie, String nomPoule) {
+	public JDImporterParticipants(Window w_parent, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du panret
 		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer des équipes" : "Importer des joueurs");
 		
@@ -59,19 +59,19 @@ public class JDImporterEquipes extends JDPattern
 		
 		this.jb_fichier.addActionListener(this);
 		
-		// Equipes trouvées
+		// Participants trouvés
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes trouvées" : "Joueurs trouvés", ViewHelper.H1));
 		
-		this.jp_equipes = new JPanel();
-		this.jp_equipes.setLayout(new BoxLayout(this.jp_equipes, BoxLayout.Y_AXIS));
+		this.jp_participants = new JPanel();
+		this.jp_participants.setLayout(new BoxLayout(this.jp_participants, BoxLayout.Y_AXIS));
 		
-		JPanel jp_equipes_largeur = new JPanel(new BorderLayout());
-		jp_equipes_largeur.add(this.jp_equipes,BorderLayout.NORTH);
+		JPanel jp_participants_largeur = new JPanel(new BorderLayout());
+		jp_participants_largeur.add(this.jp_participants,BorderLayout.NORTH);
 		
-		JScrollPane jsp_equipes = new JScrollPane(jp_equipes_largeur);
-		jsp_equipes.setPreferredSize(new Dimension(jsp_equipes.getPreferredSize().width, 200));
+		JScrollPane jsp_participants = new JScrollPane(jp_participants_largeur);
+		jsp_participants.setPreferredSize(new Dimension(jsp_participants.getPreferredSize().width, 200));
 		
-		this.jp_contenu.add(jsp_equipes);
+		this.jp_contenu.add(jsp_participants);
 		
 		// Pack
 		this.pack();
@@ -85,15 +85,15 @@ public class JDImporterEquipes extends JDPattern
 		String poule = this.jp_categoriePoule.getPoule();
 		
 		// Liste de propriété et de prix vides
-		TrackableList<Pair<String,InfosModelProprieteEquipe>> proprietes = new TrackableList<Pair<String,InfosModelProprieteEquipe>>();
+		TrackableList<Pair<String,InfosModelProprieteParticipant>> proprietes = new TrackableList<Pair<String,InfosModelProprieteParticipant>>();
 		TrackableList<String> prix = new TrackableList<String>();
 		
-		// Demander l'ajout des équipes
-		for(int i=0;i<this.equipes.size();i++) {
+		// Demander l'ajout des participants
+		for(int i=0;i<this.participants.size();i++) {
 			// Vérifier si la case à cocher est bien cochée
-			if(this.cs_equipes.get(i).isSelected()) {
-				// Demander l'ajout de l'équipe
-				ContestOrg.get().getCtrlEquipes().addEquipe(new Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String,InfosModelProprieteEquipe>>, TrackableList<String>>(categorie, poule, this.equipes.get(i), proprietes, prix));
+			if(this.cs_participants.get(i).isSelected()) {
+				// Demander l'ajout du participant
+				ContestOrg.get().getCtrlParticipants().addParticipant(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprieteParticipant>>, TrackableList<String>>(categorie, poule, this.participants.get(i), proprietes, prix));
 			}
 		}
 		
@@ -104,7 +104,7 @@ public class JDImporterEquipes extends JDPattern
 	// Implémentation de quit
 	@Override
 	protected void quit () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
@@ -116,11 +116,11 @@ public class JDImporterEquipes extends JDPattern
 			
 			// Vérifier si l'utilisateur a défini un chemin
 			if(chemin != null) {
-				// Demander la liste des équipes contenu dans le fichier
-				this.equipes = ContestOrg.get().getCtrlOut().importerEquipes(chemin);
+				// Demander la liste des participants contenus dans le fichier
+				this.participants = ContestOrg.get().getCtrlOut().importerParticipants(chemin);
 				
-				// Rafraichir la liste des équipes
-				this.refreshEquipes();
+				// Rafraichir la liste des participants
+				this.refreshParticipants();
 			}
 		} else {
 			// Appeller le actionPerformed du parent
@@ -128,51 +128,51 @@ public class JDImporterEquipes extends JDPattern
 		}
 	}
 	
-	// Rafraichir la liste des équipes
-	public void refreshEquipes() {
-		// Vider le panel des équipes
-		this.jp_equipes.removeAll();
+	// Rafraichir la liste des participants
+	public void refreshParticipants() {
+		// Vider le panel des participants
+		this.jp_participants.removeAll();
 		
-		// Mettre à jour la liste des équipes
-		this.cs_equipes.clear();
-		if(this.equipes == null) {
+		// Mettre à jour la liste des participants
+		this.cs_participants.clear();
+		if(this.participants == null) {
 			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Erreur lors de l'importation des équipes" : "Erreur lors de l'importation des joueurs");
-		} else if(this.equipes.size() == 0) {
+		} else if(this.participants.size() == 0) {
 			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'a été trouvé" : "Aucun joueur n'a été trouvé");
 		} else {
-			// Noms des équipes ajoutés
+			// Noms des participants ajoutés
 			ArrayList<String> noms = new ArrayList<String>();
 			
-			// Mettre à jour la liste des équipes
-			for(InfosModelEquipe equipe : new ArrayList<InfosModelEquipe>(this.equipes)) {
-				// Vérifier si l'équipe n'existe pas déjà
-				if(ContestOrg.get().getCtrlEquipes().isEquipeExiste(equipe.getNom())) {
+			// Mettre à jour la liste des participants
+			for(InfosModelParticipant participant : new ArrayList<InfosModelParticipant>(this.participants)) {
+				// Vérifier si le participant n'existe pas déjà
+				if(ContestOrg.get().getCtrlParticipants().isParticipantExiste(participant.getNom())) {
 					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+equipe.getNom()+"\" existe déjà.");
+					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participant.getNom()+"\" existe déjà.");
 					
-					// Retirer l'équipe de la liste
-					this.equipes.remove(equipe);
-				} else if(noms.contains(equipe.getNom())) {
+					// Retirer le participant de la liste
+					this.participants.remove(participant);
+				} else if(noms.contains(participant.getNom())) {
 					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+equipe.getNom()+"\" a été retrouvé plusieurs fois dans le fichier.");
+					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participant.getNom()+"\" a été retrouvé plusieurs fois dans le fichier.");
 					
-					// Retirer l'équipe de la liste
-					this.equipes.remove(equipe);
+					// Retirer le participant de la liste
+					this.participants.remove(participant);
 				} else {
 					// Créer la case à cocher et l'ajouter dans la liste et le panel
-					JCheckBox jc_equipe = new JCheckBox(equipe.getNom());
-					jc_equipe.setSelected(true);
-					this.cs_equipes.add(jc_equipe);
-					this.jp_equipes.add(jc_equipe);
+					JCheckBox jc_participant = new JCheckBox(participant.getNom());
+					jc_participant.setSelected(true);
+					this.cs_participants.add(jc_participant);
+					this.jp_participants.add(jc_participant);
 					
-					// Comptabiliser le nom de l'équipe
-					noms.add(equipe.getNom());
+					// Comptabiliser le nom du participant
+					noms.add(participant.getNom());
 				}
 			}
 		}
 		
 		// Rafraichir le panel
-		this.jp_equipes.revalidate();
+		this.jp_participants.revalidate();
 		
 	}
 }

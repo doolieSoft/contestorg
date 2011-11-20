@@ -33,7 +33,7 @@ public class ModelHoraire extends ModelAbstract
 	}
 	protected ModelHoraire(ModelLieu lieu, ModelHoraire horaire) {
 		// Appeller le constructeur principal
-		this(lieu, horaire.toInformation());
+		this(lieu, horaire.toInfos());
 		
 		// Récupérer l'id
 		this.setId(horaire.getId());
@@ -73,7 +73,7 @@ public class ModelHoraire extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelHoraire toInformation () {
+	public InfosModelHoraire toInfos () {
 		InfosModelHoraire infos = new InfosModelHoraire(this.jours, this.debut, this.fin);
 		infos.setId(this.getId());
 		return infos;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.contestorg.events.Action;
 import org.contestorg.events.Event;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.contestorg.interfaces.ICelluleModelListener;
 import org.contestorg.interfaces.IEventListener;
@@ -14,17 +14,17 @@ import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.interfaces.IHistoryListener;
 
 
-public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCategorie,InfosModelEquipe>, IEventListener, IHistoryListener
+public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {
 	// Graphe associé à la cellule
-	private IGraphModel<InfosModelCategorie,InfosModelEquipe> graphe;
+	private IGraphModel<InfosModelCategorie,InfosModelParticipant> graphe;
 	
 	// Match associé à la cellule
 	private ModelMatchPhasesElims match;
 	
 	// Vainqueur associée au match
 	private ModelParticipation participation;
-	private ModelEquipe equipe;
+	private ModelParticipant participant;
 	
 	// Listeners
 	private ArrayList<ICelluleModelListener> listeners = new ArrayList<ICelluleModelListener>();
@@ -33,7 +33,7 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 	private boolean isChanged = false;
 	
 	// Constructeur
-	public CelluleModelPhasesElimsMatch(IGraphModel<InfosModelCategorie,InfosModelEquipe> graphe, ModelMatchPhasesElims match) {
+	public CelluleModelPhasesElimsMatch(IGraphModel<InfosModelCategorie,InfosModelParticipant> graphe, ModelMatchPhasesElims match) {
 		// Retenir le graph
 		this.graphe = graphe;
 		
@@ -46,8 +46,8 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 			this.participation = this.match.getVainqueur();
 			if(this.participation != null) {
 				this.participation.addListener(this);
-				this.equipe = this.participation.getEquipe();
-				this.equipe.addListener(this);
+				this.participant = this.participation.getParticipant();
+				this.participant.addListener(this);
 			}
 			
 			// Ecouter l'historique
@@ -57,8 +57,8 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 
 	// Implémentation de ICelluleModel
 	@Override
-	public InfosModelEquipe getObject () {
-		return this.equipe != null ? this.equipe.toInformation() : null;
+	public InfosModelParticipant getObject () {
+		return this.participant != null ? this.participant.toInfos() : null;
 	}
 	@Override
 	public boolean isEditable() {
@@ -69,7 +69,7 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 		}
 	}
 	@Override
-	public IGraphModel<InfosModelCategorie, InfosModelEquipe> getGraphe() {
+	public IGraphModel<InfosModelCategorie, InfosModelParticipant> getGraphe() {
 		return this.graphe;
 	}
 	@Override
@@ -81,8 +81,8 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 		if(this.participation != null) {
 			this.participation.removeListener(this);
 		}
-		if(this.equipe != null) {
-			this.equipe.removeListener(this);
+		if(this.participant != null) {
+			this.participant.removeListener(this);
 		}
 		
 		// Ne plus écouter l'historique
@@ -121,19 +121,19 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 			change = true;
 		}
 		
-		// Vérifier si l'équipe vainqueur a changé
-		if(this.participation !=null && this.participation.getEquipe() != null && !this.participation.getEquipe().equals(this.equipe) || this.equipe != null && (this.participation == null || !this.equipe.equals(this.participation.getEquipe()))) {
-			// Ne plus écouter l'ancienne équipe vainqueur
-			if(this.equipe != null) {
-				this.equipe.removeListener(this);
+		// Vérifier si le participant vainqueur a changé
+		if(this.participation !=null && this.participation.getParticipant() != null && !this.participation.getParticipant().equals(this.participant) || this.participant != null && (this.participation == null || !this.participant.equals(this.participation.getParticipant()))) {
+			// Ne plus écouter l'ancien participant vainqueur
+			if(this.participant != null) {
+				this.participant.removeListener(this);
 			}
 			
-			// Changer l'équipe vainqueur
-			this.equipe = this.participation == null ? null : this.participation.getEquipe();
+			// Changer le participant vainqueur
+			this.participant = this.participation == null ? null : this.participation.getParticipant();
 	
-			// Ecouter la nouvelle équipe vainqueur
-			if(this.equipe != null) {
-				this.equipe.addListener(this);
+			// Ecouter le nouveau participant vainqueur
+			if(this.participant != null) {
+				this.participant.addListener(this);
 			}
 			
 			// Retenir la modification

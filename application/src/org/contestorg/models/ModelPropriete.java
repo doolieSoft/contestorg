@@ -10,14 +10,14 @@ import org.contestorg.interfaces.IUpdater;
 
 
 /**
- * Propriété qu'une équipe peut avoir
+ * Propriété qu'un participant peut avoir
  */
 public class ModelPropriete extends ModelAbstract
 {
 	
 	// Attributs objets
 	private ModelConcours concours;
-	private ArrayList<ModelProprietePossedee> proprietesEquipes = new ArrayList<ModelProprietePossedee>();
+	private ArrayList<ModelProprietePossedee> proprietesParticipants = new ArrayList<ModelProprietePossedee>();
 	
 	// Attributs scalaires
 	private String nom;
@@ -34,7 +34,7 @@ public class ModelPropriete extends ModelAbstract
 	}
 	protected ModelPropriete(ModelConcours concours, ModelPropriete propriete) {
 		// Appeller le constructeur principal
-		this(concours, propriete.toInformation());
+		this(concours, propriete.toInfos());
 		
 		// Récupérer l'id
 		this.setId(propriete.getId());
@@ -50,8 +50,8 @@ public class ModelPropriete extends ModelAbstract
 	public boolean isObligatoire () {
 		return this.obligatoire;
 	}
-	public ArrayList<ModelProprietePossedee> getProprieteEquipes () {
-		return new ArrayList<ModelProprietePossedee>(this.proprietesEquipes);
+	public ArrayList<ModelProprietePossedee> getProprieteParticipants () {
+		return new ArrayList<ModelProprietePossedee>(this.proprietesParticipants);
 	}
 	
 	// Setters
@@ -69,26 +69,26 @@ public class ModelPropriete extends ModelAbstract
 	}
 	
 	// Adders
-	public void addProprieteEquipe (ModelProprietePossedee proprieteEquipe) throws ContestOrgModelException {
-		if (!this.proprietesEquipes.contains(proprieteEquipe)) {
-			// Ajouter la propriété d'équipe
-			this.proprietesEquipes.add(proprieteEquipe);
+	public void addProprieteParticipant (ModelProprietePossedee proprieteParticipant) throws ContestOrgModelException {
+		if (!this.proprietesParticipants.contains(proprieteParticipant)) {
+			// Ajouter la propriété de participant
+			this.proprietesParticipants.add(proprieteParticipant);
 			
 			// Fire add
-			this.fireAdd(proprieteEquipe, this.proprietesEquipes.size() - 1);
+			this.fireAdd(proprieteParticipant, this.proprietesParticipants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La propriété d'équipe existe déjà dans la propriété");
+			throw new ContestOrgModelException("La propriété de participant existe déjà dans la propriété");
 		}
 	}
 	
 	// Removers
-	protected void removeProprieteEquipe (ModelProprietePossedee proprieteEquipe) throws ContestOrgModelException {
-		// Retirer la propriété d'équipe
-		if (this.proprietesEquipes.remove(proprieteEquipe)) {
+	protected void removeProprieteParticipant (ModelProprietePossedee proprieteParticipant) throws ContestOrgModelException {
+		// Retirer la propriété de participant
+		if (this.proprietesParticipants.remove(proprieteParticipant)) {
 			// Fire remove
-			this.fireRemove(proprieteEquipe, this.proprietesEquipes.size() - 1);
+			this.fireRemove(proprieteParticipant, this.proprietesParticipants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La propriété d'équipe n'existe pas dans la propriété");
+			throw new ContestOrgModelException("La propriété de participant n'existe pas dans la propriété");
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class ModelPropriete extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelPropriete toInformation () {
+	public InfosModelPropriete toInfos () {
 		InfosModelPropriete infos = new InfosModelPropriete(this.nom, this.type, this.obligatoire);
 		infos.setId(this.getId());
 		return infos;
@@ -120,13 +120,13 @@ public class ModelPropriete extends ModelAbstract
 				this.fireClear(ModelConcours.class);
 			}
 			
-			// Supprimer les propriétés d'équipe
-			for (ModelProprietePossedee propriete : this.proprietesEquipes) {
+			// Supprimer les propriétés de participant
+			for (ModelProprietePossedee propriete : this.proprietesParticipants) {
 				if (!removers.contains(propriete)) {
 					propriete.delete(removers);
 				}
 			}
-			this.proprietesEquipes.clear();
+			this.proprietesParticipants.clear();
 			this.fireClear(ModelProprietePossedee.class);
 			
 			// Fire delete

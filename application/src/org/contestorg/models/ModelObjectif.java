@@ -13,7 +13,7 @@ import org.contestorg.interfaces.IUpdater;
 
 
 /**
- * Objectif que peuvent remplir les équipes
+ * Objectif que peuvent remplir les participants
  */
 public class ModelObjectif extends ModelAbstract
 {
@@ -49,7 +49,7 @@ public class ModelObjectif extends ModelAbstract
 	}
 	protected ModelObjectif(ModelConcours concours, ModelObjectif objectif) {
 		// Appeller le constructeur principal
-		this(concours, objectif.toInformation());
+		this(concours, objectif.toInfos());
 		
 		// Récupérer l'id
 		this.setId(objectif.getId());
@@ -150,11 +150,11 @@ public class ModelObjectif extends ModelAbstract
 	
 	// Clone
 	protected ModelObjectif clone (ModelConcours concours) {
-		return new ModelObjectif(concours, this.toInformation());
+		return new ModelObjectif(concours, this.toInfos());
 	}
 	
 	// ToInformation
-	public InfosModelObjectif toInformation () {
+	public InfosModelObjectif toInfos () {
 		InfosModelObjectif infos = null;
 		switch (this.type) {
 			case TYPE_POINTS:
@@ -209,7 +209,7 @@ public class ModelObjectif extends ModelAbstract
 				// Retourner le nombre de points
 				return pointsParticipation;
 			case TYPE_NUL:
-				// Retourner le nombre de points de l'équipe sans aucune modification
+				// Retourner le nombre de points du participant sans aucune modification
 				return pointsParticipation;
 		}
 		return pointsParticipation;

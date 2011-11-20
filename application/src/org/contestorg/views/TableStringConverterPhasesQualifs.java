@@ -24,7 +24,7 @@ public class TableStringConverterPhasesQualifs extends TableStringConverter
 				return (String)object;
 			case 2: // Phase
 				return String.valueOf((Integer)object);
-			case 3: // Equipe A
+			case 3: // Participant A
 				return object == null ? null : (String)object;
 			case 4: // Résultat A
 				switch((Integer)object) {
@@ -41,7 +41,7 @@ public class TableStringConverterPhasesQualifs extends TableStringConverter
 				}
 			case 5: // Points A
 				return new DecimalFormat("0000.00").format((Double)object);
-			case 6: // Equipe B
+			case 6: // Participant B
 				return object == null ? null : (String)object;
 			case 7: // Résultat B
 				switch((Integer)object) {

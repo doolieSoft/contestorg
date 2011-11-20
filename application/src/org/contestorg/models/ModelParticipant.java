@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelProprieteEquipe;
+import org.contestorg.infos.InfosModelProprieteParticipant;
 import org.contestorg.interfaces.ILinker;
 import org.contestorg.interfaces.IUpdater;
 import org.contestorg.log.Log;
@@ -16,39 +16,39 @@ import org.contestorg.log.Log;
 
 
 /**
- * Equipe
+ * Participant
  */
-public class ModelEquipe extends ModelMatchable
+public class ModelParticipant extends ModelMatchable
 {
 	
 	// Attributs objets
 	private ModelPoule poule;
 	private ArrayList<ModelParticipation> participations = new ArrayList<ModelParticipation>();
 	private ArrayList<ModelPrix> prix = new ArrayList<ModelPrix>();
-	private ArrayList<ModelProprietePossedee> proprietesEquipes = new ArrayList<ModelProprietePossedee>();
+	private ArrayList<ModelProprietePossedee> proprietesParticipants = new ArrayList<ModelProprietePossedee>();
 	
 	// Attributs scalaires
 	private String stand;
 	private String nom;
 	private String ville;
-	private InfosModelEquipe.Statut statut;
+	private InfosModelParticipant.Statut statut;
 	private String membres;
 	private String details;
 	
 	// Constructeur
-	public ModelEquipe(ModelPoule poule, InfosModelEquipe infos) {
+	public ModelParticipant(ModelPoule poule, InfosModelParticipant infos) {
 		// Retenir la poule
 		this.poule = poule;
 		
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
-	protected ModelEquipe(ModelPoule poule, ModelEquipe equipe) {
+	protected ModelParticipant(ModelPoule poule, ModelParticipant participant) {
 		// Appeller le constructeur principal
-		this(poule, equipe.toInformation());
+		this(poule, participant.toInfos());
 		
 		// Récupérer l'id
-		this.setId(equipe.getId());
+		this.setId(participant.getId());
 	}
 	
 	// Getters
@@ -61,7 +61,7 @@ public class ModelEquipe extends ModelMatchable
 	public String getVille () {
 		return this.ville;
 	}
-	public InfosModelEquipe.Statut getStatut () {
+	public InfosModelParticipant.Statut getStatut () {
 		return this.statut;
 	}
 	public String getMembres () {
@@ -79,8 +79,8 @@ public class ModelEquipe extends ModelMatchable
 	public ArrayList<ModelPrix> getPrix () {
 		return new ArrayList<ModelPrix>(this.prix);
 	}
-	public ArrayList<ModelProprietePossedee> getProprietesEquipe () {
-		return new ArrayList<ModelProprietePossedee>(this.proprietesEquipes);
+	public ArrayList<ModelProprietePossedee> getProprietesParticipant () {
+		return new ArrayList<ModelProprietePossedee>(this.proprietesParticipants);
 	}
 	public int getRangPhasesQualifs () {
 		return this.poule.getRang(this);
@@ -204,10 +204,10 @@ public class ModelEquipe extends ModelMatchable
 		// Retourner le nombre de points
 		return points;
 	}
-	public int getNbRencontres (ModelEquipe equipe) {
-		return this.getNbRencontres(equipe, false, true);
+	public int getNbRencontres (ModelParticipant participant) {
+		return this.getNbRencontres(participant, false, true);
 	}
-	public int getNbRencontres (ModelEquipe equipe, boolean phasesEliminatoires, boolean phasesQualificatives) {
+	public int getNbRencontres (ModelParticipant participant, boolean phasesEliminatoires, boolean phasesQualificatives) {
 		// Initialiser le nombre de rencontres
 		int nbRencontres = 0;
 		
@@ -217,11 +217,11 @@ public class ModelEquipe extends ModelMatchable
 				// Récupérer le match
 				ModelMatchAbstract match = participation.getMatch();
 				
-				// Récupérer l'équipe adverse
-				ModelEquipe adversaire = participation.equals(match.getParticipationA()) ? match.getParticipationB().getEquipe() : match.getParticipationA().getEquipe();
+				// Récupérer le participant adverse
+				ModelParticipant adversaire = participation.equals(match.getParticipationA()) ? match.getParticipationB().getParticipant() : match.getParticipationA().getParticipant();
 				
-				// Vérifier si l'équipe passé en paramètre est l'équipe adverse
-				if (equipe == null && adversaire == null || equipe != null && equipe.equals(adversaire)) {
+				// Vérifier si le participant passé en paramètre est le participant adverse
+				if (participant == null && adversaire == null || participant != null && participant.equals(adversaire)) {
 					// Incrémenter le nombre de rencontres
 					nbRencontres++;
 				}
@@ -233,7 +233,7 @@ public class ModelEquipe extends ModelMatchable
 	}
 	
 	// Setters
-	protected void setInfos (InfosModelEquipe infos) {
+	protected void setInfos (InfosModelParticipant infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
 		
@@ -248,7 +248,7 @@ public class ModelEquipe extends ModelMatchable
 		// Fire update
 		this.fireUpdate();
 	}
-	protected void setStatut (InfosModelEquipe.Statut statut) {
+	protected void setStatut (InfosModelParticipant.Statut statut) {
 		// Enregistrer le statut
 		this.statut = statut;
 		
@@ -257,9 +257,9 @@ public class ModelEquipe extends ModelMatchable
 	}
 	protected void setPoule (ModelPoule poule) throws ContestOrgModelException {
 		// Modifier la poule
-		this.poule.removeEquipe(this);
+		this.poule.removeParticipant(this);
 		this.poule = poule;
-		this.poule.addEquipe(this);
+		this.poule.addParticipant(this);
 		
 		// Fire update
 		this.fireUpdate();
@@ -274,7 +274,7 @@ public class ModelEquipe extends ModelMatchable
 			// Fire add
 			this.fireAdd(participation, this.participations.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La participation existe déjà dans l'équipe");
+			throw new ContestOrgModelException("La participation existe déjà dans le participant");
 		}
 	}
 	public void addPrix (ModelPrix prix) throws ContestOrgModelException {
@@ -285,18 +285,18 @@ public class ModelEquipe extends ModelMatchable
 			// Fire add
 			this.fireAdd(prix, this.prix.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La participation existe déjà dans l'équipe");
+			throw new ContestOrgModelException("La participation existe déjà dans le participant");
 		}
 	}
-	public void addProprieteEquipe (ModelProprietePossedee proprieteEquipe) throws ContestOrgModelException {
-		if (!this.proprietesEquipes.contains(proprieteEquipe)) {
-			// Ajouter la propriété d'équipe
-			this.proprietesEquipes.add(proprieteEquipe);
+	public void addProprieteParticipant (ModelProprietePossedee proprieteParticipant) throws ContestOrgModelException {
+		if (!this.proprietesParticipants.contains(proprieteParticipant)) {
+			// Ajouter la propriété de participant
+			this.proprietesParticipants.add(proprieteParticipant);
 			
 			// Fire add
-			this.fireAdd(proprieteEquipe, this.proprietesEquipes.size() - 1);
+			this.fireAdd(proprieteParticipant, this.proprietesParticipants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La participation existe déjà dans l'équipe");
+			throw new ContestOrgModelException("La participation existe déjà dans le participant");
 		}
 	}
 	
@@ -311,7 +311,7 @@ public class ModelEquipe extends ModelMatchable
 			// Fire remove
 			this.fireRemove(participation, index);
 		} else {
-			throw new ContestOrgModelException("La participation n'existe pas dans l'équipe");
+			throw new ContestOrgModelException("La participation n'existe pas dans le participant");
 		}
 	}
 	protected void removePrix (ModelPrix prix) throws ContestOrgModelException {
@@ -324,31 +324,31 @@ public class ModelEquipe extends ModelMatchable
 			// Fire remove
 			this.fireRemove(prix, index);
 		} else {
-			throw new ContestOrgModelException("La participation n'existe pas dans l'équipe");
+			throw new ContestOrgModelException("La participation n'existe pas dans le participant");
 		}
 	}
-	protected void removeProprieteEquipe (ModelProprietePossedee proprieteEquipe) throws ContestOrgModelException {
-		// Retirer la propriété d'équipe
+	protected void removeProprieteParticipant (ModelProprietePossedee proprieteParticipant) throws ContestOrgModelException {
+		// Retirer la propriété de participant
 		int index;
-		if ((index = this.proprietesEquipes.indexOf(proprieteEquipe)) != -1) {
+		if ((index = this.proprietesParticipants.indexOf(proprieteParticipant)) != -1) {
 			// Remove
-			this.proprietesEquipes.remove(proprieteEquipe);
+			this.proprietesParticipants.remove(proprieteParticipant);
 			
 			// Fire remove
-			this.fireRemove(proprieteEquipe, index);
+			this.fireRemove(proprieteParticipant, index);
 		} else {
-			throw new ContestOrgModelException("La participation n'existe pas dans l'équipe");
+			throw new ContestOrgModelException("La participation n'existe pas dans le paricipant");
 		}
 	}
 	
 	// Updaters
 	protected void updatePrix (TrackableList<String> list) throws ContestOrgModelException {
 		// Mettre à jour les prix remportés
-		this.links(new ModelEquipe.LinkerForPrix(this), list);
+		this.links(new ModelParticipant.LinkerForPrix(this), list);
 	}
-	protected void updateProprietesEquipe (TrackableList<Pair<String, InfosModelProprieteEquipe>> list) throws ContestOrgModelException {
-		// Mettre à jour les propriétés d'équipe
-		this.updates(new ModelProprietePossedee.UpdaterForEquipe(this), this.proprietesEquipes, list, true, null);
+	protected void updateProprietesParticipant (TrackableList<Pair<String, InfosModelProprieteParticipant>> list) throws ContestOrgModelException {
+		// Mettre à jour les propriétés de participant
+		this.updates(new ModelProprietePossedee.UpdaterForParticipant(this), this.proprietesParticipants, list, true, null);
 	}
 	
 	// Implémentation de toStrings
@@ -358,13 +358,13 @@ public class ModelEquipe extends ModelMatchable
 	}
 	
 	// Clone
-	protected ModelEquipe clone (ModelPoule poule) {
-		return new ModelEquipe(poule, this);
+	protected ModelParticipant clone (ModelPoule poule) {
+		return new ModelParticipant(poule, this);
 	}
 	
 	// ToInformation
-	public InfosModelEquipe toInformation () {
-		InfosModelEquipe infos = new InfosModelEquipe(this.stand, this.nom, this.ville, this.statut, this.membres, this.details);
+	public InfosModelParticipant toInfos () {
+		InfosModelParticipant infos = new InfosModelParticipant(this.stand, this.nom, this.ville, this.statut, this.membres, this.details);
 		infos.setId(this.getId());
 		return infos;
 	}
@@ -372,31 +372,31 @@ public class ModelEquipe extends ModelMatchable
 	// Remove
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
-			// Ajouter l'équipe à la liste des removers
+			// Ajouter le participant à la liste des removers
 			removers.add(this);
 			
-			// "Supprimer" les participations de l'équipe
+			// "Supprimer" les participations du participant
 			for (ModelParticipation participation : this.participations) {
 				if (!removers.contains(participation)) {
-					participation.setEquipe(null);
+					participation.setParticipant(null);
 				}
 			}
 			this.participations.clear();
 			this.fireClear(ModelParticipation.class);
 			
-			// Retirer l'équipe des prix
+			// Retirer le participant des prix
 			for (ModelPrix prix : this.prix) {
 				if (!removers.contains(prix)) {
-					prix.removeEquipe(this);
+					prix.removeParticipant(this);
 				}
 			}
 			this.prix.clear();
 			this.fireClear(ModelPrix.class);
 			
-			// Retirer l'équipe de la poule
+			// Retirer le participant de la poule
 			if (this.poule != null) {
 				if (!removers.contains(this.poule)) {
-					this.poule.removeEquipe(this);
+					this.poule.removeParticipant(this);
 				}
 				this.poule = null;
 				this.fireClear(ModelPoule.class);
@@ -407,8 +407,8 @@ public class ModelEquipe extends ModelMatchable
 		}
 	}
 	
-	// Classe pour mettre à jour une liste d'équipes indépendament de son conteneur
-	protected static class Updater implements IUpdater<Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String, InfosModelProprieteEquipe>>, TrackableList<String>>, ModelEquipe>
+	// Classe pour mettre à jour une liste de participants indépendament de son conteneur
+	protected static class Updater implements IUpdater<Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>>, ModelParticipant>
 	{
 		// Concours
 		private ModelConcours concours;
@@ -421,66 +421,66 @@ public class ModelEquipe extends ModelMatchable
 		
 		// Implémentation de create
 		@Override
-		public ModelEquipe create (Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String, InfosModelProprieteEquipe>>, TrackableList<String>> infos) {
+		public ModelParticipant create (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) {
 			try {
 				// Récupérer la poule
 				ModelPoule poule = this.concours.getCategorieByNom(infos.getFirst()).getPouleByNom(infos.getSecond());
 				
-				// Créer, configurer et retourner l'équipe
-				ModelEquipe equipe = new ModelEquipe(poule, infos.getThird());
-				poule.addEquipe(equipe);
-				equipe.updateProprietesEquipe(infos.getFourth());
-				equipe.updatePrix(infos.getFifth());
-				return equipe;
+				// Créer, configurer et retourner le participant
+				ModelParticipant participant = new ModelParticipant(poule, infos.getThird());
+				poule.addParticipant(participant);
+				participant.updateProprietesParticipant(infos.getFourth());
+				participant.updatePrix(infos.getFifth());
+				return participant;
 			} catch (ContestOrgModelException e) {
-				Log.getLogger().fatal("Erreur lors de la création d'une équipe.",e);
+				Log.getLogger().fatal("Erreur lors de la création d'un participant.",e);
 				return null;
 			}
 		}
 		
 		@Override
-		public void update (ModelEquipe equipe, Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String, InfosModelProprieteEquipe>>, TrackableList<String>> infos) {
+		public void update (ModelParticipant participant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) {
 			try {
 				// Récupérer la poule
 				ModelPoule poule = this.concours.getCategorieByNom(infos.getFirst()).getPouleByNom(infos.getSecond());
 				
-				// Configurer l'équipe
-				if (!equipe.getPoule().equals(poule)) {
-					equipe.setPoule(poule);
+				// Configurer le participant
+				if (!participant.getPoule().equals(poule)) {
+					participant.setPoule(poule);
 				}
-				equipe.setInfos(infos.getThird());
-				equipe.updateProprietesEquipe(infos.getFourth());
-				equipe.updatePrix(infos.getFifth());
+				participant.setInfos(infos.getThird());
+				participant.updateProprietesParticipant(infos.getFourth());
+				participant.updatePrix(infos.getFifth());
 			} catch (ContestOrgModelException e) {
 				Log.getLogger().fatal(e.getMessage());
 			}
 		}
 	}
 	
-	// Classe pour lié une liste de prix à une équipe
+	// Classe pour lier une liste de prix à un participant
 	protected static class LinkerForPrix implements ILinker<String>
 	{
-		// Equipe
-		private ModelEquipe equipe;
+		// Participant
+		private ModelParticipant participant;
 		
 		// Constructeur
-		public LinkerForPrix(ModelEquipe equipe) {
-			this.equipe = equipe;
+		public LinkerForPrix(ModelParticipant participant) {
+			this.participant = participant;
 		}
 		
 		// Implémentation de link
 		@Override
 		public void link (String nomPrix) {
 			// Récupérer le prix
-			ModelPrix prix = this.equipe.getPoule().getCategorie().getConcours().getPrixByNom(nomPrix);
+			ModelPrix prix = this.participant.getPoule().getCategorie().getConcours().getPrixByNom(nomPrix);
 			
-			// Créer le lien entre le prix et l'équipe
-			if (prix.getEquipes().indexOf(this.equipe) == -1 && this.equipe.getPrix().indexOf(prix) == -1) {
+			// Créer le lien entre le prix et le participant
+			if (prix.getParticipants().indexOf(this.participant) == -1 && this.participant.getPrix().indexOf(prix) == -1) {
 				try {
-					prix.addEquipe(this.equipe);
-					this.equipe.addPrix(prix);
+					prix.addParticipant(this.participant);
+					this.participant.addPrix(prix);
 				} catch (ContestOrgModelException e) {
-					Log.getLogger().fatal("Erreur lors de la création du lien entre un prix et une équipe.");
+					Log.getLogger().fatal("Erreur lors de la création du lien entre un prix et un participant.");
 				}
 			}
 		}
@@ -489,15 +489,15 @@ public class ModelEquipe extends ModelMatchable
 		@Override
 		public void unlink (String nomPrix) {
 			// Récupérer le prix
-			ModelPrix prix = this.equipe.getPoule().getCategorie().getConcours().getPrixByNom(nomPrix);
+			ModelPrix prix = this.participant.getPoule().getCategorie().getConcours().getPrixByNom(nomPrix);
 			
-			// Supprimer le lien entre le prix et l'équipe
-			if (prix.getEquipes().indexOf(this.equipe) != -1 && this.equipe.getPrix().indexOf(prix) != -1) {
+			// Supprimer le lien entre le prix et le participant
+			if (prix.getParticipants().indexOf(this.participant) != -1 && this.participant.getPrix().indexOf(prix) != -1) {
 				try {
-					prix.removeEquipe(this.equipe);
-					this.equipe.removePrix(prix);
+					prix.removeParticipant(this.participant);
+					this.participant.removePrix(prix);
 				} catch (ContestOrgModelException e) {
-					Log.getLogger().fatal("Erreur lors de la suppression du lien entre un prix et une équipe.");
+					Log.getLogger().fatal("Erreur lors de la suppression du lien entre un prix et un participant.");
 				}
 			}
 		}

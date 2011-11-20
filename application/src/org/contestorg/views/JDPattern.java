@@ -28,7 +28,7 @@ import javax.swing.WindowConstants;
 @SuppressWarnings("serial")
 abstract public class JDPattern extends JDialog implements ActionListener, WindowListener
 {
-	// Fenetre parent
+	// fenêtre parent
 	protected Window w_parent;
 
 	// Panels de titre et de contenu
@@ -51,15 +51,15 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 		this(w_parent, titre, false, false);
 	}
 	public JDPattern(Window w_parent, String titre, boolean afficheTitre, boolean resizable) {
-		// Parametres de la fenetre
+		// Parametres de la fenêtre
 		super(w_parent, titre); // Titre
-		this.setModal(true); // Fenetre modale
+		this.setModal(true); // fenêtre modale
 		this.setLayout(new BorderLayout()); // Layout par default
 		this.setResizable(resizable); // Redimensionnable ?		
 		this.setIconImage(new ImageIcon("img/farm/32x32/sport.png").getImage()); // Icone de la fenêtre
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); // Ne rien faire si echap
 
-		// Retenir la fenetre parent
+		// Retenir la fenêtre parent
 		this.w_parent = w_parent;
 		
 		// Titre
@@ -136,7 +136,7 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 			height = screenSize.height;
 		}
 		
-		// Positionner la fenetre au milieu
+		// Positionner la fenêtre au milieu
 		this.setLocation((width-this.getWidth())/2+x,(height-this.getHeight())/2+y);
 	}
 

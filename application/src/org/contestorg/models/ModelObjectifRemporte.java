@@ -31,7 +31,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 	}
 	protected ModelObjectifRemporte(ModelParticipation participation, ModelObjectif objectif, ModelObjectifRemporte participationObjectif) {
 		// Appeller le constructeur parent
-		this(participation, objectif, participationObjectif.toInformation());
+		this(participation, objectif, participationObjectif.toInfos());
 		
 		// Récupérer l'id
 		this.setId(participationObjectif.getId());
@@ -72,7 +72,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelParticipationObjectif toInformation () {
+	public InfosModelParticipationObjectif toInfos () {
 		InfosModelParticipationObjectif infos = new InfosModelParticipationObjectif(this.quantite);
 		infos.setId(this.getId());
 		return infos;

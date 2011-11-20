@@ -65,12 +65,12 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	public static final int STATE_EDIT 		= 8;	// Est ce que le mode édition est activé ?
 
 	// Vues
-	private JFPrincipal jf_general;	// Fenetre principale
-	private JDialog jd_concours;	// Fenetre de création et d'édition de concours
-	private JDialog jd_connexion;	// Fenetre de connexion au serveur de ContestOrg
+	private JFPrincipal jf_general;	// fenêtre principale
+	private JDialog jd_concours;	// fenêtre de création et d'édition de concours
+	private JDialog jd_connexion;	// fenêtre de connexion au serveur de ContestOrg
 
 	// Controleurs
-	private CtrlEquipes ctrl_equipes;
+	private CtrlParticipants ctrl_participants;
 	private CtrlPhasesQualificatives ctrl_qualifications;
 	private CtrlPhasesEliminatoires ctrl_finales;
 	private CtrlOut ctrl_out;
@@ -90,7 +90,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		ContestOrg.contestOrg = this;
 
 		// Créer les différents controleurs
-		this.ctrl_equipes = new CtrlEquipes();
+		this.ctrl_participants = new CtrlParticipants();
 		this.ctrl_qualifications = new CtrlPhasesQualificatives();
 		this.ctrl_finales = new CtrlPhasesEliminatoires();
 		this.ctrl_out = new CtrlOut();
@@ -98,7 +98,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		// S'abonner à l'historique
 		FrontModel.get().getHistory().addListener(this);
 
-		// Lancer la fenetre generale
+		// Lancer la fenêtre generale
 		this.jf_general = new JFPrincipal("ContestOrg "+ContestOrg.VERSION);
 		this.addListener(this.jf_general);
 		this.jf_general.setVisible(true);
@@ -118,8 +118,8 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	// ==== Getters
 	
 	// Récupérer les controleurs
-	public CtrlEquipes getCtrlEquipes() {
-		return this.ctrl_equipes;
+	public CtrlParticipants getCtrlParticipants() {
+		return this.ctrl_participants;
 	}
 	public CtrlPhasesQualificatives getCtrlPhasesQualificatives() {
 		return this.ctrl_qualifications;
@@ -181,7 +181,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		// Fermer le précédant concours
 		this.procedureConcoursFermer();
 		
-		// Créer et afficher la fenetre de création de concours
+		// Créer et afficher la fenêtre de création de concours
 		this.jd_concours = new JDConcoursCreer(this.jf_general);
 		this.jd_concours.setVisible(true);
 	}
@@ -196,7 +196,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			// Initialiser aux états ouvert et édition
 			this.initStates(STATE_OPEN,STATE_EDIT);
 			
-			// Masquer et détruire la fenetre de création de concours 
+			// Masquer et détruire la fenêtre de création de concours 
 			this.jd_concours.setVisible(false);
 			this.jd_concours = null;
 		} catch (Exception e) {
@@ -205,7 +205,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		}
 	}
 	public void procedureConcoursNouveauAnnuler () {
-		// Masquer et détruire la fenetre de création de concours 
+		// Masquer et détruire la fenêtre de création de concours 
 		this.jd_concours.setVisible(false);
 		this.jd_concours = null;
 	}
@@ -215,8 +215,8 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		// Récupérer le front
 		FrontModel front = FrontModel.get();
 		
-		// Créer et afficher la fenetre de configuration de concours
-		this.jd_concours = new JDConcoursEditer(this.jf_general,front.getConcours().toInformation(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
+		// Créer et afficher la fenêtre de configuration de concours
+		this.jd_concours = new JDConcoursEditer(this.jf_general,front.getConcours().toInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
 		this.jd_concours.setVisible(true);
 	}
 	public void procedureConcoursConfigurer (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) {
@@ -227,7 +227,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			// Retirer l'état sauvegardé
 			this.removeState(STATE_SAVE);
 			
-			// Masquer et détruire la fenetre de création de concours 
+			// Masquer et détruire la fenêtre de création de concours 
 			this.jd_concours.setVisible(false);
 			this.jd_concours = null;
 		} catch (Exception e) {
@@ -236,7 +236,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		}
 	}
 	public void procedureConcoursConfigurerAnnuler () {
-		// Masquer et détruire la fenetre de configuration de concours 
+		// Masquer et détruire la fenêtre de configuration de concours 
 		this.jd_concours.setVisible(false);
 		this.jd_concours = null;
 	}
@@ -311,11 +311,11 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 				// Lancer les exportations automatiques
 				IOperation operation = this.ctrl_out.getLancerExportationsAutomatiquesOperation();	// Récupérer l'opération
 				if(operation != null) {
-					// Créer la fenetre associée à l'opération
+					// Créer la fenêtre associée à l'opération
 					JDOperation jd_operation = new JDOperation(this.jf_general,"Exportations automatiques",operation,true,true);
 					
 					operation.operationStart();		// Démarrer l'opération
-					jd_operation.setVisible(true);	// Afficher la fenetre
+					jd_operation.setVisible(true);	// Afficher la fenêtre
 				}
 			} else {
 				// Message d'erreur
@@ -328,7 +328,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	
 	// Procédure de connexion
 	public void procedureServeurConnexionDemarrer () {
-		// Créer et afficher la fenetre de connexion
+		// Créer et afficher la fenêtre de connexion
 		this.jd_connexion = new JDConnexionCreer(this, this.jf_general);
 		this.jd_connexion.setVisible(true);
 	}
@@ -336,7 +336,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		// TODO Connexion au serveur
 	}
 	public void procedureServeurConnexionAnnuler () {
-		// Masquer et détruire la fenetre de connexion 
+		// Masquer et détruire la fenêtre de connexion 
 		this.jd_connexion.setVisible(false);
 		this.jd_connexion = null;
 	}

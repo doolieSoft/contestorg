@@ -12,7 +12,7 @@ import javax.swing.JComboBox;
 import org.contestorg.common.Pair;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Parametre;
 import org.contestorg.interfaces.IChangeable;
@@ -44,7 +44,7 @@ public class JCParametreCategorie extends JCParametreAbstract implements IChange
 		// Remplir la liste
 		if(ContestOrg.get().is(ContestOrg.STATE_OPEN)) {
 			this.jcb_categorie.addItem("Veuillez séléctionner une catégorie");
-			for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelEquipe>>>> categorie : ContestOrg.get().getCtrlEquipes().getListeCategoriesPoulesEquipes()) {
+			for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>>> categorie : ContestOrg.get().getCtrlParticipants().getListeCategoriesPoulesParticipants()) {
 				this.jcb_categorie.addItem(categorie.getFirst().getNom());
 				this.idsCategories.add(categorie.getFirst().getId());
 			}

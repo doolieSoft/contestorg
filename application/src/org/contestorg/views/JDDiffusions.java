@@ -140,12 +140,12 @@ public class JDDiffusions extends JDPattern implements IEndListener
 			// Récupérer l'opération
 			IOperation operation = demarrer ? ContestOrg.get().getCtrlOut().getArreterDiffusionOperation(port) : ContestOrg.get().getCtrlOut().getDemarrerDiffusionOperation(port);
 			
-			// Créer la fenetre associée à l'opération
+			// Créer la fenêtre associée à l'opération
 			JDOperation jd_operation = new JDOperation(this, demarrer ? "Arreter une diffusion" : "Demarrer une diffusion",operation,true,true);
 			
 			jd_operation.addListener(this);	// Ecouter la fin de l'opération
 			operation.operationStart();		// Démarrer l'opération
-			jd_operation.setVisible(true);	// Afficher la fenetre
+			jd_operation.setVisible(true);	// Afficher la fenêtre
 		} else if(this.jbs_afficher.contains(event.getSource())) {
 			// Ouvrir le navigateur sur la diffusion
 			try {
@@ -164,14 +164,14 @@ public class JDDiffusions extends JDPattern implements IEndListener
 	// Implémentation de ok
 	@Override
 	protected void ok () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
 	// Implémentation de quit
 	@Override
 	protected void quit () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 

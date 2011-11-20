@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Theme
 {	
 	// Catégories
-	public static final String CATEGORIE_EQUIPES = "equipes";
+	public static final String CATEGORIE_PARTICIPANTS = "participants";
 	public static final String CATEGORIE_PHASES_QUALIFICATIVES = "phasesQualificatives";
 	public static final String CATEGORIE_PHASES_ELIMINATOIRES = "phasesEliminatoires";
 	

@@ -39,8 +39,8 @@ public class ModelCompPhasesQualifsObjectif extends ModelCompPhasesQualifsAbstra
 	
 	// Implémentation de toInformation
 	@Override
-	public InfosModelCompPhasesQualifsObjectif toInformation () {
-		InfosModelCompPhasesQualifsObjectif infos = new InfosModelCompPhasesQualifsObjectif(this.objectif.toInformation());
+	public InfosModelCompPhasesQualifsObjectif toInfos () {
+		InfosModelCompPhasesQualifsObjectif infos = new InfosModelCompPhasesQualifsObjectif(this.objectif.toInfos());
 		infos.setId(this.getId());
 		return infos;
 	}

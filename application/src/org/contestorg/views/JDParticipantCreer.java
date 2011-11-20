@@ -8,18 +8,18 @@ import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
-import org.contestorg.infos.InfosModelProprieteEquipe;
+import org.contestorg.infos.InfosModelParticipant;
+import org.contestorg.infos.InfosModelProprieteParticipant;
 import org.contestorg.interfaces.ICollector;
 
 
 
 @SuppressWarnings("serial")
-public class JDEquipeCreer extends JDEquipeAbstract
+public class JDParticipantCreer extends JDParticipantAbstract
 {
 
 	// Constructeur
-	public JDEquipeCreer(Window w_parent, ICollector<Quintuple<String,String,InfosModelEquipe,TrackableList<Pair<String,InfosModelProprieteEquipe>>,TrackableList<String>>> collector, String nomCategorie, String nomPoule) {
+	public JDParticipantCreer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprieteParticipant>>,TrackableList<String>>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
 		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur",collector);
 		
@@ -32,11 +32,11 @@ public class JDEquipeCreer extends JDEquipeAbstract
 		}
 	}
 
-	// Implémentation de checkNomEquipe
+	// Implémentation de checkNomParticipant
 	@Override
-	protected boolean checkNomEquipe () {
-		// Retourner true s'il n'y a pas d'équipe qui a le meme nom
-		return !ContestOrg.get().getCtrlEquipes().isEquipeExiste(this.jtf_nom.getText().trim());
+	protected boolean checkNomParticipant () {
+		// Retourner true s'il n'y a pas de participant qui a le même nom
+		return !ContestOrg.get().getCtrlParticipants().isParticipantExiste(this.jtf_nom.getText().trim());
 	}
 	
 }

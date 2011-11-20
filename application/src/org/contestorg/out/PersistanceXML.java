@@ -28,7 +28,7 @@ import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.infos.InfosModelLieu;
@@ -45,9 +45,9 @@ import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
-import org.contestorg.infos.InfosModelProprieteEquipe;
+import org.contestorg.infos.InfosModelProprieteParticipant;
 import org.contestorg.infos.InfosModelTheme;
-import org.contestorg.infos.InfosModelEquipe.Statut;
+import org.contestorg.infos.InfosModelParticipant.Statut;
 import org.contestorg.log.Log;
 import org.contestorg.models.ContestOrgModelException;
 import org.contestorg.models.FrontModel;
@@ -63,7 +63,7 @@ import org.contestorg.models.ModelCompPhasesQualifsVictoires;
 import org.contestorg.models.ModelConcours;
 import org.contestorg.models.ModelDiffusion;
 import org.contestorg.models.ModelEmplacement;
-import org.contestorg.models.ModelEquipe;
+import org.contestorg.models.ModelParticipant;
 import org.contestorg.models.ModelExportation;
 import org.contestorg.models.ModelHoraire;
 import org.contestorg.models.ModelLieu;
@@ -356,38 +356,38 @@ public class PersistanceXML extends PersistanceAbstract
 							final ModelPoule poule = new ModelPoule(categorie, new InfosModelPoule(elementPoule.getAttributeValue("nom")));
 							poule.setId(Integer.parseInt(elementPoule.getAttributeValue("id")));
 							
-							// Ajouter les équipes
-							if (elementPoule.getChild("listeEquipes") != null) {
-								Iterator iteratorEquipes = elementPoule.getChild("listeEquipes").getChildren("equipe").iterator();
-								while (iteratorEquipes.hasNext()) {
-									Element elementEquipe = (Element)iteratorEquipes.next();
+							// Ajouter les participants
+							if (elementPoule.getChild("listeParticipants") != null) {
+								Iterator iteratorParticipants = elementPoule.getChild("listeParticipants").getChildren("participant").iterator();
+								while (iteratorParticipants.hasNext()) {
+									Element elementParticipant = (Element)iteratorParticipants.next();
 									
-									ModelEquipe equipe = new ModelEquipe(poule, new InfosModelEquipe(elementEquipe.getAttributeValue("stand"), elementEquipe.getAttributeValue("nom"), elementEquipe.getAttributeValue("ville"), InfosModelEquipe.Statut.search(elementEquipe.getAttributeValue("statut")), elementEquipe.getAttributeValue("membres"), elementEquipe.getAttributeValue("details")));
-									equipe.setId(Integer.parseInt(elementEquipe.getAttributeValue("id")));
+									ModelParticipant participant = new ModelParticipant(poule, new InfosModelParticipant(elementParticipant.getAttributeValue("stand"), elementParticipant.getAttributeValue("nom"), elementParticipant.getAttributeValue("ville"), InfosModelParticipant.Statut.search(elementParticipant.getAttributeValue("statut")), elementParticipant.getAttributeValue("membres"), elementParticipant.getAttributeValue("details")));
+									participant.setId(Integer.parseInt(elementParticipant.getAttributeValue("id")));
 									
-									if (elementEquipe.getChild("listeProprietesPossedees") != null) {
-										Iterator iteratorProprietesPossedees = elementEquipe.getChild("listeProprietesPossedees").getChildren("proprietePossedee").iterator();
+									if (elementParticipant.getChild("listeProprietesPossedees") != null) {
+										Iterator iteratorProprietesPossedees = elementParticipant.getChild("listeProprietesPossedees").getChildren("proprietePossedee").iterator();
 										while (iteratorProprietesPossedees.hasNext()) {
 											Element elementProprietePossedee = (Element)iteratorProprietesPossedees.next();
 											ModelPropriete propriete = (ModelPropriete)ModelAbstract.search(Integer.parseInt(elementProprietePossedee.getAttributeValue("refPropriete")));
-											ModelProprietePossedee proprietePossedee = new ModelProprietePossedee(propriete, equipe, new InfosModelProprieteEquipe(elementProprietePossedee.getAttributeValue("valeur")));
+											ModelProprietePossedee proprietePossedee = new ModelProprietePossedee(propriete, participant, new InfosModelProprieteParticipant(elementProprietePossedee.getAttributeValue("valeur")));
 											proprietePossedee.setId(Integer.parseInt(elementProprietePossedee.getAttributeValue("id")));
-											propriete.addProprieteEquipe(proprietePossedee);
-											equipe.addProprieteEquipe(proprietePossedee);
+											propriete.addProprieteParticipant(proprietePossedee);
+											participant.addProprieteParticipant(proprietePossedee);
 										}
 									}
 									
-									if (elementEquipe.getChild("listePrixRemportes") != null) {
-										Iterator iteratorPrixRemportes = elementEquipe.getChild("listePrixRemportes").getChildren("prixRemporte").iterator();
+									if (elementParticipant.getChild("listePrixRemportes") != null) {
+										Iterator iteratorPrixRemportes = elementParticipant.getChild("listePrixRemportes").getChildren("prixRemporte").iterator();
 										while (iteratorPrixRemportes.hasNext()) {
 											Element elementPrixRemporte = (Element)iteratorPrixRemportes.next();
 											ModelPrix prix = (ModelPrix)ModelAbstract.search(Integer.parseInt(elementPrixRemporte.getAttributeValue("refPrix")));
-											equipe.addPrix(prix);
-											prix.addEquipe(equipe);
+											participant.addPrix(prix);
+											prix.addParticipant(participant);
 										}
 									}
 									
-									poule.addEquipe(equipe);
+									poule.addParticipant(participant);
 								}
 							}
 							
@@ -533,7 +533,7 @@ public class PersistanceXML extends PersistanceAbstract
 	// Récupérer une participation à partir de son élément JDom
 	@SuppressWarnings("rawtypes")
 	public static ModelParticipation loadParticipation (Element elementParticipation, ModelMatchAbstract match) throws ContestOrgModelException {
-		ModelEquipe equipe = elementParticipation.getAttribute("refEquipe") == null ? null : (ModelEquipe)ModelAbstract.search(Integer.parseInt(elementParticipation.getAttributeValue("refEquipe")));
+		ModelParticipant participant = elementParticipation.getAttribute("refParticipant") == null ? null : (ModelParticipant)ModelAbstract.search(Integer.parseInt(elementParticipation.getAttributeValue("refParticipant")));
 		
 		int resultat = -1;
 		switch (Tools.StringCase(elementParticipation.getAttributeValue("resultat"), "attente", "victoire", "egalite", "defaite", "forfait")) {
@@ -554,7 +554,7 @@ public class PersistanceXML extends PersistanceAbstract
 				break;
 		}
 		
-		ModelParticipation participation = new ModelParticipation(equipe, match, new InfosModelParticipation(resultat));
+		ModelParticipation participation = new ModelParticipation(participant, match, new InfosModelParticipation(resultat));
 		participation.setId(Integer.parseInt(elementParticipation.getAttributeValue("id")));
 		
 		Iterator iteratorObjectifsRemplis = elementParticipation.getChildren("objectifRempli").iterator();
@@ -567,8 +567,8 @@ public class PersistanceXML extends PersistanceAbstract
 			participation.addObjectifRemporte(objectifRempli);
 		}
 		
-		if (equipe != null)
-			equipe.addParticipation(participation);
+		if (participant != null)
+			participant.addParticipation(participation);
 		return participation;
 	}
 	
@@ -721,7 +721,7 @@ public class PersistanceXML extends PersistanceAbstract
 			for (ModelObjectif objectif : concours.getObjectifs()) {
 				Element elementObjectif = new Element("objectif");
 				elementObjectif.setAttribute("id", String.valueOf(objectif.getId()));
-				InfosModelObjectif infos = objectif.toInformation();
+				InfosModelObjectif infos = objectif.toInfos();
 				if (infos instanceof InfosModelObjectifPoints) {
 					Element elementObjectifPoints = new Element("objectifPoints");
 					elementObjectifPoints.setAttribute("nom", infos.getNom());
@@ -761,9 +761,9 @@ public class PersistanceXML extends PersistanceAbstract
 			root.addContent(listePrix);
 		}
 		
-		// Ajouter les propriétés d'équipe
+		// Ajouter les propriétés de participant
 		if (concours.getProprietes().size() != 0) {
-			root.addContent(new Comment("Liste des propriétés d'équipe"));
+			root.addContent(new Comment("Liste des propriétés de participant"));
 			Element listeProprietes = new Element("listeProprietes");
 			for (ModelPropriete propriete : concours.getProprietes()) {
 				Element elementPropriete = new Element("propriete");
@@ -917,23 +917,23 @@ public class PersistanceXML extends PersistanceAbstract
 				elementCategorie.setAttribute("id", String.valueOf(categorie.getId()));
 				elementCategorie.setAttribute("nom", categorie.getNom());
 				
-				// Récupérer les équipes de la catégorie
-				ArrayList<ModelEquipe> equipesCategorie = categorie.getEquipes();
+				// Récupérer les participants de la catégorie
+				ArrayList<ModelParticipant> participantsCategorie = categorie.getParticipants();
 				
 				// Ajouter le classement des phases qualificatives pour la catégorie
-				if (equipesCategorie.size() != 0) {
-					// Trier les équipes
-					Collections.sort(equipesCategorie, compPhasesQualifs);
-					Collections.reverse(equipesCategorie);
+				if (participantsCategorie.size() != 0) {
+					// Trier les participants
+					Collections.sort(participantsCategorie, compPhasesQualifs);
+					Collections.reverse(participantsCategorie);
 					Element elementClassement = new Element("classementCategoriePhasesQualificatives");
-					Element elementlisteClassementEquipes = new Element("listeClassementEquipes");
-					for (ModelEquipe equipe : equipesCategorie) {
-						Element elementEquipe = new Element("classementEquipe");
-						elementEquipe.setAttribute("refEquipe", String.valueOf(equipe.getId()));
-						elementEquipe.setAttribute("rang", String.valueOf(equipe.getRangPhasesQualifs()));
-						elementlisteClassementEquipes.addContent(elementEquipe);
+					Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
+					for (ModelParticipant participant : participantsCategorie) {
+						Element elementParticipant = new Element("classementParticipant");
+						elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
+						elementParticipant.setAttribute("rang", String.valueOf(participant.getRangPhasesQualifs()));
+						elementlisteClassementParticipants.addContent(elementParticipant);
 					}
-					elementClassement.addContent(elementlisteClassementEquipes);
+					elementClassement.addContent(elementlisteClassementParticipants);
 					elementCategorie.addContent(elementClassement);
 				}
 				
@@ -945,71 +945,71 @@ public class PersistanceXML extends PersistanceAbstract
 						elementPoule.setAttribute("id", String.valueOf(poule.getId()));
 						elementPoule.setAttribute("nom", poule.getNom());
 						
-						// Ajouter les équipes
-						if (poule.getEquipes().size() != 0) {
-							Element listeEquipes = new Element("listeEquipes");
-							for (ModelEquipe equipe : poule.getEquipes()) {
-								Element elementEquipe = new Element("equipe");
-								elementEquipe.setAttribute("id", String.valueOf(equipe.getId()));
-								elementEquipe.setAttribute("nom", equipe.getNom());
-								if (equipe.getVille() != null && !equipe.getVille().isEmpty())
-									elementEquipe.setAttribute("ville", equipe.getVille());
-								elementEquipe.setAttribute("statut", equipe.getStatut().getId());
-								if (equipe.getStand() != null && !equipe.getStand().isEmpty())
-									elementEquipe.setAttribute("stand", equipe.getStand());
-								if (equipe.getMembres() != null && !equipe.getMembres().isEmpty())
-									elementEquipe.setAttribute("membres", equipe.getMembres());
-								if (equipe.getDetails() != null && !equipe.getDetails().isEmpty())
-									elementEquipe.setAttribute("details", equipe.getDetails());
-								elementEquipe.setAttribute("rangPhasesQualifs", String.valueOf(equipe.getRangPhasesQualifs()));
-								elementEquipe.setAttribute("pointsPhasesQualifs", String.valueOf(String.valueOf(equipe.getPoints(false, true))));
-								elementEquipe.setAttribute("rangPhasesElims", String.valueOf(equipe.getRangPhasesElims()));
-								elementEquipe.setAttribute("pointsPhasesElims", String.valueOf(equipe.getPoints(true, false)));
+						// Ajouter les participants
+						if (poule.getParticipants().size() != 0) {
+							Element listeParticipants = new Element("listeParticipants");
+							for (ModelParticipant participant : poule.getParticipants()) {
+								Element elementParticipant = new Element("participant");
+								elementParticipant.setAttribute("id", String.valueOf(participant.getId()));
+								elementParticipant.setAttribute("nom", participant.getNom());
+								if (participant.getVille() != null && !participant.getVille().isEmpty())
+									elementParticipant.setAttribute("ville", participant.getVille());
+								elementParticipant.setAttribute("statut", participant.getStatut().getId());
+								if (participant.getStand() != null && !participant.getStand().isEmpty())
+									elementParticipant.setAttribute("stand", participant.getStand());
+								if (participant.getMembres() != null && !participant.getMembres().isEmpty())
+									elementParticipant.setAttribute("membres", participant.getMembres());
+								if (participant.getDetails() != null && !participant.getDetails().isEmpty())
+									elementParticipant.setAttribute("details", participant.getDetails());
+								elementParticipant.setAttribute("rangPhasesQualifs", String.valueOf(participant.getRangPhasesQualifs()));
+								elementParticipant.setAttribute("pointsPhasesQualifs", String.valueOf(String.valueOf(participant.getPoints(false, true))));
+								elementParticipant.setAttribute("rangPhasesElims", String.valueOf(participant.getRangPhasesElims()));
+								elementParticipant.setAttribute("pointsPhasesElims", String.valueOf(participant.getPoints(true, false)));
 								
-								if (equipe.getProprietesEquipe().size() != 0) {
+								if (participant.getProprietesParticipant().size() != 0) {
 									Element listeProprietesPossedees = new Element("listeProprietesPossedees");
-									for (ModelProprietePossedee proprieteEquipe : equipe.getProprietesEquipe()) {
+									for (ModelProprietePossedee proprieteParticipant : participant.getProprietesParticipant()) {
 										Element elementProprietePossedee = new Element("proprietePossedee");
-										elementProprietePossedee.setAttribute("id", String.valueOf(proprieteEquipe.getId()));
-										elementProprietePossedee.setAttribute("refPropriete", String.valueOf(proprieteEquipe.getPropriete().getId()));
-										elementProprietePossedee.setAttribute("valeur", proprieteEquipe.getValue());
+										elementProprietePossedee.setAttribute("id", String.valueOf(proprieteParticipant.getId()));
+										elementProprietePossedee.setAttribute("refPropriete", String.valueOf(proprieteParticipant.getPropriete().getId()));
+										elementProprietePossedee.setAttribute("valeur", proprieteParticipant.getValue());
 										listeProprietesPossedees.addContent(elementProprietePossedee);
 									}
-									elementEquipe.addContent(listeProprietesPossedees);
+									elementParticipant.addContent(listeProprietesPossedees);
 								}
 								
-								if (equipe.getPrix().size() != 0) {
+								if (participant.getPrix().size() != 0) {
 									Element listePrixRemportes = new Element("listePrixRemportes");
-									for (ModelPrix prix : equipe.getPrix()) {
+									for (ModelPrix prix : participant.getPrix()) {
 										Element elementPrixRemporte = new Element("prixRemporte");
 										elementPrixRemporte.setAttribute("refPrix", String.valueOf(prix.getId()));
 										listePrixRemportes.addContent(elementPrixRemporte);
 									}
-									elementEquipe.addContent(listePrixRemportes);
+									elementParticipant.addContent(listePrixRemportes);
 								}
 								
-								listeEquipes.addContent(elementEquipe);
+								listeParticipants.addContent(elementParticipant);
 							}
-							elementPoule.addContent(listeEquipes);
+							elementPoule.addContent(listeParticipants);
 						}
 						
-						// Récupérer les équipes de la poule
-						ArrayList<ModelEquipe> equipesPoule = poule.getEquipes();
+						// Récupérer les participants de la poule
+						ArrayList<ModelParticipant> participantsPoule = poule.getParticipants();
 						
 						// Ajouter le classement des phases qualificatives pour la poule
-						if (equipesPoule.size() != 0) {
-							// Trier les équipes
-							Collections.sort(equipesPoule, compPhasesQualifs);
-							Collections.reverse(equipesPoule);
+						if (participantsPoule.size() != 0) {
+							// Trier les participants
+							Collections.sort(participantsPoule, compPhasesQualifs);
+							Collections.reverse(participantsPoule);
 							Element elementClassement = new Element("classementPoulePhasesQualificatives");
-							Element elementlisteClassementEquipes = new Element("listeClassementEquipes");
-							for (ModelEquipe equipe : equipesPoule) {
-								Element elementEquipe = new Element("classementEquipe");
-								elementEquipe.setAttribute("refEquipe", String.valueOf(equipe.getId()));
-								elementEquipe.setAttribute("rang", String.valueOf(equipe.getRangPhasesQualifs()));
-								elementlisteClassementEquipes.addContent(elementEquipe);
+							Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
+							for (ModelParticipant participant : participantsPoule) {
+								Element elementParticipant = new Element("classementParticipant");
+								elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
+								elementParticipant.setAttribute("rang", String.valueOf(participant.getRangPhasesQualifs()));
+								elementlisteClassementParticipants.addContent(elementParticipant);
 							}
-							elementClassement.addContent(elementlisteClassementEquipes);
+							elementClassement.addContent(elementlisteClassementParticipants);
 							elementPoule.addContent(elementClassement);
 						}
 						
@@ -1025,19 +1025,19 @@ public class PersistanceXML extends PersistanceAbstract
 								CompPhasesQualifs compPhaseQualif = concours.getComparateurPhasesQualificatives(phase.getNumero());
 								
 								// Ajouter le classement pour la phase qualificative
-								if (equipesPoule.size() != 0) {
-									// Trier les équipes
-									Collections.sort(equipesPoule, compPhaseQualif);
-									Collections.reverse(equipesPoule);
+								if (participantsPoule.size() != 0) {
+									// Trier les participants
+									Collections.sort(participantsPoule, compPhaseQualif);
+									Collections.reverse(participantsPoule);
 									Element elementClassement = new Element("classementPhaseQualificative");
-									Element elementlisteClassementEquipes = new Element("listeClassementEquipes");
-									for (ModelEquipe equipe : equipesPoule) {
-										Element elementEquipe = new Element("classementEquipe");
-										elementEquipe.setAttribute("refEquipe", String.valueOf(equipe.getId()));
-										elementEquipe.setAttribute("rang", String.valueOf(equipe.getRangPhasesQualifs(phase.getNumero())));
-										elementlisteClassementEquipes.addContent(elementEquipe);
+									Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
+									for (ModelParticipant participant : participantsPoule) {
+										Element elementParticipant = new Element("classementParticipant");
+										elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
+										elementParticipant.setAttribute("rang", String.valueOf(participant.getRangPhasesQualifs(phase.getNumero())));
+										elementlisteClassementParticipants.addContent(elementParticipant);
 									}
-									elementClassement.addContent(elementlisteClassementEquipes);
+									elementClassement.addContent(elementlisteClassementParticipants);
 									elementPhaseQualificative.addContent(elementClassement);
 								}
 								
@@ -1066,21 +1066,21 @@ public class PersistanceXML extends PersistanceAbstract
 				}
 				
 				// Ajouter le classement des phases éliminatoires
-				if (equipesCategorie.size() != 0) {
-					// Trier les équipes
-					Collections.sort(equipesCategorie, compPhasesElims);
+				if (participantsCategorie.size() != 0) {
+					// Trier les participants
+					Collections.sort(participantsCategorie, compPhasesElims);
 					Element elementClassement = new Element("classementCategoriePhasesEliminatoires");
-					Element elementlisteClassementEquipes = new Element("listeClassementEquipes");
-					for (ModelEquipe equipe : equipesCategorie) {
-						int rang = equipe.getRangPhasesElims();
+					Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
+					for (ModelParticipant participant : participantsCategorie) {
+						int rang = participant.getRangPhasesElims();
 						if(rang > 0) {
-							Element elementEquipe = new Element("classementEquipe");
-							elementEquipe.setAttribute("refEquipe", String.valueOf(equipe.getId()));
-							elementEquipe.setAttribute("rang", String.valueOf(rang));
-							elementlisteClassementEquipes.addContent(elementEquipe);
+							Element elementParticipant = new Element("classementParticipant");
+							elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
+							elementParticipant.setAttribute("rang", String.valueOf(rang));
+							elementlisteClassementParticipants.addContent(elementParticipant);
 						}
 					}
-					elementClassement.addContent(elementlisteClassementEquipes);
+					elementClassement.addContent(elementlisteClassementParticipants);
 					elementCategorie.addContent(elementClassement);
 				}
 				
@@ -1143,8 +1143,8 @@ public class PersistanceXML extends PersistanceAbstract
 	private static Element getElementParticipation (ModelParticipation participation) {
 		Element elementParticipation = new Element("participation");
 		elementParticipation.setAttribute("id", String.valueOf(participation.getId()));
-		if (participation.getEquipe() != null)
-			elementParticipation.setAttribute("refEquipe", String.valueOf(participation.getEquipe().getId()));
+		if (participation.getParticipant() != null)
+			elementParticipation.setAttribute("refParticipant", String.valueOf(participation.getParticipant().getId()));
 		String resultat = null;
 		switch (participation.getResultat()) {
 			case InfosModelParticipation.RESULTAT_ATTENTE:
@@ -1175,9 +1175,9 @@ public class PersistanceXML extends PersistanceAbstract
 		return elementParticipation;
 	}
 	
-	// Extraire les information d'équipe d'un fichier XML
+	// Extraire les information de participant d'un fichier XML
 	@SuppressWarnings("rawtypes")
-	public static ArrayList<InfosModelEquipe> loadEquipes (String chemin) {
+	public static ArrayList<InfosModelParticipant> loadParticipants (String chemin) {
 		try {
 			// Construire le document JDom à partir du fichier
 			Document document = new SAXBuilder().build(new File(chemin));
@@ -1185,46 +1185,46 @@ public class PersistanceXML extends PersistanceAbstract
 			// Récupérer l'élément root
 			Element root = document.getRootElement();
 			
-			// Initialiser la liste des équipes
-			ArrayList<InfosModelEquipe> equipes = new ArrayList<InfosModelEquipe>();
+			// Initialiser la liste des participants
+			ArrayList<InfosModelParticipant> participants = new ArrayList<InfosModelParticipant>();
 			
-			// Récupérer la liste des équipes
-			Iterator iteratorEquipes = root.getChildren("equipe").iterator();
-			while(iteratorEquipes.hasNext()) {
-				// Récupérer l'équipe courante
-				Element elementEquipe = (Element)iteratorEquipes.next();
+			// Récupérer la liste des participants
+			Iterator iteratorParticipants = root.getChildren("participant").iterator();
+			while(iteratorParticipants.hasNext()) {
+				// Récupérer le participant courant
+				Element elementParticipant = (Element)iteratorParticipants.next();
 				
-				// Récupérer les propriétés de l'équipe
-				String stand = elementEquipe.getAttributeValue("stand");
+				// Récupérer les propriétés du participant
+				String stand = elementParticipant.getAttributeValue("stand");
 				if(stand != null)
 					stand = stand.trim();
-				String nom = elementEquipe.getAttributeValue("nom");
+				String nom = elementParticipant.getAttributeValue("nom");
 				if(nom != null)
 					nom = nom.trim();
-				String ville = elementEquipe.getAttributeValue("ville");
+				String ville = elementParticipant.getAttributeValue("ville");
 				if(ville != null)
 					ville = ville.trim();
-				Statut statut = InfosModelEquipe.Statut.search(elementEquipe.getAttributeValue("statut"));
-				String membres = elementEquipe.getAttributeValue("membres");
+				Statut statut = InfosModelParticipant.Statut.search(elementParticipant.getAttributeValue("statut"));
+				String membres = elementParticipant.getAttributeValue("membres");
 				if(membres != null)
 					membres = membres.trim();
-				String details = elementEquipe.getAttributeValue("details");
+				String details = elementParticipant.getAttributeValue("details");
 				if(details != null)
 					details = details.trim();
 				
-				// Ajouter l'équipe dans la liste des équipes
+				// Ajouter le participant dans la liste des participants
 				if(!nom.isEmpty()) {
-					equipes.add(new InfosModelEquipe(stand, nom, ville, statut, membres, details));
+					participants.add(new InfosModelParticipant(stand, nom, ville, statut, membres, details));
 				}
 			}
 			
-			// Retourner la liste des équipes
-			return equipes;
+			// Retourner la liste des participants
+			return participants;
 		} catch (JDOMException e) {
-			Log.getLogger().error("Erreur lors de l'importation des équipes",e);
+			Log.getLogger().error("Erreur lors de l'importation des participants",e);
 			return null;
 		} catch (IOException e) {
-			Log.getLogger().error("Erreur lors de l'importation des équipes",e);
+			Log.getLogger().error("Erreur lors de l'importation des participants",e);
 			return null;
 		}
 	}

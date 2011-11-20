@@ -24,7 +24,7 @@ public class ModelCheminFTP extends ModelCheminAbstract
 	}
 	protected ModelCheminFTP(ModelCheminFTP chemin) {
 		// Appeller le constructeur principal
-		this(chemin.toInformation());
+		this(chemin.toInfos());
 		
 		// Récupérer l'id
 		this.setId(chemin.getId());
@@ -73,7 +73,7 @@ public class ModelCheminFTP extends ModelCheminAbstract
 	}
 	
 	// ToInformation
-	public InfosModelCheminFTP toInformation () {
+	public InfosModelCheminFTP toInfos () {
 		InfosModelCheminFTP infos = new InfosModelCheminFTP(new InfosConnexionFTP(this.host, this.port, this.username, this.password, this.path, this.mode));
 		infos.setId(this.getId());
 		return infos;

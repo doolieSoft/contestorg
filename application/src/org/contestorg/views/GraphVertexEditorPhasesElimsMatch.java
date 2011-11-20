@@ -20,7 +20,7 @@ import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelParticipationObjectif;
@@ -34,9 +34,9 @@ import org.jgraph.graph.GraphCellEditor;
 public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implements GraphCellEditor {
 
 	// Modèle associé à l'éditeur
-	private ICelluleModel<InfosModelCategorie, InfosModelEquipe> model;
+	private ICelluleModel<InfosModelCategorie, InfosModelParticipant> model;
 
-	// Fenetre parent
+	// fenêtre parent
 	private Window w_parent;
 	
 	// Label d'édition
@@ -49,11 +49,11 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 	private boolean petiteFinale;
 
 	// Constructeur
-	public GraphVertexEditorPhasesElimsMatch(ICelluleModel<InfosModelCategorie, InfosModelEquipe> model, Window w_parent, int width, int height, boolean resultatsEditable, boolean petiteFinale) {
+	public GraphVertexEditorPhasesElimsMatch(ICelluleModel<InfosModelCategorie, InfosModelParticipant> model, Window w_parent, int width, int height, boolean resultatsEditable, boolean petiteFinale) {
 		// Retenir le modèle associé à l'éditeur
 		this.model = model;
 
-		// Retenir la fenetre parent
+		// Retenir la fenêtre parent
 		this.w_parent = w_parent;
 		
 		// Retenir si les résultats sont éditable et s'il s'agit de la petiteFinale
@@ -78,14 +78,14 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 	// Implémentation de getGraphCellEditorComponent
 	@Override
 	public Component getGraphCellEditorComponent(JGraph graph, Object value, boolean isSelected) {
-		// Demander à Swing de remettre à plus tard la création et l'affichage de la fenetre d'édition
+		// Demander à Swing de remettre à plus tard la création et l'affichage de la fenêtre d'édition
 		SwingUtilities.invokeLater(new Edit());
 			
 		// Retourner le label d'édition 
 		return this.jl_edition;
 	}
 	
-	// Méthode permettant l'affichage de la fenetre d'édition
+	// Méthode permettant l'affichage de la fenêtre d'édition
 	private class Edit implements Runnable {
 		// Implémentation de run
 		@Override
@@ -100,7 +100,7 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 			// Récupérer les informations sur le match
 			Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos = petiteFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPetiteFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPhasesElims(nomCategorie,numeroMatch);
 			
-			// Créer et afficher la fenetre d'édition de la fenetre
+			// Créer et afficher la fenêtre d'édition de la fenêtre
 			JDialog jd_match = new JDMatchPhasesEliminatoires(w_parent, collector, infos, resultatsEditable);
 			collector.setWindow(jd_match);
 			jd_match.setVisible(true);

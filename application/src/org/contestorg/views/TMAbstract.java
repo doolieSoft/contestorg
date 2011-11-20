@@ -17,7 +17,7 @@ public abstract class TMAbstract<T> extends TrackableList<T> implements TableMod
 	// Parent
 	protected Window w_parent;
 
-	// Fenetres de création et d'édition
+	// fenêtres de création et d'édition
 	protected Window w_add_update;
 	private Integer row;
 
@@ -31,19 +31,19 @@ public abstract class TMAbstract<T> extends TrackableList<T> implements TableMod
 	}
 
 	// Méthodes à implémenter
-	public abstract Window getAddWindow (); // Afficher la fenetre d'ajout d'un T
-	public abstract Window getUpdateWindow (T infos); // Afficher la fenetre de mise à jour d'un T
+	public abstract Window getAddWindow (); // Afficher la fenêtre d'ajout d'un T
+	public abstract Window getUpdateWindow (T infos); // Afficher la fenêtre de mise à jour d'un T
 	public abstract boolean acceptDelete (T infos); // Demande de suppression d'un T
 
-	// Lanceurs de fenetres
+	// Lanceurs de fenêtres
 	public void launchAddWindow () {
-		// Récupérer la fenetre et l'afficher
+		// Récupérer la fenêtre et l'afficher
 		this.row = null;
 		this.w_add_update = this.getAddWindow();
 		this.w_add_update.setVisible(true);
 	}
 	public void launchUpdateWindow (int row) {
-		// Récupérer la fenetre et l'afficher
+		// Récupérer la fenêtre et l'afficher
 		this.row = row;
 		this.w_add_update = this.getUpdateWindow(this.get(row));
 		this.w_add_update.setVisible(true);
@@ -61,9 +61,9 @@ public abstract class TMAbstract<T> extends TrackableList<T> implements TableMod
 		// Ajouter/editer le T
 		boolean result = this.row == null ? this.add(infos) : this.update(this.row, infos);
 
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		if(result) {
-			// Masquer la fenetre
+			// Masquer la fenêtre
 			this.w_add_update.setVisible(false);
 			this.w_add_update = null;
 			this.row = null;
@@ -71,7 +71,7 @@ public abstract class TMAbstract<T> extends TrackableList<T> implements TableMod
 	}
 	@Override
 	public void cancel () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.w_add_update.setVisible(false);
 		this.w_add_update = null;
 		this.row = null;

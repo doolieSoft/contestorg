@@ -12,7 +12,7 @@ import org.jgraph.graph.GraphModel;
 public class CellViewsFactoryPhasesElims extends DefaultCellViewFactory {
 	
 		
-		// Fenetre parant
+		// fenêtre parant
 		private Window w_parent;
 		
 		// Graphe
@@ -20,7 +20,7 @@ public class CellViewsFactoryPhasesElims extends DefaultCellViewFactory {
 
 		// Constructeur
 		public CellViewsFactoryPhasesElims(Window w_parent,GraphPhasesElims graphe) {
-			// Retenir la fenetre parent et le graphe
+			// Retenir la fenêtre parent et le graphe
 			this.w_parent = w_parent;
 			this.graphe = graphe;
 		}

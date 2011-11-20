@@ -20,25 +20,25 @@ import javax.swing.border.LineBorder;
 
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.jgraph.JGraph;
 import org.jgraph.graph.GraphCellEditor;
 
 
 @SuppressWarnings("serial")
-public class GraphVertexEditorPhasesElimsEquipe extends AbstractCellEditor implements GraphCellEditor
+public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor implements GraphCellEditor
 {
 
 	// Modèle associé à l'éditeur
-	private ICelluleModel<InfosModelCategorie, InfosModelEquipe> model;
+	private ICelluleModel<InfosModelCategorie, InfosModelParticipant> model;
 	
 	// Panel d'édition et ComboBox associée
 	private JPanel jp_edition;
 	private JComboBox jcb_edition;
 	
 	// Constructeur
-	public GraphVertexEditorPhasesElimsEquipe(ICelluleModel<InfosModelCategorie, InfosModelEquipe> model, int width, int height) {
+	public GraphVertexEditorPhasesElimsParticipant(ICelluleModel<InfosModelCategorie, InfosModelParticipant> model, int width, int height) {
 		// Retenir le modèle associé à l'éditeur 
 		this.model = model;
 
@@ -64,13 +64,13 @@ public class GraphVertexEditorPhasesElimsEquipe extends AbstractCellEditor imple
 		JLabel jl_edition = new JLabel(new ImageIcon("img/farm/32x32/pencil.png"));
 		this.jp_edition.add(jl_edition,contrainte_label);
 		
-		ArrayList<String> equipes = ContestOrg.get().getCtrlPhasesEliminatoires().getListeEquipesParticipantes(this.model.getGraphe().getObject().getNom());
+		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesEliminatoires().getListeParticipants(this.model.getGraphe().getObject().getNom());
 		
-		this.jcb_edition = new JComboBox(equipes.toArray(new String[equipes.size()]));
+		this.jcb_edition = new JComboBox(participants.toArray(new String[participants.size()]));
 		this.jp_edition.add(this.jcb_edition,contrainte_liste);
 		
-		if(equipes.contains(this.model.getObject().getNom())) {
-			this.jcb_edition.setSelectedIndex(equipes.indexOf(this.model.getObject().getNom()));
+		if(participants.contains(this.model.getObject().getNom())) {
+			this.jcb_edition.setSelectedIndex(participants.indexOf(this.model.getObject().getNom()));
 		} else {
 			this.jcb_edition.addItem(this.model.getObject().getNom());
 			this.jcb_edition.setSelectedIndex(this.jcb_edition.getItemCount()-1);
@@ -87,13 +87,13 @@ public class GraphVertexEditorPhasesElimsEquipe extends AbstractCellEditor imple
 	// Implémentation de getGraphCellEditorComponent
 	@Override
 	public Component getGraphCellEditorComponent (JGraph graph, Object value, boolean isSelected) {	
-		// Arreter l'édition de la cellule au changement d'équipe
+		// Arrêter l'édition de la cellule au changement de participant
 		this.jcb_edition.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged (ItemEvent event) {
 				if(event.getStateChange() == ItemEvent.SELECTED) {
-					// Demander le changement l'équipe de la cellule
-					ContestOrg.get().getCtrlPhasesEliminatoires().setEquipePhasesElims(model.getGraphe().getObject().getNom(), model.getGraphe().indexOf(model), (String)event.getItem());
+					// Demander le changement du participant de la cellule
+					ContestOrg.get().getCtrlPhasesEliminatoires().setParticipantPhasesElims(model.getGraphe().getObject().getNom(), model.getGraphe().indexOf(model), (String)event.getItem());
 					
 					// Arreter l'édition
 					stopCellEditing();

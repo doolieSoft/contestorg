@@ -32,7 +32,7 @@ public class ModelEmplacement extends ModelAbstract
 	}
 	protected ModelEmplacement(ModelLieu lieu, ModelEmplacement emplacement) {
 		// Appeller le constructeur principal
-		this(lieu, emplacement.toInformation());
+		this(lieu, emplacement.toInfos());
 		
 		// Récupérer l'id
 		this.setId(emplacement.getId());
@@ -68,7 +68,7 @@ public class ModelEmplacement extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelEmplacement toInformation () {
+	public InfosModelEmplacement toInfos () {
 		InfosModelEmplacement infos = new InfosModelEmplacement(this.nom, this.description);
 		infos.setId(this.getId());
 		return infos;

@@ -33,7 +33,7 @@ public class ModelDiffusion extends ModelAbstract
 	}
 	protected ModelDiffusion(ModelConcours concours, ModelTheme theme, ModelDiffusion diffusion) {
 		// Appeller le constructeur principal
-		this(concours, theme, diffusion.toInformation());
+		this(concours, theme, diffusion.toInfos());
 		
 		// Récupérer l'id
 		this.setId(diffusion.getId());
@@ -77,7 +77,7 @@ public class ModelDiffusion extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelDiffusion toInformation () {
+	public InfosModelDiffusion toInfos () {
 		InfosModelDiffusion infos = new InfosModelDiffusion(this.nom,this.port);
 		infos.setId(this.getId());
 		return infos;

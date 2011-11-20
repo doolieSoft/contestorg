@@ -1,9 +1,9 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet equipe
+ * Cette classe est un conteneur d'information pour la création ou la modification d'un participant
  */
-public class InfosModelEquipe extends InfosModelAbstract
+public class InfosModelParticipant extends InfosModelAbstract
 {
 
 	// Attributs
@@ -24,8 +24,8 @@ public class InfosModelEquipe extends InfosModelAbstract
 		DISQUALIFIE("disqualifiee","Disqualifiée","Disqualifié",false);
 		
 		// Attributs
-		private String id; // Utile pour la persistance 
-		private String nomEquipe; // Nom du statut pour une équipe 
+		private String id; // Id utilisé pour la persistance 
+		private String nomEquipe; // Nom du statut pour une équipe
 		private String nomJoueur; // Nom du statut pour un joueur
 		private boolean participation; // Est-ce que ce statut autorise la participant à un match ?
 		
@@ -68,7 +68,7 @@ public class InfosModelEquipe extends InfosModelAbstract
 	public static final int STATUT_DISQUALIFIEE = 5;
 
 	// Constructeur
-	public InfosModelEquipe(String stand, String nom, String ville, Statut statut, String membres, String details) {
+	public InfosModelParticipant(String stand, String nom, String ville, Statut statut, String membres, String details) {
 		this.stand = stand;
 		this.nom = nom;
 		this.ville = ville;
@@ -98,8 +98,8 @@ public class InfosModelEquipe extends InfosModelAbstract
 	}
 
 	// Informations par défaut
-	public static InfosModelEquipe defaut () {
-		return new InfosModelEquipe("", "", "", Statut.ABSENTE, "", "");
+	public static InfosModelParticipant defaut () {
+		return new InfosModelParticipant("", "", "", Statut.ABSENTE, "", "");
 	}
 
 }

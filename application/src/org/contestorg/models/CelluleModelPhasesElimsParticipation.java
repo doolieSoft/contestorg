@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.contestorg.events.Action;
 import org.contestorg.events.Event;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.contestorg.interfaces.ICelluleModelListener;
 import org.contestorg.interfaces.IEventListener;
@@ -14,16 +14,16 @@ import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.interfaces.IHistoryListener;
 
 
-public class CelluleModelPhasesElimsParticipation implements ICelluleModel<InfosModelCategorie,InfosModelEquipe>, IEventListener, IHistoryListener
+public class CelluleModelPhasesElimsParticipation implements ICelluleModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {	
 	// Graphe associé à la cellule
-	private IGraphModel<InfosModelCategorie,InfosModelEquipe> graphe;
+	private IGraphModel<InfosModelCategorie,InfosModelParticipant> graphe;
 	
 	// Participation associée à la cellule
 	private ModelParticipation participation;
 	
-	// Equipe associée à la participation
-	private ModelEquipe equipe;
+	// Participant associé à la participation
+	private ModelParticipant participant;
 	
 	// Listeners
 	private ArrayList<ICelluleModelListener> listeners = new ArrayList<ICelluleModelListener>();
@@ -35,7 +35,7 @@ public class CelluleModelPhasesElimsParticipation implements ICelluleModel<Infos
 	private boolean isEditable = true; 
 	
 	// Constructeur
-	public CelluleModelPhasesElimsParticipation(IGraphModel<InfosModelCategorie,InfosModelEquipe> graphe, ModelParticipation participation) {
+	public CelluleModelPhasesElimsParticipation(IGraphModel<InfosModelCategorie,InfosModelParticipant> graphe, ModelParticipation participation) {
 		// Retenir le graph
 		this.graphe = graphe;
 		
@@ -44,10 +44,10 @@ public class CelluleModelPhasesElimsParticipation implements ICelluleModel<Infos
 			this.participation = participation;
 			this.participation.addListener(this);
 			
-			// Retenir/Ecouter l'équipe associée
-			this.equipe = this.participation.getEquipe();
-			if(this.equipe != null) {
-				this.equipe.addListener(this);
+			// Retenir/Ecouter le participant associé
+			this.participant = this.participation.getParticipant();
+			if(this.participant != null) {
+				this.participant.addListener(this);
 			}
 			
 			// Ecouter l'historique
@@ -62,8 +62,8 @@ public class CelluleModelPhasesElimsParticipation implements ICelluleModel<Infos
 	
 	// Implémentation de ICelluleModel
 	@Override
-	public InfosModelEquipe getObject () {
-		return this.equipe == null ? null : this.equipe.toInformation();
+	public InfosModelParticipant getObject () {
+		return this.participant == null ? null : this.participant.toInfos();
 	}
 	@Override
 	public boolean isEditable() {
@@ -72,8 +72,8 @@ public class CelluleModelPhasesElimsParticipation implements ICelluleModel<Infos
 			return false;
 		}
 		
-		// Vérifier si la participation ou l'équipe est à définir
-		if(this.participation == null || this.participation.getEquipe() == null) {
+		// Vérifier si la participation ou le participant est à définir
+		if(this.participation == null || this.participation.getParticipant() == null) {
 			 return true;
 		}
 		
@@ -83,19 +83,19 @@ public class CelluleModelPhasesElimsParticipation implements ICelluleModel<Infos
 	}
 	@Override
 	public void close () {
-		// Ne plus ecouter la participation et l'équipe associée
+		// Ne plus ecouter la participation et le participant associé
 		if(this.participation != null) {
 			this.participation.removeListener(this);
 		}
-		if(this.equipe != null) {
-			this.equipe.removeListener(this);
+		if(this.participant != null) {
+			this.participant.removeListener(this);
 		}
 		
 		// Ne plus écouter l'historique
 		FrontModel.get().getHistory().removeListener(this);
 	}
 	@Override
-	public IGraphModel<InfosModelCategorie, InfosModelEquipe> getGraphe() {
+	public IGraphModel<InfosModelCategorie, InfosModelParticipant> getGraphe() {
 		return this.graphe;
 	}
 	@Override
@@ -109,19 +109,19 @@ public class CelluleModelPhasesElimsParticipation implements ICelluleModel<Infos
 	
 	// Recharger la cellule
 	private void reload() {
-		// Vérifier si l'équipe associée à la participation a changé
-		if(this.participation.getEquipe() != null && !this.participation.getEquipe().equals(this.equipe) || this.equipe != null && !this.equipe.equals(this.participation.getEquipe())) {
-			// Ne plus écouter l'ancienne équipe
-			if(this.equipe != null) {
-				this.equipe.removeListener(this);
+		// Vérifier si le participant associé à la participation a changé
+		if(this.participation.getParticipant() != null && !this.participation.getParticipant().equals(this.participant) || this.participant != null && !this.participant.equals(this.participation.getParticipant())) {
+			// Ne plus écouter l'ancien participant
+			if(this.participant != null) {
+				this.participant.removeListener(this);
 			}
 			
-			// Changer l'équipe
-			this.equipe = this.participation.getEquipe();
+			// Changer le participant
+			this.participant = this.participation.getParticipant();
 	
-			// Ecouter la nouvelle équipe
-			if(this.equipe != null) {
-				this.equipe.addListener(this);
+			// Ecouter le nouveau participant
+			if(this.participant != null) {
+				this.participant.addListener(this);
 			}
 		}
 		

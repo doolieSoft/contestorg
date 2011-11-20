@@ -13,14 +13,14 @@ import javax.swing.table.TableCellRenderer;
 
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
 
 
 public class TableCellRenderers
 {
-	// Classe permettant le render de la colonne "Equipe"
-	public static class Equipe implements TableCellRenderer {
+	// Classe permettant le render de la colonne "Participant"
+	public static class Participant implements TableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent (JTable table, Object object, boolean isSelected, boolean hasFocus, int row, int column) {
 			JLabel label = new JLabel(object == null ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : (String)object);
@@ -75,7 +75,7 @@ public class TableCellRenderers
 	public static class Statut implements TableCellRenderer {
 		@Override
 		public Component getTableCellRendererComponent (JTable table, Object object, boolean isSelected, boolean hasFocus, int row, int column) {
-			InfosModelEquipe.Statut statut = (InfosModelEquipe.Statut)object;
+			InfosModelParticipant.Statut statut = (InfosModelParticipant.Statut)object;
 			JLabel label = new JLabel(
 				ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur(),
 				new ImageIcon(statut.isParticipante() ? "img/farm/16x16/bullet_green.png" : "img/farm/16x16/bullet_red.png"),

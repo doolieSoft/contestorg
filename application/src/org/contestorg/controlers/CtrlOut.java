@@ -12,7 +12,7 @@ import org.contestorg.events.EventUpdate;
 import org.contestorg.infos.InfosConnexionFTP;
 import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelDiffusion;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.infos.Theme;
@@ -40,9 +40,9 @@ public class CtrlOut
 
 	// ==== Importations
 	
-	// Importer des équipes
-	public ArrayList<InfosModelEquipe> importerEquipes(String chemin) {
-		return PersistanceXML.loadEquipes(chemin);
+	// Importer des participants
+	public ArrayList<InfosModelParticipant> importerParticipants(String chemin) {
+		return PersistanceXML.loadParticipants(chemin);
 	}
 	
 	// ==== Exportations
@@ -134,7 +134,7 @@ public class CtrlOut
 		final ModelDiffusion model = FrontModel.get().getConcours().getDiffusionByPort(port);
 		
 		// Créer la diffusion
-		final DiffusionHTTP diffusion = new DiffusionHTTP(model.getTheme().toInformation(),model.getPort());
+		final DiffusionHTTP diffusion = new DiffusionHTTP(model.getTheme().toInfos(),model.getPort());
 		
 		// Ecouter le modèle
 		final IEventListener listener = new IEventListener() {
