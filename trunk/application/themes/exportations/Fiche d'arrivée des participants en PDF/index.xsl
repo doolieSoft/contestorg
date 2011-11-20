@@ -194,7 +194,7 @@
 				<fo:block><xsl:value-of select="./@ville" /></fo:block>
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block text-align="center>
+				<fo:block text-align="center">
 					<xsl:if test="./@statut != 'absente'">
 						X
 					</xsl:if>
