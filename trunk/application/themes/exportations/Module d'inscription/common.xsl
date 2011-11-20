@@ -69,7 +69,7 @@
 					
 					// Vérifier si l'adresse email est déjà enregistrée
 					$xpath = new DOMXPath($document);
-					if($xpath->query('//inscription/listeEquipes/equipe[@email="'.str_replace(array('\\','"'),array('\\\\','\"'),$email->getValue()).'"]')->length != 0) {
+					if($xpath->query('//inscription/listeParticipants/participant[@email="'.str_replace(array('\\','"'),array('\\\\','\"'),$email->getValue()).'"]')->length != 0) {
 						$email->setError('Cette adresse email est déjà utilisée');
 						return false;
 					}
@@ -95,7 +95,7 @@
 				function check_nom(FormText $nom,DOMDocument $document) {
 					// Vérifier si le nom est déjà enregistrée
 					$xpath = new DOMXPath($document);
-					if($xpath->query('//inscription/listeEquipes/equipe[translate(@nom,\'ABCDEFGHIJKLMNOPQRSTUVWXYZ\', \'abcdefghijklmnopqrstuvwxyz\')="'.str_replace(array('\\','"'),array('\\\\','\"'),strtolower($nom->getValue())).'"]')->length != 0) {
+					if($xpath->query('//inscription/listeParticipants/participant[translate(@nom,\'ABCDEFGHIJKLMNOPQRSTUVWXYZ\', \'abcdefghijklmnopqrstuvwxyz\')="'.str_replace(array('\\','"'),array('\\\\','\"'),strtolower($nom->getValue())).'"]')->length != 0) {
 						$nom->setError('Ce nom est déjà utilisé');
 						return false;
 					}
@@ -148,23 +148,23 @@
 				
 				// Valider le formulaire
 				if($form->validate(true)) {
-					// Ajouter l'équipe
+					// Ajouter le participant
 					$xpath = new DOMXPath($document);
-					$equipes = $xpath->query('//inscription/listeEquipes')->item(0);
-					$equipe = $equipes->appendChild($document->createElement('equipe'));
-					$equipe->appendChild($document->createAttribute('email'))->value = $form->email->getValue();
-					$equipe->appendChild($document->createAttribute('password'))->value = sha1($form->password->getValue());
-					$equipe->appendChild($document->createAttribute('nom'))->value = $form->nom->getValue();
-					$equipe->appendChild($document->createAttribute('ville'))->value = $form->ville->getValue();
+					$participants = $xpath->query('//inscription/listeParticipants')->item(0);
+					$participant = $participants->appendChild($document->createElement('participant'));
+					$participant->appendChild($document->createAttribute('email'))->value = $form->email->getValue();
+					$participant->appendChild($document->createAttribute('password'))->value = sha1($form->password->getValue());
+					$participant->appendChild($document->createAttribute('nom'))->value = $form->nom->getValue();
+					$participant->appendChild($document->createAttribute('ville'))->value = $form->ville->getValue();
 				</xsl:text>
 				<xsl:if test="/concours/@participants = 'equipes'">
 					<xsl:text disable-output-escaping="yes">
-						$equipe->appendChild($document->createAttribute('membres'))->value = $form->membres->getValue();
+						$participant->appendChild($document->createAttribute('membres'))->value = $form->membres->getValue();
 					</xsl:text>
 				</xsl:if>
 				<xsl:text disable-output-escaping="yes">
-					$equipe->appendChild($document->createAttribute('details'))->value = $form->details->getValue();
-					$proprietes = $equipe->appendChild($document->createElement('listeProprietes'));
+					$participant->appendChild($document->createAttribute('details'))->value = $form->details->getValue();
+					$proprietes = $participant->appendChild($document->createElement('listeProprietes'));
 				</xsl:text>
 				<xsl:for-each select="/concours/listeProprietes/propriete">
 					<xsl:text disable-output-escaping="yes">
@@ -197,7 +197,7 @@
 					function check_identifiants(FormText $email,FormText $password,DOMDocument $document) {
 						// Vérifier si les identifiants sont corrects
 						$xpath = new DOMXPath($document);
-						if($xpath->query('//inscription/listeEquipes/equipe[@email="'.str_replace(array('\\','"'),array('\\\\','\"'),$email->getValue()).'"][@password="'.sha1($password->getValue()).'"]')->length == 0) {
+						if($xpath->query('//inscription/listeParticipants/participant[@email="'.str_replace(array('\\','"'),array('\\\\','\"'),$email->getValue()).'"][@password="'.sha1($password->getValue()).'"]')->length == 0) {
 							$email->setError('Vos identifiants sont incorrects');
 							return false;
 						}

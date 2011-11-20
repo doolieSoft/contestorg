@@ -41,7 +41,7 @@ h1, h2, h3, h4 {
 	color:blue;
 }
 
-/* Statuts d'équipe */
+/* Statuts de participant */
 .statut-absente { color:red; }
 .statut-presente { color:orange; }
 .statut-homologuee { color:green; }

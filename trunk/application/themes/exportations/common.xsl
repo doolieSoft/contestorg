@@ -54,10 +54,10 @@
 			</fo:table>
 		</fo:block>
 	</xsl:template>
-	<xsl:template name="pdf-equipe-statut">
+	<xsl:template name="pdf-participant-statut">
 		<xsl:param name="id" />
 		<xsl:choose>
-			<xsl:when test="//equipe[@id=$id]/@statut = 'absente'">
+			<xsl:when test="//participant[@id=$id]/@statut = 'absente'">
 				<fo:block color="red">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
@@ -69,7 +69,7 @@
 					</xsl:choose>
 				</fo:block>
 			</xsl:when>
-			<xsl:when test="//equipe[@id=$id]/@statut = 'presente'">
+			<xsl:when test="//participant[@id=$id]/@statut = 'presente'">
 				<fo:block color="orange">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
@@ -81,7 +81,7 @@
 					</xsl:choose>
 				</fo:block>
 			</xsl:when>
-			<xsl:when test="//equipe[@id=$id]/@statut = 'homologuee'">
+			<xsl:when test="//participant[@id=$id]/@statut = 'homologuee'">
 				<fo:block color="green">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">
@@ -93,12 +93,12 @@
 					</xsl:choose>
 				</fo:block>
 			</xsl:when>
-			<xsl:when test="//equipe[@id=$id]/@statut = 'forfait'">
+			<xsl:when test="//participant[@id=$id]/@statut = 'forfait'">
 				<fo:block color="black">
 					Forfait
 				</fo:block>
 			</xsl:when>
-			<xsl:when test="//equipe[@id=$id]/@statut = 'disqualifiee'">
+			<xsl:when test="//participant[@id=$id]/@statut = 'disqualifiee'">
 				<fo:block color="red">
 					<xsl:choose>
 						<xsl:when test="/concours/@participants = 'equipes'">

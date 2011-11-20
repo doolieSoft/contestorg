@@ -18,10 +18,10 @@
 }
 
 /* Cellules du tableau des phases éliminatoires */
-td.equipePhasesEliminatoires, td.matchPhasesEliminatoires {
+td.participantPhasesEliminatoires, td.matchPhasesEliminatoires {
 	background-color:#BDD6F3;
 }
-td.equipePhasesEliminatoires, td.matchPhasesEliminatoires, td.videPhasesEliminatoires {
+td.participantPhasesEliminatoires, td.matchPhasesEliminatoires, td.videPhasesEliminatoires {
 	padding:4px;
 	height:35px;
 	vertical-align:middle;

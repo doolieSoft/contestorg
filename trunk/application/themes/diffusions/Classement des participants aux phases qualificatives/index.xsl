@@ -5,7 +5,7 @@
 	<xsl:import href="../common.xsl"/>
 	
 	<!-- Cible HTML -->
-	<xsl:output method="html" encoding="utf-8" />
+	<xsl:output method="html" />
 	
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
@@ -16,7 +16,16 @@
 		<html>
 			<!-- Head -->
 			<head>
-				<title>Matchs des prochaines phases qualificatives</title>
+				<title>
+					<xsl:choose>
+						<xsl:when test="/concours/@participants = 'equipes'">
+							Classement des équipes aux phases qualificatives
+						</xsl:when>
+						<xsl:otherwise>
+							Classement des joueurs aux phases qualificatives
+						</xsl:otherwise>
+					</xsl:choose>
+				</title>
 				<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 				<link href="common.css" rel="stylesheet" type="text/css" />
 				<link href="style.css" rel="stylesheet" type="text/css" />
@@ -25,7 +34,18 @@
 			<!-- Body -->
 			<body onload="setTimeout('scrollit()', 3000);">
 				<!-- Titre -->
-				<h1>Matchs des prochaines phases qualificatives</h1>
+				<xsl:if test="count(/concours/listeCategories/categorie) = 1">
+					<h1>
+						<xsl:choose>
+							<xsl:when test="/concours/@participants = 'equipes'">
+								Classement des équipes aux phases qualificatives
+							</xsl:when>
+							<xsl:otherwise>
+								Classement des joueurs aux phases qualificatives
+							</xsl:otherwise>
+						</xsl:choose>
+					</h1>
+				</xsl:if>
 			
 				<!-- Liste des catégories -->
 				<xsl:apply-templates select="/concours/listeCategories">
@@ -56,7 +76,7 @@
 	
 	<!-- Template d'une catégorie -->
 	<xsl:template match="categorie">
-		<xsl:if test="count(./listePoules/poule/listePhasesQualificatives/phaseQualificative) != 0">
+		<xsl:if test="count(./listePoules/poule/listeParticipants/participant) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../categorie) != 1">
 				<h2><xsl:value-of select="./@nom" /></h2>
@@ -96,85 +116,46 @@
 				<h3><xsl:value-of select="./@nom" /></h3>
 			</xsl:if>
 			
-			<!-- Prochaine phase qualificative -->
-			<xsl:apply-templates select="./listePhasesQualificatives/phaseQualificative[position() = last()]">
+			<!-- Liste des participants -->
+			<xsl:apply-templates select="./classementPoulePhasesQualificatives/listeClassementParticipants">
 			</xsl:apply-templates>
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- Template d'une phase qualificative -->
-	<xsl:template match="phaseQualificative">
+	<!-- Template d'un classement de paticipants -->
+	<xsl:template match="listeClassementParticipants">
 		<table>
 			<thead>
-				<tr>
-					<th id="th-participantA">
-						<xsl:choose>
-							<xsl:when test="/concours/@participants = 'equipes'">
-								Equipe A
-							</xsl:when>
-							<xsl:otherwise>
-								Joueur A
-							</xsl:otherwise>
-						</xsl:choose>
-					</th>
-					<th id="th-participantB">
-						<xsl:choose>
-							<xsl:when test="/concours/@participants = 'equipes'">
-								Equipe B
-							</xsl:when>
-							<xsl:otherwise>
-								Joueur B
-							</xsl:otherwise>
-						</xsl:choose>
-					</th>
-				</tr>
+			<tr>	
+				<th id="th-rang">Rang</th>
+				<th id="th-participant">
+					<xsl:choose>
+						<xsl:when test="/concours/@participants = 'equipes'">
+							Equipe
+						</xsl:when>
+						<xsl:otherwise>
+							Joueur
+						</xsl:otherwise>
+					</xsl:choose>
+				</th>
+				<th id="th-points">Points</th>
+			</tr>
 			</thead>
 			<tbody>
-				<xsl:apply-templates select="./matchPhaseQualificative">
+				<xsl:apply-templates select="./classementParticipant">
+					<xsl:sort select="@rang" data-type="number" />
 				</xsl:apply-templates>
 			</tbody>
 		</table>
 	</xsl:template>
 	
-	<!-- Template d'un match -->
-	<xsl:template match="matchPhaseQualificative">
-		<xsl:variable name="idA" select="./participation[1]/@refParticipant" />
-		<xsl:variable name="idB" select="./participation[2]/@refParticipant" />
+	<!-- Template d'un participant dans un classement -->
+	<xsl:template match="classementParticipant">
+		<xsl:variable name="id" select="./@refParticipant" />
 		<tr>
-			<td class="td-participantA">
-				<xsl:choose>
-					<xsl:when test="$idA != ''">
-						<xsl:value-of select="//participant[@id=$idA]/@nom" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="/concours/@participants = 'equipes'">
-								Equipe fantôme
-							</xsl:when>
-							<xsl:otherwise>
-								Joueur fantôme
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:otherwise>
-				</xsl:choose>
-			</td>
-			<td class="td-participantB">
-				<xsl:choose>
-					<xsl:when test="$idB != ''">
-						<xsl:value-of select="//participant[@id=$idB]/@nom" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:choose>
-							<xsl:when test="/concours/@participants = 'equipes'">
-								Equipe fantôme
-							</xsl:when>
-							<xsl:otherwise>
-								Joueur fantôme
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:otherwise>
-				</xsl:choose>
-			</td>
+			<td class="td-rang"><xsl:value-of select="./@rang" /></td>
+			<td class="td-participant"><xsl:value-of select="//participant[@id=$id]/@nom" /></td>
+			<td class="td-points"><xsl:value-of select="//participant[@id=$id]/@pointsPhasesQualifs" /></td>
 		</tr>
 	</xsl:template>
 </xsl:stylesheet>

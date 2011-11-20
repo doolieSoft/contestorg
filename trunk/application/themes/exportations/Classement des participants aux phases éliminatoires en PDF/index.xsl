@@ -4,8 +4,8 @@
 	<xsl:import href="../../common.xsl"/>
 	<xsl:import href="../common.xsl"/>
 	
-	<!-- Cible XML -->
-	<xsl:output method="xml" indent="yes" encoding="utf-8" />
+	<!-- Cible XML (XSL-FO) -->
+	<xsl:output method="xml" indent="yes" />
 	
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
@@ -28,10 +28,16 @@
 				<!-- Entete -->
 				<fo:static-content flow-name="xsl-region-before">
 					<xsl:call-template name="pdf-entete">
-						<xsl:with-param name="titre">
-							<!-- Titre -->
-							Liste des matchs des dernières phases qualificatives
-						</xsl:with-param>
+					  <xsl:with-param name="titre">
+						<xsl:choose>
+							<xsl:when test="/concours/@participants = 'equipes'">
+								Classement des équipes aux phases éliminatoires
+							</xsl:when>
+							<xsl:otherwise>
+								Classement des joueurs aux phases éliminatoires
+							</xsl:otherwise>
+						</xsl:choose>
+					  </xsl:with-param>
 					</xsl:call-template>
 				</fo:static-content>
 
@@ -77,7 +83,7 @@
 	
 	<!-- Template d'une catégorie -->
 	<xsl:template match="categorie">
-		<xsl:if test="count(./listePoules/poule/listePhasesQualificatives/phaseQualificative) != 0">
+		<xsl:if test="count(./listePoules/poule/listeParticipants/participant) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../categorie) != 1">
 				<xsl:call-template name="pdf-titre-h1">
@@ -85,79 +91,32 @@
 				</xsl:call-template>
 			</xsl:if>
 			
-			<!-- Liste des poules -->
-			<xsl:apply-templates select="./listePoules">
+			<!-- Liste des participants -->
+			<xsl:apply-templates select="./classementCategoriePhasesEliminatoires/listeClassementParticipants">
 			</xsl:apply-templates>
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- Template d'une liste de poules -->
-	<xsl:template match="listePoules">
-		<xsl:choose>
-			<!-- Poule non indiquée -->
-			<xsl:when test="$idPoule = ''">
-				<xsl:apply-templates select="./poule">
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Poule existante -->
-			<xsl:when test="count(./poule[@id=$idPoule]) = 1">
-				<xsl:apply-templates select="./poule[@id=$idPoule]">
-				</xsl:apply-templates>
-			</xsl:when>
-			<!-- Poule inexistante -->
-			<xsl:otherwise>
-				<xsl:call-template name="pdf-erreur">
-				  <xsl:with-param name="erreur">La poule indiquée n'existe pas.</xsl:with-param>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	
-	<!-- Template d'une poule -->
-	<xsl:template match="poule">
-		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative) != 0">
-			<!-- Titre -->
-			<xsl:if test="count(../poule) != 1">
-				<xsl:call-template name="pdf-titre-h2">
-				  <xsl:with-param name="titre"><xsl:value-of select="./@nom" /></xsl:with-param>
-				</xsl:call-template>
-			</xsl:if>
-			
-			<!-- Prochaine phase qualificative -->
-			<xsl:apply-templates select="./listePhasesQualificatives/phaseQualificative[position() = last()]">
-			</xsl:apply-templates>
-		</xsl:if>
-	</xsl:template>
-	
-	<!-- Template d'une phase qualificative -->
-	<xsl:template match="phaseQualificative">
+	<!-- Template d'un classement de participants -->
+	<xsl:template match="listeClassementParticipants">
 		<fo:block>
 			<fo:table width="100%" border="0.5pt solid black">
-				<fo:table-column column-width="50%" />
-				<fo:table-column column-width="50%" />
+				<fo:table-column column-width="15%" />
+				<fo:table-column column-width="85%" />
 
 				<fo:table-header>
 					<fo:table-row>
 						<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
-							<fo:block font-weight="bold" text-align="left">
-								<xsl:choose>
-									<xsl:when test="/concours/@participants = 'equipes'">
-										Equipe A
-									</xsl:when>
-									<xsl:otherwise>
-										Joueur A
-									</xsl:otherwise>
-								</xsl:choose>
-							</fo:block>
+							<fo:block font-weight="bold">Rang</fo:block>
 						</fo:table-cell>
 						<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
-							<fo:block font-weight="bold" text-align="right">
+							<fo:block font-weight="bold">
 								<xsl:choose>
 									<xsl:when test="/concours/@participants = 'equipes'">
-										Equipe B
+										Equipe
 									</xsl:when>
 									<xsl:otherwise>
-										Joueur B
+										Joueur
 									</xsl:otherwise>
 								</xsl:choose>
 							</fo:block>
@@ -165,55 +124,23 @@
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
-					<xsl:apply-templates select="./matchPhaseQualificative">
+					<xsl:apply-templates select="./classementParticipant">
+						<xsl:sort select="@rang" data-type="number" />
 					</xsl:apply-templates>
 				</fo:table-body>
 			</fo:table>
 		</fo:block>
 	</xsl:template>
 	
-	<!-- Template d'un match -->
-	<xsl:template match="matchPhaseQualificative">
-		<xsl:variable name="idA" select="./participation[1]/@refParticipant" />
-		<xsl:variable name="idB" select="./participation[2]/@refParticipant" />
+	<!-- Template d'un participant dans un classement -->
+	<xsl:template match="classementParticipant">
+		<xsl:variable name="id" select="./@refParticipant" />
 		<fo:table-row>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block text-align="left">
-					<xsl:choose>
-						<xsl:when test="$idA != ''">
-							<xsl:value-of select="//participant[@id=$idA]/@nom" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:choose>
-								<xsl:when test="/concours/@participants = 'equipes'">
-									Equipe fantôme
-								</xsl:when>
-								<xsl:otherwise>
-									Joueur fantôme
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:otherwise>
-					</xsl:choose>
-				</fo:block>
+				<fo:block><xsl:value-of select="./@rang" /></fo:block>
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block text-align="right">
-					<xsl:choose>
-						<xsl:when test="$idB != ''">
-							<xsl:value-of select="//participant[@id=$idB]/@nom" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:choose>
-								<xsl:when test="/concours/@participants = 'equipes'">
-									Equipe fantôme
-								</xsl:when>
-								<xsl:otherwise>
-									Joueur fantôme
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:otherwise>
-					</xsl:choose>
-				</fo:block>
+				<fo:block><xsl:value-of select="//participant[@id=$id]/@nom" /></fo:block>
 			</fo:table-cell>
 		</fo:table-row>
 	</xsl:template>

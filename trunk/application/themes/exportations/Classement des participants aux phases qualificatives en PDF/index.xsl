@@ -5,7 +5,7 @@
 	<xsl:import href="../common.xsl"/>
 	
 	<!-- Cible XML (XSL-FO) -->
-	<xsl:output method="xml" indent="yes" encoding="utf-8" />
+	<xsl:output method="xml" indent="yes" />
 	
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
@@ -16,7 +16,7 @@
 		<fo:root>
 			<!-- Déclaration de la mise en page -->
 			<fo:layout-master-set>
-				<fo:simple-page-master master-name="page" margin="1cm" page-height="21cm" page-width="29.7cm">
+				<fo:simple-page-master master-name="page" margin="1cm">
 					<fo:region-body margin="1cm" />
 					<fo:region-before extent="1cm" />
 					<fo:region-after extent="1cm" />
@@ -28,7 +28,16 @@
 				<!-- Entete -->
 				<fo:static-content flow-name="xsl-region-before">
 					<xsl:call-template name="pdf-entete">
-					  <xsl:with-param name="titre">Objectifs remportés</xsl:with-param>
+					  <xsl:with-param name="titre">
+							<xsl:choose>
+								<xsl:when test="/concours/@participants = 'equipes'">
+									Classement des équipes aux phases qualificatives
+								</xsl:when>
+								<xsl:otherwise>
+									Classement des joueurs aux phases qualificatives
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
 					</xsl:call-template>
 				</fo:static-content>
 
@@ -121,22 +130,24 @@
 			</xsl:if>
 			
 			<!-- Liste des participants -->
-			<xsl:apply-templates select="./listeParticipants">
+			<xsl:apply-templates select="./classementPoulePhasesQualificatives/listeClassementParticipants">
 			</xsl:apply-templates>
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- Template d'une liste de participants -->
-	<xsl:template match="listeParticipants">
+	<!-- Template d'un classement de participants -->
+	<xsl:template match="listeClassementParticipants">
 		<fo:block>
 			<fo:table width="100%" border="0.5pt solid black">
-				<fo:table-column column-width="25%" />
-				<xsl:for-each select="/concours/listeObjectifs/objectif">
-					<fo:table-column column-width="{floor(75 div count(/concours/listeObjectifs/objectif))}%" />
-				</xsl:for-each>
+				<fo:table-column column-width="15%" />
+				<fo:table-column column-width="70%" />
+				<fo:table-column column-width="15%" />
 
 				<fo:table-header>
 					<fo:table-row>
+						<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
+							<fo:block font-weight="bold">Rang</fo:block>
+						</fo:table-cell>
 						<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
 							<fo:block font-weight="bold">
 								<xsl:choose>
@@ -149,63 +160,33 @@
 								</xsl:choose>
 							</fo:block>
 						</fo:table-cell>
-						<xsl:apply-templates select="/concours/listeObjectifs/objectif">
-						</xsl:apply-templates>
+						<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
+							<fo:block font-weight="bold">Points</fo:block>
+						</fo:table-cell>
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
-					<xsl:apply-templates select="./participant">
-						<xsl:sort select="@nom" />
+					<xsl:apply-templates select="./classementParticipant">
+						<xsl:sort select="@rang" data-type="number" />
 					</xsl:apply-templates>
 				</fo:table-body>
 			</fo:table>
 		</fo:block>
 	</xsl:template>
 	
-	<!-- Template d'un objectif -->
-	<xsl:template match="objectifPoints">
-		<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
-			<fo:block font-weight="bold"><xsl:value-of select="./@nom" /></fo:block>
-		</fo:table-cell>
-	</xsl:template>
-	<xsl:template match="objectifPourcentage">
-		<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
-			<fo:block font-weight="bold"><xsl:value-of select="./@nom" /></fo:block>
-		</fo:table-cell>
-	</xsl:template>
-	<xsl:template match="objectifNul">
-		<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
-			<fo:block font-weight="bold"><xsl:value-of select="./@nom" /></fo:block>
-		</fo:table-cell>
-	</xsl:template>
-	
-	<!-- Template d'un participant -->
-	<xsl:template match="participant">
-		<xsl:variable name="idParticipant" select="./@id" />
+	<!-- Template d'un participant dans un classement -->
+	<xsl:template match="classementParticipant">
+		<xsl:variable name="id" select="./@refParticipant" />
 		<fo:table-row>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block><xsl:value-of select="./@nom" /></fo:block>
+				<fo:block><xsl:value-of select="./@rang" /></fo:block>
 			</fo:table-cell>
-			<xsl:for-each select="/concours/listeObjectifs/objectif">
-				<xsl:variable name="idObjectif" select="./@id" />
-				<xsl:variable name="nbObjectifs" select="count(//participation[@refParticipant = $idParticipant]/objectifRempli[@refObjectif = $idObjectif])" />
-				<fo:table-cell border="0.5pt solid black" padding="2mm">
-					<fo:block text-align="right">
-						<xsl:choose>
-							<xsl:when test="$nbObjectifs != 0">
-								<fo:block font-weight="bold">
-									<xsl:value-of select="$nbObjectifs" />
-								</fo:block>
-							</xsl:when>
-							<xsl:otherwise>
-								<fo:block color="grey">
-									<xsl:value-of select="$nbObjectifs" />
-								</fo:block>
-							</xsl:otherwise>
-						</xsl:choose>
-					</fo:block>
-				</fo:table-cell>
-			</xsl:for-each>
+			<fo:table-cell border="0.5pt solid black" padding="2mm">
+				<fo:block><xsl:value-of select="//participant[@id=$id]/@nom" /></fo:block>
+			</fo:table-cell>
+			<fo:table-cell border="0.5pt solid black" padding="2mm">
+				<fo:block><xsl:value-of select="//participant[@id=$id]/@pointsPhasesQualifs" /></fo:block>
+			</fo:table-cell>
 		</fo:table-row>
 	</xsl:template>
 </xsl:stylesheet>

@@ -83,7 +83,7 @@
 								<fo:table>
 									<fo:table-column column-width="100%" />
 									<fo:table-body>
-										<xsl:apply-templates select="./listePhasesEliminatoires/phaseEliminatoire[position() = 1]" mode="diagramme-equipes">
+										<xsl:apply-templates select="./listePhasesEliminatoires/phaseEliminatoire[position() = 1]" mode="diagramme-participants">
 											<xsl:sort select="@numero" data-type="number" />
 											<xsl:with-param name="nbCellulesA">1</xsl:with-param>
 											<xsl:with-param name="nbCellulesB">3</xsl:with-param>
@@ -104,8 +104,8 @@
 	</xsl:template>
 	
 	<!-- Template d'une phase éliminatoire -->
-	<xsl:template match="phaseEliminatoire" mode="diagramme-equipes">
-		<xsl:apply-templates select="./matchPhaseEliminatoire" mode="diagramme-equipes">
+	<xsl:template match="phaseEliminatoire" mode="diagramme-participants">
+		<xsl:apply-templates select="./matchPhaseEliminatoire" mode="diagramme-participants">
 		</xsl:apply-templates>
 	</xsl:template>
 	<xsl:template match="phaseEliminatoire" mode="diagramme-matchs">
@@ -150,13 +150,13 @@
 	</xsl:template>
 	
 	<!-- Template d'un match de phase éliminatoire -->
-	<xsl:template match="matchPhaseEliminatoire" mode="diagramme-equipes">
+	<xsl:template match="matchPhaseEliminatoire" mode="diagramme-participants">
 		<fo:table-row>
 			<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" height="0.6cm" display-align="center" padding-left="0.2cm">
 				<fo:block>
 					<!-- Equipe A -->
-					<xsl:call-template name="equipe">
-					  <xsl:with-param name="id" select="./participation[1]/@refEquipe" />
+					<xsl:call-template name="participant">
+					  <xsl:with-param name="id" select="./participation[1]/@refParticipant" />
 					</xsl:call-template>
 				</fo:block>
 			</fo:table-cell>	
@@ -166,8 +166,8 @@
 			<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" height="0.6cm" display-align="center" padding-left="0.2cm">
 				<fo:block>
 					<!-- Equipe B -->
-					<xsl:call-template name="equipe">
-					  <xsl:with-param name="id" select="./participation[2]/@refEquipe" />
+					<xsl:call-template name="participant">
+					  <xsl:with-param name="id" select="./participation[2]/@refParticipant" />
 					</xsl:call-template>
 				</fo:block>
 			</fo:table-cell>
@@ -195,9 +195,9 @@
 				<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" height="0.6cm" display-align="center" padding-left="0.2cm">
 					<fo:block>
 						<xsl:choose>
-							<xsl:when test="count(./participation[@resultat = 'victoire']/@refEquipe) = 1">
-								<xsl:call-template name="equipe">
-								  <xsl:with-param name="id" select="./participation[@resultat = 'victoire']/@refEquipe" />
+							<xsl:when test="count(./participation[@resultat = 'victoire']/@refParticipant) = 1">
+								<xsl:call-template name="participant">
+								  <xsl:with-param name="id" select="./participation[@resultat = 'victoire']/@refParticipant" />
 								</xsl:call-template>
 							</xsl:when>
 							<xsl:otherwise>
@@ -210,9 +210,9 @@
 		</xsl:if>
 	</xsl:template>
 	
-	<!-- Template d'une équipe -->
-	<xsl:template name="equipe">
+	<!-- Template d'un participant -->
+	<xsl:template name="participant">
 		<xsl:param name="id" />
-		<xsl:value-of select="//equipe[@id=$id]/@nom" />
+		<xsl:value-of select="//participant[@id=$id]/@nom" />
 	</xsl:template>
 </xsl:stylesheet>
