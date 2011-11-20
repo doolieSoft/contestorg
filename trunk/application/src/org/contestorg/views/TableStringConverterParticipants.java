@@ -6,9 +6,9 @@ import java.text.DecimalFormat;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableStringConverter;
 
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 
-public class TableStringConverterEquipes extends TableStringConverter
+public class TableStringConverterParticipants extends TableStringConverter
 {
 	// Implémentation de toString
 	@Override
@@ -35,7 +35,7 @@ public class TableStringConverterEquipes extends TableStringConverter
 			case 7: // Ville
 				return (String)object;
 			case 8: // Statut
-				return String.valueOf(((InfosModelEquipe.Statut)object).ordinal());
+				return String.valueOf(((InfosModelParticipant.Statut)object).ordinal());
 		}
 		return null;
 	}

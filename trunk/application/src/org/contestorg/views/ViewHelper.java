@@ -176,7 +176,7 @@ public class ViewHelper
 
 	/**
 	 * Affiche un message d'erreur
-	 * @param parent fenetre parente
+	 * @param parent fenêtre parente
 	 * @param message message d'erreur
 	 */
 	public static void derror (Component parent, String title, String message) {
@@ -202,7 +202,7 @@ public class ViewHelper
 
 	/**
 	 * Affiche un message d'avertissement
-	 * @param parent fenetre parente
+	 * @param parent fenêtre parente
 	 * @param message message d'avertissement
 	 */
 	public static void dwarning (Component parent, String title, String message) {
@@ -264,7 +264,7 @@ public class ViewHelper
 
 	/**
 	 * Affiche un message d'information
-	 * @param parent fenetre parente
+	 * @param parent fenêtre parente
 	 * @param message message d'information
 	 */
 	public static void dinformation (Component parent, String title, String message) {
@@ -276,7 +276,7 @@ public class ViewHelper
 
 	/**
 	 * Afficher une demande confirmation
-	 * @param parent fenetre parente
+	 * @param parent fenêtre parente
 	 * @param message message de confirmation
 	 */
 	public static boolean confirmation (Component parent, String title, String message, boolean warning) {
@@ -297,9 +297,9 @@ public class ViewHelper
 	}
 
 	/**
-	 * Ouvrir une fenetre de sauvegarde de fichier
-	 * @param parent fenetre parente
-	 * @param titre titre de la fenetre de sauvegarde
+	 * Ouvrir une fenêtre de sauvegarde de fichier
+	 * @param parent fenêtre parente
+	 * @param titre titre de la fenêtre de sauvegarde
 	 * @param extension extension du type de fichier
 	 * @param description description du type de fichier
 	 * @param defaut chemin par défaut
@@ -355,9 +355,9 @@ public class ViewHelper
 	}
 
 	/**
-	 * Ouvrir une fenetre d'ouverture de fichier
-	 * @param parent fenetre parente
-	 * @param titre titre de la fenetre d'ouvertutre
+	 * Ouvrir une fenêtre d'ouverture de fichier
+	 * @param parent fenêtre parente
+	 * @param titre titre de la fenêtre d'ouvertutre
 	 * @param extension extension du type de fichier
 	 * @param description description du type de fichier
 	 * @param defaut chemin par défaut
@@ -419,9 +419,9 @@ public class ViewHelper
 	}
 
 	/**
-	 * Ouvrir une fenetre de séléction de répertoire
-	 * @param parent fenetre parente
-	 * @param titre titre de la fenetre d'ouvertutre
+	 * Ouvrir une fenêtre de séléction de répertoire
+	 * @param parent fenêtre parente
+	 * @param titre titre de la fenêtre d'ouvertutre
 	 * @param defaut chemin par défaut
 	 * @param view vue du système de fichiers
 	 * @return chemin du fichier choisi (null si pas de chemin choisi)

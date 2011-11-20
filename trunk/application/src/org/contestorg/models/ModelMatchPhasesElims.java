@@ -43,7 +43,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	}
 	protected ModelMatchPhasesElims(ModelPhasesEliminatoires phasesEliminatoires, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB, ModelMatchPhasesElims match) {
 		// Appeller le constructeur principal
-		this(phasesEliminatoires, matchPrecedantA, matchPrecedantB, match.toInformation());
+		this(phasesEliminatoires, matchPrecedantA, matchPrecedantB, match.toInfos());
 		
 		// Récupérer l'id
 		this.setId(match.getId());
@@ -65,43 +65,43 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	public ModelMatchPhasesElims getFinale () {
 		return this.matchSuivant == null ? this : this.matchSuivant.getFinale();
 	}
-	public int getRang (ModelEquipe equipe) {
-		// Equipe jouant à ce match
-		if (this.participationA != null && this.participationA.getEquipe().equals(equipe)) {
+	public int getRang (ModelParticipant participant) {
+		// Participant jouant à ce match
+		if (this.participationA != null && this.participationA.getParticipant().equals(participant)) {
 			return this.participationA.getResultat() == InfosModelParticipation.RESULTAT_VICTOIRE ? 1 : 2;
 		}
-		if (this.participationB != null && this.participationB.getEquipe().equals(equipe)) {
+		if (this.participationB != null && this.participationB.getParticipant().equals(participant)) {
 			return this.participationB.getResultat() == InfosModelParticipation.RESULTAT_VICTOIRE ? 1 : 2;
 		}
 		
-		// Equipe jouant dans les matchs précédant
+		// Participant jouant dans les matchs précédant
 		if (this.matchPrecedantA != null && this.matchPrecedantB != null) {
-			int rangA = this.matchPrecedantA.getRang(equipe);
-			int rangB = this.matchPrecedantB.getRang(equipe);
+			int rangA = this.matchPrecedantA.getRang(participant);
+			int rangB = this.matchPrecedantB.getRang(participant);
 			if (rangA < 0 && rangB < 0) {
 				return -1;
 			}
 			return Math.max(rangA, rangB) * 2;
 		}
 		
-		// Retourner -1 si equipe ne jouant pas aux phases éliminatoires
+		// Retourner -1 si participant ne jouant pas aux phases éliminatoires
 		return -1;
 	}
-	public ArrayList<ModelEquipe> getEquipes () {
-		// Initialiser la liste des équipes
-		ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
+	public ArrayList<ModelParticipant> getParticipants () {
+		// Initialiser la liste des participants
+		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 		
-		// Ajouter les équipes
+		// Ajouter les participants
 		if (this.matchPrecedantA == null && this.matchPrecedantB == null) {
-			equipes.add(this.participationA.getEquipe());
-			equipes.add(this.participationB.getEquipe());
+			participants.add(this.participationA.getParticipant());
+			participants.add(this.participationB.getParticipant());
 		} else {
-			equipes.addAll(this.matchPrecedantA.getEquipes());
-			equipes.addAll(this.matchPrecedantB.getEquipes());
+			participants.addAll(this.matchPrecedantA.getParticipants());
+			participants.addAll(this.matchPrecedantB.getParticipants());
 		}
 		
-		// Retourner la liste des équipes
-		return equipes;
+		// Retourner la liste des participants
+		return participants;
 	}
 	public boolean isGrandeFinale () {
 		return this.equals(this.phasesEliminatoires.getGrandeFinale());
@@ -121,13 +121,13 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	public void setParticipationA (ModelParticipation participation) throws ContestOrgModelException {
 		// Vérifier si le match suivant n'a pas déjà été joué
 		if (participation == null && this.matchSuivant != null && (this.matchSuivant.getParticipationA() != null || this.matchSuivant.getParticipationB() != null)) {
-			throw new ContestOrgModelException("Il n'est pas possible de retirer la participation d'une équipe à un match de phases éliminatoires si le match suivant a été joué.");
+			throw new ContestOrgModelException("Il n'est pas possible de retirer la participation d'un participant à un match de phases éliminatoires si le match suivant a été joué.");
 		}
 		super.setParticipationA(participation);
 	}
 	public void setParticipationB (ModelParticipation participation) throws ContestOrgModelException {
 		if (participation == null && this.matchSuivant != null && (this.matchSuivant.getParticipationA() != null || this.matchSuivant.getParticipationB() != null)) {
-			throw new ContestOrgModelException("Il n'est pas possible de retirer la participation d'une équipe à un match de phases éliminatoires si le match suivant a été joué.");
+			throw new ContestOrgModelException("Il n'est pas possible de retirer la participation d'un participant à un match de phases éliminatoires si le match suivant a été joué.");
 		}
 		super.setParticipationB(participation);
 	}
@@ -145,7 +145,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	}
 	
 	// ToInformation
-	public InfosModelMatchPhasesElims toInformation () {
+	public InfosModelMatchPhasesElims toInfos () {
 		InfosModelMatchPhasesElims infos = new InfosModelMatchPhasesElims(this.getDate(), this.getDetails());
 		infos.setId(this.getId());
 		return infos;
@@ -190,7 +190,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour une liste d'équipe indépendament de son conteneur
+	// Classe pour mettre à jour une liste de participants indépendament de son conteneur
 	protected static class Updater implements IUpdater<Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims>, ModelMatchPhasesElims>
 	{
 		
@@ -217,7 +217,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 				participationB.setInfos(infos.getSecond().getSecond());
 				participationB.updateObjectifsRemportes(infos.getSecond().getFirst());
 				
-				// Modifier l'équipe participante au prochain match et à la petite finale si nécéssaire
+				// Modifier le participant au prochain match et à la petite finale si nécéssaire
 				if (match.getMatchSuivant() != null) {
 					// Vérifier si le match a un vainqueur
 					if (match.getVainqueur() != null) {
@@ -225,95 +225,95 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 						if (match.getMatchSuivant().getMatchPrecedantA().equals(match)) {
 							// Au niveau du match suivant
 							if (match.getMatchSuivant().getParticipationA() != null) {
-								// Vérifier si l'équipe doit être modifié
-								if (match.getMatchSuivant().getParticipationA().getEquipe() == null || !match.getMatchSuivant().getParticipationA().getEquipe().equals(match.getVainqueur().getEquipe())) {
-									// Supprimer la participation de l'ancienne équipe
-									if (match.getMatchSuivant().getParticipationA().getEquipe() != null) {
-										match.getMatchSuivant().getParticipationA().getEquipe().removeParticipation(match.getMatchSuivant().getParticipationA());
+								// Vérifier si le participant doit être modifié
+								if (match.getMatchSuivant().getParticipationA().getParticipant() == null || !match.getMatchSuivant().getParticipationA().getParticipant().equals(match.getVainqueur().getParticipant())) {
+									// Supprimer la participation de l'ancien participant
+									if (match.getMatchSuivant().getParticipationA().getParticipant() != null) {
+										match.getMatchSuivant().getParticipationA().getParticipant().removeParticipation(match.getMatchSuivant().getParticipationA());
 									}
 									
-									// Modifier l'équipe de la participation
-									match.getMatchSuivant().getParticipationA().setEquipe(match.getVainqueur().getEquipe());
+									// Modifier le participant de la participation
+									match.getMatchSuivant().getParticipationA().setParticipant(match.getVainqueur().getParticipant());
 									
-									// Ajouter la participation à la nouvelle équipe
-									match.getVainqueur().getEquipe().addParticipation(match.getMatchSuivant().getParticipationA());
+									// Ajouter la participation au nouveau participant
+									match.getVainqueur().getParticipant().addParticipation(match.getMatchSuivant().getParticipationA());
 								}
 							} else {
 								// Créer la participation
-								ModelParticipation participation = new ModelParticipation(match.getVainqueur().getEquipe(), match.getMatchSuivant(), new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
+								ModelParticipation participation = new ModelParticipation(match.getVainqueur().getParticipant(), match.getMatchSuivant(), new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
 								match.getMatchSuivant().setParticipationA(participation);
-								match.getVainqueur().getEquipe().addParticipation(participation);
+								match.getVainqueur().getParticipant().addParticipation(participation);
 							}
 							
 							// Au niveau de la petite finale si nécéssaire
 							if (match.getMatchSuivant().isGrandeFinale()) {
 								ModelMatchPhasesElims matchPetiteFinale = match.getPhasesEliminatoire().getPetiteFinale();
 								if (matchPetiteFinale.getParticipationA() != null) {
-									// Vérifier si l'équipe doit être modifié
-									if (matchPetiteFinale.getParticipationA().getEquipe() == null || !matchPetiteFinale.getParticipationA().getEquipe().equals(match.getPerdant().getEquipe())) {
-										// Supprimer la participation de l'ancienne équipe
-										if (matchPetiteFinale.getParticipationA().getEquipe() != null) {
-											matchPetiteFinale.getParticipationA().getEquipe().removeParticipation(matchPetiteFinale.getParticipationA());
+									// Vérifier si le participant doit être modifié
+									if (matchPetiteFinale.getParticipationA().getParticipant() == null || !matchPetiteFinale.getParticipationA().getParticipant().equals(match.getPerdant().getParticipant())) {
+										// Supprimer la participation de l'ancien participant
+										if (matchPetiteFinale.getParticipationA().getParticipant() != null) {
+											matchPetiteFinale.getParticipationA().getParticipant().removeParticipation(matchPetiteFinale.getParticipationA());
 										}
 										
-										// Modifier l'équipe de la participation
-										matchPetiteFinale.getParticipationA().setEquipe(match.getPerdant().getEquipe());
+										// Modifier le participant de la participation
+										matchPetiteFinale.getParticipationA().setParticipant(match.getPerdant().getParticipant());
 										
-										// Ajouter la participation à la nouvelle équipe
-										match.getPerdant().getEquipe().addParticipation(matchPetiteFinale.getParticipationA());
+										// Ajouter la participation au nouveau participant
+										match.getPerdant().getParticipant().addParticipation(matchPetiteFinale.getParticipationA());
 									}
 								} else {
 									// Créer la participation
-									ModelParticipation participation = new ModelParticipation(match.getPerdant().getEquipe(), matchPetiteFinale, new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
+									ModelParticipation participation = new ModelParticipation(match.getPerdant().getParticipant(), matchPetiteFinale, new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
 									matchPetiteFinale.setParticipationA(participation);
-									match.getPerdant().getEquipe().addParticipation(participation);
+									match.getPerdant().getParticipant().addParticipation(participation);
 								}
 							}
 						} else {
 							// Au niveau du match suivant
 							if (match.getMatchSuivant().getParticipationB() != null) {
-								// Vérifier si l'équipe doit être modifié
-								if (match.getMatchSuivant().getParticipationB().getEquipe() == null || !match.getMatchSuivant().getParticipationB().getEquipe().equals(match.getVainqueur().getEquipe())) {
-									// Supprimer la participation de l'ancienne équipe
-									if (match.getMatchSuivant().getParticipationB().getEquipe() != null) {
-										match.getMatchSuivant().getParticipationB().getEquipe().removeParticipation(match.getMatchSuivant().getParticipationB());
+								// Vérifier si le participant doit être modifié
+								if (match.getMatchSuivant().getParticipationB().getParticipant() == null || !match.getMatchSuivant().getParticipationB().getParticipant().equals(match.getVainqueur().getParticipant())) {
+									// Supprimer la participation de l'ancien participant
+									if (match.getMatchSuivant().getParticipationB().getParticipant() != null) {
+										match.getMatchSuivant().getParticipationB().getParticipant().removeParticipation(match.getMatchSuivant().getParticipationB());
 									}
 									
-									// Modifier l'équipe de la participation
-									match.getMatchSuivant().getParticipationB().setEquipe(match.getVainqueur().getEquipe());
+									// Modifier le participant de la participation
+									match.getMatchSuivant().getParticipationB().setParticipant(match.getVainqueur().getParticipant());
 									
-									// Ajouter la participation à la nouvelle équipe
-									match.getVainqueur().getEquipe().addParticipation(match.getMatchSuivant().getParticipationB());
+									// Ajouter la participation au nouveau participant
+									match.getVainqueur().getParticipant().addParticipation(match.getMatchSuivant().getParticipationB());
 								}
 							} else {
 								// Créer la participation
-								ModelParticipation participation = new ModelParticipation(match.getVainqueur().getEquipe(), match.getMatchSuivant(), new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
+								ModelParticipation participation = new ModelParticipation(match.getVainqueur().getParticipant(), match.getMatchSuivant(), new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
 								match.getMatchSuivant().setParticipationB(participation);
-								match.getVainqueur().getEquipe().addParticipation(participation);
+								match.getVainqueur().getParticipant().addParticipation(participation);
 							}
 							
 							// Au niveau de la petite finale si nécéssaire
 							if (match.getMatchSuivant().isGrandeFinale()) {
 								ModelMatchPhasesElims matchPetiteFinale = match.getPhasesEliminatoire().getPetiteFinale();
 								if (matchPetiteFinale.getParticipationB() != null) {
-									// Vérifier si l'équipe doit être modifié
-									if (matchPetiteFinale.getParticipationB().getEquipe() == null || !matchPetiteFinale.getParticipationB().getEquipe().equals(match.getPerdant().getEquipe())) {
-										// Supprimer la participation de l'ancienne équipe
-										if (matchPetiteFinale.getParticipationB().getEquipe() != null) {
-											matchPetiteFinale.getParticipationB().getEquipe().removeParticipation(matchPetiteFinale.getParticipationB());
+									// Vérifier si le participant doit être modifié
+									if (matchPetiteFinale.getParticipationB().getParticipant() == null || !matchPetiteFinale.getParticipationB().getParticipant().equals(match.getPerdant().getParticipant())) {
+										// Supprimer la participation de l'ancien participant
+										if (matchPetiteFinale.getParticipationB().getParticipant() != null) {
+											matchPetiteFinale.getParticipationB().getParticipant().removeParticipation(matchPetiteFinale.getParticipationB());
 										}
 										
-										// Modifier l'équipe de la participation
-										matchPetiteFinale.getParticipationB().setEquipe(match.getPerdant().getEquipe());
+										// Modifier le participant de la participation
+										matchPetiteFinale.getParticipationB().setParticipant(match.getPerdant().getParticipant());
 										
-										// Ajouter la participation à la nouvelle équipe
-										match.getPerdant().getEquipe().addParticipation(matchPetiteFinale.getParticipationB());
+										// Ajouter la participation au nouveau participant
+										match.getPerdant().getParticipant().addParticipation(matchPetiteFinale.getParticipationB());
 									}
 								} else {
 									// Créer la participation
-									ModelParticipation participation = new ModelParticipation(match.getPerdant().getEquipe(), matchPetiteFinale, new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
+									ModelParticipation participation = new ModelParticipation(match.getPerdant().getParticipant(), matchPetiteFinale, new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE));
 									matchPetiteFinale.setParticipationB(participation);
-									match.getPerdant().getEquipe().addParticipation(participation);
+									match.getPerdant().getParticipant().addParticipation(participation);
 								}
 							}
 						}

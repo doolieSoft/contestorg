@@ -49,7 +49,7 @@ public class JDConnexionCreer extends JDConnexionAbstract
 	// Implémentation de quit
 	@Override
 	public void quit () {
-		// Demander la fermeture de la fenetre de connexion au serveur
+		// Demander la fermeture de la fenêtre de connexion au serveur
 		this.contestorg.procedureServeurConnexionAnnuler();
 	}
 

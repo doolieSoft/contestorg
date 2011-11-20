@@ -28,7 +28,7 @@ abstract public class JDConcoursAbstract extends JDPattern
 		// Appeler le constructeur du parent
 		super(w_parent, titre);
 
-		// Panel à onglet au centre de la fenetre
+		// Panel à onglet au centre de la fenêtre
 		JTabbedPane jtb_onglets = new JTabbedPane();
 		this.add(jtb_onglets, BorderLayout.CENTER);
 

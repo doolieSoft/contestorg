@@ -22,8 +22,8 @@ public abstract class JDPouleAbstract extends JDPattern
 	// Entrées
 	protected JTextField jtf_nom = new JTextField();
 	
-	// Liste des équipes de la poule
-	private ArrayList<String> equipes = new ArrayList<String>();
+	// Liste des participants de la poule
+	private ArrayList<String> participants = new ArrayList<String>();
 	
 	// Constructeur
 	public JDPouleAbstract(Window w_parent, String titre, ICollector<Pair<InfosModelPoule, ArrayList<String>>> collector) {
@@ -58,7 +58,7 @@ public abstract class JDPouleAbstract extends JDPattern
 
 		// Créer et retourner les informations
 		if(!erreur) {
-			this.collector.accept(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule(nom), this.equipes));
+			this.collector.accept(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule(nom), this.participants));
 		}
 	}
 	

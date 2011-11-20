@@ -15,7 +15,7 @@ import org.contestorg.log.Log;
 
 
 /**
- * Conteneur d'équipes
+ * Conteneur de participants
  */
 public class ModelPoule extends ModelAbstract
 {
@@ -29,7 +29,7 @@ public class ModelPoule extends ModelAbstract
 	
 	// Attributs objets
 	private ModelCategorie categorie;
-	private ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
+	private ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 	private ArrayList<ModelPhaseQualificative> phasesQualificatives = new ArrayList<ModelPhaseQualificative>();
 	
 	// Constructeur
@@ -42,7 +42,7 @@ public class ModelPoule extends ModelAbstract
 	}
 	protected ModelPoule(ModelCategorie categorie, ModelPoule poule) {
 		// Appeller le constructeur principal
-		this(categorie, poule.toInformation());
+		this(categorie, poule.toInfos());
 		
 		// Récupérer l'id
 		this.setId(poule.getId());
@@ -55,16 +55,16 @@ public class ModelPoule extends ModelAbstract
 	public ModelCategorie getCategorie () {
 		return this.categorie;
 	}
-	public ArrayList<ModelEquipe> getEquipes () {
-		return new ArrayList<ModelEquipe>(this.equipes);
+	public ArrayList<ModelParticipant> getParticipants () {
+		return new ArrayList<ModelParticipant>(this.participants);
 	}
-	public int getNbEquipes() {
-		return this.equipes.size();
+	public int getNbParticipants() {
+		return this.participants.size();
 	}
-	public ModelEquipe getEquipeByNom (String nom) {
-		for (ModelEquipe equipe : this.equipes) {
-			if (equipe.getNom().equals(nom)) {
-				return equipe;
+	public ModelParticipant getParticipantByNom (String nom) {
+		for (ModelParticipant participant : this.participants) {
+			if (participant.getNom().equals(nom)) {
+				return participant;
 			}
 		}
 		return null;
@@ -80,18 +80,18 @@ public class ModelPoule extends ModelAbstract
 		return matchs;
 	}
 	@SuppressWarnings("unchecked")
-	public ArrayList<ModelEquipe> getClassement () {
-		// Trier et retourner la liste des équipes
-		Collections.sort(this.equipes, this.categorie.getConcours().getComparateurPhasesQualificatives());
-		return this.equipes;
+	public ArrayList<ModelParticipant> getClassement () {
+		// Trier et retourner la liste des participants
+		Collections.sort(this.participants, this.categorie.getConcours().getComparateurPhasesQualificatives());
+		return this.participants;
 	}
-	public int getRang (ModelEquipe equipeA) {
-		return this.getRang(equipeA, -1);
+	public int getRang (ModelParticipant participant) {
+		return this.getRang(participant, -1);
 	}
 	@SuppressWarnings("unchecked")
-	public int getRang (ModelEquipe equipeA, int phaseQualifMax) {
-		// Retourner -1 si l'équipe ne fait pas partie de la poule
-		if (!this.equipes.contains(equipeA)) {
+	public int getRang (ModelParticipant participantA, int phaseQualifMax) {
+		// Retourner -1 si le participant ne fait pas partie de la poule
+		if (!this.participants.contains(participantA)) {
 			return -1;
 		}
 		
@@ -99,11 +99,11 @@ public class ModelPoule extends ModelAbstract
 		int rang = 1;
 		
 		// Récupérer le comparateur des phases qualificatives
-		Comparator<ModelEquipe> comparateur = this.categorie.getConcours().getComparateurPhasesQualificatives(phaseQualifMax);
+		Comparator<ModelParticipant> comparateur = this.categorie.getConcours().getComparateurPhasesQualificatives(phaseQualifMax);
 		
-		// Comptabiliser le nombre d'équipe ayant un rang supérieur à l'équipe spécifiée
-		for (ModelEquipe equipeB : this.equipes) {
-			if (comparateur.compare(equipeA, equipeB) < 0) {
+		// Comptabiliser le nombre de participants ayant un rang supérieur au participant spécifié
+		for (ModelParticipant participantB : this.participants) {
+			if (comparateur.compare(participantA, participantB) < 0) {
 				rang++;
 			}
 		}
@@ -111,12 +111,12 @@ public class ModelPoule extends ModelAbstract
 		// Retourner le rang
 		return rang;
 	}
-	public ArrayList<ModelEquipe> getEquipesParticipantes () {
-		// Créer la liste des équipes qui peuvent participer
-		ArrayList<ModelEquipe> participantes = new ArrayList<ModelEquipe>();
-		for (ModelEquipe equipe : this.equipes) {
-			if (equipe.getStatut().isParticipante()) {
-				participantes.add(equipe);
+	public ArrayList<ModelParticipant> getParticipantsParticipants () {
+		// Créer la liste des participants qui peuvent participer
+		ArrayList<ModelParticipant> participantes = new ArrayList<ModelParticipant>();
+		for (ModelParticipant participant : this.participants) {
+			if (participant.getStatut().isParticipante()) {
+				participantes.add(participant);
 			}
 		}
 		
@@ -140,15 +140,15 @@ public class ModelPoule extends ModelAbstract
 	}
 	
 	// Adders
-	public void addEquipe (ModelEquipe equipe) throws ContestOrgModelException {
-		if (!this.equipes.contains(equipe)) {
-			// Ajouter l'équipe
-			this.equipes.add(equipe);
+	public void addParticipant (ModelParticipant participant) throws ContestOrgModelException {
+		if (!this.participants.contains(participant)) {
+			// Ajouter le participant
+			this.participants.add(participant);
 			
 			// Fire add
-			this.fireAdd(equipe, this.equipes.size() - 1);
+			this.fireAdd(participant, this.participants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'équipe existe déjà dans la poule");
+			throw new ContestOrgModelException("Le participant existe déjà dans la poule");
 		}
 	}
 	public void addPhaseQualificative (ModelPhaseQualificative phaseQualificative) throws ContestOrgModelException {
@@ -164,17 +164,17 @@ public class ModelPoule extends ModelAbstract
 	}
 	
 	// Removers
-	protected void removeEquipe (ModelEquipe equipe) throws ContestOrgModelException {
-		// Retirer l'équipe
+	protected void removeParticipant (ModelParticipant participant) throws ContestOrgModelException {
+		// Retirer le participant
 		int index;
-		if ((index = this.equipes.indexOf(equipe)) != -1) {
+		if ((index = this.participants.indexOf(participant)) != -1) {
 			// Remove
-			this.equipes.remove(equipe);
+			this.participants.remove(participant);
 			
 			// Fire remove
-			this.fireRemove(equipe, index);
+			this.fireRemove(participant, index);
 		} else {
-			throw new ContestOrgModelException("L'équipe n'existe pas dans la poule");
+			throw new ContestOrgModelException("Le participant n'existe pas dans la poule");
 		}
 	}
 	protected void removePhaseQualificative (ModelPhaseQualificative phaseQualificative) throws ContestOrgModelException {
@@ -197,7 +197,7 @@ public class ModelPoule extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelPoule toInformation () {
+	public InfosModelPoule toInfos () {
 		InfosModelPoule infos = new InfosModelPoule(this.nom);
 		infos.setId(this.getId());
 		return infos;
@@ -210,19 +210,19 @@ public class ModelPoule extends ModelAbstract
 			// Ajouter la poule à la liste des removers
 			removers.add(this);
 			
-			// Supprimer les équipes de la poule ou les déplacer dans la première poule
-			for (ModelEquipe equipe : new ArrayList<ModelEquipe>(this.equipes)) {
-				if (!removers.contains(equipe)) {
+			// Supprimer les participants de la poule ou les déplacer dans la première poule
+			for (ModelParticipant participant : new ArrayList<ModelParticipant>(this.participants)) {
+				if (!removers.contains(participant)) {
 					ModelPoule poule = this.categorie.getPoules().get(0);
 					if(poule.equals(this)) {
-						equipe.delete(removers);
+						participant.delete(removers);
 					} else {
-						equipe.setPoule(poule);
+						participant.setPoule(poule);
 					}
 				}
 			}
-			this.equipes.clear();
-			this.fireClear(ModelEquipe.class);
+			this.participants.clear();
+			this.fireClear(ModelParticipant.class);
 			
 			// Retirer la poule de la categorie
 			if (this.categorie != null) {
@@ -248,7 +248,7 @@ public class ModelPoule extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des poules d'une catégorie et les affectations d'équipe
+	// Classe pour mettre à jour la liste des poules d'une catégorie et les affectations de participant
 	protected static class UpdaterForCategorie implements IUpdater<Pair<InfosModelPoule, ArrayList<String>>, ModelPoule>
 	{
 		// Catégorie
@@ -266,9 +266,9 @@ public class ModelPoule extends ModelAbstract
 				// Créer la poule
 				ModelPoule poule = new ModelPoule(this.categorie, infos.getFirst());
 				
-				// Déplacer les équipes dans la poule
-				for (String equipe : infos.getSecond()) {
-					this.categorie.getEquipeByNom(equipe).setPoule(poule);
+				// Déplacer les participants dans la poule
+				for (String participant : infos.getSecond()) {
+					this.categorie.getParticipantByNom(participant).setPoule(poule);
 				}
 				
 				// Retourner la poule
@@ -286,10 +286,10 @@ public class ModelPoule extends ModelAbstract
 				// Modifier la poule
 				poule.setInfos(infos.getFirst());
 				
-				// Déplacer les équipes dans la poule
-				for (String equipe : infos.getSecond()) {
-					if (poule.getEquipeByNom(equipe) == null) {
-						this.categorie.getEquipeByNom(equipe).setPoule(poule);
+				// Déplacer les participants dans la poule
+				for (String participant : infos.getSecond()) {
+					if (poule.getParticipantByNom(participant) == null) {
+						this.categorie.getParticipantByNom(participant).setPoule(poule);
 					}
 				}
 			} catch (ContestOrgModelException e) {
@@ -299,7 +299,7 @@ public class ModelPoule extends ModelAbstract
 		
 	}
 	
-	// Classe pour valider les opérations sur la liste des poules d'une catégorie et les affectations d'équipe
+	// Classe pour valider les opérations sur la liste des poules d'une catégorie et les affectations de participant
 	protected static class ValidatorForCategorie implements IListValidator<Pair<InfosModelPoule, ArrayList<String>>> {
 
 		// Implémentation de IListValidator

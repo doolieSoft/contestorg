@@ -22,11 +22,11 @@ public class TMExportations extends TMAbstract<Triple<InfosModelExportation,Info
 
 	// Méthodes à implementer
 	public Window getAddWindow () {
-		// Créer et retourner la fenetre de création
+		// Créer et retourner la fenêtre de création
 		return new JDExportationCreer(this.w_parent, this);
 	}
 	public Window getUpdateWindow (Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme> infos) {
-		// Créer et retourner la fenetre de création
+		// Créer et retourner la fenêtre de création
 		return new JDExportationEditer(this.w_parent, this, infos);
 	}
 	public boolean acceptDelete (Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme> infos) {

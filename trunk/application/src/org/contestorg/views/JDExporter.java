@@ -74,7 +74,7 @@ public class JDExporter extends JDPattern
 				// Récupérer l'opération
 				IOperation operation = ContestOrg.get().getCtrlOut().getLancerExportationOperation(chemin, this.jp_theme.getInfosModelTheme());
 				
-				// Créer la fenetre associée à l'opération
+				// Créer la fenêtre associée à l'opération
 				JDOperation jd_operation = new JDOperation(this,"Exportation",operation,true,true);
 				
 				// Démarrer l'opération
@@ -88,7 +88,7 @@ public class JDExporter extends JDPattern
 					}
 				});
 				
-				// Afficher la fenetre
+				// Afficher la fenêtre
 				jd_operation.setVisible(true);
 			}
 		}
@@ -97,7 +97,7 @@ public class JDExporter extends JDPattern
 	// Implémentation de quit
 	@Override
 	protected void quit () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	

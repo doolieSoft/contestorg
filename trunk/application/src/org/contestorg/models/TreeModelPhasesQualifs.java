@@ -129,7 +129,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		
 		// Surcharge de getObject
 		public Object getObject () {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -195,7 +195,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		
 		// Implémentation de ITreeNode
 		public Object getObject () {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -244,7 +244,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 			// Appeller le constructeur parent
 			super(poule);
 			
-			// Remplir la liste des nodes des équipes filles
+			// Remplir la liste des nodes des participants fils
 			for (ModelPhaseQualificative phaseQualif : this.object.getPhasesQualificatives()) {
 				PhaseQualifTreeNode node = new PhaseQualifTreeNode(phaseQualif);
 				this.children.add(node);
@@ -263,7 +263,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		
 		// Surcharge de getObject
 		public Object getObject () {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -334,7 +334,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		
 		// Surcharge de getObject
 		public Object getObject () {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 	}
 }

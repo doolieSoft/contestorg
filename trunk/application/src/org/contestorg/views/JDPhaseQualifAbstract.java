@@ -56,21 +56,21 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	// Poule
 	private String nomPoule;
 	
-	// Equipes participantes
-	protected ArrayList<String> equipesParticipantes;
+	// Participants
+	protected ArrayList<String> participants;
 	
 	// Conservation/Restauration de configuration
 	private JButton jb_conserver = new JButton("Conserver", new ImageIcon("img/farm/16x16/box.png"));
 	private JButton jb_restaurer = new JButton("Restaurer", new ImageIcon("img/farm/16x16/box_down.png"));
 	private Configuration<String> configurationConservee = null;
 	
-	// Rangs des équipes
-	private HashMap<String,Integer> rangsEquipes = new HashMap<String, Integer>();
+	// Rangs des participants
+	private HashMap<String,Integer> rangsParticipants = new HashMap<String, Integer>();
 	
 	// Paramètres de la génération
 	private JRadioButton jrb_mode_avance = new JRadioButton("Avancé", false);
 	private JRadioButton jrb_mode_basique = new JRadioButton("Basique", true);
-	protected JCheckBox[] jcbs_equipesParticipantes;
+	protected JCheckBox[] jcbs_participants;
 	
 	// Avancement de la génération
 	private JLabel jl_statutGeneration = new JLabel(new ImageIcon("img/farm/32x32/hourglass.png"));
@@ -90,8 +90,8 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	private JTextField jtf_differenceMoyenneRang = new JTextField();
 	private JTextField jtf_differenceMaximaleRang = new JTextField();
 	private JPanel jp_resultat;
-	private JComboBox[] jcbs_equipesA;
-	private JComboBox[] jcbs_equipesB;
+	private JComboBox[] jcbs_participantsA;
+	private JComboBox[] jcbs_participantsB;
 	
 	// Constructeur
 	public JDPhaseQualifAbstract(Window w_parent, String titre, ICollector<Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
@@ -103,12 +103,12 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.nomCategorie = nomCategorie;
 		this.nomPoule = nomPoule;
 		
-		// Récupérer les équipes participantes
-		this.equipesParticipantes = ContestOrg.get().getCtrlPhasesQualificatives().getListeEquipesParticipantes(this.nomCategorie,this.nomPoule);
+		// Récupérer les participants qui peuvent participer
+		this.participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipants(this.nomCategorie,this.nomPoule);
 		
-		// Récupérer les rangs des équipes participantes
-		for(String equipeParticipante : this.equipesParticipantes) {
-			this.rangsEquipes.put(equipeParticipante, ContestOrg.get().getCtrlPhasesQualificatives().getRang(equipeParticipante));
+		// Récupérer les rangs des participants qui peuvent participer
+		for(String participant : this.participants) {
+			this.rangsParticipants.put(participant, ContestOrg.get().getCtrlPhasesQualificatives().getRang(participant));
 		}
 		
 		// Paramètres de la génération
@@ -126,22 +126,22 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		JComponent[] jcs_mode = { jp_mode };
 		this.jp_contenu.add(ViewHelper.inputs(jls_mode, jcs_mode));
 		
-		// Equipes participantes
+		// Participants
 		this.jp_contenu.add(ViewHelper.left(new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes participantes :" : "Joueurs participants : ")));
 		
-		JPanel jp_equipes = new JPanel();
-		jp_equipes.setLayout(new BoxLayout(jp_equipes, BoxLayout.Y_AXIS));
-		this.jcbs_equipesParticipantes = new JCheckBox[this.equipesParticipantes.size()];
-		for (int i = 0; i < this.equipesParticipantes.size(); i++) {
-			jcbs_equipesParticipantes[i] = new JCheckBox(this.equipesParticipantes.get(i));
-			jcbs_equipesParticipantes[i].setSelected(true);
-			jcbs_equipesParticipantes[i].addItemListener(this);
-			jp_equipes.add(jcbs_equipesParticipantes[i]);
+		JPanel jp_participants = new JPanel();
+		jp_participants.setLayout(new BoxLayout(jp_participants, BoxLayout.Y_AXIS));
+		this.jcbs_participants = new JCheckBox[this.participants.size()];
+		for (int i = 0; i < this.participants.size(); i++) {
+			jcbs_participants[i] = new JCheckBox(this.participants.get(i));
+			jcbs_participants[i].setSelected(true);
+			jcbs_participants[i].addItemListener(this);
+			jp_participants.add(jcbs_participants[i]);
 		}
-		JScrollPane jsp_equipes = new JScrollPane(jp_equipes);
-		jsp_equipes.setPreferredSize(new Dimension(jsp_equipes.getPreferredSize().width, 140));
+		JScrollPane jsp_participants = new JScrollPane(jp_participants);
+		jsp_participants.setPreferredSize(new Dimension(jsp_participants.getPreferredSize().width, 140));
 		
-		this.jp_contenu.add(jsp_equipes);
+		this.jp_contenu.add(jsp_participants);
 		
 		// Avancement de la génération
 		this.jp_contenu.add(ViewHelper.title("Avancement de la génération", ViewHelper.H1));
@@ -193,22 +193,22 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		
 		this.jp_resultat = new JPanel();
 		this.jp_resultat.setLayout(new BoxLayout(this.jp_resultat, BoxLayout.Y_AXIS));
-		int nbMatchs = this.getEquipesSelectionnees().size() / 2;
-		this.jcbs_equipesA = new JComboBox[nbMatchs];
-		this.jcbs_equipesB = new JComboBox[nbMatchs];
+		int nbMatchs = this.getParticipantsSelectionnes().size() / 2;
+		this.jcbs_participantsA = new JComboBox[nbMatchs];
+		this.jcbs_participantsB = new JComboBox[nbMatchs];
 		for (int i = 0; i < nbMatchs; i++) {
 			JPanel jp_match = new JPanel(new GridLayout(1, 2));
 			
-			this.jcbs_equipesA[i] = new JComboBox(this.getEquipesSelectionnees(true).toArray(new String[this.getEquipesSelectionnees().size()]));
-			this.jcbs_equipesA[i].setSelectedIndex(i * 2);
-			this.jcbs_equipesB[i] = new JComboBox(this.getEquipesSelectionnees(true).toArray(new String[this.getEquipesSelectionnees().size()]));
-			this.jcbs_equipesB[i].setSelectedIndex(i * 2 + 1);
+			this.jcbs_participantsA[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsA[i].setSelectedIndex(i * 2);
+			this.jcbs_participantsB[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsB[i].setSelectedIndex(i * 2 + 1);
 			
-			jp_match.add(this.jcbs_equipesA[i]);
-			jp_match.add(this.jcbs_equipesB[i]);
+			jp_match.add(this.jcbs_participantsA[i]);
+			jp_match.add(this.jcbs_participantsB[i]);
 			
-			this.jcbs_equipesA[i].addItemListener(this);
-			this.jcbs_equipesB[i].addItemListener(this);
+			this.jcbs_participantsA[i].addItemListener(this);
+			this.jcbs_participantsB[i].addItemListener(this);
 			
 			this.jp_resultat.add(jp_match);
 		}
@@ -237,13 +237,13 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				return "<h1>Mode avancé</h1>" +
 					   "Le mode avancé teste l'ensemble des configurations possibles. Dès que l'algorithme<br/>" +
 					   "remonte une meilleure configuration que celle précédement trouvée, celle-ci apparait<br/>" +
-					   "dans le cadre \"Meilleure configuration trouvée\". Au délà de 8 équipes, le temps de<br/>" +
+					   "dans le cadre \"Meilleure configuration trouvée\". Au délà de 8 participants, le temps de<br/>" +
 					   "génération devient exponentiellement long. Vous pouvez arrêter la génération à tout<br/>" +
 					   "moment et considérer la meilleure configuration trouvée jusque là.<br/>" +
 					   "<br/>" +
 					   "<h1>Mode basique</h1>" +
-					   "Le mode basique est bien moins gourmant en ressource. Il génère tous les couples<br/>" +
-					   "d'équipes possibles et les trie en fonction de l'affinité des équipes que les composent.<br/>" +
+					   "Le mode basique est bien moins gourmant en ressource. Il génère tous les couples de<br/>" +
+					   "participants possibles et les trie en fonction de l'affinité des participants que les composent.<br/>" +
 					   "L'algorithme choisit ensuite des couples compatibles en retrouvés en haut de classement.<br/>" +
 					   "Celui ci peut parfois donner de bon résultats mais il ne s'agit pas forcement de la meilleure<br/>" +
 					   "configuration.<br/>" +
@@ -254,14 +254,14 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 					   "<br/>" +
 					   "<h1>Critères de génération</h1>" +
 					   "<ol>" +
-					   "<li>Est-ce que les équipes ont déjà joué ensemble ?</li>" +
-					   "<li>Est-ce que les équipes sont de même niveau ?</li>" +
-					   "<li>Est-ce que les équipes viennent de la même ville ?</li>" +
+					   "<li>Est-ce que les participants ont déjà joué ensemble ?</li>" +
+					   "<li>Est-ce que les participants sont de même niveau ?</li>" +
+					   "<li>Est-ce que les participants viennent de la même ville ?</li>" +
 					   "</ol>";
 			}
 		});
 		
-		// Elargir la fenetre
+		// Elargir la fenêtre
 		this.setPreferredSize(new Dimension(this.getPreferredSize().width + 250, this.getPreferredSize().height));
 		
 		// Pack
@@ -273,41 +273,41 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	protected void ok () {
 		// Vérifier si une génération n'est pas en cours
 		if(this.generation == null) {
-			// Récupérer la liste des équipes séléctionnées
-			ArrayList<String> equipesSelectionnees = this.getEquipesSelectionnees();
+			// Récupérer la liste des participants séléctionnés
+			ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
 			
 			// Vérifier la conformité de la configuration choisie
 			boolean erreur = false;
-			ArrayList<String> equipesConfiguration = new ArrayList<String>();
-			for(int i=0;i<this.jcbs_equipesA.length;i++) {
-				// Vérifier si une équipe joue avec elle-même
-				if(this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesB[i].getSelectedIndex()) {
-					// Récupérer le nom de l'équipe
-					String nomEquipe = this.isFantome() && this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesA[i].getItemCount()-1 ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex());
+			ArrayList<String> participantsConfiguration = new ArrayList<String>();
+			for(int i=0;i<this.jcbs_participantsA.length;i++) {
+				// Vérifier si un participant joue avec lui-même
+				if(this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsB[i].getSelectedIndex()) {
+					// Récupérer le nom du participant
+					String nomParticipant = this.isFantome() && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount()-1 ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
 					
 					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+nomEquipe+"\" a un match contre "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "elle-même" : "lui-même")+".");
+					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+nomParticipant+"\" a un match contre "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "elle-même" : "lui-même")+".");
 					erreur = true;
 				}
 				if(!erreur) {
-					// Vérifier si une équipe participe plusieurs fois dans la phase qualificative 
-					if(!this.isFantome() || this.jcbs_equipesA[i].getSelectedIndex() != this.jcbs_equipesA[i].getItemCount()-1) {
-						if(equipesConfiguration.contains(equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex()))) {
-							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
+					// Vérifier si un participant participe plusieurs fois dans la phase qualificative 
+					if(!this.isFantome() || this.jcbs_participantsA[i].getSelectedIndex() != this.jcbs_participantsA[i].getItemCount()-1) {
+						if(participantsConfiguration.contains(participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex()))) {
+							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
 						} else {
-							equipesConfiguration.add(equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex()));
+							participantsConfiguration.add(participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex()));
 						}
 					}
-					if(!this.isFantome() || this.jcbs_equipesB[i].getSelectedIndex() != this.jcbs_equipesB[i].getItemCount()-1) {
-						if(equipesConfiguration.contains(equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex()))) {
-							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
+					if(!this.isFantome() || this.jcbs_participantsB[i].getSelectedIndex() != this.jcbs_participantsB[i].getItemCount()-1) {
+						if(participantsConfiguration.contains(participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex()))) {
+							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
 						} else {
-							equipesConfiguration.add(equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex()));
+							participantsConfiguration.add(participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex()));
 						}
 					}
 				}
 			}
-			if(this.jcbs_equipesA.length == 0) {
+			if(this.jcbs_participantsA.length == 0) {
 				// Erreur
 				ViewHelper.derror(this, "Il n'y a aucun match défini dans la phase qualificative.");
 				erreur = true;
@@ -352,14 +352,14 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	
 	// Récupérer la configuration actuel à partir des JComboBox
 	private Configuration<String> getConfiguration () {
-		if (this.jcbs_equipesA != null && this.jcbs_equipesB != null) {
-			ArrayList<String> equipesSelectionnees = this.getEquipesSelectionnees();
-			Configuration<String> configuration = new Configuration<String>(this.jcbs_equipesA.length);
+		if (this.jcbs_participantsA != null && this.jcbs_participantsB != null) {
+			ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
+			Configuration<String> configuration = new Configuration<String>(this.jcbs_participantsA.length);
 			boolean fantome = this.isFantome();
-			for (int i = 0; i < this.jcbs_equipesA.length; i++) {
-				String equipeA = fantome && this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesA[i].getItemCount() - 1 ? null : equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex());
-				String equipeB = fantome && this.jcbs_equipesB[i].getSelectedIndex() == this.jcbs_equipesB[i].getItemCount() - 1 ? null : equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex());
-				configuration.addCouple(new Couple<String>(equipeA, equipeB));
+			for (int i = 0; i < this.jcbs_participantsA.length; i++) {
+				String participantA = fantome && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount() - 1 ? null : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
+				String participantB = fantome && this.jcbs_participantsB[i].getSelectedIndex() == this.jcbs_participantsB[i].getItemCount() - 1 ? null : participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex());
+				configuration.addCouple(new Couple<String>(participantA, participantB));
 			}
 			return configuration;
 		}
@@ -369,20 +369,20 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	// Placer une configuration dans les JComboBox
 	protected void setConfiguration(Configuration<String> configuration) {
 		// Placer la configuration
-		ArrayList<String> equipesSelectionnees = this.getEquipesSelectionnees();
+		ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
 		for(int i=0;i<configuration.getCouples().length;i++) {
-			// Séléctionner l'équipe A
-			if(configuration.getCouples()[i].getEquipeA() != null) {
-				this.jcbs_equipesA[i].setSelectedIndex(equipesSelectionnees.indexOf(configuration.getCouples()[i].getEquipeA()));
+			// Séléctionner le participant A
+			if(configuration.getCouples()[i].getParticipantA() != null) {
+				this.jcbs_participantsA[i].setSelectedIndex(participantsSelectionnes.indexOf(configuration.getCouples()[i].getParticipantA()));
 			} else {
-				this.jcbs_equipesA[i].setSelectedIndex(this.jcbs_equipesA[i].getItemCount()-1);
+				this.jcbs_participantsA[i].setSelectedIndex(this.jcbs_participantsA[i].getItemCount()-1);
 			}
 			
-			// Séléctionner l'équipe B
-			if(configuration.getCouples()[i].getEquipeB() != null) {
-				this.jcbs_equipesB[i].setSelectedIndex(equipesSelectionnees.indexOf(configuration.getCouples()[i].getEquipeB()));
+			// Séléctionner le participant B
+			if(configuration.getCouples()[i].getParticipantB() != null) {
+				this.jcbs_participantsB[i].setSelectedIndex(participantsSelectionnes.indexOf(configuration.getCouples()[i].getParticipantB()));
 			} else {
-				this.jcbs_equipesB[i].setSelectedIndex(this.jcbs_equipesB[i].getItemCount()-1);
+				this.jcbs_participantsB[i].setSelectedIndex(this.jcbs_participantsB[i].getItemCount()-1);
 			}
 		}
 		
@@ -402,8 +402,8 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		// Calculer la différence moyenne et maximale de rang
 		int differenceMoyenne = 0; int differenceMaximale = 0;
 		for(Couple<String> couple : configuration.getCouples()) {
-			if(couple.getEquipeA() != null && couple.getEquipeB() != null) {
-				int difference = Math.abs(this.rangsEquipes.get(couple.getEquipeA())-this.rangsEquipes.get(couple.getEquipeB()));
+			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
+				int difference = Math.abs(this.rangsParticipants.get(couple.getParticipantA())-this.rangsParticipants.get(couple.getParticipantB()));
 				differenceMoyenne += difference;
 				differenceMaximale = Math.max(differenceMaximale, difference);
 			}
@@ -423,28 +423,28 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.jtf_differenceMoyenneRang.setBackground(differenceMoyenne > 1 ? new Color(250, 180, 76) : new Color(168, 239, 101));
 	}
 	
-	// Rafraichir les listes d'équipes
-	private void refreshEquipes() {
+	// Rafraichir les listes des participants
+	private void refreshParticipants() {
 		// Récupérer le nombre de matchs
-		int nbMatchs = this.getEquipesSelectionnees().size() / 2;
+		int nbMatchs = this.getParticipantsSelectionnes().size() / 2;
 		
 		// Mettre à jour la liste des matchs
 		this.jp_resultat.removeAll();
-		this.jcbs_equipesA = new JComboBox[nbMatchs];
-		this.jcbs_equipesB = new JComboBox[nbMatchs];
+		this.jcbs_participantsA = new JComboBox[nbMatchs];
+		this.jcbs_participantsB = new JComboBox[nbMatchs];
 		for (int i = 0; i < nbMatchs; i++) {
 			JPanel jp_match = new JPanel(new GridLayout(1, 2));
 			
-			this.jcbs_equipesA[i] = new JComboBox(this.getEquipesSelectionnees(true).toArray(new String[this.getEquipesSelectionnees().size()]));
-			this.jcbs_equipesA[i].setSelectedIndex(i * 2);
-			this.jcbs_equipesB[i] = new JComboBox(this.getEquipesSelectionnees(true).toArray(new String[this.getEquipesSelectionnees().size()]));
-			this.jcbs_equipesB[i].setSelectedIndex(i * 2 + 1);
+			this.jcbs_participantsA[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsA[i].setSelectedIndex(i * 2);
+			this.jcbs_participantsB[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsB[i].setSelectedIndex(i * 2 + 1);
 			
-			jp_match.add(this.jcbs_equipesA[i]);
-			jp_match.add(this.jcbs_equipesB[i]);
+			jp_match.add(this.jcbs_participantsA[i]);
+			jp_match.add(this.jcbs_participantsB[i]);
 			
-			this.jcbs_equipesA[i].addItemListener(this);
-			this.jcbs_equipesB[i].addItemListener(this);
+			this.jcbs_participantsA[i].addItemListener(this);
+			this.jcbs_participantsB[i].addItemListener(this);
 			
 			this.jp_resultat.add(jp_match);
 		}
@@ -453,136 +453,136 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	
 	// Rafraichir les couleurs
 	private void refreshColors() {
-		// Lister les équipes qui participent plusieurs fois
-		ArrayList<Integer> equipesParticipantes = new ArrayList<Integer>();
-		ArrayList<Integer> equipesRedondantes = new ArrayList<Integer>();
-		for(int i=0;i<this.jcbs_equipesA.length;i++) {
-			// Ajouter l'équipe A
-			if(!equipesParticipantes.contains(this.jcbs_equipesA[i].getSelectedIndex())) {
-				equipesParticipantes.add(this.jcbs_equipesA[i].getSelectedIndex());
-			} else if(!equipesRedondantes.contains(this.jcbs_equipesA[i].getSelectedIndex())) {
-				equipesRedondantes.add(this.jcbs_equipesA[i].getSelectedIndex());
+		// Lister les participants qui participent plusieurs fois
+		ArrayList<Integer> participants = new ArrayList<Integer>();
+		ArrayList<Integer> participantsRedondants = new ArrayList<Integer>();
+		for(int i=0;i<this.jcbs_participantsA.length;i++) {
+			// Ajouter le participant A
+			if(!participants.contains(this.jcbs_participantsA[i].getSelectedIndex())) {
+				participants.add(this.jcbs_participantsA[i].getSelectedIndex());
+			} else if(!participantsRedondants.contains(this.jcbs_participantsA[i].getSelectedIndex())) {
+				participantsRedondants.add(this.jcbs_participantsA[i].getSelectedIndex());
 			}
 			
-			// Ajouter l'équipe B
-			if(!equipesParticipantes.contains(this.jcbs_equipesB[i].getSelectedIndex())) {
-				equipesParticipantes.add(this.jcbs_equipesB[i].getSelectedIndex());
-			} else if(!equipesRedondantes.contains(this.jcbs_equipesB[i].getSelectedIndex())) {
-				equipesRedondantes.add(this.jcbs_equipesB[i].getSelectedIndex());
+			// Ajouter le participant B
+			if(!participants.contains(this.jcbs_participantsB[i].getSelectedIndex())) {
+				participants.add(this.jcbs_participantsB[i].getSelectedIndex());
+			} else if(!participantsRedondants.contains(this.jcbs_participantsB[i].getSelectedIndex())) {
+				participantsRedondants.add(this.jcbs_participantsB[i].getSelectedIndex());
 			}
 		}
 		
-		// Récupérer les equipes séléctionnées
-		ArrayList<String> equipesSelectionnees = this.getEquipesSelectionnees();
+		// Récupérer les participants séléctionnés
+		ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
 		
 		// Changer la couleur des listes si nécéssaire
-		for(int i=0;i<this.jcbs_equipesA.length;i++) {			
-			// Vérifier si l'équipe ne joue pas avec elle meme
-			if(this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesB[i].getSelectedIndex()) {
-				this.jcbs_equipesA[i].setBackground(new Color(250, 90, 90));
-				this.jcbs_equipesA[i].setOpaque(true);
-				this.jcbs_equipesA[i].setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
-				this.jcbs_equipesB[i].setBackground(new Color(250, 90, 90));
-				this.jcbs_equipesB[i].setOpaque(true);
-				this.jcbs_equipesB[i].setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
+		for(int i=0;i<this.jcbs_participantsA.length;i++) {			
+			// Vérifier si le participant ne joue pas avec lui-même
+			if(this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsB[i].getSelectedIndex()) {
+				this.jcbs_participantsA[i].setBackground(new Color(250, 90, 90));
+				this.jcbs_participantsA[i].setOpaque(true);
+				this.jcbs_participantsA[i].setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
+				this.jcbs_participantsB[i].setBackground(new Color(250, 90, 90));
+				this.jcbs_participantsB[i].setOpaque(true);
+				this.jcbs_participantsB[i].setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
 			} else {
-				// Récupérer le nom des équipes
-				String nomEquipeA = this.isFantome() && this.jcbs_equipesA[i].getSelectedIndex() == this.jcbs_equipesA[i].getItemCount()-1 ? null : equipesSelectionnees.get(this.jcbs_equipesA[i].getSelectedIndex());
-				String nomEquipeB = this.isFantome() && this.jcbs_equipesB[i].getSelectedIndex() == this.jcbs_equipesB[i].getItemCount()-1 ? null : equipesSelectionnees.get(this.jcbs_equipesB[i].getSelectedIndex());
+				// Récupérer le nom des participants
+				String nomParticipantA = this.isFantome() && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount()-1 ? null : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
+				String nomParticipantB = this.isFantome() && this.jcbs_participantsB[i].getSelectedIndex() == this.jcbs_participantsB[i].getItemCount()-1 ? null : participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex());
 				
 				// Récupérer le nombre de rencontres
-				int nbRencontres = ContestOrg.get().getCtrlPhasesQualificatives().getNbRencontres(nomEquipeA, nomEquipeB);
+				int nbRencontres = ContestOrg.get().getCtrlPhasesQualificatives().getNbRencontres(nomParticipantA, nomParticipantB);
 				
 				// Changer la couleur des listes
 				if(nbRencontres > 0) {
-					this.jcbs_equipesA[i].setBackground(new Color(250, 90, 90));
-					this.jcbs_equipesA[i].setOpaque(true);
-					this.jcbs_equipesA[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
-					this.jcbs_equipesB[i].setBackground(new Color(250, 90, 90));
-					this.jcbs_equipesB[i].setOpaque(true);
-					this.jcbs_equipesB[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
+					this.jcbs_participantsA[i].setBackground(new Color(250, 90, 90));
+					this.jcbs_participantsA[i].setOpaque(true);
+					this.jcbs_participantsA[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
+					this.jcbs_participantsB[i].setBackground(new Color(250, 90, 90));
+					this.jcbs_participantsB[i].setOpaque(true);
+					this.jcbs_participantsB[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
 				} else {
-					// Vérifier si l'équipe A ne participe pas plusieurs fois
-					if(equipesRedondantes.contains(this.jcbs_equipesA[i].getSelectedIndex())) {
-						this.jcbs_equipesA[i].setBackground(new Color(250, 180, 76));
-						this.jcbs_equipesA[i].setOpaque(true);
-						this.jcbs_equipesA[i].setToolTipText((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
+					// Vérifier si le participant A ne participe pas plusieurs fois
+					if(participantsRedondants.contains(this.jcbs_participantsA[i].getSelectedIndex())) {
+						this.jcbs_participantsA[i].setBackground(new Color(250, 180, 76));
+						this.jcbs_participantsA[i].setOpaque(true);
+						this.jcbs_participantsA[i].setToolTipText((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
 					} else {
-						this.jcbs_equipesA[i].setBackground(new Color(168, 239, 101));
-						this.jcbs_equipesA[i].setOpaque(true);
-						this.jcbs_equipesA[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
+						this.jcbs_participantsA[i].setBackground(new Color(168, 239, 101));
+						this.jcbs_participantsA[i].setOpaque(true);
+						this.jcbs_participantsA[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
 					}
 
-					// Vérifier si l'équipe B ne participe pas plusieurs fois
-					if(equipesRedondantes.contains(this.jcbs_equipesB[i].getSelectedIndex())) {
-						this.jcbs_equipesB[i].setBackground(new Color(250, 180, 76));
-						this.jcbs_equipesB[i].setOpaque(true);
-						this.jcbs_equipesB[i].setToolTipText((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
+					// Vérifier si le participant B ne participe pas plusieurs fois
+					if(participantsRedondants.contains(this.jcbs_participantsB[i].getSelectedIndex())) {
+						this.jcbs_participantsB[i].setBackground(new Color(250, 180, 76));
+						this.jcbs_participantsB[i].setOpaque(true);
+						this.jcbs_participantsB[i].setToolTipText((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
 					} else {
-						this.jcbs_equipesB[i].setBackground(new Color(168, 239, 101));
-						this.jcbs_equipesB[i].setOpaque(true);
-						this.jcbs_equipesB[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
+						this.jcbs_participantsB[i].setBackground(new Color(168, 239, 101));
+						this.jcbs_participantsB[i].setOpaque(true);
+						this.jcbs_participantsB[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
 					}
 				}
 			}
 		}
 	}
 	
-	// Savoir si l'équipe fantome est nécéssaire
+	// Savoir si le participant fantome est nécéssaire
 	private boolean isFantome () {
-		int nbEquipes = 0;
-		for (int i = 0; i < this.equipesParticipantes.size(); i++) {
-			if (this.jcbs_equipesParticipantes[i].isSelected()) {
-				nbEquipes++;
+		int nbParticipants = 0;
+		for (int i = 0; i < this.participants.size(); i++) {
+			if (this.jcbs_participants[i].isSelected()) {
+				nbParticipants++;
 			}
 		}
-		return nbEquipes % 2 != 0;
+		return nbParticipants % 2 != 0;
 	}
 	
-	// Récupérer la liste des équipes séléctionnées (avec l'équipe fantome si nécéssaire)
-	private ArrayList<String> getEquipesSelectionnees () {
-		return this.getEquipesSelectionnees(false);
+	// Récupérer la liste des participants séléctionnés (avec le participant fantome si nécéssaire)
+	private ArrayList<String> getParticipantsSelectionnes () {
+		return this.getParticipantsSelectionnes(false);
 	}
-	private ArrayList<String> getEquipesSelectionnees (boolean rang) {
+	private ArrayList<String> getParticipantsSelectionnes (boolean rang) {
 		// Initialiser la liste
-		ArrayList<String> equipesSelectionnees = new ArrayList<String>();
+		ArrayList<String> participantsSelectionnes = new ArrayList<String>();
 		
 		// Remplir la liste
-		for (int i = 0; i < this.equipesParticipantes.size(); i++) {
-			if (this.jcbs_equipesParticipantes[i].isSelected()) {
+		for (int i = 0; i < this.participants.size(); i++) {
+			if (this.jcbs_participants[i].isSelected()) {
 				if(!rang) {
-					equipesSelectionnees.add(this.equipesParticipantes.get(i));
+					participantsSelectionnes.add(this.participants.get(i));
 				} else {
-					equipesSelectionnees.add(this.equipesParticipantes.get(i)+" (rang "+this.rangsEquipes.get(this.equipesParticipantes.get(i))+")");
+					participantsSelectionnes.add(this.participants.get(i)+" (rang "+this.rangsParticipants.get(this.participants.get(i))+")");
 				}
 			}
 		}
-		if (equipesSelectionnees.size() % 2 != 0) {
-			equipesSelectionnees.add(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
+		if (participantsSelectionnes.size() % 2 != 0) {
+			participantsSelectionnes.add(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
 		}
 		
 		// Retourner la liste
-		return equipesSelectionnees;
+		return participantsSelectionnes;
 	}
 	
-	// Récupérer le nombre d'équipes séléctionnées (sans l'équipe fantome)
-	public int getNbEquipesSelectionnees() {
-		int nbEquipesSelectionnees = 0;
-		for (int i = 0; i < this.equipesParticipantes.size(); i++) {
-			if (this.jcbs_equipesParticipantes[i].isSelected()) {
-				nbEquipesSelectionnees++;
+	// Récupérer le nombre de participants séléctionnés (sans le participant fantome)
+	public int getNbParticipantsSelectionnes() {
+		int nbParticipantsSelectionnes = 0;
+		for (int i = 0; i < this.participants.size(); i++) {
+			if (this.jcbs_participants[i].isSelected()) {
+				nbParticipantsSelectionnes++;
 			}
 		}
-		return nbEquipesSelectionnees;
+		return nbParticipantsSelectionnes;
 	}
 	
 	// Implémentation de ItemListener
 	@Override
 	public void itemStateChanged (ItemEvent event) {
-		for(JCheckBox checkbox : this.jcbs_equipesParticipantes) {
+		for(JCheckBox checkbox : this.jcbs_participants) {
 			if(event.getSource() == checkbox) {
-				// Rafraichir la liste des équipes
-				this.refreshEquipes();
+				// Rafraichir la liste des participants
+				this.refreshParticipants();
 			}
 		}
 		
@@ -596,11 +596,11 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	// Implémentation de ActionListener
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_generer) {
-			// Vérifier si le nombre d'équipes est suffisant
-			if(this.getNbEquipesSelectionnees() < 3) {
+			// Vérifier si le nombre de participants est suffisant
+			if(this.getNbParticipantsSelectionnes() < 3) {
 				// Erreur
 				ViewHelper.derror(this, "Il faut séléctionner au moins trois "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" pour lancer une génération.");
-			} else if(this.getNbEquipesSelectionnees() <= 8 || this.jrb_mode_basique.isSelected() || ViewHelper.confirmation(this, "Au dela de 8 équipes, le nombre de configurations possibles devient très grand. Désirez-vous continuer ?")) {
+			} else if(this.getNbParticipantsSelectionnes() <= 8 || this.jrb_mode_basique.isSelected() || ViewHelper.confirmation(this, "Au dela de 8 "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+", le nombre de configurations possibles devient très grand. Désirez-vous continuer ?")) {
 				// Modifier les boutons
 				this.jb_valider.setEnabled(false);
 				this.jb_generer.setEnabled(false);
@@ -610,7 +610,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				this.jl_statutGeneration.setIcon(new ImageIcon("img/farm/32x32/hourglass.png"));
 				
 				// Désactiver toutes les checkbox
-				for(JCheckBox checkbox : this.jcbs_equipesParticipantes) {
+				for(JCheckBox checkbox : this.jcbs_participants) {
 					checkbox.setEnabled(false);
 				}
 				
@@ -620,9 +620,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				// Récupérer la génération
 				this.generation = null;
 				if(this.jrb_mode_avance.isSelected()) {
-					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationAvance(this.nomCategorie, this.nomPoule, this.getEquipesSelectionnees());
+					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationAvance(this.nomCategorie, this.nomPoule, this.getParticipantsSelectionnes());
 				} else {
-					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationBasique(this.nomCategorie, this.nomPoule, this.getEquipesSelectionnees());
+					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationBasique(this.nomCategorie, this.nomPoule, this.getParticipantsSelectionnes());
 				}
 				
 				// Ecouter la génération
@@ -666,7 +666,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		// Perdre la référence de la génération 
 		this.generation = null;
 		
-		// Quitter la fenetre si il y a eu une demande d'annulation
+		// Quitter la fenêtre si il y a eu une demande d'annulation
 		if(this.demandeAnnulation) {
 			this.quit();
 		}
@@ -677,7 +677,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.jb_arreter.setEnabled(false);
 
 		// Réactiver toutes les checkbox
-		for(JCheckBox checkbox : this.jcbs_equipesParticipantes) {
+		for(JCheckBox checkbox : this.jcbs_participants) {
 			checkbox.setEnabled(true);
 		}
 		

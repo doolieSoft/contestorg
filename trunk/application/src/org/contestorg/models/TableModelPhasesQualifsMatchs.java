@@ -46,7 +46,7 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 		this.poule = poule;
 		this.phase = phase;
 		
-		// Initialiser la liste des équipes
+		// Initialiser la liste des participants
 		if (this.concours != null) {
 			this.matchs = this.concours.getMatchsPhasesQualifs();
 		} else if (this.categorie != null) {
@@ -61,12 +61,12 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 		FrontModel.get().getHistory().addListener(this);
 	}
 	
-	// Rafraichir la liste des équipes
+	// Rafraichir la liste des participants
 	private void refresh () {
 		// Retenir le nombre de matchs dans l'ancienne liste
 		int nbMatchsAnciens = this.matchs.size();
 		
-		// Mettre à jour la liste des équipes
+		// Mettre à jour la liste des participants
 		if (this.concours != null) {
 			this.matchs = this.concours.getMatchsPhasesQualifs();
 		} else if (this.categorie != null) {
@@ -118,13 +118,13 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 				return String.class;
 			case 2: // Phase
 				return Integer.class;
-			case 3: // Equipe A
+			case 3: // Participant A
 				return String.class;
 			case 4: // Résultats A
 				return Integer.class;
 			case 5: // Points A
 				return Double.class;
-			case 6: // Equipe B
+			case 6: // Participant B
 				return String.class;
 			case 7: // Résultats B
 				return Integer.class;
@@ -147,13 +147,13 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 			case 2:
 				return "Phase";
 			case 3:
-				return "Equipe A";
+				return "Participant A";
 			case 4:
 				return "Résultat";
 			case 5:
 				return "Points";
 			case 6:
-				return "Equipe B";
+				return "Participant B";
 			case 7:
 				return "Résultat";
 			case 8:
@@ -180,16 +180,16 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 				return this.matchs.get(index).getPhaseQualificative().getPoule().getNom();
 			case 2: // Phase
 				return this.matchs.get(index).getPhaseQualificative().getNumero();
-			case 3: // Equipe A
-				ModelEquipe equipeA = this.matchs.get(index).getParticipationA().getEquipe();
-				return equipeA == null ? null : equipeA.getNom();
+			case 3: // Participant A
+				ModelParticipant participantA = this.matchs.get(index).getParticipationA().getParticipant();
+				return participantA == null ? null : participantA.getNom();
 			case 4: // Résultats A
 				return this.matchs.get(index).getParticipationA().getResultat();
 			case 5: // Points A
 				return this.matchs.get(index).getParticipationA().getPoints();
-			case 6: // Equipe B
-				ModelEquipe equipeB = this.matchs.get(index).getParticipationB().getEquipe();
-				return equipeB == null ? null : equipeB.getNom();
+			case 6: // Participant B
+				ModelParticipant participantB = this.matchs.get(index).getParticipationB().getParticipant();
+				return participantB == null ? null : participantB.getNom();
 			case 7: // Résultats B
 				return this.matchs.get(index).getParticipationB().getResultat();
 			case 8: // Points B
@@ -254,7 +254,7 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 		this.categorie = null;
 		this.poule = null;
 		
-		// Rafraichir la liste des équipes
+		// Rafraichir la liste des participants
 		this.refresh();
 	}
 	

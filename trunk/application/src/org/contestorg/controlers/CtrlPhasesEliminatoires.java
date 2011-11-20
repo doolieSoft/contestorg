@@ -9,7 +9,7 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelParticipationObjectif;
@@ -36,9 +36,9 @@ public class CtrlPhasesEliminatoires
 		return FrontModel.get().getNbPhasesElimsPossibles(nomCategorie);
 	}
 	
-	// Récupérer la liste des équipes participantes dans une catégorie
-	public ArrayList<String> getListeEquipesParticipantes(String nomCategorie) {
-		return FrontModel.get().getListeEquipesParticipantes(nomCategorie);
+	// Récupérer la liste des participants dans une catégorie
+	public ArrayList<String> getListeParticipants(String nomCategorie) {
+		return FrontModel.get().getListeParticipants(nomCategorie);
 	}
 	
 	// Récupérer les informations sur un match de phase éliminatoire
@@ -71,11 +71,11 @@ public class CtrlPhasesEliminatoires
 			ContestOrg.get().error("Erreur lors du reset des phases éliminatoires", e);
 		}
 	}
-	public void setEquipePhasesElims(String nomCategorie, int numeroCellule, String nomEquipe) {
+	public void setParticipantPhasesElims(String nomCategorie, int numeroCellule, String nomParticipant) {
 		try {
-			FrontModel.get().setEquipePhasesElims(nomCategorie, numeroCellule, nomEquipe);
+			FrontModel.get().setParticipantPhasesElims(nomCategorie, numeroCellule, nomParticipant);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors du changement d'une équipe dans les phases éliminatoires", e);
+			ContestOrg.get().error("Erreur lors du changement d'un participant dans les phases éliminatoires", e);
 		}
 	}
 	public void updateMatchPhasesElims(String nomCategorie, int numeroMatch, Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
@@ -101,10 +101,10 @@ public class CtrlPhasesEliminatoires
 	}
 	
 	// Récupérer le GraphModel de la grande et petite finale pour une catégorie
-	public IGraphModel<InfosModelCategorie,InfosModelEquipe> getGraphModelPhasesElimsGrandeFinale(String nomCategorie) {
+	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPhasesElimsGrandeFinale(String nomCategorie) {
 		return FrontModel.get().getGraphModelPhasesElimsGrandeFinale(nomCategorie);
 	}
-	public IGraphModel<InfosModelCategorie,InfosModelEquipe> getGraphModelPhasesElimsPetiteFinale(String nomCategorie) {
+	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPhasesElimsPetiteFinale(String nomCategorie) {
 		return FrontModel.get().getGraphModelPhasesElimsPetiteFinale(nomCategorie);
 	}
 }

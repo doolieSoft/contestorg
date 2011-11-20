@@ -98,11 +98,11 @@ public class JDExportations extends JDPattern
 			// Récupérer l'opération
 			IOperation operation = ContestOrg.get().getCtrlOut().getLancerExportationOperation(exportation.getFirst().getNom());
 			
-			// Créer la fenetre associée à l'opération
+			// Créer la fenêtre associée à l'opération
 			JDOperation jd_operation = new JDOperation(this, "Exporter", operation, true, true);
 			
 			operation.operationStart();		// Démarrer l'opération
-			jd_operation.setVisible(true);	// Afficher la fenetre
+			jd_operation.setVisible(true);	// Afficher la fenêtre
 		} else {
 			// Appeller le actionPerformed du parent
 			super.actionPerformed(event);
@@ -112,14 +112,14 @@ public class JDExportations extends JDPattern
 	// Implémentation de ok
 	@Override
 	protected void ok () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
 	// Implémentation de quit
 	@Override
 	protected void quit () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	

@@ -146,9 +146,9 @@ public abstract class JDDiffusionAbstract extends JDPattern implements ItemListe
 			Integer port = this.getPort();
 			if (port != null) {
 				IOperation tester = ContestOrg.get().getCtrlOut().getTesterDiffusionOperation(port);	// Créer le testeur
-				JDOperation jd_test = new JDOperation(this, "Test d'une diffusion",tester);				// Créer la fenetre de test
+				JDOperation jd_test = new JDOperation(this, "Test d'une diffusion",tester);				// Créer la fenêtre de test
 				tester.operationStart();																// Demarrer le test
-				jd_test.setVisible(true);																// Afficher la fenetre de test
+				jd_test.setVisible(true);																// Afficher la fenêtre de test
 				
 			}
 		} else {

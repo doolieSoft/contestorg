@@ -8,85 +8,85 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import org.contestorg.events.Action;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IHistoryListener;
 
 
-public class TableModelEquipes implements TableModel, IClosableTableModel, IHistoryListener
+public class TableModelParticipants implements TableModel, IClosableTableModel, IHistoryListener
 {
 	// Concours, categorie et poule
 	private ModelConcours concours;
 	private ModelCategorie categorie;
 	private ModelPoule poule;
 	
-	// Equipes
-	private ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
+	// Participants
+	private ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 	
 	// Listeners
 	private ArrayList<TableModelListener> listeners = new ArrayList<TableModelListener>();
 	
 	// Constructeur
-	public TableModelEquipes(ModelConcours concours) {
+	public TableModelParticipants(ModelConcours concours) {
 		this(concours, null, null);
 	}
-	public TableModelEquipes(ModelCategorie categorie) {
+	public TableModelParticipants(ModelCategorie categorie) {
 		this(null, categorie, null);
 	}
-	public TableModelEquipes(ModelPoule poule) {
+	public TableModelParticipants(ModelPoule poule) {
 		this(null, null, poule);
 	}
-	private TableModelEquipes(ModelConcours concours, ModelCategorie categorie, ModelPoule poule) {
+	private TableModelParticipants(ModelConcours concours, ModelCategorie categorie, ModelPoule poule) {
 		// Retenir le concours, la categorie et la poule
 		this.concours = concours;
 		this.categorie = categorie;
 		this.poule = poule;
 		
-		// Initialiser la liste des équipes
+		// Initialiser la liste des participants
 		if (this.concours != null) {
-			this.equipes = this.concours.getEquipes();
+			this.participants = this.concours.getParticipants();
 		} else if (this.categorie != null) {
-			this.equipes = this.categorie.getEquipes();
+			this.participants = this.categorie.getParticipants();
 		} else if (this.poule != null) {
-			this.equipes = this.poule.getEquipes();
+			this.participants = this.poule.getParticipants();
 		}
 		
 		// Ecouter l'historique du concours
 		FrontModel.get().getHistory().addListener(this);
 	}
 	
-	// Rafraichir la liste des équipes
+	// Rafraichir la liste des participants
 	private void refresh () {
-		// Retenir le nombre d'équipes dans l'ancienne liste
-		int nbEquipesAnciennes = this.equipes.size();
+		// Retenir le nombre de participants dans l'ancienne liste
+		int nbParticipantsAnciens = this.participants.size();
 		
-		// Mettre à jour la liste des équipes
+		// Mettre à jour la liste des participants
 		if (this.concours != null) {
-			this.equipes = this.concours.getEquipes();
+			this.participants = this.concours.getParticipants();
 		} else if (this.categorie != null) {
-			this.equipes = this.categorie.getEquipes();
+			this.participants = this.categorie.getParticipants();
 		} else if (this.poule != null) {
-			this.equipes = this.poule.getEquipes();
+			this.participants = this.poule.getParticipants();
 		}
 		
-		// Retenir le nombre d'équipes dans la nouvelle liste
-		int nbEquipesNouvelles = this.equipes.size();
+		// Retenir le nombre de participants dans la nouvelle liste
+		int nbParticipantsNouveaux = this.participants.size();
 		
 		// Signaler les modifications
-		if(nbEquipesAnciennes > 0 || nbEquipesNouvelles > 0) {
+		if(nbParticipantsAnciens > 0 || nbParticipantsNouveaux > 0) {
 			// Min/Max
-			int max = Math.max(nbEquipesAnciennes,nbEquipesNouvelles);
-			int min = Math.min(nbEquipesAnciennes,nbEquipesNouvelles);
+			int max = Math.max(nbParticipantsAnciens,nbParticipantsNouveaux);
+			int min = Math.min(nbParticipantsAnciens,nbParticipantsNouveaux);
 			
 			// Updates
-			if(nbEquipesAnciennes > 0 && nbEquipesNouvelles != 0) {
+			if(nbParticipantsAnciens > 0 && nbParticipantsNouveaux != 0) {
 				this.fireRowUpdated(0, min-1);
 			}
 			
 			// Inserts/Deletes
-			if(nbEquipesAnciennes < nbEquipesNouvelles) {
+			if(nbParticipantsAnciens < nbParticipantsNouveaux) {
 				this.fireRowInserted(min, max-1);
-			} else if(nbEquipesAnciennes > nbEquipesNouvelles) {
+			} else if(nbParticipantsAnciens > nbParticipantsNouveaux) {
 				this.fireRowDeleted(min, max-1);
 			}
 		}
@@ -121,7 +121,7 @@ public class TableModelEquipes implements TableModel, IClosableTableModel, IHist
 			case 7:
 				return String.class;
 			case 8:
-				return InfosModelEquipe.Statut.class;
+				return InfosModelParticipant.Statut.class;
 		}
 		return null;
 	}
@@ -155,29 +155,29 @@ public class TableModelEquipes implements TableModel, IClosableTableModel, IHist
 	}
 	@Override
 	public int getRowCount () {
-		return this.equipes.size();
+		return this.participants.size();
 	}
 	@Override
 	public Object getValueAt (int index, int column) {
 		switch (column + this.getDecallage()) {
 			case 0:
-				return this.equipes.get(index).getPoule().getCategorie().getNom();
+				return this.participants.get(index).getPoule().getCategorie().getNom();
 			case 1:
-				return this.equipes.get(index).getPoule().getNom();
+				return this.participants.get(index).getPoule().getNom();
 			case 2:
-				return this.equipes.get(index).getStand();
+				return this.participants.get(index).getStand();
 			case 3:
-				return this.equipes.get(index).getNom();
+				return this.participants.get(index).getNom();
 			case 4:
-				return this.equipes.get(index).getRangPhasesQualifs();
+				return this.participants.get(index).getRangPhasesQualifs();
 			case 5:
-				return this.equipes.get(index).getPoints();
+				return this.participants.get(index).getPoints();
 			case 6:
-				return this.equipes.get(index).getNbVictoires();
+				return this.participants.get(index).getNbVictoires();
 			case 7:
-				return this.equipes.get(index).getVille();
+				return this.participants.get(index).getVille();
 			case 8:
-				return this.equipes.get(index).getStatut();
+				return this.participants.get(index).getStatut();
 		}
 		return null;
 	}
@@ -236,7 +236,7 @@ public class TableModelEquipes implements TableModel, IClosableTableModel, IHist
 		this.categorie = null;
 		this.poule = null;
 		
-		// Rafraichir la liste des équipes
+		// Rafraichir la liste des participants
 		this.refresh();
 	}
 	

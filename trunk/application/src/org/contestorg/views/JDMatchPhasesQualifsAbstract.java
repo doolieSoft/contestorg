@@ -36,9 +36,9 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 	private String nomPoule;
 	private int numeroPhase;
 	
-	// Equipes
-	protected JComboBox jcb_equipeA;
-	protected JComboBox jcb_equipeB;
+	// Participants
+	protected JComboBox jcb_participantA;
+	protected JComboBox jcb_participantB;
 	
 	// Résultats
 	protected JComboBox jcb_resultatA;
@@ -61,18 +61,18 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 		this.nomPoule = nomPoule;
 		this.numeroPhase = numeroPhase;
 		
-		// Equipes
+		// Participants
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
 		
-		ArrayList<String> equipesPartcicipantes = ContestOrg.get().getCtrlPhasesQualificatives().getListeEquipesParticipantes(this.nomCategorie,this.nomPoule);
-		JPanel jp_equipes = new JPanel(new GridLayout(1,2));
-		this.jcb_equipeA = new JComboBox(equipesPartcicipantes.toArray(new String[equipesPartcicipantes.size()]));
-		this.jcb_equipeA.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
-		this.jcb_equipeB = new JComboBox(equipesPartcicipantes.toArray(new String[equipesPartcicipantes.size()]));
-		this.jcb_equipeB.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
-		jp_equipes.add(this.jcb_equipeA);
-		jp_equipes.add(this.jcb_equipeB);
-		this.jp_contenu.add(jp_equipes);
+		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipants(this.nomCategorie,this.nomPoule);
+		JPanel jp_participants = new JPanel(new GridLayout(1,2));
+		this.jcb_participantA = new JComboBox(participants.toArray(new String[participants.size()]));
+		this.jcb_participantA.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
+		this.jcb_participantB = new JComboBox(participants.toArray(new String[participants.size()]));
+		this.jcb_participantB.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
+		jp_participants.add(this.jcb_participantA);
+		jp_participants.add(this.jcb_participantB);
+		this.jp_contenu.add(jp_participants);
 		
 		// Résultats
 		this.jp_contenu.add(Box.createVerticalStrut(5));
@@ -111,8 +111,8 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 	@Override
 	protected void ok () {
 		// Récupérer les données
-		String nomEquipeA = this.jcb_equipeA.getSelectedIndex() == this.jcb_equipeA.getItemCount()-1 ? null : (String)this.jcb_equipeA.getSelectedItem();
-		String nomEquipeB = this.jcb_equipeB.getSelectedIndex() == this.jcb_equipeB.getItemCount()-1 ? null : (String)this.jcb_equipeB.getSelectedItem();
+		String nomParticipantA = this.jcb_participantA.getSelectedIndex() == this.jcb_participantA.getItemCount()-1 ? null : (String)this.jcb_participantA.getSelectedItem();
+		String nomParticipantB = this.jcb_participantB.getSelectedIndex() == this.jcb_participantB.getItemCount()-1 ? null : (String)this.jcb_participantB.getSelectedItem();
 		int resultatA = 0;
 		switch(this.jcb_resultatA.getSelectedIndex()) {
 			case 0:
@@ -153,18 +153,18 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 		
 		// Vérifier les données
 		boolean erreur = false;
-		if(nomEquipeA == null && nomEquipeB == null || nomEquipeA != null && nomEquipeA.equals(nomEquipeB)) {
+		if(nomParticipantA == null && nomParticipantB == null || nomParticipantA != null && nomParticipantA.equals(nomParticipantB)) {
 			// Erreur
 			erreur = true;
 			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
 		} else if(this instanceof JDMatchPhasesQualifsCreer) {
-			if(ContestOrg.get().getCtrlPhasesQualificatives().isEquipeParticipantePhaseQualif(this.nomCategorie,this.nomPoule,this.numeroPhase,nomEquipeA)) {
-				if(!ViewHelper.confirmation(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomEquipeA+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
+			if(ContestOrg.get().getCtrlPhasesQualificatives().isParticipantPhaseQualif(this.nomCategorie,this.nomPoule,this.numeroPhase,nomParticipantA)) {
+				if(!ViewHelper.confirmation(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomParticipantA+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
 					erreur = true;
 				}
 			}
-			if(!erreur && ContestOrg.get().getCtrlPhasesQualificatives().isEquipeParticipantePhaseQualif(this.nomCategorie,this.nomPoule,this.numeroPhase,nomEquipeB)) {
-				if(!ViewHelper.confirmation(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomEquipeB+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
+			if(!erreur && ContestOrg.get().getCtrlPhasesQualificatives().isParticipantPhaseQualif(this.nomCategorie,this.nomPoule,this.numeroPhase,nomParticipantB)) {
+				if(!ViewHelper.confirmation(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomParticipantB+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
 					erreur = true;
 				}
 			}
@@ -196,8 +196,8 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 			TrackableList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesB = this.jp_prix.getObjectifsRemportesB();
 			
 			// Créer les informations de participation
-			Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> participationA = new Triple<String, TrackableList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomEquipeA, objectifsRemportesA, new InfosModelParticipation(resultatA));
-			Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> participationB = new Triple<String, TrackableList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomEquipeB, objectifsRemportesB, new InfosModelParticipation(resultatB));
+			Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> participationA = new Triple<String, TrackableList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomParticipantA, objectifsRemportesA, new InfosModelParticipation(resultatA));
+			Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> participationB = new Triple<String, TrackableList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomParticipantB, objectifsRemportesB, new InfosModelParticipation(resultatB));
 			
 			// Transmettre les données au collector
 			this.collector.accept(new Triple<Triple<String,TrackableList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,TrackableList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(participationA , participationB, new InfosModelMatchPhasesQualifs(null,details)));

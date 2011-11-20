@@ -42,7 +42,7 @@ public class ModelLieu extends ModelAbstract
 	}
 	protected ModelLieu(ModelConcours concours, ModelLieu lieu) {
 		// Appeller le constructeur principal
-		this(concours, lieu.toInformation());
+		this(concours, lieu.toInfos());
 		
 		// Récupérer l'id
 		this.setId(lieu.getId());
@@ -155,7 +155,7 @@ public class ModelLieu extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelLieu toInformation () {
+	public InfosModelLieu toInfos () {
 		InfosModelLieu infos = new InfosModelLieu(this.nom, this.lieu, this.telephone, this.email, this.description);
 		infos.setId(this.getId());
 		return infos;

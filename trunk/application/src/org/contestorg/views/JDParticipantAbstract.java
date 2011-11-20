@@ -20,16 +20,16 @@ import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
-import org.contestorg.infos.InfosModelProprieteEquipe;
+import org.contestorg.infos.InfosModelProprieteParticipant;
 import org.contestorg.interfaces.ICollector;
 
 
 
 @SuppressWarnings("serial")
-public abstract class JDEquipeAbstract extends JDPattern
+public abstract class JDParticipantAbstract extends JDPattern
 {	
 	// Panel des catégories et poules
 	protected JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
@@ -48,13 +48,13 @@ public abstract class JDEquipeAbstract extends JDPattern
 	
 	// Anciens prix et anciennes propriétés
 	protected TrackableList<String> prix = new TrackableList<String>();
-	protected TrackableList<Pair<String, InfosModelProprieteEquipe>> proprietesEquipe = new TrackableList<Pair<String,InfosModelProprieteEquipe>>();
+	protected TrackableList<Pair<String, InfosModelProprieteParticipant>> proprietesParticipant = new TrackableList<Pair<String,InfosModelProprieteParticipant>>();
 	
 	// Collector
-	private ICollector<Quintuple<String,String,InfosModelEquipe,TrackableList<Pair<String,InfosModelProprieteEquipe>>,TrackableList<String>>> collector;
+	private ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprieteParticipant>>,TrackableList<String>>> collector;
 
 	// Constructeur
-	public JDEquipeAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,InfosModelEquipe,TrackableList<Pair<String,InfosModelProprieteEquipe>>,TrackableList<String>>> collector) {
+	public JDParticipantAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprieteParticipant>>,TrackableList<String>>> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
 		
@@ -64,10 +64,10 @@ public abstract class JDEquipeAbstract extends JDPattern
 		// Catégorie et poule
 		this.jp_contenu.add(this.jp_categoriePoule);
 		
-		// Informations sur l'équipe
+		// Informations sur le participant
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Informations sur l'équipe" : "Informations sur le joueur", ViewHelper.H1));
 		
-		for(InfosModelEquipe.Statut statut : InfosModelEquipe.Statut.values()) {
+		for(InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
 			this.jcb_statut.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur());
 		}
 		
@@ -81,7 +81,7 @@ public abstract class JDEquipeAbstract extends JDPattern
 		this.jp_contenu.add(ViewHelper.inputs(jls_informations, jcs_informations));
 
 		// Propriétés personnalisées
-		ArrayList<InfosModelPropriete> proprietesDisponibles = ContestOrg.get().getCtrlEquipes().getListeProprietes();
+		ArrayList<InfosModelPropriete> proprietesDisponibles = ContestOrg.get().getCtrlParticipants().getListeProprietes();
 		if(proprietesDisponibles.size() > 0) {
 			this.jp_contenu.add(ViewHelper.title("Propriétés personnalisées", ViewHelper.H1));
 			JLabel[] jls_proprietes = new JLabel[proprietesDisponibles.size()];
@@ -94,7 +94,7 @@ public abstract class JDEquipeAbstract extends JDPattern
 		}
 		
 		// Prix
-		ArrayList<InfosModelPrix> prixDisponibles = ContestOrg.get().getCtrlEquipes().getListePrix();
+		ArrayList<InfosModelPrix> prixDisponibles = ContestOrg.get().getCtrlParticipants().getListePrix();
 		if(prixDisponibles.size() > 0) {
 			this.jp_contenu.add(ViewHelper.title("Prix remportés",ViewHelper.H1));
 			String[] noms = new String[prixDisponibles.size()];
@@ -118,7 +118,7 @@ public abstract class JDEquipeAbstract extends JDPattern
 		// Appeller le setVisible du parent
 		super.setVisible(visible);
 		
-		// Focus sur le nom de l'équipe
+		// Focus sur le nom du participant
 		if(visible) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -136,7 +136,7 @@ public abstract class JDEquipeAbstract extends JDPattern
 		String nom = this.jtf_nom.getText().trim();
 		String stand = this.jtf_stand.getText().trim();
 		String ville = this.jtf_ville.getText().trim();
-		InfosModelEquipe.Statut statut = InfosModelEquipe.Statut.values()[this.jcb_statut.getSelectedIndex()];
+		InfosModelParticipant.Statut statut = InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()];
 		String membres = this.jtf_membres.getText().trim();
 		String details = this.jta_details.getText().trim();
 		
@@ -146,17 +146,17 @@ public abstract class JDEquipeAbstract extends JDPattern
 			// Message d'erreur
 			erreur = true;
 			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Le nom de l'équipe n'est pas précisé." : "Le nom du joueur n'est pas précisé.");
-		} else if(!this.checkNomEquipe()) {
+		} else if(!this.checkNomParticipant()) {
 			// Erreur
 			erreur = true;
 			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe existante possède déjà le même nom." : "Un joueur existant possède déjà le même nom.");
 		}
 
-		// Vérifier les propriétés d'équipe
-		ArrayList<InfosModelPropriete> proprietesDisponibles = ContestOrg.get().getCtrlEquipes().getListeProprietes();
+		// Vérifier les propriétés de participant
+		ArrayList<InfosModelPropriete> proprietesDisponibles = ContestOrg.get().getCtrlParticipants().getListeProprietes();
 		for(int i=0;i<proprietesDisponibles.size();i++) {
 			try {
-				// Récupérer la valeur de la propriété d'équipe
+				// Récupérer la valeur de la propriété de participant
 				String valeur = this.jtfs_proprietes[i].getText().trim();
 				
 				// Vérifier si la valeur est donnée
@@ -184,15 +184,15 @@ public abstract class JDEquipeAbstract extends JDPattern
 		
 		// Transmettre les données au collector
 		if(!erreur) {
-			// Mettre à jour la liste des propriétés d'équipe
+			// Mettre à jour la liste des propriétés de participant
 			for(int i=0;i<proprietesDisponibles.size();i++) {
-				// Récupérer la valeur de la propriété d'équipe
+				// Récupérer la valeur de la propriété de participant
 				String valeur = this.jtfs_proprietes[i].getText().trim();
 				
 				// Vérifier si la propriété été déjà donnée
 				boolean ancien = false; int index = 0;
-				for(Pair<String, InfosModelProprieteEquipe> proprieteEquipe : this.proprietesEquipe) {
-					if(proprieteEquipe.getFirst().equals(proprietesDisponibles.get(i))) {
+				for(Pair<String, InfosModelProprieteParticipant> proprieteParticipant : this.proprietesParticipant) {
+					if(proprieteParticipant.getFirst().equals(proprietesDisponibles.get(i))) {
 						ancien = true;
 					} else if(!ancien) {
 						index++;
@@ -201,16 +201,16 @@ public abstract class JDEquipeAbstract extends JDPattern
 				
 				// Vérifier si la propriété est obligatoire
 				if(!valeur.isEmpty()) {
-					// Ajouter la propriété d'équipe
-					this.proprietesEquipe.add(new Pair<String, InfosModelProprieteEquipe>(proprietesDisponibles.get(i).getNom(), new InfosModelProprieteEquipe(valeur)));
+					// Ajouter la propriété de participant
+					this.proprietesParticipant.add(new Pair<String, InfosModelProprieteParticipant>(proprietesDisponibles.get(i).getNom(), new InfosModelProprieteParticipant(valeur)));
 				} else if(ancien) {
-					// Supprimer la propriété d'équipe
-					this.proprietesEquipe.remove(index);
+					// Supprimer la propriété de participant
+					this.proprietesParticipant.remove(index);
 				}
 			}
 
 			// Mettre à jour la liste des prix
-			ArrayList<InfosModelPrix> prixDisponibles = ContestOrg.get().getCtrlEquipes().getListePrix();
+			ArrayList<InfosModelPrix> prixDisponibles = ContestOrg.get().getCtrlParticipants().getListePrix();
 			for(int i=0;i<prixDisponibles.size();i++) {
 				// Vérifier si le prix est séléctionné
 				boolean nouveau = this.jl_prix.isSelectedIndex(i);
@@ -234,12 +234,12 @@ public abstract class JDEquipeAbstract extends JDPattern
 			}
 			
 			// Transmettre les données au collector
-			this.collector.accept(new Quintuple<String, String, InfosModelEquipe, TrackableList<Pair<String,InfosModelProprieteEquipe>>, TrackableList<String>>(this.jp_categoriePoule.getCategorie(), this.jp_categoriePoule.getPoule(), new InfosModelEquipe(stand, nom, ville, statut, membres, details), this.proprietesEquipe, this.prix));
+			this.collector.accept(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprieteParticipant>>, TrackableList<String>>(this.jp_categoriePoule.getCategorie(), this.jp_categoriePoule.getPoule(), new InfosModelParticipant(stand, nom, ville, statut, membres, details), this.proprietesParticipant, this.prix));
 		}
 	}
 	
-	// Vérifier le nom de l'équipe
-	protected abstract boolean checkNomEquipe();
+	// Vérifier le nom du participant
+	protected abstract boolean checkNomParticipant();
 
 	// Implémentation de quit
 	@Override

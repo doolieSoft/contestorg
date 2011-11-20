@@ -47,7 +47,7 @@ public class GraphVertexEditorNull extends AbstractCellEditor implements GraphCe
 	// Implémentation de getGraphCellEditorComponent
 	@Override
 	public Component getGraphCellEditorComponent (JGraph graph, Object value, boolean isSelected) {
-		// Demander à Swing de remettre à plus tard la création et l'affichage de la fenetre d'édition
+		// Demander à Swing de remettre à plus tard la création et l'affichage de la fenêtre d'édition
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run () {

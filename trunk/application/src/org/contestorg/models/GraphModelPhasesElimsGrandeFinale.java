@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import org.contestorg.events.Action;
 import org.contestorg.events.Event;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IGraphModel;
@@ -14,7 +14,7 @@ import org.contestorg.interfaces.IGraphModelListener;
 import org.contestorg.interfaces.IHistoryListener;
 
 
-public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModelCategorie,InfosModelEquipe>, IEventListener, IHistoryListener
+public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {
 	// Catégorie associée au graphe
 	private ModelCategorie categorie;
@@ -26,7 +26,7 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 	private ArrayList<IGraphModelListener> listeners = new ArrayList<IGraphModelListener>();
 	
 	// Cellules
-	private ArrayList<ICelluleModel<InfosModelCategorie,InfosModelEquipe>> cellules = new ArrayList<ICelluleModel<InfosModelCategorie,InfosModelEquipe>>();
+	private ArrayList<ICelluleModel<InfosModelCategorie,InfosModelParticipant>> cellules = new ArrayList<ICelluleModel<InfosModelCategorie,InfosModelParticipant>>();
 	
 	// Données modifiées ?
 	private boolean isChanged = false;
@@ -49,14 +49,14 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 	// Implémentation de IGraphModel
 	@Override
 	public InfosModelCategorie getObject() {
-		return this.categorie == null ? null : this.categorie.toInformation();
+		return this.categorie == null ? null : this.categorie.toInfos();
 	}
 	@Override
-	public ICelluleModel<InfosModelCategorie,InfosModelEquipe> getCellule (int index) {
+	public ICelluleModel<InfosModelCategorie,InfosModelParticipant> getCellule (int index) {
 		return index < this.cellules.size() ? this.cellules.get(index) : null;
 	}
 	@Override
-	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelEquipe> cellule) {
+	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule) {
 		return this.cellules.indexOf(cellule);
 	}
 	@Override
@@ -90,7 +90,7 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 	// Recharger le graphe
 	private void reload() {
 		// Fermer toutes les cellules
-		for(ICelluleModel<InfosModelCategorie,InfosModelEquipe> cellule : this.cellules) {
+		for(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule : this.cellules) {
 			cellule.close();
 		}
 		
@@ -111,10 +111,10 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 			this.phases.addListener(this);
 			
 			// Remplir la liste des cellules
-			int nbEquipes = this.phases == null ? 0 : this.phases.getNbEquipes();
-			int nbCellules = 2*nbEquipes-1;
+			int nbParticipants = this.phases == null ? 0 : this.phases.getNbParticipants();
+			int nbCellules = 2*nbParticipants-1;
 			for(int i=0;i<nbCellules;i++) {
-				if(i < nbEquipes) {
+				if(i < nbParticipants) {
 					// Récupérer le match
 					ModelMatchPhasesElims match =  this.phases.getMatch((i-(i%2))/2);
 					
@@ -125,7 +125,7 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 					this.cellules.add(new CelluleModelPhasesElimsParticipation(this, participation));
 				} else {
 					// Ajouter la cellule
-					this.cellules.add(new CelluleModelPhasesElimsMatch(this, this.phases.getMatch(i-nbEquipes)));
+					this.cellules.add(new CelluleModelPhasesElimsMatch(this, this.phases.getMatch(i-nbParticipants)));
 				}
 			}
 		}

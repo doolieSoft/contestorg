@@ -68,8 +68,8 @@ public abstract class RessourceAbstract implements IHistoryListener
 						// Extraire les paramètres
 						ArrayList<Parametre> themeParametres = new ArrayList<Parametre>();
 						if (configuration.getChild("parametres") != null) {
-							List listeEquipes = configuration.getChild("parametres").getChildren("parametre");
-							Iterator i = listeEquipes.iterator();
+							List listeParticipants = configuration.getChild("parametres").getChildren("parametre");
+							Iterator i = listeParticipants.iterator();
 							while (i.hasNext()) {
 								// Récupérer le paramètre
 								Element parametre = (Element)i.next();
@@ -118,8 +118,8 @@ public abstract class RessourceAbstract implements IHistoryListener
 						// Extraire les fichiers
 						ArrayList<Fichier> themeFichiers = new ArrayList<Fichier>();
 						if (configuration.getChild("fichiers") != null) {
-							List listeEquipes = configuration.getChild("fichiers").getChildren("fichier");
-							Iterator i = listeEquipes.iterator();
+							List listeParticipants = configuration.getChild("fichiers").getChildren("fichier");
+							Iterator i = listeParticipants.iterator();
 							while (i.hasNext()) {
 								// Récupérer le fichier
 								Element fichier = (Element)i.next();
@@ -198,8 +198,8 @@ public abstract class RessourceAbstract implements IHistoryListener
 		// Ajouter les ressources
 		Element configuration = RessourceAbstract.getConfiguration(theme.getChemin());
 		if (configuration.getChild("fichiers") != null) {
-			List listeEquipes = configuration.getChild("fichiers").getChildren("fichier");
-			Iterator i = listeEquipes.iterator();
+			List listeParticipants = configuration.getChild("fichiers").getChildren("fichier");
+			Iterator i = listeParticipants.iterator();
 			if (!i.hasNext()) {
 				throw new ContestOrgOutException("Aucun fichier n'a été défini dans le fichier de configuration du thème.");
 			} else {

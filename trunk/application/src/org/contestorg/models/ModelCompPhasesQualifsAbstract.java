@@ -53,7 +53,7 @@ public abstract class ModelCompPhasesQualifsAbstract extends ModelAbstract
 	}
 	
 	// "Implémentation" de toInformation
-	public abstract InfosModelCompPhasesQualifsAbstract toInformation ();
+	public abstract InfosModelCompPhasesQualifsAbstract toInfos ();
 	
 	// Remove
 	@Override

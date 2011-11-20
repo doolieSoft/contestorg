@@ -90,7 +90,7 @@ public class JPConfigurationProgrammation extends JPConfigurationAbstract
 			} catch(NumberFormatException exception) {
 				// Message d'erreur
 				erreur = true;
-				ViewHelper.derror(this.w_parent, "Programmation de matchs", "La pause minimal d'une équipe doit être un nombre décimale.");
+				ViewHelper.derror(this.w_parent, "Programmation de matchs", "La pause minimal d'un participant doit être un nombre décimale.");
 			}
 		}
 

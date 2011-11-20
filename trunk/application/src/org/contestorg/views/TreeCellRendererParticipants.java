@@ -16,12 +16,12 @@ import javax.swing.tree.TreeCellRenderer;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.interfaces.ITreeNode;
 
 
-public class TreeCellRendererEquipes implements TreeCellRenderer
+public class TreeCellRendererParticipants implements TreeCellRenderer
 {
 	// Implémentation de TreeCellRenderer
 	@Override
@@ -44,9 +44,9 @@ public class TreeCellRendererEquipes implements TreeCellRenderer
 				image = "img/farm/16x16/table.png";
 				nom = ((InfosModelPoule)node.getObject()).getNom();
 				break;
-			case 3: // Equipe
+			case 3: // Participant
 				image = ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/16x16/group.png" : "img/farm/16x16/user_green.png";
-				nom = ((InfosModelEquipe)node.getObject()).getNom();
+				nom = ((InfosModelParticipant)node.getObject()).getNom();
 				break;
 		}
 		

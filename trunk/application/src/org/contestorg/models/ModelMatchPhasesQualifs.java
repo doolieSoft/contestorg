@@ -33,7 +33,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	}
 	protected ModelMatchPhasesQualifs(ModelPhaseQualificative phaseQualificative, ModelMatchPhasesQualifs match) {
 		// Appeller le constructeur principal
-		this(phaseQualificative, match.toInformation());
+		this(phaseQualificative, match.toInfos());
 		
 		// Récupérer l'id
 		this.setId(match.getId());
@@ -62,7 +62,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	}
 	
 	// ToInformations
-	public InfosModelMatchPhasesQualifs toInformation () {
+	public InfosModelMatchPhasesQualifs toInfos () {
 		InfosModelMatchPhasesQualifs infos = new InfosModelMatchPhasesQualifs(this.getDate(),this.getDetails());
 		infos.setId(this.getId());
 		return infos;
@@ -111,21 +111,21 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 				ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(this.phase, infos.getThird());
 				
 				// Créer la participation A
-				ModelEquipe equipeA = infos.getFirst().getFirst() == null ? null : this.phase.getPoule().getEquipeByNom(infos.getFirst().getFirst());
-				ModelParticipation participationA = new ModelParticipation(equipeA, match, infos.getFirst().getThird());
+				ModelParticipant participantA = infos.getFirst().getFirst() == null ? null : this.phase.getPoule().getParticipantByNom(infos.getFirst().getFirst());
+				ModelParticipation participationA = new ModelParticipation(participantA, match, infos.getFirst().getThird());
 				participationA.updateObjectifsRemportes(infos.getFirst().getSecond());
 				match.setParticipationA(participationA);
-				if(equipeA != null) {
-					equipeA.addParticipation(participationA);
+				if(participantA != null) {
+					participantA.addParticipation(participationA);
 				}
 			
 				// Créer la participation B
-				ModelEquipe equipeB = infos.getSecond().getFirst() == null ? null : this.phase.getPoule().getEquipeByNom(infos.getSecond().getFirst());
-				ModelParticipation participationB = new ModelParticipation(equipeB, match, infos.getSecond().getThird());
+				ModelParticipant participantB = infos.getSecond().getFirst() == null ? null : this.phase.getPoule().getParticipantByNom(infos.getSecond().getFirst());
+				ModelParticipation participationB = new ModelParticipation(participantB, match, infos.getSecond().getThird());
 				participationB.updateObjectifsRemportes(infos.getSecond().getSecond());
 				match.setParticipationB(participationB);
-				if(equipeB != null) {
-					equipeB.addParticipation(participationB);
+				if(participantB != null) {
+					participantB.addParticipation(participationB);
 				}
 				
 				// Retourner le match
@@ -146,15 +146,15 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 				// Modifier la participationA
 				ModelParticipation participationA = match.getParticipationA();
 				participationA.setInfos(infos.getFirst().getThird());
-				ModelEquipe ancienneEquipeA = match.getParticipationA().getEquipe();
-				ModelEquipe nouvelleEquipeA = this.phase.getPoule().getCategorie().getConcours().getEquipeByNom(infos.getFirst().getFirst());
-				if((ancienneEquipeA == null && nouvelleEquipeA != null) || (ancienneEquipeA != null && !ancienneEquipeA.equals(nouvelleEquipeA))) {
-					if(participationA.getEquipe() != null) {
-						participationA.getEquipe().removeParticipation(participationA);
+				ModelParticipant ancienParticipantA = match.getParticipationA().getParticipant();
+				ModelParticipant nouveauParticipantA = this.phase.getPoule().getCategorie().getConcours().getParticipantByNom(infos.getFirst().getFirst());
+				if((ancienParticipantA == null && nouveauParticipantA != null) || (ancienParticipantA != null && !ancienParticipantA.equals(nouveauParticipantA))) {
+					if(participationA.getParticipant() != null) {
+						participationA.getParticipant().removeParticipation(participationA);
 					}
-					participationA.setEquipe(nouvelleEquipeA);
-					if(nouvelleEquipeA != null) {
-						nouvelleEquipeA.addParticipation(participationA);
+					participationA.setParticipant(nouveauParticipantA);
+					if(nouveauParticipantA != null) {
+						nouveauParticipantA.addParticipation(participationA);
 					}
 				}
 				participationA.updateObjectifsRemportes(infos.getFirst().getSecond());
@@ -162,15 +162,15 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 				// Modifier la participationB
 				ModelParticipation participationB = match.getParticipationB();
 				participationB.setInfos(infos.getSecond().getThird());
-				ModelEquipe ancienneEquipeB = match.getParticipationB().getEquipe();
-				ModelEquipe nouvelleEquipeB = this.phase.getPoule().getCategorie().getConcours().getEquipeByNom(infos.getSecond().getFirst());
-				if((ancienneEquipeB == null && nouvelleEquipeB != null) || (ancienneEquipeB != null && !ancienneEquipeB.equals(nouvelleEquipeB))) {
-					if(participationB.getEquipe() != null) {
-						participationB.getEquipe().removeParticipation(participationB);
+				ModelParticipant ancienParticipantB = match.getParticipationB().getParticipant();
+				ModelParticipant nouveauParticipantB = this.phase.getPoule().getCategorie().getConcours().getParticipantByNom(infos.getSecond().getFirst());
+				if((ancienParticipantB == null && nouveauParticipantB != null) || (ancienParticipantB != null && !ancienParticipantB.equals(nouveauParticipantB))) {
+					if(participationB.getParticipant() != null) {
+						participationB.getParticipant().removeParticipation(participationB);
 					}
-					participationB.setEquipe(nouvelleEquipeB);
-					if(nouvelleEquipeB != null) {
-						nouvelleEquipeB.addParticipation(participationB);
+					participationB.setParticipant(nouveauParticipantB);
+					if(nouveauParticipantB != null) {
+						nouveauParticipantB.addParticipation(participationB);
 					}
 				}
 				participationB.updateObjectifsRemportes(infos.getSecond().getSecond());

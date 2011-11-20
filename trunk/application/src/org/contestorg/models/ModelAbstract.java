@@ -48,8 +48,7 @@ public abstract class ModelAbstract
 		// Enregistrer l'id
 		this.id = id;
 	}
-	protected void setInfos (InfosModelAbstract infos) {
-		
+	protected void setInfos (InfosModelAbstract infos) {	
 	}
 	
 	// Ajouter un listener
@@ -65,8 +64,8 @@ public abstract class ModelAbstract
 		return object != null && object.getClass() == this.getClass() && ((ModelAbstract)object).getId() == this.getId();
 	}
 	
-	// ToInformation
-	public abstract InfosModelAbstract toInformation ();
+	// ToInfos
+	public abstract InfosModelAbstract toInfos ();
 	
 	// Remove
 	protected void delete () throws ContestOrgModelException {

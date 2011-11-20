@@ -18,13 +18,13 @@ import org.contestorg.interfaces.IHistoryListener;
 
 
 @SuppressWarnings("serial")
-public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListener
+public class TreeModelParticipants extends DefaultTreeModel implements IHistoryListener
 {
 	
 	// Constructeur
-	protected TreeModelEquipes(boolean remonterPoules, boolean remonterEquipes) {
+	protected TreeModelParticipants(boolean remonterPoules, boolean remonterParticipants) {
 		// Appeller le constructeur du parent
-		super(new ConcoursTreeNode(FrontModel.get().getConcours(),remonterPoules, remonterEquipes));
+		super(new ConcoursTreeNode(FrontModel.get().getConcours(),remonterPoules, remonterParticipants));
 		
 		// Ecouter l'historique du concours
 		FrontModel.get().getHistory().addListener(this);
@@ -79,24 +79,24 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 	private static class ConcoursTreeNode extends TreeNodeAbstract<ModelConcours> implements IEventListener
 	{
 		
-		// Faut il remonter les poules/équipes ?
+		// Faut il remonter les poules/participants ?
 		private boolean remonterPoules;
-		private boolean remonterEquipes;
+		private boolean remonterParticipants;
 		
 		// Constructeur
-		public ConcoursTreeNode(ModelConcours concours, boolean remonterPoules, boolean remonterEquipes) {
+		public ConcoursTreeNode(ModelConcours concours, boolean remonterPoules, boolean remonterParticipants) {
 			// Appeller le constructeur parent
 			super(concours);
 			
-			// Retenir s'il faut remonter les poules/équipes
+			// Retenir s'il faut remonter les poules/participants
 			this.remonterPoules = remonterPoules;
-			this.remonterEquipes = remonterEquipes;
+			this.remonterParticipants = remonterParticipants;
 			
 			// Vérifier si le concours n'est pas nul
 			if (this.object != null) {
 				// Remplir la liste des nodes des catégories filles
 				for (ModelCategorie categorie : this.object.getCategories()) {
-					CategorieTreeNode node = new CategorieTreeNode(categorie, this.remonterPoules, this.remonterEquipes);
+					CategorieTreeNode node = new CategorieTreeNode(categorie, this.remonterPoules, this.remonterParticipants);
 					this.children.add(node);
 					node.setParent(this);
 				}
@@ -118,7 +118,7 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 			if (this.object != null) {
 				// Remplir la liste des nodes des catégories filles
 				for (ModelCategorie categorie : this.object.getCategories()) {
-					CategorieTreeNode node = new CategorieTreeNode(categorie, this.remonterPoules, this.remonterEquipes);
+					CategorieTreeNode node = new CategorieTreeNode(categorie, this.remonterPoules, this.remonterParticipants);
 					this.children.add(node);
 					node.setParent(this);
 				}
@@ -139,7 +139,7 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 		
 		// Surcharge de getObject
 		public Object getObject () {
-			return this.object == null ? null : this.object.toInformation();
+			return this.object == null ? null : this.object.toInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -152,7 +152,7 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 				// Vérifier s'il s'agit bien d'une catégorie qui a été ajoutée
 				if (eventAdd.getAssociate() instanceof ModelCategorie) {
 					// Ajouter la node enfant
-					this.addChild(eventAdd.getIndex(),new CategorieTreeNode((ModelCategorie)eventAdd.getAssociate(), this.remonterPoules, this.remonterEquipes));
+					this.addChild(eventAdd.getIndex(),new CategorieTreeNode((ModelCategorie)eventAdd.getAssociate(), this.remonterPoules, this.remonterParticipants));
 				}
 			} else if (event instanceof EventRemove) {
 				// Caster l'évenement
@@ -181,24 +181,24 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 	private static class CategorieTreeNode extends TreeNodeAbstract<ModelCategorie> implements IEventListener
 	{
 		
-		// Faut il remonter les poules/équipes ?
+		// Faut il remonter les poules/participants ?
 		private boolean remonterPoules;
-		private boolean remonterEquipes;
+		private boolean remonterParticipants;
 		
 		// Constructeur
-		public CategorieTreeNode(ModelCategorie categorie, boolean remonterPoules, boolean remonterEquipes) {
+		public CategorieTreeNode(ModelCategorie categorie, boolean remonterPoules, boolean remonterParticipants) {
 			// Appeller le constructeur du parent
 			super(categorie);
 			
-			// Retenir s'il faut remonter les poules/équipes
+			// Retenir s'il faut remonter les poules/participants
 			this.remonterPoules = remonterPoules;
-			this.remonterEquipes = remonterEquipes;
+			this.remonterParticipants = remonterParticipants;
 			
 			// Vérifier s'il faut remonter les poules
 			if (this.remonterPoules) {
 				// Remplir la liste des nodes des poules filles
 				for (ModelPoule poule : this.object.getPoules()) {
-					PouleTreeNode node = new PouleTreeNode(poule, this.remonterEquipes);
+					PouleTreeNode node = new PouleTreeNode(poule, this.remonterParticipants);
 					this.children.add(node);
 					node.setParent(this);
 				}
@@ -216,7 +216,7 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 			
 		// Surcharge de getObject
 		public Object getObject() {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -229,7 +229,7 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 				// Vérifier s'il s'agit bien d'une poule qui a été ajoutée et s'il faut remonter les poules
 				if (this.remonterPoules && eventAdd.getAssociate() instanceof ModelPoule) {
 					// Ajouter la node enfant
-					this.addChild(eventAdd.getIndex(), new PouleTreeNode((ModelPoule)eventAdd.getAssociate(), this.remonterEquipes));
+					this.addChild(eventAdd.getIndex(), new PouleTreeNode((ModelPoule)eventAdd.getAssociate(), this.remonterParticipants));
 				}
 			} else if (event instanceof EventRemove) {
 				// Caster l'évenement
@@ -260,22 +260,22 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 	// Classe node représentant une poule
 	private static class PouleTreeNode extends TreeNodeAbstract<ModelPoule> implements IEventListener
 	{
-		// Faut il remonter les équipes ?
-		private boolean remonterEquipes;
+		// Faut il remonter les participants ?
+		private boolean remonterParticipants;
 		
 		// Constructeur
-		public PouleTreeNode(ModelPoule poule, boolean remonterEquipes) {
+		public PouleTreeNode(ModelPoule poule, boolean remonterParticipants) {
 			// Appeller le constructeur du parent
 			super(poule);
 			
-			// Retenir s'il faut remonter les équipes
-			this.remonterEquipes = remonterEquipes;
+			// Retenir s'il faut remonter les participants
+			this.remonterParticipants = remonterParticipants;
 			
-			// Vérifier s'il faut remonter les équipes
-			if (this.remonterEquipes) {
-				// Remplir la liste des nodes des équipes filles
-				for (ModelEquipe equipe : this.object.getEquipes()) {
-					EquipeTreeNode node = new EquipeTreeNode(equipe);
+			// Vérifier s'il faut remonter les participants
+			if (this.remonterParticipants) {
+				// Remplir la liste des nodes des participants fils
+				for (ModelParticipant participant : this.object.getParticipants()) {
+					ParticipantTreeNode node = new ParticipantTreeNode(participant);
 					this.children.add(node);
 					node.setParent(this);
 				}
@@ -288,12 +288,12 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 		// Implémentation manquante de TreeNode
 		@Override
 		public boolean getAllowsChildren () {
-			return this.remonterEquipes;
+			return this.remonterParticipants;
 		}
 		
 		// Surcharge de getObject
 		public Object getObject () {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 				
 		// Implémentation de IEventListener
@@ -303,17 +303,17 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 				// Caster l'évenement
 				EventAdd eventAdd = (EventAdd)event;
 				
-				// Vérifier s'il s'agit bien d'une équipe qui a été ajoutée et s'il faut remonter les équipes
-				if (this.remonterEquipes && eventAdd.getAssociate() instanceof ModelEquipe) {
+				// Vérifier s'il s'agit bien d'un participant qui a été ajouté et s'il faut remonter les participants
+				if (this.remonterParticipants && eventAdd.getAssociate() instanceof ModelParticipant) {
 					// Ajouter la node enfant
-					this.addChild(eventAdd.getIndex(), new EquipeTreeNode((ModelEquipe)eventAdd.getAssociate()));
+					this.addChild(eventAdd.getIndex(), new ParticipantTreeNode((ModelParticipant)eventAdd.getAssociate()));
 				}
 			} else if (event instanceof EventRemove) {
 				// Caster l'évenement
 				EventRemove eventRemove = (EventRemove)event;
 				
-				// Vérifier s'il s'agit bien d'une équipe qui a été supprimée et s'il faut remonter les équipes
-				if (this.remonterEquipes && eventRemove.getAssociate() instanceof ModelEquipe) {
+				// Vérifier s'il s'agit bien d'un participant qui a été supprimé et s'il faut remonter les participants
+				if (this.remonterParticipants && eventRemove.getAssociate() instanceof ModelParticipant) {
 					// Supprimer la node enfant
 					this.removeChild(eventRemove.getIndex());
 				}
@@ -321,8 +321,8 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 				// Caster l'évenement
 				EventMove eventMove = (EventMove)event;
 				
-				// Vérifier s'il s'agit bien d'une équipe qui a été déplacée et s'il faut remonter les équipes
-				if (this.remonterEquipes && eventMove.getAssociate() instanceof ModelEquipe) {
+				// Vérifier s'il s'agit bien d'un participant qui a été déplacée et s'il faut remonter les participants
+				if (this.remonterParticipants && eventMove.getAssociate() instanceof ModelParticipant) {
 					// Déplacer la node enfant
 					this.moveChild(eventMove.getBefore(), eventMove.getAfter());
 				}
@@ -333,15 +333,15 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 		}
 	}
 	
-	// Classe node représentant une équipe
-	private static class EquipeTreeNode extends TreeNodeAbstract<ModelEquipe> implements IEventListener
+	// Classe node représentant un participant
+	private static class ParticipantTreeNode extends TreeNodeAbstract<ModelParticipant> implements IEventListener
 	{
 		// Constructeur
-		public EquipeTreeNode(ModelEquipe equipe) {
+		public ParticipantTreeNode(ModelParticipant participant) {
 			// Appeller le constructeur parent
-			super(equipe);
+			super(participant);
 			
-			// Ecouter l'équipe
+			// Ecouter le participant
 			this.object.addListener(this);
 		}
 		
@@ -353,7 +353,7 @@ public class TreeModelEquipes extends DefaultTreeModel implements IHistoryListen
 		
 		// Surcharge de getObject
 		public Object getObject () {
-			return this.object.toInformation();
+			return this.object.toInfos();
 		}
 
 		

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.contestorg.events.Action;
 import org.contestorg.events.Event;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IGraphModel;
@@ -14,7 +14,7 @@ import org.contestorg.interfaces.IHistoryListener;
 
 
 
-public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModelCategorie,InfosModelEquipe>, IEventListener, IHistoryListener
+public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {
 	// Catégorie associée au graphe
 	private ModelCategorie categorie;
@@ -54,10 +54,10 @@ public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModel
 	// Implémentation de IGraphModel
 	@Override
 	public InfosModelCategorie getObject() {
-		return this.categorie == null ? null : this.categorie.toInformation();
+		return this.categorie == null ? null : this.categorie.toInfos();
 	}
 	@Override
-	public ICelluleModel<InfosModelCategorie,InfosModelEquipe> getCellule (int index) {
+	public ICelluleModel<InfosModelCategorie,InfosModelParticipant> getCellule (int index) {
 		switch(index) {
 			case 0: return this.celluleParticipationA;
 			case 1: return this.celluleParticipationB;
@@ -66,7 +66,7 @@ public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModel
 		}
 	}
 	@Override
-	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelEquipe> cellule) {
+	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule) {
 		if(cellule == this.cellulePetiteFinale) {
 			return 2;
 		} else if(cellule == this.celluleParticipationA) {

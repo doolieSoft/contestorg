@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.interfaces.IGraphModelListener;
 import org.jgraph.JGraph;
@@ -38,7 +38,7 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 	private JGraph jg_graphe;
 	
 	// Modèle associé au graphe
-	private IGraphModel<InfosModelCategorie,InfosModelEquipe> model;
+	private IGraphModel<InfosModelCategorie,InfosModelParticipant> model;
 	
 	// Largeur maximal des cellules
 	private int largeurMaxCellule = 0;
@@ -153,7 +153,7 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		// Effacer le graphe
 		this.clear(true);
 		
-		// Vérifier s'il y a au moins 2 équipes
+		// Vérifier s'il y a au moins deux participants
 		if(this.model != null && this.model.size() > 1) {
 			// Retenir que le graphe n'est plus effacé
 			this.clear = false;
@@ -269,7 +269,7 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 	public int getLargeurMaxCellule() {
 		return this.largeurMaxCellule+20;
 	}
-	public IGraphModel<InfosModelCategorie, InfosModelEquipe> getModel() {
+	public IGraphModel<InfosModelCategorie, InfosModelParticipant> getModel() {
 		return this.model;
 	}
 	public BufferedImage getImage() {

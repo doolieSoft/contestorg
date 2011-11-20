@@ -4,7 +4,7 @@ import org.contestorg.interfaces.ITransformer;
 
 
 /**
- * Cette classe permet de regrouper des couples compatibles d'équipes en vue d'une possible phase qualificative
+ * Cette classe permet de regrouper des couples compatibles de participants en vue d'une possible phase qualificative
  */
 public class Configuration<T>
 {
@@ -22,10 +22,10 @@ public class Configuration<T>
 		this(couples, couples.length);
 	}
 	@SuppressWarnings("unchecked")
-	public Configuration(T[] equipes) {
-		Couple<T>[] couples = new Couple[equipes.length / 2];
-		for (int i = 0; i < equipes.length; i = i + 2) {
-			couples[i / 2] = new Couple<T>(equipes[i], equipes[i + 1]);
+	public Configuration(T[] participants) {
+		Couple<T>[] couples = new Couple[participants.length / 2];
+		for (int i = 0; i < participants.length; i = i + 2) {
+			couples[i / 2] = new Couple<T>(participants[i], participants[i + 1]);
 		}
 		this.couples = couples;
 		this.size = couples.length;

@@ -1,13 +1,13 @@
 ﻿package org.contestorg.infos;
 
-public class InfosModelProprieteEquipe extends InfosModelAbstract
+public class InfosModelProprieteParticipant extends InfosModelAbstract
 {
 
 	// Attributs
 	private String value;
 
 	// Constructeur
-	public InfosModelProprieteEquipe(String value) {
+	public InfosModelProprieteParticipant(String value) {
 		this.value = value;
 	}
 
@@ -17,8 +17,8 @@ public class InfosModelProprieteEquipe extends InfosModelAbstract
 	}
 
 	// Informations par défaut
-	public static InfosModelProprieteEquipe defaut () {
-		return new InfosModelProprieteEquipe("");
+	public static InfosModelProprieteParticipant defaut () {
+		return new InfosModelProprieteParticipant("");
 	}
 
 }

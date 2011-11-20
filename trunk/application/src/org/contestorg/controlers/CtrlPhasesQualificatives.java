@@ -52,14 +52,14 @@ public class CtrlPhasesQualificatives
 	public int getNbMatchDejaJoues(Configuration<String> configuration) {
 		return FrontModel.get().getNbMatchDejaJoues(configuration);
 	}
-	public int getNbRencontres(String nomEquipeA, String nomEquipeB) {
-		return FrontModel.get().getNbRencontres(nomEquipeA, nomEquipeB);
+	public int getNbRencontres(String nomParticipantA, String nomParticipantB) {
+		return FrontModel.get().getNbRencontres(nomParticipantA, nomParticipantB);
 	}
-	public int getRang(String nomEquipe) {
-		return FrontModel.get().getRangEquipePhasesQualificatives(nomEquipe);
+	public int getRang(String nomParticipant) {
+		return FrontModel.get().getRangParticipantPhasesQualificatives(nomParticipant);
 	}
-	public ArrayList<String> getListeEquipesParticipantes(String nomCategorie,String nomPoule) {
-		return FrontModel.get().getListeEquipesParticipantes(nomCategorie, nomPoule);
+	public ArrayList<String> getListeParticipants(String nomCategorie,String nomPoule) {
+		return FrontModel.get().getListeParticipants(nomCategorie, nomPoule);
 	}
 		
 	// Récupérer les informations sur un match
@@ -71,8 +71,8 @@ public class CtrlPhasesQualificatives
 	public ArrayList<InfosModelObjectif> getListeObjectifs() {
 		return FrontModel.get().getListeObjectifs();
 	}
-	public boolean isEquipeParticipantePhaseQualif(String nomCategorie, String nomPoule, int numeroPhase, String nomEquipe) {
-		return FrontModel.get().isEquipeParticipantePhasesQualif(nomCategorie, nomPoule, numeroPhase, nomEquipe);
+	public boolean isParticipantPhaseQualif(String nomCategorie, String nomPoule, int numeroPhase, String nomParticipant) {
+		return FrontModel.get().isParticipantPhasesQualif(nomCategorie, nomPoule, numeroPhase, nomParticipant);
 	}
 	
 	// ==== Modifier des données

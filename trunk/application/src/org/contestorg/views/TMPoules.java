@@ -74,15 +74,15 @@ public class TMPoules extends TMAbstract<Pair<InfosModelPoule, ArrayList<String>
 
 	// Surcharge de remove
 	public boolean remove (int row) {
-		// Récupérer les équipes de la poule
-		ArrayList<String> equipes = this.get(row).getSecond();
+		// Récupérer les participants de la poule
+		ArrayList<String> participants = this.get(row).getSecond();
 		
 		// Appeller le remove du parent
 		boolean result = super.remove(row);
 		
-		// Placer les équipes dans la première poule
+		// Placer les participants dans la première poule
 		if(result) {
-			this.get(0).getSecond().addAll(equipes);
+			this.get(0).getSecond().addAll(participants);
 		}
 		
 		// Retourner le résultat de l'opération

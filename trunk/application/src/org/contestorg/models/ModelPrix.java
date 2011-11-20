@@ -10,14 +10,14 @@ import org.contestorg.interfaces.IUpdater;
 
 
 /**
- * Prix pouvant être decerné aux équipes
+ * Prix pouvant être decerné aux participants
  */
 public class ModelPrix extends ModelAbstract
 {
 	
 	// Attributs objets
 	private ModelConcours concours;
-	private ArrayList<ModelEquipe> equipes = new ArrayList<ModelEquipe>();
+	private ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 	
 	// Attributs scalaires
 	private String nom;
@@ -32,7 +32,7 @@ public class ModelPrix extends ModelAbstract
 	}
 	protected ModelPrix(ModelConcours concours, ModelPrix prix) {
 		// Appeller le constructeur principal
-		this(concours, prix.toInformation());
+		this(concours, prix.toInfos());
 		
 		// Récupérer l'id
 		this.setId(prix.getId());
@@ -45,8 +45,8 @@ public class ModelPrix extends ModelAbstract
 	public ModelConcours getConcours () {
 		return this.concours;
 	}
-	public ArrayList<ModelEquipe> getEquipes () {
-		return new ArrayList<ModelEquipe>(this.equipes);
+	public ArrayList<ModelParticipant> getParticipants () {
+		return new ArrayList<ModelParticipant>(this.participants);
 	}
 	
 	// Setters
@@ -62,30 +62,30 @@ public class ModelPrix extends ModelAbstract
 	}
 	
 	// Adders
-	public void addEquipe (ModelEquipe equipe) throws ContestOrgModelException {
-		if (!this.equipes.contains(equipe)) {
-			// Enregistrer l'équipe
-			this.equipes.add(equipe);
+	public void addParticipant (ModelParticipant participant) throws ContestOrgModelException {
+		if (!this.participants.contains(participant)) {
+			// Enregistrer le participant
+			this.participants.add(participant);
 			
 			// Fire add
-			this.fireAdd(equipe, this.equipes.size() - 1);
+			this.fireAdd(participant, this.participants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'équipe existe déjà dans le prix");
+			throw new ContestOrgModelException("Le participant existe déjà dans le prix");
 		}
 	}
 	
 	// Removers
-	protected void removeEquipe (ModelEquipe equipe) throws ContestOrgModelException {
-		// Supprimer l'équipe
+	protected void removeParticipant (ModelParticipant participant) throws ContestOrgModelException {
+		// Supprimer le participant
 		int index;
-		if ((index = this.equipes.indexOf(equipe)) != -1) {
+		if ((index = this.participants.indexOf(participant)) != -1) {
 			// Remove
-			this.equipes.remove(equipe);
+			this.participants.remove(participant);
 			
 			// Fire remove
-			this.fireRemove(equipe, index);
+			this.fireRemove(participant, index);
 		} else {
-			throw new ContestOrgModelException("L'équipe n'existe pas dans le prix");
+			throw new ContestOrgModelException("Le participant n'existe pas dans le prix");
 		}
 	}
 	
@@ -95,7 +95,7 @@ public class ModelPrix extends ModelAbstract
 	}
 	
 	// ToInformation
-	public InfosModelPrix toInformation () {
+	public InfosModelPrix toInfos () {
 		InfosModelPrix infos = new InfosModelPrix(this.nom);
 		infos.setId(this.getId());
 		return infos;
@@ -117,14 +117,14 @@ public class ModelPrix extends ModelAbstract
 				this.fireClear(ModelConcours.class);
 			}
 			
-			// Retirer le prix des équipes
-			for (ModelEquipe equipe : this.equipes) {
-				if (!removers.contains(equipe)) {
-					equipe.removePrix(this);
+			// Retirer le prix des participants
+			for (ModelParticipant participant : this.participants) {
+				if (!removers.contains(participant)) {
+					participant.removePrix(this);
 				}
 			}
-			this.equipes.clear();
-			this.fireClear(ModelEquipe.class);
+			this.participants.clear();
+			this.fireClear(ModelParticipant.class);
 			
 			// Fire delete
 			this.fireDelete();

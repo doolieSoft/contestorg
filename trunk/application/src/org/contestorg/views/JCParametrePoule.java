@@ -12,7 +12,7 @@ import javax.swing.JComboBox;
 import org.contestorg.common.Pair;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Parametre;
 import org.contestorg.interfaces.IChangeable;
@@ -165,8 +165,8 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 		
 		// Ajouter les poules de la catégorie
 		boolean trouvee = false;
-		ArrayList<Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelEquipe>>>>> categories = ContestOrg.get().getCtrlEquipes().getListeCategoriesPoulesEquipes();
-		for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelEquipe>>>> categorie : categories) {
+		ArrayList<Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>>>> categories = ContestOrg.get().getCtrlParticipants().getListeCategoriesPoulesParticipants();
+		for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>>> categorie : categories) {
 			if(this.idCategorie.equals(categorie.getFirst().getId())) {
 				// Catégorie trouvée
 				trouvee = true;
@@ -175,7 +175,7 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 				if(categorie.getSecond().size() != 0) {
 					this.jcb_poule.addItem("Veuillez séléctionner une poule");
 					this.jcb_poule.setBackground(this.color);
-					for(Pair<InfosModelPoule, ArrayList<InfosModelEquipe>> poule : categorie.getSecond()) {
+					for(Pair<InfosModelPoule, ArrayList<InfosModelParticipant>> poule : categorie.getSecond()) {
 						this.jcb_poule.addItem(poule.getFirst().getNom());
 						this.idsPoules.add(poule.getFirst().getId());
 					}

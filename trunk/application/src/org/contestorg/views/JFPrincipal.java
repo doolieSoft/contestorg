@@ -36,7 +36,7 @@ import org.contestorg.interfaces.IOperation;
 @SuppressWarnings("serial")
 public class JFPrincipal extends JFrame implements ActionListener, WindowListener, IMoodyListener
 {
-	// Titre de fenetre
+	// Titre de fenêtre
 	private String titre;
 	
 	// Onglets
@@ -62,20 +62,17 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 
 	/**
 	 * Constructeur
-	 * @param contestorg controleur principal
-	 * @param jp_equipes panel des equipes
-	 * @param jp_phasesQualificatives panel des qualifications
-	 * @param jp_phasesFinales panel des finales
+	 * @param titre titre de la fenêtre
 	 */
 	public JFPrincipal(String titre) {
-		// Parametres de la fenetre
+		// Parametres de la fenêtre
 		super(titre);
 		this.setResizable(true); // Redimensionnable
 		this.setPreferredSize(new Dimension(1000, 700)); // Dimensions
 		this.setMinimumSize(new Dimension(1000, 600)); // Dimensions au minimum
 		this.setLocation(50, 50); // Localisation
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); // Ne rien faire si echap
-		this.setIconImage(new ImageIcon("img/farm/32x32/sport.png").getImage()); // Icone de la fenetre
+		this.setIconImage(new ImageIcon("img/farm/32x32/sport.png").getImage()); // Icone de la fenêtre
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Plein écran
 		
 		// Retenir le titre
@@ -161,14 +158,14 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.addButton(jp_gauche, this.jb_quitter);
 
 		// Panel à onglets
-		JPanel jp_equipes = new JPPrincipalEquipes(this);
+		JPanel jp_participants = new JPPrincipalParticipants(this);
 		JPanel jp_phasesQualificatives = new JPPrincipalPhasesQualificatives(this);
 		JPanel jp_phasesFinales = new JPPrincipalPhasesEliminatoires(this);
 		
 		this.jtb_onglets = new JTabbedPane();
-		this.jtb_onglets.addTab("Equipes", new ImageIcon("img/farm/32x32/group.png"), jp_equipes,"Créer, éditer et supprimer des équipes");
-		this.jtb_onglets.addTab("Phases qualificatives", new ImageIcon("img/farm/32x32/arrow_switch.png"), jp_phasesQualificatives,"Organiser les phases qualificatives");
-		this.jtb_onglets.addTab("Phases éliminatoires", new ImageIcon("img/farm/32x32/arrow_join.png"), jp_phasesFinales,"Organiser les phases éliminatoires");
+		this.jtb_onglets.addTab("Equipes", new ImageIcon("img/farm/32x32/group.png"), jp_participants, "Créer, éditer et supprimer des équipes");
+		this.jtb_onglets.addTab("Phases qualificatives", new ImageIcon("img/farm/32x32/arrow_switch.png"), jp_phasesQualificatives, "Organiser les phases qualificatives");
+		this.jtb_onglets.addTab("Phases éliminatoires", new ImageIcon("img/farm/32x32/arrow_join.png"), jp_phasesFinales, "Organiser les phases éliminatoires");
 		panel_principal.add(this.jtb_onglets);
 
 		// Evenements
@@ -204,7 +201,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		panel.add(Box.createVerticalStrut(5));
 	}
 
-	// Quitter la fenetre
+	// Quitter la fenêtre
 	private void quit () {
 		if (ViewHelper.confirmation(this, !ContestOrg.get().is(ContestOrg.STATE_SAVE) && ContestOrg.get().is(ContestOrg.STATE_EDIT) ?  "En quittant ContestOrg, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?" : "Désirez vous vraiment quitter ContestOrg ?", !ContestOrg.get().is(ContestOrg.STATE_SAVE) && ContestOrg.get().is(ContestOrg.STATE_EDIT))) {
 			// Quitter le programme
@@ -253,9 +250,9 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		} else if (event.getSource() == this.jb_publier) {
 			if(ContestOrg.get().getCtrlOut().getPublication() != null) {
 				IOperation operation = ContestOrg.get().getCtrlOut().getLancerPublicationOperation();	// Récupérer l'opération
-				JDOperation jd_operation = new JDOperation(this,"Publication",operation,true,true);		// Créer la fenetre associée à l'opération
+				JDOperation jd_operation = new JDOperation(this,"Publication",operation,true,true);		// Créer la fenêtre associée à l'opération
 				operation.operationStart();																// Démarrer l'opération
-				jd_operation.setVisible(true);															// Afficher la fenetre
+				jd_operation.setVisible(true);															// Afficher la fenêtre
 			} else {
 				ViewHelper.dwarning(this, "La publication n'a pas encore été définie. Rendez-vous dans \"Configurer > Exportations et diffusions\".");
 			}
@@ -347,7 +344,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_configurer.setEnabled(moody.is(ContestOrg.STATE_EDIT));
 		this.jb_fermer.setEnabled(moody.is(ContestOrg.STATE_OPEN));
 		
-		// Changer le nom de l'onglet équipes/joueurs
+		// Changer le nom de l'onglet des participants
 		if(moody.is(ContestOrg.STATE_OPEN)) {
 			this.jtb_onglets.setTitleAt(0, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
 			this.jtb_onglets.setToolTipTextAt(0, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Créer, éditer et supprimer des équipes" : "Créer, éditer et supprimer des joueurs");

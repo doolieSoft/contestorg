@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.contestorg.interfaces.ICelluleModelListener;
 import org.jgraph.JGraph;
@@ -28,7 +28,7 @@ import org.jgraph.graph.VertexView;
 public class GraphVertexViewPhasesElims extends VertexView implements ICelluleModelListener {
 	
 	// Modèle associé à la cellule
-	private ICelluleModel<InfosModelCategorie,InfosModelEquipe> model;
+	private ICelluleModel<InfosModelCategorie,InfosModelParticipant> model;
 
 	// Parent
 	private Window w_parent;
@@ -44,7 +44,7 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 		// Appeller le constructeur du parent
 		super(cell);
 		
-		// Retenir la fenetre parent et le graphe
+		// Retenir la fenêtre parent et le graphe
 		this.w_parent = w_parent;
 		this.graphe = graphe;
 		
@@ -63,10 +63,10 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 			return new GraphVertexEditorNull(this.model.getGraphe().indexOf(this.model), this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().height);
 		}
 
-		// Vérifier s'il s'agit d'une cellule associée à une équipe ou à un match
+		// Vérifier s'il s'agit d'une cellule associée à un participant ou à un match
 		if(this.model.getGraphe().indexOf(this.model) < this.model.getGraphe().size()) {
 			// Retourner l'editor
-			return new GraphVertexEditorPhasesElimsEquipe(this.model, this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().height);
+			return new GraphVertexEditorPhasesElimsParticipant(this.model, this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().height);
 		} else {
 			// Vérifier si les résultats sont éditables
 			boolean resultatsEditables = !this.graphe.isGrandeFinale() || ContestOrg.get().getCtrlPhasesEliminatoires().isMatchPhasesElimsResultatsEditables(this.model.getGraphe().getObject().getNom(), this.model.getGraphe().indexOf(this.model)-this.model.getGraphe().size());
@@ -88,7 +88,7 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 	}
 	
 	// Créer/Rafraichir le composant associé à la cellule
-	public static JComponent getRenderComponent(ICelluleModel<InfosModelCategorie,InfosModelEquipe> model) {
+	public static JComponent getRenderComponent(ICelluleModel<InfosModelCategorie,InfosModelParticipant> model) {
 		// Créer le label
 		JLabel label = new JLabel("",new ImageIcon(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/32x32/group.png" : "img/farm/32x32/user_green.png"),SwingConstants.LEFT);
 		label.setOpaque(true);
@@ -101,7 +101,7 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 		// Retourner le label
 		return label;
 	}
-	private static void refreshRenderComponent(JLabel label,ICelluleModel<InfosModelCategorie,InfosModelEquipe> model) {
+	private static void refreshRenderComponent(JLabel label,ICelluleModel<InfosModelCategorie,InfosModelParticipant> model) {
 		// Mettre à jour le label
 		label.setText(model.getObject() == null ? "   ...   " : model.getObject().getNom());
 	}

@@ -32,7 +32,7 @@ import org.contestorg.common.TrackableList;
 import org.contestorg.controlers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.InfosModelEquipe;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 
 
@@ -42,29 +42,29 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 {
 	
 	// Poules et affectations
-	private ArrayList<Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>>> categoriesPoulesEquipes = new ArrayList<Pair<String,TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>>();
+	private ArrayList<Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>>> categoriesPoulesParticipants = new ArrayList<Pair<String,TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>>();
 	
 	// Entrées
 	private JComboBox jcb_categorie = new JComboBox();
-	private JTextField jtf_nbEquipesCategorie = new JTextField(5);
-	private JSpinner js_nbEquipesMaxPoule = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
+	private JTextField jtf_nbParticipantsCategorie = new JTextField(5);
+	private JSpinner js_nbParticipantsMaxPoule = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
 	private JSpinner js_nbPoulesCategorie = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
 	private JComboBox jcb_poule = new JComboBox();
 	
 	// Tableaux
 	private TMPoules tm_poules;
 	
-	private JTable jt_equipesDisponibles;
-	private TMString tm_equipesDisponibles = new TMString("Nom");
+	private JTable jt_participantsDisponibles;
+	private TMString tm_participantsDisponibles = new TMString("Nom");
 	
-	private JTable jt_equipesPoule;
-	private TMString tm_equipesPoule = new TMString("Nom");
+	private JTable jt_participantsPoule;
+	private TMString tm_participantsPoule = new TMString("Nom");
 
 	// Boutons
 	private JButton jb_creerPoules = new JButton("Création automatique",new ImageIcon("img/farm/16x16/control_play_blue.png"));
-	private JButton jb_affecterEquipes = new JButton("Affectation automatique",new ImageIcon("img/farm/16x16/control_play_blue.png"));
-	private JButton jb_ajouterEquipe = new JButton("Ajouter",new ImageIcon("img/farm/16x16/add.png"));
-	private JButton jb_retirerEquipe = new JButton("Retirer",new ImageIcon("img/farm/16x16/delete.png"));
+	private JButton jb_affecterParticipants = new JButton("Affectation automatique",new ImageIcon("img/farm/16x16/control_play_blue.png"));
+	private JButton jb_ajouterParticipant = new JButton("Ajouter",new ImageIcon("img/farm/16x16/add.png"));
+	private JButton jb_retirerParticipant = new JButton("Retirer",new ImageIcon("img/farm/16x16/delete.png"));
 	
 	// Constructeur
 	public JDPoules(Window w_parent) {
@@ -72,32 +72,32 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		super(w_parent, "Gestion des poules");
 		
 		// Récupérer les poules et les affectations
-		for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelEquipe>>>> categorie : ContestOrg.get().getCtrlEquipes().getListeCategoriesPoulesEquipes()) {
-			int nbEquipes = 0;
+		for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>>> categorie : ContestOrg.get().getCtrlParticipants().getListeCategoriesPoulesParticipants()) {
+			int nbParticipants = 0;
 			ArrayList<Pair<InfosModelPoule,ArrayList<String>>> poules = new ArrayList<Pair<InfosModelPoule,ArrayList<String>>>();
-			for(Pair<InfosModelPoule, ArrayList<InfosModelEquipe>> poule : categorie.getSecond()) {
-				ArrayList<String> equipes = new ArrayList<String>();
-				for(InfosModelEquipe equipe : poule.getSecond()) {
-					equipes.add(equipe.getNom());
+			for(Pair<InfosModelPoule, ArrayList<InfosModelParticipant>> poule : categorie.getSecond()) {
+				ArrayList<String> participants = new ArrayList<String>();
+				for(InfosModelParticipant participant : poule.getSecond()) {
+					participants.add(participant.getNom());
 				}
-				poules.add(new Pair<InfosModelPoule, ArrayList<String>>(poule.getFirst(), equipes));
-				nbEquipes += equipes.size();
+				poules.add(new Pair<InfosModelPoule, ArrayList<String>>(poule.getFirst(), participants));
+				nbParticipants += participants.size();
 			}
-			if(nbEquipes >= 4) {
+			if(nbParticipants >= 4) {
 				TrackableList<Pair<InfosModelPoule, ArrayList<String>>> list = new TrackableList<Pair<InfosModelPoule,ArrayList<String>>>(poules);
 				list.addValidator(ContestOrg.get().getPoulesValidator());
-				this.categoriesPoulesEquipes.add(new Pair<String, TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>(categorie.getFirst().getNom(),list));
+				this.categoriesPoulesParticipants.add(new Pair<String, TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>(categorie.getFirst().getNom(),list));
 			}
 		}
 		
 		// Catégorie
-		if(categoriesPoulesEquipes.size() > 1) {
+		if(categoriesPoulesParticipants.size() > 1) {
 			this.jp_contenu.add(ViewHelper.title("Catégorie", ViewHelper.H1));
 			this.jp_contenu.add(this.jcb_categorie);
 			this.jp_contenu.add(Box.createVerticalStrut(5));
 		}
 		
-		for(Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>> categorie : this.categoriesPoulesEquipes) {
+		for(Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>> categorie : this.categoriesPoulesParticipants) {
 			this.jcb_categorie.addItem(categorie.getFirst());
 		}
 		
@@ -105,13 +105,13 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		this.jp_contenu.add(ViewHelper.title("Création des poules", ViewHelper.H1));
 		
 		// Automatique
-		this.jtf_nbEquipesCategorie.setEditable(false);
+		this.jtf_nbParticipantsCategorie.setEditable(false);
 		JLabel[] jls_creation = {
 			new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nombre d'équipes de la catégorie : " : "Nombre de joueurs de la catégorie : "),
 			new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nombre d'équipes maximal par poule : " : "Nombre de joueurs maximal par poule : "),
 			new JLabel("Nombre de poules dans la catégorie : ")
 		};
-		JComponent[] jcs_creation = {this.jtf_nbEquipesCategorie, this.js_nbEquipesMaxPoule, this.js_nbPoulesCategorie };
+		JComponent[] jcs_creation = {this.jtf_nbParticipantsCategorie, this.js_nbParticipantsMaxPoule, this.js_nbPoulesCategorie };
 		this.jp_contenu.add(ViewHelper.inputs(jls_creation, jcs_creation));
 		
 		this.jp_contenu.add(ViewHelper.left(this.jb_creerPoules));
@@ -123,11 +123,11 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		this.jp_contenu.add(new JPTable<Pair<InfosModelPoule, ArrayList<String>>>(this, this.tm_poules, true, true, true, true, true, 5));
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		
-		// Affectation des équipes
+		// Affectation des participants
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Affectation des équipes" : "Affectation des joueurs", ViewHelper.H1));
 		
 		// Automatique
-		this.jp_contenu.add(ViewHelper.left(this.jb_affecterEquipes));
+		this.jp_contenu.add(ViewHelper.left(this.jb_affecterParticipants));
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		
 		// Manuelle
@@ -140,26 +140,26 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		JPanel jp_affectation = new JPanel(new GridLayout(1,2));
 		this.jp_contenu.add(jp_affectation);
 
-		this.jt_equipesDisponibles = new JTable(this.tm_equipesDisponibles);
-		this.jt_equipesPoule = new JTable(this.tm_equipesPoule);
+		this.jt_participantsDisponibles = new JTable(this.tm_participantsDisponibles);
+		this.jt_participantsPoule = new JTable(this.tm_participantsPoule);
 		
-		JPanel jp_equipesDisponibles = new JPanel();
-		jp_equipesDisponibles.setBorder(new EmptyBorder(0, 0, 0, 2));
-		jp_equipesDisponibles.setLayout(new BoxLayout(jp_equipesDisponibles, BoxLayout.Y_AXIS));
-		jp_equipesDisponibles.add(ViewHelper.title((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" disponibles", ViewHelper.H2));
-		jp_equipesDisponibles.add(new JScrollPane(this.jt_equipesDisponibles));
-		jp_equipesDisponibles.add(Box.createVerticalStrut(5));
-		jp_equipesDisponibles.add(ViewHelper.left(this.jb_ajouterEquipe));
-		jp_affectation.add(jp_equipesDisponibles);
+		JPanel jp_participantsDisponibles = new JPanel();
+		jp_participantsDisponibles.setBorder(new EmptyBorder(0, 0, 0, 2));
+		jp_participantsDisponibles.setLayout(new BoxLayout(jp_participantsDisponibles, BoxLayout.Y_AXIS));
+		jp_participantsDisponibles.add(ViewHelper.title((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" disponibles", ViewHelper.H2));
+		jp_participantsDisponibles.add(new JScrollPane(this.jt_participantsDisponibles));
+		jp_participantsDisponibles.add(Box.createVerticalStrut(5));
+		jp_participantsDisponibles.add(ViewHelper.left(this.jb_ajouterParticipant));
+		jp_affectation.add(jp_participantsDisponibles);
 		
-		JPanel jp_equipesPoule = new JPanel();
-		jp_equipesPoule.setBorder(new EmptyBorder(0, 2, 0, 0));
-		jp_equipesPoule.setLayout(new BoxLayout(jp_equipesPoule, BoxLayout.Y_AXIS));
-		jp_equipesPoule.add(ViewHelper.title((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" de la poule", ViewHelper.H2));
-		jp_equipesPoule.add(new JScrollPane(this.jt_equipesPoule));
-		jp_equipesPoule.add(Box.createVerticalStrut(5));
-		jp_equipesPoule.add(ViewHelper.left(this.jb_retirerEquipe));
-		jp_affectation.add(jp_equipesPoule);
+		JPanel jp_participantsPoule = new JPanel();
+		jp_participantsPoule.setBorder(new EmptyBorder(0, 2, 0, 0));
+		jp_participantsPoule.setLayout(new BoxLayout(jp_participantsPoule, BoxLayout.Y_AXIS));
+		jp_participantsPoule.add(ViewHelper.title((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" de la poule", ViewHelper.H2));
+		jp_participantsPoule.add(new JScrollPane(this.jt_participantsPoule));
+		jp_participantsPoule.add(Box.createVerticalStrut(5));
+		jp_participantsPoule.add(ViewHelper.left(this.jb_retirerParticipant));
+		jp_affectation.add(jp_participantsPoule);
 		
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		this.jp_contenu.add(ViewHelper.pinformation("L'affectation automatique des "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" s'effectue de manière totalement aléatoire."));
@@ -167,16 +167,16 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		// Redimensionner les tableaux
 		int height, row;
 	    for(height=0, row=0; row< 6; row++) {
-	    	height += this.jt_equipesDisponibles.getRowHeight(row);
+	    	height += this.jt_participantsDisponibles.getRowHeight(row);
 	    }
-		this.jt_equipesDisponibles.setPreferredScrollableViewportSize(new Dimension(250, height));
+		this.jt_participantsDisponibles.setPreferredScrollableViewportSize(new Dimension(250, height));
 	    for(height=0, row=0; row< 6; row++) {
-	    	height += this.jt_equipesPoule.getRowHeight(row);
+	    	height += this.jt_participantsPoule.getRowHeight(row);
 	    }
-		this.jt_equipesPoule.setPreferredScrollableViewportSize(new Dimension(250, height));
+		this.jt_participantsPoule.setPreferredScrollableViewportSize(new Dimension(250, height));
 		
 		// Ecouter les champs
-		this.js_nbEquipesMaxPoule.addChangeListener(this);
+		this.js_nbParticipantsMaxPoule.addChangeListener(this);
 		this.js_nbPoulesCategorie.addChangeListener(this);
 		
 		// Ecouter les listes
@@ -185,9 +185,9 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		
 		// Ecouter les boutons
 		this.jb_creerPoules.addActionListener(this);
-		this.jb_affecterEquipes.addActionListener(this);
-		this.jb_ajouterEquipe.addActionListener(this);
-		this.jb_retirerEquipe.addActionListener(this);
+		this.jb_affecterParticipants.addActionListener(this);
+		this.jb_ajouterParticipant.addActionListener(this);
+		this.jb_retirerParticipant.addActionListener(this);
 		
 		// Rafraichir les champs
 		this.refreshTop();
@@ -201,16 +201,16 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	@Override
 	protected void ok () {
 		// Transmettre les poules au controleur
-		ContestOrg.get().getCtrlEquipes().updatePoules(this.categoriesPoulesEquipes);
+		ContestOrg.get().getCtrlParticipants().updatePoules(this.categoriesPoulesParticipants);
 		
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
 	// Implémentation de quit
 	@Override
 	protected void quit () {
-		// Masquer la fenetre
+		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 
@@ -229,52 +229,52 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	// Rafraichir les champs en fonction de la catégorie et de la poule séléctionnée
 	private void refreshTop() {
 		// Se retirer des écouteurs des spinners
-		this.js_nbEquipesMaxPoule.removeChangeListener(this);
+		this.js_nbParticipantsMaxPoule.removeChangeListener(this);
 		this.js_nbPoulesCategorie.removeChangeListener(this);
 		
-		// Nombre de poules et d'équipes dans la catégorie
-		int nbEquipesCategorie = 0;
-		Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>> categorie = this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex());
+		// Nombre de poules et de participants dans la catégorie
+		int nbParticipantsCategorie = 0;
+		Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>> categorie = this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex());
 		for(Pair<InfosModelPoule, ArrayList<String>> poule : categorie.getSecond()) {
-			nbEquipesCategorie += poule.getSecond().size();
+			nbParticipantsCategorie += poule.getSecond().size();
 		}
 		int nbPoulesCategorie = categorie.getSecond().size();
-		this.jtf_nbEquipesCategorie.setText(String.valueOf(nbEquipesCategorie));
+		this.jtf_nbParticipantsCategorie.setText(String.valueOf(nbParticipantsCategorie));
 		this.js_nbPoulesCategorie.setValue(nbPoulesCategorie-1);
 		
-		// Nombre d'équipes maximal par poule
+		// Nombre de participants maximal par poule
 		if(nbPoulesCategorie > 1) {
-			this.js_nbEquipesMaxPoule.setValue(new Double(Math.ceil((double)nbEquipesCategorie/(nbPoulesCategorie-1))).intValue());
+			this.js_nbParticipantsMaxPoule.setValue(new Double(Math.ceil((double)nbParticipantsCategorie/(nbPoulesCategorie-1))).intValue());
 		} else {
-			this.js_nbEquipesMaxPoule.setValue(0);
+			this.js_nbParticipantsMaxPoule.setValue(0);
 		}
 		
 		// Ecouter à nouveau les spinners
-		this.js_nbEquipesMaxPoule.addChangeListener(this);
+		this.js_nbParticipantsMaxPoule.addChangeListener(this);
 		this.js_nbPoulesCategorie.addChangeListener(this);
 		
 		// Lier la liste des poules au tableau
-		this.tm_poules.link(this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex()).getSecond());
+		this.tm_poules.link(this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond());
 	}
 	private void refreshBottom() {
-		// Lier la liste des équipes disponibles
-		this.tm_equipesDisponibles.link(this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex()).getSecond().get(0).getSecond());
+		// Lier la liste des participants disponibles
+		this.tm_participantsDisponibles.link(this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond().get(0).getSecond());
 		
 		// Forcer le repaint du tableau
-		this.jt_equipesDisponibles.revalidate();
+		this.jt_participantsDisponibles.revalidate();
 		
-		// Lier la liste des équipes dans la poule
-		if(this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex()).getSecond().size() > 1) {
-			this.tm_equipesPoule.link(this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex()).getSecond().get(this.jcb_poule.getSelectedIndex()+1).getSecond());
+		// Lier la liste des participants dans la poule
+		if(this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond().size() > 1) {
+			this.tm_participantsPoule.link(this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond().get(this.jcb_poule.getSelectedIndex()+1).getSecond());
 		} else {
-			this.tm_equipesPoule.link(new ArrayList<String>());
+			this.tm_participantsPoule.link(new ArrayList<String>());
 		}
 	}
 	
 	// Surcharge de actionPerformed
 	public void actionPerformed(ActionEvent event) {
 		// Récupérer les poules
-		TrackableList<Pair<InfosModelPoule, ArrayList<String>>> poules = this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex()).getSecond();
+		TrackableList<Pair<InfosModelPoule, ArrayList<String>>> poules = this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond();
 		
 		if(event.getSource() == this.jb_creerPoules) {
 			// Récupérer le nombre de poules à créer
@@ -282,10 +282,10 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 			
 			// Vérifier si le nombre de poules est correcte
 			if(nbPoules != 0) {
-				if(new Double(Math.ceil(Integer.parseInt(this.jtf_nbEquipesCategorie.getText())/nbPoules)).intValue() >= 2) {
-					// Supprimer toutes les poules excepté la première et placer leurs équipes dans la première poule
+				if(new Double(Math.ceil(Integer.parseInt(this.jtf_nbParticipantsCategorie.getText())/nbPoules)).intValue() >= 2) {
+					// Supprimer toutes les poules excepté la première et placer leurs participants dans la première poule
 					while(poules.size() > 1) {
-						// Placer les équipes de la poule dans la première poule
+						// Placer les participants de la poule dans la première poule
 						poules.get(0).getSecond().addAll(poules.get(1).getSecond());
 						
 						// Supprimer la poule
@@ -317,25 +317,25 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				// Erreur
 				ViewHelper.derror(this, "Le nombre de poules ne peut pas être égal à zéro.");
 			}
-		} else if(event.getSource() == this.jb_affecterEquipes) {
+		} else if(event.getSource() == this.jb_affecterParticipants) {
 			// Vérifier si le nombre de poules est correcte
 			if(poules.size() > 1) {
-				// Récupérer la liste des équipes disponibles
-				ArrayList<String> equipes = new ArrayList<String>();
+				// Récupérer la liste des participants disponibles
+				ArrayList<String> participants = new ArrayList<String>();
 				for(Pair<InfosModelPoule, ArrayList<String>> poule : poules) {
 					while(poule.getSecond().size() != 0) {
-						equipes.add(poule.getSecond().remove(0));
+						participants.add(poule.getSecond().remove(0));
 					}
 				}
 				
-				// Mélanger les équipes
-				Collections.shuffle(equipes);
+				// Mélanger les participants
+				Collections.shuffle(participants);
 				
-				// Répartir les équipes dans les poules
-				for(int i=0;equipes.size()>0;i=(i+1)%poules.size()) {
+				// Répartir les participants dans les poules
+				for(int i=0;participants.size()>0;i=(i+1)%poules.size()) {
 					if(i != 0) {
-						// Transférer l'équipe
-						poules.get(i).getSecond().add(equipes.remove(0));
+						// Transférer le participant
+						poules.get(i).getSecond().add(participants.remove(0));
 						
 						// Informer la liste des poules du transfert
 						poules.update(0);
@@ -349,23 +349,23 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				// Erreur
 				ViewHelper.derror(this, "Il faut au moins une poule pour lancer l'affectation automatique.");
 			}
-		} else if(event.getSource() == this.jb_ajouterEquipe) {
+		} else if(event.getSource() == this.jb_ajouterParticipant) {
 			// Vérifier le nombre de lignes séléctionnées
-			if(this.jt_equipesDisponibles.getSelectedRowCount() > 0) {
+			if(this.jt_participantsDisponibles.getSelectedRowCount() > 0) {
 				// Vérifier si le nombre de poules est correcte
 				if(poules.size() > 1) {
-					// Récupérer les index des équipes séléctionnées et inverser la liste
-					int[] indexes = this.jt_equipesDisponibles.getSelectedRows();
+					// Récupérer les index des participants séléctionnés et inverser la liste
+					int[] indexes = this.jt_participantsDisponibles.getSelectedRows();
 					for(int i=0;i<indexes.length/2;i++) {
 						int swap = indexes[i];
 						indexes[i] = indexes[indexes.length-i-1];
 						indexes[indexes.length-i-1] = swap;
 					}
 					
-					// Ajouter les équipes séléctionnées
+					// Ajouter les participants séléctionnés
 					for(int index : indexes) {
-						// Transférer l'équipe
-						this.tm_equipesPoule.add(this.tm_equipesDisponibles.remove(index));
+						// Transférer le participant
+						this.tm_participantsPoule.add(this.tm_participantsDisponibles.remove(index));
 						
 						// Informer la liste des poules du transfert
 						poules.update(0);
@@ -377,23 +377,23 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				}
 			} else {
 				// Erreur
-				ViewHelper.derror(this, "Veuillez séléctionner l'équipe que vous désirez ajouter.");
+				ViewHelper.derror(this, "Veuillez séléctionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez ajouter.");
 			}
-		} else if(event.getSource() == this.jb_retirerEquipe) {
+		} else if(event.getSource() == this.jb_retirerParticipant) {
 			// Vérifier le nombre de lignes séléctionnées
-			if(this.jt_equipesPoule.getSelectedRowCount() > 0) {
-				// Récupérer les index des équipes séléctionnées et inverse la liste
-				int[] indexes = this.jt_equipesPoule.getSelectedRows();
+			if(this.jt_participantsPoule.getSelectedRowCount() > 0) {
+				// Récupérer les index des participants séléctionnés et inverse la liste
+				int[] indexes = this.jt_participantsPoule.getSelectedRows();
 				for(int i=0;i<indexes.length/2;i++) {
 					int swap = indexes[i];
 					indexes[i] = indexes[indexes.length-i-1];
 					indexes[indexes.length-i-1] = swap;
 				}
 				
-				// Retirer les équipes séléctionnées
+				// Retirer les participants séléctionnés
 				for(int index : indexes) {
-					// Transférer l'équipe
-					this.tm_equipesDisponibles.add(this.tm_equipesPoule.remove(index));
+					// Transférer le participant
+					this.tm_participantsDisponibles.add(this.tm_participantsPoule.remove(index));
 					
 					// Informer la liste des poules du transfert
 					poules.update(0);
@@ -402,7 +402,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				}
 			} else {
 				// Erreur
-				ViewHelper.derror(this, "Veuillez séléctionner l'équipe que vous désirez retirer.");
+				ViewHelper.derror(this, "Veuillez séléctionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez retirer.");
 			}
 		} else {
 			// Appeller le actionPerformed du parent
@@ -413,33 +413,33 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	// Implémentation de ChangeListener
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		// Nombre d'équipes dans la catégorie
-		int nbEquipesCategorie = 0;
-		for(Pair<InfosModelPoule, ArrayList<String>> poule : this.categoriesPoulesEquipes.get(this.jcb_categorie.getSelectedIndex()).getSecond()) {
-			nbEquipesCategorie += poule.getSecond().size();
+		// Nombre de participants dans la catégorie
+		int nbParticipantsCategorie = 0;
+		for(Pair<InfosModelPoule, ArrayList<String>> poule : this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond()) {
+			nbParticipantsCategorie += poule.getSecond().size();
 		}
 		
 		// Se retirer des écouteurs des spinners
-		this.js_nbEquipesMaxPoule.removeChangeListener(this);
+		this.js_nbParticipantsMaxPoule.removeChangeListener(this);
 		this.js_nbPoulesCategorie.removeChangeListener(this);
 		
 		// Vérifier la source de l'évenement
-		if(event.getSource() == this.js_nbEquipesMaxPoule) {
-			if((Integer)this.js_nbEquipesMaxPoule.getValue() != 0) {
-				this.js_nbPoulesCategorie.setValue(new Double(Math.ceil((double)nbEquipesCategorie/((Integer)this.js_nbEquipesMaxPoule.getValue()))).intValue());
+		if(event.getSource() == this.js_nbParticipantsMaxPoule) {
+			if((Integer)this.js_nbParticipantsMaxPoule.getValue() != 0) {
+				this.js_nbPoulesCategorie.setValue(new Double(Math.ceil((double)nbParticipantsCategorie/((Integer)this.js_nbParticipantsMaxPoule.getValue()))).intValue());
 			} else {
 				this.js_nbPoulesCategorie.setValue(0);
 			}
 		} else if(event.getSource() == this.js_nbPoulesCategorie) {
 			if((Integer)this.js_nbPoulesCategorie.getValue() != 0) {
-				this.js_nbEquipesMaxPoule.setValue(new Double(Math.ceil((double)nbEquipesCategorie/((Integer)this.js_nbPoulesCategorie.getValue()))).intValue());
+				this.js_nbParticipantsMaxPoule.setValue(new Double(Math.ceil((double)nbParticipantsCategorie/((Integer)this.js_nbPoulesCategorie.getValue()))).intValue());
 			} else {
-				this.js_nbEquipesMaxPoule.setValue(0);
+				this.js_nbParticipantsMaxPoule.setValue(0);
 			}
 		}
 		
 		// Ecouter à nouveau les spinners
-		this.js_nbEquipesMaxPoule.addChangeListener(this);
+		this.js_nbParticipantsMaxPoule.addChangeListener(this);
 		this.js_nbPoulesCategorie.addChangeListener(this);
 	}
 	

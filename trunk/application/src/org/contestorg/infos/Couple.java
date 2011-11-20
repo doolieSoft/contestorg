@@ -4,30 +4,30 @@ import org.contestorg.interfaces.ITransformer;
 
 
 /**
- * Cette classe permet d'associer deux équipes en vue de tester leurs affinitées pour une possible rencontre
+ * Cette classe permet d'associer deux participants en vue de tester leurs affinitées pour une possible rencontre
  */
 public class Couple<T>
 {
 
-	// Equipes
-	private T equipeA;
-	private T equipeB;
+	// Participants
+	private T participantA;
+	private T participantB;
 
 	// Constructeur
-	public Couple(T equipeA, T equipeB) {
-		this.equipeA = equipeA;
-		this.equipeB = equipeB;
+	public Couple(T participantA, T participantB) {
+		this.participantA = participantA;
+		this.participantB = participantB;
 	}
 
 	// Getters
-	public T getEquipeA () {
-		return this.equipeA;
+	public T getParticipantA () {
+		return this.participantA;
 	}
-	public T getEquipeB () {
-		return this.equipeB;
+	public T getParticipantB () {
+		return this.participantB;
 	}
 	public boolean isCompatible (Couple<T> couple) {
-		return (this.equipeA != null && !this.equipeA.equals(couple.equipeA) && !this.equipeA.equals(couple.equipeB) || this.equipeA == null && couple.equipeA != null && couple.equipeB != null) && (this.equipeB != null && !this.equipeB.equals(couple.equipeA) && !this.equipeB.equals(couple.equipeB) || this.equipeB == null && couple.equipeA != null && couple.equipeB != null);
+		return (this.participantA != null && !this.participantA.equals(couple.participantA) && !this.participantA.equals(couple.participantB) || this.participantA == null && couple.participantA != null && couple.participantB != null) && (this.participantB != null && !this.participantB.equals(couple.participantA) && !this.participantB.equals(couple.participantB) || this.participantB == null && couple.participantA != null && couple.participantB != null);
 	}
 	public boolean isCompatible (Configuration<T> configuration) {
 		Couple<T>[] couples = configuration.getCouples();
@@ -42,25 +42,25 @@ public class Couple<T>
 
 	// Generer des couples
 	@SuppressWarnings("unchecked")
-	public static <T> Couple<T>[] genererCouples (T[] equipes) {
+	public static <T> Couple<T>[] genererCouples (T[] participants) {
 		// Initialiser les variables
-		int nbEquipes = equipes.length, i, j, n = 0;
-		Couple<T>[] couples = new Couple[nbEquipes * (nbEquipes - 1) / 2];
+		int nbParticipants = participants.length, i, j, n = 0;
+		Couple<T>[] couples = new Couple[nbParticipants * (nbParticipants - 1) / 2];
 
-		// Mélanger les équipes
+		// Mélanger les participants
 		T temp;
 		int swap;
-		for (i = 0; i < nbEquipes; i++) {
-			swap = (int)(Math.random() * nbEquipes);
-			temp = equipes[swap];
-			equipes[swap] = equipes[i];
-			equipes[i] = temp;
+		for (i = 0; i < nbParticipants; i++) {
+			swap = (int)(Math.random() * nbParticipants);
+			temp = participants[swap];
+			participants[swap] = participants[i];
+			participants[i] = temp;
 		}
 
 		// Générer les couples
-		for (i = 0; i < nbEquipes; i++) {
-			for (j = i + 1; j < nbEquipes; j++) {
-				couples[n++] = new Couple<T>(equipes[i], equipes[j]);
+		for (i = 0; i < nbParticipants; i++) {
+			for (j = i + 1; j < nbParticipants; j++) {
+				couples[n++] = new Couple<T>(participants[i], participants[j]);
 			}
 		}
 
@@ -70,12 +70,12 @@ public class Couple<T>
 
 	// Equals
 	public boolean equals (Couple<T> couple) {
-		return couple != null && (((this.equipeA != null && this.equipeA.equals(couple.equipeA) || this.equipeA == null && couple.equipeA == null) && (this.equipeB != null && this.equipeB.equals(couple.equipeB) || this.equipeB == null && couple.equipeB == null)) || ((this.equipeB != null && this.equipeB.equals(couple.equipeA) || this.equipeB == null && couple.equipeA == null) && (this.equipeA != null && this.equipeA.equals(couple.equipeB) || this.equipeA == null && couple.equipeB == null)));
+		return couple != null && (((this.participantA != null && this.participantA.equals(couple.participantA) || this.participantA == null && couple.participantA == null) && (this.participantB != null && this.participantB.equals(couple.participantB) || this.participantB == null && couple.participantB == null)) || ((this.participantB != null && this.participantB.equals(couple.participantA) || this.participantB == null && couple.participantA == null) && (this.participantA != null && this.participantA.equals(couple.participantB) || this.participantA == null && couple.participantB == null)));
 	}
 
 	// Transform
 	public <L> Couple<L> transform(ITransformer<T,L> transformer) {
-		return new Couple<L>(transformer.transform(this.equipeA), transformer.transform(this.equipeB));
+		return new Couple<L>(transformer.transform(this.participantA), transformer.transform(this.participantB));
 	}
 	
 }

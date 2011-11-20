@@ -103,14 +103,14 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 			@Override
 			protected String message () {
 				return "<font size=+1>Objectif à points :</font>\n" +
-				       "Ajout d'un nombre de points au score de l'équipe\n" +
+				       "Ajout d'un nombre de points au score du participant\n" +
 				       "Informations :\n" +
 				       "  - nom : nom de l'objectif\n" +
 				       "  - points : nombre de points à créditer sur le score\n" +
 				       "  - borne de score : borne que le score ne doit pas dépasser après crédit des points\n" +
 				       "\n" +
 				       "<font size=+1>Objectif à pourcentage :</font>\n" +
-				       "Ajout d'un pourcentage au score de l'équipe\n" +
+				       "Ajout d'un pourcentage au score du participant\n" +
 				       "Informations :\n" +
 				       "  - nom : nom de l'objectif\n" +
 				       "  - pourcentage : pourcentage du score à ajouter au score\n" +

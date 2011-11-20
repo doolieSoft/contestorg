@@ -154,7 +154,7 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IL
 		// Valider les classements
 		if(this.tm_comparateurs.getRowCount() == 0) {
 			// Message d'erreur
-			ViewHelper.derror(this, "Points et classement", "L'ordre de classement des équipes doit avoir au moins un critère.");
+			ViewHelper.derror(this, "Points et classement", "L'ordre de classement des participants doit avoir au moins un critère.");
 			erreur = true;
 		}
 
