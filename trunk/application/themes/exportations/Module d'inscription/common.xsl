@@ -233,7 +233,7 @@
 				// Vérifier si le mot de passe est correct
 				function check_password(FormText $password) {
 					// Vérifier si le mot de passe est correct
-					if(sha1($password->getValue()) != '</xsl:text><xsl:value-of select="java:common.Tools.hash($password,'SHA-1')" /><xsl:text disable-output-escaping="yes">') {
+					if(sha1($password->getValue()) != '</xsl:text><xsl:value-of select="java:org.contestorg.common.Tools.hash($password,'SHA-1')" /><xsl:text disable-output-escaping="yes">') {
 						$password->setError('Le mot de passe n\'est pas correct');
 						return false;
 					}
