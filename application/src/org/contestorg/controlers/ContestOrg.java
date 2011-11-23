@@ -33,6 +33,7 @@ import org.contestorg.interfaces.IOperation;
 import org.contestorg.log.Log;
 import org.contestorg.log.Report;
 import org.contestorg.models.FrontModel;
+import org.contestorg.models.FrontModelConfiguration;
 import org.contestorg.models.ModelConcours;
 import org.contestorg.out.PersistanceXML;
 import org.contestorg.views.FiltreFichier;
@@ -42,8 +43,6 @@ import org.contestorg.views.JDConnexionCreer;
 import org.contestorg.views.JDOperation;
 import org.contestorg.views.JFPrincipal;
 import org.contestorg.views.ViewHelper;
-
-
 
 
 /**
@@ -61,7 +60,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	// Etats possibles
 	public static final int STATE_OPEN		= 1;	// Est ce qu'un concours est ouvert ?
 	public static final int STATE_SAVE 		= 2;	// Est ce que le concours est sauvegardé ?
-	public static final int STATE_SERVER 	= 4;	// Est ce que le mode serveur est utilisé ? 
+	public static final int STATE_SERVER	= 4;	// Est ce que le mode serveur est utilisé ? 
 	public static final int STATE_EDIT 		= 8;	// Est ce que le mode édition est activé ?
 
 	// Vues
@@ -141,37 +140,37 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	
 	// Récupérer des valideurs de liste
 	public IListValidator<InfosModelObjectif> getObjectifsValidator() {
-		return FrontModel.get().getObjectifsValidator();
+		return FrontModel.get().getFrontModelConfiguration().getObjectifsValidator();
 	}
 	public IListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator() {
-		return FrontModel.get().getComparateursValidator();
+		return FrontModel.get().getFrontModelConfiguration().getComparateursValidator();
 	}
 	public IListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportationsValidator() {
-		return FrontModel.get().getExportationsValidator();
+		return FrontModel.get().getFrontModelConfiguration().getExportationsValidator();
 	}
 	public IListValidator<Pair<InfosModelDiffusion,InfosModelTheme>> getDiffusionsValidator() {
-		return FrontModel.get().getDiffusionsValidator();
+		return FrontModel.get().getFrontModelConfiguration().getDiffusionsValidator();
 	}
 	public IListValidator<InfosModelPrix> getPrixValidator() {
-		return FrontModel.get().getPrixValidator();
+		return FrontModel.get().getFrontModelConfiguration().getPrixValidator();
 	}
 	public IListValidator<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> getLieuxValidator() {
-		return FrontModel.get().getLieuxValidator();
+		return FrontModel.get().getFrontModelConfiguration().getLieuxValidator();
 	}
 	public IListValidator<InfosModelEmplacement> getEmplacementsValidator() {
-		return FrontModel.get().getEmplacementsValidator();
+		return FrontModel.get().getFrontModelConfiguration().getEmplacementsValidator();
 	}
 	public IListValidator<InfosModelHoraire> getHorairesValidator() {
-		return FrontModel.get().getHorairesValidator();
+		return FrontModel.get().getFrontModelConfiguration().getHorairesValidator();
 	}
 	public IListValidator<InfosModelPropriete> getProprietesValidator() {
-		return FrontModel.get().getProprietesValidator();
+		return FrontModel.get().getFrontModelConfiguration().getProprietesValidator();
 	}
 	public IListValidator<InfosModelCategorie> getCategoriesValidator() {
-		return FrontModel.get().getCategoriesValidator();
+		return FrontModel.get().getFrontModelParticipants().getCategoriesValidator();
 	}
 	public IListValidator<Pair<InfosModelPoule, ArrayList<String>>> getPoulesValidator() {
-		return FrontModel.get().getPoulesValidator();
+		return FrontModel.get().getFrontModelParticipants().getPoulesValidator();
 	}
 	
 	// ==== Procédures liés au concours
@@ -191,7 +190,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			FrontModel.get().nouveauConcours(infos);
 			
 			// Configurer le nouveau concours
-			FrontModel.get().configurerConcours(infos, objectifs, comparateurs, exportations, publication, diffusions, prix, lieux, proprietes);
+			FrontModel.get().getFrontModelConfiguration().configurerConcours(infos, objectifs, comparateurs, exportations, publication, diffusions, prix, lieux, proprietes);
 			
 			// Initialiser aux états ouvert et édition
 			this.initStates(STATE_OPEN,STATE_EDIT);
@@ -213,16 +212,16 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	// Procédure de configuration
 	public void procedureConcoursConfigurerDemarrer () {
 		// Récupérer le front
-		FrontModel front = FrontModel.get();
+		FrontModelConfiguration front = FrontModel.get().getFrontModelConfiguration();
 		
 		// Créer et afficher la fenêtre de configuration de concours
-		this.jd_concours = new JDConcoursEditer(this.jf_general,front.getConcours().toInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
+		this.jd_concours = new JDConcoursEditer(this.jf_general,FrontModel.get().getConcours().toInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
 		this.jd_concours.setVisible(true);
 	}
 	public void procedureConcoursConfigurer (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) {
 		try {
 			// Configurer le concours
-			FrontModel.get().configurerConcours(infos, objectifs, comparateurs, exportations, publication, diffusions, prix, lieux, proprietes);
+			FrontModel.get().getFrontModelConfiguration().configurerConcours(infos, objectifs, comparateurs, exportations, publication, diffusions, prix, lieux, proprietes);
 			
 			// Retirer l'état sauvegardé
 			this.removeState(STATE_SAVE);
@@ -248,7 +247,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		
 		// Fermer le front
 		try {
-			FrontModel.get().close();
+			FrontModel.get().closeConcours();
 		} catch (Exception e) {
 			// Erreur
 			this.error("Erreur lors de la fermeture du concours.", e);
