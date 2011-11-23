@@ -49,7 +49,7 @@ public class CtrlOut
 	
 	// Récupérer la liste des exportations
 	public ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportations() {
-		return FrontModel.get().getListeExportations();
+		return FrontModel.get().getFrontModelConfiguration().getListeExportations();
 	}
 	
 	// Lancer une exportation prédéfinie
@@ -110,12 +110,12 @@ public class CtrlOut
 	
 	// Récupérer la publication
 	public Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> getPublication() {
-		return FrontModel.get().getInfosPublication();
+		return FrontModel.get().getFrontModelConfiguration().getInfosPublication();
 	}
 	
 	// Lancer la publication
 	public IOperation getLancerPublicationOperation() {
-		return this.getLancerExportationOperation(FrontModel.get().getInfosPublication().getFirst().getNom());
+		return this.getLancerExportationOperation(FrontModel.get().getFrontModelConfiguration().getInfosPublication().getFirst().getNom());
 	}
 	
 	// ==== Diffusions
@@ -125,7 +125,7 @@ public class CtrlOut
 	
 	// Récupérer la liste des diffusions
 	public ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> getDiffusions() {
-		return FrontModel.get().getListeDiffusions();
+		return FrontModel.get().getFrontModelConfiguration().getListeDiffusions();
 	}
 	
 	// Démarrer une diffusion
