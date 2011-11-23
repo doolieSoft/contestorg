@@ -9,7 +9,7 @@ define('ROOT_DIR', realpath(dirname(__FILE__).'/..').'/');
 // Ajouter des répertoires dans le chemin utilisé pour les includes et requires
 set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'lib',ROOT_DIR.'app/models',get_include_path())));
 
-// Inclure l'application
+// Récupérer la librairie MVC
 require('mvc/require.php');
 
 // Définir les routes
