@@ -26,12 +26,12 @@
     <timeoutErr>true</timeoutErr>
   </splash>
   <versionInfo>
-    <fileVersion>2.0.0.0</fileVersion>
-    <txtFileVersion>2.0.0.0 ALPHA</txtFileVersion>
+    <fileVersion>2.0.0</fileVersion>
+    <txtFileVersion>2.0.0</txtFileVersion>
     <fileDescription>Logiciel d&apos;organisation de tournois</fileDescription>
     <copyright>ContestOrg</copyright>
-    <productVersion>2.0.0.0</productVersion>
-    <txtProductVersion>2.0.0.0 ALPHA</txtProductVersion>
+    <productVersion>2.0.0</productVersion>
+    <txtProductVersion>2.0.0</txtProductVersion>
     <productName>ContestOrg</productName>
     <companyName></companyName>
     <internalName>ContestOrg</internalName>
@@ -39,9 +39,9 @@
   </versionInfo>
   <messages>
     <startupErr>Une erreur s&apos;est survenue lors du lancement de ContestOrg.</startupErr>
-    <bundledJreErr>ContestOrg nécéssite l&apos;environnement d&apos;exécution Java hors celui est manquant ou corrompu.</bundledJreErr>
-    <jreVersionErr>ContestOrg nécéssite l&apos;environnement d&apos;exécution Java </jreVersionErr>
-    <launcherErr>L&apos;environnement Java spécifié .</launcherErr>
-    <instanceAlreadyExistsMsg>Une instance de ContestOrg est déjà lancée.</instanceAlreadyExistsMsg>
+    <bundledJreErr>ContestOrg nï¿½cï¿½ssite l&apos;environnement d&apos;exï¿½cution Java hors celui est manquant ou corrompu.</bundledJreErr>
+    <jreVersionErr>ContestOrg nï¿½cï¿½ssite l&apos;environnement d&apos;exï¿½cution Java </jreVersionErr>
+    <launcherErr>L&apos;environnement Java spï¿½cifiï¿½ .</launcherErr>
+    <instanceAlreadyExistsMsg>Une instance de ContestOrg est dï¿½jï¿½ lancï¿½e.</instanceAlreadyExistsMsg>
   </messages>
 </launch4jConfig>
