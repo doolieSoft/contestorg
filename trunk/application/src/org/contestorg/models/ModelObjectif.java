@@ -1,4 +1,4 @@
-﻿package org.contestorg.models;
+package org.contestorg.models;
 
 
 import java.util.ArrayList;
@@ -181,7 +181,7 @@ public class ModelObjectif extends ModelAbstract
 	
 	/**
 	 * Ajouter un critère de classement des phases qualificatives
-	 * @param objectifRemporte critère de classement des phases qualificatives
+	 * @param compPhasesQualifs critère de classement des phases qualificatives
 	 * @throws ContestOrgModelException
 	 */
 	public void addCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgModelException {

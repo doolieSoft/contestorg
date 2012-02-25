@@ -1,4 +1,4 @@
-﻿package org.contestorg.comparators;
+package org.contestorg.comparators;
 
 import org.contestorg.models.ModelParticipant;
 

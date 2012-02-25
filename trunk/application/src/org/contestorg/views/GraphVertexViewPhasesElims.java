@@ -1,4 +1,4 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -93,7 +93,7 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 	}
 	
 	/**
-	 * @see AbstractCellView#getRendererComponent()
+	 * @see AbstractCellView#getRendererComponent(JGraph, boolean, boolean, boolean)
 	 */
 	public Component getRendererComponent(JGraph graph, boolean selected, boolean focus, boolean preview) {
 		// Rafraichir le label

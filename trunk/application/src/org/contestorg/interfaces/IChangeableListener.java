@@ -1,4 +1,4 @@
-﻿package org.contestorg.interfaces;
+package org.contestorg.interfaces;
 
 /**
  * Interface à implémenter si une classe souhaite être tenu au courant des changements d'un objet IChangeable

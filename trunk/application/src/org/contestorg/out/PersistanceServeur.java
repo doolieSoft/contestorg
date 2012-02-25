@@ -1,4 +1,4 @@
-﻿package org.contestorg.out;
+package org.contestorg.out;
 
 import org.contestorg.infos.InfosConnexionServeur;
 import org.contestorg.models.ModelConcours;

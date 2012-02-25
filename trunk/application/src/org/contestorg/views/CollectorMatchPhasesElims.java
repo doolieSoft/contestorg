@@ -1,4 +1,4 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
@@ -7,6 +7,7 @@ import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
+import org.contestorg.interfaces.ICollector;
 
 /**
  * Collecteur pour l'édition d'un match des phases éliminatoires d'une catégorie

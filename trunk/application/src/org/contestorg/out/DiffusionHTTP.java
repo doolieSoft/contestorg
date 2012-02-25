@@ -1,4 +1,4 @@
-﻿package org.contestorg.out;
+package org.contestorg.out;
 
 import java.util.ArrayList;
 

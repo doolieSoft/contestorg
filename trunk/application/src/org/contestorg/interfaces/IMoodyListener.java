@@ -1,4 +1,4 @@
-﻿package org.contestorg.interfaces;
+package org.contestorg.interfaces;
 
 /**
  * Interface à implémenter si une classe souhaite être tenue au courant d'un objet lunatique

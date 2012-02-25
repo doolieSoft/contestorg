@@ -270,7 +270,7 @@ public class FrontModelPhasesQualificatives
 	 * Générer une phase qualificative en mode avancé
 	 * @param nomCategorie nom de la catégorie
 	 * @param nomPoule nom de la poule
-	 * @param participantes liste des participants
+	 * @param nomParticipants liste des participants
 	 * @return génération de phase qualificative en mode avancé
 	 */
 	@SuppressWarnings("unchecked")
@@ -297,7 +297,7 @@ public class FrontModelPhasesQualificatives
 	 * Générer une phase qualificative en mode basique
 	 * @param nomCategorie nom de la catégorie
 	 * @param nomPoule nom de la poule
-	 * @param participantes liste des participants
+	 * @param nomParticipants liste des participants
 	 * @return génération de phase qualificative en mode basique
 	 */
 	@SuppressWarnings("unchecked")

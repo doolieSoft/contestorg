@@ -1,4 +1,4 @@
-﻿package org.contestorg.interfaces;
+package org.contestorg.interfaces;
 
 /**
  * Interface à implémenter si une classe souhaite gérer la création et la modification d'une classe d'objet

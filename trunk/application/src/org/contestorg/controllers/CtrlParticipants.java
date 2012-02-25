@@ -1,4 +1,4 @@
-﻿package org.contestorg.controllers;
+package org.contestorg.controllers;
 
 
 import java.util.ArrayList;

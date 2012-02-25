@@ -1,4 +1,4 @@
-﻿package org.contestorg.events;
+package org.contestorg.events;
 
 /**
  * Evénement de modification

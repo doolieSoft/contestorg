@@ -1,4 +1,4 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

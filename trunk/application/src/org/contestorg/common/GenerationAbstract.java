@@ -1,4 +1,4 @@
-﻿package org.contestorg.common;
+package org.contestorg.common;
 
 import org.contestorg.interfaces.IGeneration;
 import org.contestorg.interfaces.IGenerationListener;

@@ -1,4 +1,4 @@
-﻿package org.contestorg.log;
+package org.contestorg.log;
 
 
 import java.util.Stack;

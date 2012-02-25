@@ -1,4 +1,4 @@
-﻿package org.contestorg.models;
+package org.contestorg.models;
 
 /**
  * Modèle recherchable

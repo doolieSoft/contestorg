@@ -1,4 +1,4 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import java.awt.Window;
 
@@ -41,7 +41,6 @@ public class TMCategories extends TMAbstract<InfosModelCategorie>
 	
 	/**
 	 * @see TMAbstract#acceptDelete(Object)
-	 * @author Gaëlle Bély
 	 */
 	@Override
 	public boolean acceptDelete (InfosModelCategorie infos) {

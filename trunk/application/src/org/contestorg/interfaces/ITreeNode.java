@@ -1,4 +1,4 @@
-﻿package org.contestorg.interfaces;
+package org.contestorg.interfaces;
 
 import javax.swing.tree.TreeNode;
 
