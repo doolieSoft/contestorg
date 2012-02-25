@@ -1,22 +1,25 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelPropriete;
 
-
-
+/**
+ * Panel de configuration des propriétés de participant
+ */
 @SuppressWarnings("serial")
 public class JPConfigurationProprietes extends JPConfigurationAbstract
 {
-	// TableModel des propriétés
+	/** TableModel des propriétés de participant */
 	private TMProprietes tm_proprietes;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPConfigurationProprietes(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -28,17 +31,25 @@ public class JPConfigurationProprietes extends JPConfigurationAbstract
 		this.jp_contenu.add(new JPTable<InfosModelPropriete>(this.w_parent, this.tm_proprietes));
 	}
 	
-	// Getters
+	/**
+	 * Récupérer la liste des propriétés de participant
+	 * @return liste des propriétés de participant
+	 */
 	public TrackableList<InfosModelPropriete> getProprietes() {
 		return new TrackableList<InfosModelPropriete>(this.tm_proprietes);
 	}
 	
-	// Setters
+	/**
+	 * Définir la liste des propriétés de participant
+	 * @param proprietes liste des propriétés de participant
+	 */
 	public void setProprietes(ArrayList<InfosModelPropriete> proprietes) {
 		this.tm_proprietes.fill(proprietes);
 	}
 
-	// Vérifier la validité des données
+	/**
+	 * @see JPConfigurationAbstract#check()
+	 */
 	public boolean check () {
 		return true;
 	}

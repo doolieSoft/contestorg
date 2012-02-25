@@ -3,30 +3,36 @@
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
 
-
-
-
-public class CollectorMatchPhasesQualifsEditer extends CollectorAbstract<Triple<Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>>
+/**
+ * Collecteur pour l'édition d'un match au sein d'une phase qualificative d'une catégorie
+ */
+public class CollectorMatchPhasesQualifsEditer extends CollectorAbstract<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>>
 {
 	
-	// Catégorie
+	/** Nom de la catégorie */
 	private String nomCategorie;
 	
-	// Poule
+	/** Nom de la poule */
 	private String nomPoule;
 	
-	// Phase qualificative
+	/** Numéro de la phase qualificative */
 	private int numeroPhase;
 	
-	// Match
+	/** Numéro du match */
 	private int numeroMatch;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nomCategorie nom de la catégorie
+	 * @param nomPoule nom de la poule
+	 * @param numeroPhase numéro de la phase qualificative
+	 * @param numeroMatch numéro du match
+	 */
 	public CollectorMatchPhasesQualifsEditer(String nomCategorie,String nomPoule,int numeroPhase, int numeroMatch) {
 		// Retenir la catégorie, la poule, la phase qualificative et le match
 		this.nomCategorie = nomCategorie;
@@ -35,11 +41,13 @@ public class CollectorMatchPhasesQualifsEditer extends CollectorAbstract<Triple<
 		this.numeroMatch = numeroMatch;
 	}
 
-	// Implémentation de accept
+	/**
+	 * @see ICollector#collect(Object)
+	 */
 	@Override
-	public void accept (Triple<Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
+	public void collect (Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
 		// Demander l'édition du match
-		ContestOrg.get().getCtrlPhasesQualificatives().updateMatchPhaseQualif(this.nomCategorie, this.nomPoule, this.numeroPhase, this.numeroMatch, infos);
+		ContestOrg.get().getCtrlPhasesQualificatives().updateMatch(this.nomCategorie, this.nomPoule, this.numeroPhase, this.numeroMatch, infos);
 		
 		// Fermer le collector
 		this.close();

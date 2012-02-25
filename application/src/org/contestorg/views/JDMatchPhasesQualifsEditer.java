@@ -1,31 +1,39 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue d'édition d'un match des phases qualificatives
+ */
 @SuppressWarnings("serial")
 public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 {
 
-	// Constructeur
-	public JDMatchPhasesQualifsEditer(Window w_parent, ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations du match
+	 * @param nomCategorie nom de la catégorie de destinaton
+	 * @param nomPoule nom de la poule de destination
+	 * @param numeroPhase numéro de la phase qualificative de destination
+	 * @param infos informations du match
+	 */
+	public JDMatchPhasesQualifsEditer(Window w_parent, ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un match", collector, nomCategorie, nomPoule, numeroPhase);
 		
 		// Rajouter les participants qui ne peuvent plus participer mais qui ont joué pour ce match
-		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipants(nomCategorie, nomPoule);
+		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(nomCategorie, nomPoule);
 		if(infos.getFirst().getFirst() != null && !participants.contains(infos.getFirst().getFirst())) {
 			this.jcb_participantA.insertItemAt(infos.getFirst().getFirst(), 0);
 			this.jcb_participantB.insertItemAt(infos.getFirst().getFirst(), 0);

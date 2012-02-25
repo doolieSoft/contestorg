@@ -1,10 +1,10 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -26,47 +26,77 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 
-
-
+/**
+ * Boîte de dialogue d'édition des poules
+ */
 @SuppressWarnings("serial")
 public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 {
 	
-	// Poules et affectations
+	/** Liste des poules et leurs participants */
 	private ArrayList<Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>>> categoriesPoulesParticipants = new ArrayList<Pair<String,TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>>();
 	
 	// Entrées
-	private JComboBox jcb_categorie = new JComboBox();
+	
+	/** Catégorie */
+	private JComboBox<String> jcb_categorie = new JComboBox<String>();
+	
+	/** Nombre de participants de la catégorie */
 	private JTextField jtf_nbParticipantsCategorie = new JTextField(5);
+	
+	/** Nombre de participants maximal par poule */
 	private JSpinner js_nbParticipantsMaxPoule = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
+	
+	/** Nombre de poules de la catégorie */
 	private JSpinner js_nbPoulesCategorie = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
-	private JComboBox jcb_poule = new JComboBox();
+	
+	/** Poule */
+	private JComboBox<String> jcb_poule = new JComboBox<String>();
 	
 	// Tableaux
+	
+	/** TableModel des poules */
 	private TMPoules tm_poules;
 	
+	/** Tableau des participants disponibles */
 	private JTable jt_participantsDisponibles;
+	/** TableModel des participants disponibles */
 	private TMString tm_participantsDisponibles = new TMString("Nom");
 	
+	/** Tableau des participants de la poule */
 	private JTable jt_participantsPoule;
+	/** TableModel des participants de la poule */
 	private TMString tm_participantsPoule = new TMString("Nom");
 
 	// Boutons
+	
+	/** Bouton "Création automatique" */
 	private JButton jb_creerPoules = new JButton("Création automatique",new ImageIcon("img/farm/16x16/control_play_blue.png"));
+	
+	/** Bouton "Affectation automatique" */
 	private JButton jb_affecterParticipants = new JButton("Affectation automatique",new ImageIcon("img/farm/16x16/control_play_blue.png"));
+	
+	/** Bouton "Ajouter" */
 	private JButton jb_ajouterParticipant = new JButton("Ajouter",new ImageIcon("img/farm/16x16/add.png"));
+	
+	/** Bouton "Retirer" */
 	private JButton jb_retirerParticipant = new JButton("Retirer",new ImageIcon("img/farm/16x16/delete.png"));
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JDPoules(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Gestion des poules");
@@ -91,7 +121,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		}
 		
 		// Catégorie
-		if(categoriesPoulesParticipants.size() > 1) {
+		if(this.categoriesPoulesParticipants.size() > 1) {
 			this.jp_contenu.add(ViewHelper.title("Catégorie", ViewHelper.H1));
 			this.jp_contenu.add(this.jcb_categorie);
 			this.jp_contenu.add(Box.createVerticalStrut(5));
@@ -122,6 +152,13 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		this.tm_poules.addValidator(ContestOrg.get().getPoulesValidator());
 		this.jp_contenu.add(new JPTable<Pair<InfosModelPoule, ArrayList<String>>>(this, this.tm_poules, true, true, true, true, true, 5));
 		this.jp_contenu.add(Box.createVerticalStrut(5));
+
+		this.tm_poules.addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged (TableModelEvent event) {
+				refreshBottom();
+			}
+		});
 		
 		// Affectation des participants
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Affectation des équipes" : "Affectation des joueurs", ViewHelper.H1));
@@ -197,7 +234,9 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Transmettre les poules au controleur
@@ -207,14 +246,18 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		this.setVisible(false);
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if(event.getSource() == this.jcb_categorie) {
@@ -225,8 +268,10 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		// Rafraichir les champs du bas
 		this.refreshBottom();
 	}
-	
-	// Rafraichir les champs en fonction de la catégorie et de la poule séléctionnée
+
+	/**
+	 * Rafraichir la liste des poules d'après la catégorie séléctionnée
+	 */
 	private void refreshTop() {
 		// Se retirer des écouteurs des spinners
 		this.js_nbParticipantsMaxPoule.removeChangeListener(this);
@@ -256,6 +301,10 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		// Lier la liste des poules au tableau
 		this.tm_poules.link(this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond());
 	}
+	
+	/**
+	 * Rafraichir les listes des participants d'après la catégorie et la poule séléctionnées
+	 */
 	private void refreshBottom() {
 		// Lier la liste des participants disponibles
 		this.tm_participantsDisponibles.link(this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond().get(0).getSecond());
@@ -271,7 +320,10 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		}
 	}
 	
-	// Surcharge de actionPerformed
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		// Récupérer les poules
 		TrackableList<Pair<InfosModelPoule, ArrayList<String>>> poules = this.categoriesPoulesParticipants.get(this.jcb_categorie.getSelectedIndex()).getSecond();
@@ -282,13 +334,13 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 			
 			// Vérifier si le nombre de poules est correcte
 			if(nbPoules != 0) {
-				if(new Double(Math.ceil(Integer.parseInt(this.jtf_nbParticipantsCategorie.getText())/nbPoules)).intValue() >= 2) {
+				if(new Double(Math.ceil(Integer.parseInt(this.jtf_nbParticipantsCategorie.getText())/nbPoules)).intValue() >= 2) {					
 					// Supprimer toutes les poules excepté la première et placer leurs participants dans la première poule
 					while(poules.size() > 1) {
 						// Placer les participants de la poule dans la première poule
 						poules.get(0).getSecond().addAll(poules.get(1).getSecond());
 						
-						// Supprimer la poule
+						// Supprimer la deuxième poule
 						poules.remove(1);
 					}
 					
@@ -398,7 +450,6 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 					// Informer la liste des poules du transfert
 					poules.update(0);
 					poules.update(this.jcb_poule.getSelectedIndex()+1);
-					
 				}
 			} else {
 				// Erreur
@@ -410,7 +461,9 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		}
 	}
 
-	// Implémentation de ChangeListener
+	/**
+	 * @see ChangeListener#stateChanged(ChangeEvent)
+	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
 		// Nombre de participants dans la catégorie

@@ -1,14 +1,27 @@
 ﻿package org.contestorg.infos;
 
+/**
+ * Conteneur d'informations pour la création ou la modification d'un objectif à pourcentage
+ */
 public class InfosModelObjectifPourcentage extends InfosModelObjectif
 {
 
-	// Attributs
+	/** Pourcentage */
 	private double pourcentage;
+	
+	/** Borne de participation */
 	private Double borneParticipation;
+	
+	/** Borne d'augmentation */
 	private Double borneAugmentation;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nom nom
+	 * @param pourcentage pourcentage
+	 * @param borneParticipation borne de participation
+	 * @param borneAugmentation borne d'augmentation
+	 */
 	public InfosModelObjectifPourcentage(String nom, double pourcentage, Double borneParticipation, Double borneAugmentation) {
 		// Appeller le constructeur parent
 		super(nom);
@@ -19,18 +32,34 @@ public class InfosModelObjectifPourcentage extends InfosModelObjectif
 		this.borneAugmentation = borneAugmentation;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le pourcentage
+	 * @return pourcentage
+	 */
 	public double getPourcentage () {
 		return this.pourcentage;
 	}
+	
+	/**
+	 * Récupérer la borne de participation
+	 * @return borne de participation
+	 */
 	public Double getBorneParticipation () {
 		return this.borneParticipation;
 	}
+	
+	/**
+	 * Récupérer la borne d'augmentation
+	 * @return borne d'augmentation
+	 */
 	public Double getBorneAugmentation () {
 		return this.borneAugmentation;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelObjectif defaut () {
 		return new InfosModelObjectifPourcentage("", 0, null, null);
 	}

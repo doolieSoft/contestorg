@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import org.contestorg.common.TrackableList;
@@ -10,13 +9,19 @@ import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.infos.InfosModelLieu;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue d'édition d'un lieu
+ */
 @SuppressWarnings("serial")
 public class JDLieuEditer extends JDLieuAbstract
 {
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations du lieu
+	 * @param infos informations du lieu
+	 */
 	public JDLieuEditer(Window w_parent, ICollector<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> collector, Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>> infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un lieu", collector);

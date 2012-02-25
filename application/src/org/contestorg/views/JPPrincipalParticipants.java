@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -32,7 +31,7 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
@@ -40,33 +39,56 @@ import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IMoody;
+import org.contestorg.interfaces.IMoodyListener;
 import org.contestorg.interfaces.ITreeNode;
 
-
-
+/**
+ * Panel des participants pour la fenêtre principale
+ */
 @SuppressWarnings("serial")
 public class JPPrincipalParticipants extends JPPrincipalAbstract implements TreeSelectionListener, ListSelectionListener, ActionListener, ItemListener, MouseListener
 {
 	
 	// Panneau du haut
-	private JButton jb_nouvelle;
+	
+	/** Bouton "Nouveau participant" */
+	private JButton jb_nouveau;
+	
+	/** Bouton "Catégories" */
 	private JButton jb_categories;
+	
+	/** Bouton "Poules" */
 	private JButton jb_poules;
+	
+	/** Bouton "Importer" */
 	private JButton jb_importer;
+	
+	/** Bouton "Exporter" */
 	private JButton jb_exporter;
 	
-	// Panneau du bas
-	private JComboBox jcb_statut;
-	private JButton jb_editer;
-	private JButton jb_supprimer;
+	// Panneau de contenu
 	
-	// JTree des catégorie/poules
+	/** Arborescence des catégorie/poules */
 	private JTree jtree;
 	
-	// JTable des participants
+	/** Tableau des participants */
 	private JTable jtable;
 	
-	// Constructeur
+	// Panneau du bas
+	
+	/** Liste des statuts */
+	private JComboBox<String> jcb_statut;
+	
+	/** Bouton "Editer" */
+	private JButton jb_editer;
+	
+	/** Bouton supprimer */
+	private JButton jb_supprimer;
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPPrincipalParticipants(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -77,25 +99,25 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		// Panneau du haut
 		this.jb_categories = new JButton("Catégories", new ImageIcon("img/farm/16x16/folders.png"));
 		this.jb_poules = new JButton("Poules", new ImageIcon("img/farm/16x16/table_multiple.png"));
-		this.jb_nouvelle = new JButton("Nouvelle équipe", new ImageIcon("img/farm/16x16/add.png"));
+		this.jb_nouveau = new JButton("Nouvelle équipe", new ImageIcon("img/farm/16x16/add.png"));
 		this.jb_importer = new JButton("Importer équipes", new ImageIcon("img/farm/16x16/application_get.png"));
 		this.jb_exporter = new JButton("Exporter", new ImageIcon("img/farm/16x16/application_go.png"));
 		
 		this.jb_categories.setEnabled(false);
 		this.jb_poules.setEnabled(false);
-		this.jb_nouvelle.setEnabled(false);
+		this.jb_nouveau.setEnabled(false);
 		this.jb_importer.setEnabled(false);
 		this.jb_exporter.setEnabled(false);
 		
 		this.jb_categories.setToolTipText("Configurer les catégories");
 		this.jb_poules.setToolTipText("Configurer les poules");
-		this.jb_nouvelle.setToolTipText("Ajouter une équipe");
+		this.jb_nouveau.setToolTipText("Ajouter une équipe");
 		this.jb_importer.setToolTipText("Importer une liste d'équipes");
 		this.jb_exporter.setToolTipText("Exporter des informations sur les équipes");
 		
 		this.jp_haut.add(this.jb_categories);
 		this.jp_haut.add(this.jb_poules);
-		this.jp_haut.add(this.jb_nouvelle);
+		this.jp_haut.add(this.jb_nouveau);
 		this.jp_haut.add(this.jb_importer);
 		this.jp_haut.add(this.jb_exporter);
 		
@@ -127,7 +149,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jp_contenu.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jsp, new JScrollPane(this.jtable)));
 		
 		// Panneau du bas
-		this.jcb_statut = new JComboBox();
+		this.jcb_statut = new JComboBox<String>();
 		for (InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
 			this.jcb_statut.addItem(statut.getNomEquipe());
 		}
@@ -149,7 +171,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		// Ecouter les boutons
 		this.jb_categories.addActionListener(this);
 		this.jb_poules.addActionListener(this);
-		this.jb_nouvelle.addActionListener(this);
+		this.jb_nouveau.addActionListener(this);
 		this.jb_importer.addActionListener(this);
 		this.jb_exporter.addActionListener(this);
 		this.jb_editer.addActionListener(this);
@@ -159,7 +181,9 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jcb_statut.addItemListener(this);
 	}
 	
-	// Implémentation de moodyChanged
+	/**
+	 * @see IMoodyListener#moodyChanged(IMoody)
+	 */
 	@Override
 	public void moodyChanged (IMoody moody) {
 		// Rafraichir les boutons
@@ -168,10 +192,10 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		// Changer le nom de de certains bouton en fonction du type de participants
 		if (moody.is(ContestOrg.STATE_OPEN)) {
 			// Equipe/Joueur
-			this.jb_nouvelle.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nouvelle équipe" : "Nouveau joueur");
+			this.jb_nouveau.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nouvelle équipe" : "Nouveau joueur");
 			this.jb_importer.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer équipes" : "Importer joueurs");
 
-			this.jb_nouvelle.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur");
+			this.jb_nouveau.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur");
 			this.jb_importer.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer une liste d'équipes" : "Importer une liste de joueurs");
 			this.jb_exporter.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Exporter des informations sur les équipes" : "Exporter des informations sur les joueurs");
 
@@ -192,7 +216,9 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		}
 	}
 	
-	// Implémentation de TreeSelectionListener
+	/**
+	 * @see TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged (TreeSelectionEvent event) {
 		// Récupérer et fermer le tablemodel actuel
@@ -239,7 +265,9 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.refreshButtons();
 	}
 	
-	// Implémentation de ListSelectionListener
+	/**
+	 * @see ListSelectionListener#valueChanged(ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged (ListSelectionEvent event) {
 		// Rafraichir les boutons
@@ -253,7 +281,9 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		}
 	}
 	
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	@Override
 	public void actionPerformed (ActionEvent event) {
 		// Conserver la sélection du jtree actuelle
@@ -271,7 +301,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 				// Erreur
 				ViewHelper.derror(this.w_parent, "Il faut au moins 4 "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" pour pouvoir gérer les poules.");
 			}
-		} else if (event.getSource() == this.jb_nouvelle) {
+		} else if (event.getSource() == this.jb_nouveau) {
 			// Récupérer la catégorie et la poule séléctionnées
 			Pair<String,String> selection = this.getSelection();
 			
@@ -340,7 +370,9 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jtree.setSelectionPath(path);
 	}
 	
-	// Implémentation de itemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if (event.getStateChange() == ItemEvent.SELECTED) {
@@ -354,7 +386,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 				// Récupérer les noms des participants séléctionnés
 				ArrayList<String> nomParticipants = new ArrayList<String>();
 				for (int index : this.jtable.getSelectedRows()) {
-					nomParticipants.add(this.getParticipant(index));
+					nomParticipants.add(this.getNomParticipant(index));
 				}
 				
 				// Demander la modification du statut du participant
@@ -363,7 +395,9 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		}
 	}
 	
-	// Rafraichir les boutons
+	/**
+	 * Rafraichir les boutons
+	 */
 	private void refreshButtons() {
 		// Compter le nombre de catégories et de poules
 		int nbPoules = 0;
@@ -379,11 +413,14 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
 		this.jb_categories.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && ContestOrg.get().getCtrlParticipants().getNbParticipants() >= 4);
-		this.jb_nouvelle.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && nbPoules != 0);
+		this.jb_nouveau.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && nbPoules != 0);
 		this.jb_importer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}
 	
-	// Récuperer la catégorie et la poule séléctionnées
+	/**
+	 * Récuperer la catégorie et la poule séléctionnées
+	 * @return la catégorie et la poule séléctionnées
+	 */
 	private Pair<String,String> getSelection() {
 		// Initialiser la catégorie et la poule
 		String nomCategorie = null, nomPoule = null; int nbPoules = 0;
@@ -427,11 +464,20 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		return new Pair<String, String>(nomCategorie, nomPoule);
 	}
 	
-	// Récuperer le participant séléctionné
+	/**
+	 * Récuperer le nom du participant séléctionné
+	 * @return nom du participant séléctionné
+	 */
 	private String getNomParticipant() {
-		return this.getParticipant(this.jtable.getSelectedRow());
+		return this.getNomParticipant(this.jtable.getSelectedRow());
 	}
-	private String getParticipant(int index) {
+	
+	/**
+	 * Récuperer le nom d'un participant
+	 * @param index indice du participant
+	 * @return nom d'un participant
+	 */
+	private String getNomParticipant(int index) {
 		return (String)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(index), this.jtable.getModel().getColumnCount() - 6);
 	}
 	

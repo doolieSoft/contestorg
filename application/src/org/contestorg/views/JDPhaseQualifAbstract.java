@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.Couple;
 import org.contestorg.infos.InfosModelConcours;
@@ -41,59 +41,98 @@ import org.contestorg.interfaces.ICollector;
 import org.contestorg.interfaces.IGeneration;
 import org.contestorg.interfaces.IGenerationListener;
 
-
-
+/**
+ * Boîte de dialogue de création/édition d'une phase qualificative
+ */
 @SuppressWarnings("serial")
 public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IGenerationListener<Configuration<String>>
 {
 	
-	// Collector
+	/** Collecteur des informations de la phase qualificative */
 	private ICollector<Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector;
 	
-	// Catégorie
+	/** Nom de la catégorie de destination */
 	private String nomCategorie;
 	
-	// Poule
+	/** Nom de la poule de destination */
 	private String nomPoule;
 	
-	// Participants
+	/** Liste des participants */
 	protected ArrayList<String> participants;
 	
-	// Conservation/Restauration de configuration
-	private JButton jb_conserver = new JButton("Conserver", new ImageIcon("img/farm/16x16/box.png"));
-	private JButton jb_restaurer = new JButton("Restaurer", new ImageIcon("img/farm/16x16/box_down.png"));
-	private Configuration<String> configurationConservee = null;
-	
-	// Rangs des participants
+	/** Rangs des participants */
 	private HashMap<String,Integer> rangsParticipants = new HashMap<String, Integer>();
 	
+	// Conservation/Restauration de configuration
+	
+	/** Bouton "Conserver" */
+	private JButton jb_conserver = new JButton("Conserver", new ImageIcon("img/farm/16x16/box.png"));
+	
+	/** Bouton "Restaurer" */
+	private JButton jb_restaurer = new JButton("Restaurer", new ImageIcon("img/farm/16x16/box_down.png"));
+	
+	/** Configuration conservée */
+	private Configuration<String> configurationConservee = null;
+	
 	// Paramètres de la génération
+	
+	/** Mode avancé */
 	private JRadioButton jrb_mode_avance = new JRadioButton("Avancé", false);
+	
+	/** Mode basique */
 	private JRadioButton jrb_mode_basique = new JRadioButton("Basique", true);
+	
+	/** Séléctions des participants */
 	protected JCheckBox[] jcbs_participants;
 	
 	// Avancement de la génération
-	private JLabel jl_statutGeneration = new JLabel(new ImageIcon("img/farm/32x32/hourglass.png"));
-	private JProgressBar jpb_avancementGeneration = new JProgressBar(0,100);
-	private JLabel jl_avancementGeneration = new JLabel("En attente de demande de génération ...");
-	private JButton jb_generer = new JButton("Générer", new ImageIcon("img/farm/16x16/control_play_blue.png"));
-	private JButton jb_arreter = new JButton("Arrêter", new ImageIcon("img/farm/16x16/control_stop_blue.png"));
 	
+	/** Statut de la génération */
+	private JLabel jl_statutGeneration = new JLabel(new ImageIcon("img/farm/32x32/hourglass.png"));
+	/** Avancement de la génération */
+	private JProgressBar jpb_avancementGeneration = new JProgressBar(0,100);
+	/** Avancement de la génération */
+	private JLabel jl_avancementGeneration = new JLabel("En attente de demande de génération ...");
+	/** Bouton "Générer" */
+	private JButton jb_generer = new JButton("Générer", new ImageIcon("img/farm/16x16/control_play_blue.png"));
+	/** Bouton "Arrêter" */
+	private JButton jb_arreter = new JButton("Arrêter", new ImageIcon("img/farm/16x16/control_stop_blue.png"));
+
+	/** Génération */
 	private IGeneration<Configuration<String>> generation;
 
+	/** Arrêt demandé ? */
 	private boolean demandeArret = false;
+	/** Annulation demandé ? */
 	private boolean demandeAnnulation = false;
 	
 	// Meilleure configuration trouvée
-	private JTextField jtf_matchDejaJoues = new JTextField();
+	
+	/** Nombre de matchs déjàs joués */
+	private JTextField jtf_matchsDejaJoues = new JTextField();
+	/** Nombre de villes communes */
 	private JTextField jtf_villesCommunes = new JTextField();
+	/** Différence moyenne de rang */
 	private JTextField jtf_differenceMoyenneRang = new JTextField();
+	/** Différence maximale de rang */
 	private JTextField jtf_differenceMaximaleRang = new JTextField();
+	/** Panel du résultat */
 	private JPanel jp_resultat;
+	/** Listes des participants A */
+	@SuppressWarnings("rawtypes")
 	private JComboBox[] jcbs_participantsA;
+	/** Listes des participants B */
+	@SuppressWarnings("rawtypes")
 	private JComboBox[] jcbs_participantsB;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations de la phase qualificative
+	 * @param nomCategorie nom de la catégorie de destination
+	 * @param nomPoule nom de la poule de destination
+	 */
 	public JDPhaseQualifAbstract(Window w_parent, String titre, ICollector<Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -104,7 +143,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.nomPoule = nomPoule;
 		
 		// Récupérer les participants qui peuvent participer
-		this.participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipants(this.nomCategorie,this.nomPoule);
+		this.participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(this.nomCategorie,this.nomPoule);
 		
 		// Récupérer les rangs des participants qui peuvent participer
 		for(String participant : this.participants) {
@@ -176,10 +215,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		// Meilleure configuration trouvée
 		this.jp_contenu.add(ViewHelper.title("Meilleure configuration trouvée", ViewHelper.H1));
 		JLabel[] jls_resultat = { new JLabel("Nombre de matchs déjà joués : "), new JLabel("Différence moyenne de rang : "), new JLabel("Différence maximale de rang : "), new JLabel("Nombre de villes communes :") };
-		JComponent[] jcs_resultat = { this.jtf_matchDejaJoues, this.jtf_differenceMoyenneRang, this.jtf_differenceMaximaleRang, this.jtf_villesCommunes };
+		JComponent[] jcs_resultat = { this.jtf_matchsDejaJoues, this.jtf_differenceMoyenneRang, this.jtf_differenceMaximaleRang, this.jtf_villesCommunes };
 		this.jp_contenu.add(ViewHelper.inputs(jls_resultat, jcs_resultat));
 		
-		this.jtf_matchDejaJoues.setEditable(false);
+		this.jtf_matchsDejaJoues.setEditable(false);
 		this.jtf_differenceMoyenneRang.setEditable(false);
 		this.jtf_differenceMaximaleRang.setEditable(false);
 		this.jtf_villesCommunes.setEditable(false);
@@ -199,9 +238,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		for (int i = 0; i < nbMatchs; i++) {
 			JPanel jp_match = new JPanel(new GridLayout(1, 2));
 			
-			this.jcbs_participantsA[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsA[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
 			this.jcbs_participantsA[i].setSelectedIndex(i * 2);
-			this.jcbs_participantsB[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsB[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
 			this.jcbs_participantsB[i].setSelectedIndex(i * 2 + 1);
 			
 			jp_match.add(this.jcbs_participantsA[i]);
@@ -233,7 +272,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		// Ajouter le bouton d'aide
 		this.addButton(new JBHelperButton(this) {
 			@Override
-			protected String message () {
+			protected String getMessage () {
 				return "<h1>Mode avancé</h1>" +
 					   "Le mode avancé teste l'ensemble des configurations possibles. Dès que l'algorithme<br/>" +
 					   "remonte une meilleure configuration que celle précédement trouvée, celle-ci apparait<br/>" +
@@ -268,7 +307,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.pack();
 	}
 	
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Vérifier si une génération n'est pas en cours
@@ -315,12 +356,14 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			
 			// Transformer la informations au collector
 			if(!erreur) {
-				this.collector.accept(new Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
+				this.collector.collect(new Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
 			}
 		}
 	}
 		
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Vérifier si une génération n'est pas en cours
@@ -350,7 +393,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		}
 	}
 	
-	// Récupérer la configuration actuel à partir des JComboBox
+	/**
+	 * Récupérer la configuration actuelle
+	 * @return configuration actuelle
+	 */
 	private Configuration<String> getConfiguration () {
 		if (this.jcbs_participantsA != null && this.jcbs_participantsB != null) {
 			ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
@@ -366,7 +412,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		return null;
 	}
 	
-	// Placer une configuration dans les JComboBox
+	/**
+	 * Définir la configuration actuelle
+	 * @param configuration configuration
+	 */
 	protected void setConfiguration(Configuration<String> configuration) {
 		// Placer la configuration
 		ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
@@ -390,7 +439,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.refreshColors();
 	}
 	
-	// Rafraichir les statistiques que la configuration actuelle
+	/**
+	 * Rafraichir les statistiques que la configuration actuelle
+	 */
 	private void refreshStatistiques () {
 		// Récupérer la configuration
 		Configuration<String> configuration = this.getConfiguration();
@@ -411,19 +462,21 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		differenceMoyenne = configuration.getCouples().length == 0 ? 0 : differenceMoyenne/configuration.getCouples().length;
 		
 		// Remplir les champs
-		this.jtf_matchDejaJoues.setText(String.valueOf(matchsDejaJoues));
+		this.jtf_matchsDejaJoues.setText(String.valueOf(matchsDejaJoues));
 		this.jtf_villesCommunes.setText(String.valueOf(nbVillesCommunes));
 		this.jtf_differenceMaximaleRang.setText(String.valueOf(differenceMaximale));
 		this.jtf_differenceMoyenneRang.setText(String.valueOf(differenceMoyenne));
 		
 		// Changer la couleur des champs
-		this.jtf_matchDejaJoues.setBackground(matchsDejaJoues > 0 ? new Color(250, 90, 90) : new Color(168, 239, 101));
+		this.jtf_matchsDejaJoues.setBackground(matchsDejaJoues > 0 ? new Color(250, 90, 90) : new Color(168, 239, 101));
 		this.jtf_villesCommunes.setBackground(nbVillesCommunes > 0 ? new Color(250, 180, 76) : new Color(168, 239, 101));
 		this.jtf_differenceMaximaleRang.setBackground(differenceMaximale > 1 ? new Color(250, 180, 76) : new Color(168, 239, 101));
 		this.jtf_differenceMoyenneRang.setBackground(differenceMoyenne > 1 ? new Color(250, 180, 76) : new Color(168, 239, 101));
 	}
 	
-	// Rafraichir les listes des participants
+	/**
+	 * Rafraichir les listes des participants
+	 */
 	private void refreshParticipants() {
 		// Récupérer le nombre de matchs
 		int nbMatchs = this.getParticipantsSelectionnes().size() / 2;
@@ -435,9 +488,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		for (int i = 0; i < nbMatchs; i++) {
 			JPanel jp_match = new JPanel(new GridLayout(1, 2));
 			
-			this.jcbs_participantsA[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsA[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
 			this.jcbs_participantsA[i].setSelectedIndex(i * 2);
-			this.jcbs_participantsB[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsB[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
 			this.jcbs_participantsB[i].setSelectedIndex(i * 2 + 1);
 			
 			jp_match.add(this.jcbs_participantsA[i]);
@@ -451,7 +504,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.jp_resultat.revalidate();
 	}
 	
-	// Rafraichir les couleurs
+	/**
+	 * Rafraichir les couleurs
+	 */
 	private void refreshColors() {
 		// Lister les participants qui participent plusieurs fois
 		ArrayList<Integer> participants = new ArrayList<Integer>();
@@ -528,7 +583,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		}
 	}
 	
-	// Savoir si le participant fantome est nécéssaire
+	/**
+	 * Savoir si le participant fantome est nécéssaire
+	 * @return participant fantome nécéssaire ?
+	 */
 	private boolean isFantome () {
 		int nbParticipants = 0;
 		for (int i = 0; i < this.participants.size(); i++) {
@@ -539,10 +597,19 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		return nbParticipants % 2 != 0;
 	}
 	
-	// Récupérer la liste des participants séléctionnés (avec le participant fantome si nécéssaire)
+	/**
+	 * Récupérer la liste des participants séléctionnés (avec le participant fantome si nécéssaire)
+	 * @return liste des participants séléctionnés (avec le participant fantome si nécéssaire)
+	 */
 	private ArrayList<String> getParticipantsSelectionnes () {
 		return this.getParticipantsSelectionnes(false);
 	}
+	
+	/**
+	 * Récupérer la liste des participants séléctionnés (avec le participant fantome si nécéssaire)
+	 * @param rang ajouter le rang des participants ?
+	 * @return liste des participants séléctionnés (avec le participant fantome si nécéssaire)
+	 */
 	private ArrayList<String> getParticipantsSelectionnes (boolean rang) {
 		// Initialiser la liste
 		ArrayList<String> participantsSelectionnes = new ArrayList<String>();
@@ -565,7 +632,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		return participantsSelectionnes;
 	}
 	
-	// Récupérer le nombre de participants séléctionnés (sans le participant fantome)
+	/**
+	 * Récupérer le nombre de participants séléctionnés (sans le participant fantome)
+	 * @return nombre de participants séléctionnés (sans le participant fantome)
+	 */
 	public int getNbParticipantsSelectionnes() {
 		int nbParticipantsSelectionnes = 0;
 		for (int i = 0; i < this.participants.size(); i++) {
@@ -576,7 +646,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		return nbParticipantsSelectionnes;
 	}
 	
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		for(JCheckBox checkbox : this.jcbs_participants) {
@@ -593,7 +665,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.refreshColors();
 	}
 	
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
+	@Override
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_generer) {
 			// Vérifier si le nombre de participants est suffisant
@@ -661,7 +736,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		}
 	}
 	
-	// Fin de l'opération
+	/**
+	 * Fin de l'opération
+	 * @param icone icone de fin
+	 */
 	private void fin(String icone) {		
 		// Perdre la référence de la génération 
 		this.generation = null;

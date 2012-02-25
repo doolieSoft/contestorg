@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,47 +7,91 @@ import java.util.List;
 import org.contestorg.comparators.CompPhasesElims;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelPhaseEliminatoires;
+import org.contestorg.infos.InfosModelPhasesEliminatoires;
 
-
+/**
+ * Phases éliminatoires
+ */
 public class ModelPhasesEliminatoires extends ModelAbstract
 {
 	
 	// Roles
+	
+	/** Finale */
 	public static final int FINALE = 1;
+	
+	/** Petite finale */
 	public static final int PETITE_FINALE = 2;
 	
 	// Attributs objets
+	
+	/** Catégorie */
 	private ModelCategorie categorie;
+	
+	/** Grande finale */
 	private ModelMatchPhasesElims grandeFinale;
+	
+	/** Petite finale */
 	private ModelMatchPhasesElims petiteFinale;
 	
-	// Constructeur
-	public ModelPhasesEliminatoires(ModelCategorie categorie, InfosModelPhaseEliminatoires infos) {
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param categorie catégorie
+	 * @param infos informations des phases éliminatoires
+	 */
+	public ModelPhasesEliminatoires(ModelCategorie categorie, InfosModelPhasesEliminatoires infos) {
 		// Retenir la categorie
 		this.categorie = categorie;
 		
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param categorie catégorie
+	 * @param phasesEliminatoires phases éliminatoires
+	 */
 	protected ModelPhasesEliminatoires(ModelCategorie categorie, ModelPhasesEliminatoires phasesEliminatoires) {
 		// Appeller le constructeur principal
-		this(categorie, phasesEliminatoires.toInfos());
+		this(categorie, phasesEliminatoires.getInfos());
 		
 		// Récupérer l'id
 		this.setId(phasesEliminatoires.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer la catégorie
+	 * @return catégorie
+	 */
 	public ModelCategorie getCategorie () {
 		return this.categorie;
 	}
+	
+	/**
+	 * Récupérer la grande finale
+	 * @return grande finale
+	 */
 	public ModelMatchPhasesElims getGrandeFinale () {
 		return this.grandeFinale;
 	}
+	
+	/**
+	 * Récupérer la petite finale
+	 * @return petite finale
+	 */
 	public ModelMatchPhasesElims getPetiteFinale () {
 		return this.petiteFinale;
 	}
+	
+	/**
+	 * Récupérer le classement des participants
+	 * @return classement des participants
+	 */
 	public ArrayList<ModelParticipant> getClassement () {
 		if (this.grandeFinale != null) {
 			// Récupérer, trier et retourner la liste des participants
@@ -58,6 +101,12 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		}
 		return new ArrayList<ModelParticipant>();
 	}
+	
+	/**
+	 * Récupérer le rang d'un participant
+	 * @param participant participant
+	 * @return rang du participant
+	 */
 	public int getRang (ModelParticipant participant) {
 		// Est ce que le participant a participé à la petite finale ?
 		if (this.petiteFinale != null && this.petiteFinale.getParticipationA() != null && this.petiteFinale.getParticipationB() != null) {
@@ -77,6 +126,11 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		// Retourner -1 si les phases éliminatoires ne sont pas encore générées
 		return -1;
 	}
+	
+	/**
+	 * Récupérer le nombre de phases éliminatoires
+	 * @return récupérer le nombre de phases éliminatoires
+	 */
 	public int getNbPhases () {		
 		// Initialiser le nombre de phases
 		int nbPhases = 0;
@@ -94,14 +148,30 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		// Retourner le nombre de phases
 		return nbPhases;
 	}
+	
+	/**
+	 * Récupérer le nombre de matchs de la première phase éliminatoire
+	 * @return nombre de matchs de la première phase éliminatoire
+	 */
 	public int getNbMatchs() {
 		// Calculer et retourner le nombre de matchs pour la première phase
 		return new Double(Math.pow(2, this.getNbPhases()-1)).intValue();
 	}
+	
+	/**
+	 * Récupérer le nombre de participants
+	 * @return nombre de participants
+	 */
 	public int getNbParticipants() {
 		// Calculer et retourner le nombre de participants qui ont participer
 		return new Double(Math.pow(2, this.getNbPhases())).intValue();
 	}
+	
+	/**
+	 * Récupérer la liste des matchs d'une phase éliminatoire
+	 * @param numPhase numéro de la phase éliminatoire
+	 * @return liste des matchs d'une phase éliminatoire
+	 */
 	public ArrayList<ModelMatchPhasesElims> getMatchs (int numPhase) {
 		// Trouver le nombre de phases à traverser depuis la finale
 		int nbPhases = this.getNbPhases() - numPhase - 1;
@@ -115,6 +185,13 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		// Retourner la liste des matchs
 		return matchs;
 	}
+	
+	/**
+	 * Récupérer la liste des matchs d'une phase éliminatoire
+	 * @param nbPhases nombre de phases éliminatoires restantes à traverser
+	 * @param match match de la phase courante
+	 * @param matchs liste des matchs de la phase éliminatoire visée
+	 */
 	private void getMatchs (int nbPhases, ModelMatchPhasesElims match, ArrayList<ModelMatchPhasesElims> matchs) {
 		// Vérifier si le nombre de phases à traverser est à 0
 		if (nbPhases == 0) {
@@ -126,6 +203,12 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 			this.getMatchs(nbPhases - 1, match.getMatchPrecedantB(), matchs);
 		}
 	}
+	
+	/**
+	 * Récupérer un match d'après son numéro
+	 * @param numeroMatch numéro du match
+	 * @return match trouvé
+	 */
 	public ModelMatchPhasesElims getMatch(int numeroMatch) {
 		// Récupérer le nombre de phases éliminatoires
 		int nbPhases = this.getNbPhases();
@@ -150,13 +233,23 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	}
 	
 	// Setters
-	protected void setInfos (InfosModelPhaseEliminatoires infos) {
+	
+	/**
+	 * Définir les informations des phases éliminatoires
+	 * @param infos informations des phases éliminatoires
+	 */
+	protected void setInfos (InfosModelPhasesEliminatoires infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
 		
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir la grande finale
+	 * @param grandeFinale grande finale
+	 */
 	public void setGrandeFinale (ModelMatchPhasesElims grandeFinale) {
 		// Retenir la finale
 		this.grandeFinale = grandeFinale;
@@ -164,6 +257,11 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir la petite finale
+	 * @param petiteFinale petite finale
+	 */
 	public void setPetiteFinale (ModelMatchPhasesElims petiteFinale) {
 		// Retenir la finale
 		this.petiteFinale = petiteFinale;
@@ -173,8 +271,18 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	}
 	
 	// Actions
+	
+	/**
+	 * Générer les phases éliminatoires
+	 * @param categorie catégorie
+	 * @param nbPhases nombre de phases éliminatoires à générer
+	 * @param infosMatchs informations des matchs
+	 * @param infosPhaseEliminatoire informations des phases éliminatoires
+	 * @return phases éliminatoires
+	 * @throws ContestOrgModelException
+	 */
 	@SuppressWarnings("unchecked")
-	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhaseEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
+	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
 		// Trier les participants d'après leur score aux phases qualificatives
 		List<ModelParticipant> participants = categorie.getParticipantsParticipants();
 		Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
@@ -189,9 +297,9 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		// Tirer les couples de participants de la première phase
 		/*
 		 * Explication de l'algorythme :
-		 * - on ajoute le premiere participant
-		 * - a chaque tour on ajoute des participant :
-		 *    - de maniere a doubler le nombre de participants
+		 * - on ajoute le premier participant
+		 * - à chaque tour on ajoute des participants :
+		 *    - de maniere à doubler le nombre de participants
 		 *    - les plus "mauvais" participants se placent sous les "meilleurs"
 		 */
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
@@ -265,19 +373,27 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		return phasesEliminatoires;
 	}
 	
-	// Clone
+	/**
+	 * Cloner les phases éliminatoires
+	 * @param categorie catégorie
+	 * @return phases éliminatoires
+	 */
 	protected ModelPhasesEliminatoires clone (ModelCategorie categorie) {
 		return new ModelPhasesEliminatoires(categorie, this);
 	}
 	
-	// ToInformation
-	public InfosModelPhaseEliminatoires toInfos () {
-		InfosModelPhaseEliminatoires infos = new InfosModelPhaseEliminatoires();
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPhasesEliminatoires getInfos () {
+		InfosModelPhasesEliminatoires infos = new InfosModelPhasesEliminatoires();
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter les phases éliminatoires aux removers

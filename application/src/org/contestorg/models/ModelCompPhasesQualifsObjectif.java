@@ -1,17 +1,26 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.infos.InfosModelCompPhasesQualifsObjectif;
 
+/**
+ * Critère de classement des phases qualificatives prenant en compte le nombre d'objectifs
+ */
 public class ModelCompPhasesQualifsObjectif extends ModelCompPhasesQualifsAbstract
 {
 	
 	// Attributs objets
+	
+	/** Objectif */
 	private ModelObjectif objectif;
 	
-	// Constructeurs
+	/**
+	 * Constructeurs
+	 * @param concours concours
+	 * @param objectif objectif
+	 * @param infos informations du critère de classement
+	 */
 	public ModelCompPhasesQualifsObjectif(ModelConcours concours, ModelObjectif objectif, InfosModelCompPhasesQualifsObjectif infos) {
 		// Appeller le constructeur parent
 		super(concours);
@@ -24,11 +33,21 @@ public class ModelCompPhasesQualifsObjectif extends ModelCompPhasesQualifsAbstra
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer l'objectif
+	 * @return objectif
+	 */
 	public ModelObjectif getObjectif () {
 		return this.objectif;
 	}
 	
-	// Setter
+	// Setters
+	
+	/**
+	 * Définir les informations du critère de classement
+	 * @param infos informations du critère de classement
+	 */
 	protected void setInfos (InfosModelCompPhasesQualifsObjectif infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -37,15 +56,19 @@ public class ModelCompPhasesQualifsObjectif extends ModelCompPhasesQualifsAbstra
 		this.fireUpdate();
 	}
 	
-	// Implémentation de toInformation
+	/**
+	 * @see ModelCompPhasesQualifsAbstract#getInfos()
+	 */
 	@Override
-	public InfosModelCompPhasesQualifsObjectif toInfos () {
-		InfosModelCompPhasesQualifsObjectif infos = new InfosModelCompPhasesQualifsObjectif(this.objectif.toInfos());
+	public InfosModelCompPhasesQualifsObjectif getInfos () {
+		InfosModelCompPhasesQualifsObjectif infos = new InfosModelCompPhasesQualifsObjectif(this.objectif.getInfos());
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Implémentation de remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	@Override
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {

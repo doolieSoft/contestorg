@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.GridLayout;
 import java.awt.Window;
 
@@ -15,34 +14,57 @@ import javax.swing.JTextField;
 
 import org.contestorg.infos.InfosModelConcours;
 
+/**
+ * Panel de configuration général
+ */
 @SuppressWarnings("serial")
 public class JPConfigurationGeneral extends JPConfigurationAbstract
 {
-	// Entrées pour le concours
+	// Entrées
+	
+	/** Nom du concours */
 	protected JTextField jtf_concours_nom = new JTextField();
+	/** Lieu du concours */
 	protected JTextField jtf_concours_lieu = new JTextField();
+	/** Site web du concours */
 	protected JTextField jtf_concours_site = new JTextField();
+	/** Email du concours */
 	protected JTextField jtf_concours_email = new JTextField();
+	/** Téléphone du concours */
 	protected JTextField jtf_concours_telephone = new JTextField();
+	/** Description du concours */
 	protected JTextArea jta_concours_description = new JTextArea();
 
-	// Entrées pour l'organisateur
+	/** Nom de l'organisateur */
 	protected JTextField jtf_organisateur_nom = new JTextField();
+	/** Lieu de l'organisateur */
 	protected JTextField jtf_organisateur_lieu = new JTextField();
+	/** Site web de l'organisateur */
 	protected JTextField jtf_organisateur_site = new JTextField();
+	/** Email de l'organisateur */
 	protected JTextField jtf_organisateur_email = new JTextField();
+	/** Téléphone de l'organisateur */
 	protected JTextField jtf_organisateur_telephone = new JTextField();
+	/** Description de l'organisateur */
 	protected JTextArea jta_organisateur_description = new JTextArea();
 
-	// Entrées diverses
+	/** Type des participants */
 	protected JTextField jtf_participants = new JTextField();
+	/** Type des participants "Equipes" */
 	protected JRadioButton jrb_participants_equipes = new JRadioButton("Equipes", true);
+	/** Type des participants "Joueurs" */
 	protected JRadioButton jrb_participants_joueurs = new JRadioButton("Joueurs");
+	/** Type des qualifications */
 	protected JTextField jtf_qualifications = new JTextField();
+	/** Type des qualifications "Phases" */
 	protected JRadioButton jrb_qualifications_phases = new JRadioButton("Phases", true);
+	/** Type des qualificatiions "Grille" */
 	protected JRadioButton jrb_qualifications_grille = new JRadioButton("Grille");
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPConfigurationGeneral(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -91,96 +113,239 @@ public class JPConfigurationGeneral extends JPConfigurationAbstract
 	}
 
 	// Getters
+	
+	/**
+	 * Récupérer le nom du concours
+	 * @return nom du concours
+	 */
 	public String getConcoursNom() {
 		return this.jtf_concours_nom.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le lieu du concours
+	 * @return lieu du concours
+	 */
 	public String getConcoursLieu() {
 		return this.jtf_concours_lieu.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le site web du concours
+	 * @return site web du concours
+	 */
 	public String getConcoursSite() {
 		return this.jtf_concours_site.getText().trim();
 	}
+	
+	/**
+	 * Récupérer l'email du concours
+	 * @return email du concours
+	 */
 	public String getConcoursEmail() {
 		return this.jtf_concours_email.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le téléphone du concours
+	 * @return téléphone du concours
+	 */
 	public String getConcoursTelephone() {
 		return this.jtf_concours_telephone.getText().trim();
 	}
+	
+	/**
+	 * Récupérer la description du concours
+	 * @return description du concours
+	 */
 	public String getConcoursDescription() {
 		return this.jta_concours_description.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le nom de l'organisme
+	 * @return nom de l'organisme
+	 */
 	public String getOrganismeNom() {
 		return this.jtf_organisateur_nom.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le lieu de l'organisme
+	 * @return lieu de l'organisme
+	 */
 	public String getOrganismeLieu() {
 		return this.jtf_organisateur_lieu.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le site web de l'organisme
+	 * @return site web de l'organisme
+	 */
 	public String getOrganismeSite() {
 		return this.jtf_organisateur_site.getText().trim();
 	}
+	
+	/**
+	 * Récupérer l'email de l'organisme
+	 * @return email de l'organisme
+	 */
 	public String getOrganismeEmail() {
 		return this.jtf_organisateur_email.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le téléphone de l'organisme
+	 * @return téléphone de l'organisme
+	 */
 	public String getOrganismeTelephone() {
 		return this.jtf_organisateur_telephone.getText().trim();
 	}
+	
+	/**
+	 * Récupérer la description de l'organisme
+	 * @return description de l'organisme
+	 */
 	public String getOrganismeDescription() {
 		return this.jta_organisateur_description.getText().trim();
 	}
+	
+	/**
+	 * Récupérer le type des participants
+	 * @return type des participants
+	 */
 	public int getTypeParticipants() {
 		return this.jrb_participants_equipes.isSelected() ? InfosModelConcours.PARTICIPANTS_EQUIPES :InfosModelConcours.PARTICIPANTS_JOUEURS; 
 	}
+	
+	/**
+	 * Récupérer le type des qualifications
+	 * @return type des qualifications
+	 */
 	public int getTypeQualifications() {
 		return this.jrb_qualifications_phases.isSelected() ? InfosModelConcours.QUALIFICATIONS_PHASES : InfosModelConcours.QUALIFICATIONS_GRILLE;
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir le nom du concours
+	 * @param nom nom du concours
+	 */
 	public void setConcoursNom(String nom) {
 		this.jtf_concours_nom.setText(nom);
 	}
+	
+	/**
+	 * Définir le lieu du concours
+	 * @param nom lieu du concours
+	 */
 	public void setConcoursLieu(String nom) {
 		this.jtf_concours_lieu.setText(nom);
 	}
+	
+	/**
+	 * Définir le site web du concours
+	 * @param nom site web du concours
+	 */
 	public void setConcoursSite(String nom) {
 		this.jtf_concours_site.setText(nom);
 	}
+	
+	/**
+	 * Définir l'email du concours
+	 * @param nom email du concours
+	 */
 	public void setConcoursEmail(String nom) {
 		this.jtf_concours_email.setText(nom);
 	}
+	
+	/**
+	 * Définir le téléphone du concours
+	 * @param nom téléphone du concours
+	 */
 	public void setConcoursTelephone(String nom) {
 		this.jtf_concours_telephone.setText(nom);
 	}
+	
+	/**
+	 * Définir la description du concours
+	 * @param nom description du concours
+	 */
 	public void setConcoursDescription(String nom) {
 		this.jta_concours_description.setText(nom);
 	}
+	
+	/**
+	 * Définir le nom de l'organisme
+	 * @param nom nom de l'organisme
+	 */
 	public void setOrganismeNom(String nom) {
 		this.jtf_organisateur_nom.setText(nom);
 	}
-	public void setOrganismeLieu(String nom) {
-		this.jtf_organisateur_lieu.setText(nom);
+	
+	/**
+	 * Définir le lieu de l'organisme
+	 * @param lieu lieu de l'organisme
+	 */
+	public void setOrganismeLieu(String lieu) {
+		this.jtf_organisateur_lieu.setText(lieu);
 	}
-	public void setOrganismeSite(String nom) {
-		this.jtf_organisateur_site.setText(nom);
+	
+	/**
+	 * Définir le site web de l'organisme
+	 * @param site site web de l'organisme
+	 */
+	public void setOrganismeSite(String site) {
+		this.jtf_organisateur_site.setText(site);
 	}
-	public void setOrganismeEmail(String nom) {
-		this.jtf_organisateur_email.setText(nom);
+	
+	/**
+	 * Définir l'email de l'organisme
+	 * @param email email de l'organisme
+	 */
+	public void setOrganismeEmail(String email) {
+		this.jtf_organisateur_email.setText(email);
 	}
-	public void setOrganismeTelephone(String nom) {
-		this.jtf_organisateur_telephone.setText(nom);
+	
+	/**
+	 * Définir le téléphone de l'organisme
+	 * @param telephone téléphone de l'organisme
+	 */
+	public void setOrganismeTelephone(String telephone) {
+		this.jtf_organisateur_telephone.setText(telephone);
 	}
-	public void setOrganismeDescription(String nom) {
-		this.jta_organisateur_description.setText(nom);
+	
+	/**
+	 * Définir la description de l'organisle
+	 * @param description description de l'organisle
+	 */
+	public void setOrganismeDescription(String description) {
+		this.jta_organisateur_description.setText(description);
 	}
+	
+	/**
+	 * Définir le type de participants
+	 * @param type type de participants
+	 */
 	public void setTypeParticipants(int type) {
 		this.jrb_participants_equipes.setSelected(type == InfosModelConcours.PARTICIPANTS_EQUIPES);
 		this.jrb_participants_joueurs.setSelected(type == InfosModelConcours.PARTICIPANTS_JOUEURS);
 	}
+	
+	/**
+	 * Définir le type de qualifications
+	 * @param type type de qualifications
+	 */
 	public void setTypeQualifications(int type) {
 		this.jrb_qualifications_phases.setSelected(type == InfosModelConcours.QUALIFICATIONS_PHASES);
 		this.jrb_qualifications_grille.setSelected(type == InfosModelConcours.QUALIFICATIONS_GRILLE);
 	}
 	
-	// Vérifier la validité des données
+	/**
+	 * @see JPConfigurationAbstract#check()
+	 */
+	@Override
 	public boolean check () {
 		// Vérifier si le concours a un nom
 		if(this.jtf_concours_nom.getText().trim().isEmpty()) {

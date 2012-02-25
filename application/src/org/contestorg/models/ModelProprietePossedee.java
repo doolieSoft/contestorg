@@ -1,27 +1,33 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.IUpdater;
 import org.contestorg.log.Log;
 
-
-
+/**
+ * Propriété possédée
+ */
 public class ModelProprietePossedee extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Propriété */
 	private ModelPropriete propriete;
+	
+	/** Participant */
 	private ModelParticipant participant;
 	
 	// Attributs scalaires
-	private String value;
+	
+	/** Valeur */
+	private String valeur;
 	
 	// Constructeur
-	public ModelProprietePossedee(ModelPropriete propriete, ModelParticipant participant, InfosModelProprieteParticipant infos) {
+	public ModelProprietePossedee(ModelPropriete propriete, ModelParticipant participant, InfosModelProprietePossedee infos) {
 		// Retenir la propriété et le participant
 		this.propriete = propriete;
 		this.participant = participant;
@@ -31,48 +37,77 @@ public class ModelProprietePossedee extends ModelAbstract
 	}
 	protected ModelProprietePossedee(ModelPropriete propriete, ModelParticipant participant, ModelProprietePossedee proprieteParticipant) {
 		// Appeller le constructeur principal
-		this(propriete, participant, proprieteParticipant.toInfos());
+		this(propriete, participant, proprieteParticipant.getInfos());
 		
 		// Récupérer l'id
 		this.setId(proprieteParticipant.getId());
 	}
 	
 	// Getters
-	public String getValue () {
-		return this.value;
+	
+	/**
+	 * Récupérer la valeur
+	 * @return valeur
+	 */
+	public String getValeur () {
+		return this.valeur;
 	}
+	
+	/**
+	 * Récupérer la propriété
+	 * @return propriété
+	 */
 	public ModelPropriete getPropriete () {
 		return this.propriete;
 	}
+	
+	/**
+	 * Récupérer le participant
+	 * @return participant
+	 */
 	public ModelParticipant getParticipant () {
 		return this.participant;
 	}
 	
 	// Setters
-	protected void setInfos (InfosModelProprieteParticipant infos) {
+	
+	/**
+	 * Définir les informations de la propriété possédée
+	 * @param infos informations de la propriété possédée
+	 */
+	protected void setInfos (InfosModelProprietePossedee infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
 		
 		// Enregistrer les informations
-		this.value = infos.getValue();
+		this.valeur = infos.getValeur();
 		
 		// Fire update
 		this.fireUpdate();
 	}
 	
-	// Clone
+	/**
+	 * Cloner la propriété possédée
+	 * @param propriete propriété
+	 * @param participant participant
+	 * @return clone de la propriété possédée
+	 */
 	protected ModelProprietePossedee clone (ModelPropriete propriete, ModelParticipant participant) {
 		return new ModelProprietePossedee(propriete, participant, this);
 	}
 	
-	// ToInformation
-	public InfosModelProprieteParticipant toInfos () {
-		InfosModelProprieteParticipant infos = new InfosModelProprieteParticipant(this.value);
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelProprietePossedee getInfos () {
+		InfosModelProprietePossedee infos = new InfosModelProprietePossedee(this.valeur);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter la propriété de participant à la liste des removers
@@ -81,7 +116,7 @@ public class ModelProprietePossedee extends ModelAbstract
 			// Retirer la propriété de participant de la propriété
 			if (this.propriete != null) {
 				if (!removers.contains(this.propriete)) {
-					this.propriete.removeProprieteParticipant(this);
+					this.propriete.removeProprietePossedee(this);
 				}
 				this.propriete = null;
 				this.fireClear(ModelPropriete.class);
@@ -90,7 +125,7 @@ public class ModelProprietePossedee extends ModelAbstract
 			// Retirer la propriété de participant du participant
 			if (this.participant != null) {
 				if (!removers.contains(this.participant)) {
-					this.participant.removeProprieteParticipant(this);
+					this.participant.removeProprietePossedee(this);
 				}
 				this.participant = null;
 				this.fireClear(ModelParticipant.class);
@@ -101,29 +136,36 @@ public class ModelProprietePossedee extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des propriétés de participant d'un participant
-	protected static class UpdaterForParticipant implements IUpdater<Pair<String, InfosModelProprieteParticipant>, ModelProprietePossedee>
+	/**
+	 * Classe pour mettre à jour la liste des propriétés possédées d'un participant
+	 */
+	protected static class UpdaterForParticipant implements IUpdater<Pair<String, InfosModelProprietePossedee>, ModelProprietePossedee>
 	{
 		
-		// Participant
+		/** Participant */
 		private ModelParticipant participant;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param participant participant
+		 */
 		public UpdaterForParticipant(ModelParticipant participant) {
 			// Retenir le participant
 			this.participant = participant;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
-		public ModelProprietePossedee create (Pair<String, InfosModelProprieteParticipant> infos) {
+		public ModelProprietePossedee create (Pair<String, InfosModelProprietePossedee> infos) {
 			try {
 				// Récupérer la proprieté
 				ModelPropriete propriete = this.participant.getPoule().getCategorie().getConcours().getProprieteByNom(infos.getFirst());
 				
 				// Créer la propriété de participant
 				ModelProprietePossedee proprieteParticipant = new ModelProprietePossedee(propriete, this.participant, infos.getSecond());
-				propriete.addProprieteParticipant(proprieteParticipant);
+				propriete.addProprietePossedee(proprieteParticipant);
 				
 				// Retourner la propriété de participant
 				return proprieteParticipant;
@@ -133,9 +175,11 @@ public class ModelProprietePossedee extends ModelAbstract
 			}
 		}
 		
-		// Implémentation de update
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
-		public void update (ModelProprietePossedee proprieteParticipant, Pair<String, InfosModelProprieteParticipant> infos) {
+		public void update (ModelProprietePossedee proprieteParticipant, Pair<String, InfosModelProprietePossedee> infos) {
 			// Mettre à jour les information de la propriété de participant
 			proprieteParticipant.setInfos(infos.getSecond());
 		}

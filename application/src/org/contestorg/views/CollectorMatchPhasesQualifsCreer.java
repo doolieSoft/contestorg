@@ -3,27 +3,27 @@
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
 
-
-
-
-public class CollectorMatchPhasesQualifsCreer extends CollectorAbstract<Triple<Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs>>
+/**
+ * Collecteur pour la création d'un match au sein d'une phase qualificative d'une catégorie
+ */
+public class CollectorMatchPhasesQualifsCreer extends CollectorAbstract<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs>>
 {
 	
-	// Catégorie
+	/** Nom de la catégorie */
 	private String nomCategorie;
 	
-	// Poule
+	/** Nom de la poule */
 	private String nomPoule;
 	
-	// Phase qualificative
+	/** Numéro de la phase qualificative */
 	private int numeroPhase;
 	
-	// Constructeur
+	/** Constructeur */
 	public CollectorMatchPhasesQualifsCreer(String nomCategorie,String nomPoule,int numeroPhase) {
 		// Retenir la catégorie, la poule et la phase qualificative
 		this.nomCategorie = nomCategorie;
@@ -31,11 +31,13 @@ public class CollectorMatchPhasesQualifsCreer extends CollectorAbstract<Triple<T
 		this.numeroPhase = numeroPhase;
 	}
 
-	// Implémentation de accept
+	/**
+	 * @see ICollector#collect(Object)
+	 */
 	@Override
-	public void accept (Triple<Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
+	public void collect (Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
 		// Demander la création du match
-		ContestOrg.get().getCtrlPhasesQualificatives().addMatchPhaseQualif(nomCategorie, nomPoule, numeroPhase, infos);
+		ContestOrg.get().getCtrlPhasesQualificatives().addMatch(nomCategorie, nomPoule, numeroPhase, infos);
 		
 		// Fermer le collector
 		this.close();

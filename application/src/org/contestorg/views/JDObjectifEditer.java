@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import org.contestorg.infos.InfosModelObjectif;
@@ -9,10 +8,18 @@ import org.contestorg.infos.InfosModelObjectifPoints;
 import org.contestorg.infos.InfosModelObjectifPourcentage;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue d'édition d'un objectif
+ */
 @SuppressWarnings("serial")
 public class JDObjectifEditer extends JDObjectifAbstract
 {
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations de l'objectif
+	 * @param infos informations de l'objectif
+	 */
 	public JDObjectifEditer(Window w_parent, ICollector<InfosModelObjectif> collector, InfosModelObjectif infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un objectif", collector);

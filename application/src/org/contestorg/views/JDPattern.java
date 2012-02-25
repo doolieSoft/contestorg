@@ -25,37 +25,60 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 
+/**
+ * Classe d'aide à l'héritage de JDialog
+ */
 @SuppressWarnings("serial")
 abstract public class JDPattern extends JDialog implements ActionListener, WindowListener
 {
-	// fenêtre parent
+	/** Fenêtre parent */
 	protected Window w_parent;
 
-	// Panels de titre et de contenu
+	/** Panel de titre */
 	protected JPanel jp_titre;
+	
+	/** Panel de contenu */
 	protected JPanel jp_contenu;
 
-	// Boutons valider et annuler
+	/** Bouton "Valider" */
 	protected JButton jb_valider;
+	
+	/** Bouton "Annuler" */
 	protected JButton jb_annuler;
 
-	// Espacements à gauche et à droite
+	/** Espacement à gauche */
 	protected Component hs_gauche = Box.createHorizontalStrut(5);
+	
+	/** Espacement à droite */
 	protected Component hs_droite = Box.createHorizontalStrut(5);
 
-	// Panel du bas
+	/** Panel du bas */
 	private JPanel jp_bas;
 
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 */
 	public JDPattern(Window w_parent, String titre) {
 		this(w_parent, titre, false, false);
 	}
-	public JDPattern(Window w_parent, String titre, boolean afficheTitre, boolean resizable) {
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param afficherTitre afficher le titre ?
+	 * @param redimensionnable boîte de dialogue redimensionnable ?
+	 */
+	public JDPattern(Window w_parent, String titre, boolean afficherTitre, boolean redimensionnable) {
 		// Parametres de la fenêtre
 		super(w_parent, titre); // Titre
 		this.setModal(true); // fenêtre modale
 		this.setLayout(new BorderLayout()); // Layout par default
-		this.setResizable(resizable); // Redimensionnable ?		
+		this.setResizable(redimensionnable); // Redimensionnable ?		
 		this.setIconImage(new ImageIcon("img/farm/32x32/sport.png").getImage()); // Icone de la fenêtre
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); // Ne rien faire si echap
 
@@ -63,7 +86,7 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 		this.w_parent = w_parent;
 		
 		// Titre
-		if (afficheTitre) {
+		if (afficherTitre) {
 			this.jp_titre = new JPanel();
 			this.jp_titre.add(ViewHelper.title(titre, ViewHelper.H1));
 			this.add(this.jp_titre, BorderLayout.NORTH);
@@ -116,7 +139,9 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 		this.jb_annuler.addActionListener(this);
 	}
 	
-	// Surcharge de pack
+	/**
+	 * @see Window#pack()
+	 */
 	public void pack() {
 		// Appeller le pack du parent
 		super.pack();
@@ -140,18 +165,27 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 		this.setLocation((width-this.getWidth())/2+x,(height-this.getHeight())/2+y);
 	}
 
-	// Ajouter des boutons en bas
+	/**
+	 * Ajouter un bouton en bas de la boîte de dialogue
+	 * @param button bouton à ajouter
+	 */
 	protected void addButton (JButton button) {
 		this.jp_bas.add(button);
 	}
 
-	// Action sur valider
+	/**
+	 * Demande de validation
+	 */
 	protected abstract void ok ();
 
-	// Quitter la fenêtre
+	/**
+	 * Demande de fermeture de la fenêtre
+	 */
 	protected abstract void quit ();
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_annuler) {
 			// Quitter la fenêtre

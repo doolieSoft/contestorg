@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
@@ -11,10 +10,20 @@ import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue d'édition d'un comparateur en vue de générer les phases qualificatives
+ */
 @SuppressWarnings("serial")
 public class JDComparateurEditer extends JDComparateurAbstract
 {
 
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations du comparateur
+	 * @param objectifs liste des objectifs
+	 * @param infos informations du comparateur
+	 */
 	public JDComparateurEditer(Window w_parent, ICollector<InfosModelCompPhasesQualifsAbstract> collector, ArrayList<InfosModelObjectif> objectifs, InfosModelCompPhasesQualifsAbstract infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un critère", collector, objectifs);

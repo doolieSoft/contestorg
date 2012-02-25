@@ -1,32 +1,51 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet participation
+ * Conteneur d'informations pour la création ou la modification d'une participation
  */
 public class InfosModelParticipation extends InfosModelAbstract
 {
 
-	// Attributs
+	/** Résultat */
 	private int resultat;
 
-	// Constantes
+	// Résultats
+	
+	/** Attente */
 	public static final int RESULTAT_ATTENTE = 0;
+	
+	/** Victoire */
 	public static final int RESULTAT_VICTOIRE = 1;
+	
+	/** Egalité */
 	public static final int RESULTAT_EGALITE = 2;
+	
+	/** Défaite */
 	public static final int RESULTAT_DEFAITE = 3;
+	
+	/** Forfait */
 	public static final int RESULTAT_FORFAIT = 4;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param resultat résultat
+	 */
 	public InfosModelParticipation(int resultat) {
 		this.resultat = resultat;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le résultat
+	 * @return résultat
+	 */
 	public int getResultat () {
 		return resultat;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelParticipation defaut () {
 		return new InfosModelParticipation(InfosModelParticipation.RESULTAT_ATTENTE);
 	}

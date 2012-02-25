@@ -5,41 +5,78 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Conteneur d'informations pour la création ou la modification d'un thème d'exportation/diffusion
+ */
 public class InfosModelTheme extends InfosModelAbstract
 {
-	// Attributs
+	/** Chemin */
 	private String chemin;
+	
+	/** Paramètres */
 	private HashMap<String,String> parametres;
+	
+	/** Fichiers */
 	private HashMap<String,String> fichiers;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param chemin chemin
+	 * @param parametres paramètres
+	 * @param fichiers fichiers
+	 */
 	public InfosModelTheme(String chemin, HashMap<String,String> parametres, HashMap<String,String> fichiers) {
 		this.chemin = chemin;
 		this.parametres = parametres;
 		this.fichiers = fichiers;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom() {
 		String[] repertoires = this.chemin.split(File.separator.equals("/") ? "/" : "\\\\");
 		return repertoires[repertoires.length - 1];
 	}
+	
+	/**
+	 * Récupérer le chemin
+	 * @return chemin
+	 */
 	public String getChemin () {
 		return this.chemin;
 	}
+	
+	/**
+	 * Récupérer les paramètres
+	 * @return paramètres
+	 */
 	public HashMap<String,String> getParametres () {
 		return this.parametres;
 	}
+	
+	/**
+	 * Récupérer les fichiers
+	 * @return fichiers
+	 */
 	public HashMap<String, String> getFichiers () {
 		return this.fichiers;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelTheme defaut () {
 		return new InfosModelTheme("", null, null);
 	}
 	
-	// Vérifier si la valeur peut etre assimilée à un entier
+	/**
+	 * Vérifier si la valeur peut etre assimilée à un entier
+	 * @param valeur valeur
+	 * @return valeur assimilable à un entier ?
+	 */
 	public static boolean isInteger(String valeur) {
 		// Vérifier s'il s'agit d'un simple entier
 		try {

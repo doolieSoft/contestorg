@@ -1,10 +1,9 @@
-﻿package org.contestorg.controlers;
+﻿package org.contestorg.controllers;
 
 
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
-
 
 import org.apache.log4j.PropertyConfigurator;
 import org.contestorg.common.MoodyAbstract;
@@ -28,8 +27,8 @@ import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.IHistoryListener;
-import org.contestorg.interfaces.IListValidator;
 import org.contestorg.interfaces.IOperation;
+import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.log.Log;
 import org.contestorg.log.Report;
 import org.contestorg.models.FrontModel;
@@ -51,33 +50,57 @@ import org.contestorg.views.ViewHelper;
 public class ContestOrg extends MoodyAbstract implements IHistoryListener
 {
 	
-	// Version de ContestOrg
+	/** Version de ContestOrg */
 	public static final String VERSION = "2.0.0b";  
 
-	// Instance unique de ContestOrg
+	/** Instance unique de ContestOrg */
 	private static ContestOrg contestOrg;
 	
 	// Etats possibles
-	public static final int STATE_OPEN		= 1;	// Est ce qu'un concours est ouvert ?
-	public static final int STATE_SAVE 		= 2;	// Est ce que le concours est sauvegardé ?
-	public static final int STATE_SERVER	= 4;	// Est ce que le mode serveur est utilisé ? 
-	public static final int STATE_EDIT 		= 8;	// Est ce que le mode édition est activé ?
+	
+	/** Est-ce que le concours est ouvert ? */
+	public static final int STATE_OPEN		= 1;
+	
+	/** Est-ce que le concours est sauvegardé ? */
+	public static final int STATE_SAVE 		= 2;
+	
+	/** Est-ce que le mode serveur est utilisé ? */
+	public static final int STATE_SERVER	= 4;
+	
+	/** Est-ce que le mode édition est activé ? */
+	public static final int STATE_EDIT 		= 8;
 
 	// Vues
-	private JFPrincipal jf_general;	// fenêtre principale
-	private JDialog jd_concours;	// fenêtre de création et d'édition de concours
-	private JDialog jd_connexion;	// fenêtre de connexion au serveur de ContestOrg
+	
+	/** Fenêtre principale */
+	private JFPrincipal jf_general;
+	
+	/** Fenêtre de création et d'édition de concours */
+	private JDialog jd_concours;
+	
+	/** Fenêtre de connexion au serveur de ContestOrg */
+	private JDialog jd_connexion;
 
 	// Controleurs
+	
+	/** Controleur des participants */
 	private CtrlParticipants ctrl_participants;
-	private CtrlPhasesQualificatives ctrl_qualifications;
-	private CtrlPhasesEliminatoires ctrl_finales;
+	
+	/** Controleur des phases qualificatives */
+	private CtrlPhasesQualificatives ctrl_phasesQualificatives;
+	
+	/** Controleur des phases éliminatoires */
+	private CtrlPhasesEliminatoires ctrl_phasesEliminatoires;
+	
+	/** Controleur pour les traitements avec l'extérieur (exportations, importations, ...) */
 	private CtrlOut ctrl_out;
 	
-	// Chemin du concours
+	/** Chemin du concours */
 	private String chemin;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 */
 	private ContestOrg() {		
 		// Configuration
 		PropertyConfigurator.configure("configuration.ini");
@@ -90,8 +113,8 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 
 		// Créer les différents controleurs
 		this.ctrl_participants = new CtrlParticipants();
-		this.ctrl_qualifications = new CtrlPhasesQualificatives();
-		this.ctrl_finales = new CtrlPhasesEliminatoires();
+		this.ctrl_phasesQualificatives = new CtrlPhasesQualificatives();
+		this.ctrl_phasesEliminatoires = new CtrlPhasesEliminatoires();
 		this.ctrl_out = new CtrlOut();
 		
 		// S'abonner à l'historique
@@ -103,7 +126,10 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		this.jf_general.setVisible(true);
 	}
 
-	// Récupérer l'instance de ContestOrg
+	/**
+	 * Récupérer l'instance de ContestOrg
+	 * @return instance de ContestOrg
+	 */
 	public static ContestOrg get () {
 		// Créer l'instance de ContestOrg si nécéssaire
 		if (ContestOrg.contestOrg == null) {
@@ -117,65 +143,154 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	// ==== Getters
 	
 	// Récupérer les controleurs
+	
+	/**
+	 * Récupérer le controleur des participants
+	 * @return contorleur des participants
+	 */
 	public CtrlParticipants getCtrlParticipants() {
 		return this.ctrl_participants;
 	}
+	
+	/**
+	 * Récupérer le controleur des phases qualificatives
+	 * @return controleur des phases qualificatives
+	 */
 	public CtrlPhasesQualificatives getCtrlPhasesQualificatives() {
-		return this.ctrl_qualifications;
+		return this.ctrl_phasesQualificatives;
 	}
+	
+	/**
+	 * Récupérer le controleur des phases éliminatoires
+	 * @return controleur des phases éliminatoires
+	 */
 	public CtrlPhasesEliminatoires getCtrlPhasesEliminatoires() {
-		return this.ctrl_finales;
+		return this.ctrl_phasesEliminatoires;
 	}
+	
+	/**
+	 * Récupérer le controleur pour les traitements avec l'extérieur (exportations, importations, ...)
+	 * @return controleur pour les traitements avec l'extérieur (exportations, importations, ...)
+	 */
 	public CtrlOut getCtrlOut() {
 		return this.ctrl_out;
 	}
 	
 	// Récupérer des données sur le concours
+	
+	/**
+	 * Récupérer le type des participants
+	 * @return type des participants
+	 */
 	public int getTypeParticipants() {
 		return FrontModel.get().getConcours().getTypeParticipants();
 	}
-	public int getTypeQualifications() {
-		return FrontModel.get().getConcours().getTypeQualifications();
+	
+	/**
+	 * Récupérer le type des phases qualificatives
+	 * @return le type des phases qualificatives
+	 */
+	public int getTypePhasesQualificatives() {
+		return FrontModel.get().getConcours().getTypePhasesQualificatives();
 	}
 	
-	// Récupérer des valideurs de liste
-	public IListValidator<InfosModelObjectif> getObjectifsValidator() {
+	// Récupérer des validateurs de liste
+	
+	/**
+	 * Récupérer un validateur de liste d'objectifs
+	 * @return validateur de liste d'objectifs
+	 */
+	public ITrackableListValidator<InfosModelObjectif> getObjectifsValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getObjectifsValidator();
 	}
-	public IListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de comparateurs
+	 * @return validateur de liste de comparateurs
+	 */
+	public ITrackableListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getComparateursValidator();
 	}
-	public IListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportationsValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste d'exportations
+	 * @return validateur de liste d'exportations
+	 */
+	public ITrackableListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportationsValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getExportationsValidator();
 	}
-	public IListValidator<Pair<InfosModelDiffusion,InfosModelTheme>> getDiffusionsValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de diffusions
+	 * @return validateur de liste de diffusions
+	 */
+	public ITrackableListValidator<Pair<InfosModelDiffusion,InfosModelTheme>> getDiffusionsValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getDiffusionsValidator();
 	}
-	public IListValidator<InfosModelPrix> getPrixValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de prix
+	 * @return validateur de liste de prix
+	 */
+	public ITrackableListValidator<InfosModelPrix> getPrixValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getPrixValidator();
 	}
-	public IListValidator<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> getLieuxValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de lieux 
+	 * @return validateur de liste de lieux
+	 */
+	public ITrackableListValidator<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> getLieuxValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getLieuxValidator();
 	}
-	public IListValidator<InfosModelEmplacement> getEmplacementsValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste d'emplacements
+	 * @return validateur de liste d'emplacements
+	 */
+	public ITrackableListValidator<InfosModelEmplacement> getEmplacementsValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getEmplacementsValidator();
 	}
-	public IListValidator<InfosModelHoraire> getHorairesValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste d'horaires 
+	 * @return validateur de liste d'horaires
+	 */
+	public ITrackableListValidator<InfosModelHoraire> getHorairesValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getHorairesValidator();
 	}
-	public IListValidator<InfosModelPropriete> getProprietesValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de propriétés
+	 * @return validateur de liste de propriétés
+	 */
+	public ITrackableListValidator<InfosModelPropriete> getProprietesValidator() {
 		return FrontModel.get().getFrontModelConfiguration().getProprietesValidator();
 	}
-	public IListValidator<InfosModelCategorie> getCategoriesValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de catégories
+	 * @return validateur de liste de catégories
+	 */
+	public ITrackableListValidator<InfosModelCategorie> getCategoriesValidator() {
 		return FrontModel.get().getFrontModelParticipants().getCategoriesValidator();
 	}
-	public IListValidator<Pair<InfosModelPoule, ArrayList<String>>> getPoulesValidator() {
+	
+	/**
+	 * Récupérer un validateur de liste de poules
+	 * @return validateur de liste de poules
+	 */
+	public ITrackableListValidator<Pair<InfosModelPoule, ArrayList<String>>> getPoulesValidator() {
 		return FrontModel.get().getFrontModelParticipants().getPoulesValidator();
 	}
 	
 	// ==== Procédures liés au concours
 	
 	// Procédure de création
+	
+	/**
+	 * Lancer la procédure de création de concours
+	 */
 	public void procedureConcoursNouveauDemarrer () {
 		// Fermer le précédant concours
 		this.procedureConcoursFermer();
@@ -184,6 +299,19 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		this.jd_concours = new JDConcoursCreer(this.jf_general);
 		this.jd_concours.setVisible(true);
 	}
+	
+	/**
+	 * Créer le concours
+	 * @param infos informations du concours
+	 * @param objectifs liste des objectifs
+	 * @param comparateurs liste des comparateurs
+	 * @param exportations liste des exportations
+	 * @param publication indice de l'exportation qui fait office de publication
+	 * @param diffusions liste des diffusions
+	 * @param prix liste des prix
+	 * @param lieux liste des lieux
+	 * @param proprietes liste des propriétés
+	 */
 	public void procedureConcoursNouveau (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) {
 		try {			
 			// Créer le nouveau concours
@@ -203,6 +331,10 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			this.error("Erreur lors de la création/configuration du concours.", e);
 		}
 	}
+	
+	/**
+	 * Annuler la procédure de création de concours
+	 */
 	public void procedureConcoursNouveauAnnuler () {
 		// Masquer et détruire la fenêtre de création de concours 
 		this.jd_concours.setVisible(false);
@@ -210,14 +342,31 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	}
 
 	// Procédure de configuration
+	
+	/**
+	 * Lancer la procédure de configuration de concours
+	 */
 	public void procedureConcoursConfigurerDemarrer () {
 		// Récupérer le front
 		FrontModelConfiguration front = FrontModel.get().getFrontModelConfiguration();
 		
 		// Créer et afficher la fenêtre de configuration de concours
-		this.jd_concours = new JDConcoursEditer(this.jf_general,FrontModel.get().getConcours().toInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
+		this.jd_concours = new JDConcoursEditer(this.jf_general,FrontModel.get().getConcours().getInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
 		this.jd_concours.setVisible(true);
 	}
+	
+	/**
+	 * Configurer le concours
+	 * @param infos informations du concours
+	 * @param objectifs liste des objectifs
+	 * @param comparateurs liste des comparateurs
+	 * @param exportations liste des exportations
+	 * @param publication indice de l'exportation qui fait office de publication
+	 * @param diffusions liste des diffusions
+	 * @param prix liste des prix
+	 * @param lieux liste des lieux
+	 * @param proprietes liste des propriétés
+	 */
 	public void procedureConcoursConfigurer (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) {
 		try {
 			// Configurer le concours
@@ -234,6 +383,10 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			this.error("Erreur lors de la configuration du concours.", e);
 		}
 	}
+	
+	/**
+	 * Annuler la procédure de configuration de concours
+	 */
 	public void procedureConcoursConfigurerAnnuler () {
 		// Masquer et détruire la fenêtre de configuration de concours 
 		this.jd_concours.setVisible(false);
@@ -241,6 +394,10 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	}
 
 	// Fermeture du concours
+	
+	/**
+	 * Lancer la procédure de fermeture du concours
+	 */
 	public void procedureConcoursFermer() {
 		// Revenir à l'état initial
 		this.initStates();
@@ -258,6 +415,10 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	}
 	
 	// Procédures de persistance
+	
+	/**
+	 * Lancer la procédure d'ouverture de concours
+	 */
 	public void procedureConcoursOuvrirDemarrer () {
 		// Ouvrir le fichier
 		String chemin = ViewHelper.ouvrir(this.jf_general, "Ouvrir un fichier de concours", FiltreFichier.ext_co, FiltreFichier.des_co);
@@ -294,6 +455,10 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			}
 		}
 	}
+	
+	/**
+	 * Lancer la procédure de sauvegarde du concours
+	 */
 	public void procedureConcoursSauvegarderDemarrer() {
 		// Demander à l'utilisateur le chemin de sauvegarde
 		if(this.chemin == null) {
@@ -326,31 +491,56 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	// ==== Procédures liées à la connexion au serveur
 	
 	// Procédure de connexion
+	
+	/**
+	 * Lancer la connexion de connexion au serveur
+	 */
 	public void procedureServeurConnexionDemarrer () {
 		// Créer et afficher la fenêtre de connexion
-		this.jd_connexion = new JDConnexionCreer(this, this.jf_general);
+		this.jd_connexion = new JDConnexionCreer(this.jf_general);
 		this.jd_connexion.setVisible(true);
 	}
+	
+	/**
+	 * Se connecter au serveur
+	 * @param infos informations de connexion au serveur
+	 */
 	public void procedureServeurConnexion (InfosConnexionServeur infos) {
 		// TODO Connexion au serveur
 	}
+	
+	/**
+	 * Annuler la procédure de connexion au serveur
+	 */
 	public void procedureServeurConnexionAnnuler () {
 		// Masquer et détruire la fenêtre de connexion 
 		this.jd_connexion.setVisible(false);
 		this.jd_connexion = null;
 	}
 	
-	// Procédure d'édition
+	// Procédure d'édition du concours via le serveur
+	
+	/**
+	 * Prendre le jeton d'édition du serveur
+	 */
 	public void procedureServeurEditionDemarrer() {
 		// TODO
 	}
+	
+	/**
+	 * Rendre le jeton d'édition du serveur
+	 */
 	public void procedureServeurEditionAnnuler() {
 		// TODO
 	}
 	
 	// ==== Autres
 
-	// Erreur fatale
+	/**
+	 * Signaler une erreur fatale
+	 * @param description description de l'erreur
+	 * @param exceptions liste des exceptions associées
+	 */
 	public void error(String description, Exception... exceptions) {
 		// Log de l'erreur
 		for(Exception exception : exceptions) {
@@ -374,13 +564,15 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		}
 		
 		// Log de la fermeture
-		Log.getLogger().info("Fermeture de l'application avec erreur");
+		Log.getLogger().info("Fermeture de l'application suite à une erreur");
 		
 		// Quitter l'application
 		System.exit(0);
 	}
 	
-	// Quitter l'application
+	/**
+	 * Quitter l'application
+	 */
 	public void quit () {
 		// Log de la fermeture
 		Log.getLogger().info("Fermeture de l'application");

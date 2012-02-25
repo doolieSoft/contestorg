@@ -1,20 +1,29 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un participant
+ * Conteneur d'informations pour la création ou la modification d'un participant
  */
 public class InfosModelParticipant extends InfosModelAbstract
 {
 
-	// Attributs
+	/** Stand */
 	private String stand;
+	
+	/** Nom */
 	private String nom;
+	
+	/** Ville */
 	private String ville;
+	
+	/** Statut */
 	private Statut statut;
-	private String membres;
+	
+	/** Détails */
 	private String details;
 
-	// Statuts
+	/**
+	 * Statut d'un participation
+	 */
 	public static enum Statut {
 		// Statuts possibles
 		ABSENTE("absente","Absente","Absent",false),
@@ -23,13 +32,25 @@ public class InfosModelParticipant extends InfosModelAbstract
 		FORFAIT("forfait","Forfait","Forfait",false),
 		DISQUALIFIE("disqualifiee","Disqualifiée","Disqualifié",false);
 		
-		// Attributs
-		private String id; // Id utilisé pour la persistance 
-		private String nomEquipe; // Nom du statut pour une équipe
-		private String nomJoueur; // Nom du statut pour un joueur
-		private boolean participation; // Est-ce que ce statut autorise la participant à un match ?
+		/** Id utilisé pour la persistance */
+		private String id;
 		
-		// Constructeur
+		/** Nom pour une équipe */
+		private String nomEquipe;
+		
+		/** Nom pour un joueur */
+		private String nomJoueur;
+		
+		/** Autorise la participation à un match ? */
+		private boolean participation;
+		
+		/**
+		 * Constructeur
+		 * @param id id utilisé pour la persistance
+		 * @param nomEquipe nom pour une équipe
+		 * @param nomJoueur nom pour un joueur
+		 * @param participation autorise la participation à un match ?
+		 */
 		Statut(String id,String nomEquipe,String nomJoueur,boolean participation) {
 			this.id = id;
 			this.nomEquipe = nomEquipe;
@@ -37,7 +58,11 @@ public class InfosModelParticipant extends InfosModelAbstract
 			this.participation = participation;
 		}
 		
-		// Récupérer un statut d'après son id
+		/**
+		 * Récupérer un statut d'après son id utilisé pour la pesistance
+		 * @param id id utilisé pour la persistance
+		 * @return statut trouvé
+		 */
 		public static Statut search(String id) {
 			for(Statut statut : Statut.values()) {
 				if(statut.getId().equals(id)) {
@@ -47,59 +72,101 @@ public class InfosModelParticipant extends InfosModelAbstract
 			return Statut.ABSENTE;
 		}
 		
-		// Getters
+		/**
+		 * Récupérer l'id utilisé pour la persistance
+		 * @return id utilisé pour la persistance
+		 */
 		public String getId() {
 			return this.id;
 		}
+		
+		/**
+		 * Récupérer le nom pour une équipe
+		 * @return nom pour une équipe
+		 */
 		public String getNomEquipe() {
 			return this.nomEquipe;
 		}
+		
+		/**
+		 * Récupérer le nom pour un joueur
+		 * @return nom pour un joueur
+		 */
 		public String getNomJoueur() {
 			return this.nomJoueur;
 		}
-		public boolean isParticipante() {
+		
+		/**
+		 * Savoir si le statut autorise la participation à un match ?
+		 * @return autorise la participation à un match ?
+		 */
+		public boolean isParticipation() {
 			return this.participation;
 		}
 	};
-	public static final int STATUT_ABSENTE = 1;
-	public static final int STATUT_ARRIVEE = 2;
-	public static final int STATUT_HOMOLOGUEE = 3;
-	public static final int STATUT_FORFAIT = 4;
-	public static final int STATUT_DISQUALIFIEE = 5;
 
-	// Constructeur
-	public InfosModelParticipant(String stand, String nom, String ville, Statut statut, String membres, String details) {
+	/**
+	 * Constructeur
+	 * @param stand stand
+	 * @param nom nom
+	 * @param ville ville
+	 * @param statut statut
+	 * @param details détails
+	 */
+	public InfosModelParticipant(String stand, String nom, String ville, Statut statut, String details) {
 		this.stand = stand;
 		this.nom = nom;
 		this.ville = ville;
 		this.statut = statut;
-		this.membres = membres;
 		this.details = details;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le stand
+	 * @return stand
+	 */
 	public String getStand () {
 		return this.stand;
 	}
+	
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
+	
+	/**
+	 * Récupérer la ville
+	 * @return ville
+	 */
 	public String getVille () {
 		return this.ville;
 	}
+	
+	/**
+	 * Récupérer le statut
+	 * @return statut
+	 */
 	public Statut getStatut () {
 		return this.statut;
 	}
-	public String getMembres () {
-		return this.membres;
-	}
+	
+	/**
+	 * Récupérer les détails
+	 * @return détails
+	 */
 	public String getDetails () {
 		return this.details;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelParticipant defaut () {
-		return new InfosModelParticipant("", "", "", Statut.ABSENTE, "", "");
+		return new InfosModelParticipant("", "", "", Statut.ABSENTE, "");
 	}
 
 }

@@ -1,20 +1,26 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet objectif
+ * Conteneur d'informations pour la création ou la modification d'un objectif
  */
 public abstract class InfosModelObjectif extends InfosModelAbstract
 {
 
-	// Attributs
+	/** Nom */
 	private String nom;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nom nom
+	 */
 	public InfosModelObjectif(String nom) {
 		this.nom = nom;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}

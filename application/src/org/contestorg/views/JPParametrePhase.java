@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -8,38 +7,42 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Parametre;
 import org.contestorg.interfaces.IChangeableListener;
 
-
-
+/**
+ * Panel d'un paramètre de thème d'exportation/diffusion de type "Phase qualificative"
+ */
 @SuppressWarnings("serial")
-public class JCParametrePhase extends JCParametreAbstract implements IChangeableListener<Pair<Integer,Integer>>
+public class JPParametrePhase extends JPParametreAbstract implements IChangeableListener<Pair<Integer,Integer>>
 {
-	// Liste associée au composant
-	private JComboBox jcb_phase = new JComboBox();
+	/** Phase qualificative */
+	private JComboBox<String> jcb_phase = new JComboBox<String>();
 	
-	// Couleur par défaut de la liste
+	/** Couleur par défaut de la liste */
 	private Color color;
 	
-	// Booléen indiquant si le composant est dépendant d'un autre
+	/** Panel dépendant d'un autre ? */
 	private boolean dependant = false;
 	
-	// Id de la catégorie
+	/** Id de la catégorie */
 	private Integer idCategorie = null;
 	
-	// Id de la poule
+	/** Id de la poule */
 	private Integer idPoule = null;
 	
-	// Ids des phases
+	/** Liste des ids des phases qualificative */
 	private ArrayList<Integer> idsPhases = new  ArrayList<Integer>();
 	
-	// Constructeur
-	public JCParametrePhase(Parametre parametre) {
+	/**
+	 * Constructeur
+	 * @param parametre paramètre
+	 */
+	public JPParametrePhase(Parametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		
@@ -60,7 +63,9 @@ public class JCParametrePhase extends JCParametreAbstract implements IChangeable
 		}
 	}
 
-	// Implémentation de getValeur
+	/**
+	 * @see JPParametreAbstract#getValeur()
+	 */
 	@Override
 	public String getValeur () {
 		// Vérifier s'il ne s'agit pas du premier item qui est séléctionné
@@ -77,7 +82,9 @@ public class JCParametrePhase extends JCParametreAbstract implements IChangeable
 		return String.valueOf(this.idsPhases.get(this.jcb_phase.getSelectedIndex()-1));
 	}
 	
-	// Implémentation de setValeur
+	/**
+	 * @see JPParametreAbstract#setValeur(String)
+	 */
 	@Override
 	public void setValeur (String valeur) {
 		try {
@@ -87,7 +94,9 @@ public class JCParametrePhase extends JCParametreAbstract implements IChangeable
 		}
 	}
 	
-	// Implémentation de getError
+	/**
+	 * @see JPParametreAbstract#getError()
+	 */
 	@Override
 	public String getError () {
 		// Vérifier si le paramètre est optionnel
@@ -112,15 +121,17 @@ public class JCParametrePhase extends JCParametreAbstract implements IChangeable
 		return null;
 	}
 
-	// Implémentation de link
+	/**
+	 * @see JPParametreAbstract#link(JPParametreAbstract[])
+	 */
 	@Override
-	public void link (JCParametreAbstract[] composants) {
+	public void link (JPParametreAbstract[] panels) {
 		if(ContestOrg.get().is(ContestOrg.STATE_OPEN)) {	
 			// Chercher le composant de la catégorie
-			for(JCParametreAbstract composant : composants) {
-				if(composant instanceof JCParametrePoule && this.isDependant(composant)) {
+			for(JPParametreAbstract composant : panels) {
+				if(composant instanceof JPParametrePoule && this.isDependant(composant)) {
 					// Ecouter le composant
-					((JCParametrePoule)composant).addListener(this);
+					((JPParametrePoule)composant).addListener(this);
 					
 					// Retenir la dépendance
 					this.dependant = true;
@@ -136,7 +147,9 @@ public class JCParametrePhase extends JCParametreAbstract implements IChangeable
 		}
 	}
 	
-	// Implémentation de IChangeableListener
+	/**
+	 * @see IChangeableListener#change(Object)
+	 */
 	@Override
 	public void change (Pair<Integer,Integer> idsCategoriePoule) {
 		// Vider la liste des poules

@@ -3,28 +3,35 @@
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
+import org.contestorg.interfaces.ICollector;
 
-
-
-public class CollectorMatchPetiteFinale extends CollectorAbstract<Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims>>
+/**
+ * Collecteur pour l'édition de la petite finale d'une catégorie
+ */
+public class CollectorMatchPetiteFinale extends CollectorAbstract<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>>
 {
 
-	// Nom de la catégorie
+	/** Nom de la catégorie */
 	private String nomCategorie;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nomCategorie nom de la catégorie
+	 */
 	public CollectorMatchPetiteFinale(String nomCategorie) {
 		// Retenir le nom de la catégorie
 		this.nomCategorie = nomCategorie;
 	}
 	
-	// Implémentation de accept
+	/**
+	 * @see ICollector#collect(Object)
+	 */
 	@Override
-	public void accept (Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
+	public void collect (Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
 		// Demander la modification du match
 		ContestOrg.get().getCtrlPhasesEliminatoires().updateMatchPetiteFinale(this.nomCategorie, infos);
 		

@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
 import org.contestorg.infos.InfosModelCompPhasesQualifsObjectif;
 import org.contestorg.infos.InfosModelCompPhasesQualifsPoints;
@@ -18,25 +17,35 @@ import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.interfaces.IFournisseur;
-import org.contestorg.interfaces.IListListener;
+import org.contestorg.interfaces.ITrackableListListener;
 
-
-
+/**
+ * Panel de configuration des points
+ */
 @SuppressWarnings("serial")
-public class JPConfigurationPoints extends JPConfigurationAbstract implements IListListener<InfosModelObjectif>
+public class JPConfigurationPoints extends JPConfigurationAbstract implements ITrackableListListener<InfosModelObjectif>
 {
-	// Points en fonction des résultats
-	protected JTextField jtf_scores_resultats_pvictoire = new JTextField();
-	protected JTextField jtf_scores_resultats_pegalite = new JTextField();
-	protected JTextField jtf_scores_resultats_pdefaite = new JTextField();
-
-	// TableModel de la liste des objectifs
+	/** TableModel de la liste des objectifs */
 	private TMObjectifs tm_objectifs;
 
-	// TableModel de la liste des comparateurs
+	/** TableModel de la liste des comparateurs */
 	private TMComparateurs tm_comparateurs;
+	
+	// Points en fonction des résultats
+	
+	/** Points de victoire */
+	protected JTextField jtf_scores_resultats_pvictoire = new JTextField();
+	
+	/** Points d'égalité */
+	protected JTextField jtf_scores_resultats_pegalite = new JTextField();
+	
+	/** Points de défaite */
+	protected JTextField jtf_scores_resultats_pdefaite = new JTextField();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPConfigurationPoints(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -56,7 +65,7 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IL
 		this.jp_contenu.add(new JPTable<InfosModelObjectif>(this.w_parent, this.tm_objectifs, true, true, true, true, true));
 
 		// Ecouter la liste des objectifs
-		this.tm_objectifs.addIListListener(this);
+		this.tm_objectifs.addITrackableListListener(this);
 		
 		// Ordre de classement
 		this.jp_contenu.add(ViewHelper.title("Ordre de classement", ViewHelper.H1));
@@ -82,41 +91,89 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IL
 		this.tm_comparateurs.add(new InfosModelCompPhasesQualifsVictoires());
 	}
 
-	// Getters
+	/**
+	 * Récupérer les points de victoire
+	 * @return points de victoire
+	 */
 	public float getPointsVictoire () {
 		return Float.parseFloat(this.jtf_scores_resultats_pvictoire.getText().trim());
 	}
+	
+	/**
+	 * Récupérer les points d'égalité
+	 * @return points d'égalité
+	 */
 	public float getPointsEgalite () {
 		return Float.parseFloat(this.jtf_scores_resultats_pegalite.getText().trim());
 	}
+	
+	/**
+	 * Récupérer les points de défaite
+	 * @return points de défaite
+	 */
 	public float getPointsDefaite () {
 		return Float.parseFloat(this.jtf_scores_resultats_pdefaite.getText().trim());
 	}
+	
+	/**
+	 * Récupérer la liste des objectifs
+	 * @return liste des objectifs
+	 */
 	public TrackableList<InfosModelObjectif> getObjectifs() {
 		return new TrackableList<InfosModelObjectif>(this.tm_objectifs);
 	}
+	
+	/**
+	 * Récupérer la liste des comparateurs
+	 * @return liste des comparateurs
+	 */
 	public TrackableList<InfosModelCompPhasesQualifsAbstract> getComparacteurs() {
 		return new TrackableList<InfosModelCompPhasesQualifsAbstract>(this.tm_comparateurs);
 	}
 	
-	// Setters
+	/**
+	 * Définir les points de victoire
+	 * @param points définir les points de victoire
+	 */
 	public void setPointsVictoire(double points) {
 		this.jtf_scores_resultats_pvictoire.setText(String.valueOf(points));
 	}
+	
+	/**
+	 * Définir les points d'égalité
+	 * @param points points d'égalité
+	 */
 	public void setPointsEgalite(double points) {
 		this.jtf_scores_resultats_pegalite.setText(String.valueOf(points));
 	}
+	
+	/**
+	 * Définir les points de défaite
+	 * @param points points de défaite
+	 */
 	public void setPointsDefaite(double points) {
 		this.jtf_scores_resultats_pdefaite.setText(String.valueOf(points));
 	}
+	
+	/**
+	 * Définir la liste des objectifs
+	 * @param objectifs définir les liste des objectifs
+	 */
 	public void setObjectifs(ArrayList<InfosModelObjectif> objectifs) {
 		this.tm_objectifs.fill(objectifs);
 	}
+	
+	/**
+	 * Définir la liste des comparateurs
+	 * @param comparateurs liste des comparateurs
+	 */
 	public void setComparateurs(ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs) {
 		this.tm_comparateurs.fill(comparateurs);
 	}
 	
-	// Vérifier la validité des données
+	/**
+	 * @see JPConfigurationAbstract#check()
+	 */
 	public boolean check () {
 		// Booléen d'erreur
 		boolean erreur = false;
@@ -180,7 +237,11 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IL
 		}
 	}
 	
-	// Chercher la liste des comparateurs d'objectifs pour un objectif donnée
+	/**
+	 * Chercher la liste des comparateurs d'objectifs pour un objectif donnée
+	 * @param objectif objectif
+	 * @return liste des comparateurs d'objectif de l'objectif
+	 */
 	private ArrayList<InfosModelCompPhasesQualifsObjectif> getCompPhasesQualifsObjectif(InfosModelObjectif objectif) {
 		// Initialiser la liste des comparateurs correspondants
 		ArrayList<InfosModelCompPhasesQualifsObjectif> comparateurs = new ArrayList<InfosModelCompPhasesQualifsObjectif>();

@@ -8,9 +8,14 @@ import javax.swing.table.TableStringConverter;
 
 import org.contestorg.infos.InfosModelParticipation;
 
+/**
+ * Classe permettant la conversion des données d'un modèle de données de tableau de phases qualificatives en chaînes de caractères 
+ */
 public class TableStringConverterPhasesQualifs extends TableStringConverter
 {
-	// Implémentation de toString
+	/**
+	 * @see TableStringConverter#toString()
+	 */
 	@Override
 	public String toString (TableModel model, int row, int column) {		
 		// Récupérer l'objet de la cellule

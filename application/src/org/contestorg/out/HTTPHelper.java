@@ -1,6 +1,5 @@
 ﻿package org.contestorg.out;
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,20 +27,33 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+/**
+ * Classe d'aide à la réalisation d'opérations FTP
+ */
 public class HTTPHelper
 {
-	// Classe permettant de faire des requete HTTP
+	/**
+	 * Classe permettant de faire des requêtes HTTP
+	 */
 	public static class Browser
 	{
-		// Client HTTP
+		/** Client HTTP */
 		private AbstractHttpClient client;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 */
 		public Browser() {
 			this.client = new DefaultHttpClient();
 		}
 		
-		// Effectuer une requete get
+		/**
+		 * Effectuer une requete GET
+		 * @param host hôte
+		 * @param port port
+		 * @param path chemin
+		 * @return réponse
+		 */
 		public HttpResponse get (String host, int port, String path) {
 			try {
 				// Executer la requete
@@ -54,28 +66,36 @@ public class HTTPHelper
 		}
 	}
 	
-	// Classe permettant de mettre en place un serveur HTTP
+	/**
+	 * Classe permettant de mettre en place un serveur HTTP
+	 */
 	public static class Server
 	{
-		// Port d'écoute
+		/** Port d'écoute */
 		private int port;
 		
-		// Serveur HTTP
+		/** Serveur HTTP */
 		private HttpServer server;
 		
-		// Serveur demarré ?
+		/** Serveur demarré ? */
 		private boolean started = false;
 		
-		// Handlers
+		/** Ressources */
 		private ArrayList<RessourceAbstract> ressources = new ArrayList<RessourceAbstract>();
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param port port
+		 */
 		public Server(int port) {
 			// Retenir le port
 			this.port = port;
 		}
 		
-		// Initialiser le serveur HTTP
+		/**
+		 * Initialiser le serveur HTTP
+		 * @return tentative réussie ?
+		 */
 		public boolean init () {
 			try {
 				// Créer le serveur HTTP
@@ -89,7 +109,10 @@ public class HTTPHelper
 			}
 		}
 		
-		// Ajouter une ressource au serveur HTTP
+		/**
+		 * Ajouter une ressource au serveur HTTP
+		 * @param ressource ressource
+		 */
 		public void addRessource (RessourceAbstract ressource) {
 			// Retenir la ressources
 			this.ressources.add(ressource);
@@ -102,12 +125,14 @@ public class HTTPHelper
 			
 			// Ajouter le handler
 			this.server.createContext(chemin, new Handler(ressource));
-			if (ressource.isPrincipal()) {
+			if (ressource.isPrincipale()) {
 				this.server.createContext("/", new Handler(ressource));
 			}
 		}
 		
-		// Démarrer le serveur HTTP
+		/**
+		 * Démarrer le serveur HTTP
+		 */
 		public void start () {
 			// Démarrer le serveur
 			this.server.start();
@@ -116,12 +141,17 @@ public class HTTPHelper
 			this.started = true;
 		}
 		
-		// Savoir si le serveur est démarré
+		/**
+		 * Savoir si le serveur est démarré
+		 * @return serveur démarré ?
+		 */
 		public boolean isStarted () {
 			return this.started;
 		}
 		
-		// Arreter le serveur HTTP
+		/**
+		 * Arrêter le serveur HTTP
+		 */
 		public void stop () {
 			// Vérifier si le serveur est bien demarré
 			if (this.started) {
@@ -139,19 +169,26 @@ public class HTTPHelper
 		}
 	}
 	
-	// Classe permettant de capturer un client sur le serveur HTTP
+	/**
+	 * Classe permettant de capturer un client sur le serveur HTTP
+	 */
 	public static class Handler implements HttpHandler
 	{
-		// Ressource
+		/** Ressource */
 		private RessourceAbstract ressource;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param ressource ressource
+		 */
 		public Handler(RessourceAbstract ressource) {
 			// Retenir la ressource
 			this.ressource = ressource;
 		}
 		
-		// Implémentation de handle
+		/**
+		 * @see HttpHandler#handle(HttpExchange)
+		 */
 		@Override
 		public void handle (HttpExchange exchange) throws IOException {
 			// Vérouiller la ressource
@@ -210,17 +247,28 @@ public class HTTPHelper
 		}
 	}
 	
-	// Classe permettant de tester un serveur HTTP
+	/**
+	 * Classe permettant de tester un serveur HTTP
+	 */
 	public static class Tester extends OperationAbstract
 	{
-		// Runnable
+		/** Runnable */
 		private OperationRunnableAbstract runnable;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param port port
+		 */
 		public Tester(int port) {
 			// Créer le runnable
 			this.runnable = new Tester.Runnable(port);
 		}
+		
+		/**
+		 * Constructeur
+		 * @param port port
+		 * @param listener listener
+		 */
 		public Tester(int port, IOperationListener listener) {
 			// Créer le runnable
 			this.runnable = new Tester.Runnable(port);
@@ -229,34 +277,43 @@ public class HTTPHelper
 			this.runnable.addListener(listener);
 		}
 		
-		// Implémentation de getRunnable
+		/**
+		 * @see OperationAbstract#getRunnable()
+		 */
 		@Override
 		public OperationRunnableAbstract getRunnable () {
 			return this.runnable;
 		}
 		
-		// Classe qui contient le code de l'opération
+		/**
+		 * Classe qui contient le code de l'opération
+		 */
 		private static class Runnable extends OperationRunnableAbstract
 		{
-			// Fichier de test
+			/** Fichier de test */
 			private File testFile;
 			
-			// Serveur HTTP
+			/** Serveur HTTP */
 			private HTTPHelper.Server server;
 			
-			// Serveur HTTP démarré ?
+			/** Serveur HTTP démarré ? */
 			private boolean serverStarted = false;
 			
-			// Port d'écoute du serveur HTTP
+			/** Port d'écoute du serveur HTTP */
 			private int port;
 			
-			// Constructeur
+			/**
+			 * Constructeur
+			 * @param port port
+			 */
 			public Runnable(int port) {
 				// Retenir le port du serveur HTTP
 				this.port = port;
 			}
 			
-			// Implémentation de run
+			/**
+			 * @see OperationRunnableAbstract#run()
+			 */
 			@Override
 			public void run () {
 				// Créer le serveur HTTP

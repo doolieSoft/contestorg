@@ -1,13 +1,19 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 
+/**
+ * Critère de classement des phases qualificatives prenant en compte le nombre de victoires
+ */
 public class ModelCompPhasesQualifsVictoires extends ModelCompPhasesQualifsAbstract
 {
-	// Constructeurs
+	/**
+	 * Constructeur
+	 * @param concours concours
+	 * @param infos informations du critère de classement
+	 */
 	public ModelCompPhasesQualifsVictoires(ModelConcours concours, InfosModelCompPhasesQualifsVictoires infos) {
 		// Appeller le constructeur parent
 		super(concours);
@@ -16,7 +22,12 @@ public class ModelCompPhasesQualifsVictoires extends ModelCompPhasesQualifsAbstr
 		this.setInfos(infos);
 	}
 	
-	// Setter
+	// Setters
+	
+	/**
+	 * Définir les informations du critère de classement
+	 * @param infos informations du critère de classement
+	 */
 	protected void setInfos (InfosModelCompPhasesQualifsVictoires infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -25,15 +36,19 @@ public class ModelCompPhasesQualifsVictoires extends ModelCompPhasesQualifsAbstr
 		this.fireUpdate();
 	}
 	
-	// Implémentation de toInformation
+	/**
+	 * @see ModelCompPhasesQualifsAbstract#getInfos()
+	 */
 	@Override
-	public InfosModelCompPhasesQualifsVictoires toInfos () {
+	public InfosModelCompPhasesQualifsVictoires getInfos () {
 		InfosModelCompPhasesQualifsVictoires infos = new InfosModelCompPhasesQualifsVictoires();
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Implémentation de remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	@Override
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {

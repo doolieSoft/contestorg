@@ -1,30 +1,47 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet emplacement
+ * Conteneur d'informations pour la création ou la modification d'un emplacement
  */
 public class InfosModelEmplacement extends InfosModelAbstract
 {
 
-	// Attributs
+	/** Nom */
 	private String nom;
+	
+	/** Description */
 	private String description;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nom nom
+	 * @param description description
+	 */
 	public InfosModelEmplacement(String nom, String description) {
 		this.nom = nom;
 		this.description = description;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return nom;
 	}
+	
+	/**
+	 * Récupérer la description
+	 * @return description
+	 */
 	public String getDescription () {
 		return description;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelEmplacement defaut () {
 		return new InfosModelEmplacement("", "");
 	}

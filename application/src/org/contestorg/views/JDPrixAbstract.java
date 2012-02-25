@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import javax.swing.JComponent;
@@ -10,17 +9,27 @@ import javax.swing.JTextField;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue de création/édition d'un prix
+ */
 @SuppressWarnings("serial")
 public abstract class JDPrixAbstract extends JDPattern
 {
 
-	// Collector d'informations sur le prix
+	/** Collecteur des informations du prix */
 	protected ICollector<InfosModelPrix> collector;
 	
 	// Entrées
+	
+	/** Nom */
 	protected JTextField jtf_nom = new JTextField();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre la boîte de dialogue
+	 * @param collector collecteur des informations du prix
+	 */
 	public JDPrixAbstract(Window w_parent, String titre, ICollector<InfosModelPrix> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -38,7 +47,9 @@ public abstract class JDPrixAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -53,11 +64,13 @@ public abstract class JDPrixAbstract extends JDPattern
 
 		// Créer et retourner les informations
 		if(!erreur) {
-			this.collector.accept(new InfosModelPrix(nom));
+			this.collector.collect(new InfosModelPrix(nom));
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler

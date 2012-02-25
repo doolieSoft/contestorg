@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Window;
@@ -12,7 +11,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.IGraphModel;
@@ -29,37 +28,50 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-
-
+/**
+ * Panel du graphe des phases éliminatoires
+ */
 @SuppressWarnings("serial")
-public class GraphPhasesElims extends JPanel implements IGraphModelListener {
+public class JPGraphPhasesElims extends JPanel implements IGraphModelListener {
 	
-	// Instance de JGraph
+	/** Instance de JGraph */
 	private JGraph jg_graphe;
 	
-	// Modèle associé au graphe
+	/** Modèle de données associé au graphe */
 	private IGraphModel<InfosModelCategorie,InfosModelParticipant> model;
 	
-	// Largeur maximal des cellules
+	/** Largeur maximal des cellules */
 	private int largeurMaxCellule = 0;
 	
-	// Elements du graphe
+	/** Liste des cellules */
 	private DefaultGraphCell cells[];
+	
+	/** Liste des ports */
 	private DefaultPort ports[];
+	
+	/** Liste des liens A */
 	private DefaultEdge edgesA[];
+	
+	/** Liste des liens B */
 	private DefaultEdge edgesB[];
 	
-	// Cellules du graphe
+	/** Liste des cellules */
 	private ArrayList<GraphVertexViewPhasesElims> cellules = new ArrayList<GraphVertexViewPhasesElims>();
 	
-	// Grande finale ?
+	/** Graphe de grande finale ? */
 	private boolean grandeFinale;
 	
-	// Graphe effacé ?
+	/** Graphe effacé ? */
 	private boolean clear = true;
 	
-	// Constructeur
-	public GraphPhasesElims(Window w_parent, boolean grandeFinale) {
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param grandeFinale grande finale ?
+	 */
+	public JPGraphPhasesElims(Window w_parent, boolean grandeFinale) {
 		// Appeller le constructeur du parent
 		super(new GridLayout(1,1));
 		
@@ -83,7 +95,14 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		JScrollPane jsp = new JScrollPane(this.jg_graphe);
 		this.add(jsp, BorderLayout.CENTER);
 	}
-	public GraphPhasesElims(Window w_parent, String nomCategorie, boolean grandeFinale) {
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param nomCategorie nom de la catégorie
+	 * @param grandeFinale grande finale ?
+	 */
+	public JPGraphPhasesElims(Window w_parent, String nomCategorie, boolean grandeFinale) {
 		// Appeller le constructeur principal
 		this(w_parent, grandeFinale);
 		
@@ -91,7 +110,10 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		this.setCategorie(nomCategorie);
 	}
 	
-	// Définir la catégorie
+	/**
+	 * Définir la catégorie
+	 * @param nomCategorie nom de la catégorie
+	 */
 	public void setCategorie(String nomCategorie) {
 		// Vérifier si la catégorie a bien changé
 		if(this.model == null || !this.model.getObject().getNom().equals(nomCategorie)) {
@@ -102,7 +124,7 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 			}
 			
 			// Récupérer/Retenir/Ecouter le modèle associé au graphe
-			this.model = this.grandeFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getGraphModelPhasesElimsGrandeFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getGraphModelPhasesElimsPetiteFinale(nomCategorie);
+			this.model = this.grandeFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getGraphModelGrandeFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getGraphModelPetiteFinale(nomCategorie);
 			this.model.addListener(this);
 			
 			// Rafraichir le graphe
@@ -110,10 +132,17 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		}
 	}
 	
-	// Effacer le graphe
+	/**
+	 * Effacer le graphe
+	 */
 	public void clear() {
 		this.clear(false);
 	}
+	
+	/**
+	 * Effacer le graphe
+	 * @param keepModel garder le modèle de données ?
+	 */
 	private void clear(boolean keepModel) {
 		// Retenir que le graphe a été effacé
 		this.clear = true;
@@ -148,7 +177,9 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		}
 	}
 	
-	// Rafraichir le graphe
+	/**
+	 * Rafraichir le graphe
+	 */
 	private void refresh() {
 		// Effacer le graphe
 		this.clear(true);
@@ -219,7 +250,18 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		}
 	}
 	
-	// Ajouter une cellule au graphe
+	/**
+	 * Ajouter une cellule au graphe
+	 * @param data donnée de la cellule
+	 * @param posX position en X
+	 * @param posY position en Y
+	 * @param indexCell indice de la cellule
+	 * @param indexPort indice du port vers le match suivant
+	 * @param indexEdgeA indice du lien vers le march précédant A
+	 * @param indexEdgeB indice du lien vers le match précédant B
+	 * @param indexPortA indice du port vers le match précédant A
+	 * @param indexPortB indice du port vers le match précédent B
+	 */
 	@SuppressWarnings("rawtypes")
 	private void addCellule(Object data, int posX, int posY, int indexCell, int indexPort, int indexEdgeA, int indexEdgeB, int indexPortA, int indexPortB) {
 		// Créer la cellule
@@ -265,29 +307,58 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		}
 	}
 	
-	// Getters
+	/**
+	 * Récupérer la largeur maximale de la cellule
+	 * @return largeur maximale de la cellule
+	 */
 	public int getLargeurMaxCellule() {
 		return this.largeurMaxCellule+20;
 	}
+	
+	/**
+	 * Récupérer le modèle de données
+	 * @return modèle de données
+	 */
 	public IGraphModel<InfosModelCategorie, InfosModelParticipant> getModel() {
 		return this.model;
 	}
+	
+	/**
+	 * Récupérer l'image du graphe
+	 * @return image du graphe
+	 */
 	public BufferedImage getImage() {
 		return this.jg_graphe.getImage(this.jg_graphe.getBackground(), 0);
 	}
+	
+	/**
+	 * Savoir s'il s'agit d'un graphe de grande finale
+	 * @return graphe de grande finale ?
+	 */
 	public boolean isGrandeFinale() {
 		return this.grandeFinale;
 	}
+	
+	/**
+	 * Savoir si le graphe a été effacé
+	 * @return graphe effacé ?
+	 */
 	public boolean isClear() {
 		return this.clear;
 	}
 	
-	// Indiquer qu'une cellule est crée
+	/**
+	 * Indiquer qu'une cellule a été créée
+	 * @param cellule cellule créée
+	 */
 	public void addCellule(GraphVertexViewPhasesElims cellule) {
 		this.cellules.add(cellule);
 	}
 	
-	// Indiquer qu'une cellule a été modifiée
+	/**
+	 * Indiquer qu'une cellule a été modifiée
+	 * @param cellule cellule modifiée
+	 */
 	public void updateCellule(VertexView cellule) {
 		if(this.model != null) {
 			// Récupérer la nouvelle largeur maximale
@@ -307,7 +378,9 @@ public class GraphPhasesElims extends JPanel implements IGraphModelListener {
 		}
 	}
 	
-	// Implémentation de IGraphModelListener
+	/**
+	 * @see IGraphModelListener#reloadGraphe()
+	 */
 	@Override
 	public void reloadGraphe () {
 		// Rafraichir le graphe

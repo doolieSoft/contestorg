@@ -3,43 +3,64 @@
 import java.io.File;
 import java.util.HashMap;
 
+/**
+ * Ressource fichier
+ */
 public class RessourceFichier extends RessourceAbstract
 {
-	// Fichier
+	/** Fichier */
 	private File fichier;
 
-	// Constructeur
-	public RessourceFichier(String cible, boolean principal, HashMap<String,String> parametres, HashMap<String,String> fichiers, File fichier) {
+	/**
+	 * Constructeur
+	 * @param cible chemin du fichier cible
+	 * @param principale ressource principale ?
+	 * @param parametres liste des paramètres
+	 * @param fichiers liste des fichiers
+	 * @param fichier fichier source
+	 */
+	public RessourceFichier(String cible, boolean principale, HashMap<String,String> parametres, HashMap<String,String> fichiers, File fichier) {
 		// Appeler le constructeur parent
-		super(cible,principal, parametres, fichiers);
+		super(cible, principale, parametres, fichiers);
 		
 		// Retenir le fichier
 		this.fichier = fichier;
 	}
 
-	// Implémentation de getFichier
+	/**
+	 * @see RessourceAbstract#getFichier()
+	 */
 	@Override
 	public File getFichier () {
 		return this.fichier;
 	}
 
-	// Implémentation de clean
+	/**
+	 * @see RessourceAbstract#clean()
+	 */
 	@Override
 	public void clean () {
 	}
 
-	// Implémentation de getContestType
+	/**
+	 * @see RessourceAbstract#getContentType()
+	 */
 	@Override
 	public String getContentType () {
 		return RessourceAbstract.getContentType(this.fichier.getName());
 	}
 	
-	// Méthode à implémenter
+	/**
+	 * @see RessourceAbstract#isTransformation()
+	 */
+	@Override
 	public boolean isTransformation() {
 		return false;
 	}
 
-	// Implémentation de refresh
+	/**
+	 * @see RessourceAbstract#refresh()
+	 */
 	@Override
 	protected boolean refresh () {
 		return this.fichier.exists();

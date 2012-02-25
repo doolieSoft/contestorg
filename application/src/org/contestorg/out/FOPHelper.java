@@ -15,17 +15,24 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.contestorg.log.Log;
 
+/**
+ * Classe d'aide à la réalisation d'opérations FOP
+ */
 public class FOPHelper
 {
-	// Méthode permettant de transformer un fichier XSL-FO en fichier PDF
-	public static boolean transformPDF(File fo, File result) {
+	/**
+	 * Transformer un fichier XSL-FO en fichier PDF
+	 * @param fo ficher XSL-FO
+	 * @param pdf fichier PDF
+	 * @return opération réussie ?
+	 */
+	public static boolean transformPDF(File fo, File pdf) {
 		// Déclarer le flux de sortie
 		OutputStream out = null;
 		
@@ -34,7 +41,7 @@ public class FOPHelper
             Source streamSource = new StreamSource(new InputStreamReader(new FileInputStream(fo),"UTF8"));
             
 			// Créer le flux de sortie
-			out = new BufferedOutputStream(new FileOutputStream(result));
+			out = new BufferedOutputStream(new FileOutputStream(pdf));
 
             // Configurer le processeur XSLT
             TransformerFactory factory = TransformerFactory.newInstance();

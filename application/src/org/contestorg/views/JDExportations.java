@@ -1,11 +1,11 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -15,24 +15,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.IOperation;
 
-
-
+/**
+ * Boîte de dialogue de lancement des exportations prédéfinies
+ */
 @SuppressWarnings("serial")
 public class JDExportations extends JDPattern
 {
-	// Exportations
+	/** Liste des exportations prédéfinies */
 	ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations;
 	
-	// Boutons
+	/** Liste des boutons de lancement */
 	private ArrayList<JButton> jbs_lancer = new ArrayList<JButton>();
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JDExportations(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Exporter");
@@ -89,7 +93,9 @@ public class JDExportations extends JDPattern
 		this.pack();
 	}
 	
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if(this.jbs_lancer.contains(event.getSource())) {
 			// Récupérer l'exportation
@@ -109,14 +115,18 @@ public class JDExportations extends JDPattern
 		}
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Masquer la fenêtre

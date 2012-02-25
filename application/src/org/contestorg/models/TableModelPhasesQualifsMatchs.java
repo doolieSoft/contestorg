@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import javax.swing.event.TableModelEvent;
@@ -11,40 +10,76 @@ import org.contestorg.events.Action;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IHistoryListener;
 
-
+/**
+ * Modèle de données pour tableau de matchs des phases qualificatives
+ */
 public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTableModel, IHistoryListener
 {
-	// Concours, categorie et poule
+	/** Concours */
 	private ModelConcours concours;
-	private ModelCategorie categorie;
-	private ModelPoule poule;
-	private ModelPhaseQualificative phase;
 	
-	// Matchs
+	/** Catégorie */
+	private ModelCategorie categorie;
+	
+	/** Poule */
+	private ModelPoule poule;
+	
+	/** Phase qualificative */
+	private ModelPhaseQualificative phaseQualif;
+	
+	/** Liste des matchs */
 	private ArrayList<ModelMatchPhasesQualifs> matchs = new ArrayList<ModelMatchPhasesQualifs>();
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<TableModelListener> listeners = new ArrayList<TableModelListener>();
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur avec le concours comme conteneur
+	 * @param concours
+	 */
 	public TableModelPhasesQualifsMatchs(ModelConcours concours) {
 		this(concours, null, null, null);
 	}
+	
+	/**
+	 * Constructeur avec une catégorie comme conteneur
+	 * @param categorie
+	 */
 	public TableModelPhasesQualifsMatchs(ModelCategorie categorie) {
 		this(null, categorie, null, null);
 	}
+	
+	/**
+	 * Constructeur avec une poule comme conteneur
+	 * @param poule
+	 */
 	public TableModelPhasesQualifsMatchs(ModelPoule poule) {
 		this(null, null, poule, null);
 	}
-	public TableModelPhasesQualifsMatchs(ModelPhaseQualificative phase) {
-		this(null, null, null, phase);
+	
+	/**
+	 * Constructeur avec une phase qualificative comme conteneur
+	 * @param phaseQualif
+	 */
+	public TableModelPhasesQualifsMatchs(ModelPhaseQualificative phaseQualif) {
+		this(null, null, null, phaseQualif);
 	}
-	private TableModelPhasesQualifsMatchs(ModelConcours concours, ModelCategorie categorie, ModelPoule poule, ModelPhaseQualificative phase) {
+	
+	/**
+	 * Constructeur
+	 * @param concours concours
+	 * @param categorie catégorie
+	 * @param poule poule
+	 * @param phaseQualif phase qualificative
+	 */
+	private TableModelPhasesQualifsMatchs(ModelConcours concours, ModelCategorie categorie, ModelPoule poule, ModelPhaseQualificative phaseQualif) {
 		// Retenir le concours, la categorie, la poule et la phase
 		this.concours = concours;
 		this.categorie = categorie;
 		this.poule = poule;
-		this.phase = phase;
+		this.phaseQualif = phaseQualif;
 		
 		// Initialiser la liste des participants
 		if (this.concours != null) {
@@ -53,15 +88,17 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 			this.matchs = this.categorie.getMatchsPhasesQualifs();
 		} else if (this.poule != null) {
 			this.matchs = this.poule.getMatchsPhasesQualifs();
-		} else if (this.phase != null) {
-			this.matchs = this.phase.getMatchs();
+		} else if (this.phaseQualif != null) {
+			this.matchs = this.phaseQualif.getMatchs();
 		}
 		
 		// Ecouter l'historique du concours
 		FrontModel.get().getHistory().addListener(this);
 	}
 	
-	// Rafraichir la liste des participants
+	/**
+	 * Rafraichir la liste des matchs
+	 */
 	private void refresh () {
 		// Retenir le nombre de matchs dans l'ancienne liste
 		int nbMatchsAnciens = this.matchs.size();
@@ -73,8 +110,8 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 			this.matchs = this.categorie.getMatchsPhasesQualifs();
 		} else if (this.poule != null) {
 			this.matchs = this.poule.getMatchsPhasesQualifs();
-		} else if (this.phase != null) {
-			this.matchs = this.phase.getMatchs();
+		} else if (this.phaseQualif != null) {
+			this.matchs = this.phaseQualif.getMatchs();
 		}
 		
 		// Retenir le nombre de matchs dans la nouvelle liste
@@ -97,6 +134,67 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 			} else if(nbMatchsAnciens > nbMatchsNouveaux) {
 				this.fireRowDeleted(min, max-1);
 			}
+		}
+	}
+	
+	// Signalements
+	
+	/**
+	 * Signaler un événement
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 * @param type type de l'événement
+	 */
+	protected void fire (int first, int last, int type) {
+		TableModelEvent event = new TableModelEvent(this, first, last, TableModelEvent.ALL_COLUMNS, type);
+		for (TableModelListener listener : this.listeners) {
+			listener.tableChanged(event);
+		}
+	}
+	
+	/**
+	 * Signaler l'insertion de lignes
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 */
+	protected void fireRowInserted (int first, int last) {
+		// Fire des listeners de TableModel
+		this.fire(first, last, TableModelEvent.INSERT);
+	}
+	
+	/**
+	 * Signaler la modification de lignes
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 */
+	protected void fireRowUpdated (int first, int last) {
+		// Fire des listeners de TableModel
+		this.fire(first, last, TableModelEvent.UPDATE);
+	}
+	
+	/**
+	 * Signaler la supression de lignes
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 */
+	protected void fireRowDeleted (int first, int last) {
+		// Fire des listeners de TableModel
+		this.fire(first, last, TableModelEvent.DELETE);
+	}
+	
+	/**
+	 * Récupérer le décalage en fonction du conteneur
+	 * @return décalage en fonction du conteneur
+	 */
+	private int getDecallage () {
+		if (this.phaseQualif != null) {
+			return 3;
+		} else if (this.poule != null) {
+			return 2;
+		} else if (this.categorie != null) {
+			return 1;
+		} else {
+			return 0;
 		}
 	}
 	
@@ -203,39 +301,6 @@ public class TableModelPhasesQualifsMatchs implements TableModel, IClosableTable
 	}
 	@Override
 	public void setValueAt (Object object, int row, int column) {
-	}
-	
-	// Fires des listeners
-	protected void fire (int first, int last, int type) {
-		TableModelEvent event = new TableModelEvent(this, first, last, TableModelEvent.ALL_COLUMNS, type);
-		for (TableModelListener listener : this.listeners) {
-			listener.tableChanged(event);
-		}
-	}
-	protected void fireRowInserted (int first, int last) {
-		// Fire des listeners de TableModel
-		this.fire(first, last, TableModelEvent.INSERT);
-	}
-	protected void fireRowUpdated (int first, int last) {
-		// Fire des listeners de TableModel
-		this.fire(first, last, TableModelEvent.UPDATE);
-	}
-	protected void fireRowDeleted (int first, int last) {
-		// Fire des listeners de TableModel
-		this.fire(first, last, TableModelEvent.DELETE);
-	}
-	
-	// Décalaler le numéro de colonne en fonction de la catégorie et la poule
-	private int getDecallage () {
-		if (this.phase != null) {
-			return 3;
-		} else if (this.poule != null) {
-			return 2;
-		} else if (this.categorie != null) {
-			return 1;
-		} else {
-			return 0;
-		}
 	}
 	
 	// Implémentation de IHistoryListener

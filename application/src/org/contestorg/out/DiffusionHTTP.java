@@ -1,6 +1,5 @@
 ﻿package org.contestorg.out;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.OperationAbstract;
@@ -10,28 +9,35 @@ import org.contestorg.interfaces.IOperation;
 import org.contestorg.interfaces.IOperationListener;
 import org.contestorg.log.Log;
 
-
-
+/**
+ * Diffusion HTTP
+ */
 public class DiffusionHTTP extends DiffusionAbstract implements IOperationListener
 {
 	
-	// Thème
+	/** Thème */
 	private InfosModelTheme theme;
 	
-	// Port
+	/** Port */
 	private int port;
 
-	// Serveur HTTP
+	/** Serveur HTTP */
 	private HTTPHelper.Server server;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param theme thème
+	 * @param port port
+	 */
 	public DiffusionHTTP(InfosModelTheme theme, int port) {
 		// Retenir les informations
 		this.port = port;
 		this.theme = theme;
 	}
 
-	// Implémentation de getStartOperation
+	/**
+	 * @see DiffusionAbstract#getStartOperation()
+	 */
 	public IOperation getStartOperation () {
 		// Créer l'opération
 		IOperation operation = new OperationAbstract() {
@@ -48,7 +54,9 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 		return operation;
 	}
 	
-	// Implémentation de getStopOperation
+	/**
+	 * @see DiffusionAbstract#getStopOperation()
+	 */
 	public IOperation getStopOperation() {
 		// Créer l'opération
 		IOperation operation = new OperationAbstract() {
@@ -65,9 +73,13 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 		return operation;
 	}
 	
-	// Classe permettant le démarrage du serveur HTTP
+	/**
+	 * Classe permettant le démarrage du serveur HTTP
+	 */
 	private class Start extends OperationRunnableAbstract {
-		// Implémentation de run
+		/**
+		 * @see Runnable#run()
+		 */
 		@Override
 		public void run () {
 			try {
@@ -123,7 +135,9 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 			}
 		}
 		
-		// Implémentation de clean
+		/**
+		 * @see OperationRunnableAbstract#clean()
+		 */
 		@Override
 		protected void clean () {
 			// Arreter le serveur HTTP
@@ -133,7 +147,9 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 		}
 	}
 
-	// Classe permettant l'arret du serveur HTTP
+	/**
+	 * Classe permettant l'arret du serveur HTTP
+	 */
 	private class Stop extends OperationRunnableAbstract {
 		// Implémentation de run
 		@Override

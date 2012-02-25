@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import javax.swing.JComponent;
@@ -12,17 +11,29 @@ import javax.swing.JTextField;
 import org.contestorg.infos.InfosModelEmplacement;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue de création/édition d'un emplacement
+ */
 @SuppressWarnings("serial")
 public abstract class JDEmplacementAbstract extends JDPattern
 {	
-	// Collector
+	/** Collecteur des informations de l'emplacement */
 	private ICollector<InfosModelEmplacement> collector;
 	
 	// Entrées
+	
+	/** Nom */
 	protected JTextField jtf_nom = new JTextField();
+	
+	/** Description */
 	protected JTextArea jta_description = new JTextArea();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations de l'emplacement
+	 */
 	public JDEmplacementAbstract(Window w_parent, String titre, ICollector<InfosModelEmplacement> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -44,7 +55,9 @@ public abstract class JDEmplacementAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -53,14 +66,16 @@ public abstract class JDEmplacementAbstract extends JDPattern
 		
 		// Envoyer les informations au collector
 		if(!nom.isEmpty()) {
-			collector.accept(new InfosModelEmplacement(nom, description));
+			collector.collect(new InfosModelEmplacement(nom, description));
 		} else {
 			// Message d'erreur
 			ViewHelper.derror(this, "Le nom de l'emplacment est vide.");
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler

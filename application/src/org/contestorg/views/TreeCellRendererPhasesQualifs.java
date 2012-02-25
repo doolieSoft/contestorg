@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -17,9 +16,14 @@ import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.interfaces.ITreeNode;
 
+/**
+ * Classe permettant le rendu de l'arborescence des catégories/poules/phases qualificatives
+ */
 public class TreeCellRendererPhasesQualifs implements TreeCellRenderer
 {
-	// Implémentation de TreeCellRenderer
+	/**
+	 * @see TreeCellRenderer#getTreeCellRendererComponent(JTree, Object, boolean, boolean, boolean, int, boolean)
+	 */
 	@Override
 	public Component getTreeCellRendererComponent (JTree jtree, Object object, boolean isSelected, boolean isExpanded, boolean isLeaf, int row, boolean hasFocus) {
 		// Caster l'objet en node

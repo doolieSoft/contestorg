@@ -1,6 +1,5 @@
 ﻿package org.contestorg.out;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.regex.Pattern;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.swing.filechooser.FileSystemView;
-
 
 import org.contestorg.common.Tools;
 import org.contestorg.events.Action;
@@ -31,14 +29,28 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-
-
+/**
+ * Ressource abstraite
+ */
 public abstract class RessourceAbstract implements IHistoryListener
 {
-	// Récupérer les thèmes
+	/**
+	 * Récupérer la liste des thèmes d'exportation/diffusion
+	 * @param chemin chemin du répertoire des thèmes d'exportation/diffusion
+	 * @return liste des thèmes d'exportation/diffusion
+	 * @throws ContestOrgOutException
+	 */
 	public static ArrayList<Theme> getThemes (String chemin) throws ContestOrgOutException {
 		return RessourceAbstract.getThemes(chemin, null);
 	}
+	
+	/**
+	 * Récupérer la liste des thèmes d'exportation/diffusion d'une catégorie
+	 * @param chemin chemin du répertoire des thèmes d'exportation/diffusion
+	 * @param categorie catégorie
+	 * @return liste des thèmes d'exportation/diffusion
+	 * @throws ContestOrgOutException
+	 */
 	@SuppressWarnings("rawtypes")
 	public static ArrayList<Theme> getThemes (String chemin, String categorie) throws ContestOrgOutException {
 		// Récupérer la vue sur le système de fichiers
@@ -161,7 +173,12 @@ public abstract class RessourceAbstract implements IHistoryListener
 		return themes;
 	}
 	
-	// Parser le fichier fichier de configuration d'un thème
+	/**
+	 * Parser le fichier fichier de configuration d'un thème
+	 * @param chemin chemin du fichier de configuration
+	 * @return fichier de configuration parsé
+	 * @throws ContestOrgOutException
+	 */
 	private static Element getConfiguration (String chemin) throws ContestOrgOutException {
 		// Récupérer le fichier de configuration
 		File configuration = new File(chemin + File.separator + "configuration.xml");
@@ -184,7 +201,13 @@ public abstract class RessourceAbstract implements IHistoryListener
 		return document.getRootElement();
 	}
 	
-	// Créer les ressources associées à un thème
+	/**
+	 * Créer les ressources associées à un thème
+	 * @param theme thème
+	 * @param refresh autoriser la mise à jour automatique des ressources ?
+	 * @return liste des ressources du thème
+	 * @throws ContestOrgOutException
+	 */
 	@SuppressWarnings("rawtypes")
 	public static ArrayList<RessourceAbstract> getRessources (InfosModelTheme theme, boolean refresh) throws ContestOrgOutException {
 		// Vérifier si le thème existe
@@ -256,7 +279,11 @@ public abstract class RessourceAbstract implements IHistoryListener
 		return ressources;
 	}
 	
-	// Récupérer le type de contenu à partir d'un fichier
+	/**
+	 * Récupérer le type de contenu d'un fichier
+	 * @param fichier fichier
+	 * @return type de contenu du fichier
+	 */
 	public static String getContentType(String fichier) {
 		MimetypesFileTypeMap map = new MimetypesFileTypeMap();
 		map.addMimeTypes("application/pdf pdf PDF");
@@ -267,7 +294,12 @@ public abstract class RessourceAbstract implements IHistoryListener
 		return map.getContentType(fichier);
 	}
 	
-	// Transformer les paramètres spéciaux dans une chaine de caractères
+	/**
+	 * Transformer la valeur d'un paramètre en une chaine de caractères à partir de la liste des paramètres spéciaux
+	 * @param valeur valeur du paramètre
+	 * @param parametres liste des paramètres spéciaux
+	 * @return chaine de caractère
+	 */
 	public static String transform(String valeur, HashMap<String, String> parametres) {
 		// Id de la dernière phase dans une poule
 		Matcher idDernierePhase = Pattern.compile("%idDernierePhase\\(([0-9]+),([0-9]+)\\)%").matcher(valeur);
@@ -310,33 +342,70 @@ public abstract class RessourceAbstract implements IHistoryListener
 		return valeur;
 	}
 	
-	// Attributs
+	/** Cible */
 	protected String cible;
-	private boolean principal;
+	
+	/** Ressource principale ? */
+	private boolean principale;
+	
+	/** Liste des paramètres */
 	private HashMap<String, String> parametres;
+	
+	/** Liste des fichiers */
 	private HashMap<String, String> fichiers;
 	
-	// Mutex d'accès à la ressource
+	/** Mutex d'accès à la ressource */
 	private ReentrantLock mutex = new ReentrantLock();
 	
-	// Constructeur
-	public RessourceAbstract(String cible, boolean principal, HashMap<String, String> parametres, HashMap<String, String> fichiers) {
+	/**
+	 * Constructeur
+	 * @param cible cible
+	 * @param principale ressource principale ?
+	 * @param parametres liste des paramètres
+	 * @param fichiers liste des fichiers
+	 */
+	public RessourceAbstract(String cible, boolean principale, HashMap<String, String> parametres, HashMap<String, String> fichiers) {
 		// Retenir les informations
 		this.cible = cible;
-		this.principal = principal;
+		this.principale = principale;
 		this.parametres = parametres;
 		this.fichiers = fichiers;
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le fichier associé à la ressource
+	 * @return fichier associé à la ressource
+	 */
 	public abstract File getFichier ();
+	
+	/**
+	 * Récupérer le type de contenu du fichier associé à la ressource
+	 * @return type de contenu du fichier associé à la ressource
+	 */
+	public abstract String getContentType ();
+	
+	/**
+	 * Récupérer la cible
+	 * @return cible
+	 */
 	public String getCible () {
 		return this.cible;
 	}
-	public boolean isPrincipal () {
-		return this.principal;
+	
+	/**
+	 * Vérifier s'il s'agit d'une ressource principale
+	 * @return resource principal
+	 */
+	public boolean isPrincipale () {
+		return this.principale;
 	}
-	public abstract String getContentType ();
+	
+	/**
+	 * Récupérer la liste des paramètres
+	 * @return liste des paramètres
+	 */
 	protected HashMap<String, String> getParametres () {
 		// Initialiser la liste des parametres
 		HashMap<String, String> parametres = new HashMap<String, String>();
@@ -346,7 +415,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 			// Extraire la valeur
 			String valeur = parametre.getValue();
 			
-			// Vérifier s'il s'agit d'un paramètre spécial
+			// Transformer la valeur si nécéssaire
 			if(valeur != null) {
 				valeur = RessourceAbstract.transform(valeur, this.parametres);
 			}
@@ -358,20 +427,35 @@ public abstract class RessourceAbstract implements IHistoryListener
 		// Retourner les paramètres
 		return parametres;
 	}
+	
+	/**
+	 * Récupérer la liste des fichier
+	 * @return liste des fichier
+	 */
 	protected HashMap<String,String> getFichiers() {
 		return this.fichiers;
 	}
 		
-	// Nettoyer la ressource
+	/**
+	 * Nettoyer la ressource
+	 */
 	public abstract void clean ();
 	
-	// Rafraichir la ressource
+	/**
+	 * Rafraichir la ressource
+	 * @return opération réussie ?
+	 */
 	protected abstract boolean refresh ();
 		
-	// Savoir si la ressource est associée à une transformation
+	/**
+	 * Vérifier si la ressource est associée à une transformation
+	 * @return ressource associée à une transformation ?
+	 */
 	public abstract boolean isTransformation();
 	
-	// Autoriser la mise à jour automatique de la ressource
+	/**
+	 * Autoriser la mise à jour automatique de la ressource
+	 */
 	public void setAutoRefresh() { 
 		// Ecouter l'historique
 		FrontModel.get().getHistory().addListener(this);
@@ -397,17 +481,29 @@ public abstract class RessourceAbstract implements IHistoryListener
 	}
 	
 	// Vérouiller/Dévérouiller la ressource
+	
+	/**
+	 * Vérouiller la ressource
+	 */
 	public void lock() {
 		this.mutex.lock();
 	}
+	
+	/**
+	 * Dévérouiller la ressource
+	 */
 	public void unlock() {
 		this.mutex.unlock();
 	}
 	
-	// Classe permettant de rafraichir la ressource sans bloquer l'appel
+	/**
+	 * Classe permettant de rafraichir la ressource sans bloquer l'appel
+	 */
 	private class Refresh implements Runnable
 	{
-		// Implémentation de run
+		/**
+		 * @see Runnable#run()
+		 */
 		@Override
 		public void run () {
 			// Prendre jeton du mutex

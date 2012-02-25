@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
@@ -18,43 +17,62 @@ import javax.swing.SwingUtilities;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue de création/édition d'un participant
+ */
 @SuppressWarnings("serial")
 public abstract class JDParticipantAbstract extends JDPattern
 {	
-	// Panel des catégories et poules
+	/** Collecteur des informations du participant */
+	private ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprietePossedee>>,TrackableList<String>>> collector;
+	
+	/** Panel des catégories et poules */
 	protected JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
 	
 	// Entrées
+	
+	/** Nom */
 	protected JTextField jtf_nom = new JTextField();
+	
+	/** Stand */
 	protected JTextField jtf_stand = new JTextField();
+	
+	/** Ville */
 	protected JTextField jtf_ville = new JTextField();
-	protected JComboBox jcb_statut = new JComboBox();
-	protected JTextField jtf_membres = new JTextField();
+	
+	/** Statut */
+	protected JComboBox<String> jcb_statut = new JComboBox<String>();
+	
+	/** Détails */
 	protected JTextArea jta_details = new JTextArea();
 	
-	protected JList jl_prix;
+	/** Prix */
+	protected JList<String> jl_prix;
 	
+	/** Propriétés */
 	protected JTextField[] jtfs_proprietes;
 	
-	// Anciens prix et anciennes propriétés
+	/** Anciens prix */
 	protected TrackableList<String> prix = new TrackableList<String>();
-	protected TrackableList<Pair<String, InfosModelProprieteParticipant>> proprietesParticipant = new TrackableList<Pair<String,InfosModelProprieteParticipant>>();
 	
-	// Collector
-	private ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprieteParticipant>>,TrackableList<String>>> collector;
+	/** Anciennes propriétés possédées */
+	protected TrackableList<Pair<String, InfosModelProprietePossedee>> proprietesPossedees = new TrackableList<Pair<String,InfosModelProprietePossedee>>();
 
-	// Constructeur
-	public JDParticipantAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprieteParticipant>>,TrackableList<String>>> collector) {
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations du participant
+	 */
+	public JDParticipantAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprietePossedee>>,TrackableList<String>>> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
 		
@@ -76,8 +94,8 @@ public abstract class JDParticipantAbstract extends JDPattern
 		this.jta_details.setRows(5);
 		this.jta_details.setColumns(30);
 		
-		JLabel[] jls_informations = { new JLabel("Nom : "), new JLabel("Stand : "), new JLabel("Ville : "), new JLabel("Statut : "), new JLabel("Membres : "), new JLabel("Détails : ") };
-		JComponent[] jcs_informations = { this.jtf_nom, this.jtf_stand, this.jtf_ville, this.jcb_statut, this.jtf_membres, new JScrollPane(this.jta_details) };
+		JLabel[] jls_informations = { new JLabel("Nom : "), new JLabel("Stand : "), new JLabel("Ville : "), new JLabel("Statut : "), new JLabel("Détails : ") };
+		JComponent[] jcs_informations = { this.jtf_nom, this.jtf_stand, this.jtf_ville, this.jcb_statut, new JScrollPane(this.jta_details) };
 		this.jp_contenu.add(ViewHelper.inputs(jls_informations, jcs_informations));
 
 		// Propriétés personnalisées
@@ -101,7 +119,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 			for(int i=0;i<prixDisponibles.size();i++) {
 				noms[i] = prixDisponibles.get(i).getNom();
 			}
-			this.jl_prix = new JList(noms);
+			this.jl_prix = new JList<String>(noms);
 			this.jl_prix.setVisibleRowCount(4);
 			this.jl_prix.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.jp_contenu.add(new JScrollPane(this.jl_prix));
@@ -113,7 +131,10 @@ public abstract class JDParticipantAbstract extends JDPattern
 		this.pack();
 	}
 	
-	// Surcharge de setVisible
+	/**
+	 * @see Window#setVisible(boolean)
+	 */
+	@Override
 	public void setVisible(boolean visible) {
 		// Appeller le setVisible du parent
 		super.setVisible(visible);
@@ -129,7 +150,9 @@ public abstract class JDParticipantAbstract extends JDPattern
 		}
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -137,7 +160,6 @@ public abstract class JDParticipantAbstract extends JDPattern
 		String stand = this.jtf_stand.getText().trim();
 		String ville = this.jtf_ville.getText().trim();
 		InfosModelParticipant.Statut statut = InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()];
-		String membres = this.jtf_membres.getText().trim();
 		String details = this.jta_details.getText().trim();
 		
 		// Vérifier les données
@@ -191,8 +213,8 @@ public abstract class JDParticipantAbstract extends JDPattern
 				
 				// Vérifier si la propriété été déjà donnée
 				boolean ancien = false; int index = 0;
-				for(Pair<String, InfosModelProprieteParticipant> proprieteParticipant : this.proprietesParticipant) {
-					if(proprieteParticipant.getFirst().equals(proprietesDisponibles.get(i))) {
+				for(Pair<String, InfosModelProprietePossedee> proprietePossedee : this.proprietesPossedees) {
+					if(proprietePossedee.getFirst().equals(proprietesDisponibles.get(i))) {
 						ancien = true;
 					} else if(!ancien) {
 						index++;
@@ -202,10 +224,10 @@ public abstract class JDParticipantAbstract extends JDPattern
 				// Vérifier si la propriété est obligatoire
 				if(!valeur.isEmpty()) {
 					// Ajouter la propriété de participant
-					this.proprietesParticipant.add(new Pair<String, InfosModelProprieteParticipant>(proprietesDisponibles.get(i).getNom(), new InfosModelProprieteParticipant(valeur)));
+					this.proprietesPossedees.add(new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
 				} else if(ancien) {
 					// Supprimer la propriété de participant
-					this.proprietesParticipant.remove(index);
+					this.proprietesPossedees.remove(index);
 				}
 			}
 
@@ -234,14 +256,19 @@ public abstract class JDParticipantAbstract extends JDPattern
 			}
 			
 			// Transmettre les données au collector
-			this.collector.accept(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprieteParticipant>>, TrackableList<String>>(this.jp_categoriePoule.getCategorie(), this.jp_categoriePoule.getPoule(), new InfosModelParticipant(stand, nom, ville, statut, membres, details), this.proprietesParticipant, this.prix));
+			this.collector.collect(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprietePossedee>>, TrackableList<String>>(this.jp_categoriePoule.getCategorie(), this.jp_categoriePoule.getPoule(), new InfosModelParticipant(stand, nom, ville, statut, details), this.proprietesPossedees, this.prix));
 		}
 	}
 	
-	// Vérifier le nom du participant
+	/**
+	 * Vérifier la validité du nom du participant
+	 * @return nom du participant valide ?
+	 */
 	protected abstract boolean checkNomParticipant();
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler

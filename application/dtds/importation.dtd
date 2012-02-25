@@ -7,5 +7,4 @@
 <!ATTLIST participant ville		CDATA	#IMPLIED>	<!-- Ville de l'équipe -->
 <!ATTLIST participant statut	(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut de l'équipe -->
 <!ATTLIST participant stand		CDATA	#IMPLIED>	<!-- Numéro de stand de l'équipe -->
-<!ATTLIST participant membres	CDATA	#IMPLIED>	<!-- Liste des membres de l'équipe -->
 <!ATTLIST participant details	CDATA	#IMPLIED>	<!-- Détails de l'équipe -->

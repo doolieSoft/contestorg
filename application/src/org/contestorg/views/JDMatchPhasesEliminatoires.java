@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
@@ -16,33 +15,43 @@ import javax.swing.JTextArea;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue d'édition d'un match des phases éliminatoires
+ */
 @SuppressWarnings("serial")
 public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListener
 {
-	// Collector
-	private ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector;
+	/** Collecteur des informations du latch */
+	private ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector;
 	
-	// Résultats
-	protected JComboBox jcb_resultatA;
-	protected JComboBox jcb_resultatB;
 	
-	// Objectifs remportés
+	/** Résultat du participant A */
+	protected JComboBox<String> jcb_resultatA;
+	
+	/** Résultat du participant B */
+	protected JComboBox<String> jcb_resultatB;
+	
+	/** Panel des objectifs remportés */
 	protected JPObjectifs jp_prix;
 	
-	// Details
+	/** Détails */
 	protected JTextArea jta_details;
 	
-	// Constructeur
-	public JDMatchPhasesEliminatoires(Window w_parent, ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector, Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos, boolean resultatsEditable) {
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations du match
+	 * @param infos informations du match
+	 * @param resultatsEditable résultats éditables ?
+	 */
+	public JDMatchPhasesEliminatoires(Window w_parent, ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector, Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos, boolean resultatsEditable) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un match");
 		
@@ -53,11 +62,11 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
 		JPanel jp_participants = new JPanel(new GridLayout(1,2));
 		
-		JComboBox jcb_participantA = new JComboBox();
+		JComboBox<String> jcb_participantA = new JComboBox<String>();
 		jcb_participantA.addItem(infos.getFirst().getFirst());
 		jcb_participantA.setEnabled(false);
 		
-		JComboBox jcb_participantB = new JComboBox();
+		JComboBox<String> jcb_participantB = new JComboBox<String>();
 		jcb_participantB.addItem(infos.getSecond().getFirst());
 		jcb_participantB.setEnabled(false);
 		
@@ -72,8 +81,8 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		
 		JPanel jp_resultat = new JPanel(new GridLayout(1,2));
 		String[] resultats = { "Attente", "Victoire", "Défaite" };
-		this.jcb_resultatA = new JComboBox(resultats);
-		this.jcb_resultatB = new JComboBox(resultats);
+		this.jcb_resultatA = new JComboBox<String>(resultats);
+		this.jcb_resultatB = new JComboBox<String>(resultats);
 		jp_resultat.add(this.jcb_resultatA);
 		jp_resultat.add(this.jcb_resultatB);
 		this.jp_contenu.add(jp_resultat);
@@ -128,7 +137,9 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -184,33 +195,37 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			} else {
 				this.jp_prix.collect();
 			}
-			TrackableList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesA = this.jp_prix.getObjectifsRemportesA();
-			TrackableList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesB = this.jp_prix.getObjectifsRemportesB();
+			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = this.jp_prix.getObjectifsRemportesA();
+			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = this.jp_prix.getObjectifsRemportesB();
 			
 			// Créer les informations de participation
-			Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> participationA = new Pair<TrackableList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(objectifsRemportesA, new InfosModelParticipation(resultatA));
-			Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> participationB = new Pair<TrackableList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(objectifsRemportesB, new InfosModelParticipation(resultatB));
+			Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationA = new Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(objectifsRemportesA, new InfosModelParticipation(resultatA));
+			Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationB = new Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(objectifsRemportesB, new InfosModelParticipation(resultatB));
 			
 			// Transmettre les données au collector
-			this.collector.accept(new Triple<Pair<TrackableList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Pair<TrackableList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(participationA , participationB, new InfosModelMatchPhasesElims(null,details)));
+			this.collector.collect(new Triple<Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(participationA , participationB, new InfosModelMatchPhasesElims(null,details)));
 		}
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler
 		this.collector.cancel();
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if(event.getStateChange() == ItemEvent.SELECTED) {
 			if(event.getSource() == this.jcb_resultatA || event.getSource() == this.jcb_resultatB) {
 				// Modifier la liste non modifiée si nécéssaire
-				JComboBox jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
-				JComboBox jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
+				JComboBox<String> jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
+				JComboBox<String> jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
 				switch(jcb_event.getSelectedIndex()) {
 					case 0: // Attente
 						jcb_other.setSelectedIndex(0);
@@ -218,7 +233,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 					case 1: // Victoire
 						jcb_other.setSelectedIndex(2);
 						break;
-					case 2: // Defaite
+					case 2: // Défaite
 						jcb_other.setSelectedIndex(1);
 						break;
 						

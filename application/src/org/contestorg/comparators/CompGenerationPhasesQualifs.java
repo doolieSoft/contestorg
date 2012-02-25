@@ -14,21 +14,28 @@ import org.contestorg.models.ModelParticipant;
  * Comparateur qui permet de retourner :
  * - le meilleur couple en fonction des affinités des participants qui les composent
  * - la meilleure configuration de couples en fonction des affinités des participants des couples qui les composent
- * Attention : à des fins d'optimisation, aucune donnée ne doit changée tout le long de son utilisation
+ * Attention : à des fins d'optimisation, aucune donnée ne doit changer tout le long de son utilisation
  */
 @SuppressWarnings("rawtypes")
 public class CompGenerationPhasesQualifs implements Comparator
 {
 
-	// Comparateur intermediaire
+	/** Comparateur intermediaire */
 	private CompPhasesQualifs comparateur;
 
-	// Couples comparés
+	/** Couples A déjà comparés (pour optimisation) */
 	private ArrayList<Couple<ModelParticipant>> couplesA = new ArrayList<Couple<ModelParticipant>>();
+	
+	/** Couples B déjà comparés (pour optimisation) */
 	private ArrayList<Couple<ModelParticipant>> couplesB = new ArrayList<Couple<ModelParticipant>>();
+	
+	/** Résultats des comparaisons entre couples A et B (pour optimisation) */
 	private ArrayList<Integer> results = new ArrayList<Integer>();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param comparateur comparateur de couples pour les phases qualificatives
+	 */
 	public CompGenerationPhasesQualifs(CompPhasesQualifs comparateur) {
 		this.comparateur = comparateur;
 	}
@@ -171,7 +178,12 @@ public class CompGenerationPhasesQualifs implements Comparator
 		return 0;
 	}
 
-	// Comparaison null
+	/**
+	 * Comparaison dans le cas ou l'un des deux objets est null
+	 * @param objectA objet A
+	 * @param objectB objet B
+	 * @return résultat
+	 */
 	private int compareNullObjects (Object objectA, Object objectB) {
 		if (objectA == null && objectB == null) {
 			return 0;

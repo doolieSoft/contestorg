@@ -7,49 +7,86 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet horaire
+ * Conteneur d'informations pour la création ou la modification d'un horaire
  */
 public class InfosModelHoraire extends InfosModelAbstract
 {
 
+	/** Jours concernés */
+	private int jours; 
+	
+	/** Début (en minutes) */
+	private int debut;
+	
+	/** Fin (en minutes) */
+	private int fin;
+
 	// Jours
+	
+	/** Lundi */
 	public static final int JOUR_LUNDI = 1;
+	/** Mardi */
 	public static final int JOUR_MARDI = 2;
+	/** Mercredi */
 	public static final int JOUR_MERCREDI = 4;
+	/** Jeudi */
 	public static final int JOUR_JEUDI = 8;
+	/** Vendredi */
 	public static final int JOUR_VENDREDI = 16;
+	/** Samedi */
 	public static final int JOUR_SAMEDI = 32;
+	/** Dimanche */
 	public static final int JOUR_DIMANCHE = 64;
 
-	// Attributs
-	private int jours; // Jours concernés
-	private int debut; // En minutes
-	private int fin; // En minutes
-
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param jours jours concernés
+	 * @param debut début (en minutes)
+	 * @param fin fin (en minutes)
+	 */
 	public InfosModelHoraire(int jours, int debut, int fin) {
 		this.jours = jours;
 		this.debut = debut;
 		this.fin = fin;
 	}
 
-	// Getters
+	/**
+	 * Récupérer les jours concernés
+	 * @return jours concernés
+	 */
 	public int getJours () {
 		return this.jours;
 	}
+	
+	/**
+	 * Récupérer le début (en minutes)
+	 * @return début (en minutes)
+	 */
 	public int getDebut () {
 		return this.debut;
 	}
+	
+	/**
+	 * Récupérer la fin (en minutes)
+	 * @return fin (en minutes)
+	 */
 	public int getFin () {
 		return this.fin;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelHoraire defaut () {
 		return new InfosModelHoraire(0, 9 * 3600, 17 * 3600);
 	}
 	
-	// Récupérer l'heure au format humain à partir du nombre de minutes depuis le début de la journée
+	/**
+	 * Récupérer l'heure au format humain à partir du nombre de minutes depuis le début de la journée
+	 * @param minutes nombre de minutes
+	 * @return heure au format humain
+	 */
 	public static String getHeureHumain(int minutes) {
 		// Initialiser l'heure
 		StringBuilder heure = new StringBuilder();
@@ -67,7 +104,11 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return heure.toString();
 	}
 	
-	// Récupérer le nombre de minutes depuis le début de la journée à partir de l'heure au format humain (-1 si erreur)
+	/**
+	 * Récupérer le nombre de minutes depuis le début de la journée à partir de l'heure au format humain
+	 * @param heure heure au format humain
+	 * @return nombre de minutes depuis le début de la journée (-1 si erreur)
+	 */
 	public static int getHeureMinutes(String heure) {
 		// Parser l'heure
 		Pattern pattern = Pattern.compile("([0-9]{1,2})h([0-9]{2,2})?",Pattern.CASE_INSENSITIVE);
@@ -87,7 +128,11 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return -1; // Retourner -1 si erreur
 	}
 	
-	// Récupérer les jours au format humain à partir du OR binaire sur la valeur des jours
+	/**
+	 * Récupérer les jours au format humain à partir du OR binaire sur la valeur des jours
+	 * @param jours OR binaire sur la valeur des jours
+	 * @return jourrs au format humain
+	 */
 	public static String getJoursHumain(int jours) {
 		StringBuffer result = new StringBuffer();
 		if((InfosModelHoraire.JOUR_LUNDI & jours) != 0) {
@@ -121,7 +166,11 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return result.toString();
 	}
 	
-	// Récupérer la liste des jours (indexation de 0 à 6) à partir du OR binaire sur la valeur des jours
+	/**
+	 * Récupérer les jours au format entier (de 0 à 6) à partir du OR binaire sur la valeur des jours
+	 * @param jours OR binaire sur la valeur des jours
+	 * @return jours au format entier (de 0 à 6)
+	 */
 	public static int[] getJoursIndex(int jours) {
 		// Placer les jours dans un ArrayList
 		ArrayList<Integer> arraylist = new ArrayList<Integer>();
@@ -143,7 +192,11 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return array;
 	}
 	
-	// Récupérer le OR binaire sur la valeur des jours à partir des jours au format humain (0 si erreur)
+	/**
+	 * Récupérer le OR binaire sur la valeur des jours à partir des jours au format humain
+	 * @param jours jours au format humain
+	 * @return OR binaire sur la valeur des jours (0 si erreur)
+	 */
 	public static int getJoursBinaire(String jours) {
 		// Passer en minuscule la chaine
 		jours = jours.toLowerCase();
@@ -162,7 +215,11 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return result;
 	}
 	
-	// Récupérer le OR binaire sur la valeur des jours à partir de la liste des jours (indexation de 0 à 6)
+	/**
+	 * Récupérer le OR binaire sur la valeur des jours à partir de les jours au format entier (indexation de 0 à 6)
+	 * @param jours jours au format entier (indexation de 0 à 6)
+	 * @return OR binaire sur la valeur des jours
+	 */
 	public static int getJoursBinaire(int[] jours) {
 		int result = 0;
 		for(int jour : jours) {
@@ -171,7 +228,11 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return result;
 	}
 	
-	// Savoir si l'horaire chevauche un autre horaire
+	/**
+	 * Savoir si l'horaire chevauche un autre horaire
+	 * @param horaire horaire
+	 * @return l'horaire chevauche l'horaire donné ?
+	 */
 	public boolean chevauche(InfosModelHoraire horaire) {
 		return
 			(this.getJours() & horaire.getJours()) > 0 && // Il y a des jours en commun entre les deux horaires

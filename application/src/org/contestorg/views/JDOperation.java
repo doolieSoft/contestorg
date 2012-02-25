@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,34 +18,57 @@ import org.contestorg.interfaces.IEndListener;
 import org.contestorg.interfaces.IOperation;
 import org.contestorg.interfaces.IOperationListener;
 
+/**
+ * Boîte de dialogue d'une opération
+ */
 @SuppressWarnings("serial")
 public class JDOperation extends JDPattern implements IOperationListener
 {
 
-	// Avancement de l'opération
+	/** Statut de l'opération */
 	private JLabel jl_statutOperation = new JLabel(new ImageIcon("img/farm/32x32/hourglass.png"));
+	
+	/** Avancement de l'opération */
 	private JProgressBar jpb_avancementOperation = new JProgressBar(0, 100);
+	
+	/** Avancement de l'opération */
 	private JLabel jl_avancementOperation = new JLabel("Veuillez patientez pendant le lancement de l'opération ...",SwingConstants.CENTER);
 
-	// Annulation demandée ?
+	/** Annulation demandée ? */
 	private boolean demandeAnnulation = false;
 
-	// Opération terminée ?
+	/** Opération terminée ? */
 	private boolean operationTerminee = false;
 	
-	// Fermer la fenêtre si opération réussie ?
+	/** Fermer la fenêtre si opération réussie ? */
 	private boolean autoexit;
 	
-	// Operation associée
+	/** Operation associée */
 	private IOperation operation;
 	
-	// Listeners de fin
+	/** Listeners de fin */
 	private ArrayList<IEndListener> listeners = new ArrayList<IEndListener>();
 
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param operation opération
+	 */
 	public JDOperation(Window w_parent, String titre, IOperation operation) {
 		this(w_parent, titre, operation, false, true);
 	}
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param operation opération
+	 * @param autoexit fermer la fenêtre si opération réussie ?
+	 * @param allowstop autoriser l'utilisateur à arrêter l'opération ?
+	 */
 	public JDOperation(Window w_parent, String titre, IOperation operation, boolean autoexit, boolean allowstop) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -55,7 +77,7 @@ public class JDOperation extends JDPattern implements IOperationListener
 		this.operation = operation;
 		this.autoexit = autoexit;
 		
-		// Ne pas autoriser le nouton annuler si nécéssaire
+		// Ne pas autoriser le bouton annuler si nécéssaire
 		this.jb_annuler.setEnabled(allowstop);
 		
 		// Ecouter l'opération
@@ -99,7 +121,9 @@ public class JDOperation extends JDPattern implements IOperationListener
 		this.pack();
 	}
 	
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		if (this.operationTerminee) {
@@ -111,7 +135,9 @@ public class JDOperation extends JDPattern implements IOperationListener
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {		
 		// Vérifier si l'opération est bien terminée
@@ -142,7 +168,10 @@ public class JDOperation extends JDPattern implements IOperationListener
 		}
 	}
 	
-	// Fin de l'opération
+	/**
+	 * Fin de l'opération
+	 * @param icone icone de fin
+	 */
 	private void fin(String icone) {		
 		// Retenir la fin de l'opération 
 		this.operationTerminee = true;
@@ -214,9 +243,19 @@ public class JDOperation extends JDPattern implements IOperationListener
 	}
 	
 	// Ajouter/Supprimer des listeners
+	
+	/**
+	 * Ajouter un listener
+	 * @param listener listener à ajouter
+	 */
 	public void addListener(IEndListener listener) {
 		this.listeners.add(listener);
 	}
+	
+	/**
+	 * Supprimer un listener
+	 * @param listener listener à supprimer
+	 */
 	public void removeListener(IEndListener listener) {
 		this.listeners.remove(listener);
 	}

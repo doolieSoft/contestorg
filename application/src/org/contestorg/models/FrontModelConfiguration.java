@@ -17,7 +17,7 @@ import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.infos.InfosModelTheme;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListValidator;
 
 public class FrontModelConfiguration
 {
@@ -62,7 +62,7 @@ public class FrontModelConfiguration
 	public Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> getInfosPublication () {
 		ModelConcours concours = this.frontModel.getConcours();
 		if (concours.getPublication() != null) {
-			return new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(concours.getPublication().toInfos(), concours.getPublication().getChemin().toInfos(), concours.getPublication().getTheme().toInfos());
+			return new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(concours.getPublication().getInfos(), concours.getPublication().getChemin().getInfos(), concours.getPublication().getTheme().getInfos());
 		}
 		return null;
 	}
@@ -71,28 +71,28 @@ public class FrontModelConfiguration
 	public ArrayList<InfosModelObjectif> getListeObjectifs () {
 		ArrayList<InfosModelObjectif> objectifs = new ArrayList<InfosModelObjectif>();
 		for (ModelObjectif objectif : this.frontModel.getConcours().getObjectifs()) {
-			objectifs.add(objectif.toInfos());
+			objectifs.add(objectif.getInfos());
 		}
 		return objectifs;
 	}
 	public ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getListeExportations () {
 		ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations = new ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>>();
 		for (ModelExportation exportation : this.frontModel.getConcours().getExportations()) {
-			exportations.add(new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(exportation.toInfos(), exportation.getChemin().toInfos(), exportation.getTheme().toInfos()));
+			exportations.add(new Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>(exportation.getInfos(), exportation.getChemin().getInfos(), exportation.getTheme().getInfos()));
 		}
 		return exportations;
 	}
 	public ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>> getListeDiffusions () {
 		ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>> diffusions = new ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>>();
 		for (ModelDiffusion diffusion : this.frontModel.getConcours().getDiffusions()) {
-			diffusions.add(new Pair<InfosModelDiffusion, InfosModelTheme>(diffusion.toInfos(), diffusion.getTheme().toInfos()));
+			diffusions.add(new Pair<InfosModelDiffusion, InfosModelTheme>(diffusion.getInfos(), diffusion.getTheme().getInfos()));
 		}
 		return diffusions;
 	}
 	public ArrayList<InfosModelPrix> getListePrix () {
 		ArrayList<InfosModelPrix> prixs = new ArrayList<InfosModelPrix>();
 		for (ModelPrix prix : this.frontModel.getConcours().getPrix()) {
-			prixs.add(prix.toInfos());
+			prixs.add(prix.getInfos());
 		}
 		return prixs;
 	}
@@ -101,57 +101,57 @@ public class FrontModelConfiguration
 		for (ModelLieu lieu : this.frontModel.getConcours().getLieux()) {
 			ArrayList<InfosModelEmplacement> emplacements = new ArrayList<InfosModelEmplacement>();
 			for (ModelEmplacement emplacement : lieu.getEmplacements()) {
-				emplacements.add(emplacement.toInfos());
+				emplacements.add(emplacement.getInfos());
 			}
 			ArrayList<InfosModelHoraire> horaires = new ArrayList<InfosModelHoraire>();
 			for (ModelHoraire horaire : lieu.getHoraires()) {
-				horaires.add(horaire.toInfos());
+				horaires.add(horaire.getInfos());
 			}
-			lieux.add(new Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>(lieu.toInfos(), emplacements, horaires));
+			lieux.add(new Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>(lieu.getInfos(), emplacements, horaires));
 		}
 		return lieux;
 	}
 	public ArrayList<InfosModelPropriete> getListeProprietes () {
 		ArrayList<InfosModelPropriete> proprietes = new ArrayList<InfosModelPropriete>();
 		for (ModelPropriete propriete : this.frontModel.getConcours().getProprietes()) {
-			proprietes.add(propriete.toInfos());
+			proprietes.add(propriete.getInfos());
 		}
 		return proprietes;
 	}
 	public ArrayList<InfosModelCompPhasesQualifsAbstract> getListeComparateurs () {
 		ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs = new ArrayList<InfosModelCompPhasesQualifsAbstract>();
 		for (ModelCompPhasesQualifsAbstract comparateur : this.frontModel.getConcours().getCompsPhasesQualifs()) {
-			comparateurs.add(comparateur.toInfos());
+			comparateurs.add(comparateur.getInfos());
 		}
 		return comparateurs;
 	}
 	
 	// Récupérer des validateurs de listes
-	public IListValidator<InfosModelObjectif> getObjectifsValidator () {
+	public ITrackableListValidator<InfosModelObjectif> getObjectifsValidator () {
 		return new ModelObjectif.ValidatorForConcours();
 	}
-	public IListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator () {
+	public ITrackableListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator () {
 		return new ModelCompPhasesQualifsAbstract.ValidatorForConcours();
 	}
-	public IListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportationsValidator () {
+	public ITrackableListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportationsValidator () {
 		return new ModelExportation.ValidatorForConcours();
 	}
-	public IListValidator<Pair<InfosModelDiffusion, InfosModelTheme>> getDiffusionsValidator () {
+	public ITrackableListValidator<Pair<InfosModelDiffusion, InfosModelTheme>> getDiffusionsValidator () {
 		return new ModelDiffusion.ValidatorForConcours();
 	}
-	public IListValidator<InfosModelPrix> getPrixValidator () {
+	public ITrackableListValidator<InfosModelPrix> getPrixValidator () {
 		return new ModelPrix.ValidatorForConcours();
 	}
-	public IListValidator<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> getLieuxValidator () {
+	public ITrackableListValidator<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> getLieuxValidator () {
 		return new ModelLieu.ValidatorForConcours();
 	}
-	public IListValidator<InfosModelEmplacement> getEmplacementsValidator () {
+	public ITrackableListValidator<InfosModelEmplacement> getEmplacementsValidator () {
 		return new ModelEmplacement.ValidatorForLieu();
 	}
-	public IListValidator<InfosModelHoraire> getHorairesValidator () {
+	public ITrackableListValidator<InfosModelHoraire> getHorairesValidator () {
 		return new ModelHoraire.ValidatorForLieu();
 	}
-	public IListValidator<InfosModelPropriete> getProprietesValidator () {
+	public ITrackableListValidator<InfosModelPropriete> getProprietesValidator () {
 		return new ModelPropriete.ValidatorForConcours();
 	}
 	

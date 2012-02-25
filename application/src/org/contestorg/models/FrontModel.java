@@ -10,22 +10,33 @@ import org.contestorg.infos.InfosModelConcours;
  */
 public class FrontModel
 {
-	// Instance unique du point d'entrée principal aux modèles
+	/** Instance unique du point d'entrée principal aux modèles */
 	private static FrontModel front;
 	
-	// Concours
+	/** Concours */
 	private ModelConcours concours;
 	
-	// Historique
+	/** Historique */
 	private History history;
 	
 	// Points d'entrée aux modèles
+	
+	/** Point d'entrée aux modèles concernant la configuration */
 	private FrontModelConfiguration frontModelConfiguration;
+
+	/** Point d'entrée aux modèles concernant les participants */
 	private FrontModelParticipants frontModelParticipants;
+
+	/** Point d'entrée aux modèles concernant les phases qualificatives */
 	private FrontModelPhasesQualificatives frontModelPhasesQualificatives;
+
+	/** Point d'entrée aux modèles concernant les phases éliminatoires */
 	private FrontModelPhasesEliminatoires frontModelPhasesEliminatoires;
 	
-	// Récupérer l'instance du point d'entrée principal aux modèles
+	/**
+	 * Récupérer l'instance du point d'entrée principal aux modèles
+	 * @return instance du point d'entrée principal aux modèles
+	 */
 	public static FrontModel get () {
 		// Créer l'instance du FrontModel si nécéssaire
 		if (FrontModel.front == null) {
@@ -37,7 +48,9 @@ public class FrontModel
 		return FrontModel.front;
 	}
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 */
 	private FrontModel() {
 		// Créer l'historique et l'abonner aux évenements du concours
 		this.history = new History();
@@ -50,31 +63,25 @@ public class FrontModel
 		this.frontModelPhasesEliminatoires = new FrontModelPhasesEliminatoires(this);
 	}
 	
-	// Récupérer l'historique
+	/**
+	 * Récupérer l'historique
+	 * @return historique
+	 */
 	public History getHistory () {
 		return this.history;
 	}
 	
-	// Récupérer le concours
+	/**
+	 * Récupérer le concours
+	 * @return concours
+	 */
 	public ModelConcours getConcours () {
 		return this.concours;
 	}
-	
-	// Récupérer les points d'entrée aux modèles
-	public FrontModelConfiguration getFrontModelConfiguration () {
-		return frontModelConfiguration;
-	}
-	public FrontModelParticipants getFrontModelParticipants () {
-		return frontModelParticipants;
-	}
-	public FrontModelPhasesQualificatives getFrontModelPhasesQualificatives () {
-		return frontModelPhasesQualificatives;
-	}
-	public FrontModelPhasesEliminatoires getFrontModelPhasesEliminatoires () {
-		return frontModelPhasesEliminatoires;
-	}
 
-	// Nettoyer les modèles
+	/**
+	 * Nettoyer les modèles
+	 */
 	public void clean() {
 		// Réinitialiser l'historique
 		this.history.init();
@@ -82,8 +89,48 @@ public class FrontModel
 		// Nettoyer les propriétés statiques de ModelAbstract
 		ModelAbstract.clean();
 	}
+	
+	// Récupérer les points d'entrée aux modèles
+	
+	/**
+	 * Récupérer le point d'entrée aux modèles concernant la configuration
+	 * @return point d'entrée aux modèles concernant la configuration
+	 */
+	public FrontModelConfiguration getFrontModelConfiguration () {
+		return frontModelConfiguration;
+	}
+	
+	/**
+	 * Récupérer le point d'entrée aux modèles concernant les participants
+	 * @return point d'entrée aux modèles concernant les participants
+	 */
+	public FrontModelParticipants getFrontModelParticipants () {
+		return frontModelParticipants;
+	}
+	
+	/**
+	 * Récupérer le point d'entrée aux modèles concernant les phases qualificatives
+	 * @return point d'entrée aux modèles concernant les phases qualificatives
+	 */
+	public FrontModelPhasesQualificatives getFrontModelPhasesQualificatives () {
+		return frontModelPhasesQualificatives;
+	}
+	
+	/**
+	 * Récupérer le point d'entrée aux modèles concernant les phases éliminatoires
+	 * @return point d'entrée aux modèles concernant les phases éliminatoires
+	 */
+	public FrontModelPhasesEliminatoires getFrontModelPhasesEliminatoires () {
+		return frontModelPhasesEliminatoires;
+	}
 		
 	// Créer/Fermer un concours
+	
+	/**
+	 * Créer un concours
+	 * @param concours concours
+	 * @throws ContestOrgModelException
+	 */
 	public void nouveauConcours (ModelConcours concours) throws ContestOrgModelException {
 		// Démarrer l'action de création
 		this.history.start("Chargement du concours");
@@ -97,6 +144,12 @@ public class FrontModel
 		// Initialiser l'historique
 		this.history.init();
 	}
+	
+	/**
+	 * Créer un concours
+	 * @param infos informations du concours
+	 * @throws ContestOrgModelException
+	 */
 	public void nouveauConcours (InfosModelConcours infos) throws ContestOrgModelException {
 		// Démarrer l'action de création
 		this.history.start("Création du concours");
@@ -113,6 +166,11 @@ public class FrontModel
 		// Initialiser l'historique
 		this.history.init();
 	}
+	
+	/**
+	 * Fermer le concours
+	 * @throws ContestOrgModelException
+	 */
 	public void closeConcours () throws ContestOrgModelException {
 		if (this.concours != null) {
 			// Vider le concours et en perdre la référence

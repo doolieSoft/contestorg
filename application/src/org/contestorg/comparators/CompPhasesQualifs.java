@@ -17,19 +17,27 @@ import org.contestorg.models.ModelParticipant;
 abstract public class CompPhasesQualifs implements Comparator
 {
 
-	// Comparateur supplémentaire
+	/** Comparateur supplémentaire */
 	private CompPhasesQualifs comparateurSupp;
 	
-	// Numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	/** Numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase) */
 	protected int phaseQualifMax;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param comparateurSupp comparateur supplémentaire
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 */
 	public CompPhasesQualifs(CompPhasesQualifs comparateurSupp, int phaseQualifMax) {
 		this.comparateurSupp = comparateurSupp;
 		this.phaseQualifMax = phaseQualifMax;
 	}
 
-	// Fabrique
+	/**
+	 * Fabriquer une comparateur
+	 * @param comparateurs liste des comparateurs
+	 * @return comparateur fabriqué
+	 */
 	public static CompPhasesQualifs fabrique (CompPhasesQualifs... comparateurs) {
 		for (int i = 1; i < comparateurs.length; i++) {
 			comparateurs[i - 1].comparateurSupp = comparateurs[i];
@@ -88,13 +96,25 @@ abstract public class CompPhasesQualifs implements Comparator
 		return this.comparateurSupp != null && result == 0 ? this.comparateurSupp.compare(coupleA, coupleB) : result;
 	}
 
-	// Méthode que doivent implémenter les classes filles pour indiquer la valeur comparée
+	/**
+	 * Méthode que doivent implémenter les classes filles pour indiquer la valeur comparée
+	 * @param participant participant dont on souhaite récupérer la valeur à comparer
+	 * @return valeur du participant à comparer
+	 */
 	protected abstract double getValue (ModelParticipant participant);
 
-	// Méthode que doivent implémenter les classes filles pour indiquer le sens (1 pour croissant, -1 pour décroissant)
+	/**
+	 * Méthode que doivent implémenter les classes filles pour indiquer le sens de comparaison
+	 * @return sens de comparaison (1 pour croissant, -1 pour décroissant)
+	 */
 	protected abstract int getSens ();
 
-	// Comparaison null
+	/**
+	 * Comparaison dans le cas ou l'un des deux objets est null
+	 * @param objectA objet A
+	 * @param objectB objet B
+	 * @return résultat
+	 */
 	private int compareNullObjects (Object objectA, Object objectB) {
 		if (objectA == null && objectB == null) {
 			return 0;
@@ -102,7 +122,12 @@ abstract public class CompPhasesQualifs implements Comparator
 		return objectB == null ? 1 : -1;
 	}
 
-	// Différence entre deux participants
+	/**
+	 * Calculer la différence entre la valeur de deux participants
+	 * @param participantA participant A
+	 * @param participantB participant B
+	 * @return différence entre la valeur des deux participants
+	 */
 	private double getDifference (ModelParticipant participantA, ModelParticipant participantB) {
 		return Math.abs((participantA == null ? 0 : this.getValue(participantA)) - (participantB == null ? 0 : this.getValue(participantB)));
 	}

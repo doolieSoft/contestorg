@@ -1,16 +1,16 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite devenir un valideur de T 
- * @param <T> classe d'objet que la classe pourra valider
+ * Interface à implémenter si une classe souhaite devenir un valideur d'objets 
+ * @param <T> classe des objets à valider
  */
 public interface IValidator<T>
 {
 
 	/**
-	 * Méthode de validation que doivent posséder les classes implémentant cette interface
-	 * @param object l'objet à valider
-	 * @return true si l'objet est valide
+	 * Valider un objet
+	 * @param objet objet à valider
+	 * @return objet valide ?
 	 */
-	public boolean validate (T object);
+	public boolean validate (T objet);
 }

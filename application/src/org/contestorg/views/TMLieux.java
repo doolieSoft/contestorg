@@ -1,7 +1,8 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
+
+import javax.swing.table.TableModel;
 
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
@@ -9,25 +10,40 @@ import org.contestorg.infos.InfosModelEmplacement;
 import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.infos.InfosModelLieu;
 
-
+/**
+ * Modèle de données pour un tableau de lieux
+ */
 public class TMLieux extends TMAbstract<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>>
 {
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public TMLieux(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
 	}
 	
-	// Méthodes à implémenter
+	/**
+	 * @see TMAbstract#getAddWindow()
+	 */
 	@Override
 	public Window getAddWindow () {
 		return new JDLieuCreer(this.w_parent, this);
 	}
+	
+	/**
+	 * @see TMAbstract#getUpdateWindow(Object)
+	 */
 	@Override
 	public Window getUpdateWindow (Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>> infos) {
 		return new JDLieuEditer(this.w_parent, this, infos);
 	}
+	
+	/**
+	 * @see TMAbstract#acceptDelete(Object)
+	 */
 	@Override
 	public boolean acceptDelete (Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>> infos) {
 		// Demander la confirmation à l'utilisateur
@@ -39,14 +55,26 @@ public class TMLieux extends TMAbstract<Triple<InfosModelLieu,TrackableList<Info
 	}
 
 	// Implémentation manquante de TableModel
+	
+	/**
+	 * @see TableModel#getColumnClass(int)
+	 */
 	@Override
 	public Class<?> getColumnClass (int column) {
 		return String.class;
 	}
+	
+	/**
+	 * @see TableModel#getColumnCount()
+	 */
 	@Override
 	public int getColumnCount () {
 		return 2;
 	}
+	
+	/**
+	 * @see TableModel#getColumnName(int)
+	 */
 	@Override
 	public String getColumnName (int column) {
 		switch(column) {
@@ -55,6 +83,10 @@ public class TMLieux extends TMAbstract<Triple<InfosModelLieu,TrackableList<Info
 		}
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#getValueAt(int, int)
+	 */
 	@Override
 	public Object getValueAt (int row, int column) {
 		// Retourner la donnée demandée
@@ -72,10 +104,18 @@ public class TMLieux extends TMAbstract<Triple<InfosModelLieu,TrackableList<Info
 		}
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#isCellEditable(int, int)
+	 */
 	@Override
 	public boolean isCellEditable (int row, int column) {
 		return column == 0;
 	}
+	
+	/**
+	 * @see TableModel#setValueAt(Object, int, int)
+	 */
 	@Override
 	public void setValueAt (Object object, int row, int column) {
 		// Mettre à jour le nom du lieu

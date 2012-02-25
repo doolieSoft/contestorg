@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -18,26 +17,35 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.jgraph.JGraph;
 import org.jgraph.graph.GraphCellEditor;
 
-
+/**
+ * Editeur de cellule du graphe des phases éliminatoires pour une cellule de participant 
+ */
 @SuppressWarnings("serial")
 public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor implements GraphCellEditor
 {
 
-	// Modèle associé à l'éditeur
+	/** Modèle associé à l'éditeur */
 	private ICelluleModel<InfosModelCategorie, InfosModelParticipant> model;
 	
-	// Panel d'édition et ComboBox associée
+	/** Panel d'édition */
 	private JPanel jp_edition;
-	private JComboBox jcb_edition;
 	
-	// Constructeur
+	/** Liste d'édition */
+	private JComboBox<String> jcb_edition;
+	
+	/**
+	 * Constructeur
+	 * @param model modèle associé à l'éditeur
+	 * @param width largeur du panel d'édition
+	 * @param height hauteur du panel d'édition
+	 */
 	public GraphVertexEditorPhasesElimsParticipant(ICelluleModel<InfosModelCategorie, InfosModelParticipant> model, int width, int height) {
 		// Retenir le modèle associé à l'éditeur 
 		this.model = model;
@@ -64,9 +72,9 @@ public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor 
 		JLabel jl_edition = new JLabel(new ImageIcon("img/farm/32x32/pencil.png"));
 		this.jp_edition.add(jl_edition,contrainte_label);
 		
-		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesEliminatoires().getListeParticipants(this.model.getGraphe().getObject().getNom());
+		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesEliminatoires().getListeParticipants(this.model.getGraph().getObject().getNom());
 		
-		this.jcb_edition = new JComboBox(participants.toArray(new String[participants.size()]));
+		this.jcb_edition = new JComboBox<String>(participants.toArray(new String[participants.size()]));
 		this.jp_edition.add(this.jcb_edition,contrainte_liste);
 		
 		if(participants.contains(this.model.getObject().getNom())) {
@@ -77,14 +85,18 @@ public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor 
 		}
 	}
 	
-	// Implémentation de getCellEditor
+	/**
+	 * @see GraphCellEditor#getCellEditorValue()
+	 */
 	@Override
 	public Object getCellEditorValue () {
 		// Retourner le numéro de cellule
-		return this.model.getGraphe().indexOf(this.model);
+		return this.model.getGraph().indexOf(this.model);
 	}
 
-	// Implémentation de getGraphCellEditorComponent
+	/**
+	 * @see GraphCellEditor#getGraphCellEditorComponent(JGraph, Object, boolean)
+	 */
 	@Override
 	public Component getGraphCellEditorComponent (JGraph graph, Object value, boolean isSelected) {	
 		// Arrêter l'édition de la cellule au changement de participant
@@ -93,9 +105,9 @@ public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor 
 			public void itemStateChanged (ItemEvent event) {
 				if(event.getStateChange() == ItemEvent.SELECTED) {
 					// Demander le changement du participant de la cellule
-					ContestOrg.get().getCtrlPhasesEliminatoires().setParticipantPhasesElims(model.getGraphe().getObject().getNom(), model.getGraphe().indexOf(model), (String)event.getItem());
+					ContestOrg.get().getCtrlPhasesEliminatoires().setParticipant(model.getGraph().getObject().getNom(), model.getGraph().indexOf(model), (String)event.getItem());
 					
-					// Arreter l'édition
+					// Arrêter l'édition
 					stopCellEditing();
 				}
 			}

@@ -5,18 +5,29 @@ import java.util.HashMap;
 
 import org.jdom.Document;
 
+/**
+ * Ressource XSLT
+ */
 public class RessourceXSLT extends RessourceAbstract
 {
-	// Fichier xml
+	/** Fichier XML */
 	private File xml;
 	
-	// Feuille XSL
+	/** Feuille XSL */
 	private File xsl;
 	
-	// Fichier résultat
-	private File result;
+	/** Fichier cible */
+	private File target;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param cible chemin du fichier cible
+	 * @param principale ressource principale ?
+	 * @param parametres liste des paramètres
+	 * @param fichiers liste des fichiers
+	 * @param xsl fichier XSL
+	 * @throws ContestOrgOutException
+	 */
 	public RessourceXSLT(String cible, boolean principal, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgOutException {
 		// Appeller le constructeur parent
 		super(cible, principal, parametres, fichiers);
@@ -24,11 +35,11 @@ public class RessourceXSLT extends RessourceAbstract
 		// Detenir le XSL et définir les fichiers XML/résultat
 		this.xsl = xsl; 
 		this.xml = new File("temp/xml-"+this.toString());
-		this.result = new File("temp/result-"+this.toString());
+		this.target = new File("temp/target-"+this.toString());
 		
 		// S'assurer que les fichiers temporaires soient détruit à la fermeture de l'application
 		this.xml.deleteOnExit();
-		this.result.deleteOnExit();
+		this.target.deleteOnExit();
 		
 		// Rafraichir le fichier
 		if(!this.refresh()) {
@@ -36,40 +47,51 @@ public class RessourceXSLT extends RessourceAbstract
 		}
 	}
 
-	// Implémentation de refresh
+	/**
+	 * @see RessourceAbstract#refresh()
+	 */
 	@Override
 	protected boolean refresh () {
 		Document document = PersistanceXML.getConcoursDocument();
 		if(document != null) {
-			return XMLHelper.save(document, this.xml) && XSLTHelper.transform(this.xml, this.xsl, this.result, this.getParametres());
+			return XMLHelper.save(document, this.xml) && XSLTHelper.transform(this.xml, this.xsl, this.target, this.getParametres());
 		} else {
 			return false;
 		}
 	}
 	
-	// Implémentation de getFichier
+	/**
+	 * @see RessourceAbstract#getFichier()
+	 */
 	@Override
 	public File getFichier () {
-		return this.result;
+		return this.target;
 	}
 	
-	// Implémentation de clean
+	/**
+	 * @see RessourceAbstract#clean()
+	 */
 	@Override
 	public void clean () {
 		if(this.xml != null && this.xml.exists()) {
 			this.xml.delete();
 		}
-		if(this.result != null && this.result.exists()) {
-			this.result.delete();
+		if(this.target != null && this.target.exists()) {
+			this.target.delete();
 		}
 	}
 	
-	// Méthode à implémenter
+	/**
+	 * @see RessourceAbstract#isTransformation()
+	 */
+	@Override
 	public boolean isTransformation() {
 		return true;
 	}
 
-	// Implémentation de getContestType
+	/**
+	 * @see RessourceAbstract#getContentType()
+	 */
 	@Override
 	public String getContentType () {
 		return RessourceAbstract.getContentType(this.cible);

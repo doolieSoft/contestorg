@@ -13,25 +13,30 @@ import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.interfaces.IGraphModelListener;
 import org.contestorg.interfaces.IHistoryListener;
 
-
+/**
+ * Modèle de données pour le graphe pyramidal de la grande finale
+ */
 public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {
-	// Catégorie associée au graphe
+	/** Catégorie associée au graphe */
 	private ModelCategorie categorie;
 	
-	// Phases éliminatoires associées à la catégorie
+	/** Phases éliminatoires associées à la catégorie */
 	private ModelPhasesEliminatoires phases;
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<IGraphModelListener> listeners = new ArrayList<IGraphModelListener>();
 	
-	// Cellules
-	private ArrayList<ICelluleModel<InfosModelCategorie,InfosModelParticipant>> cellules = new ArrayList<ICelluleModel<InfosModelCategorie,InfosModelParticipant>>();
-	
-	// Données modifiées ?
+	/** Données modifiées ? */
 	private boolean isChanged = false;
 	
-	// Constructeur
+	/** Cellules */
+	private ArrayList<ICelluleModel<InfosModelCategorie,InfosModelParticipant>> cellules = new ArrayList<ICelluleModel<InfosModelCategorie,InfosModelParticipant>>();
+	
+	/**
+	 * Constructeur
+	 * @param categorie catégorie associée au graphe
+	 */
 	public GraphModelPhasesElimsGrandeFinale(ModelCategorie categorie) {
 		if(categorie != null) {
 			// Retenir/Ecouter la catégorie
@@ -45,49 +50,10 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 			FrontModel.get().getHistory().addListener(this);
 		}
 	}
-	
-	// Implémentation de IGraphModel
-	@Override
-	public InfosModelCategorie getObject() {
-		return this.categorie == null ? null : this.categorie.toInfos();
-	}
-	@Override
-	public ICelluleModel<InfosModelCategorie,InfosModelParticipant> getCellule (int index) {
-		return index < this.cellules.size() ? this.cellules.get(index) : null;
-	}
-	@Override
-	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule) {
-		return this.cellules.indexOf(cellule);
-	}
-	@Override
-	public int size () {
-		return (this.cellules.size()+1)/2;
-	}
-	@Override
-	public void close () {
-		// Ne plus écouter la catégorie
-		if(this.categorie != null) {
-			this.categorie.removeListener(this);
-		}
-		
-		// Ne plus écouter les phases éliminatoires
-		if(this.phases != null) {
-			this.phases.removeListener(this);
-		}
-		
-		// Ne plus écouter l'historique
-		FrontModel.get().getHistory().removeListener(this);
-	}
-	@Override
-	public void addListener (IGraphModelListener listener) {
-		this.listeners.add(listener);
-	}
-	@Override
-	public void removeListener (IGraphModelListener listener) {
-		this.listeners.remove(listener);
-	}
 
-	// Recharger le graphe
+	/**
+	 * Recharger le graphe
+	 */
 	private void reload() {
 		// Fermer toutes les cellules
 		for(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule : this.cellules) {
@@ -137,6 +103,47 @@ public class GraphModelPhasesElimsGrandeFinale implements IGraphModel<InfosModel
 		
 		// Le graphe est à jour
 		this.isChanged = false;
+	}
+	
+	// Implémentation de IGraphModel
+	@Override
+	public InfosModelCategorie getObject() {
+		return this.categorie == null ? null : this.categorie.getInfos();
+	}
+	@Override
+	public ICelluleModel<InfosModelCategorie,InfosModelParticipant> getCellule (int index) {
+		return index < this.cellules.size() ? this.cellules.get(index) : null;
+	}
+	@Override
+	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule) {
+		return this.cellules.indexOf(cellule);
+	}
+	@Override
+	public int size () {
+		return (this.cellules.size()+1)/2;
+	}
+	@Override
+	public void close () {
+		// Ne plus écouter la catégorie
+		if(this.categorie != null) {
+			this.categorie.removeListener(this);
+		}
+		
+		// Ne plus écouter les phases éliminatoires
+		if(this.phases != null) {
+			this.phases.removeListener(this);
+		}
+		
+		// Ne plus écouter l'historique
+		FrontModel.get().getHistory().removeListener(this);
+	}
+	@Override
+	public void addListener (IGraphModelListener listener) {
+		this.listeners.add(listener);
+	}
+	@Override
+	public void removeListener (IGraphModelListener listener) {
+		this.listeners.remove(listener);
 	}
 
 		

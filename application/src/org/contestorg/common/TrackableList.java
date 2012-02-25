@@ -5,58 +5,120 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import org.contestorg.interfaces.IListListener;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListListener;
+import org.contestorg.interfaces.ITrackableListValidator;
 
+/**
+ * Liste suivable
+ * @param <T> classe des objets de la liste
+ */
 public class TrackableList<T> implements Iterable<T>
 {
-
-	// Ts
+	
+	/** Liste courante */
 	private ArrayList<T> tsModifies = new ArrayList<T>();
+	
+	/** Liste initiale */
 	private ArrayList<T> tsOriginaux = new ArrayList<T>();
-	private ArrayList<Integer> correspondances = new ArrayList<Integer>();	// Tableau de correspondance entre la liste actuelle et la liste d'origine (-1 pour les ajouts)
-	private ArrayList<Integer> modifications = new ArrayList<Integer>();		// Index des élements de la liste de départ qui ont été modifiés
-	private ArrayList<Integer> suppressions = new ArrayList<Integer>();	// Index des élements de la liste de départ qui ont été supprimés
 	
-	// Validateurs d'opérations sur les ts
-	private ArrayList<IListValidator<T>> validators = new ArrayList<IListValidator<T>>();
+	/** Tableau de correspondance entre la liste actuelle et la liste d'origine (-1 pour les ajouts) */
+	private ArrayList<Integer> correspondances = new ArrayList<Integer>();
 	
-	// Erreurs rencontrés sur la dernière opération
+	/** Index des élements de la liste de départ qui ont été modifiés */
+	private ArrayList<Integer> modifications = new ArrayList<Integer>();
+	
+	/** Index des élements de la liste de départ qui ont été supprimés */
+	private ArrayList<Integer> suppressions = new ArrayList<Integer>();
+	
+	/** Validateurs d'opérations sur les ts */
+	private ArrayList<ITrackableListValidator<T>> validators = new ArrayList<ITrackableListValidator<T>>();
+	
+	/** Erreurs rencontrés sur la dernière opération */
 	protected ArrayList<String> erreurs = new ArrayList<String>();
 	
-	// Listeners
-	private ArrayList<IListListener<T>> listeners = new ArrayList<IListListener<T>>();
+	/** Liste des listeners */
+	private ArrayList<ITrackableListListener<T>> listeners = new ArrayList<ITrackableListListener<T>>();
 
 	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 */
 	public TrackableList() {
 	}
+	
+	/**
+	 * Constructeur avec initialisation
+	 * @param list liste d'initialisation
+	 */
 	public TrackableList(ArrayList<T> list) {
+		// Vérifier que la liste ne soit pas null
 		if(list != null) {
 			// Remplir la liste avec les ts d'origine
 			this.fill(list);
 		}
 	}
+	
+	/**
+	 * Constructeur avec initialisation
+	 * @param list liste d'initialisation
+	 */
 	public TrackableList(TrackableList<T> list) {
-		// Remplir la liste avec les ts d'origine
-		this.fill(list);
+		// Vérifier que la liste ne soit pas null
+		if(list != null) {
+			// Remplir la liste avec les ts d'origine
+			this.fill(list);
+		}
 	}
 	
 	// Méthodes de liste
+	
+	/**
+	 * Récupérer un élément de la liste
+	 * @param row indice de l'élément à récupérer
+	 * @return élément récupérer
+	 */
 	public T get(int row) {
 		return this.tsModifies.get(row);
 	}
-	public int getRow(T infos) {
-		return this.tsModifies.indexOf(infos);
+	
+	/**
+	 * Récupérer l'indice d'un élément
+	 * @param t élément
+	 * @return indice de l'élément
+	 */
+	public int getRow(T t) {
+		return this.tsModifies.indexOf(t);
 	}
+	
+	/**
+	 * Récupérer la taille de la liste courante
+	 * @return taille de la liste courante
+	 */
 	public int size() {
 		return this.tsModifies.size();
 	}
+	
+	/**
+	 * Récupérer une copie de la liste courante
+	 * @return copie de la liste courante
+	 */
 	public ArrayList<T> getModifies () {
 		return new ArrayList<T>(this.tsModifies);
 	}
+	
+	/**
+	 * Récupérer une copie de la liste initiale
+	 * @return copie de la liste initiale
+	 */
 	public ArrayList<T> getOriginaux() {
 		return new ArrayList<T>(this.tsOriginaux);
 	}
+	
+	/**
+	 * Initialisation la liste
+	 * @param list liste d'initialisation
+	 */
 	public void fill(ArrayList<T> list) {
 		// Fires de suppression
 		int row = this.tsModifies.size()-1;
@@ -65,7 +127,7 @@ public class TrackableList<T> implements Iterable<T>
 			row--;
 		}
 		
-		// Initialiser les ArrayList
+		// Initialiser les listes de suivi
 		this.tsModifies = new ArrayList<T>(list);
 		this.tsOriginaux = new ArrayList<T>(list);
 		this.correspondances = new ArrayList<Integer>();
@@ -84,9 +146,21 @@ public class TrackableList<T> implements Iterable<T>
 			row++;
 		}
 	}
+	
+	/**
+	 * Initialisation la liste
+	 * @param list liste d'initialisation
+	 */
 	public void fill(TrackableList<T> list) {
 		this.fill(list, true, true);
 	}
+	
+	/**
+	 * Initialisation la liste
+	 * @param list liste d'initialisation
+	 * @param keepValidors garder les validateurs ?
+	 * @param keepListeners garder les listeners ?
+	 */
 	public void fill(TrackableList<T> list, boolean keepValidors, boolean keepListeners) {
 		// Fires de suppression
 		int row = this.tsModifies.size()-1;
@@ -102,14 +176,14 @@ public class TrackableList<T> implements Iterable<T>
 		this.suppressions = new ArrayList<Integer>(list.suppressions);
 		this.modifications = new ArrayList<Integer>(list.modifications);
 		
-		// Recopier les valideurs
+		// Recopier les valideurs si nécéssaire
 		if(keepValidors) {
-			this.validators = new ArrayList<IListValidator<T>>(list.validators);
+			this.validators = new ArrayList<ITrackableListValidator<T>>(list.validators);
 		}
 		
-		// Recoper les listeners
+		// Recoper les listeners si nécéssaire
 		if(keepListeners) {
-			this.listeners = new ArrayList<IListListener<T>>(list.listeners);
+			this.listeners = new ArrayList<ITrackableListListener<T>>(list.listeners);
 		}
 		
 		// Fires d'ajout
@@ -119,6 +193,11 @@ public class TrackableList<T> implements Iterable<T>
 			row++;
 		}
 	}
+	
+	/**
+	 * Lier la liste à une autre liste
+	 * @param list à lier
+	 */
 	public void link(TrackableList<T> list) {
 		// Fires de suppression
 		this.tsModifies = new ArrayList<T>(list.tsModifies);
@@ -146,17 +225,23 @@ public class TrackableList<T> implements Iterable<T>
 			row++;
 		}
 	}
-	public boolean add (T infos) {
+	
+	/**
+	 * Ajouter un élément dans la liste
+	 * @param t élément à ajouter
+	 * @return ajout effectué ?
+	 */
+	public boolean add (T t) {
 		// Vérifier si les validateurs acceptent l'ajout
-		if(this.validateAdd(infos)) {
-			// Ajouter le T
-			this.tsModifies.add(infos);
+		if(this.validateAdd(t)) {
+			// Ajouter l'élément
+			this.tsModifies.add(t);
 			
 			// Ajouter -1 dans la liste des correspondances
 			this.correspondances.add(-1);
 	
 			// Fire des listeners
-			this.fireRowInserted(this.tsModifies.size() - 1, infos);
+			this.fireRowInserted(this.tsModifies.size() - 1, t);
 			
 			// L'ajout a bien été effectué
 			return true;
@@ -165,16 +250,23 @@ public class TrackableList<T> implements Iterable<T>
 		// L'ajout n'a pas été effectué
 		return false;
 	}
+	
+	/**
+	 * Modifier un élément de la liste
+	 * @param row indice de l'élément à modifier
+	 * @param after élément après la modification
+	 * @return modification effectuée ?
+	 */
 	public boolean update (int row, T after) {
 		// Vérifier si les validateurs acceptent la modification
 		if(this.validateUpdate(row,after)) {
-			// Changer le T
+			// Changer l'élément
 			T before = this.tsModifies.set(row, after);
 	
-			// Vérifier si le T est un T d'origine
+			// Vérifier si l'élément fait partie de la liste initiale
 			int correspondance = new Integer(this.correspondances.get(row));
 			if(correspondance != -1) {
-				// Vérifier si le T d'origine n'a pas déjà été modifié
+				// Vérifier si l'élément d'origine n'a pas déjà été modifié
 				if(!this.modifications.contains(correspondance)) {
 					// Déclarer la modification
 					this.modifications.add(correspondance);
@@ -191,30 +283,41 @@ public class TrackableList<T> implements Iterable<T>
 		// La modification n'a pas été effectuée
 		return false;
 	}
+	
+	/**
+	 * Déclarer la modification d'un élément de la liste initiale 
+	 * @param row indice de l'élément dans la liste initiale
+	 */
 	public void update(int row) {
-		// Vérifier si le T est un T d'origine
+		// Vérifier si l'élément fait partie de la liste initiale
 		int correspondance = new Integer(this.correspondances.get(row));
 		if(correspondance != -1) {
-			// Vérifier si le T d'origine n'a pas déjà été modifié
+			// Vérifier si l'élément d'origine n'a pas déjà été modifié
 			if(!this.modifications.contains(correspondance)) {
 				// Déclarer la modification
 				this.modifications.add(correspondance);
 			}
 		}
 	}
+	
+	/**
+	 * Supprimer un élément de la liste
+	 * @param row indice de l'élément
+	 * @return suppression effectuée ?
+	 */
 	public boolean remove (int row) {
 		// Vérifier si les validateurs acceptent l'ajout
 		if(this.validateDelete(row)) {
-			// Retirer le T
-			T infos = this.tsModifies.remove(row);
+			// Retirer l'élément
+			T t = this.tsModifies.remove(row);
 	
-			// Vérifier si le T est un T d'origine
+			// Vérifier si l'élément est un élément de la liste initiale
 			int correspondance = this.correspondances.get(row);
 			if(correspondance != -1) {
 				// Déclarer la suppression
 				this.suppressions.add(correspondance);
 				
-				// Supprimer le T de la liste des modifications
+				// Supprimer l'élément de la liste des modifications
 				if(this.modifications.contains(correspondance)) {
 					this.modifications.remove(this.modifications.indexOf(correspondance));
 				}
@@ -224,7 +327,7 @@ public class TrackableList<T> implements Iterable<T>
 			this.correspondances.remove(row);
 	
 			// Fire des listeners
-			this.fireRowDeleted(row, infos);
+			this.fireRowDeleted(row, t);
 			
 			// La suppression a bien été effectuée
 			return true;
@@ -235,10 +338,16 @@ public class TrackableList<T> implements Iterable<T>
 	}
 	
 	// Méthodes d'organisation
+	
+	/**
+	 * Déplacer un élément vers le haut
+	 * @param row indice de l'élément à déplacer vers le haut
+	 * @return déplacement effectué ?
+	 */
 	public boolean moveUp(int row) {
 		// Vérifier si les validateurs acceptent le déplacement
 		if(this.validateMove(row, -1)) {
-			// Déplacer le T et la correspondance vers le haut
+			// Déplacer l'élément et la correspondance vers le haut
 			Collections.swap(this.tsModifies, row, row-1);
 			Collections.swap(this.correspondances, row, row-1);
 			
@@ -253,9 +362,15 @@ public class TrackableList<T> implements Iterable<T>
 		// Le déplacement n'a pas été effectué
 		return false;
 	}
+	
+	/**
+	 * Déplacer un élément vers le bas
+	 * @param row indice de l'élément à déplacer vers le bas
+	 * @return déplacement effectué ?
+	 */
 	public boolean moveDown(int row) {
 		if(this.validateMove(row, +1)) {
-			// Déplacer le T et la correspondance vers le bas
+			// Déplacer l'élément et la correspondance vers le bas
 			Collections.swap(this.tsModifies, row, row+1);
 			Collections.swap(this.correspondances, row, row+1);
 			
@@ -272,32 +387,51 @@ public class TrackableList<T> implements Iterable<T>
 	}
 	
 	// Méthodes de validation
-	public boolean validateAdd(T infos) {
+	
+	/**
+	 * Valider un ajout
+	 * @param t élément à ajouter
+	 * @return ajout validé ?
+	 */
+	public boolean validateAdd(T t) {
 		// Valider l'ajout
 		this.erreurs = new ArrayList<String>();
-		for(IListValidator<T> validator : this.validators) {
-			String erreur = validator.validateAdd(infos, this);
+		for(ITrackableListValidator<T> validator : this.validators) {
+			String erreur = validator.validateAdd(t, this);
 			if(erreur != null) {
 				this.erreurs.add(erreur);
 			}
 		}
 		return this.erreurs.size() == 0;
 	}
-	public boolean validateUpdate(int row, T infos) {
+	
+	/**
+	 * Valider une modification
+	 * @param row indice de la ligne à modifier
+	 * @param t nouvel élément
+	 * @return modification validée ?
+	 */
+	public boolean validateUpdate(int row, T t) {
 		// Valider la modification
 		this.erreurs = new ArrayList<String>();
-		for(IListValidator<T> validator : this.validators) {
-			String erreur = validator.validateUpdate(row, infos, this);
+		for(ITrackableListValidator<T> validator : this.validators) {
+			String erreur = validator.validateUpdate(row, t, this);
 			if(erreur != null) {
 				this.erreurs.add(erreur);
 			}
 		}
 		return this.erreurs.size() == 0;
 	}
+	
+	/**
+	 * Valider une suppression
+	 * @param row row indice de la ligne à supprimer
+	 * @return suppression validée ?
+	 */
 	public boolean validateDelete(int row) {
 		// Valider la suppression
 		this.erreurs = new ArrayList<String>();
-		for(IListValidator<T> validator : this.validators) {
+		for(ITrackableListValidator<T> validator : this.validators) {
 			String erreur = validator.validateDelete(row,this);
 			if(erreur != null) {
 				this.erreurs.add(erreur);
@@ -305,10 +439,17 @@ public class TrackableList<T> implements Iterable<T>
 		}
 		return this.erreurs.size() == 0;
 	}
+	
+	/**
+	 * Valider un déplacement
+	 * @param row indice de l'élément à déplacer
+	 * @param movement mouvement à valider
+	 * @return mouvement validé ?
+	 */
 	public boolean validateMove(int row, int movement) {
 		// Valider le déplacement
 		this.erreurs = new ArrayList<String>();
-		for(IListValidator<T> validator : this.validators) {
+		for(ITrackableListValidator<T> validator : this.validators) {
 			String erreurA = validator.validateMove(row, movement, this);
 			if(erreurA != null) {
 				this.erreurs.add(erreurA);
@@ -320,46 +461,100 @@ public class TrackableList<T> implements Iterable<T>
 		}
 		return this.erreurs.size() == 0;
 	}
-	public void addValidator(IListValidator<T> validator) {
+	
+	/**
+	 * Ajouter un validateur
+	 * @param validator validateur à ajouter
+	 */
+	public void addValidator(ITrackableListValidator<T> validator) {
 		this.validators.add(validator);
 	}
-	public void removeValidator(IListValidator<T> validator) {
+	
+	/**
+	 * Supprimer un validateur
+	 * @param validator validateur à supprimer
+	 */
+	public void removeValidator(ITrackableListValidator<T> validator) {
 		this.validators.remove(validator);
 	}
 	
 	// Méthodes de tracabilité
+	
+	/**
+	 * Récupérer la liste des correspondances
+	 * @return liste des correspondances
+	 */
 	public ArrayList<Integer> getCorrespondances () {
 		return new ArrayList<Integer>(this.correspondances);
 	}
+	
+	/**
+	 * Récupérer la liste des modifications
+	 * @return liste des modifications
+	 */
 	public ArrayList<Integer> getUpdates () {
 		return new ArrayList<Integer>(this.modifications);
 	}
+	
+	/**
+	 * Récupérer la liste des suppressions
+	 * @return liste des suppressions
+	 */
 	public ArrayList<Integer> getDeletions () {
 		return new ArrayList<Integer>(this.suppressions);
 	}
 	
 	// Méthode sur les listeners
-	public void addIListListener(IListListener<T> listener) {
+	
+	/**
+	 * Ajouter un listener
+	 * @param listener listener à ajouter
+	 */
+	public void addITrackableListListener(ITrackableListListener<T> listener) {
 		this.listeners.add(listener);
 	}
-	public void removeIListListener(IListListener<T> listener) {
+	
+	/**
+	 * Supprimer listener
+	 * @param listener listener à supprimer
+	 */
+	public void removeITrackableListListener(ITrackableListListener<T> listener) {
 		this.listeners.remove(listener);
 	}
+	
+	/**
+	 * Fire des listeners sur l'ajout d'un élément
+	 * @param row indice de l'élément ajouté
+	 * @param inserted élément ajouté
+	 */
 	protected void fireRowInserted (int row, T inserted) {
-		// Fire des listeners de IList
-		for(IListListener<T> listener : this.listeners) {
+		// Fire des listeners de ITrackableListListener
+		for(ITrackableListListener<T> listener : this.listeners) {
 			listener.addEvent(row, inserted);
 		}
 	}
+	
+	/**
+	 * Fire des listeners sur la modification d'un élément
+	 * @param row indice de l'élément modifié
+	 * @param before élément avant la modification
+	 * @param after élément après la modification
+	 */
 	protected void fireRowUpdated (int row, T before, T after) {
-		// Fire des listeners de IList
-		for(IListListener<T> listener : this.listeners) {
+		// Fire des listeners de ITrackableListListener
+		for(ITrackableListListener<T> listener : this.listeners) {
 			listener.updateEvent(row, before, after);
 		}
 	}
+	
+	/**
+	 * Fire des listeners sur la suppression d'un élément
+	 * @param row indice de l'élément supprimé
+	 * @param deleted élément supprimé
+	 */
 	protected void fireRowDeleted (int row, T deleted) {
-		// Fire des listeners de IList
-		for(IListListener<T> listener : this.listeners) {
+		// Fire des listeners de ITrackableListListener
+		for(ITrackableListListener<T> listener : this.listeners) {
 			listener.removeEvent(row, deleted);
 		}
 	}

@@ -3,24 +3,32 @@
 import org.contestorg.infos.InfosConnexionServeur;
 import org.contestorg.models.ModelConcours;
 
-
+/**
+ * Persistance sur serveur
+ */
 public class PersistanceServeur extends PersistanceAbstract
 {
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param infos informations de la connexion au serveur
+	 */
 	public PersistanceServeur(InfosConnexionServeur infos) {
 		// TODO
 	}
 
-	// Implémentation de load
+	/**
+	 * @see PersistanceAbstract#load()
+	 */
 	@Override
 	public ModelConcours load () {
-		// TODO Auto-generated method stub
-		return null;
+		return null; // TODO
 	}
 
-	// Implémentation de save
+	/**
+	 * @see PersistanceAbstract#save()
+	 */
 	@Override
 	public boolean save () {
-		return false; // TODO Auto-generated method stub
+		return false; // TODO
 	}
 }

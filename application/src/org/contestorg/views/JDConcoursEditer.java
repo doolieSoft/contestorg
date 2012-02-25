@@ -1,12 +1,11 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
 import org.contestorg.infos.InfosModelConcours;
@@ -20,13 +19,26 @@ import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.infos.InfosModelTheme;
 
-
-
+/**
+ * Boîte de dialogue d'édition de concours
+ */
 @SuppressWarnings("serial")
 public class JDConcoursEditer extends JDConcoursAbstract
 {
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param infos informations du concours
+	 * @param objectifs liste des objectifs
+	 * @param comparateurs liste des comparateurs
+	 * @param exportations liste des exportations
+	 * @param publication indice de l'exportation qui fait office de publication
+	 * @param diffusions liste des diffusion
+	 * @param prix liste des prix
+	 * @param lieux liste des lieux
+	 * @param proprietes liste des propriétés
+	 */
 	public JDConcoursEditer(Window w_parent, InfosModelConcours infos, ArrayList<InfosModelObjectif> objectifs, ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs, ArrayList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, ArrayList<InfosModelPrix> prix, ArrayList<Triple<InfosModelLieu,ArrayList<InfosModelEmplacement>,ArrayList<InfosModelHoraire>>> lieux, ArrayList<InfosModelPropriete> proprietes) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Configurer le concours");
@@ -78,7 +90,9 @@ public class JDConcoursEditer extends JDConcoursAbstract
 		this.jp_proprietes.setProprietes(proprietes);
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Vérifier les validité des données
@@ -92,7 +106,9 @@ public class JDConcoursEditer extends JDConcoursAbstract
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Demander l'annulation de la procédure de configuration de concours

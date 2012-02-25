@@ -1,18 +1,26 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite etre tenue au courant de l'avancement d'une génération d'un objet de classe T
+ * Interface à implémenter si une classe souhaite être tenue au courant de l'avancement d'une génération d'un objet
+ * @param <T> classe de l'objet généré
  */
 public interface IGenerationListener<T> extends IProgressionListener
 {
 
-	// Recoit la meilleure génération trouvée jusque là
-	public void generationMax (T object);
+	/**
+	 * Recevoir le meilleur objet généré jusque-là
+	 * @param objet meilleur objet généré jusque-là
+	 */
+	public void generationMax (T objet);
 
-	// Recoit un message comme quoi la génération a été arreté (il faut considérer la meilleure génération trouvée jusque là)
+	/**
+	 * Recevoir un message comme quoi la génération est arretée (il faut considérer le meilleur objet généré jusque-là)
+	 */
 	public void generationArret ();
 
-	// Recoit un message comme quoi la génération a été annulé (il ne faut pas considérer la meilleure génération trouvée jusque là)
+	/**
+	 * Recevoir un message comme quoi la génération est annulée (il ne faut pas considérer le meilleur objet généré jusque-là)
+	 */
 	public void generationAnnulation ();
 
 }

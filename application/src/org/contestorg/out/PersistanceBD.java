@@ -3,24 +3,32 @@
 import org.contestorg.infos.InfosConnexionBD;
 import org.contestorg.models.ModelConcours;
 
-
+/**
+ * Persistance sur base de données
+ */
 public class PersistanceBD extends PersistanceAbstract
 {
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param infos informations de la connexion à la base de données
+	 */
 	public PersistanceBD(InfosConnexionBD infos) {
 		// TODO
 	}
 
-	// Implémentation de load
+	/**
+	 * @see PersistanceAbstract#load()
+	 */
 	@Override
 	public ModelConcours load () {
-		// TODO Auto-generated method stub
-		return null;
+		return null; // TODO
 	}
 
-	// Implémentation de save
+	/**
+	 * PersistanceAbstract.save()
+	 */
 	@Override
 	public boolean save () {
-		return false; // TODO Auto-generated method stub
+		return false; // TODO
 	}
 }

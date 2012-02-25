@@ -1,6 +1,5 @@
 ﻿package org.contestorg.out;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -13,7 +12,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-
 
 import org.contestorg.common.Tools;
 import org.contestorg.comparators.CompPhasesElims;
@@ -28,7 +26,6 @@ import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
-import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.infos.InfosModelLieu;
@@ -38,16 +35,17 @@ import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.infos.InfosModelObjectifNul;
 import org.contestorg.infos.InfosModelObjectifPoints;
 import org.contestorg.infos.InfosModelObjectifPourcentage;
+import org.contestorg.infos.InfosModelObjectifRemporte;
+import org.contestorg.infos.InfosModelParticipant;
+import org.contestorg.infos.InfosModelParticipant.Statut;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
-import org.contestorg.infos.InfosModelPhaseEliminatoires;
 import org.contestorg.infos.InfosModelPhaseQualificative;
+import org.contestorg.infos.InfosModelPhasesEliminatoires;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.infos.InfosModelTheme;
-import org.contestorg.infos.InfosModelParticipant.Statut;
 import org.contestorg.log.Log;
 import org.contestorg.models.ContestOrgModelException;
 import org.contestorg.models.FrontModel;
@@ -63,7 +61,6 @@ import org.contestorg.models.ModelCompPhasesQualifsVictoires;
 import org.contestorg.models.ModelConcours;
 import org.contestorg.models.ModelDiffusion;
 import org.contestorg.models.ModelEmplacement;
-import org.contestorg.models.ModelParticipant;
 import org.contestorg.models.ModelExportation;
 import org.contestorg.models.ModelHoraire;
 import org.contestorg.models.ModelLieu;
@@ -72,6 +69,7 @@ import org.contestorg.models.ModelMatchPhasesElims;
 import org.contestorg.models.ModelMatchPhasesQualifs;
 import org.contestorg.models.ModelObjectif;
 import org.contestorg.models.ModelObjectifRemporte;
+import org.contestorg.models.ModelParticipant;
 import org.contestorg.models.ModelParticipation;
 import org.contestorg.models.ModelPhaseQualificative;
 import org.contestorg.models.ModelPhasesEliminatoires;
@@ -86,19 +84,26 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-
+/**
+ * Persistance sur fichier XML
+ */
 public class PersistanceXML extends PersistanceAbstract
 {
-	// Chemin
+	/** Chemin */
 	private String chemin;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param chemin chemin du fichier XML
+	 */
 	public PersistanceXML(String chemin) {
 		// Retenir le chemin
 		this.chemin = chemin;
 	}
 	
-	// Implémentation de load
+	/**
+	 * @see PersistanceAbstract#load()
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public ModelConcours load () {
@@ -362,7 +367,7 @@ public class PersistanceXML extends PersistanceAbstract
 								while (iteratorParticipants.hasNext()) {
 									Element elementParticipant = (Element)iteratorParticipants.next();
 									
-									ModelParticipant participant = new ModelParticipant(poule, new InfosModelParticipant(elementParticipant.getAttributeValue("stand"), elementParticipant.getAttributeValue("nom"), elementParticipant.getAttributeValue("ville"), InfosModelParticipant.Statut.search(elementParticipant.getAttributeValue("statut")), elementParticipant.getAttributeValue("membres"), elementParticipant.getAttributeValue("details")));
+									ModelParticipant participant = new ModelParticipant(poule, new InfosModelParticipant(elementParticipant.getAttributeValue("stand"), elementParticipant.getAttributeValue("nom"), elementParticipant.getAttributeValue("ville"), InfosModelParticipant.Statut.search(elementParticipant.getAttributeValue("statut")), elementParticipant.getAttributeValue("details")));
 									participant.setId(Integer.parseInt(elementParticipant.getAttributeValue("id")));
 									
 									if (elementParticipant.getChild("listeProprietesPossedees") != null) {
@@ -370,10 +375,10 @@ public class PersistanceXML extends PersistanceAbstract
 										while (iteratorProprietesPossedees.hasNext()) {
 											Element elementProprietePossedee = (Element)iteratorProprietesPossedees.next();
 											ModelPropriete propriete = (ModelPropriete)ModelAbstract.search(Integer.parseInt(elementProprietePossedee.getAttributeValue("refPropriete")));
-											ModelProprietePossedee proprietePossedee = new ModelProprietePossedee(propriete, participant, new InfosModelProprieteParticipant(elementProprietePossedee.getAttributeValue("valeur")));
+											ModelProprietePossedee proprietePossedee = new ModelProprietePossedee(propriete, participant, new InfosModelProprietePossedee(elementProprietePossedee.getAttributeValue("valeur")));
 											proprietePossedee.setId(Integer.parseInt(elementProprietePossedee.getAttributeValue("id")));
-											propriete.addProprieteParticipant(proprietePossedee);
-											participant.addProprieteParticipant(proprietePossedee);
+											propriete.addProprietePossedee(proprietePossedee);
+											participant.addProprietePossedee(proprietePossedee);
 										}
 									}
 									
@@ -456,7 +461,7 @@ public class PersistanceXML extends PersistanceAbstract
 										}
 									});
 									
-									ModelPhasesEliminatoires phasesEliminatoires = new ModelPhasesEliminatoires(categorie, new InfosModelPhaseEliminatoires());
+									ModelPhasesEliminatoires phasesEliminatoires = new ModelPhasesEliminatoires(categorie, new InfosModelPhasesEliminatoires());
 									phasesEliminatoires.setId(Integer.parseInt(elementCategorie.getChild("listePhasesEliminatoires").getAttributeValue("id")));
 									
 									Iterator iteratorPhasesEliminatoires = listePhasesEliminatoires.iterator();
@@ -530,7 +535,13 @@ public class PersistanceXML extends PersistanceAbstract
 		}
 	}
 	
-	// Récupérer une participation à partir de son élément JDom
+	/**
+	 * Récupérer une participation à partir de son élément JDom
+	 * @param elementParticipation element JDom de la participation
+	 * @param match match associé à la participation
+	 * @return participation
+	 * @throws ContestOrgModelException
+	 */
 	@SuppressWarnings("rawtypes")
 	public static ModelParticipation loadParticipation (Element elementParticipation, ModelMatchAbstract match) throws ContestOrgModelException {
 		ModelParticipant participant = elementParticipation.getAttribute("refParticipant") == null ? null : (ModelParticipant)ModelAbstract.search(Integer.parseInt(elementParticipation.getAttributeValue("refParticipant")));
@@ -561,7 +572,7 @@ public class PersistanceXML extends PersistanceAbstract
 		while (iteratorObjectifsRemplis.hasNext()) {
 			Element elementObjectifRempli = (Element)iteratorObjectifsRemplis.next();
 			ModelObjectif objectif = (ModelObjectif)ModelAbstract.search(Integer.parseInt(elementObjectifRempli.getAttributeValue("refObjectif")));
-			ModelObjectifRemporte objectifRempli = new ModelObjectifRemporte(participation, objectif, new InfosModelParticipationObjectif(Integer.parseInt(elementObjectifRempli.getAttributeValue("quantite"))));
+			ModelObjectifRemporte objectifRempli = new ModelObjectifRemporte(participation, objectif, new InfosModelObjectifRemporte(Integer.parseInt(elementObjectifRempli.getAttributeValue("quantite"))));
 			objectifRempli.setId(Integer.parseInt(elementObjectifRempli.getAttributeValue("id")));
 			objectif.addObjectifRemporte(objectifRempli);
 			participation.addObjectifRemporte(objectifRempli);
@@ -572,7 +583,9 @@ public class PersistanceXML extends PersistanceAbstract
 		return participation;
 	}
 	
-	// Implémentation de save
+	/**
+	 * @see PersistanceAbstract#save()
+	 */
 	@Override
 	public boolean save () {
 		if (!XMLHelper.save(PersistanceXML.getConcoursDocument(), new File(this.chemin))) {
@@ -583,7 +596,10 @@ public class PersistanceXML extends PersistanceAbstract
 		}
 	}
 	
-	// Créer le document JDom du concours
+	/**
+	 * Créer le document JDom du concours
+	 * @return document JDom du concours
+	 */
 	@SuppressWarnings("unchecked")
 	public static Document getConcoursDocument () {
 		// Récupérer le concours
@@ -612,7 +628,7 @@ public class PersistanceXML extends PersistanceAbstract
 		if (concours.getConcoursDescription() != null && !concours.getConcoursDescription().isEmpty())
 			root.setAttribute("description", concours.getConcoursDescription());
 		root.setAttribute("participants", concours.getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "equipes" : "joueurs");
-		root.setAttribute("qualifications", concours.getTypeQualifications() == InfosModelConcours.QUALIFICATIONS_PHASES ? "phases" : "grille");
+		root.setAttribute("qualifications", concours.getTypePhasesQualificatives() == InfosModelConcours.QUALIFICATIONS_PHASES ? "phases" : "grille");
 		
 		// Ajouter les informations de l'organisateur
 		if (concours.getOrganisateurNom() != null && !concours.getOrganisateurNom().isEmpty()) {
@@ -721,7 +737,7 @@ public class PersistanceXML extends PersistanceAbstract
 			for (ModelObjectif objectif : concours.getObjectifs()) {
 				Element elementObjectif = new Element("objectif");
 				elementObjectif.setAttribute("id", String.valueOf(objectif.getId()));
-				InfosModelObjectif infos = objectif.toInfos();
+				InfosModelObjectif infos = objectif.getInfos();
 				if (infos instanceof InfosModelObjectifPoints) {
 					Element elementObjectifPoints = new Element("objectifPoints");
 					elementObjectifPoints.setAttribute("nom", infos.getNom());
@@ -796,7 +812,7 @@ public class PersistanceXML extends PersistanceAbstract
 				Element elementExportation = new Element("exportation");
 				elementExportation.setAttribute("id", String.valueOf(exportation.getId()));
 				elementExportation.setAttribute("nom", exportation.getNom());
-				elementExportation.setAttribute("automatique", exportation.isAutomatique() ? "oui" : "non");
+				elementExportation.setAttribute("automatique", exportation.isAuto() ? "oui" : "non");
 				
 				Element elementChemin = new Element("chemin");
 				elementChemin.setAttribute("id", String.valueOf(exportation.getChemin().getId()));
@@ -957,8 +973,6 @@ public class PersistanceXML extends PersistanceAbstract
 								elementParticipant.setAttribute("statut", participant.getStatut().getId());
 								if (participant.getStand() != null && !participant.getStand().isEmpty())
 									elementParticipant.setAttribute("stand", participant.getStand());
-								if (participant.getMembres() != null && !participant.getMembres().isEmpty())
-									elementParticipant.setAttribute("membres", participant.getMembres());
 								if (participant.getDetails() != null && !participant.getDetails().isEmpty())
 									elementParticipant.setAttribute("details", participant.getDetails());
 								elementParticipant.setAttribute("rangPhasesQualifs", String.valueOf(participant.getRangPhasesQualifs()));
@@ -966,13 +980,13 @@ public class PersistanceXML extends PersistanceAbstract
 								elementParticipant.setAttribute("rangPhasesElims", String.valueOf(participant.getRangPhasesElims()));
 								elementParticipant.setAttribute("pointsPhasesElims", String.valueOf(participant.getPoints(true, false)));
 								
-								if (participant.getProprietesParticipant().size() != 0) {
+								if (participant.getProprietesPossedees().size() != 0) {
 									Element listeProprietesPossedees = new Element("listeProprietesPossedees");
-									for (ModelProprietePossedee proprieteParticipant : participant.getProprietesParticipant()) {
+									for (ModelProprietePossedee proprieteParticipant : participant.getProprietesPossedees()) {
 										Element elementProprietePossedee = new Element("proprietePossedee");
 										elementProprietePossedee.setAttribute("id", String.valueOf(proprieteParticipant.getId()));
 										elementProprietePossedee.setAttribute("refPropriete", String.valueOf(proprieteParticipant.getPropriete().getId()));
-										elementProprietePossedee.setAttribute("valeur", proprieteParticipant.getValue());
+										elementProprietePossedee.setAttribute("valeur", proprieteParticipant.getValeur());
 										listeProprietesPossedees.addContent(elementProprietePossedee);
 									}
 									elementParticipant.addContent(listeProprietesPossedees);
@@ -1139,7 +1153,11 @@ public class PersistanceXML extends PersistanceAbstract
 		return document;
 	}
 	
-	// Créer l'élément JDom d'une participation
+	/**
+	 * Créer l'élément JDom d'une participation
+	 * @param participation participation
+	 * @return élément JDom d'une participation
+	 */
 	private static Element getElementParticipation (ModelParticipation participation) {
 		Element elementParticipation = new Element("participation");
 		elementParticipation.setAttribute("id", String.valueOf(participation.getId()));
@@ -1175,7 +1193,11 @@ public class PersistanceXML extends PersistanceAbstract
 		return elementParticipation;
 	}
 	
-	// Extraire les information de participant d'un fichier XML
+	/**
+	 * Extraire la liste des informations de participant d'un fichier XML
+	 * @param chemin chemin du fichier XML
+	 * @return liste des informations de participant du fichier XML
+	 */
 	@SuppressWarnings("rawtypes")
 	public static ArrayList<InfosModelParticipant> loadParticipants (String chemin) {
 		try {
@@ -1196,25 +1218,26 @@ public class PersistanceXML extends PersistanceAbstract
 				
 				// Récupérer les propriétés du participant
 				String stand = elementParticipant.getAttributeValue("stand");
-				if(stand != null)
+				if(stand != null) {
 					stand = stand.trim();
+				}
 				String nom = elementParticipant.getAttributeValue("nom");
-				if(nom != null)
+				if(nom != null) {
 					nom = nom.trim();
+				}
 				String ville = elementParticipant.getAttributeValue("ville");
-				if(ville != null)
+				if(ville != null) {
 					ville = ville.trim();
+				}
 				Statut statut = InfosModelParticipant.Statut.search(elementParticipant.getAttributeValue("statut"));
-				String membres = elementParticipant.getAttributeValue("membres");
-				if(membres != null)
-					membres = membres.trim();
 				String details = elementParticipant.getAttributeValue("details");
-				if(details != null)
+				if(details != null) {
 					details = details.trim();
+				}
 				
 				// Ajouter le participant dans la liste des participants
 				if(!nom.isEmpty()) {
-					participants.add(new InfosModelParticipant(stand, nom, ville, statut, membres, details));
+					participants.add(new InfosModelParticipant(stand, nom, ville, statut, details));
 				}
 			}
 			

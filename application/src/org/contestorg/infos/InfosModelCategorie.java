@@ -1,25 +1,34 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet categorie
+ * Conteneur d'informations pour la création ou la modification d'un categorie
  */
 public class InfosModelCategorie extends InfosModelAbstract
 {
 
-	// Attributs
+	/** Nom */
 	private String nom;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nom nom
+	 */
 	public InfosModelCategorie(String nom) {
 		this.nom = nom;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelCategorie defaut () {
 		return new InfosModelCategorie("");
 	}

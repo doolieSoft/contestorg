@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Window;
@@ -23,31 +22,43 @@ import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.infos.Parametre;
 import org.contestorg.infos.Theme;
 
-
+/**
+ * Panel de thème d'exportation/diffusion
+ */
 @SuppressWarnings("serial")
 public class JPTheme extends JPanel implements ItemListener
 {
 	
-	// Thèmes
+	/** Liste des thèmes */
 	private ArrayList<Theme> themes;
 	
-	// Panel des thèmes
+	/** Panel des thèmes */
 	private JPanel jp_themes;
 	
-	// Entrées
-	protected JComboBox jcb_themes = new JComboBox();
-	protected HashMap<String,Pair<HashMap<String,JCParametreAbstract>,HashMap<String,JTextField>>> jcs_themes_parametres_cibles = new HashMap<String, Pair<HashMap<String,JCParametreAbstract>,HashMap<String,JTextField>>>();
+	/** Thème */
+	protected JComboBox<String> jcb_themes = new JComboBox<String>();
 	
-	// Erreur ?
-	private boolean error = false;
+	/** Paramètre des thèmes */
+	protected HashMap<String,Pair<HashMap<String,JPParametreAbstract>,HashMap<String,JTextField>>> jcs_themes_parametres_cibles = new HashMap<String, Pair<HashMap<String,JPParametreAbstract>,HashMap<String,JTextField>>>();
 	
-	// fenêtre
+	/** Fenêtre parent */
 	private Window w_parent;
 		
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param themes liste des thèmes
+	 */
 	public JPTheme(Window w_parent, ArrayList<Theme> themes) {
 		this(w_parent, themes, false);
 	}
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param themes liste des thèmes
+	 * @param local exportation en local ?
+	 */
 	public JPTheme(Window w_parent, ArrayList<Theme> themes, boolean local) {
 		// Configurer le panel
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -61,7 +72,7 @@ public class JPTheme extends JPanel implements ItemListener
 		// Vérifier s'il y a des thèmes disponibles
 		if(themes != null && themes.size() != 0) {
 			// Créer la liste et le panel des thèmes
-			this.jcb_themes = new JComboBox();
+			this.jcb_themes = new JComboBox<String>();
 			this.add(this.jcb_themes);
 			this.add(Box.createVerticalStrut(5));
 			this.jp_themes = new JPanel(new CardLayout());
@@ -74,7 +85,7 @@ public class JPTheme extends JPanel implements ItemListener
 				this.jcb_themes.addItem(theme.getNom());
 				
 				// Retenir le thème
-				this.jcs_themes_parametres_cibles.put(theme.getNom(), new Pair<HashMap<String,JCParametreAbstract>, HashMap<String,JTextField>>(new HashMap<String, JCParametreAbstract>(), new HashMap<String, JTextField>()));
+				this.jcs_themes_parametres_cibles.put(theme.getNom(), new Pair<HashMap<String,JPParametreAbstract>, HashMap<String,JTextField>>(new HashMap<String, JPParametreAbstract>(), new HashMap<String, JTextField>()));
 				
 				// Créer le panel
 				JPanel jp_theme = new JPanel();
@@ -83,11 +94,11 @@ public class JPTheme extends JPanel implements ItemListener
 				// Ajouter les paramètres
 				ArrayList<Parametre> parametres = theme.getParametres();
 				JLabel[] jls_theme_parametres = new JLabel[parametres.size()];
-				JCParametreAbstract[] jcs_theme_parametres = new JCParametreAbstract[parametres.size()];
+				JPParametreAbstract[] jcs_theme_parametres = new JPParametreAbstract[parametres.size()];
 				for(int i=0;i<parametres.size();i++) {					
 					// Ajouter le label et l'input
 					jls_theme_parametres[i] = new JLabel(parametres.get(i).getNom()+" "+(parametres.get(i).isOptionnel() ? "(optionnel) " : "")+": ");
-					jcs_theme_parametres[i] = JCParametreAbstract.create(parametres.get(i));
+					jcs_theme_parametres[i] = JPParametreAbstract.create(parametres.get(i));
 					
 					// Description éventuelle
 					if(parametres.get(i).getDescription() != null) {
@@ -112,7 +123,7 @@ public class JPTheme extends JPanel implements ItemListener
 				}
 				
 				// Lier chacun des composants à la liste des composants
-				for(JCParametreAbstract jc_theme_parametres : jcs_theme_parametres) {
+				for(JPParametreAbstract jc_theme_parametres : jcs_theme_parametres) {
 					jc_theme_parametres.link(jcs_theme_parametres);
 				}
 				
@@ -168,12 +179,26 @@ public class JPTheme extends JPanel implements ItemListener
 		}
 	}
 	
-	// Récupérer le thème
+	/**
+	 * Récupérer le thème séléctionné
+	 * @return thème séléctionné
+	 */
 	public Theme getTheme() {
 		return this.themes.get(this.jcb_themes.getSelectedIndex());
 	}
 	
-	// Récupérer le thème
+	/**
+	 * Savoir s'il y a des erreurs
+	 * @return erreurs ?
+	 */
+	public boolean isError() {
+		return this.themes == null || this.themes.size() == 0;
+	}
+	
+	/**
+	 * Récupérer les informations du thème séléctionné
+	 * @return informations du thème séléctionné
+	 */
 	public InfosModelTheme getInfosModelTheme() {
 		// Récupérer le thème séléctionné
 		Theme theme = this.themes.get(this.jcb_themes.getSelectedIndex());
@@ -184,7 +209,7 @@ public class JPTheme extends JPanel implements ItemListener
 		HashMap<String,String> parametres = new HashMap<String,String>();
 		for(Parametre parametre : theme.getParametres()) {
 			// Récupérer le composant
-			JCParametreAbstract composant = this.jcs_themes_parametres_cibles.get(theme.getNom()).getFirst().get(parametre.getId());
+			JPParametreAbstract composant = this.jcs_themes_parametres_cibles.get(theme.getNom()).getFirst().get(parametre.getId());
 			
 			// Vérifier si le composant est valide
 			String message = composant.getError();
@@ -220,8 +245,11 @@ public class JPTheme extends JPanel implements ItemListener
 		return null;
 	}
 	
-	// Définir le thème
-	public void setTheme(InfosModelTheme themeUtilise) {
+	/**
+	 * Définir les informations du thème séléctionné
+	 * @param infos informations du thème séléctionné
+	 */
+	public void setTheme(InfosModelTheme infos) {
 		// Vérifier si la liste des thèmes existe
 		if(this.jcb_themes != null) {
 			// Initialisé les booléens indiquant si le thème utilisé existe et s'il est compatible d'après les paramètres trouvés et ceux disponibles
@@ -230,7 +258,7 @@ public class JPTheme extends JPanel implements ItemListener
 			// Pour chacun des thèmes trouvés
 			for (int i = 0; i < this.themes.size(); i++) {
 				// Si le thème correspont au thème utilisé
-				if (themeUtilise.getChemin().equals(this.themes.get(i).getChemin())) {
+				if (infos.getChemin().equals(this.themes.get(i).getChemin())) {
 					// Thème trouvé
 					trouve = true;
 					
@@ -248,7 +276,7 @@ public class JPTheme extends JPanel implements ItemListener
 					// Renseigner les paramètres du thème
 					int nbParametresObligatoiresRenseignes = 0;
 					ArrayList<String> parametresRenseignes = new ArrayList<String>();
-					HashMap<String,String> parametresRestants = new HashMap<String,String>(themeUtilise.getParametres());
+					HashMap<String,String> parametresRestants = new HashMap<String,String>(infos.getParametres());
 					while(parametresRestants.size() > 0) {
 						// Pour chacun des paramètre dans du thème restants à renseigner
 						for(Entry<String,String> parametreUtilise : new HashMap<String,String>(parametresRestants).entrySet()) {
@@ -266,7 +294,7 @@ public class JPTheme extends JPanel implements ItemListener
 								// Vérifier si le paramètre dépendant du paramètre courant a déjà été renseigné
 								if(parametre.getDependance() == null || this.themes.get(i).getParametre(parametre.getDependance()) == null || parametresRenseignes.contains(parametre.getDependance())) {
 									// Renseigner le paramètre
-									this.jcs_themes_parametres_cibles.get(themeUtilise.getNom()).getFirst().get(parametreUtilise.getKey()).setValeur(parametreUtilise.getValue());
+									this.jcs_themes_parametres_cibles.get(infos.getNom()).getFirst().get(parametreUtilise.getKey()).setValeur(parametreUtilise.getValue());
 									parametresRenseignes.add(parametreUtilise.getKey());
 									parametresRestants.remove(parametreUtilise.getKey());
 									
@@ -284,7 +312,7 @@ public class JPTheme extends JPanel implements ItemListener
 					}
 					
 					// Renseigner les fichiers du thème
-					for(Entry<String,String> fichierUtilise : themeUtilise.getFichiers().entrySet()) {
+					for(Entry<String,String> fichierUtilise : infos.getFichiers().entrySet()) {
 						// Récupérer le fichier correspondant
 						Fichier fichier = this.themes.get(i).getFichier(fichierUtilise.getKey());
 						
@@ -294,7 +322,7 @@ public class JPTheme extends JPanel implements ItemListener
 							compatible = false;
 						} else {
 							// Renseigner la cible du fichier
-							this.jcs_themes_parametres_cibles.get(themeUtilise.getNom()).getSecond().get(fichierUtilise.getKey()).setText(fichierUtilise.getValue());
+							this.jcs_themes_parametres_cibles.get(infos.getNom()).getSecond().get(fichierUtilise.getKey()).setText(fichierUtilise.getValue());
 						}
 					}
 				}
@@ -309,36 +337,45 @@ public class JPTheme extends JPanel implements ItemListener
 		}
 	}
 	
-	// Récupérer la cible du fichier unique
+	/**
+	 * Récupérer la cible du fichier unique
+	 * @return cible du fichier unique
+	 */
 	public String getCible() {
 		return this.jcs_themes_parametres_cibles.get(this.themes.get(this.jcb_themes.getSelectedIndex()).getNom()).getSecond().values().iterator().next().getText();
 	}
 	
-	// Définir le cible du fichier unique
+	/**
+	 * Définir le cible du fichier unique
+	 * @param cible cible du fichier unique
+	 */
 	public void setCible(String cible) {
 		this.jcs_themes_parametres_cibles.get(this.themes.get(this.jcb_themes.getSelectedIndex()).getNom()).getSecond().values().iterator().next().setText(cible);
 	}
 	
-	// Récupérer le nombre de fichiers
+	/**
+	 * Récupérer le nombre de fichiers du thème séléctionné
+	 * @return nombre de fichiers du thème séléctionné
+	 */
 	public int getNbFichiers() {
 		return this.jcs_themes_parametres_cibles.get(this.themes.get(this.jcb_themes.getSelectedIndex()).getNom()).getSecond().size(); 
 	}
 	
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent) 
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		CardLayout layout = (CardLayout)(this.jp_themes.getLayout());
 		layout.show(this.jp_themes, (String)event.getItem());
 	}
 	
-	// Ecouter la liste des thèmes
+	/**
+	 * Ecouter la liste des thèmes
+	 * @param listener listener
+	 */
 	public void addItemListener(ItemListener listener) {
 		this.jcb_themes.addItemListener(listener);
-	}
-		
-	// Savoir s'il y a des erreurs
-	public boolean isError() {
-		return this.themes == null || this.themes.size() == 0 || this.error;
 	}
 	
 }

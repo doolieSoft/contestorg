@@ -1,11 +1,13 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite etre tenu au courant des opérations sur un modèle de graphe pyramidal
+ * Interface à implémenter si une classe souhaite être tenu au courant des opérations sur un modèle de données pour graphe pyramidal
  */
 public interface IGraphModelListener
 {
-	// Recoit une notification de reconstruction du graphe pyramidal
+	/**
+	 * Recevoir une notification de reconstruction du graphe pyramidal
+	 */
 	public void reloadGraphe();
 	
 }

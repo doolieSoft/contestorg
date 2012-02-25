@@ -8,17 +8,32 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+/**
+ * Boîte de dialogue de création/édition de connexion
+ */
 @SuppressWarnings("serial")
 abstract public class JDConnexionAbstract extends JDPattern
 {
 
-	// Textfields
+	// Entrées
+	
+	/** Hôte */
 	protected JTextField jtf_host = new JTextField();
+	
+	/** Port */
 	protected JTextField jtf_port = new JTextField();
+	
+	/** Nom d'utilisateur */
 	protected JTextField jtf_login = new JTextField();
+	
+	/** Mot de passe */
 	protected JPasswordField jtf_password = new JPasswordField();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue 
+	 */
 	public JDConnexionAbstract(Window w_parent, String titre) {
 		// Appeler le constructeur du parent
 		super(w_parent, titre);
@@ -44,7 +59,10 @@ abstract public class JDConnexionAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Vérifier la validité des données
+	/**
+	 * Vérifier la validité des données
+	 * @return données valides ?
+	 */
 	protected boolean check () {
 		if (ViewHelper.empty(this.jtf_host, this.jtf_port, this.jtf_login, this.jtf_password)) {
 			// Message d'erreur

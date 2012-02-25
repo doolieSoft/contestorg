@@ -1,28 +1,38 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelEmplacement;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.interfaces.IUpdater;
 
-
 /**
- * Emplacement où peut se dérouler un match
+ * Emplacement
  */
 public class ModelEmplacement extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Lieu */
 	private ModelLieu lieu;
 	
 	// Attributs scalaires
+	
+	/** Nom */
 	private String nom;
+	
+	/** Description */
 	private String description;
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param lieu lieu
+	 * @param infos informations de l'emplacement
+	 */
 	public ModelEmplacement(ModelLieu lieu, InfosModelEmplacement infos) {
 		// Retenir le lieu
 		this.lieu = lieu;
@@ -30,26 +40,52 @@ public class ModelEmplacement extends ModelAbstract
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param lieu lieu
+	 * @param emplacement emplacement
+	 */
 	protected ModelEmplacement(ModelLieu lieu, ModelEmplacement emplacement) {
 		// Appeller le constructeur principal
-		this(lieu, emplacement.toInfos());
+		this(lieu, emplacement.getInfos());
 		
 		// Récupérer l'id
 		this.setId(emplacement.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return nom;
 	}
+	
+	/**
+	 * Récupérer la description
+	 * @return description
+	 */
 	public String getDescription () {
 		return description;
 	}
+	
+	/**
+	 * Récupérer le lieu
+	 * @return lieu
+	 */
 	public ModelLieu getLieu () {
 		return this.lieu;
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations de l'emplacement
+	 * @param infos informations de l'emplacement
+	 */
 	protected void setInfos (InfosModelEmplacement infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -62,19 +98,27 @@ public class ModelEmplacement extends ModelAbstract
 		this.fireUpdate();
 	}
 	
-	// Clone
+	/**
+	 * Cloner l'emplacement
+	 * @param lieu lieu
+	 * @return clone de l'emplacement
+	 */
 	protected ModelEmplacement clone (ModelLieu lieu) {
 		return new ModelEmplacement(lieu, this);
 	}
 	
-	// ToInformation
-	public InfosModelEmplacement toInfos () {
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelEmplacement getInfos () {
 		InfosModelEmplacement infos = new InfosModelEmplacement(this.nom, this.description);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter l'emplacement à la liste des removers
@@ -94,24 +138,33 @@ public class ModelEmplacement extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des emplacements d'un lieu
+	/**
+	 * Classe pour mettre à jour la liste des emplacements d'un lieu
+	 */
 	protected static class UpdaterForLieu implements IUpdater<InfosModelEmplacement, ModelEmplacement>
 	{
-		// Lieu
+		/** Lieu */
 		private ModelLieu lieu;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param lieu lieu
+		 */
 		protected UpdaterForLieu(ModelLieu lieu) {
 			this.lieu = lieu;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
 		public ModelEmplacement create (InfosModelEmplacement infos) {
 			return new ModelEmplacement(this.lieu, infos);
 		}
 		
-		// Implémentation de update
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
 		public void update (ModelEmplacement emplacement, InfosModelEmplacement infos) {
 			emplacement.setInfos(infos);
@@ -119,10 +172,12 @@ public class ModelEmplacement extends ModelAbstract
 		
 	}
 	
-	// Classe pour valider les opérations sur la liste des emplacements d'un lieu
-	protected static class ValidatorForLieu implements IListValidator<InfosModelEmplacement>
+	/**
+	 * Classe pour valider les opérations sur la liste des emplacements d'un lieu
+	 */
+	protected static class ValidatorForLieu implements ITrackableListValidator<InfosModelEmplacement>
 	{
-		// Implémentation de IListValidator
+		// Implémentation de ITrackableListValidator
 		@Override
 		public String validateAdd (InfosModelEmplacement infos, TrackableList<InfosModelEmplacement> list) {
 			for (int i = 0; i < list.size(); i++) {

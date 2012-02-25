@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import org.contestorg.common.Triple;
@@ -12,12 +11,19 @@ import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.ICollector;
 
-
+/**
+ * Boîte de dialogue d'édition d'une exportation
+ */
 @SuppressWarnings("serial")
 public class JDExportationEditer extends JDExportationAbstract
 {
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations de l'exportation
+	 * @param infos informations de l'exportation
+	 */
 	public JDExportationEditer(Window w_parent, ICollector<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> collector, Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme> infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer une exportation", collector);

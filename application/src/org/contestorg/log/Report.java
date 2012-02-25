@@ -7,20 +7,31 @@ import org.contestorg.common.OperationAbstract;
 import org.contestorg.common.OperationRunnableAbstract;
 import org.contestorg.interfaces.IOperation;
 
-
-public class Report {
-	
-	// Description du problème
+/**
+ * Rapport d'erreur
+ */
+public class Report 
+{
+	/** Description de l'erreur */
 	private String description;
 	
-	// Pile des exceptions
+	/** Pile des exceptions */
 	private Stack<Exception> exceptions = new Stack<Exception>();
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param description description de l'erreur
+	 */
 	public Report(String description) {
 		// Retenir la description
 		this.description = description;
 	}
+	
+	/**
+	 * Constructeur
+	 * @param description description de l'erreur
+	 * @param exceptions liste des exceptions
+	 */
 	public Report(String description, Exception... exceptions) {
 		// Appeller le constructeur principal
 		this(description);
@@ -31,12 +42,18 @@ public class Report {
 		}
 	}
 	
-	// Ajouter une exception
+	/**
+	 * Ajouter une exception
+	 * @param exception exception
+	 */
 	public void pushException(Exception exception) {
 		this.exceptions.push(exception);
 	}
 	
-	// Envoyer le rapport
+	/**
+	 * Envoyer le rapport d'erreur
+	 * @return opération de l'envoi
+	 */
 	public IOperation send() {
 		// Créer et retourner l'opération
 		return new OperationAbstract() {
@@ -51,14 +68,19 @@ public class Report {
 		};
 	}
 	
-	// Classe permettant l'envoi du rapport
+	/**
+	 * Classe permettant l'envoi du rapport d'erreur
+	 */
 	private class Send extends OperationRunnableAbstract {
-		// Implémentation de run
+		/**
+		 * @see OperationRunnableAbstract#run()
+		 */
 		@Override
 		public void run () {
-			// Envoi du rapport
-			this.fireMessage("Envoi du rapport ..."); // TODO Envoie du rapport d'erreur sur le site web de contestorg
+			// Envoi du rapport d'erreur
+			this.fireMessage("Envoi du rapport ...");
 			
+			// TODO Envoie du rapport d'erreur sur le site web de contestorg
 			try {
 				Thread.sleep(1000);
 				this.fireAvancement(0.2);
@@ -77,7 +99,9 @@ public class Report {
 			this.reussite("Rapport envoyé !");
 		}
 
-		// Implémentation de clean
+		/**
+		 * @see OperationRunnableAbstract#clean()
+		 */
 		@Override
 		protected void clean () {
 		}

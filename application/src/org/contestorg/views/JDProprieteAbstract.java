@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.GridLayout;
 import java.awt.Window;
 
@@ -15,25 +14,47 @@ import javax.swing.JTextField;
 import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue de création/édition d'une propriété de participant
+ */
 @SuppressWarnings("serial")
 public abstract class JDProprieteAbstract extends JDPattern
 {
 	
-	// Collector
+	/** Collecteur des informations du participant */
 	private ICollector<InfosModelPropriete> collector;
 	
 	// Labels des types
+	
+	/** Nombre entier */
 	protected static String LABEL_TYPE_INT = "Nombre entier";
+	
+	/** Nombre décimal */
 	protected static String LABEL_TYPE_FLOAT = "Nombre décimal";
+	
+	/** Texte */
 	protected static String LABEL_TYPE_STRING = "Texte";
 	
 	// Entrées
+	
+	/** Nom */
 	protected JTextField jtf_nom = new JTextField();
+	
+	/** Propriété obligatoire */
 	protected JRadioButton jrb_obligatoire_oui = new JRadioButton("Oui", true);
+	
+	/** Propriété non obligatoire */
 	protected JRadioButton jrb_obligatoire_non = new JRadioButton("Non");
-	protected JComboBox jcb_types;
+	
+	/** Liste des types */
+	protected JComboBox<String> jcb_types;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations de la propriété
+	 */
 	public JDProprieteAbstract(Window w_parent, String titre, ICollector<InfosModelPropriete> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -45,7 +66,7 @@ public abstract class JDProprieteAbstract extends JDPattern
 		this.jp_contenu.add(ViewHelper.title("Informations sur la propriété", ViewHelper.H1));
 		
 		String[] types = {JDProprieteAbstract.LABEL_TYPE_INT,JDProprieteAbstract.LABEL_TYPE_FLOAT,JDProprieteAbstract.LABEL_TYPE_STRING};
-		this.jcb_types = new JComboBox(types);
+		this.jcb_types = new JComboBox<String>(types);
 		
 		ButtonGroup bg_obligatoire = new ButtonGroup();
 		bg_obligatoire.add(this.jrb_obligatoire_oui);
@@ -62,7 +83,9 @@ public abstract class JDProprieteAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -83,11 +106,13 @@ public abstract class JDProprieteAbstract extends JDPattern
 		
 		// Envoyer les données au collector
 		if(!erreur) {
-			this.collector.accept(new InfosModelPropriete(nom, type, obligatoire));
+			this.collector.collect(new InfosModelPropriete(nom, type, obligatoire));
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler

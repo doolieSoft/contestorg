@@ -7,24 +7,37 @@ import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
-import org.contestorg.infos.InfosModelPhaseEliminatoires;
+import org.contestorg.infos.InfosModelPhasesEliminatoires;
 import org.contestorg.interfaces.IGraphModel;
 
+/**
+ * Point d'entrée aux modèles concernant les phases éliminatoires
+ */
 public class FrontModelPhasesEliminatoires
 {
-	// Point d'entrée principal aux modèles
+	/** Point d'entrée principal aux modèles */
 	private FrontModel frontModel;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param frontModel point d'entrée principal aux modèles
+	 */
 	public FrontModelPhasesEliminatoires(FrontModel frontModel) {
 		this.frontModel = frontModel;
 	}
 	
 	// Récupérer des données calculées
-	public boolean isMatchPhasesElimsResultatsEditables(String nomCategorie, int numeroMatch) {
+	
+	/**
+	 * Savoir si les résultats d'un match sont éditables
+	 * @param nomCategorie nom de la catégorie
+	 * @param numeroMatch numéro de match
+	 * @return résultats du match éditables ?
+	 */
+	public boolean isMatchResultatsEditables(String nomCategorie, int numeroMatch) {
 		// Récupérer le match
 		ModelMatchPhasesElims match = this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPhasesEliminatoires().getMatch(numeroMatch);
 		
@@ -33,49 +46,78 @@ public class FrontModelPhasesEliminatoires
 	}
 	
 	// Récupérer des données uniques
-	public Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>,InfosModelMatchPhasesElims> getInfosMatchPhaseElims(String nomCategorie, int numeroMatch) {
+	
+	/**
+	 * Récupérer les informations sur un match d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @param numeroMatch numéro de match
+	 * @return informations sur le match de la catégorie
+	 */
+	public Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesElims> getInfosMatch(String nomCategorie, int numeroMatch) {
 		// Récupérer le match
 		ModelMatchPhasesElims match = this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPhasesEliminatoires().getMatch(numeroMatch);
 		
 		// Récupérer les informations du match
-		Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
+		Pair<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
 		
 		// Retourner les informations du match
-		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.toInfos());
+		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.getInfos());
 	}
-	public Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>,InfosModelMatchPhasesElims> getInfosMatchPetiteFinale(String nomCategorie) {
+	
+	/**
+	 * Récupérer les informations sur la petite finale d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @return informations sur la petite finale de la catégorie
+	 */
+	public Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesElims> getInfosMatchPetiteFinale(String nomCategorie) {
 		// Récupérer le match
 		ModelMatchPhasesElims match = this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPhasesEliminatoires().getPetiteFinale();
 		
 		// Récupérer les informations du match
-		Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
+		Pair<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
 		
 		// Retourner les informations du match
-		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.toInfos());
+		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(infos.getFirst(), infos.getSecond(), match.getInfos());
 	}
-	private Pair<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>> getInfosMatch(ModelMatchAbstract match) {
+	
+	/**
+	 * Récupérer les informations sur un match d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @param numeroMatch numéro de match
+	 * @return informations sur le match de la catégorie
+	 */
+	private Pair<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>> getInfosMatch(ModelMatchAbstract match) {
 		// Récupérer les informations de participation du participant A
 		String nomParticipantA = match.getParticipationA() == null || match.getParticipationA().getParticipant() == null ? null : match.getParticipationA().getParticipant().getNom();
-		ArrayList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesA = new ArrayList<Pair<String,InfosModelParticipationObjectif>>();
+		ArrayList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = new ArrayList<Pair<String,InfosModelObjectifRemporte>>();
 		for(ModelObjectifRemporte objectifRemporte : match.getParticipationA().getObjectifsRemportes()) {
-			objectifsRemportesA.add(new Pair<String, InfosModelParticipationObjectif>(objectifRemporte.getObjectif().getNom(), objectifRemporte.toInfos()));
+			objectifsRemportesA.add(new Pair<String, InfosModelObjectifRemporte>(objectifRemporte.getObjectif().getNom(), objectifRemporte.getInfos()));
 		}
-		Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> infosParticipationA = new Triple<String, ArrayList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomParticipantA, objectifsRemportesA, match.getParticipationA().toInfos());
+		Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> infosParticipationA = new Triple<String, ArrayList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(nomParticipantA, objectifsRemportesA, match.getParticipationA().getInfos());
 		
 		// Récupérer les informations de participation du participant B
 		String nomParticipantB = match.getParticipationB() == null || match.getParticipationB().getParticipant() == null ? null : match.getParticipationB().getParticipant().getNom();
-		ArrayList<Pair<String, InfosModelParticipationObjectif>> objectifsRemportesB = new ArrayList<Pair<String,InfosModelParticipationObjectif>>();
+		ArrayList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = new ArrayList<Pair<String,InfosModelObjectifRemporte>>();
 		for(ModelObjectifRemporte objectifRemporte : match.getParticipationB().getObjectifsRemportes()) {
-			objectifsRemportesB.add(new Pair<String, InfosModelParticipationObjectif>(objectifRemporte.getObjectif().getNom(), objectifRemporte.toInfos()));
+			objectifsRemportesB.add(new Pair<String, InfosModelObjectifRemporte>(objectifRemporte.getObjectif().getNom(), objectifRemporte.getInfos()));
 		}
-		Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation> infosParticipationB = new Triple<String, ArrayList<Pair<String,InfosModelParticipationObjectif>>, InfosModelParticipation>(nomParticipantB, objectifsRemportesB, match.getParticipationB().toInfos());
+		Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> infosParticipationB = new Triple<String, ArrayList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(nomParticipantB, objectifsRemportesB, match.getParticipationB().getInfos());
 		
 		// Assembler les informations demandées et les retourner
-		return new Pair<Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelParticipationObjectif>>,InfosModelParticipation>>(infosParticipationA, infosParticipationB);
+		return new Pair<Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>>(infosParticipationA, infosParticipationB);
 	}
 	
 	// Générer/Modifier/Supprimer les phases éliminatoires
-	public void genererPhasesElims(String nomCategorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhaseEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
+	
+	/**
+	 * Générer les phases éliminatoires d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @param nbPhases nombre de phases éliminatoires
+	 * @param infosMatchs informations d'initialisation des matchs
+	 * @param infosPhaseEliminatoire informations de la phase éliminatoire
+	 * @throws ContestOrgModelException
+	 */
+	public void genererPhasesElims(String nomCategorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
 		// Démarrer l'action de génération
 		this.frontModel.getHistory().start("Génération des phases éliminatoires pour la catégorie \""+nomCategorie+"\"");
 		
@@ -85,6 +127,12 @@ public class FrontModelPhasesEliminatoires
 		// Fermer l'action de génération
 		this.frontModel.getHistory().close();
 	}
+	
+	/**
+	 * Remettre à zéro les phases éliminatoires d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @throws ContestOrgModelException
+	 */
 	public void resetPhasesElims(String nomCategorie) throws ContestOrgModelException {
 		// Démarrer l'action de reset
 		this.frontModel.getHistory().start("Reset des phases éliminatoires pour la catégorie \""+nomCategorie+"\"");
@@ -95,7 +143,15 @@ public class FrontModelPhasesEliminatoires
 		// Fermer l'action de reset
 		this.frontModel.getHistory().close();
 	}
-	public void setParticipantPhasesElims(String nomCategorie, int numeroCellule, String nomParticipant) throws ContestOrgModelException {
+	
+	/**
+	 * Définir le participant d'une cellule donnée d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @param numeroCellule numéro de la cellule
+	 * @param nomParticipant nom du participant
+	 * @throws ContestOrgModelException
+	 */
+	public void setParticipant(String nomCategorie, int numeroCellule, String nomParticipant) throws ContestOrgModelException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification d'un participant dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		
@@ -125,7 +181,15 @@ public class FrontModelPhasesEliminatoires
 		// Fermer l'action de modification
 		this.frontModel.getHistory().close();
 	}
-	public void updateMatchPhasesElims(String nomCategorie, int numeroMatch, Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgModelException {
+	
+	/**
+	 * Mettre à jour les informations d'un match donnée d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @param numeroMatch numéro du match
+	 * @param infos nouvelles informations du match
+	 * @throws ContestOrgModelException
+	 */
+	public void updateMatch(String nomCategorie, int numeroMatch, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgModelException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification d'un match dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		
@@ -138,7 +202,14 @@ public class FrontModelPhasesEliminatoires
 		// Fermer l'action de modification
 		this.frontModel.getHistory().close();
 	}
-	public void updateMatchPetiteFinale(String nomCategorie, Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgModelException {
+	
+	/**
+	 * Mettre à jour les informations de la petite finale d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @param infos nouvelles informations de la petite finale
+	 * @throws ContestOrgModelException
+	 */
+	public void updateMatchPetiteFinale(String nomCategorie, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgModelException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification de la petite finale dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		
@@ -153,10 +224,22 @@ public class FrontModelPhasesEliminatoires
 	}
 	
 	// Récupérer des GrapheModels
-	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPhasesElimsGrandeFinale(String nomCategorie) {
+	
+	/**
+	 * Récupérer le GraphModel de la grande finale d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @return GraphModel de la grande finale de la catégorie
+	 */
+	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelGrandeFinale(String nomCategorie) {
 		return new GraphModelPhasesElimsGrandeFinale(this.frontModel.getConcours().getCategorieByNom(nomCategorie));
 	}
-	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPhasesElimsPetiteFinale(String nomCategorie) {
+	
+	/**
+	 * Récupérer le GraphModel de la petite finale d'une catégorie donnée
+	 * @param nomCategorie nom de la catégorie
+	 * @return GraphModel de la petite finale de la catégorie
+	 */
+	public IGraphModel<InfosModelCategorie,InfosModelParticipant> getGraphModelPetiteFinale(String nomCategorie) {
 		return new GraphModelPhasesElimsPetiteFinale(this.frontModel.getConcours().getCategorieByNom(nomCategorie));
 	}
 

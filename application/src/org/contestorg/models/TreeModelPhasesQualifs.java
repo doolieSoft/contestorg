@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
@@ -15,13 +14,17 @@ import org.contestorg.events.EventUpdate;
 import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IHistoryListener;
 
-
-
-@SuppressWarnings("serial")
+/**
+ * Modèle de données pour arbre de phases qualificatives
+ */
 public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistoryListener
 {
+	/** Numéro de version de la classe */
+	private static final long serialVersionUID = 1;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 */
 	protected TreeModelPhasesQualifs() {
 		// Appeller le constructeur du parent
 		super(new ConcoursTreeNode(FrontModel.get().getConcours()));
@@ -30,7 +33,9 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		FrontModel.get().getHistory().addListener(this);
 	}
 	
-	// Rafraichir la structure de l'arbre
+	/**
+	 * Rafraichir la structure de l'arbre
+	 */
 	private void refresh () {
 		// Caster la node root
 		ConcoursTreeNode root = (ConcoursTreeNode)this.getRoot();
@@ -73,11 +78,16 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		this.reload();
 	}
 	
-	// Classe node représentant le concours
+	/**
+	 * Classe node représentant le concours
+	 */
 	private static class ConcoursTreeNode extends TreeNodeAbstract<ModelConcours> implements IEventListener
 	{
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 */
 		public ConcoursTreeNode(ModelConcours concours) {
 			// Appeller le constructeur du parent
 			super(concours);
@@ -96,7 +106,10 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 			}
 		}
 		
-		// Définir le concours
+		/**
+		 * Définir le concours
+		 * @param concours concours
+		 */
 		public void setConcours (ModelConcours concours) {
 			// Retenir le concours
 			this.object = concours;
@@ -121,15 +134,19 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 			this.clearIndicators();
 		}
 		
-		// Implémentation de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return true;
 		}
 		
-		// Surcharge de getObject
+		/**
+		 * @see TreeNodeAbstract#getObject()
+		 */
 		public Object getObject () {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -167,11 +184,16 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 		
 	}
 	
-	// Classe node représentant une catégorie
+	/**
+	 * Classe node représentant une catégorie
+	 */
 	private static class CategorieTreeNode extends TreeNodeAbstract<ModelCategorie> implements IEventListener
 	{
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param categorie catégorie
+		 */
 		public CategorieTreeNode(ModelCategorie categorie) {
 			// Appeller le constructeur du parent
 			super(categorie);
@@ -187,15 +209,19 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 			this.object.addListener(this);
 		}
 		
-		// Implémentation de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return true;
 		}
 		
-		// Implémentation de ITreeNode
+		/**
+		 * @see TreeNodeAbstract#getObject()
+		 */
 		public Object getObject () {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -230,16 +256,21 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 				}
 			} else if(event instanceof EventUpdate) {
 				// Signaler la modification de la node
-				this.hasChanged();
+				this.setChanged();
 			}
 		}
 	}
 	
-	// Classe node représentant une poule
+	/**
+	 * Classe node représentant une poule
+	 */
 	private static class PouleTreeNode extends TreeNodeAbstract<ModelPoule> implements IEventListener
 	{
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param poule poule
+		 */
 		public PouleTreeNode(ModelPoule poule) {
 			// Appeller le constructeur parent
 			super(poule);
@@ -255,15 +286,19 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 			this.object.addListener(this);
 		}
 		
-		// Implémentation de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return true;
 		}
 		
-		// Surcharge de getObject
+		/**
+		 * @see TreeNodeAbstract#getObject()
+		 */
 		public Object getObject () {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -281,7 +316,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 					// Signaler la modification des phases suivantes
 					if(eventAdd.getIndex() != this.children.size()-1) {
 						for(TreeNodeAbstract<?> node : this.children.subList(eventAdd.getIndex()+1, this.children.size()-1)) {
-							node.hasChanged();
+							node.setChanged();
 						}
 					}
 				}
@@ -297,7 +332,7 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 					// Signaler la modification des phases suivantes
 					if(eventRemove.getIndex() != this.children.size()) {
 						for(TreeNodeAbstract<?> node : this.children.subList(eventRemove.getIndex(), this.children.size()-1)) {
-							node.hasChanged();
+							node.setChanged();
 						}
 					}
 				}
@@ -312,29 +347,38 @@ public class TreeModelPhasesQualifs extends DefaultTreeModel implements IHistory
 				}
 			} else if(event instanceof EventUpdate) {
 				// Signaler la modification de la node
-				this.hasChanged();
+				this.setChanged();
 			}
 		}
 	}
 	
-	// Classe node représentant une phase qualificative
+	/**
+	 * Classe node représentant une phase qualificative
+	 */
 	private static class PhaseQualifTreeNode extends TreeNodeAbstract<ModelPhaseQualificative>
 	{
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param phaseQualif phase qualificative
+		 */
 		public PhaseQualifTreeNode(ModelPhaseQualificative phaseQualif) {
 			// Appeller le constructeur parent
 			super(phaseQualif);
 		}
 		
-		// Implémentation manquante de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return false;
 		}
 		
-		// Surcharge de getObject
+		/**
+		 * @see TreeNodeAbstract#getObject()
+		 */
 		public Object getObject () {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 	}
 }

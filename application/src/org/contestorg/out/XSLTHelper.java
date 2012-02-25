@@ -15,11 +15,20 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.contestorg.log.Log;
 
-
+/**
+ * Classe d'aide à la réalisation d'opérations XSLT
+ */
 public class XSLTHelper
 {
-	// Méthode permettant de transformer un document XML avec une feuille de style XSL
-	public static boolean transform (File xml, File xsl, File result, HashMap<String, String> parameters) {	
+	/**
+	 * Transformer un document XML avec une feuille de style XSL
+	 * @param xml fichier XML
+	 * @param xsl fichier XSL
+	 * @param target fichier cible
+	 * @param parameters liste des paramètres XSL
+	 * @return opération réussie ?
+	 */
+	public static boolean transform (File xml, File xsl, File target, HashMap<String, String> parameters) {	
 		try {
 			// Configuration du transformer
 			TransformerFactory factory = TransformerFactory.newInstance();
@@ -32,7 +41,7 @@ public class XSLTHelper
 			}
 			
 			// Transformation
-			StreamResult streamResult = new StreamResult(new OutputStreamWriter(new FileOutputStream(result), "UTF8"));
+			StreamResult streamResult = new StreamResult(new OutputStreamWriter(new FileOutputStream(target), "UTF8"));
 			StreamSource streamSource = new StreamSource(new InputStreamReader(new FileInputStream(xml),"UTF8"));
 			transformer.transform(streamSource, streamResult);
 			
