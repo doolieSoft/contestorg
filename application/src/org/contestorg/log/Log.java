@@ -1,4 +1,4 @@
-﻿package org.contestorg.log;
+package org.contestorg.log;
 
 import org.apache.log4j.Logger;
 import org.contestorg.controllers.ContestOrg;

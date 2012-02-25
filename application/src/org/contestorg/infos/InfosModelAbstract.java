@@ -1,4 +1,4 @@
-﻿package org.contestorg.infos;
+package org.contestorg.infos;
 
 /**
  * Conteneur d'informations

@@ -1,4 +1,4 @@
-﻿package org.contestorg.common;
+package org.contestorg.common;
 
 /**
  * Classe des exceptions soulevées par ContestOrg

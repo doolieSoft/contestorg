@@ -1,10 +1,11 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelPhaseQualificative;
+import org.contestorg.interfaces.ICollector;
 
 /**
  * Collecteur pour l'édition d'une phase qualificative au sein d'une catégorie

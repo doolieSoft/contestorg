@@ -1,4 +1,4 @@
-﻿import org.contestorg.controllers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 
 /**
  * Lancement de ContestOrg

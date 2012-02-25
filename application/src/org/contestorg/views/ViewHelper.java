@@ -1,4 +1,4 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -113,7 +113,7 @@ public class ViewHelper
 	
 	/**
 	 * Créer un panel avec des composants alignés sur la gauche
-	 * @param composants composants
+	 * @param components composants
 	 * @return panel avec les composants alignés sur la gauche
 	 */
 	public static JPanel left(JComponent... components) {
@@ -129,7 +129,7 @@ public class ViewHelper
 	
 	/**
 	 * Créer un panel avec des composants alignés au centre
-	 * @param composants composants
+	 * @param components components
 	 * @return panel avec les composants alignés au centre
 	 */
 	public static JPanel center(JComponent... components) {
@@ -325,7 +325,7 @@ public class ViewHelper
 	/**
 	 * Afficher un message d'information
 	 * @param parent fenêtre parent
-	 * @param titre titre de la fenêtre
+	 * @param title titre de la fenêtre
 	 * @param message message d'information
 	 */
 	public static void dinformation (Component parent, String title, String message) {

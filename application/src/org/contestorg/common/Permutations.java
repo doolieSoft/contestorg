@@ -1,4 +1,4 @@
-﻿package org.contestorg.common;
+package org.contestorg.common;
 
 /**
  * Permet d'obtenir toutes les permutations d'un tableau

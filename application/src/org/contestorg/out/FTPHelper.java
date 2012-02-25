@@ -1,4 +1,4 @@
-﻿package org.contestorg.out;
+package org.contestorg.out;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -258,7 +258,7 @@ public class FTPHelper
 		}
 		
 		/**
-		 * @see OperationRunnableAbstract#getRunnable()
+		 * @see OperationAbstract#getRunnable()
 		 */
 		@Override
 		public OperationRunnableAbstract getRunnable () {

@@ -1,4 +1,4 @@
-﻿package org.contestorg.out;
+package org.contestorg.out;
 
 import java.io.File;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class RessourceXSLT extends RessourceAbstract
 	/**
 	 * Constructeur
 	 * @param cible chemin du fichier cible
-	 * @param principale ressource principale ?
+	 * @param principal ressource principale ?
 	 * @param parametres liste des paramètres
 	 * @param fichiers liste des fichiers
 	 * @param xsl fichier XSL

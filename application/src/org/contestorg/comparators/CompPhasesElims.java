@@ -1,4 +1,4 @@
-﻿package org.contestorg.comparators;
+package org.contestorg.comparators;
 
 import java.util.Comparator;
 

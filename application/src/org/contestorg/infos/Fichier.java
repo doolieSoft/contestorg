@@ -1,4 +1,4 @@
-﻿package org.contestorg.infos;
+package org.contestorg.infos;
 
 /**
  * Fichier de thème d'exportation/diffusion

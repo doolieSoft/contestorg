@@ -1,4 +1,4 @@
-﻿package org.contestorg.common;
+package org.contestorg.common;
 
 import org.contestorg.interfaces.IOperation;
 import org.contestorg.interfaces.IOperationListener;

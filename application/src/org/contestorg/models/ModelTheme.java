@@ -1,4 +1,4 @@
-﻿package org.contestorg.models;
+package org.contestorg.models;
 
 import java.util.ArrayList;
 import java.util.HashMap;

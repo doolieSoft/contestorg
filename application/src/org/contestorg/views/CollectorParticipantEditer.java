@@ -1,4 +1,4 @@
-﻿package org.contestorg.views;
+package org.contestorg.views;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
@@ -6,6 +6,7 @@ import org.contestorg.common.TrackableList;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelProprietePossedee;
+import org.contestorg.interfaces.ICollector;
 
 /**
  * Collecteur pour l'édition d'un participant

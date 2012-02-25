@@ -1,4 +1,4 @@
-﻿package org.contestorg.models;
+package org.contestorg.models;
 
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;

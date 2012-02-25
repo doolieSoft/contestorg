@@ -1,4 +1,4 @@
-﻿package org.contestorg.infos;
+package org.contestorg.infos;
 
 import java.io.File;
 import java.util.ArrayList;
