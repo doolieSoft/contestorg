@@ -1,12 +1,12 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
@@ -20,28 +20,37 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
-import org.contestorg.controlers.CtrlOut;
+import org.contestorg.controllers.ContestOrg;
+import org.contestorg.controllers.CtrlOut;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.IEndListener;
 import org.contestorg.interfaces.IOperation;
 
-
-
+/**
+ * Boîte de dialogue de lancement des diffusions prédéfinies
+ */
 @SuppressWarnings("serial")
 public class JDDiffusions extends JDPattern implements IEndListener
 {
 	
-	// Diffusions
+	/** Liste des diffusion prédéfiniess */
 	private ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions;
 	
-	// Status et boutons
+	/** Liste des statuts des diffusions */
 	private ArrayList<JLabel> jls_statuts = new ArrayList<JLabel>();
+	
+	/** Liste des boutons "Démarrer/Arrêter" */
 	private ArrayList<JButton> jbs_controle = new ArrayList<JButton>();
+	
+	/** Liste des boutons "Afficher" */
 	private ArrayList<JButton> jbs_afficher = new ArrayList<JButton>();
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param diffusions liste des diffusions
+	 */
 	public JDDiffusions(Window w_parent, ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Diffuser");
@@ -99,7 +108,7 @@ public class JDDiffusions extends JDPattern implements IEndListener
 				panel.add(new JLabel(this.diffusions.get(i).getFirst().getNom()+" (écoutant sur le port "+this.diffusions.get(i).getFirst().getPort()+")    "),contrainte_labels);
 				
 				// Ajouter le bouton de controle
-				this.jbs_controle.add(new JButton(demarree ? "Stopper" : "Démarrer",new ImageIcon(demarree ? "img/farm/16x16/control_stop_blue.png" : "img/farm/16x16/control_play_blue.png")));
+				this.jbs_controle.add(new JButton(demarree ? "Arrêter" : "Démarrer",new ImageIcon(demarree ? "img/farm/16x16/control_stop_blue.png" : "img/farm/16x16/control_play_blue.png")));
 				panel.add(this.jbs_controle.get(i),contrainte_controle);
 				
 				// Ajouter le bouton afficher
@@ -128,7 +137,9 @@ public class JDDiffusions extends JDPattern implements IEndListener
 		this.pack();
 	}
 	
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if(this.jbs_controle.contains(event.getSource())) {
 			// Savoir s'il s'agit d'un démarrage ou d'un arret
@@ -161,21 +172,27 @@ public class JDDiffusions extends JDPattern implements IEndListener
 		}
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 
-	// Fin du demarrage/arret de la diffusion
+	/**
+	 * @see IEndListener#end()
+	 */
 	@Override
 	public void end () {
 		// Récupérer le controleur
@@ -196,7 +213,7 @@ public class JDDiffusions extends JDPattern implements IEndListener
 			this.jbs_afficher.get(i).setEnabled(demarree);
 			
 			// Modifier le bouton de controle
-			this.jbs_controle.get(i).setText(demarree ? "Stopper" : "Démarrer");
+			this.jbs_controle.get(i).setText(demarree ? "Arrêter" : "Démarrer");
 			this.jbs_controle.get(i).setIcon(new ImageIcon(demarree ? "img/farm/16x16/control_stop_blue.png" : "img/farm/16x16/control_play_blue.png"));
 		}
 	}

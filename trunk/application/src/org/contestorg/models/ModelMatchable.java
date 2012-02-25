@@ -1,9 +1,16 @@
 ﻿package org.contestorg.models;
 
+/**
+ * Modèle recherchable
+ */
 public abstract class ModelMatchable extends ModelAbstract
 {
 	
-	// Implémentation de match
+	/**
+	 * Récupérer le score de correspondance à des mots clés
+	 * @param keywords mots clés
+	 * @return score de correspondance à des mots clés
+	 */
 	public int match (String keywords) {
 		// Récupérer la liste de strings de l'objet
 		String[] strings = this.toStrings();
@@ -30,8 +37,8 @@ public abstract class ModelMatchable extends ModelAbstract
 	}
 	
 	/**
-	 * Méthode que doivent implémenter les filles de cette classe
-	 * @return une liste de strings qui seront utilisées dans la recherche en prenant en compte l'ordre
+	 * Récupérer la liste de strings utilisées par la correspondance
+	 * @return liste de strings utilisées par la correspondance
 	 */
 	protected abstract String[] toStrings ();
 }

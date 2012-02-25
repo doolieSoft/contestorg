@@ -1,23 +1,26 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelPrix;
 
-
-
+/**
+ * Panel de configuration des prix
+ */
 @SuppressWarnings("serial")
 public class JPConfigurationPrix extends JPConfigurationAbstract
 {
 
-	// TableModel de la liste des prix
+	/** TableModel de la liste des prix */
 	private TMPrix tm_prix;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPConfigurationPrix(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -29,12 +32,18 @@ public class JPConfigurationPrix extends JPConfigurationAbstract
 		this.jp_contenu.add(new JPTable<InfosModelPrix>(this.w_parent, this.tm_prix));
 	}
 	
-	// Getters
+	/**
+	 * Récupérer la liste des prix
+	 * @return liste des prix
+	 */
 	public TrackableList<InfosModelPrix> getPrix() {
 		return new TrackableList<InfosModelPrix>(this.tm_prix);
 	}
 	
-	// Setters
+	/**
+	 * Définir la liste des prix
+	 * @param prix liste des prix
+	 */
 	public void setPrix(ArrayList<InfosModelPrix> prix) {
 		this.tm_prix.fill(prix);
 	}

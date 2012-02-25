@@ -1,35 +1,59 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.infos.InfosModelCheminLocal;
 
+/**
+ * Chemin d'exportation local
+ */
 public class ModelCheminLocal extends ModelCheminAbstract
 {
 	
 	// Attributs scalaires
+	
+	/** Chemin */
 	private String chemin;
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param infos informations du chemin d'exportation local
+	 */
 	public ModelCheminLocal(InfosModelCheminLocal infos) {
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param chemin chemin d'exportation local
+	 */
 	protected ModelCheminLocal(ModelCheminLocal chemin) {
 		// Appeller le constructeur principal
-		this(chemin.toInfos());
+		this(chemin.getInfos());
 		
 		// Récupérer l'id
 		this.setId(chemin.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le chemin
+	 * @return chemin
+	 */
 	public String getChemin () {
 		return this.chemin;
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations du chemin d'exportation local
+	 * @param infos informations du chemin d'exportation local
+	 */
 	protected void setInfos (InfosModelCheminLocal infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -41,19 +65,26 @@ public class ModelCheminLocal extends ModelCheminAbstract
 		this.fireUpdate();
 	}
 	
-	// Clone
+	/**
+	 * Cloner le chemin d'exportation local
+	 * @return clone du chemin d'exportation local
+	 */
 	protected ModelCheminLocal clone () {
 		return new ModelCheminLocal(this);
 	}
 	
-	// ToInformation
-	public InfosModelCheminLocal toInfos () {
+	/**
+	 * @see ModelCheminAbstract#getInfos()
+	 */
+	public InfosModelCheminLocal getInfos () {
 		InfosModelCheminLocal infos = new InfosModelCheminLocal(this.chemin);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete()
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Appeller le remove du parent

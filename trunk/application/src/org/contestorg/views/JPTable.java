@@ -19,40 +19,90 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+/**
+ * Panel d'un tableau
+ * @param <T> classe des objets du modèle de données
+ */
 @SuppressWarnings("serial")
 public class JPTable<T> extends JPanel implements ActionListener, ListSelectionListener, TableModelListener
 {
 
-	// Parent
+	/** Fenêtre parent */
 	private Window w_parent;
 
-	// Boutons
-	private JButton jb_ajouter = new JButton("Ajouter", new ImageIcon("img/farm/16x16/add.png"));
-	private JButton jb_editer = new JButton("Editer", new ImageIcon("img/farm/16x16/pencil.png"));;
-	private JButton jb_monter = new JButton("Monter", new ImageIcon("img/farm/16x16/resultset_up.png"));;
-	private JButton jb_baisser = new JButton("Baisser", new ImageIcon("img/farm/16x16/resultset_down.png"));;
-	private JButton jb_supprimer = new JButton("Supprimer", new ImageIcon("img/farm/16x16/cross.png"));
-
-	// JTable
+	/** Tableau */
 	private JTable jtable;
 
-	// TableModel
+	/** Modèle de données */
 	private TMAbstract<T> tablemodel;
 
-	// Constructeur
-	public JPTable(Window w_parent, TMAbstract<T> tm) {
-		this(w_parent, tm, true, true, false, false, true);
+	// Boutons
+	
+	/** Bouton "Ajouter" */
+	private JButton jb_ajouter = new JButton("Ajouter", new ImageIcon("img/farm/16x16/add.png"));
+	
+	/** Bouton "Editer" */
+	private JButton jb_editer = new JButton("Editer", new ImageIcon("img/farm/16x16/pencil.png"));;
+	
+	/** Bouton "Monter" */
+	private JButton jb_monter = new JButton("Monter", new ImageIcon("img/farm/16x16/resultset_up.png"));;
+	
+	/** Bouton "Baisser" */
+	private JButton jb_baisser = new JButton("Baisser", new ImageIcon("img/farm/16x16/resultset_down.png"));;
+	
+	/** Bouton "Supprimer */
+	private JButton jb_supprimer = new JButton("Supprimer", new ImageIcon("img/farm/16x16/cross.png"));
+
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param tablemodel modèle de données
+	 */
+	public JPTable(Window w_parent, TMAbstract<T> tablemodel) {
+		this(w_parent, tablemodel, true, true, false, false, true);
 	}
-	public JPTable(Window w_parent, TMAbstract<T> tm, int visibleRows) {
-		this(w_parent, tm, true, true, false, false, true, visibleRows);
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param tablemodel modèle de données
+	 * @param visibleRows nombre de lignes visibles
+	 */
+	public JPTable(Window w_parent, TMAbstract<T> tablemodel, int visibleRows) {
+		this(w_parent, tablemodel, true, true, false, false, true, visibleRows);
 	}
-	public JPTable(Window w_parent, TMAbstract<T> tm, boolean addButton, boolean editButton, boolean moveUpButton, boolean moveDownButton, boolean deleteButton) {
-		this(w_parent, tm, addButton, editButton, moveUpButton, moveDownButton, deleteButton, 6);
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param tablemodel modèle de données
+	 * @param addButton afficher le bouton "Ajouter" ?
+	 * @param editButton afficher le bouton "Editer" ?
+	 * @param moveUpButton afficher le bouton "Monter" ?
+	 * @param moveDownButton afficher le bouton "Baisser" ?
+	 * @param deleteButton afficher le bouton "Supprimer" ?
+	 */
+	public JPTable(Window w_parent, TMAbstract<T> tablemodel, boolean addButton, boolean editButton, boolean moveUpButton, boolean moveDownButton, boolean deleteButton) {
+		this(w_parent, tablemodel, addButton, editButton, moveUpButton, moveDownButton, deleteButton, 6);
 	}
-	public JPTable(Window w_parent, TMAbstract<T> tm, boolean addButton, boolean editButton, boolean moveUpButton, boolean moveDownButton, boolean deleteButton, int visibleRows) {
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param tablemodel modèle de données
+	 * @param addButton afficher le bouton "Ajouter" ?
+	 * @param editButton afficher le bouton "Editer" ?
+	 * @param moveUpButton afficher le bouton "Monter" ?
+	 * @param moveDownButton afficher le bouton "Baisser" ?
+	 * @param deleteButton afficher le bouton "Supprimer" ?
+	 * @param visibleRows nombre de lignes visibles
+	 */
+	public JPTable(Window w_parent, TMAbstract<T> tablemodel, boolean addButton, boolean editButton, boolean moveUpButton, boolean moveDownButton, boolean deleteButton, int visibleRows) {
 		// Retenir le parent et le TableModel
 		this.w_parent = w_parent;
-		this.tablemodel = tm;
+		this.tablemodel = tablemodel;
 
 		// Panel de contenu
 		JPanel jp_contenu = new JPanel();
@@ -61,7 +111,7 @@ public class JPTable<T> extends JPanel implements ActionListener, ListSelectionL
 		this.add(jp_contenu, BorderLayout.NORTH);
 
 		// Ajouter la table
-		this.jtable = new JTable(tm);
+		this.jtable = new JTable(tablemodel);
 		this.jtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		int height = 0; 
 	    for(int row=0; row< visibleRows; row++) {
@@ -98,7 +148,9 @@ public class JPTable<T> extends JPanel implements ActionListener, ListSelectionL
 		this.tablemodel.addTableModelListener(this);
 	}
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	@Override
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_ajouter) {
@@ -145,7 +197,9 @@ public class JPTable<T> extends JPanel implements ActionListener, ListSelectionL
 		}
 	}
 	
-	// Mettre à jour les boutons
+	/**
+	 * Mettre à jour les boutons
+	 */
 	private void updateButtons() {
 		// Mettre à jour les boutons
 		this.jb_editer.setEnabled(this.jtable.getSelectedRowCount() == 1);
@@ -154,14 +208,18 @@ public class JPTable<T> extends JPanel implements ActionListener, ListSelectionL
 		this.jb_supprimer.setEnabled(this.jtable.getSelectedRowCount() == 1);
 	}
 	
-	// Implémentation de ListSelectionListener
+	/**
+	 * @see ListSelectionListener#valueChanged(ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged (ListSelectionEvent event) {
 		// Mettre à jour les boutons
 		this.updateButtons();
 	}
 	
-	// Implémentation de TableModelListener
+	/**
+	 * @see TableModelListener#tableChanged(TableModelEvent)
+	 */
 	@Override
 	public void tableChanged (TableModelEvent event) {
 		// Mettre à jour les boutons

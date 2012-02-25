@@ -1,14 +1,19 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite etre considérée comme un collecteur de T
- * @param <T> classe des instances à collecter
+ * Interface à implémenter si une classe souhaite être considérée comme un collecteur d'objets
+ * @param <T> classe des objets à collecter
  */
 public interface ICollector<T>
 {
-	// Acceptation d'un T
-	public void accept (T object);
+	/**
+	 * Collecter un objet
+	 * @param objet objet
+	 */
+	public void collect (T objet);
 
-	// Annulation
+	/**
+	 * Annuler la collecte
+	 */
 	public void cancel ();
 }

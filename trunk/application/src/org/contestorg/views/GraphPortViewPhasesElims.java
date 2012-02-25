@@ -2,11 +2,18 @@
 
 import org.jgraph.graph.PortView;
 
+/**
+ * Port d'accroche des cellules du graphe des phases éliminatoires
+ */
 @SuppressWarnings("serial")
 public class GraphPortViewPhasesElims extends PortView {
-	// Constructeur
-	public GraphPortViewPhasesElims(Object cell) {
+	
+	/**
+	 * Constructeur
+	 * @param port  modèle de données associé au port
+	 */
+	public GraphPortViewPhasesElims(Object port) {
 		// Appeller le constructeur du parent
-		super(cell);
+		super(port);
 	}
 }

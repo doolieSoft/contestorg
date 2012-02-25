@@ -1,25 +1,34 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour la création ou la modification d'un objet prix
+ * Conteneur d'informations pour la création ou la modification d'un prix
  */
 public class InfosModelPrix extends InfosModelAbstract
 {
 
-	// Attributs
+	/** Nom */
 	private String nom;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nom nom
+	 */
 	public InfosModelPrix(String nom) {
 		this.nom = nom;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
 
-	// Informations par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelPrix defaut () {
 		return new InfosModelPrix("");
 	}

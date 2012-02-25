@@ -3,28 +3,33 @@
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelParticipant;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 
-
-
-
-public class CollectorParticipantEditer extends CollectorAbstract<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>>>
+/**
+ * Collecteur pour l'édition d'un participant
+ */
+public class CollectorParticipantEditer extends CollectorAbstract<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>>>
 {
 	
-	// Nom du participant édité
+	/** Nom du participant (avant l'édition) */
 	private String nomParticpant;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param nomParticipant nom du participant (avant l'édition)
+	 */
 	public CollectorParticipantEditer(String nomParticipant) {
 		// Retenir le nom du participant
 		this.nomParticpant = nomParticipant;
 	}
 
-	// Implémentation de accept
+	/**
+	 * @see ICollector#collect(Object)
+	 */
 	@Override
-	public void accept (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) {
+	public void collect (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) {
 		// Demander la modification du participant
 		ContestOrg.get().getCtrlParticipants().updateParticipant(this.nomParticpant, infos);
 		

@@ -3,12 +3,15 @@
 import org.contestorg.events.Event;
 
 /**
- * Interface à implémenter si une classe souhaite etre tenue au courant d'événements
+ * Interface à implémenter si une classe souhaite être tenue au courant d'événements
  */
 public interface IEventListener
 {
 
-	// Recoit un évenement
+	/**
+	 * Recevoir un évenement
+	 * @param event évenement
+	 */
 	public void event (Event event);
 
 }

@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -12,20 +11,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelPoule;
 
-
-
+/**
+ * Panel de séléction d'une poule d'une catégorie
+ */
 @SuppressWarnings("serial")
 public class JPCategoriePoule extends JPanel implements ItemListener
 {
 	// Entrées
-	protected JComboBox jcb_categorie = new JComboBox();
-	protected JComboBox jcb_poule = new JComboBox();
 	
-	// Constructeur
+	/** Catégorie */
+	protected JComboBox<String> jcb_categorie = new JComboBox<String>();
+	
+	/** Poule */
+	protected JComboBox<String> jcb_poule = new JComboBox<String>();
+	
+	/**
+	 * Constructeur
+	 */
 	public JPCategoriePoule() {
 		// Configurer le panel
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -66,23 +72,41 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 		this.jcb_categorie.addItemListener(this);
 	}
 	
-	// Récupérer la catégorie/poule séléctionnée
+	/**
+	 * Récupérer le nom de la catégorie séléctionnée
+	 * @return nom de la catégorie séléctionnée
+	 */
 	public String getCategorie() {
 		return (String)this.jcb_categorie.getSelectedItem();
 	}
+	
+	/**
+	 * Récupérer la poule séléctionnée
+	 * @return nom de la poule séléctionnée
+	 */
 	public String getPoule() {
 		return (String)this.jcb_poule.getSelectedItem();
 	}
 	
-	// Définir la catégorie/poule séléctionnée
+	/**
+	 * Définir le nom de la catégorie séléctionnée
+	 * @param nomCategorie nom de la catégorie
+	 */
 	public void setCategorie(String nomCategorie) {
 		this.jcb_categorie.setSelectedItem(nomCategorie);
 	}
+	
+	/**
+	 * Définir la poule séléctionnée
+	 * @param nomPoule nom de la poule
+	 */
 	public void setPoule(String nomPoule) {
 		this.jcb_poule.setSelectedItem(nomPoule);
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		// Vider la liste des poules

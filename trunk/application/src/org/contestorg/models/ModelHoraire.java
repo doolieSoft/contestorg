@@ -1,13 +1,11 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelHoraire;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.interfaces.IUpdater;
-
 
 /**
  * Horaire d'ouverture d'un lieu
@@ -16,14 +14,28 @@ public class ModelHoraire extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Lieu */
 	private ModelLieu lieu;
 	
 	// Attributs scalaires
-	private int jours;
-	private int debut; // En minutes
-	private int fin; // En minutes
 	
-	// Constructeur
+	/** Jours concernés */
+	private int jours;
+	
+	/** Début (en jours) */
+	private int debut;
+	
+	/** Fin (en jours) */
+	private int fin;
+	
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param lieu lieu
+	 * @param infos informations de l'horaire
+	 */
 	public ModelHoraire(ModelLieu lieu, InfosModelHoraire infos) {
 		// Retenir le lieu
 		this.lieu = lieu;
@@ -31,29 +43,60 @@ public class ModelHoraire extends ModelAbstract
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param lieu lieu
+	 * @param horaire horaire
+	 */
 	protected ModelHoraire(ModelLieu lieu, ModelHoraire horaire) {
 		// Appeller le constructeur principal
-		this(lieu, horaire.toInfos());
+		this(lieu, horaire.getInfos());
 		
 		// Récupérer l'id
 		this.setId(horaire.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer les jours concernés
+	 * @return jours concernés
+	 */
 	public int getJours () {
 		return this.jours;
 	}
+	
+	/**
+	 * Récupérer le début (en minutes)
+	 * @return début (en minutes)
+	 */
 	public int getDebut () {
 		return this.debut;
 	}
+	
+	/**
+	 * Récupérer la fin (en minutes)
+	 * @return fin (en minutes)
+	 */
 	public int getFin () {
 		return this.fin;
 	}
+	
+	/**
+	 * Récupérer le lieu
+	 * @return lieu
+	 */
 	public ModelLieu getLieu () {
 		return this.lieu;
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations de l'horaire
+	 * @param infos informations de l'horaire
+	 */
 	protected void setInfos (InfosModelHoraire infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -67,19 +110,27 @@ public class ModelHoraire extends ModelAbstract
 		this.fireUpdate();
 	}
 	
-	// Clone
+	/**
+	 * Cloner l'horaire
+	 * @param lieu lieu
+	 * @return clone de l'horaire
+	 */
 	protected ModelHoraire clone (ModelLieu lieu) {
 		return new ModelHoraire(lieu, this);
 	}
 	
-	// ToInformation
-	public InfosModelHoraire toInfos () {
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelHoraire getInfos () {
 		InfosModelHoraire infos = new InfosModelHoraire(this.jours, this.debut, this.fin);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter l'horaire aux removers
@@ -99,34 +150,45 @@ public class ModelHoraire extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des horaires d'un lieu
+	/**
+	 * Classe pour mettre à jour la liste des horaires d'un lieu
+	 */
 	protected static class UpdaterForLieu implements IUpdater<InfosModelHoraire, ModelHoraire>
 	{
-		// Lieu
+		/** Lieu */
 		private ModelLieu lieu;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param lieu lieu
+		 */
 		protected UpdaterForLieu(ModelLieu lieu) {
 			this.lieu = lieu;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
 		public ModelHoraire create (InfosModelHoraire infos) {
 			return new ModelHoraire(this.lieu, infos);
 		}
 		
-		// Implémentation de update
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
 		public void update (ModelHoraire horaire, InfosModelHoraire infos) {
 			horaire.setInfos(infos);
 		}
 	}
 	
-	// Classe pour valider les opérations sur la liste des horaires d'un lieu
-	protected static class ValidatorForLieu implements IListValidator<InfosModelHoraire>
+	/**
+	 * Classe pour valider les opérations sur la liste des horaires d'un lieu
+	 */
+	protected static class ValidatorForLieu implements ITrackableListValidator<InfosModelHoraire>
 	{
-		// Implémentation de IListValidator
+		// Implémentation de ITrackableListValidator
 		@Override
 		public String validateAdd (InfosModelHoraire infos, TrackableList<InfosModelHoraire> list) {
 			for (int i = 0; i < list.size(); i++) {

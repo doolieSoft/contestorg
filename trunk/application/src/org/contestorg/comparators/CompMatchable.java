@@ -7,13 +7,19 @@ import java.util.Comparator;
 
 import org.contestorg.interfaces.IMatchable;
 
+/**
+ * Comparateur qui, d'après des mots clés donnés, retourne le meilleur IMatchable
+ */
 public class CompMatchable implements Comparator<IMatchable>
 {
 
-	// Attributs
+	/** Mots clés */
 	private String keywords;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param keywords mots clés
+	 */
 	public CompMatchable(String keywords) {
 		this.keywords = keywords;
 	}
@@ -23,7 +29,12 @@ public class CompMatchable implements Comparator<IMatchable>
 		return matchableA.match(this.keywords) - matchableB.match(this.keywords);
 	}
 
-	// Recherche dans les models matchable
+	/**
+	 * Recherche dans les IMatchable à partir de mots clés
+	 * @param keywords mots clés
+	 * @param matchables liste des IMatchable
+	 * @return liste des IMatchable correspondant aux mots clés
+	 */
 	public static ArrayList<IMatchable> search (String keywords, ArrayList<IMatchable> matchables) {
 		// Trier la liste des objets en fonction de leur concordance avec les mots clés
 		Collections.sort(matchables, new CompMatchable(keywords));

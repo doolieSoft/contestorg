@@ -1,35 +1,60 @@
 ﻿package org.contestorg.infos;
 
 /**
- * Cette classe est un conteneur d'information pour une connexion a un serveur FTP
+ * Conteneur d'informations pour une connexion a un serveur FTP
  */
 public class InfosConnexionFTP extends InfosConnexionServeur
 {
 
-	// Attributs
+	/** Chemin */
 	private String path;
+	
+	/** Mode de connexion */
 	private int mode;
 
-	// Modes
+	// Modes de connexion
+	
+	/** Mode de connexion actif */
 	public static final int MODE_ACTIF = 1;
+	
+	/** Mode de connexion passif */
 	public static final int MODE_PASSIF = 2;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param host hôte
+	 * @param port numéro de port
+	 * @param username nom d'utilisateur
+	 * @param password mot de passe
+	 * @param path chemin
+	 * @param mode mode de connexion
+	 */
 	public InfosConnexionFTP(String host, int port, String username, String password, String path, int mode) {
 		super(host, port, username, password);
 		this.path = path;
 		this.mode = mode;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le chemin 
+	 * @return chemin
+	 */
 	public String getPath () {
 		return this.path;
 	}
+	
+	/**
+	 * Récupérer le mode de connexion
+	 * @return mode de connexion
+	 */
 	public int getMode () {
 		return this.mode;
 	}
 
-	// Données par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosConnexionFTP defaut () {
 		return new InfosConnexionFTP("", 21, "", "", "", InfosConnexionFTP.MODE_ACTIF);
 	}

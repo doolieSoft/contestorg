@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,19 +11,31 @@ import javax.swing.border.LineBorder;
 
 import org.contestorg.interfaces.IMoodyListener;
 
+/**
+ * Panel pour la fenêtre principale
+ */
 @SuppressWarnings("serial")
 abstract public class JPPrincipalAbstract extends JPanel implements IMoodyListener
 {
 	
-	// fenêtre parente
+	/** Fenêtre parente */
 	protected Window w_parent;
 
 	// Panels
+	
+	/** Panel du haut */
 	protected JPanel jp_haut;
+	
+	/** Panel de contenu */
 	protected JPanel jp_contenu;
+	
+	/** Panel du bas */
 	protected JPanel jp_bas;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPPrincipalAbstract(Window w_parent) {
 		// Retenir la fenêtre parente
 		this.w_parent = w_parent;

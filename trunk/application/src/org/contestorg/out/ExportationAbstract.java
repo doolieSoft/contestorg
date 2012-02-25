@@ -1,6 +1,5 @@
 ﻿package org.contestorg.out;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.OperationAbstract;
@@ -11,25 +10,37 @@ import org.contestorg.models.ModelCheminFTP;
 import org.contestorg.models.ModelCheminLocal;
 import org.contestorg.models.ModelExportation;
 
-
-
+/**
+ * Exportation abstraite
+ */
 public abstract class ExportationAbstract
 {
-	// Lancer l'exportation
+	/**
+	 * Lancer l'exportation
+	 * @return opération d'exportation
+	 */
 	public abstract IOperation export ();
 	
-	// Lancer une exportation
+	/**
+	 * Lancer une exportation
+	 * @param exportation exportation
+	 * @return opération d'exportation
+	 */
 	public static IOperation export(ModelExportation exportation) {
 		IOperation operation = null;
 		if(exportation.getChemin() instanceof ModelCheminLocal) {
-			operation = new ExportationLocal(exportation.getTheme().toInfos(), ((ModelCheminLocal)exportation.getChemin()).getChemin()).export();
+			operation = new ExportationLocale(exportation.getTheme().getInfos(), ((ModelCheminLocal)exportation.getChemin()).getChemin()).export();
 		} else if(exportation.getChemin() instanceof ModelCheminFTP) {
-			operation = new ExportationFTP(exportation.getTheme().toInfos(), ((ModelCheminFTP)exportation.getChemin()).toInfos().getInfosFTP()).export();
+			operation = new ExportationFTP(exportation.getTheme().getInfos(), ((ModelCheminFTP)exportation.getChemin()).getInfos().getInfosFTP()).export();
 		}
 		return operation;
 	}
 	
-	// Lancer une liste d'exportation
+	/**
+	 * Lancer une liste d'exportations
+	 * @param exportations liste d'exportations
+	 * @return opération d'exportation
+	 */
 	public static IOperation export(final ArrayList<ModelExportation> exportations) {
 		return new OperationAbstract() {
 			@Override
@@ -39,21 +50,30 @@ public abstract class ExportationAbstract
 		};
 	}
 	
-	// Classe permettant l'export
+	/**
+	 * Classe permettant l'export
+	 */
 	private static class Export extends OperationRunnableAbstract implements IOperationListener {
 		
-		// Exportations restantes
+		/** Exportations restantes */
 		private ArrayList<ModelExportation> exportations;
 		
-		// Nombre total d'exportations
+		/** Nombre total d'exportations */
 		private int nbExportations;
 		
-		// Exportations réussies/échoués/arretées
+		/** Exportations réussies */
 		private ArrayList<ModelExportation> reussites = new ArrayList<ModelExportation>();
+		
+		/** Exportations échoués */
 		private ArrayList<ModelExportation> echecs = new ArrayList<ModelExportation>();
+		
+		/** Exportations arrêtées */
 		private ArrayList<ModelExportation> arrets = new ArrayList<ModelExportation>();
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param exportations liste des exportations
+		 */
 		public Export(ArrayList<ModelExportation> exportations) {
 			// Retenir la liste des exportations
 			this.exportations = exportations;
@@ -62,7 +82,9 @@ public abstract class ExportationAbstract
 			this.nbExportations = exportations.size();
 		}
 		
-		// Implémentation de run
+		/**
+		 * @see Runnable#run()
+		 */
 		@Override
 		public void run () {
 			// Récupérer l'exportation
@@ -77,7 +99,9 @@ public abstract class ExportationAbstract
 			this.fireMessage("Opération \""+exportation.getNom()+"\" lancée !");
 		}
 		
-		// Implémentation de clean
+		/**
+		 * @see OperationRunnableAbstract#clean()
+		 */
 		@Override
 		protected void clean () {
 		}

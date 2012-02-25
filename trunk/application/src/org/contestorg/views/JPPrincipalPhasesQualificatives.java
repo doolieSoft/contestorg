@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -31,44 +30,65 @@ import javax.swing.tree.TreeSelectionModel;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
 import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IMoody;
+import org.contestorg.interfaces.IMoodyListener;
 import org.contestorg.interfaces.ITreeNode;
 
-
-
+/**
+ * Panel des phases qualificatives pour la fenêtre principale
+ */
 @SuppressWarnings("serial")
 public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract implements TreeSelectionListener, ListSelectionListener, ActionListener, MouseListener
 {
 	
 	// Panneau du haut
+	
+	/** Bouton "Nouvelle phase" */
 	private JButton jb_nouvellePhase;
+	
+	/** Bouton "Editer phase" */
 	private JButton jb_editerPhase;
+	
+	/** Bouton "Supprimer phase" */
 	private JButton jb_supprimerPhase;
+	
+	/** Bouton "Exporter" */
 	private JButton jb_exporter;
 	
-	// Panneau du bas
-	private JButton jb_nouveauMatch;
-	private JButton jb_editerMatch;
-	private JButton jb_supprimerMatch;
-	
-	// JTree des catégorie/poules/séries
+	// Panneau de contenu
+
+	/** Arborescence des catégorie/poules/séries */
 	private JTree jtree;
 	
-	// JTable des matchs
+	/** Tableaux des matchs */
 	private JTable jtable;
 	
-	// Constructeur
+	// Panneau du bas
+	
+	/** Bouton "Nouveau match" */
+	private JButton jb_nouveauMatch;
+	
+	/** Bouton "Editer match" */
+	private JButton jb_editerMatch;
+	
+	/** Bouton "Supprimer match" */
+	private JButton jb_supprimerMatch;
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPPrincipalPhasesQualificatives(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -157,14 +177,18 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		this.jb_supprimerMatch.addActionListener(this);
 	}
 	
-	// Implémentation de moodyChanged
+	/**
+	 * @see IMoodyListener#moodyChanged(IMoody)
+	 */
 	@Override
 	public void moodyChanged (IMoody moody) {
 		// Rafraichir les boutons
 		this.refreshButtons();
 	}
 	
-	// Implémentation de TreeSelectionListener
+	/**
+	 * @see TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged (TreeSelectionEvent event) {
 		// Récupérer et fermer le tablemodel actuel
@@ -219,14 +243,18 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		this.refreshButtons();
 	}
 	
-	// Implémentation de ListSelectionListener
+	/**
+	 * @see ListSelectionListener#valueChanged(ListSelectionEvent)
+	 */
 	@Override
 	public void valueChanged (ListSelectionEvent event) {
 		// Rafraichir les boutons
 		this.refreshButtons();
 	}
 	
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	@Override
 	public void actionPerformed (ActionEvent event) {
 		// Conserver la sélection du jtree
@@ -239,7 +267,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			// Vérifier si la séléction est correcte
 			if (selection != null) {
 				// Récupérer les participants qui peuvent participer
-				ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipants(selection.getFirst(), selection.getSecond());
+				ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(selection.getFirst(), selection.getSecond());
 				
 				// Vérifier s'il y a des participants qui peuvent participer
 				if (participants.size() >= 2) {
@@ -279,7 +307,6 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 					// Créer et afficher la fenêtre d'édition (en prenant soin de supprimer la phase qualificative)
 					CollectorPhaseQualifEditer collector = new CollectorPhaseQualifEditer(selection.getFirst(), selection.getSecond(), selection.getThird());
 					JDialog jd_phase = new JDPhaseQualifEditer(this.w_parent, collector, selection.getFirst(), selection.getSecond(), infos);
-					ContestOrg.get().getCtrlPhasesQualificatives().removePhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					collector.setWindow(jd_phase);
 					jd_phase.setVisible(true);
 					
@@ -318,7 +345,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 				Quadruple<String, String, Integer, Integer> resolution = ContestOrg.get().getCtrlPhasesQualificatives().getCategoriePoulePhase(selection.getFirst(), selection.getSecond(), selection.getThird(), this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()));
 				
 				// Récupérer les informations du match à éditer
-				Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatchPhaseQualif(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
+				Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 				
 				// Créer et afficher la fenêtre d'édition
 				CollectorMatchPhasesQualifsEditer collector = new CollectorMatchPhasesQualifsEditer(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
@@ -338,7 +365,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 				// Demander la confirmation de l'utilisateur
 				if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer ce match ?")) {
 					// Demander la suppression du match
-					ContestOrg.get().getCtrlPhasesQualificatives().removeMatchPhaseQualif(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
+					ContestOrg.get().getCtrlPhasesQualificatives().removeMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 				}
 			}
 		}
@@ -347,7 +374,13 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		this.jtree.setSelectionPath(path);
 	}
 	
-	// Récupérer la catégorie, la poule et la phase qualificative séléctionnées
+	/**
+	 * Récupérer la catégorie, la poule et la phase qualificative séléctionnées
+	 * @param level niveau désiré (1 = catégorie, 2 = poule, 3 = phase qualificative)
+	 * @param message message d'erreur affiché si la séléction de l'utilisteur n'est pas suffisante
+	 * @param implicite deviner au possible la séléction au niveau désiré si la séléction de l'utilisateur n'est pas suffisante
+	 * @return catégorie, la poule et la phase qualificative séléctionnées
+	 */
 	private Triple<String, String, Integer> getSelection (int level, String message, boolean implicite) {
 		// Récupérer les nodes séléctionnées (explicitement et implicitement si nécéssaire)
 		ITreeNode categorie = null, poule = null, phase = null;
@@ -422,7 +455,9 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		}
 	}
 	
-	// Rafraichir les boutons
+	/**
+	 * Rafraichir les boutons
+	 */
 	private void refreshButtons () {
 		// Récupérer le niveau de séléction du jtree (explicite et implicite)
 		int level = 0;
@@ -506,7 +541,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 					Quadruple<String, String, Integer, Integer> resolution = ContestOrg.get().getCtrlPhasesQualificatives().getCategoriePoulePhase(selection.getFirst(), selection.getSecond(), selection.getThird(), this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()));
 					
 					// Récupérer les informations du match à éditer
-					Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatchPhaseQualif(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
+					Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 					
 					// Créer et afficher la fenêtre d'édition
 					CollectorMatchPhasesQualifsEditer collector = new CollectorMatchPhasesQualifsEditer(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());

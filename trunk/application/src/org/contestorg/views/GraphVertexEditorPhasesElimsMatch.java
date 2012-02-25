@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -18,37 +17,46 @@ import javax.swing.border.LineBorder;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
+import org.contestorg.infos.InfosModelObjectifRemporte;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
 import org.contestorg.interfaces.ICelluleModel;
 import org.jgraph.JGraph;
 import org.jgraph.graph.GraphCellEditor;
 
-
-
+/**
+ * Editeur de cellule du graphe des phases éliminatoires pour une cellule de match 
+ */
 @SuppressWarnings("serial")
 public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implements GraphCellEditor {
 
-	// Modèle associé à l'éditeur
+	/** Modèle associé à la cellule */
 	private ICelluleModel<InfosModelCategorie, InfosModelParticipant> model;
 
-	// fenêtre parent
+	/** Fenêtre parent */
 	private Window w_parent;
 	
-	// Label d'édition
+	/** Label d'édition */
 	private JLabel jl_edition;
 	
-	// Edition des résultats ?
+	/** Résultats éditables ? */
 	private boolean resultatsEditable;
 	
-	// Petite finale ?
+	/** Petite finale ? */
 	private boolean petiteFinale;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param model modèle associé à la cellule
+	 * @param w_parent fenêtre parent
+	 * @param width largeur de l'éditeur
+	 * @param height hauteur de l'éditeur
+	 * @param resultatsEditable résultats éditable ?
+	 * @param petiteFinale petite finale ?
+	 */
 	public GraphVertexEditorPhasesElimsMatch(ICelluleModel<InfosModelCategorie, InfosModelParticipant> model, Window w_parent, int width, int height, boolean resultatsEditable, boolean petiteFinale) {
 		// Retenir le modèle associé à l'éditeur
 		this.model = model;
@@ -68,14 +76,18 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 		this.jl_edition.setPreferredSize(new Dimension(width, height));
 	}
 	
-	// Implémentation de getCellEditorValue
+	/**
+	 * @see GraphCellEditor#getCellEditorValue()
+	 */
 	@Override
 	public Object getCellEditorValue() {
 		// Retourner le numéro de la cellule
-		return this.model.getGraphe().indexOf(this.model);
+		return this.model.getGraph().indexOf(this.model);
 	}
 
-	// Implémentation de getGraphCellEditorComponent
+	/**
+	 * @see GraphCellEditor#getGraphCellEditorComponent(JGraph, Object, boolean)
+	 */
 	@Override
 	public Component getGraphCellEditorComponent(JGraph graph, Object value, boolean isSelected) {
 		// Demander à Swing de remettre à plus tard la création et l'affichage de la fenêtre d'édition
@@ -85,20 +97,24 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 		return this.jl_edition;
 	}
 	
-	// Méthode permettant l'affichage de la fenêtre d'édition
+	/**
+	 * Classe permettant l'affichage de la fenêtre d'édition
+	 */
 	private class Edit implements Runnable {
-		// Implémentation de run
+		/**
+		 * @see Runnable#run()
+		 */
 		@Override
 		public void run() {
 			// Récupérer le nom de la catégorie et le numéro du match
-			String nomCategorie = model.getGraphe().getObject().getNom();
-			int numeroMatch = model.getGraphe().indexOf(model)-model.getGraphe().size();
+			String nomCategorie = model.getGraph().getObject().getNom();
+			int numeroMatch = model.getGraph().indexOf(model)-model.getGraph().size();
 			
 			// Récupérer le collector du match
-			CollectorAbstract<Triple<Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector = petiteFinale ? new CollectorMatchPetiteFinale(nomCategorie) : new CollectorMatchPhasesElims(nomCategorie, numeroMatch);
+			CollectorAbstract<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector = petiteFinale ? new CollectorMatchPetiteFinale(nomCategorie) : new CollectorMatchPhasesElims(nomCategorie, numeroMatch);
 			
 			// Récupérer les informations sur le match
-			Triple<Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelParticipationObjectif>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos = petiteFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPetiteFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPhasesElims(nomCategorie,numeroMatch);
+			Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos = petiteFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPetiteFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatch(nomCategorie,numeroMatch);
 			
 			// Créer et afficher la fenêtre d'édition de la fenêtre
 			JDialog jd_match = new JDMatchPhasesEliminatoires(w_parent, collector, infos, resultatsEditable);
@@ -108,7 +124,6 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 			// Arreter l'édition de la cellule
 			stopCellEditing();
 		}
-		
 	}
 
 }

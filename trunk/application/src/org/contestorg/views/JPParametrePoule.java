@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
@@ -18,31 +17,35 @@ import org.contestorg.infos.Parametre;
 import org.contestorg.interfaces.IChangeable;
 import org.contestorg.interfaces.IChangeableListener;
 
-
-
+/**
+ * Panel d'un paramètre de thème d'exportation/diffusion de type "Poule"
+ */
 @SuppressWarnings("serial")
-public class JCParametrePoule extends JCParametreAbstract implements IChangeable<Pair<Integer,Integer>>, IChangeableListener<Integer>, ItemListener
+public class JPParametrePoule extends JPParametreAbstract implements IChangeable<Pair<Integer,Integer>>, IChangeableListener<Integer>, ItemListener
 {
-	// Liste associée au composant
-	private JComboBox jcb_poule = new JComboBox();
+	/** Poule */
+	private JComboBox<String> jcb_poule = new JComboBox<String>();
 	
-	// Couleur par défaut de la liste
+	/** Couleur par défaut de la liste */
 	private Color color;
 	
-	// Booléen indiquant si le composant est dépendant d'un autre
+	/** Panel dépendant d'un autre ? */
 	private boolean dependant = false;
 
-	// Listeners
+	/** Listeners */
 	private ArrayList<IChangeableListener<Pair<Integer,Integer>>> listeners = new ArrayList<IChangeableListener<Pair<Integer,Integer>>>();
 	
-	// Id de la catégorie
+	/** Id de la catégorie */
 	private Integer idCategorie = null;
 	
-	// Ids des poules
+	/** Ids des poules */
 	private ArrayList<Integer> idsPoules = new  ArrayList<Integer>();
 
-	// Constructeur
-	public JCParametrePoule(Parametre parametre) {
+	/**
+	 * Constructeur
+	 * @param parametre paramètre
+	 */
+	public JPParametrePoule(Parametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		
@@ -66,19 +69,26 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 		this.jcb_poule.addItemListener(this);
 	}
 	
-	// Récupérer l'id de la poule séléctionnée
+	/**
+	 * Récupérer l'id de la poule séléctionnée
+	 * @return id de la poule séléctionnée
+	 */
 	private Integer getIdPoule() {
 		return this.jcb_poule.getItemCount() == 0 || this.jcb_poule.getSelectedIndex() == 0 ? null : this.idsPoules.get(this.jcb_poule.getSelectedIndex()-1);
 	}
 
-	// Implémentation de getValeur
+	/**
+	 * @see JPParametreAbstract#getValeur()
+	 */
 	@Override
 	public String getValeur () {
 		Integer idPoule = this.getIdPoule();
 		return idPoule == null ? null : String.valueOf(idPoule);
 	}
 	
-	// Implémentation de setValeur
+	/**
+	 * @see JPParametreAbstract#setValeur(String)
+	 */
 	@Override
 	public void setValeur (String valeur) {
 		try {
@@ -86,7 +96,9 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 		} catch(NumberFormatException e) { }
 	}
 	
-	// Implémentation de getError
+	/**
+	 * @see JPParametreAbstract#getError()
+	 */
 	@Override
 	public String getError () {
 		// Vérifier si le paramètre est optionnel
@@ -111,15 +123,17 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 		return null;
 	}
 
-	// Implémentation de link
+	/**
+	 * @see JPParametreAbstract#link(JPParametreAbstract[])
+	 */
 	@Override
-	public void link (JCParametreAbstract[] composants) {
+	public void link (JPParametreAbstract[] panels) {
 		if(ContestOrg.get().is(ContestOrg.STATE_OPEN)) {
 			// Chercher le composant de la catégorie
-			for(JCParametreAbstract composant : composants) {
-				if(composant instanceof JCParametreCategorie && this.isDependant(composant)) {
+			for(JPParametreAbstract composant : panels) {
+				if(composant instanceof JPParametreCategorie && this.isDependant(composant)) {
 					// Ecouter le composant
-					((JCParametreCategorie)composant).addListener(this);
+					((JPParametreCategorie)composant).addListener(this);
 					
 					// Retenir la dépendance
 					this.dependant = true;
@@ -146,7 +160,9 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 		this.listeners.remove(listener);
 	}
 
-	// Implémentation de IChangeableListener
+	/**
+	 * @see IChangeableListener#change(Object)
+	 */
 	@Override
 	public void change (Integer idCategorie) {
 		// Vider la liste des poules
@@ -194,7 +210,9 @@ public class JCParametrePoule extends JCParametreAbstract implements IChangeable
 		}
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if(event.getStateChange() == ItemEvent.SELECTED) {

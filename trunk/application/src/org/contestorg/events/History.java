@@ -8,19 +8,23 @@ import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IHistoryListener;
 import org.contestorg.log.Log;
 
-
+/**
+ * Historique
+ */
 public class History implements IEventListener
 {
-	// Action en cours
+	/** Action en cours */
 	private String action;
 	
-	// Pile des actions
+	/** Pile des actions */
 	private Stack<Action> actions = new Stack<Action>();
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<IHistoryListener> listeners = new ArrayList<IHistoryListener>();
 	
-	// Initialiser l'historique
+	/**
+	 * Initialiser l'historique
+	 */
 	public void init() {
 		// Vérifier si aucune action n'est en cours
 		if(this.action != null) {
@@ -37,7 +41,10 @@ public class History implements IEventListener
 		}
 	}
 	
-	// Démarrer/Arreter la capture d'évenements
+	/**
+	 * Démarrer la capture d'évenements
+	 * @param action nom de l'action
+	 */
 	public void start(String action) {
 		// Vérifier si l'action n'a pas déjà été démarrée
 		if(this.action != null) {
@@ -52,7 +59,9 @@ public class History implements IEventListener
 		}
 	}
 	
-	// Fermer l'action en cours
+	/**
+	 * Fermer l'action en cours
+	 */
 	public void close() {
 		// Vérifier si l'action n'est pas déjà fermée
 		if(this.action == null) {
@@ -81,22 +90,39 @@ public class History implements IEventListener
 		}
 	}
 	
-	// Récupérer la pile des actions
+	/**
+	 * Récupérer la pile des actions
+	 * @return pile des actions
+	 */
 	public Stack<Action> getActions() {
 		return this.actions;
 	}
+	
 
-	// Fire des listeners
+	// Listeners
+
+	/**
+	 * Fire des listeners
+	 * @param action action à envoyer aux listeners
+	 */
 	private void fire(Action action) {
 		for(IHistoryListener listener : new ArrayList<IHistoryListener>(this.listeners)) {
 			listener.historyActionPushed(action);
 		}
 	}
 	
-	// Ajouter/Supprimer des listeners
+	/**
+	 * Ajouter un listener
+	 * @param listener listener à ajouter
+	 */
 	public void addListener(IHistoryListener listener) {
 		this.listeners.add(listener);
 	}
+	
+	/**
+	 * Supprimer un listener
+	 * @param listener listener à supprimer
+	 */
 	public void removeListener(IHistoryListener listener) {
 		this.listeners.remove(listener);
 	}

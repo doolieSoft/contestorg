@@ -1,22 +1,34 @@
 ﻿package org.contestorg.infos;
 
+/**
+ * Conteneur d'informations pour la création ou la modification d'un chemin d'exportation en local
+ */
 public class InfosModelCheminLocal extends InfosModelChemin
 {
 
-	// Attributs
+	/** Chemin */
 	private String chemin;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param chemin chemin
+	 */
 	public InfosModelCheminLocal(String chemin) {
 		this.chemin = chemin;
 	}
 
-	// Getters
+	/**
+	 * Récupérer le chemin
+	 * @return chemin
+	 */
 	public String getChemin () {
 		return this.chemin;
 	}
 
-	// Données par défaut
+	/**
+	 * Récupérer les données par défaut
+	 * @return données par défaut
+	 */
 	public static InfosModelCheminLocal defaut () {
 		return new InfosModelCheminLocal("");
 	}

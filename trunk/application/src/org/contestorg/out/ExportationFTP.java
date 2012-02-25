@@ -1,6 +1,5 @@
 ﻿package org.contestorg.out;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.OperationAbstract;
@@ -9,25 +8,32 @@ import org.contestorg.infos.InfosConnexionFTP;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.IOperation;
 
-
-
+/**
+ * Exportation FTP
+ */
 public class ExportationFTP extends ExportationAbstract
 {
 	
-	// Thème
+	/** Thème */
 	private InfosModelTheme theme;
 	
-	// Informations de connection FTP
+	/** Informations de connexion FTP */
 	private InfosConnexionFTP infos;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param theme thème
+	 * @param infos informations de connexion FTP
+	 */
 	public ExportationFTP(InfosModelTheme theme, InfosConnexionFTP infos) {
 		// Retenir les informations
 		this.theme = theme;
 		this.infos = infos;
 	}
 
-	// Implémentation de export
+	/**
+	 * @see ExportationAbstract#export()
+	 */
 	@Override
 	public IOperation export () {
 		// Créer et retourner l'opération
@@ -39,19 +45,23 @@ public class ExportationFTP extends ExportationAbstract
 		};
 	}
 	
-	// Classe permettant l'export
+	/**
+	 * Classe permettant l'export
+	 */
 	private class Export extends OperationRunnableAbstract
 	{
-		// Ressources
+		/** Ressources */
 		private ArrayList<RessourceAbstract> ressources;
 		
-		// Client FTP
+		/** Client FTP */
 		private FTPHelper.Client client;
 		
-		// Client FTP connecté ?
+		/** Client FTP connecté ? */
 		private boolean clientConnected = false;
 		
-		// Implémentation de run
+		/**
+		 * @see Runnable#run()
+		 */
 		@Override
 		public void run () {
 			// Générer les ressources
@@ -178,7 +188,9 @@ public class ExportationFTP extends ExportationAbstract
 			this.reussite("Exportation terminée !");
 		}
 		
-		// Implémentation de clean
+		/**
+		 * @see OperationRunnableAbstract#clean()
+		 */
 		@Override
 		protected void clean () {
 			// Se déconnecter du serveur FTP 

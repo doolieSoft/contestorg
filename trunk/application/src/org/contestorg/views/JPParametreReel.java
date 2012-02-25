@@ -6,16 +6,21 @@ import javax.swing.JTextField;
 
 import org.contestorg.infos.Parametre;
 
-
+/**
+ * Panel d'un paramètre de thème d'exportation/diffusion de type "Nombre réel"
+ */
 @SuppressWarnings("serial")
-public class JCParametreReel extends JCParametreAbstract
+public class JPParametreReel extends JPParametreAbstract
 {
 	
-	// Entrée associée au composant
+	/** Nombre réel */
 	private JTextField jtf_valeur = new JTextField();
 
-	// Constructeur
-	public JCParametreReel(Parametre parametre) {
+	/**
+	 * Constructeur
+	 * @param parametre paramètre
+	 */
+	public JPParametreReel(Parametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		
@@ -24,19 +29,25 @@ public class JCParametreReel extends JCParametreAbstract
 		this.add(this.jtf_valeur,BorderLayout.CENTER);
 	}
 
-	// Implémentation de getValeur
+	/**
+	 * @see JPParametreAbstract#getValeur()
+	 */
 	@Override
 	public String getValeur () {
 		return this.jtf_valeur.getText();
 	}
 	
-	// Implémentation de setValeur
+	/**
+	 * @see JPParametreAbstract#setValeur(String)
+	 */
 	@Override
 	public void setValeur (String valeur) {
 		this.jtf_valeur.setText(valeur);
 	}
 	
-	// Implémentation de getError
+	/**
+	 * @see JPParametreAbstract#getError()
+	 */
 	@Override
 	public String getError () {
 		// Vérifier si la valeur n'est pas vide
@@ -56,9 +67,11 @@ public class JCParametreReel extends JCParametreAbstract
 		}
 	}
 
-	// Implémentation de link
+	/**
+	 * @see JPParametreAbstract#link(JPParametreAbstract[])
+	 */
 	@Override
-	public void link (JCParametreAbstract[] composants) {
+	public void link (JPParametreAbstract[] panels) {
 	}
 	
 }

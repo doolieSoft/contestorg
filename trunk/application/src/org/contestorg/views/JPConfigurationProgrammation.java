@@ -7,16 +7,29 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * Panel de configuration des informations de programmation
+ */
 @SuppressWarnings("serial")
 public class JPConfigurationProgrammation extends JPConfigurationAbstract
 {
 
 	// Entrées
+	
+	
+	/** Durée d'un match (en minutes) */
 	protected JTextField jtf_programmation_duree = new JTextField();
+	
+	/** Interval minimal entre deux matchs (en minutes) */
 	protected JTextField jtf_programmation_intervalle = new JTextField();
+	
+	/** Pause minimal d'un participant entre deux matchs (en minutes) */
 	protected JTextField jtf_programmation_pause = new JTextField();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPConfigurationProgrammation(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -30,32 +43,60 @@ public class JPConfigurationProgrammation extends JPConfigurationAbstract
 		this.jp_contenu.add(ViewHelper.pinformation("Ces valeurs sont approximatives. L'unité de temps est la minute."));
 	}
 	
-	// Getters
+	/**
+	 * Récupérer la durée d'un match (en minutes)
+	 * @return durée d'un match (en minutes)
+	 */
 	public Double getProgrammationDuree() {
 		String duree = this.jtf_programmation_duree.getText().trim();
 		return duree.isEmpty() ? null : Double.parseDouble(duree);
 	}
+	
+	/** 
+	 * Récupérer l'interval minimal entre deux matchs (en minutes)
+	 * @return interval minimal entre deux matchs (en minutes)
+	 */
 	public Double getProgrammationInterval() {
 		String interval = this.jtf_programmation_intervalle.getText().trim();
 		return interval.isEmpty() ? null : Double.parseDouble(interval);
 	}
+	
+	/**
+	 * Récupérer la pause minimal d'un participant entre deux matchs (en minutes)
+	 * @return pause minimal d'un participant entre deux matchs (en minutes)
+	 */
 	public Double getProgrammationPause() {
 		String pause = this.jtf_programmation_pause.getText().trim();
 		return pause.isEmpty() ? null : Double.parseDouble(pause);
 	}
 	
-	// Setters
+	/**
+	 * Définir la durée d'un match (en minutes)
+	 * @param duree durée d'un match (en minutes)
+	 */
 	public void setProgrammationDuree(Double duree) {
 		this.jtf_programmation_duree.setText(duree == null ? "" : String.valueOf(duree));
 	}
+	
+	/**
+	 * Définir l'interval minimal entre deux matchs (en minutes)
+	 * @param interval interval minimal entre deux matchs (en minutes)
+	 */
 	public void setProgrammationInterval(Double interval) {
 		this.jtf_programmation_intervalle.setText(interval == null ? "" : String.valueOf(interval));
 	}
+	
+	/**
+	 * Définir la pause minimal d'un participant entre deux matchs (en minutes)
+	 * @param pause pause minimal d'un participant entre deux matchs (en minutes)
+	 */
 	public void setProgrammationPause(Double pause) {
 		this.jtf_programmation_pause.setText(pause == null ? "" : String.valueOf(pause));
 	}
 
-	// Vérifier la validité des données
+	/**
+	 * @see JPConfigurationAbstract#check()
+	 */
 	public boolean check () {
 		// Initialiser le booléen d'erreur
 		boolean erreur = false;

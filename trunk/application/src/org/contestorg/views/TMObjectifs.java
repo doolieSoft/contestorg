@@ -1,32 +1,49 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.table.TableModel;
 
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.infos.InfosModelObjectifNul;
 import org.contestorg.infos.InfosModelObjectifPoints;
 import org.contestorg.infos.InfosModelObjectifPourcentage;
 
+/**
+ * Modèle de données pour un tableau d'objectifs
+ */
 public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 {
-	// Constructeurs
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public TMObjectifs(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
 	}
 
-	// Méthodes à implémenter
+	/**
+	 * @see TMAbstract#getAddWindow()
+	 */
 	public Window getAddWindow () {
 		// Créer et retourner la fentre de création
 		return new JDObjectifCreer(this.w_parent, this);
 	}
+	
+	/**
+	 * @see TMAbstract#getUpdateWindow(Object)
+	 */
 	public Window getUpdateWindow (InfosModelObjectif infos) {
 		// Créer et retourner la fenêtre de création
 		return new JDObjectifEditer(this.w_parent, this, infos);
 	}
+	
+	/**
+	 * @see TMAbstract#acceptDelete(Object)
+	 */
 	public boolean acceptDelete (InfosModelObjectif infos) {
 		// Demander la confirmation à l'utilisateur
 		if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer l'objectif \"" + infos.getNom() + "\" ?")) {
@@ -37,14 +54,26 @@ public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 	}
 
 	// Implémentation manquante de TableModel
+	
+	/**
+	 * @see TableModel#getColumnClass(int)
+	 */
 	@Override
 	public Class<?> getColumnClass (int column) {
 		return String.class;
 	}
+	
+	/**
+	 * @see TableModel#getColumnCount()
+	 */
 	@Override
 	public int getColumnCount () {
 		return 2;
 	}
+	
+	/**
+	 * @see TableModel#getColumnName(int)
+	 */
 	@Override
 	public String getColumnName (int column) {
 		switch (column) {
@@ -55,6 +84,10 @@ public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 		}
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#getValueAt(int, int)
+	 */
 	@Override
 	public Object getValueAt (int row, int column) {
 		// Récupérer les informations de l'objectif
@@ -80,6 +113,10 @@ public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 		// Retourner null si pas d'information correspondante
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#isCellEditable(int, int)
+	 */
 	@Override
 	public boolean isCellEditable (int row, int column) {
 		// Vérifier s'il ne s'agit pas d'un T nul
@@ -90,6 +127,10 @@ public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 		// Retourner true dans les autres cas
 		return true;
 	}
+	
+	/**
+	 * @see TableModel#setValueAt(Object, int, int)
+	 */
 	@Override
 	public void setValueAt (Object object, int row, int column) {
 		// Caster l'objet en string

@@ -1,24 +1,27 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 
-
-
+/**
+ * Boîte de dialogue d'édition des catégories
+ */
 @SuppressWarnings("serial")
 public class JDCategories extends JDPattern
 {
-	// fenêtre parent
+	/** Fenêtre parent */
 	private Window w_parent;
 	
-	// TableModel de la liste des catégories
+	/** TableModel de la liste des catégories */
 	private TMCategories tm_categories;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JDCategories(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Gestion des catégories");
@@ -37,7 +40,9 @@ public class JDCategories extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Vérifier qu'il n'y a au moins une catégorie
@@ -53,7 +58,9 @@ public class JDCategories extends JDPattern
 		}
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Masquer la fenêtre

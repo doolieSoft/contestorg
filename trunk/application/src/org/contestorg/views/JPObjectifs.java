@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -13,25 +12,36 @@ import javax.swing.SpinnerNumberModel;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelObjectif;
-import org.contestorg.infos.InfosModelParticipationObjectif;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 
-
-
+/**
+ * Panel des objectifs remportés au cours d'un match
+ */
 @SuppressWarnings("serial")
 public class JPObjectifs extends JPanel
 {	
-	// Objectifs disponibles
+	/** Liste des objectifs disponibles */
 	private ArrayList<String> objectifsDisponibles;
 	
 	// Entrées
-	private JSpinner[] js_objectifsA;
-	private JSpinner[] js_objectifsB;
-	private TrackableList<Pair<String,InfosModelParticipationObjectif>> objectifsRemportesA = new TrackableList<Pair<String,InfosModelParticipationObjectif>>();
-	private TrackableList<Pair<String,InfosModelParticipationObjectif>> objectifsRemportesB = new TrackableList<Pair<String,InfosModelParticipationObjectif>>();
 	
-	// Constructeur
+	/** Nombres d'objectifs remportés par le participant A */
+	private JSpinner[] js_objectifsA;
+
+	/** Nombres d'objectifs remportés par le participant B */
+	private JSpinner[] js_objectifsB;
+	
+	/** Liste des objectifs remportés par le participant A */
+	private TrackableList<Pair<String,InfosModelObjectifRemporte>> objectifsRemportesA = new TrackableList<Pair<String,InfosModelObjectifRemporte>>();
+	
+	/** Liste des objectifs remportés par le participant B */
+	private TrackableList<Pair<String,InfosModelObjectifRemporte>> objectifsRemportesB = new TrackableList<Pair<String,InfosModelObjectifRemporte>>();
+	
+	/**
+	 * Constructeur
+	 */
 	public JPObjectifs() {
 		// Définir le layout
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -69,7 +79,9 @@ public class JPObjectifs extends JPanel
 		}
 	}
 
-	// Collecter les objectifs remportés
+	/**
+	 * Collecter les objectifs remportés
+	 */
 	public void collect() {
 		// Mettre à jour la liste des objectifs remportés
 		ArrayList<String> objectifsDisponibles = new ArrayList<String>(); 
@@ -84,14 +96,14 @@ public class JPObjectifs extends JPanel
 			// Vérifier si l'objectif remporté avait été déjà ajouté
 			boolean ancienA = false, ancienB = false;
 			int indexA = 0, indexB = 0;
-			for(Pair<String,InfosModelParticipationObjectif> objectifRemporte : this.objectifsRemportesA) {
+			for(Pair<String,InfosModelObjectifRemporte> objectifRemporte : this.objectifsRemportesA) {
 				if(objectifsDisponibles.get(i).equals(objectifRemporte.getFirst())) {
 					ancienA = true;
 				} else if(!ancienA) {
 					indexA++;
 				}
 			}
-			for(Pair<String,InfosModelParticipationObjectif> objectifRemporte : this.objectifsRemportesB) {
+			for(Pair<String,InfosModelObjectifRemporte> objectifRemporte : this.objectifsRemportesB) {
 				if(objectifsDisponibles.get(i).equals(objectifRemporte.getFirst())) {
 					ancienB = true;
 				} else if(!ancienB) {
@@ -103,16 +115,16 @@ public class JPObjectifs extends JPanel
 			if(ancienA && valeurA == 0) { // Supprimer
 				this.objectifsRemportesA.remove(indexA);
 			} else if(ancienA) { // Modifier
-				this.objectifsRemportesA.update(indexA, new Pair<String, InfosModelParticipationObjectif>(objectifsDisponibles.get(i), new InfosModelParticipationObjectif(valeurA)));
+				this.objectifsRemportesA.update(indexA, new Pair<String, InfosModelObjectifRemporte>(objectifsDisponibles.get(i), new InfosModelObjectifRemporte(valeurA)));
 			} else if(valeurA != 0) { // Ajouter
-				this.objectifsRemportesA.add(new Pair<String, InfosModelParticipationObjectif>(objectifsDisponibles.get(i), new InfosModelParticipationObjectif(valeurA)));
+				this.objectifsRemportesA.add(new Pair<String, InfosModelObjectifRemporte>(objectifsDisponibles.get(i), new InfosModelObjectifRemporte(valeurA)));
 			}
 			if(ancienB && valeurB == 0) { // Supprimer
 				this.objectifsRemportesB.remove(indexB);
 			} else if(ancienB) { // Modifier
-				this.objectifsRemportesB.update(indexB, new Pair<String, InfosModelParticipationObjectif>(objectifsDisponibles.get(i), new InfosModelParticipationObjectif(valeurB)));
+				this.objectifsRemportesB.update(indexB, new Pair<String, InfosModelObjectifRemporte>(objectifsDisponibles.get(i), new InfosModelObjectifRemporte(valeurB)));
 			} else if(valeurB != 0) { // Ajouter
-				this.objectifsRemportesB.add(new Pair<String, InfosModelParticipationObjectif>(objectifsDisponibles.get(i), new InfosModelParticipationObjectif(valeurB)));
+				this.objectifsRemportesB.add(new Pair<String, InfosModelObjectifRemporte>(objectifsDisponibles.get(i), new InfosModelObjectifRemporte(valeurB)));
 			}
 		}
 	}
@@ -128,24 +140,40 @@ public class JPObjectifs extends JPanel
 		}
 	}
 	
-	// Getters
-	public TrackableList<Pair<String, InfosModelParticipationObjectif>> getObjectifsRemportesA() {
+	/**
+	 * Récupérer la liste des objectifs remportés par le participant A
+	 * @return liste des objectifs remportés par le participant A
+	 */
+	public TrackableList<Pair<String, InfosModelObjectifRemporte>> getObjectifsRemportesA() {
 		return this.objectifsRemportesA;
 	}
-	public TrackableList<Pair<String, InfosModelParticipationObjectif>> getObjectifsRemportesB() {
+	
+	/**
+	 * Récupérer la liste des objectifs remportés par le participant B
+	 * @return liste des objectifs remportés par le participant B
+	 */
+	public TrackableList<Pair<String, InfosModelObjectifRemporte>> getObjectifsRemportesB() {
 		return this.objectifsRemportesB;
 	}
 	
-	// Setters
-	public void setObjectifsRemportesA(ArrayList<Pair<String, InfosModelParticipationObjectif>> objectifs) {
+	/**
+	 * Définir la liste des objectifs remportés par le participant A
+	 * @param objectifs liste des objectifs remportés par le participant A
+	 */
+	public void setObjectifsRemportesA(ArrayList<Pair<String, InfosModelObjectifRemporte>> objectifs) {
 		this.objectifsRemportesA.fill(objectifs);
-		for(Pair<String, InfosModelParticipationObjectif> objectifRemporte : objectifs) {
+		for(Pair<String, InfosModelObjectifRemporte> objectifRemporte : objectifs) {
 			this.js_objectifsA[this.objectifsDisponibles.indexOf(objectifRemporte.getFirst())].setValue(objectifRemporte.getSecond().getQuantite());
 		}
 	}
-	public void setObjectifsRemportesB(ArrayList<Pair<String, InfosModelParticipationObjectif>> objectifs) {
+	
+	/**
+	 * Définir la liste des objectifs remportés par le participant B
+	 * @param objectifs liste des objectifs remportés par le participant B
+	 */
+	public void setObjectifsRemportesB(ArrayList<Pair<String, InfosModelObjectifRemporte>> objectifs) {
 		this.objectifsRemportesB.fill(objectifs);
-		for(Pair<String, InfosModelParticipationObjectif> objectifRemporte : objectifs) {
+		for(Pair<String, InfosModelObjectifRemporte> objectifRemporte : objectifs) {
 			this.js_objectifsB[this.objectifsDisponibles.indexOf(objectifRemporte.getFirst())].setValue(objectifRemporte.getSecond().getQuantite());
 		}
 	}

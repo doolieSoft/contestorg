@@ -13,26 +13,34 @@ import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.interfaces.IHistoryListener;
 
-
+/**
+ * Modèle de données d'une cellule de match du graphe des phases éliminatoires d'une catégorie
+ */
 public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {
-	// Graphe associé à la cellule
+	/** Graphe associé à la cellule */
 	private IGraphModel<InfosModelCategorie,InfosModelParticipant> graphe;
 	
-	// Match associé à la cellule
+	/** Match associé à la cellule */
 	private ModelMatchPhasesElims match;
 	
-	// Vainqueur associée au match
+	/** Participation du vainqueur du match */
 	private ModelParticipation participation;
+	
+	/** Vainqueur du match */
 	private ModelParticipant participant;
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<ICelluleModelListener> listeners = new ArrayList<ICelluleModelListener>();
 	
-	// Données modifiées ?
+	/** Données modifiées ? */
 	private boolean isChanged = false;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param graphe modèle de données du graphe des phases éliminatoires d'une catégorie
+	 * @param match match associé à la cellule
+	 */
 	public CelluleModelPhasesElimsMatch(IGraphModel<InfosModelCategorie,InfosModelParticipant> graphe, ModelMatchPhasesElims match) {
 		// Retenir le graph
 		this.graphe = graphe;
@@ -54,50 +62,10 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 			FrontModel.get().getHistory().addListener(this);
 		}
 	}
-
-	// Implémentation de ICelluleModel
-	@Override
-	public InfosModelParticipant getObject () {
-		return this.participant != null ? this.participant.toInfos() : null;
-	}
-	@Override
-	public boolean isEditable() {
-		if(this.match != null) {
-			return (this.match.getMatchPrecedantA() == null || this.match.getMatchPrecedantA().isEffectue()) && (this.match.getMatchPrecedantB() == null || this.match.getMatchPrecedantB().isEffectue());
-		} else {
-			return false;
-		}
-	}
-	@Override
-	public IGraphModel<InfosModelCategorie, InfosModelParticipant> getGraphe() {
-		return this.graphe;
-	}
-	@Override
-	public void close () {
-		// Ne plus écouter le match et le vainqueur
-		if(this.match != null) {
-			this.match.removeListener(this);
-		}
-		if(this.participation != null) {
-			this.participation.removeListener(this);
-		}
-		if(this.participant != null) {
-			this.participant.removeListener(this);
-		}
-		
-		// Ne plus écouter l'historique
-		FrontModel.get().getHistory().removeListener(this);
-	}
-	@Override
-	public void addListener (ICelluleModelListener listener) {
-		this.listeners.add(listener);
-	}
-	@Override
-	public void removeListener (ICelluleModelListener listener) {
-		this.listeners.remove(listener);
-	}
 	
-	// Recharger la cellule
+	/**
+	 * Recharger la cellule
+	 */
 	private void reload() {
 		// Indicateur de modification
 		boolean change = false;
@@ -149,6 +117,48 @@ public class CelluleModelPhasesElimsMatch implements ICelluleModel<InfosModelCat
 		
 		// La cellule est à jour
 		this.isChanged = false;
+	}
+
+	// Implémentation de ICelluleModel
+	@Override
+	public InfosModelParticipant getObject () {
+		return this.participant != null ? this.participant.getInfos() : null;
+	}
+	@Override
+	public boolean isEditable() {
+		if(this.match != null) {
+			return (this.match.getMatchPrecedantA() == null || this.match.getMatchPrecedantA().isEffectue()) && (this.match.getMatchPrecedantB() == null || this.match.getMatchPrecedantB().isEffectue());
+		} else {
+			return false;
+		}
+	}
+	@Override
+	public IGraphModel<InfosModelCategorie, InfosModelParticipant> getGraph() {
+		return this.graphe;
+	}
+	@Override
+	public void close () {
+		// Ne plus écouter le match et le vainqueur
+		if(this.match != null) {
+			this.match.removeListener(this);
+		}
+		if(this.participation != null) {
+			this.participation.removeListener(this);
+		}
+		if(this.participant != null) {
+			this.participant.removeListener(this);
+		}
+		
+		// Ne plus écouter l'historique
+		FrontModel.get().getHistory().removeListener(this);
+	}
+	@Override
+	public void addListener (ICelluleModelListener listener) {
+		this.listeners.add(listener);
+	}
+	@Override
+	public void removeListener (ICelluleModelListener listener) {
+		this.listeners.remove(listener);
 	}
 
 	// Implémentation de IEventListener

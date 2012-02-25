@@ -1,23 +1,31 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.io.File;
 
 import javax.swing.filechooser.FileSystemView;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.interfaces.IEndListener;
 import org.contestorg.interfaces.IOperation;
 
-
+/**
+ * Boîte de dialogue d'exportation
+ */
 @SuppressWarnings("serial")
 public class JDExporter extends JDPattern
 {
-	// Panel du thème
+	/** Panel du thème */
 	protected JPTheme jp_theme;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param categorie catégorie des thèmes d'exportation
+	 * @param nomCategorie nom de la catégorie séléctionnée
+	 * @param nomPoule nom de la poule séléctionnée
+	 * @param numeroPhase nom de la poule séléctionnée
+	 */
 	public JDExporter(Window w_parent,String categorie, String nomCategorie, String nomPoule, Integer numeroPhase) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Exporter");
@@ -36,7 +44,9 @@ public class JDExporter extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Vérifier si le thème est correcte
@@ -94,7 +104,9 @@ public class JDExporter extends JDPattern
 		}
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Masquer la fenêtre

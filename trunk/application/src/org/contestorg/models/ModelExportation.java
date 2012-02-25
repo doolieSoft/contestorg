@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.TrackableList;
@@ -8,25 +7,44 @@ import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelTheme;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.interfaces.IUpdater;
 import org.contestorg.log.Log;
 
-
-
+/**
+ * Exportation
+ */
 public class ModelExportation extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Concours */
 	private ModelConcours concours;
+	
+	/** Chemin */
 	private ModelCheminAbstract chemin;
+	
+	/** Thème */
 	private ModelTheme theme;
 	
 	// Attributs scalaires
+	
+	/** Nom */
 	private String nom;
+	
+	/** Exportation automatique ? */
 	private boolean auto;
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param concours concours
+	 * @param chemin chemin
+	 * @param theme thème
+	 * @param infos informations de l'exportation
+	 */
 	public ModelExportation(ModelConcours concours, ModelCheminAbstract chemin, ModelTheme theme, InfosModelExportation infos) {
 		// Retenir le concours, le chemin et le theme
 		this.concours = concours;
@@ -36,29 +54,62 @@ public class ModelExportation extends ModelAbstract
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param concours concours
+	 * @param chemin chemin
+	 * @param theme thème
+	 * @param exportation exportation
+	 */
 	protected ModelExportation(ModelConcours concours,ModelCheminAbstract chemin, ModelTheme theme, ModelExportation exportation) {
 		// Appeller le constructeur principal
-		this(concours, chemin, theme, exportation.toInfos());
+		this(concours, chemin, theme, exportation.getInfos());
 		
 		// Récupérer l'id
 		this.setId(exportation.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
-	public boolean isAutomatique () {
+	
+	/**
+	 * Vérifier s'il s'agit d'une exportation automatique
+	 * @return exportation automatique ?
+	 */
+	public boolean isAuto () {
 		return this.auto;
 	}
+	
+	/**
+	 * Récupérer le thème
+	 * @return thème
+	 */
 	public ModelTheme getTheme () {
 		return this.theme;
 	}
+	
+	/**
+	 * Récupérer le chemin
+	 * @return chemin
+	 */
 	public ModelCheminAbstract getChemin () {
 		return this.chemin;
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations de l'exportation
+	 * @param infos informations de l'exportation
+	 */
 	protected void setInfos (InfosModelExportation infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -70,38 +121,60 @@ public class ModelExportation extends ModelAbstract
 		// Fire update
 		this.fireUpdate();
 	}
-	protected void setTheme (ModelTheme after) throws ContestOrgModelException {
+	
+	/**
+	 * Définir le thème
+	 * @param theme thème
+	 * @throws ContestOrgModelException
+	 */
+	protected void setTheme (ModelTheme theme) throws ContestOrgModelException {
 		// Modifier le thème
 		ModelTheme before = this.theme;
-		this.theme = after;
+		this.theme = theme;
 		before.delete(this);
 		
 		// Fire update
 		this.fireUpdate();
 	}
-	protected void setChemin (ModelCheminAbstract after) throws ContestOrgModelException {
+	
+	/**
+	 * Définir le chemin
+	 * @param chemin chemin
+	 * @throws ContestOrgModelException
+	 */
+	protected void setChemin (ModelCheminAbstract chemin) throws ContestOrgModelException {
 		// Modifier le chemin
 		ModelCheminAbstract before = this.chemin;
-		this.chemin = after;
+		this.chemin = chemin;
 		before.delete(this);
 		
 		// Fire update
 		this.fireUpdate();
 	}
 	
-	// Clone
-	protected ModelExportation clone (ModelConcours concours, ModelCheminAbstract chemin, ModelTheme ressources) {
-		return new ModelExportation(concours, chemin, ressources, this);
+	/**
+	 * Cloner l'exportation
+	 * @param concours concours
+	 * @param chemin chemin
+	 * @param theme thème
+	 * @return clone de l'exportation
+	 */
+	protected ModelExportation clone (ModelConcours concours, ModelCheminAbstract chemin, ModelTheme theme) {
+		return new ModelExportation(concours, chemin, theme, this);
 	}
 	
-	// ToInformation
-	public InfosModelExportation toInfos () {
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelExportation getInfos () {
 		InfosModelExportation infos = new InfosModelExportation(this.nom, this.auto);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter l'horaire aux removers
@@ -139,24 +212,33 @@ public class ModelExportation extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des exportations d'un concours
+	/**
+	 * Classe pour mettre à jour la liste des exportations d'un concours
+	 */
 	protected static class UpdaterForConcours implements IUpdater<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>, ModelExportation>
 	{
-		// Concours
+		/** Concours */
 		private ModelConcours concours;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 */
 		public UpdaterForConcours(ModelConcours concours) {
 			this.concours = concours;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
 		public ModelExportation create (Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> infos) {
 			return new ModelExportation(this.concours,ModelCheminAbstract.create(infos.getSecond()), new ModelTheme(infos.getThird()), infos.getFirst());
 		}
 		
-		// Implémentation de update
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
 		public void update (ModelExportation exportation, Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> infos) {
 			try {
@@ -170,10 +252,12 @@ public class ModelExportation extends ModelAbstract
 		
 	}
 	
-	// Classe pour valider les opérations sur la liste des exportations d'un concours
-	protected static class ValidatorForConcours implements IListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>>
+	/**
+	 * Classe pour valider les opérations sur la liste des exportations d'un concours
+	 */
+	protected static class ValidatorForConcours implements ITrackableListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>>
 	{
-		// Implémentation de IListValidator
+		// Implémentation de ITrackableListValidator
 		@Override
 		public String validateAdd (Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> infos, TrackableList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> list) {
 			for (int i = 0; i < list.size(); i++) {

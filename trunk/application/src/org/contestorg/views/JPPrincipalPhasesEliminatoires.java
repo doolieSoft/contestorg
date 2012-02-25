@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -20,34 +19,52 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
-import org.contestorg.infos.InfosModelPhaseEliminatoires;
+import org.contestorg.infos.InfosModelPhasesEliminatoires;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IMoody;
+import org.contestorg.interfaces.IMoodyListener;
 import org.contestorg.interfaces.ITreeNode;
 
-
+/**
+ * Panel des phases éliminatoires pour la fenêtre principale
+ */
 @SuppressWarnings("serial")
 public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implements TreeSelectionListener, ActionListener
 {
 
 	// Panneau du haut
-	private JComboBox jcb_participants;
+	
+	/** Liste des participants */
+	private JComboBox<String> jcb_participants;
+	
+	/** Bouton "Générer" */
 	private JButton jb_generer;
+	
+	/** Bouton "Réinitialiser" */
 	private JButton jb_reinitialiser;
+	
+	/** Bouton "Exporter" */
 	private JButton jb_exporter;
 	
-	// JTree des catégorie
+	// Panneau de contenu
+	
+	/** Arborescence des catégories */
 	private JTree jtree;
 	
-	// Graphes des phases éliminatoires
-	private GraphPhasesElims grapheGrandeFinale;
-	private GraphPhasesElims graphePetiteFinale;
+	/** Graphe de la grande finale */
+	private JPGraphPhasesElims grapheGrandeFinale;
+	
+	/** Graphe de la grande finale */
+	private JPGraphPhasesElims graphePetiteFinale;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPPrincipalPhasesEliminatoires(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
@@ -56,7 +73,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		ContestOrg.get().addListener(this);
 
 		// Panneau du haut
-		this.jcb_participants = new JComboBox();
+		this.jcb_participants = new JComboBox<String>();
 		this.jb_generer = new JButton("Générer", new ImageIcon("img/farm/16x16/arrow_refresh.png"));
 		this.jb_reinitialiser = new JButton("Réinitialiser", new ImageIcon("img/farm/16x16/arrow_undo.png"));
 		this.jb_exporter = new JButton("Exporter", new ImageIcon("img/farm/16x16/application_go.png"));
@@ -92,10 +109,10 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		
 		JTabbedPane jtb_graphes = new JTabbedPane(JTabbedPane.BOTTOM);
 		
-		this.grapheGrandeFinale = new GraphPhasesElims(this.w_parent, true);
+		this.grapheGrandeFinale = new JPGraphPhasesElims(this.w_parent, true);
 		jtb_graphes.addTab("Grande finale", this.grapheGrandeFinale);
 
-		this.graphePetiteFinale = new GraphPhasesElims(this.w_parent, false);
+		this.graphePetiteFinale = new JPGraphPhasesElims(this.w_parent, false);
 		jtb_graphes.addTab("Petite finale", this.graphePetiteFinale);
 
 		JScrollPane jsp = new JScrollPane(this.jtree);
@@ -111,7 +128,9 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		this.jb_reinitialiser.addActionListener(this);
 	}
 
-	// Implémentation de moodyChanged
+	/**
+	 * @see IMoodyListener#moodyChanged(IMoody)
+	 */
 	@Override
 	public void moodyChanged (IMoody moody) {
 		// Rafraichir les boutons et le graphe
@@ -119,7 +138,9 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		this.refreshGraphe();
 	}
 
-	// Implémentation de TreeSelectionListener
+	/**
+	 * @see TreeSelectionListener#valueChanged(TreeSelectionEvent)
+	 */
 	@Override
 	public void valueChanged (TreeSelectionEvent event) {
 		// Rafraichir les boutons et le graphe
@@ -127,7 +148,9 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		this.refreshGraphe();
 	}
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	@Override
 	public void actionPerformed (ActionEvent event) {
 		// Conserver la sélection du jtree
@@ -153,7 +176,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 					// Demander à l'utilisateur s'il souhaite vraiment regénérer les phases éliminatoires
 					if(this.grapheGrandeFinale.isClear() || ViewHelper.confirmation(this.w_parent, "En regénérant les phases éliminatoires, les matchs déjà générés seront perdus. Désirez-vous continuer ?", true)) {
 						// Demander la création 
-						ContestOrg.get().getCtrlPhasesEliminatoires().genererPhasesElims(nomCategorie, nbPhases, new InfosModelMatchPhasesElims(null,null), new InfosModelPhaseEliminatoires());
+						ContestOrg.get().getCtrlPhasesEliminatoires().genererPhasesElims(nomCategorie, nbPhases, new InfosModelMatchPhasesElims(null,null), new InfosModelPhasesEliminatoires());
 					}
 				} else {
 					// Erreur
@@ -184,7 +207,9 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		this.jtree.setSelectionPath(path);
 	}
 	
-	// Rafraichir les boutons
+	/**
+	 * Rafraichir les boutons
+	 */
 	private void refreshButtons () {
 		// Récupérer le nom de la catégorie
 		String nomCategorie = this.getSelection();
@@ -196,7 +221,9 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}
 	
-	// Rafraichir le graphe
+	/**
+	 * Rafraichir le graphe
+	 */
 	private void refreshGraphe() {
 		if(ContestOrg.get().is(ContestOrg.STATE_OPEN)) {
 			// Récupérer le nom de la catégorie
@@ -219,7 +246,10 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		}
 	}
 	
-	// Récupère la catégorie séléctionnée
+	/**
+	 * Récupère la catégorie séléctionnée
+	 * @return catégorie séléctionnée
+	 */
 	private String getSelection() {
 		// Récupérer le nom de la catégorie
 		String nomCategorie = null;

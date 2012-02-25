@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Window;
@@ -21,28 +20,47 @@ import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue de création/édition d'un comparateur en vue de générer les phases qualificatives
+ */
 @SuppressWarnings("serial")
 public abstract class JDComparateurAbstract extends JDPattern implements ItemListener
 {
-	// Collector d'informations sur la diffusion
+	/** Collecteur des informations du comparateur */
 	private ICollector<InfosModelCompPhasesQualifsAbstract> collector;
 	
-	// Objectifs
+	/** Liste des objectifs */
 	private ArrayList<InfosModelObjectif> objectifs;
 	
-	// Panel des informations
+	/** Panel des informations */
 	private JPanel jp_informations;
 
+	// Labels
+	
+	/** Label pour un comparateur de points */
 	protected final static String LABEL_COMPARATEUR_POINTS = "Nombre de points";
+	
+	/** Label pour un comparateur de victoires */
 	protected final static String LABEL_COMPARATEUR_VICTOIRES = "Nombre de victoires";
+	
+	/** Label pour un comparateur de remportés */
 	protected final static String LABEL_COMPARATEUR_OBJECTIF = "Nombre d'objectifs remportés";
 	
 	// Entrées
-	protected JComboBox jcb_types;
 	
-	protected JComboBox jcb_objectifs;
+	/** Liste des types */
+	protected JComboBox<String> jcb_types;
+	
+	/** Liste des objectifs */
+	protected JComboBox<String> jcb_objectifs;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations du comparateur
+	 * @param objectifs liste des objectifs
+	 */
 	public JDComparateurAbstract(Window w_parent, String titre, ICollector<InfosModelCompPhasesQualifsAbstract> collector, ArrayList<InfosModelObjectif> objectifs) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -54,7 +72,7 @@ public abstract class JDComparateurAbstract extends JDPattern implements ItemLis
 		// Type de comparateur
 		this.jp_contenu.add(ViewHelper.title("Type de critère", ViewHelper.H1));
 		String[] types = { JDComparateurAbstract.LABEL_COMPARATEUR_POINTS, JDComparateurAbstract.LABEL_COMPARATEUR_VICTOIRES, JDComparateurAbstract.LABEL_COMPARATEUR_OBJECTIF };
-		this.jcb_types = new JComboBox(types);
+		this.jcb_types = new JComboBox<String>(types);
 		this.jp_contenu.add(this.jcb_types);
 
 		// Informations du comparateur
@@ -86,7 +104,7 @@ public abstract class JDComparateurAbstract extends JDPattern implements ItemLis
 		JPanel jp_comparateur_objectif = new JPanel();
 		jp_comparateur_objectif.setLayout(new BoxLayout(jp_comparateur_objectif, BoxLayout.Y_AXIS));
 		
-		this.jcb_objectifs = new JComboBox();
+		this.jcb_objectifs = new JComboBox<String>();
 		if(this.objectifs.size() > 0) {
 			for(InfosModelObjectif objectif : this.objectifs) {
 				this.jcb_objectifs.addItem(objectif.getNom());
@@ -110,7 +128,9 @@ public abstract class JDComparateurAbstract extends JDPattern implements ItemLis
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer le type séléctionné
@@ -138,18 +158,22 @@ public abstract class JDComparateurAbstract extends JDPattern implements ItemLis
 
 		// Envoyer les informations au collector
 		if (infos != null) {
-			this.collector.accept(infos);
+			this.collector.collect(infos);
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler
 		this.collector.cancel();
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		CardLayout layout = (CardLayout)(this.jp_informations.getLayout());

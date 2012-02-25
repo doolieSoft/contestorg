@@ -7,16 +7,22 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+/**
+ * Panel pour la boîte de dialogue de création/édition de concours
+ */
 @SuppressWarnings("serial")
 public abstract class JPConfigurationAbstract extends JPanel
 {
-	// Panel de contenu
+	/** Panel de contenu */
 	protected JPanel jp_contenu;
 
-	// Parent
+	/** Fenêtre parent */
 	protected Window w_parent;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JPConfigurationAbstract(Window w_parent) {
 		// Retenir le parent
 		this.w_parent = w_parent;
@@ -36,6 +42,9 @@ public abstract class JPConfigurationAbstract extends JPanel
 		this.add(jp_largeur, BorderLayout.CENTER);
 	}
 
-	// Vérifier la validité des données
+	/**
+	 * Vérifier la validité des données
+	 * @return données valides ?
+	 */
 	public abstract boolean check ();
 }

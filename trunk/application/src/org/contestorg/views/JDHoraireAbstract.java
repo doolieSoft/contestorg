@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import javax.swing.Box;
@@ -14,18 +13,33 @@ import javax.swing.ListSelectionModel;
 import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue de création/édition d'un horaire
+ */
 @SuppressWarnings("serial")
 public class JDHoraireAbstract extends JDPattern
 {
 	
-	// Collector
+	/** Collecteur des informations de l'horaire */
 	private ICollector<InfosModelHoraire> collector;
 	
 	// Entrées
+	
+	/** Heure de début */
 	protected JTextField jtf_heure_debut = new JTextField();
+	
+	/** Heure de fin */
 	protected JTextField jtf_heure_fin = new JTextField();
-	protected JList jl_jours;
+	
+	/** Liste des jours */
+	protected JList<String> jl_jours;
 
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector colecteur des informations de l'horaire
+	 */
 	public JDHoraireAbstract(Window w_parent, String titre, ICollector<InfosModelHoraire> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -40,7 +54,7 @@ public class JDHoraireAbstract extends JDPattern
 		this.jtf_heure_fin.setToolTipText("Heure de fin de l'horaire doit être de la forme \"??h??\" ou \"??h\"");
 		
 		String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
-		this.jl_jours = new JList(jours);
+		this.jl_jours = new JList<String>(jours);
 		this.jl_jours.setVisibleRowCount(7);
 		this.jl_jours.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		JLabel[] jls = {new JLabel("Heure de début : "), new JLabel("Heure de fin : "), new JLabel("Jours : ")};
@@ -53,7 +67,9 @@ public class JDHoraireAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -107,12 +123,14 @@ public class JDHoraireAbstract extends JDPattern
 		
 		// Envoyer les données au collector
 		if(debutParse != -1 && finParse != -1 && joursParse != 0) {
-			this.collector.accept(new InfosModelHoraire(joursParse, debutParse, finParse));
+			this.collector.collect(new InfosModelHoraire(joursParse, debutParse, finParse));
 		}
 
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler

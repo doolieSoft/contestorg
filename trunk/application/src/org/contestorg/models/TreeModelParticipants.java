@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
@@ -15,13 +14,19 @@ import org.contestorg.events.EventUpdate;
 import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IHistoryListener;
 
-
-
-@SuppressWarnings("serial")
+/**
+ * Modèle de données pour arbre de participants
+ */
 public class TreeModelParticipants extends DefaultTreeModel implements IHistoryListener
 {
+	/** Numéro de version de la classe */
+	private static final long serialVersionUID = 1;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param remonterPoules remonter les poules ?
+	 * @param remonterParticipants remonter les participants ?
+	 */
 	protected TreeModelParticipants(boolean remonterPoules, boolean remonterParticipants) {
 		// Appeller le constructeur du parent
 		super(new ConcoursTreeNode(FrontModel.get().getConcours(),remonterPoules, remonterParticipants));
@@ -29,8 +34,10 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 		// Ecouter l'historique du concours
 		FrontModel.get().getHistory().addListener(this);
 	}
-	
-	// Rafraichir la structure de l'arbre
+
+	/**
+	 * Rafraichir la structure de l'arbre
+	 */
 	private void refresh () {
 		// Caster la node root
 		ConcoursTreeNode root = (ConcoursTreeNode)this.getRoot();
@@ -75,15 +82,24 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 		this.reload();
 	}
 	
-	// Classe node représentant le concours
+	/**
+	 * Classe node représentant le concours
+	 */
 	private static class ConcoursTreeNode extends TreeNodeAbstract<ModelConcours> implements IEventListener
 	{
 		
-		// Faut il remonter les poules/participants ?
+		/** Remonter les poules */
 		private boolean remonterPoules;
+		
+		/** Remonter les participants */
 		private boolean remonterParticipants;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 * @param remonterPoules remonter les poules ?
+		 * @param remonterParticipants remonter les participants ?
+		 */
 		public ConcoursTreeNode(ModelConcours concours, boolean remonterPoules, boolean remonterParticipants) {
 			// Appeller le constructeur parent
 			super(concours);
@@ -106,7 +122,10 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 			}
 		}
 		
-		// Définir le concours
+		/**
+		 * Définir le concours
+		 * @param concours concours
+		 */
 		public void setConcours (ModelConcours concours) {
 			// Retenir le concours
 			this.object = concours;
@@ -131,15 +150,19 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 			this.clearIndicators();
 		}
 		
-		// Implémentation manquante de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return this.object != null;
 		}
 		
-		// Surcharge de getObject
+		/**
+		 * @see TreeNodeAbstract#getObject()
+		 */
 		public Object getObject () {
-			return this.object == null ? null : this.object.toInfos();
+			return this.object == null ? null : this.object.getInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -177,15 +200,24 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 
 	}
 	
-	// Classe node représentant une catégorie
+	/**
+	 * Classe node représentant une catégorie
+	 */
 	private static class CategorieTreeNode extends TreeNodeAbstract<ModelCategorie> implements IEventListener
 	{
 		
-		// Faut il remonter les poules/participants ?
+		/** Remonter les poules */
 		private boolean remonterPoules;
+		
+		/** Remonter les participants */
 		private boolean remonterParticipants;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param categorie catégorie
+		 * @param remonterPoules remonter les poules ?
+		 * @param remonterParticipants remonter les participants ?
+		 */
 		public CategorieTreeNode(ModelCategorie categorie, boolean remonterPoules, boolean remonterParticipants) {
 			// Appeller le constructeur du parent
 			super(categorie);
@@ -208,15 +240,19 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 			this.object.addListener(this);
 		}
 		
-		// Implémentation de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return this.remonterPoules;
 		}
 			
-		// Surcharge de getObject
+		/**
+		 * @see TreeNote#getObject()
+		 */
 		public Object getObject() {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 		
 		// Implémentation de IEventListener
@@ -251,19 +287,25 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 				}
 			} else if(event instanceof EventUpdate) {
 				// Signaler la modification de la node
-				this.hasChanged();
+				this.setChanged();
 			}
 		}
 
 	}
 	
-	// Classe node représentant une poule
+	/**
+	 * Classe node représentant une poule
+	 */
 	private static class PouleTreeNode extends TreeNodeAbstract<ModelPoule> implements IEventListener
 	{
-		// Faut il remonter les participants ?
+		/** Remonter les participants ? */
 		private boolean remonterParticipants;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param poule poule
+		 * @param remonterParticipants remonter les participants ?
+		 */
 		public PouleTreeNode(ModelPoule poule, boolean remonterParticipants) {
 			// Appeller le constructeur du parent
 			super(poule);
@@ -285,15 +327,19 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 			this.object.addListener(this);
 		}
 		
-		// Implémentation manquante de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren() 
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return this.remonterParticipants;
 		}
 		
-		// Surcharge de getObject
+		/**
+		 * @see TreeNode#TreeNodeAbstract()
+		 */
 		public Object getObject () {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 				
 		// Implémentation de IEventListener
@@ -328,15 +374,20 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 				}
 			} else if(event instanceof EventUpdate) {
 				// Signaler la modification de la node
-				this.hasChanged();
+				this.setChanged();
 			}
 		}
 	}
 	
-	// Classe node représentant un participant
+	/**
+	 * Classe node représentant un participant
+	 */
 	private static class ParticipantTreeNode extends TreeNodeAbstract<ModelParticipant> implements IEventListener
 	{
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param participant participant
+		 */
 		public ParticipantTreeNode(ModelParticipant participant) {
 			// Appeller le constructeur parent
 			super(participant);
@@ -345,15 +396,19 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 			this.object.addListener(this);
 		}
 		
-		// Implémentation manquante de TreeNode
+		/**
+		 * @see TreeNode#getAllowsChildren()
+		 */
 		@Override
 		public boolean getAllowsChildren () {
 			return false;
 		}
 		
-		// Surcharge de getObject
+		/**
+		 * @see TreeNodeAbstract#getObject()
+		 */
 		public Object getObject () {
-			return this.object.toInfos();
+			return this.object.getInfos();
 		}
 
 		
@@ -363,7 +418,7 @@ public class TreeModelParticipants extends DefaultTreeModel implements IHistoryL
 			// Vérifier s'il s'agit d'un évenement de modification
 			if(event instanceof EventUpdate) {
 				// Signaler la modification de la node
-				this.hasChanged();
+				this.setChanged();
 			}
 		}
 				

@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Window;
@@ -12,82 +11,103 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.ICelluleModel;
 import org.contestorg.interfaces.ICelluleModelListener;
 import org.jgraph.JGraph;
+import org.jgraph.graph.AbstractCellView;
 import org.jgraph.graph.GraphCellEditor;
 import org.jgraph.graph.VertexView;
 
-
-
+/**
+ * Cellule du graphe des phases éliminatoires 
+ */
 @SuppressWarnings("serial")
 public class GraphVertexViewPhasesElims extends VertexView implements ICelluleModelListener {
 	
-	// Modèle associé à la cellule
+	/** Modèle de données associé à la cellule */
 	private ICelluleModel<InfosModelCategorie,InfosModelParticipant> model;
 
-	// Parent
+	/** Fenêtre parent */
 	private Window w_parent;
 	
-	// Label
-	private JLabel label;
+	/** Label */
+	private JLabel jl_label;
 	
-	// Largeur du label
-	private GraphPhasesElims graphe;
+	/** Panel du graphe */
+	private JPGraphPhasesElims jp_graph;
 
-	// Constructeur
-	public GraphVertexViewPhasesElims(Object cell, Window w_parent, GraphPhasesElims graphe) {
+	/**
+	 * Constructeur
+	 * @param cell modèle de données associé à la cellule
+	 * @param w_parent fenêtre parent
+	 * @param jp_graph panel du graphe
+	 */
+	public GraphVertexViewPhasesElims(Object cell, Window w_parent, JPGraphPhasesElims jp_graph) {
 		// Appeller le constructeur du parent
 		super(cell);
 		
-		// Retenir la fenêtre parent et le graphe
+		// Retenir la fenêtre parent et le panel du graphe
 		this.w_parent = w_parent;
-		this.graphe = graphe;
+		this.jp_graph = jp_graph;
 		
 		// Récupérer/Retenir/Ecouter le modèle associé à la cellule
-		this.model = this.graphe.getModel().getCellule(Integer.parseInt(cell.toString()));
+		this.model = this.jp_graph.getModel().getCellule(Integer.parseInt(cell.toString()));
 		this.model.addListener(this);
 		
 		// Créer le label
-		this.label = (JLabel) GraphVertexViewPhasesElims.getRenderComponent(this.model);
+		this.jl_label = (JLabel) GraphVertexViewPhasesElims.getRenderComponent(this.model);
 	}
 	
-	// Redéfinition de méthodes
+	/**
+	 * @see AbstractCellView#getEditor()
+	 */
 	public GraphCellEditor getEditor() {
 		// Vérifier si la cellule est éditable
 		if(!this.model.isEditable()) {
-			return new GraphVertexEditorNull(this.model.getGraphe().indexOf(this.model), this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().height);
+			return new GraphVertexEditorNull(this.model.getGraph().indexOf(this.model), this.jp_graph.getLargeurMaxCellule(), this.jl_label.getPreferredSize().height);
 		}
 
 		// Vérifier s'il s'agit d'une cellule associée à un participant ou à un match
-		if(this.model.getGraphe().indexOf(this.model) < this.model.getGraphe().size()) {
+		if(this.model.getGraph().indexOf(this.model) < this.model.getGraph().size()) {
 			// Retourner l'editor
-			return new GraphVertexEditorPhasesElimsParticipant(this.model, this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().height);
+			return new GraphVertexEditorPhasesElimsParticipant(this.model, this.jp_graph.getLargeurMaxCellule(), this.jl_label.getPreferredSize().height);
 		} else {
 			// Vérifier si les résultats sont éditables
-			boolean resultatsEditables = !this.graphe.isGrandeFinale() || ContestOrg.get().getCtrlPhasesEliminatoires().isMatchPhasesElimsResultatsEditables(this.model.getGraphe().getObject().getNom(), this.model.getGraphe().indexOf(this.model)-this.model.getGraphe().size());
+			boolean resultatsEditables = !this.jp_graph.isGrandeFinale() || ContestOrg.get().getCtrlPhasesEliminatoires().isMatchResultatsEditables(this.model.getGraph().getObject().getNom(), this.model.getGraph().indexOf(this.model)-this.model.getGraph().size());
 
 			// Retourner l'editor
-			return new GraphVertexEditorPhasesElimsMatch(this.model, this.w_parent, this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().height, resultatsEditables, !this.graphe.isGrandeFinale());
+			return new GraphVertexEditorPhasesElimsMatch(this.model, this.w_parent, this.jp_graph.getLargeurMaxCellule(), this.jl_label.getPreferredSize().height, resultatsEditables, !this.jp_graph.isGrandeFinale());
 		}
 	}
+	
+	/**
+	 * @see AbstractCellView#getBounds()
+	 */
 	public Rectangle2D getBounds() {
 		// Retourner les dimensions du label
-		return new Rectangle2D.Double(super.getBounds().getX(), super.getBounds().getY(), this.graphe.getLargeurMaxCellule(), this.label.getPreferredSize().getHeight());
-	}
-	public Component getRendererComponent(JGraph graph, boolean selected, boolean focus, boolean preview) {
-		// Rafraichir le label
-		GraphVertexViewPhasesElims.refreshRenderComponent(this.label, this.model);
-		
-		// Retourner le label
-		return this.label;
+		return new Rectangle2D.Double(super.getBounds().getX(), super.getBounds().getY(), this.jp_graph.getLargeurMaxCellule(), this.jl_label.getPreferredSize().getHeight());
 	}
 	
-	// Créer/Rafraichir le composant associé à la cellule
+	/**
+	 * @see AbstractCellView#getRendererComponent()
+	 */
+	public Component getRendererComponent(JGraph graph, boolean selected, boolean focus, boolean preview) {
+		// Rafraichir le label
+		GraphVertexViewPhasesElims.refreshRenderComponent(this.jl_label, this.model);
+		
+		// Retourner le label
+		return this.jl_label;
+	}
+	
+	/**
+	 * Créer le composant associé à la cellule
+	 * @param model modèle de données associé à la cellule
+	 * @return composant associé à la cellule
+	 */
 	public static JComponent getRenderComponent(ICelluleModel<InfosModelCategorie,InfosModelParticipant> model) {
 		// Créer le label
 		JLabel label = new JLabel("",new ImageIcon(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/32x32/group.png" : "img/farm/32x32/user_green.png"),SwingConstants.LEFT);
@@ -101,22 +121,32 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 		// Retourner le label
 		return label;
 	}
+	
+	/**
+	 * Rafraichir le composant associé à la cellule
+	 * @param label label associé à la cellule
+	 * @param model modèle de données associé à la cellule
+	 */
 	private static void refreshRenderComponent(JLabel label,ICelluleModel<InfosModelCategorie,InfosModelParticipant> model) {
 		// Mettre à jour le label
 		label.setText(model.getObject() == null ? "   ...   " : model.getObject().getNom());
 	}
 	
-	// Implémentation de ICelluleListener
+	/**
+	 * @see ICelluleModelListener#updateCellule()
+	 */
 	@Override
 	public void updateCellule () {
 		// Rafraichir le label
-		GraphVertexViewPhasesElims.refreshRenderComponent(this.label, this.model);
+		GraphVertexViewPhasesElims.refreshRenderComponent(this.jl_label, this.model);
 		
 		// Prévenir le graphe
-		this.graphe.updateCellule(this);
+		this.jp_graph.updateCellule(this);
 	}
 	
-	// Fermer la cellule
+	/**
+	 * Fermer la cellule
+	 */
 	public void close() {
 		// Ne plus écouter le modèle associée à la cellule
 		this.model.removeListener(this);

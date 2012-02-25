@@ -8,38 +8,66 @@ import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.infos.InfosModelObjectifNul;
 import org.contestorg.infos.InfosModelObjectifPoints;
 import org.contestorg.infos.InfosModelObjectifPourcentage;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.interfaces.IUpdater;
 
 
 /**
- * Objectif que peuvent remplir les participants
+ * Objectif
  */
 public class ModelObjectif extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Concours */
 	private ModelConcours concours;
+	
+	/** Liste des objectifs remportés */
 	private ArrayList<ModelObjectifRemporte> objectifsRemportes = new ArrayList<ModelObjectifRemporte>();
+	
+	/** Liste des critères de classement */
 	private ArrayList<ModelCompPhasesQualifsObjectif> compsPhasesQualifs = new ArrayList<ModelCompPhasesQualifsObjectif>();
 	
 	// Types d'objectifs possible
+	
+	/** Objectif à points */
 	public static final int TYPE_POINTS = 1;
+	
+	/** Objectif à pourcentage */
 	public static final int TYPE_POURCENTAGE = 2;
+	
+	/** Objectif nul */
 	protected static final int TYPE_NUL = 3;
 	
 	// Attributs scalaires
+	
+	/** Nom */
 	private String nom;
+	
+	/** Type */
 	private int type;
 	
+	/** Points (s'il s'agit d'un objectif à points) */
 	private double points_points;
+	
+	/** Borne de participation (s'il s'agit d'un objectif à points) */
 	private Double points_borneParticipation;
 	
+	/** Pourcentage (s'il s'agit d'un objectif à pourcentage) */
 	private double pourcentage_pourcentage;
+	
+	/** Borne de participation (s'il s'agit d'un objectif à pourcentage) */
 	private Double pourcentage_borneParticipation;
+	
+	/** Borne d'augmentation (s'il s'agit d'un objectif à pourcentage) */
 	private Double pourcentage_borneAugmentation;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param concours concours
+	 * @param infos informations de l'objectif
+	 */
 	public ModelObjectif(ModelConcours concours, InfosModelObjectif infos) {
 		// Retenir le concours
 		this.concours = concours;
@@ -47,32 +75,68 @@ public class ModelObjectif extends ModelAbstract
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param concours concours
+	 * @param objectif objectif
+	 */
 	protected ModelObjectif(ModelConcours concours, ModelObjectif objectif) {
 		// Appeller le constructeur principal
-		this(concours, objectif.toInfos());
+		this(concours, objectif.getInfos());
 		
 		// Récupérer l'id
 		this.setId(objectif.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
+	
+	/**
+	 * Récupérer le type
+	 * @return type
+	 */
 	public int getType () {
 		return this.type;
 	}
+	
+	/**
+	 * Récupérer le concours
+	 * @return concours
+	 */
 	public ModelConcours getConcours () {
 		return this.concours;
 	}
+	
+	/**
+	 * Récupérer la liste des objectifs remportés
+	 * @return liste des objectifs remportés
+	 */
 	public ArrayList<ModelObjectifRemporte> getObjectifsRemportes () {
 		return new ArrayList<ModelObjectifRemporte>(this.objectifsRemportes);
 	}
+	
+	/**
+	 * Récupérer la liste des critères de classement des phases qualificatives
+	 * @return liste des critères de classement des phases qualificatives
+	 */
 	public ArrayList<ModelCompPhasesQualifsObjectif> getCompPhasesQualifs () {
 		return new ArrayList<ModelCompPhasesQualifsObjectif>(this.compsPhasesQualifs);
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations de l'objectif
+	 * @param infos informations de l'objectif
+	 */
 	protected void setInfos (InfosModelObjectif infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -97,6 +161,12 @@ public class ModelObjectif extends ModelAbstract
 	}
 	
 	// Adders
+	
+	/**
+	 * Ajouter un objectif remporté
+	 * @param objectifRemporte objectif remporté
+	 * @throws ContestOrgModelException
+	 */
 	public void addObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
 		if (!this.objectifsRemportes.contains(objectifRemporte)) {
 			// Ajouter l'objectif remporte
@@ -108,6 +178,12 @@ public class ModelObjectif extends ModelAbstract
 			throw new ContestOrgModelException("L'objectif remporté existe déjà dans l'objectif");
 		}
 	}
+	
+	/**
+	 * Ajouter un critère de classement des phases qualificatives
+	 * @param objectifRemporte critère de classement des phases qualificatives
+	 * @throws ContestOrgModelException
+	 */
 	public void addCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgModelException {
 		if (!this.compsPhasesQualifs.contains(compPhasesQualifs)) {
 			// Ajouter l'objectif remporte
@@ -121,6 +197,12 @@ public class ModelObjectif extends ModelAbstract
 	}
 	
 	// Removers
+	
+	/**
+	 * Supprimer un objectif remporté
+	 * @param objectifRemporte objectif remporté
+	 * @throws ContestOrgModelException
+	 */
 	protected void removeObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
 		// Retirer l'objectif remporte
 		int index;
@@ -134,6 +216,12 @@ public class ModelObjectif extends ModelAbstract
 			throw new ContestOrgModelException("L'objectif remporté n'existe pas dans l'objectif");
 		}
 	}
+	
+	/**
+	 * Supprimer un critère de classement des phases qualificatives
+	 * @param compPhasesQualifs critère de classement des phases qualificatives
+	 * @throws ContestOrgModelException
+	 */
 	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgModelException {
 		// Retirer l'objectif remporte
 		int index;
@@ -148,13 +236,19 @@ public class ModelObjectif extends ModelAbstract
 		}
 	}
 	
-	// Clone
+	/**
+	 * Cloner l'objectif
+	 * @param concours concours
+	 * @return clone de l'objectif
+	 */
 	protected ModelObjectif clone (ModelConcours concours) {
-		return new ModelObjectif(concours, this.toInfos());
+		return new ModelObjectif(concours, this.getInfos());
 	}
 	
-	// ToInformation
-	public InfosModelObjectif toInfos () {
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelObjectif getInfos () {
 		InfosModelObjectif infos = null;
 		switch (this.type) {
 			case TYPE_POINTS:
@@ -172,26 +266,26 @@ public class ModelObjectif extends ModelAbstract
 	}
 	
 	/**
-	 * Incrémenter le nombre de points de la participation
-	 * @param pointsParticipation nombre de points de la participation avant d'avoir remporté l'objectif
-	 * @return nombre de points de la participation après avoir remporté l'objectif
+	 * Incrémenter le nombre de points d'une participation
+	 * @param points nombre de points d'une participation
+	 * @return nombre de points de la participation incrémenté
 	 */
-	protected double operation (double pointsParticipation) {
+	protected double operation (double points) {
 		switch (this.type) {
 			case TYPE_POINTS:
 				// Calculer le nombre de points majorée de l'augmentation
-				pointsParticipation += this.points_points;
+				points += this.points_points;
 				
 				// Vérifier si le nombre de point n'a pas dépassé la borne
-				if (this.points_borneParticipation != null && (this.points_points < 0 && pointsParticipation < this.points_borneParticipation || this.points_points > 0 && pointsParticipation > this.points_borneParticipation)) {
-					pointsParticipation = this.points_borneParticipation;
+				if (this.points_borneParticipation != null && (this.points_points < 0 && points < this.points_borneParticipation || this.points_points > 0 && points > this.points_borneParticipation)) {
+					points = this.points_borneParticipation;
 				}
 				
 				// Retourner le nombre de points
-				return pointsParticipation;
+				return points;
 			case TYPE_POURCENTAGE:
 				// Calculer l'augmentation du nombre de points
-				double augmentation = this.pourcentage_pourcentage/100 * pointsParticipation;
+				double augmentation = this.pourcentage_pourcentage/100 * points;
 				
 				// Vérifier si l'augmentation ne fait pas dépassé la borne
 				if (this.pourcentage_borneAugmentation != null && (this.pourcentage_pourcentage < 0 && augmentation < this.pourcentage_borneAugmentation || this.pourcentage_pourcentage > 0 && augmentation > this.pourcentage_borneAugmentation)) {
@@ -199,23 +293,26 @@ public class ModelObjectif extends ModelAbstract
 				}
 				
 				// Calculer le nombre de points majorée de l'augmentation
-				pointsParticipation += augmentation;
+				points += augmentation;
 				
 				// Vérifier si le nombre de point n'a pas dépassé la borne
-				if (this.pourcentage_borneParticipation != null && (this.pourcentage_pourcentage < 0 && pointsParticipation < this.pourcentage_borneParticipation || this.pourcentage_pourcentage > 0 && pointsParticipation > this.pourcentage_borneParticipation)) {
-					pointsParticipation = this.pourcentage_borneParticipation;
+				if (this.pourcentage_borneParticipation != null && (this.pourcentage_pourcentage < 0 && points < this.pourcentage_borneParticipation || this.pourcentage_pourcentage > 0 && points > this.pourcentage_borneParticipation)) {
+					points = this.pourcentage_borneParticipation;
 				}
 				
 				// Retourner le nombre de points
-				return pointsParticipation;
+				return points;
 			case TYPE_NUL:
 				// Retourner le nombre de points du participant sans aucune modification
-				return pointsParticipation;
+				return points;
 		}
-		return pointsParticipation;
+		return points;
 	}
 	
-	// Remove
+	
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter l'objectif à la liste des removers
@@ -253,34 +350,45 @@ public class ModelObjectif extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des objectifs d'un concours
+	/**
+	 * Classe pour mettre à jour la liste des objectifs d'un concours
+	 */
 	protected static class UpdaterForConcours implements IUpdater<InfosModelObjectif, ModelObjectif>
 	{
-		// Concours
+		/** Concours */
 		private ModelConcours concours;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 */
 		protected UpdaterForConcours(ModelConcours concours) {
 			this.concours = concours;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
 		public ModelObjectif create (InfosModelObjectif infos) {
 			return new ModelObjectif(this.concours, infos);
 		}
 		
-		// Implémentation de update
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
 		public void update (ModelObjectif objectif, InfosModelObjectif infos) {
 			objectif.setInfos(infos);
 		}
 	}
 	
-	// Classe pour valider les opérations sur la liste des objectifs d'un concours
-	protected static class ValidatorForConcours implements IListValidator<InfosModelObjectif>
+	/**
+	 * Classe pour valider les opérations sur la liste des objectifs d'un concours
+	 */
+	protected static class ValidatorForConcours implements ITrackableListValidator<InfosModelObjectif>
 	{
-		// Implémentation de IListValidator
+		// Implémentation de ITrackableListValidator
 		@Override
 		public String validateAdd (InfosModelObjectif infos, TrackableList<InfosModelObjectif> list) {
 			for (int i = 0; i < list.size(); i++) {

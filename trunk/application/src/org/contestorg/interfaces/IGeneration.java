@@ -1,23 +1,30 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite etre considérée comme une génération d'un objet de classe T
+ * Interface à implémenter si une classe souhaite être considérée comme une génération d'un objet
+ * @param <T> classe de l'objet généré
  */
 public interface IGeneration<T>
 {
-	// Demarrer l'opération
+	/** Demarrer la génération */
 	public void generationStart();
 	
-	// Arreter l'opération
+	/** Arrêter la la génération */
 	public void generationStop();
 	
-	// Annuler l'opération
+	/** Annuler la génération */
 	public void generationCancel();
 	
-	// Ajouter un listener
+	/**
+	 * Ajouter un listener
+	 * @param listener listener à ajouter
+	 */
 	public void addListener(IGenerationListener<T> listener);
 	
-	// Supprimer un listener
+	/**
+	 * Retirer un listener
+	 * @param listener listener à retirer
+	 */
 	public void removeListener(IGenerationListener<T> listener);
 	
 }

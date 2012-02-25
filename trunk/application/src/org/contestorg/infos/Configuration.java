@@ -4,23 +4,39 @@ import org.contestorg.interfaces.ITransformer;
 
 
 /**
- * Cette classe permet de regrouper des couples compatibles de participants en vue d'une possible phase qualificative
+ * Ensemble de couples
+ * @param <T> classe des objets des couples
  */
 public class Configuration<T>
 {
 
-	// Liste de couples
+	/** Liste de couples */
 	private Couple<T>[] couples;
+	
+	/** Nombre de couples */
 	private int size;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param capacity nombre de couples maximal
+	 */
 	@SuppressWarnings("unchecked")
 	public Configuration(int capacity) {
 		this(new Couple[capacity], 0);
 	}
+	
+	/**
+	 * Constructeur
+	 * @param couples liste de couples d'initialisation
+	 */
 	public Configuration(Couple<T>[] couples) {
 		this(couples, couples.length);
 	}
+	
+	/**
+	 * Constructeur
+	 * @param participants liste de participants d'initialisation
+	 */
 	@SuppressWarnings("unchecked")
 	public Configuration(T[] participants) {
 		Couple<T>[] couples = new Couple[participants.length / 2];
@@ -30,28 +46,52 @@ public class Configuration<T>
 		this.couples = couples;
 		this.size = couples.length;
 	}
-	public Configuration(Couple<T>[] couples, int size) {
+	
+	/**
+	 * Constructeur
+	 * @param couples liste de couples d'initialisation
+	 * @param capacity nombre de couples maximal
+	 */
+	public Configuration(Couple<T>[] couples, int capacity) {
 		this.couples = couples;
-		this.size = size;
+		this.size = capacity;
 	}
-
-	// Getters
+	
+	/**
+	 * Récupérer la liste des couples
+	 * @return liste des couples
+	 */
 	public Couple<T>[] getCouples () {
 		return this.couples;
 	}
+	
+	/**
+	 * Récupérer le nombre de couples
+	 * @return nombre de couples
+	 */
 	public int getSize () {
 		return this.size;
 	}
+	
+	/**
+	 * Vérifier si la configuration est complète
+	 * @return vérifier si la configuration est complète
+	 */
 	public boolean isComplet () {
 		return this.size == this.couples.length;
 	}
-
-	// Adders
+	
+	/**
+	 * Ajouter un couple
+	 * @param couple couple à ajouter
+	 */
 	public void addCouple (Couple<T> couple) {
 		this.couples[this.size++] = couple;
 	}
 
-	// ToString
+	/**
+	 * ToString
+	 */
 	public String toString () {
 		// Retourner le string représentative de la configuration
 		StringBuilder string = new StringBuilder();
@@ -64,7 +104,11 @@ public class Configuration<T>
 		return string.toString();
 	}
 
-	// Transform
+	/**
+	 * Appliquer une transformation à la configuration
+	 * @param transformer transformation
+	 * @return configuration transformée
+	 */
 	@SuppressWarnings("unchecked")
 	public <L> Configuration<L> transform(ITransformer<T,L> transformer) {
 		Couple<L>[] couples = new Couple[this.couples.length];

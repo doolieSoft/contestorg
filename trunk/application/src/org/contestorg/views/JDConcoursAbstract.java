@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Window;
@@ -11,19 +10,41 @@ import javax.swing.JTabbedPane;
 
 import org.contestorg.infos.InfosModelConcours;
 
+/**
+ * Boîte de dialogue de création/édition de concours
+ */
 @SuppressWarnings("serial")
 abstract public class JDConcoursAbstract extends JDPattern
 {
+	
 	// Panels
+	
+	/** Panel de configuration général */
 	protected JPConfigurationGeneral jp_general;
+	
+	/** Panel de configuration des points */
 	protected JPConfigurationPoints jp_points;
+	
+	/** Panel de configuration des exportations et diffusions */
 	protected JPConfigurationExportations jp_exportations;
+	
+	/** Panel de configuration des prix */
 	protected JPConfigurationPrix jp_prix;
+	
+	/** Panel de configuration des lieux */
 	protected JPConfigurationLieux jp_lieux;
+	
+	/** Panel de configuration des informations de programmation */
 	protected JPConfigurationProgrammation jp_programmation;
+	
+	/** Panel de configuration des propriétés de participant */
 	protected JPConfigurationProprietes jp_proprietes;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 */
 	public JDConcoursAbstract(Window w_parent, String titre) {
 		// Appeler le constructeur du parent
 		super(w_parent, titre);
@@ -61,7 +82,10 @@ abstract public class JDConcoursAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Getters
+	/**
+	 * Récupérer les informations du concours
+	 * @return informations du concours
+	 */
 	public InfosModelConcours getInfosModelConcours() {
 		return new InfosModelConcours(
 			this.jp_general.getConcoursNom(), this.jp_general.getConcoursSite(), this.jp_general.getConcoursLieu(), this.jp_general.getConcoursEmail(), this.jp_general.getConcoursTelephone(), this.jp_general.getConcoursDescription(),
@@ -72,7 +96,10 @@ abstract public class JDConcoursAbstract extends JDPattern
 		);
 	}
 	
-	// Vérifier la validité des données
+	/**
+	 * Vérifier la validité des données
+	 * @return données valides ?
+	 */
 	protected boolean check () {
 		// Initialiser le résultat
 		boolean result = true;

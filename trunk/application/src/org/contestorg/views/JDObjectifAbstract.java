@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Window;
@@ -20,35 +19,60 @@ import org.contestorg.infos.InfosModelObjectifPoints;
 import org.contestorg.infos.InfosModelObjectifPourcentage;
 import org.contestorg.interfaces.ICollector;
 
+/**
+ * Boîte de dialogue de création/édition d'un objectif
+ */
 @SuppressWarnings("serial")
 public abstract class JDObjectifAbstract extends JDPattern implements ItemListener
 {
 
-	// Collector d'informations sur l'objectif
+	/** Collecteur des informations de l'objectif */
 	protected ICollector<InfosModelObjectif> collector;
 
-	// Panel des informations
+	/** Panel des informations */
 	private JPanel jp_informations;
 
+	// Labels
+	
+	/** Objectif à points */
 	protected final static String LABEL_OBJECTIF_POINTS = "Points";
+	
+	/** Objectif à pourcentage */
 	protected final static String LABEL_OBJECTIF_POURCENTAGE = "Pourcentage";
+	
+	/** Objectif nul */
 	protected final static String LABEL_OBJECTIF_NUL = "Nul";
 
 	// Entrées
-	protected JComboBox jcb_types;
+	
+	/** Liste des types */
+	protected JComboBox<String> jcb_types;
 
+	/** Nom de l'objectif à points */
 	protected JTextField jtf_objectif_points_nom = new JTextField();
+	/** Points de l'objectif à points */
 	protected JTextField jtf_objectif_points_points = new JTextField();
+	/** Borne de participant de l'objectif à points */
 	protected JTextField jtf_objectif_points_borneParticipation = new JTextField();
 
+	/** Nom de l'objectif à pourcentage */
 	protected JTextField jtf_objectif_pourcentage_nom = new JTextField();
+	/** Pourcentage de l'objectif à pourcentage */
 	protected JTextField jtf_objectif_pourcentage_pourcentage = new JTextField();
+	/** Borne de participation de l'objectif à pourcentage */
 	protected JTextField jtf_objectif_pourcentage_borneParticipation = new JTextField();
+	/** Borne d'augmentation de l'objectif à pourcentage */
 	protected JTextField jtf_objectif_pourcentage_borneAugmentation = new JTextField();
 
+	/** Nom de l'objectif nul */
 	protected JTextField jtf_objectif_nul_nom = new JTextField();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations de l'objectif
+	 */
 	public JDObjectifAbstract(Window w_parent, String titre, ICollector<InfosModelObjectif> collector) {
 		// Appeler le constructeur du parent
 		super(w_parent, titre);
@@ -59,7 +83,7 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 		// Type d'objectif
 		this.jp_contenu.add(ViewHelper.title("Type d'objectif", ViewHelper.H1));
 		String[] types = { JDObjectifAbstract.LABEL_OBJECTIF_POINTS, JDObjectifAbstract.LABEL_OBJECTIF_POURCENTAGE, JDObjectifAbstract.LABEL_OBJECTIF_NUL };
-		this.jcb_types = new JComboBox(types);
+		this.jcb_types = new JComboBox<String>(types);
 		this.jp_contenu.add(this.jcb_types);
 
 		// Informations de l'objectif
@@ -101,7 +125,7 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 		this.addButton(new JBHelperButton(this) {
 			// Message d'aide
 			@Override
-			protected String message () {
+			protected String getMessage () {
 				return "<font size=+1>Objectif à points :</font>\n" +
 				       "Ajout d'un nombre de points au score du participant\n" +
 				       "Informations :\n" +
@@ -131,7 +155,9 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer le type séléctionné
@@ -251,18 +277,22 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 
 		// Envoyer les informations au collector
 		if (infos != null) {
-			this.collector.accept(infos);
+			this.collector.collect(infos);
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler
 		this.collector.cancel();
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		CardLayout layout = (CardLayout)(this.jp_informations.getLayout());

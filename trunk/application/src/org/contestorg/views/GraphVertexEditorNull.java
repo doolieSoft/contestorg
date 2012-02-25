@@ -14,19 +14,27 @@ import javax.swing.border.LineBorder;
 import org.jgraph.JGraph;
 import org.jgraph.graph.GraphCellEditor;
 
+/**
+ * Editeur de cellule du graphe des phases éliminatoires pour une cellule non éditable 
+ */
 @SuppressWarnings("serial")
 public class GraphVertexEditorNull extends AbstractCellEditor implements GraphCellEditor
 {
 
-	// Objet associé à l'éditeur
+	/** Objet associé à la cellule */
 	private Object value;
 	
-	// Label d'édition
+	/** Label d'édition */
 	private JLabel jl_edition;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param value objet associé à la cellule
+	 * @param width largeur de l'éditeur
+	 * @param height hauteur de l'éditeur
+	 */
 	public GraphVertexEditorNull(Object value, int width, int height) {
-		// Retenir l'objet associé à l'éditeur
+		// Retenir l'objet associé à la cellule
 		this.value = value;
 		
 		// Créer le label d'édition
@@ -37,14 +45,18 @@ public class GraphVertexEditorNull extends AbstractCellEditor implements GraphCe
 		this.jl_edition.setPreferredSize(new Dimension(width, height));
 	}
 	
-	// Implémentation de getCellEditor
+	/**
+	 * @see GraphCellEditor#getCellEditorValue()
+	 */
 	@Override
 	public Object getCellEditorValue () {
 		// Retourner l'objet associé à l'éditeur
 		return this.value;
 	}
 
-	// Implémentation de getGraphCellEditorComponent
+	/**
+	 * @see GraphCellEditor#getGraphCellEditorComponent(JGraph, Object, boolean)
+	 */
 	@Override
 	public Component getGraphCellEditorComponent (JGraph graph, Object value, boolean isSelected) {
 		// Demander à Swing de remettre à plus tard la création et l'affichage de la fenêtre d'édition

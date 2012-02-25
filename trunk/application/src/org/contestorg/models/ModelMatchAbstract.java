@@ -8,35 +8,72 @@ import org.contestorg.infos.InfosModelMatch;
 import org.contestorg.infos.InfosModelParticipation;
 
 /**
- * Match
+ * Match abstrait
  */
 abstract public class ModelMatchAbstract extends ModelAbstract
 {
 	// Roles
+	
+	/** Participation A */
 	public static final int PARTCIPATION_A = 1;
+	
+	/** Participation B */
 	public static final int PARTCIPATION_B = 2;
 	
 	// Attributs objets
+	
+	/** Participation A */
 	protected ModelParticipation participationA;
+	
+	/** Participation B */
 	protected ModelParticipation participationB;
 	
 	// Attributs scalaires
+	
+	/** Date */
 	private Date date;
+	
+	/** Détails */
 	private String details;
 	
 	// Getters
+	
+	/**
+	 * Récupérer la date
+	 * @return date
+	 */
 	public Date getDate () {
 		return this.date;
 	}
+	
+	/**
+	 * Récupérer les détails
+	 * @return détails
+	 */
 	public String getDetails() {
 		return this.details;
 	}
+	
+	/**
+	 * Récupérer la participation A
+	 * @return participation A
+	 */
 	public ModelParticipation getParticipationA () {
 		return this.participationA;
 	}
+	
+	/**
+	 * Récupérer la participation B
+	 * @return participation B
+	 */
 	public ModelParticipation getParticipationB () {
 		return this.participationB;
 	}
+	
+	/**
+	 * Récupérer le vainqueur
+	 * @return vainqueur
+	 */
 	public ModelParticipation getVainqueur() {
 		if(this.isEffectue()) {
 			if(this.getParticipationA().getResultat() == InfosModelParticipation.RESULTAT_VICTOIRE) {
@@ -48,6 +85,11 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 		}
 		return null;
 	}
+	
+	/**
+	 * Récupérer le perdant
+	 * @return perdant
+	 */
 	public ModelParticipation getPerdant() {
 		if(this.isEffectue()) {
 			if(this.getParticipationA().getResultat() == InfosModelParticipation.RESULTAT_DEFAITE) {
@@ -59,11 +101,21 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 		}
 		return null;
 	}
+	
+	/**
+	 * Savoir si le match a été effectué
+	 * @return match effectué ?
+	 */
 	public boolean isEffectue() {
 		return this.participationA != null && this.participationB != null && this.participationA.getResultat() != InfosModelParticipation.RESULTAT_ATTENTE && this.participationB.getResultat() != InfosModelParticipation.RESULTAT_ATTENTE;
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations du match
+	 * @param infos informations du match
+	 */
 	protected void setInfos (InfosModelMatch infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -72,6 +124,11 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 		this.date = infos.getDate();
 		this.details = infos.getDetails();
 	}
+	
+	/**
+	 * Définir la date
+	 * @param date date
+	 */
 	public void setDate (Date date) {
 		// Enregistrer la date
 		this.date = date;
@@ -79,6 +136,12 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir la participation A
+	 * @param participation participation A
+	 * @throws ContestOrgModelException
+	 */
 	public void setParticipationA (ModelParticipation participation) throws ContestOrgModelException {
 		// Enregistrer la participation
 		this.participationA = participation;
@@ -86,6 +149,12 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir la participation B
+	 * @param participation participation B
+	 * @throws ContestOrgModelException
+	 */
 	public void setParticipationB (ModelParticipation participation) throws ContestOrgModelException {
 		// Enregistrer la participation
 		this.participationB = participation;
@@ -95,6 +164,12 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	}
 	
 	// Removers
+	
+	/**
+	 * Supprimer une participation
+	 * @param participation participation
+	 * @throws ContestOrgModelException
+	 */
 	protected void removeParticipation (ModelParticipation participation) throws ContestOrgModelException {
 		if (participation.equals(this.participationA)) {
 			this.setParticipationA(null);
@@ -105,11 +180,23 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	}
 	
 	// Actions
+	
+	/**
+	 * Planifier une liste de matchs
+	 * @param matchs liste des matchs
+	 * @param date début de la planification
+	 * @param duree durée d'un match (en minutes)
+	 * @param interval interval minimal entre deux matchs (en minutes)
+	 * @param pause pause minimal d'un participant entre deux matchs (en minutes)
+	 * @param lieux liste des lieux
+	 */
 	protected static void planifier (ArrayList<? extends ModelMatchAbstract> matchs, Date date, int duree, int interval, int pause, ArrayList<ModelLieu> lieux) {
 		// FIXME
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter le match à la liste des removers
@@ -118,7 +205,7 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 			// Supprimer la participation A du match
 			if (this.participationA != null) {
 				if (!removers.contains(this.participationA)) {
-					this.participationA.delete(this);
+					this.participationA.delete(removers);
 				}
 				this.participationA = null;
 				this.fireClear(ModelParticipation.class, PARTCIPATION_A);
@@ -127,7 +214,7 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 			// Supprimer la participation B du match
 			if (this.participationB != null) {
 				if (!removers.contains(this.participationB)) {
-					this.participationB.delete(this);
+					this.participationB.delete(removers);
 				}
 				this.participationB = null;
 				this.fireClear(ModelParticipation.class, PARTCIPATION_B);

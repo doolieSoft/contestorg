@@ -27,59 +27,94 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileSystemView;
 
-
+/**
+ * Classe d'aide à la construction de composants graphiques
+ */
 public class ViewHelper
 {
 
 	// Tailles de titre
+	
+	/** Titre de niveau 1 */
 	public final static int H1 = 16;
+	/** Titre de niveau 2 */
 	public final static int H2 = 14;
+	/** Titre de niveau 3 */
 	public final static int H3 = 12;
 	
-	// Images
+	// Chemins d'images
+	
+	/** Petite erreur */
 	public static final String ICON_SMALL_ERROR = "img/farm/16x16/exclamation.png";
+	/** Petit avertissement */
 	public static final String ICON_SMALL_WARNING = "img/farm/16x16/error.png";
+	/** Petite information */
 	public static final String ICON_SMALL_INFO = "img/farm/16x16/information.png";
+	/** Petite confirmation */
 	public static final String ICON_SMALL_CONFIRMATION = "img/farm/16x16/help.png";
 	
+	/** Grande erreur */
 	public static final String ICON_BIG_ERROR = "img/farm/32x32/exclamation.png";
+	/** Grand avertissement */
 	public static final String ICON_BIG_WARNING = "img/farm/32x32/error.png";
+	/** Grande information */
 	public static final String ICON_BIG_INFO = "img/farm/32x32/information.png";
+	/** Grande confirmation */
 	public static final String ICON_BIG_CONFIRMATION = "img/farm/32x32/help.png";
 
 	/**
-	 * Retourne un panel de titre
-	 * @param message message du panel
-	 * @param img chemin de l'image du titre
-	 * @param size taille du titre (H1/H2/H3)
-	 * @return le panel du titre
+	 * Créer un panel de titre
+	 * @param message message du titre
+	 * @param image image du titre
+	 * @param size taille du titre
+	 * @return panel du titre
 	 */
-	public static JPanel title (String message, String img, int size) {
+	public static JPanel title (String message, String image, int size) {
 		JLabel label;
-		if (img == null) {
+		if (image == null) {
 			label = new JLabel(message, SwingConstants.LEFT);
 		} else {
-			label = new JLabel(message, new ImageIcon(img), SwingConstants.LEFT);
+			label = new JLabel(message, new ImageIcon(image), SwingConstants.LEFT);
 		}
 		label.setFont(new Font(label.getFont().getName(), Font.BOLD, size));
 		JPanel panel = ViewHelper.left(label);
 		panel.setBorder(new EmptyBorder(0, 0, 5, 0));
 		return panel;
 	}
+	
+	/**
+	 * Créer un panel de titre
+	 * @param message message du titre
+	 * @return panel du titre
+	 */
 	public static JPanel title (String message) {
 		return ViewHelper.title(message, null, ViewHelper.H1);
 	}
-	public static JPanel title (String message, String img) {
-		return ViewHelper.title(message, img, ViewHelper.H1);
+	
+	/**
+	 * Créer un panel de titre
+	 * @param message message du titre
+	 * @param image image du titre
+	 * @return panel du titre
+	 */
+	public static JPanel title (String message, String image) {
+		return ViewHelper.title(message, image, ViewHelper.H1);
 	}
+	
+	/**
+	 * Créer un titre
+	 * @param message message du titre
+	 * @param size taille du titre
+	 * @return panel du titre
+	 */
 	public static JPanel title (String message, int size) {
 		return ViewHelper.title(message, null, size);
 	}
 	
 	/**
-	 * Retourne un panel avec ses composants alignés sur la gauche
-	 * @param composants
-	 * @return le panel avec les composants alignés sur la gauche
+	 * Créer un panel avec des composants alignés sur la gauche
+	 * @param composants composants
+	 * @return panel avec les composants alignés sur la gauche
 	 */
 	public static JPanel left(JComponent... components) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -93,9 +128,9 @@ public class ViewHelper
 	}
 	
 	/**
-	 * Retourne un panel avec ses composants alignés au centre
-	 * @param composants
-	 * @return le panel avec les composants alignés au centre
+	 * Créer un panel avec des composants alignés au centre
+	 * @param composants composants
+	 * @return panel avec les composants alignés au centre
 	 */
 	public static JPanel center(JComponent... components) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
@@ -109,10 +144,10 @@ public class ViewHelper
 	}
 
 	/**
-	 * Créer un panel de labels alignés et associé à des composants
+	 * Créer un panel de labels alignés sur la gauche et associés à des composants
 	 * @param labels labels
 	 * @param composants composants
-	 * @return JPanel panel
+	 * @return panel avec les labels alignés sur la gauche et associés aux composants
 	 */
 	public static JPanel inputs (JLabel[] labels, JComponent[] composants) {
 		// Créer le panel
@@ -150,7 +185,11 @@ public class ViewHelper
 		return panel;
 	}
 
-	// Retourne true si un des inputs est vide
+	/**
+	 * Vérifier si une entrée est vide
+	 * @param inputs entrées
+	 * @return une entrée vide ?
+	 */
 	public static boolean empty (JTextField... inputs) {
 		for (JTextField input : inputs) {
 			if (input.getText().trim().equals("")) {
@@ -161,9 +200,9 @@ public class ViewHelper
 	}
 
 	/**
-	 * Retourne un panel d'erreur
+	 * Créer un panel d'erreur
 	 * @param message message d'erreur
-	 * @return le panel d'erreur
+	 * @return panel d'erreur
 	 */
 	public static JPanel perror (String message) {
 		JPanel panel = new JPanel();
@@ -175,21 +214,28 @@ public class ViewHelper
 	}
 
 	/**
-	 * Affiche un message d'erreur
-	 * @param parent fenêtre parente
+	 * Afficher un message d'erreur
+	 * @param parent fenêtre parent
+	 * @param title titre de la fenêtre
 	 * @param message message d'erreur
 	 */
 	public static void derror (Component parent, String title, String message) {
 		JOptionPane.showMessageDialog(parent, new JLabel("<html>" + message.replace("\n", "<br/>").replace(" ", "&nbsp;") + "</html>"), title, JOptionPane.ERROR_MESSAGE, new ImageIcon(ViewHelper.ICON_BIG_ERROR));
 	}
+	
+	/**
+	 * Afficher un message d'erreur
+	 * @param parent fenêtre parent
+	 * @param message message d'erreur
+	 */
 	public static void derror (Component parent, String message) {
 		ViewHelper.derror(parent, "Erreur", message);
 	}
 
 	/**
-	 * Retourne un panel d'avertissement
+	 * Créer un panel d'avertissement
 	 * @param message message d'avertissement
-	 * @return le panel d'avertissement
+	 * @return panel d'avertissement
 	 */
 	public static JPanel pwarning (String message) {
 		JPanel panel = new JPanel();
@@ -201,20 +247,28 @@ public class ViewHelper
 	}
 
 	/**
-	 * Affiche un message d'avertissement
-	 * @param parent fenêtre parente
+	 * Afficher un message d'avertissement
+	 * @param parent fenêtre parent
+	 * @param title titre de la fenêtre
 	 * @param message message d'avertissement
 	 */
 	public static void dwarning (Component parent, String title, String message) {
 		JOptionPane.showMessageDialog(parent, new JLabel("<html>" + message.replace("\n", "<br/>").replace(" ", "&nbsp;") + "</html>"), title, JOptionPane.WARNING_MESSAGE, new ImageIcon(ViewHelper.ICON_BIG_WARNING));
 	}
+	
+	/**
+	 * Afficher un message d'avertissement
+	 * @param parent fenêtre parent
+	 * @param message message d'avertissement
+	 */
 	public static void dwarning (Component parent, String message) {
 		ViewHelper.dwarning(parent, "Avertissement", message);
 	}
 
 	/**
-	 * Retourne un panel d'information
+	 * Créer un panel d'information
 	 * @param message message d'information
+	 * @param path fichier d'aide à ouvrir lors du clic
 	 * @return le panel d'information
 	 */
 	public static JPanel pinformation (String message, final String path, String info) {
@@ -258,26 +312,42 @@ public class ViewHelper
 		}
 		return panel;
 	}
+	
+	/**
+	 * Créer un panel d'information
+	 * @param message message d'information
+	 * @return panel d'information
+	 */
 	public static JPanel pinformation (String message) {
 		return ViewHelper.pinformation(message,null,null);
 	}
 
 	/**
-	 * Affiche un message d'information
-	 * @param parent fenêtre parente
+	 * Afficher un message d'information
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
 	 * @param message message d'information
 	 */
 	public static void dinformation (Component parent, String title, String message) {
 		JOptionPane.showMessageDialog(parent, new JLabel("<html>" + message.replace("\n", "<br/>").replace(" ", "&nbsp;") + "</html>"), title, JOptionPane.INFORMATION_MESSAGE, new ImageIcon(ViewHelper.ICON_BIG_INFO));
 	}
+	
+	/**
+	 * Afficher un message d'information
+	 * @param parent fenêtre parent
+	 * @param message message d'information
+	 */
 	public static void dinformation (Component parent, String message) {
 		ViewHelper.dinformation(parent, "Information", message);
 	}
 
 	/**
-	 * Afficher une demande confirmation
-	 * @param parent fenêtre parente
+	 * Afficher une demande de confirmation
+	 * @param parent fenêtre parent
+	 * @param title titre de la fenêtre
 	 * @param message message de confirmation
+	 * @param warning avertissement ?
+	 * @return demande confirmée ?
 	 */
 	public static boolean confirmation (Component parent, String title, String message, boolean warning) {
 		if (JOptionPane.showConfirmDialog(parent, message, title, JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, new ImageIcon(warning ? ViewHelper.ICON_BIG_WARNING : ViewHelper.ICON_BIG_CONFIRMATION)) == JOptionPane.YES_OPTION) {
@@ -286,24 +356,47 @@ public class ViewHelper
 			return false;
 		}
 	}
+	
+	/**
+	 * Afficher une demande de confirmation
+	 * @param parent fenêtre parent
+	 * @param title titre de la fenêtre
+	 * @param message message de confirmation
+	 * @return demande confirmée ?
+	 */
 	public static boolean confirmation (Component parent, String title, String message) {
 		return ViewHelper.confirmation(parent, title, message, false);
 	}
+	
+	/**
+	 * Afficher une demande de confirmation
+	 * @param parent fenêtre parent
+	 * @param message message de confirmation
+	 * @param warning avertissement ?
+	 * @return demande confirmée ?
+	 */
 	public static boolean confirmation (Component parent, String message, boolean warning) {
 		return ViewHelper.confirmation(parent, warning ? "Attention" : "Confirmation", message, warning);
 	}
+	
+	/**
+	 * Afficher une demande de confirmation
+	 * @param parent fenêtre parent ?
+	 * @param message message de confirmation
+	 * @return demande confirmée ?
+	 */
 	public static boolean confirmation (Component parent, String message) {
 		return ViewHelper.confirmation(parent, "Confirmation", message, false);
 	}
 
 	/**
 	 * Ouvrir une fenêtre de sauvegarde de fichier
-	 * @param parent fenêtre parente
-	 * @param titre titre de la fenêtre de sauvegarde
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
 	 * @param extension extension du type de fichier
 	 * @param description description du type de fichier
-	 * @param defaut chemin par défaut
-	 * @return chemin du fichier choisi (null si pas de chemin choisi)
+	 * @param defaut fichier par défaut
+	 * @return chemin du fichier choisi
 	 */
 	public static String sauvegarder (Component parent, String titre, String extension, String description, File defaut, FileSystemView view) {
 		while (true) {
@@ -344,25 +437,54 @@ public class ViewHelper
 			}
 		}
 	}
+	
+	/**
+	 * Ouvrir une fenêtre de sauvegarde de fichier
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param extension extension du type de fichier
+	 * @param description description du type de fichier
+	 * @param view vue sur le système de fichier
+	 * @return chemin du fichier choisi
+	 */
 	public static String sauvegarder (Component parent, String titre, String extension, String description, FileSystemView view) {
 		return ViewHelper.sauvegarder(parent, titre, extension, description, view.getHomeDirectory(), view);
 	}
+	
+	/**
+	 * Ouvrir une fenêtre de sauvegarde de fichier
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param extension extension du type de fichier
+	 * @param description description du type de fichier
+	 * @param defaut fichier par défaut
+	 * @return chemin du fichier choisi
+	 */
 	public static String sauvegarder (Component parent, String titre, String extension, String description, File defaut) {
 		return ViewHelper.sauvegarder(parent, titre, extension, description, defaut, FileSystemView.getFileSystemView());
 	}
+	
+	/**
+	 * Ouvrir une fenêtre de sauvegarde de fichier
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param extension extension du type de fichier
+	 * @param description description du type de fichier
+	 * @return chemin du fichier choisi
+	 */
 	public static String sauvegarder (Component parent, String titre, String extension, String description) {
 		return ViewHelper.sauvegarder(parent, titre, extension, description, FileSystemView.getFileSystemView().getHomeDirectory(), FileSystemView.getFileSystemView());
 	}
 
 	/**
 	 * Ouvrir une fenêtre d'ouverture de fichier
-	 * @param parent fenêtre parente
-	 * @param titre titre de la fenêtre d'ouvertutre
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
 	 * @param extension extension du type de fichier
 	 * @param description description du type de fichier
-	 * @param defaut chemin par défaut
+	 * @param defaut fichier par défaut
 	 * @param view vue du système de fichiers
-	 * @return chemin du fichier choisi (null si pas de chemin choisi)
+	 * @return chemin du fichier choisi
 	 */
 	public static String ouvrir (Component parent, String titre, String extension, String description, File defaut, FileSystemView view) {
 		while (true) {
@@ -408,23 +530,52 @@ public class ViewHelper
 			}
 		}
 	}
+	
+	/**
+	 * Ouvrir une fenêtre d'ouverture de fichier
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param extension extension du type de fichier
+	 * @param description description du type de fichier
+	 * @param view vue du système de fichiers
+	 * @return chemin du fichier choisi
+	 */
 	public static String ouvrir (Component parent, String titre, String extension, String description, FileSystemView view) {
 		return ViewHelper.ouvrir(parent, titre, extension, description, view.getHomeDirectory(), view);
 	}
+	
+	/**
+	 * Ouvrir une fenêtre d'ouverture de fichier
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param extension extension du type de fichier
+	 * @param description description du type de fichier
+	 * @param defaut fichier par défaut
+	 * @return chemin du fichier choisi
+	 */
 	public static String ouvrir (Component parent, String titre, String extension, String description, File defaut) {
 		return ViewHelper.ouvrir(parent, titre, extension, description, defaut, FileSystemView.getFileSystemView());
 	}
+	
+	/**
+	 * Ouvrir une fenêtre d'ouverture de fichier
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param extension extension du type de fichier
+	 * @param description description du type de fichier
+	 * @return chemin du fichier choisi
+	 */
 	public static String ouvrir (Component parent, String titre, String extension, String description) {
 		return ViewHelper.ouvrir(parent, titre, extension, description, FileSystemView.getFileSystemView().getHomeDirectory(), FileSystemView.getFileSystemView());
 	}
 
 	/**
-	 * Ouvrir une fenêtre de séléction de répertoire
-	 * @param parent fenêtre parente
-	 * @param titre titre de la fenêtre d'ouvertutre
-	 * @param defaut chemin par défaut
+	 * Ouvrir une fenêtre de sélection de répertoire
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param defaut répertoire par défaut
 	 * @param view vue du système de fichiers
-	 * @return chemin du fichier choisi (null si pas de chemin choisi)
+	 * @return chemin du répertoire choisi
 	 */
 	public static String selectionner (Component parent, String titre, File defaut, FileSystemView view) {
 		while (true) {
@@ -464,12 +615,35 @@ public class ViewHelper
 			}
 		}
 	}
+	
+	/**
+	 * Ouvrir une fenêtre de sélection de répertoire
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param view vue du système de fichiers
+	 * @return chemin du répertoire choisi
+	 */
 	public static String selectionner (Component parent, String titre, FileSystemView view) {
 		return ViewHelper.selectionner(parent, titre, view.getHomeDirectory(), view);
 	}
+	
+	/**
+	 * Ouvrir une fenêtre de sélection de répertoire
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @param defaut répertoire par défaut
+	 * @return chemin du répertoire choisi
+	 */
 	public static String selectionner (Component parent, String titre, File defaut) {
 		return ViewHelper.selectionner(parent, titre, defaut, FileSystemView.getFileSystemView());
 	}
+	
+	/**
+	 * Ouvrir une fenêtre de sélection de répertoire
+	 * @param parent fenêtre parent
+	 * @param titre titre de la fenêtre
+	 * @return chemin du répertoire choisi
+	 */
 	public static String selectionner (Component parent, String titre) {
 		return ViewHelper.selectionner(parent, titre, FileSystemView.getFileSystemView().getHomeDirectory(), FileSystemView.getFileSystemView());
 	}

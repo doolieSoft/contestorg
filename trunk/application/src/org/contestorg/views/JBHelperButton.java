@@ -7,13 +7,19 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+/**
+ * Bouton d'aide
+ */
 @SuppressWarnings("serial")
 public abstract class JBHelperButton extends JButton implements ActionListener
 {
-	// Parent
+	/** Fenêtre parent */
 	private Window w_parent;
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JBHelperButton(Window w_parent) {
 		// Appeller le constructeur du parent
 		super("Aide", new ImageIcon("img/farm/16x16/help.png"));
@@ -25,11 +31,16 @@ public abstract class JBHelperButton extends JButton implements ActionListener
 		this.w_parent = w_parent;
 	}
 
-	// Action sur valider
-	protected abstract String message ();
+	/**
+	 * Rcupérer le message d'aide
+	 * @return message d'aide
+	 */
+	protected abstract String getMessage ();
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
-		ViewHelper.dinformation(this.w_parent, this.message());
+		ViewHelper.dinformation(this.w_parent, this.getMessage());
 	}
 }

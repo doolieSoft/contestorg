@@ -6,26 +6,34 @@ import java.util.HashMap;
 import org.jdom.Document;
 
 /**
- * Classe d'exportation vers un fichier PDF
+ * Ressource FOP
  */
 public class RessourceFOP extends RessourceAbstract
 {
-	// Fichier XML
+	/** Fichier XML */
 	private File xml;
 	
-	// Fichier XSL
+	/** Fichier XSL */
 	private File xsl;
 	
-	// Fichier XSL-FO
+	/** Fichier XSL-FO */
 	private File xslfo;
 	
-	// Fichier résultat
-	private File result;
+	/** Fichier cible */
+	private File target;
 
-	// Constructeur
-	public RessourceFOP(String cible, boolean principal, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgOutException {
+	/**
+	 * Constructeur
+	 * @param cible chemin du fichier cible
+	 * @param principale ressource principale ?
+	 * @param parametres liste des paramètres
+	 * @param fichiers liste des fichiers
+	 * @param xsl fichier XSL
+	 * @throws ContestOrgOutException
+	 */
+	public RessourceFOP(String cible, boolean principale, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgOutException {
 		// Constructeur parent
-		super(cible,principal, parametres, fichiers);
+		super(cible, principale, parametres, fichiers);
 		
 		// Retenir le fichier XSL
 		this.xsl = xsl;
@@ -33,12 +41,12 @@ public class RessourceFOP extends RessourceAbstract
 		// Déclarer les fichiers temporaire
 		this.xml = new File("temp/xml-"+this.toString());
 		this.xslfo = new File("temp/fo-"+this.toString());
-		this.result = new File("temp/result-"+this.toString());
+		this.target = new File("temp/target-"+this.toString());
 		
 		// S'assurer que les fichiers temporaires soient détruit à la fermeture de l'application
 		this.xml.deleteOnExit();
 		this.xslfo.deleteOnExit();
-		this.result.deleteOnExit();
+		this.target.deleteOnExit();
 		
 		// Rafraichir le fichier
 		if(!this.refresh()) {
@@ -46,25 +54,31 @@ public class RessourceFOP extends RessourceAbstract
 		}
 	}
 	
-	// Implémentation de refresh
+	/**
+	 * @see RessourceAbstract#refresh()
+	 */
 	@Override
 	protected boolean refresh () {
 		Document document = PersistanceXML.getConcoursDocument();
 		if(document != null) {
-			return XMLHelper.save(document, this.xml) && XSLTHelper.transform(this.xml, this.xsl, this.xslfo, this.getParametres()) && FOPHelper.transformPDF(this.xslfo, this.result);
+			return XMLHelper.save(document, this.xml) && XSLTHelper.transform(this.xml, this.xsl, this.xslfo, this.getParametres()) && FOPHelper.transformPDF(this.xslfo, this.target);
 		} else {
 			this.clean();
 			return false;
 		}
 	}
 
-	// Implémentation de getFichier
+	/**
+	 * @see RessourceAbstract#getFichier()
+	 */
 	@Override
 	public File getFichier () {
-		return this.result;
+		return this.target;
 	}
 
-	// Implémentation de clean
+	/**
+	 * @see RessourceAbstract#clean()
+	 */
 	@Override
 	public void clean () {
 		if(this.xml != null && this.xml.exists()) {
@@ -73,17 +87,22 @@ public class RessourceFOP extends RessourceAbstract
 		if(this.xslfo != null && this.xslfo.exists()) {
 			this.xslfo.delete();
 		}
-		if(this.result != null && this.result.exists()) {
-			this.result.delete();
+		if(this.target != null && this.target.exists()) {
+			this.target.delete();
 		}
 	}
 	
-	// Méthode à implémenter
+	/**
+	 * @see RessourceAbstract#isTransformation()
+	 */
+	@Override
 	public boolean isTransformation() {
 		return true;
 	}
 
-	// Implémentation de getContestType
+	/**
+	 * @see RessourceAbstract#getContentType()
+	 */
 	@Override
 	public String getContentType () {
 		return "application/pdf";

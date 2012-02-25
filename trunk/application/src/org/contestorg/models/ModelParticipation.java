@@ -1,29 +1,42 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
+import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelParticipationObjectif;
-
 
 /**
- * Lien entre un participant et un match
+ * Participation
  */
 public class ModelParticipation extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Participant */
 	private ModelParticipant participant;
+	
+	/** Match */
 	private ModelMatchAbstract match;
+	
+	/** Liste des objectifs remportés */
 	private ArrayList<ModelObjectifRemporte> objectifsRemportes = new ArrayList<ModelObjectifRemporte>();
 	
 	// Attributs scalaires
+	
+	/** Résultat */
 	private int resultat;
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param participant participant
+	 * @param match match
+	 * @param infos informations de la participation
+	 */
 	public ModelParticipation(ModelParticipant participant, ModelMatchAbstract match, InfosModelParticipation infos) {
 		// Retenir le participant et le match
 		this.participant = participant;
@@ -32,24 +45,52 @@ public class ModelParticipation extends ModelAbstract
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param participant participant
+	 * @param match match
+	 * @param participation participation
+	 */
 	protected ModelParticipation(ModelParticipant participant, ModelMatchAbstract match, ModelParticipation participation) {
 		// Appeller le constructeur principal
-		this(participant, match, participation.toInfos());
+		this(participant, match, participation.getInfos());
 		
 		// Récupérer l'id
 		this.setId(participation.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le résultat
+	 * @return résultat
+	 */
 	public int getResultat () {
 		return resultat;
 	}
+	
+	/**
+	 * Récupérer le participant
+	 * @return participant
+	 */
 	public ModelParticipant getParticipant () {
 		return this.participant;
 	}
+	
+	/**
+	 * Récupérer le match
+	 * @return match
+	 */
 	public ModelMatchAbstract getMatch () {
 		return this.match;
 	}
+	
+	/**
+	 * Récupérer l'objectif remporté associé à un objectif
+	 * @param objectif objectif
+	 * @return objectif remporté associé à l'objectif
+	 */
 	public ModelObjectifRemporte getObjectifRemporte (ModelObjectif objectif) {
 		// Rechercher l'objectif remporte correspondant à l'objet
 		for (ModelObjectifRemporte objectifRemporte : this.objectifsRemportes) {
@@ -61,9 +102,19 @@ public class ModelParticipation extends ModelAbstract
 		// Retourner null si pas d'objectif remporte correspondant
 		return null;
 	}
+	
+	/**
+	 * Récupérer la liste des objectifs remportés
+	 * @return liste des objectifs remportés
+	 */
 	public ArrayList<ModelObjectifRemporte> getObjectifsRemportes () {
 		return new ArrayList<ModelObjectifRemporte>(this.objectifsRemportes);
 	}
+	
+	/**
+	 * Récupérer le nombre de points remportés
+	 * @return nombre de points remportés
+	 */
 	public double getPoints () {
 		// Initialiser le nombre de points
 		double points = 0;
@@ -109,6 +160,11 @@ public class ModelParticipation extends ModelAbstract
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations de la participation
+	 * @param infos informations de la participation
+	 */
 	protected void setInfos (InfosModelParticipation infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -119,6 +175,12 @@ public class ModelParticipation extends ModelAbstract
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir le participant
+	 * @param participant participant
+	 * @throws ContestOrgModelException
+	 */
 	protected void setParticipant(ModelParticipant participant) throws ContestOrgModelException {
 		// Retenir le nouveau participant
 		this.participant = participant;
@@ -128,6 +190,12 @@ public class ModelParticipation extends ModelAbstract
 	}
 	
 	// Adders
+	
+	/**
+	 * Ajouter un objectif remporté
+	 * @param objectifRemporte objectif remporté
+	 * @throws ContestOrgModelException
+	 */
 	public void addObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
 		if (!this.objectifsRemportes.contains(objectifRemporte)) {
 			// Vérifier si l'objectif de l'objectif remporté n'a pas déjà été remporté
@@ -146,6 +214,12 @@ public class ModelParticipation extends ModelAbstract
 	}
 	
 	// Removers
+	
+	/**
+	 * Supprimer un objectif remporté
+	 * @param objectifRemporte objectif remporté
+	 * @throws ContestOrgModelException
+	 */
 	protected void removeObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
 		// Retirer l'objectif remporté
 		int index;
@@ -161,23 +235,38 @@ public class ModelParticipation extends ModelAbstract
 	}
 	
 	// Updaters
-	public void updateObjectifsRemportes(TrackableList<Pair<String, InfosModelParticipationObjectif>> list) throws ContestOrgModelException {
-		this.updates(new ModelObjectifRemporte.Updater(FrontModel.get().getConcours(), this), this.objectifsRemportes, list, true, null);
+	
+	/**
+	 * Mettre à jour la liste des objectifs remportés
+	 * @param list liste des objectifs remportés source
+	 * @throws ContestOrgModelException
+	 */
+	public void updateObjectifsRemportes(TrackableList<Pair<String, InfosModelObjectifRemporte>> list) throws ContestOrgModelException {
+		this.updates(new ModelObjectifRemporte.UpdaterForParticipation(FrontModel.get().getConcours(), this), this.objectifsRemportes, list, true, null);
 	}
 	
-	// Clone
+	/**
+	 * Cloner la participation
+	 * @param participant participant
+	 * @param match match
+	 * @return clone de la participation
+	 */
 	protected ModelParticipation clone (ModelParticipant participant, ModelMatchAbstract match) {
 		return new ModelParticipation(participant, match, this);
 	}
 	
-	// ToInformation
-	public InfosModelParticipation toInfos () {
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelParticipation getInfos () {
 		InfosModelParticipation infos = new InfosModelParticipation(this.resultat);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter la participation à la liste des removers

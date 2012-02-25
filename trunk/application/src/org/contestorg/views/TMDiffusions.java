@@ -1,31 +1,47 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
+
+import javax.swing.table.TableModel;
 
 import org.contestorg.common.Pair;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelTheme;
 
-
+/**
+ * Modèle de données pour un tableau de diffusions
+ */
 public class TMDiffusions extends TMAbstract<Pair<InfosModelDiffusion,InfosModelTheme>>
 {
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public TMDiffusions(Window w_parent) {
 		// Appeller le constructeur du parent
 		super(w_parent);
 	}
 
-	// Méthodes à implémenter
+	/**
+	 * @see TMAbstract#getAddWindow()
+	 */
 	@Override
 	public Window getAddWindow () {
 		return new JDDiffusionCreer(this.w_parent, this);
 	}
+	
+	/**
+	 * @see TMAbstract#getUpdateWindow(Object)
+	 */
 	@Override
 	public Window getUpdateWindow (Pair<InfosModelDiffusion,InfosModelTheme> infos) {
 		return new JDDiffusionEditer(this.w_parent, this, infos);
 	}
+	
+	/**
+	 * @see TMAbstract#acceptDelete(Object)
+	 */
 	@Override
 	public boolean acceptDelete (Pair<InfosModelDiffusion,InfosModelTheme> infos) {
 		// Demander la confirmation à l'utilisateur
@@ -37,6 +53,10 @@ public class TMDiffusions extends TMAbstract<Pair<InfosModelDiffusion,InfosModel
 	}
 
 	// Implémentation de manquante de TableModel
+	
+	/**
+	 * @see TableModel#getColumnClass(int)
+	 */
 	@Override
 	public Class<?> getColumnClass (int column) {
 		switch (column) {
@@ -47,10 +67,18 @@ public class TMDiffusions extends TMAbstract<Pair<InfosModelDiffusion,InfosModel
 		}
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#getColumnCount()
+	 */
 	@Override
 	public int getColumnCount () {
 		return 2;
 	}
+	
+	/**
+	 * @see TableModel#getColumnName(int)
+	 */
 	@Override
 	public String getColumnName (int column) {
 		switch (column) {
@@ -61,6 +89,10 @@ public class TMDiffusions extends TMAbstract<Pair<InfosModelDiffusion,InfosModel
 		}
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#getValueAt(int, int)
+	 */
 	@Override
 	public Object getValueAt (int row, int column) {
 		// Retourner l'information demandée
@@ -72,10 +104,18 @@ public class TMDiffusions extends TMAbstract<Pair<InfosModelDiffusion,InfosModel
 		}
 		return null;
 	}
+	
+	/**
+	 * @see TableModel#isCellEditable(int, int)
+	 */
 	@Override
 	public boolean isCellEditable (int row, int column) {
 		return true;
 	}
+	
+	/**
+	 * @see TableModel#setValueAt(Object, int, int)
+	 */
 	@Override
 	public void setValueAt (Object object, int row, int column) {
 		switch(column) {

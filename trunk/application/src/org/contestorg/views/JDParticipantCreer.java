@@ -1,25 +1,31 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue de création d'un participant
+ */
 @SuppressWarnings("serial")
 public class JDParticipantCreer extends JDParticipantAbstract
 {
 
-	// Constructeur
-	public JDParticipantCreer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprieteParticipant>>,TrackableList<String>>> collector, String nomCategorie, String nomPoule) {
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations du participant
+	 * @param nomCategorie nom de la catégorie de destination
+	 * @param nomPoule nom de la poule de destination
+	 */
+	public JDParticipantCreer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprietePossedee>>,TrackableList<String>>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
 		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur",collector);
 		
@@ -32,7 +38,9 @@ public class JDParticipantCreer extends JDParticipantAbstract
 		}
 	}
 
-	// Implémentation de checkNomParticipant
+	/**
+	 * @see JDParticipantAbstract#checkNomParticipant()
+	 */
 	@Override
 	protected boolean checkNomParticipant () {
 		// Retourner true s'il n'y a pas de participant qui a le même nom

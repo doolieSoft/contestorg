@@ -1,10 +1,10 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -18,32 +18,38 @@ import javax.swing.JScrollPane;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 
-
-
+/**
+ * Boîte de dialogue d'importation de participants
+ */
 @SuppressWarnings("serial")
 public class JDImporterParticipants extends JDPattern
 {
-	// Panel des catégories et poules
+	/** Panel des catégories et poules */
 	private JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
 	
-	// Bouton de choix du fichier
+	/** Bouton de choix du fichier */
 	private JButton jb_fichier = new JButton("Séléctionner", new ImageIcon("img/farm/16x16/folder.png"));
 	
-	// Panel des participants
+	/** Panel des participants */
 	private JPanel jp_participants = new JPanel();
 	
-	// Liste des participants
+	/** Liste des participants */
 	private ArrayList<InfosModelParticipant> participants = new ArrayList<InfosModelParticipant>();
 	
-	// Cases à cocher des participants
+	/** Cases à cocher des participants */
 	private ArrayList<JCheckBox> cs_participants = new ArrayList<JCheckBox>();
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param nomCategorie nom de la catégorie séléctionnée
+	 * @param nomPoule nom de la poule séléctionnée
+	 */
 	public JDImporterParticipants(Window w_parent, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du panret
 		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer des équipes" : "Importer des joueurs");
@@ -77,7 +83,9 @@ public class JDImporterParticipants extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer la catégorie et la poule de destination
@@ -85,7 +93,7 @@ public class JDImporterParticipants extends JDPattern
 		String poule = this.jp_categoriePoule.getPoule();
 		
 		// Liste de propriété et de prix vides
-		TrackableList<Pair<String,InfosModelProprieteParticipant>> proprietes = new TrackableList<Pair<String,InfosModelProprieteParticipant>>();
+		TrackableList<Pair<String,InfosModelProprietePossedee>> proprietes = new TrackableList<Pair<String,InfosModelProprietePossedee>>();
 		TrackableList<String> prix = new TrackableList<String>();
 		
 		// Demander l'ajout des participants
@@ -93,7 +101,7 @@ public class JDImporterParticipants extends JDPattern
 			// Vérifier si la case à cocher est bien cochée
 			if(this.cs_participants.get(i).isSelected()) {
 				// Demander l'ajout du participant
-				ContestOrg.get().getCtrlParticipants().addParticipant(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprieteParticipant>>, TrackableList<String>>(categorie, poule, this.participants.get(i), proprietes, prix));
+				ContestOrg.get().getCtrlParticipants().addParticipant(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprietePossedee>>, TrackableList<String>>(categorie, poule, this.participants.get(i), proprietes, prix));
 			}
 		}
 		
@@ -101,14 +109,18 @@ public class JDImporterParticipants extends JDPattern
 		this.quit();
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Masquer la fenêtre
 		this.setVisible(false);
 	}
 	
-	// Surcharge de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if(event.getSource() == this.jb_fichier) {
 			// Demander le chemin du fichier à l'utilisateur
@@ -128,7 +140,9 @@ public class JDImporterParticipants extends JDPattern
 		}
 	}
 	
-	// Rafraichir la liste des participants
+	/**
+	 * Rafraichir la liste des participants
+	 */
 	public void refreshParticipants() {
 		// Vider le panel des participants
 		this.jp_participants.removeAll();

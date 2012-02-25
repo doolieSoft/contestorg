@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ItemEvent;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JComboBox;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
@@ -18,22 +17,26 @@ import org.contestorg.infos.Parametre;
 import org.contestorg.interfaces.IChangeable;
 import org.contestorg.interfaces.IChangeableListener;
 
-
-
+/**
+ * Panel d'un paramètre de thème d'exportation/diffusion de type "Catégorie"
+ */
 @SuppressWarnings("serial")
-public class JCParametreCategorie extends JCParametreAbstract implements IChangeable<Integer>, ItemListener
+public class JPParametreCategorie extends JPParametreAbstract implements IChangeable<Integer>, ItemListener
 {
-	// Liste associée au composant
-	private JComboBox jcb_categorie = new JComboBox();
+	/** Catégorie */
+	private JComboBox<String> jcb_categorie = new JComboBox<String>();
 
-	// Listeners
+	/** Listeners */
 	private ArrayList<IChangeableListener<Integer>> listeners = new ArrayList<IChangeableListener<Integer>>();
 	
-	// Ids des catégories
+	/** Ids des catégories */
 	private ArrayList<Integer> idsCategories = new  ArrayList<Integer>();
 
-	// Constructeur
-	public JCParametreCategorie(Parametre parametre) {
+	/**
+	 * Constructeur
+	 * @param parametre paramètre
+	 */
+	public JPParametreCategorie(Parametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		
@@ -60,19 +63,26 @@ public class JCParametreCategorie extends JCParametreAbstract implements IChange
 		this.jcb_categorie.addItemListener(this);
 	}
 	
-	// Récupérer l'id de la catégorie séléctionnée
+	/**
+	 * Récupérer l'id de la catégorie séléctionnée
+	 * @return id de la catégorie séléctionnée
+	 */
 	private Integer getIdCategorie() {
 		return this.jcb_categorie.getItemCount() == 0 || this.jcb_categorie.getSelectedIndex() == 0 ? null : this.idsCategories.get(this.jcb_categorie.getSelectedIndex()-1);
 	}
 
-	// Implémentation de getValeur
+	/**
+	 * @see JPParametreAbstract#getValeur()
+	 */
 	@Override
 	public String getValeur () {
 		Integer idCategorie = this.getIdCategorie();
 		return idCategorie == null ? null : String.valueOf(idCategorie);
 	}
 	
-	// Implémentation de setValeur
+	/**
+	 * @see JPParametreAbstract#setValeur(String)
+	 */
 	@Override
 	public void setValeur (String valeur) {
 		try {
@@ -80,7 +90,9 @@ public class JCParametreCategorie extends JCParametreAbstract implements IChange
 		} catch(NumberFormatException e) { }
 	}
 	
-	// Implémentation de getError
+	/**
+	 * @see JPParametreAbstract#getError()
+	 */
 	@Override
 	public String getError () {
 		// Vérifier si le paramètre est optionnel
@@ -100,9 +112,11 @@ public class JCParametreCategorie extends JCParametreAbstract implements IChange
 		return null;
 	}
 
-	// Implémentation de link
+	/**
+	 * @see JPParametreAbstract#link(JPParametreAbstract[])
+	 */
 	@Override
-	public void link (JCParametreAbstract[] composants) {
+	public void link (JPParametreAbstract[] panels) {
 	}
 	
 	// Implémentation de IChangeable
@@ -116,7 +130,9 @@ public class JCParametreCategorie extends JCParametreAbstract implements IChange
 		this.listeners.remove(listener);
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if(event.getStateChange() == ItemEvent.SELECTED) {

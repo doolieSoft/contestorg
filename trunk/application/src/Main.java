@@ -1,5 +1,8 @@
-﻿import org.contestorg.controlers.ContestOrg;
+﻿import org.contestorg.controllers.ContestOrg;
 
+/**
+ * Lancement de ContestOrg
+ */
 public class Main
 {
 	

@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -26,38 +25,55 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.interfaces.IMoody;
 import org.contestorg.interfaces.IMoodyListener;
 import org.contestorg.interfaces.IOperation;
 
-
+/**
+ * Fenêtre principale
+ */
 @SuppressWarnings("serial")
 public class JFPrincipal extends JFrame implements ActionListener, WindowListener, IMoodyListener
 {
-	// Titre de fenêtre
+	/** Titre de fenêtre */
 	private String titre;
 	
-	// Onglets
+	/** Onglets */
 	private JTabbedPane jtb_onglets;
 
 	// Boutons
+	
+	/** Bouton "Nouveau" */
 	private JButton jb_nouveau;
+	/** Bouton "Ouvrir" */
 	private JButton jb_ouvrir;
+	/** Bouton "Serveur" */
 	private JButton jb_serveur;
 
+	/** Bouton "Editer" */
 	private JButton jb_editer;
+	/** Bouton "Sauvegarder" */
 	private JButton jb_sauvegarder;
+	/** Bouton "Exporter" */
 	private JButton jb_exporter;
+	/** Bouton "Publier" */
 	private JButton jb_publier;
+	/** Bouton "Diffuser" */
 	private JButton jb_diffuser;
+	/** Bouton "Configurer" */
 	private JButton jb_configurer;
+	/** Bouton "Fermer" */
 	private JButton jb_fermer;
 
+	/** Bouton "Aide" */
 	private JButton jb_aide;
+	/** Bouton "Site web" */
 	private JButton jb_web;
-	private JButton jb_informations;
+	/** Bouton "A propos" */
+	private JButton jb_apropos;
+	/** Bouton "Quitter" */
 	private JButton jb_quitter;
 
 	/**
@@ -104,7 +120,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_fermer = new JButton("Fermer", new ImageIcon("img/farm/16x16/cross.png"));
 		this.jb_aide = new JButton("Aide", new ImageIcon("img/farm/16x16/help.png"));
 		this.jb_web = new JButton("Site Web", new ImageIcon("img/farm/16x16/world.png"));
-		this.jb_informations = new JButton("A propos", new ImageIcon("img/farm/16x16/information.png"));
+		this.jb_apropos = new JButton("A propos", new ImageIcon("img/farm/16x16/information.png"));
 		this.jb_quitter = new JButton("Quitter", new ImageIcon("img/farm/16x16/door_in.png"));
 		
 		this.jb_nouveau.setToolTipText("Créer un nouveau concours");
@@ -119,7 +135,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_fermer.setToolTipText("Fermer le concours sans sauvegarder les modifications");
 		this.jb_aide.setToolTipText("Ouvrir l'aide au format PDF");
 		this.jb_web.setToolTipText("Se rendre sur le site web de ContestOrg");
-		this.jb_informations.setToolTipText("Afficher les informations de ContestOrg");
+		this.jb_apropos.setToolTipText("Afficher les informations de ContestOrg");
 		this.jb_quitter.setToolTipText("Quitter le programme");
 
 		this.jb_editer.setEnabled(false);
@@ -154,7 +170,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 
 		this.addButton(jp_gauche, this.jb_aide);
 		this.addButton(jp_gauche, this.jb_web);
-		this.addButton(jp_gauche, this.jb_informations);
+		this.addButton(jp_gauche, this.jb_apropos);
 		this.addButton(jp_gauche, this.jb_quitter);
 
 		// Panel à onglets
@@ -182,7 +198,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_fermer.addActionListener(this);
 		this.jb_aide.addActionListener(this);
 		this.jb_web.addActionListener(this);
-		this.jb_informations.addActionListener(this);
+		this.jb_apropos.addActionListener(this);
 		this.jb_quitter.addActionListener(this);
 
 		// Pack
@@ -201,7 +217,9 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		panel.add(Box.createVerticalStrut(5));
 	}
 
-	// Quitter la fenêtre
+	/**
+	 * Quitter la fenêtre
+	 */
 	private void quit () {
 		if (ViewHelper.confirmation(this, !ContestOrg.get().is(ContestOrg.STATE_SAVE) && ContestOrg.get().is(ContestOrg.STATE_EDIT) ?  "En quittant ContestOrg, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?" : "Désirez vous vraiment quitter ContestOrg ?", !ContestOrg.get().is(ContestOrg.STATE_SAVE) && ContestOrg.get().is(ContestOrg.STATE_EDIT))) {
 			// Quitter le programme
@@ -226,7 +244,9 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	public void windowOpened (WindowEvent event) {
 	}
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_nouveau) {
 			if(!ContestOrg.get().is(ContestOrg.STATE_OPEN) || ContestOrg.get().is(ContestOrg.STATE_SAVE) || ViewHelper.confirmation(this, "En créant un nouveau concours, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?", true)) {
@@ -284,7 +304,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 			} catch (URISyntaxException e) {
 				ViewHelper.derror(this, "Erreur lors de l'ouverture du site web de ContestOrg.");
 			}
-		} else if (event.getSource() == this.jb_informations) {
+		} else if (event.getSource() == this.jb_apropos) {
 			ViewHelper.dinformation(
 				this, "A propos",
 				"<font size=+1>Informations générales</font>\n" +
@@ -331,7 +351,9 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		}
 	}
 
-	// Implémentation de moodyChanged
+	/**
+	 * @see IMoodyListener#moodyChanged(IMoody)
+	 */
 	@Override
 	public void moodyChanged (IMoody moody) {
 		// Mettre à jour l'état de certains boutons

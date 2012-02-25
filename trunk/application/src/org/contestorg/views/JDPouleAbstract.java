@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
@@ -12,20 +11,29 @@ import org.contestorg.common.Pair;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.interfaces.ICollector;
 
-
+/**
+ * Boîte de dialogue de création/édition de poule
+ */
 @SuppressWarnings("serial")
 public abstract class JDPouleAbstract extends JDPattern
 {
-	// Collector
+	/** Collecteur des informations de la poule */
 	private ICollector<Pair<InfosModelPoule, ArrayList<String>>> collector;
 	
-	// Entrées
-	protected JTextField jtf_nom = new JTextField();
-	
-	// Liste des participants de la poule
+	/** Liste des participants de la poule */
 	private ArrayList<String> participants = new ArrayList<String>();
 	
-	// Constructeur
+	// Entrées
+	
+	/** Nom */
+	protected JTextField jtf_nom = new JTextField();
+	
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations de la poule
+	 */
 	public JDPouleAbstract(Window w_parent, String titre, ICollector<Pair<InfosModelPoule, ArrayList<String>>> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -43,7 +51,9 @@ public abstract class JDPouleAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -58,11 +68,13 @@ public abstract class JDPouleAbstract extends JDPattern
 
 		// Créer et retourner les informations
 		if(!erreur) {
-			this.collector.accept(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule(nom), this.participants));
+			this.collector.collect(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule(nom), this.participants));
 		}
 	}
 	
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler

@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import javax.swing.event.TableModelEvent;
@@ -12,30 +11,59 @@ import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IHistoryListener;
 
-
+/**
+ * Modèle de données pour tableau de participants
+ */
 public class TableModelParticipants implements TableModel, IClosableTableModel, IHistoryListener
 {
-	// Concours, categorie et poule
+	
+	/** Concours */
 	private ModelConcours concours;
+	
+	/** Catégorie */
 	private ModelCategorie categorie;
+	
+	/** Poule */
 	private ModelPoule poule;
 	
-	// Participants
+	/** Liste des participants */
 	private ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<TableModelListener> listeners = new ArrayList<TableModelListener>();
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur avec le concours comme conteneur
+	 * @param concours concours
+	 */
 	public TableModelParticipants(ModelConcours concours) {
 		this(concours, null, null);
 	}
+	
+	/**
+	 * Constructeur avec une catégorie comme conteneur
+	 * @param categorie catégorie
+	 */
 	public TableModelParticipants(ModelCategorie categorie) {
 		this(null, categorie, null);
 	}
+	
+	/**
+	 * Constructeur avec une poule comme conteneur
+	 * @param poule poule
+	 */
 	public TableModelParticipants(ModelPoule poule) {
 		this(null, null, poule);
 	}
+	
+	/**
+	 * Constructeur
+	 * @param concours concours
+	 * @param categorie catégorie
+	 * @param poule poule
+	 */
 	private TableModelParticipants(ModelConcours concours, ModelCategorie categorie, ModelPoule poule) {
 		// Retenir le concours, la categorie et la poule
 		this.concours = concours;
@@ -55,7 +83,9 @@ public class TableModelParticipants implements TableModel, IClosableTableModel, 
 		FrontModel.get().getHistory().addListener(this);
 	}
 	
-	// Rafraichir la liste des participants
+	/**
+	 * Rafraichir la liste des participants
+	 */
 	private void refresh () {
 		// Retenir le nombre de participants dans l'ancienne liste
 		int nbParticipantsAnciens = this.participants.size();
@@ -89,6 +119,65 @@ public class TableModelParticipants implements TableModel, IClosableTableModel, 
 			} else if(nbParticipantsAnciens > nbParticipantsNouveaux) {
 				this.fireRowDeleted(min, max-1);
 			}
+		}
+	}
+	
+	// Signalements
+	
+	/**
+	 * Signaler un événement
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 * @param type type de l'événement
+	 */
+	protected void fire (int first, int last, int type) {
+		TableModelEvent event = new TableModelEvent(this, first, last, TableModelEvent.ALL_COLUMNS, type);
+		for (TableModelListener listener : this.listeners) {
+			listener.tableChanged(event);
+		}
+	}
+	
+	/**
+	 * Signaler l'insertion de lignes
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 */
+	protected void fireRowInserted (int first, int last) {
+		// Fire des listeners de TableModel
+		this.fire(first, last, TableModelEvent.INSERT);
+	}
+	
+	/**
+	 * Signaler la modification de lignes
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 */
+	protected void fireRowUpdated (int first, int last) {
+		// Fire des listeners de TableModel
+		this.fire(first, last, TableModelEvent.UPDATE);
+	}
+	
+	/**
+	 * Signaler la supression de lignes
+	 * @param first indice de la prémière ligne concernée
+	 * @param last indice de la dernière ligne concernée
+	 */
+	protected void fireRowDeleted (int first, int last) {
+		// Fire des listeners de TableModel
+		this.fire(first, last, TableModelEvent.DELETE);
+	}
+	
+	/**
+	 * Récupérer le décalage en fonction du conteneur
+	 * @return décalage en fonction du conteneur
+	 */
+	private int getDecallage () {
+		if (this.poule != null) {
+			return 2;
+		} else if (this.categorie != null) {
+			return 1;
+		} else {
+			return 0;
 		}
 	}
 	
@@ -187,37 +276,6 @@ public class TableModelParticipants implements TableModel, IClosableTableModel, 
 	}
 	@Override
 	public void setValueAt (Object object, int row, int column) {
-	}
-	
-	// Fires des listeners
-	protected void fire (int first, int last, int type) {
-		TableModelEvent event = new TableModelEvent(this, first, last, TableModelEvent.ALL_COLUMNS, type);
-		for (TableModelListener listener : this.listeners) {
-			listener.tableChanged(event);
-		}
-	}
-	protected void fireRowInserted (int first, int last) {
-		// Fire des listeners de TableModel
-		this.fire(first, last, TableModelEvent.INSERT);
-	}
-	protected void fireRowUpdated (int first, int last) {
-		// Fire des listeners de TableModel
-		this.fire(first, last, TableModelEvent.UPDATE);
-	}
-	protected void fireRowDeleted (int first, int last) {
-		// Fire des listeners de TableModel
-		this.fire(first, last, TableModelEvent.DELETE);
-	}
-	
-	// Décalaler le numéro de colonne en fonction de la catégorie et la poule
-	private int getDecallage () {
-		if (this.poule != null) {
-			return 2;
-		} else if (this.categorie != null) {
-			return 1;
-		} else {
-			return 0;
-		}
 	}
 	
 	// Implémentation de IHistoryListener

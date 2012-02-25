@@ -12,31 +12,41 @@ import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.interfaces.IGraphModelListener;
 import org.contestorg.interfaces.IHistoryListener;
 
-
-
+/**
+ * Modèle de données pour le graphe pyramidal de la petite finale
+ */
 public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModelCategorie,InfosModelParticipant>, IEventListener, IHistoryListener
 {
-	// Catégorie associée au graphe
+	/** Catégorie associée au graphe */
 	private ModelCategorie categorie;
 	
-	// Phases éliminatoires associées à la catégorie
+	/** Phases éliminatoires associées à la catégorie */
 	private ModelPhasesEliminatoires phases;
 	
-	// Petite finale associée aux phases finales
+	/** Petite finale des phases éliminatoires */
 	private ModelMatchPhasesElims petiteFinale;
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<IGraphModelListener> listeners = new ArrayList<IGraphModelListener>();
-	
-	// Cellules
-	private CelluleModelPhasesElimsMatch cellulePetiteFinale;
-	private CelluleModelPhasesElimsParticipation celluleParticipationA;
-	private CelluleModelPhasesElimsParticipation celluleParticipationB;
 
-	// Données modifiées ?
+	/** Données modifiées ? */
 	private boolean isChanged = false;
 	
-	// Constructeur
+	// Cellules
+	
+	/** Cellule de la petite finale */
+	private CelluleModelPhasesElimsMatch cellulePetiteFinale;
+	
+	/** Cellule de la participation A */
+	private CelluleModelPhasesElimsParticipation celluleParticipationA;
+	
+	/** Cellule de la participation B */
+	private CelluleModelPhasesElimsParticipation celluleParticipationB;
+	
+	/**
+	 * Constructeur
+	 * @param categorie catégorie associée au graphe
+	 */
 	public GraphModelPhasesElimsPetiteFinale(ModelCategorie categorie) {
 		if(categorie != null) {
 			// Retenir/Ecouter la catégorie
@@ -50,61 +60,10 @@ public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModel
 			FrontModel.get().getHistory().addListener(this);
 		}
 	}
-	
-	// Implémentation de IGraphModel
-	@Override
-	public InfosModelCategorie getObject() {
-		return this.categorie == null ? null : this.categorie.toInfos();
-	}
-	@Override
-	public ICelluleModel<InfosModelCategorie,InfosModelParticipant> getCellule (int index) {
-		switch(index) {
-			case 0: return this.celluleParticipationA;
-			case 1: return this.celluleParticipationB;
-			case 2 : return this.cellulePetiteFinale;
-			default: return null;
-		}
-	}
-	@Override
-	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule) {
-		if(cellule == this.cellulePetiteFinale) {
-			return 2;
-		} else if(cellule == this.celluleParticipationA) {
-			return 0;
-		} else if(cellule == this.celluleParticipationB) {
-			return 1;
-		}
-		return -1;
-	}
-	@Override
-	public int size () {
-		return this.celluleParticipationA != null && this.celluleParticipationB != null ? 2 : 0;
-	}
-	@Override
-	public void close () {
-		// Ne plus écouter la catégorie
-		if(this.categorie != null) {
-			this.categorie.removeListener(this);
-		}
-		
-		// Ne plus écouter les phases éliminatoires
-		if(this.phases != null) {
-			this.phases.removeListener(this);
-		}
-		
-		// Ne plus écouter l'historique
-		FrontModel.get().getHistory().removeListener(this);
-	}
-	@Override
-	public void addListener (IGraphModelListener listener) {
-		this.listeners.add(listener);
-	}
-	@Override
-	public void removeListener (IGraphModelListener listener) {
-		this.listeners.remove(listener);
-	}
 
-	// Recharger le graphe
+	/**
+	 * Recharger le graphe
+	 */
 	private void reload() {
 		// Fermer toutes les cellules
 		if(this.cellulePetiteFinale != null) {
@@ -164,6 +123,59 @@ public class GraphModelPhasesElimsPetiteFinale implements IGraphModel<InfosModel
 		
 		// Le graphe est à jour
 		this.isChanged = false;
+	}
+	
+	// Implémentation de IGraphModel
+	@Override
+	public InfosModelCategorie getObject() {
+		return this.categorie == null ? null : this.categorie.getInfos();
+	}
+	@Override
+	public ICelluleModel<InfosModelCategorie,InfosModelParticipant> getCellule (int index) {
+		switch(index) {
+			case 0: return this.celluleParticipationA;
+			case 1: return this.celluleParticipationB;
+			case 2 : return this.cellulePetiteFinale;
+			default: return null;
+		}
+	}
+	@Override
+	public int indexOf(ICelluleModel<InfosModelCategorie,InfosModelParticipant> cellule) {
+		if(cellule == this.cellulePetiteFinale) {
+			return 2;
+		} else if(cellule == this.celluleParticipationA) {
+			return 0;
+		} else if(cellule == this.celluleParticipationB) {
+			return 1;
+		}
+		return -1;
+	}
+	@Override
+	public int size () {
+		return this.celluleParticipationA != null && this.celluleParticipationB != null ? 2 : 0;
+	}
+	@Override
+	public void close () {
+		// Ne plus écouter la catégorie
+		if(this.categorie != null) {
+			this.categorie.removeListener(this);
+		}
+		
+		// Ne plus écouter les phases éliminatoires
+		if(this.phases != null) {
+			this.phases.removeListener(this);
+		}
+		
+		// Ne plus écouter l'historique
+		FrontModel.get().getHistory().removeListener(this);
+	}
+	@Override
+	public void addListener (IGraphModelListener listener) {
+		this.listeners.add(listener);
+	}
+	@Override
+	public void removeListener (IGraphModelListener listener) {
+		this.listeners.remove(listener);
 	}
 	
 	// Implémentation de IEventListener

@@ -1,31 +1,36 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.infos.InfosModelPropriete;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue d'édition d'un participant
+ */
 @SuppressWarnings("serial")
 public class JDParticipantEditer extends JDParticipantAbstract
 {
 	
-	// Ancien nom du participant
+	/** Ancien nom du participant */
 	private String ancienNomParticipant;
 
-	// Constructeur
-	public JDParticipantEditer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>>> collector, Quintuple<String,String,InfosModelParticipant,ArrayList<Pair<String,InfosModelProprieteParticipant>>,ArrayList<String>> infos) {
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param collector collecteur des informations du participant
+	 * @param infos informations du participant
+	 */
+	public JDParticipantEditer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>>> collector, Quintuple<String,String,InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>,ArrayList<String>> infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer une équipe" : "Editer un joueur", collector);
 		
@@ -40,7 +45,6 @@ public class JDParticipantEditer extends JDParticipantAbstract
 		this.jtf_stand.setText(infos.getThird().getStand());
 		this.jtf_ville.setText(infos.getThird().getVille());
 		this.jcb_statut.setSelectedIndex(infos.getThird().getStatut().ordinal());
-		this.jtf_membres.setText(infos.getThird().getMembres());
 		this.jta_details.setText(infos.getThird().getDetails());
 		
 		// Séléctionner les prix
@@ -63,14 +67,16 @@ public class JDParticipantEditer extends JDParticipantAbstract
 		for(int i=0;i<proprietesDisponibles.size();i++) {
 			for(int j=0;j<infos.getFourth().size();j++) {
 				if(proprietesDisponibles.get(i).getNom().equals(infos.getFourth().get(j).getFirst())) {
-					this.jtfs_proprietes[i].setText(infos.getFourth().get(j).getSecond().getValue());
+					this.jtfs_proprietes[i].setText(infos.getFourth().get(j).getSecond().getValeur());
 				}
 			}
 		}
-		this.proprietesParticipant.fill(infos.getFourth());
+		this.proprietesPossedees.fill(infos.getFourth());
 	}
 
-	// Implémentation de checkNomParticipant
+	/**
+	 * @see JDParticipantAbstract#checkNomParticipant()
+	 */
 	@Override
 	protected boolean checkNomParticipant () {
 		// Récupérer le nouveau nom du participant

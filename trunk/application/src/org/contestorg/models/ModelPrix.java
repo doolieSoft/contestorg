@@ -5,24 +5,36 @@ import java.util.ArrayList;
 
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelPrix;
-import org.contestorg.interfaces.IListValidator;
+import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.interfaces.IUpdater;
 
 
 /**
- * Prix pouvant être decerné aux participants
+ * Prix
  */
 public class ModelPrix extends ModelAbstract
 {
 	
 	// Attributs objets
+	
+	/** Concours */
 	private ModelConcours concours;
+	
+	/** Participants */
 	private ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 	
 	// Attributs scalaires
+	
+	/** Nom */
 	private String nom;
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param concours concours
+	 * @param infos informations du prix
+	 */
 	public ModelPrix(ModelConcours concours, InfosModelPrix infos) {
 		// Retenir le concours
 		this.concours = concours;
@@ -30,26 +42,52 @@ public class ModelPrix extends ModelAbstract
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param concours concours
+	 * @param prix prix
+	 */
 	protected ModelPrix(ModelConcours concours, ModelPrix prix) {
 		// Appeller le constructeur principal
-		this(concours, prix.toInfos());
+		this(concours, prix.getInfos());
 		
 		// Récupérer l'id
 		this.setId(prix.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
+	
+	/**
+	 * Récupérer le concours
+	 * @return concours
+	 */
 	public ModelConcours getConcours () {
 		return this.concours;
 	}
+	
+	/**
+	 * Récupérer la liste des participants
+	 * @return liste des participants
+	 */
 	public ArrayList<ModelParticipant> getParticipants () {
 		return new ArrayList<ModelParticipant>(this.participants);
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations du prix
+	 * @param infos informations du prix
+	 */
 	protected void setInfos (InfosModelPrix infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -62,6 +100,12 @@ public class ModelPrix extends ModelAbstract
 	}
 	
 	// Adders
+	
+	/**
+	 * Ajouter un participant
+	 * @param participant participant
+	 * @throws ContestOrgModelException
+	 */
 	public void addParticipant (ModelParticipant participant) throws ContestOrgModelException {
 		if (!this.participants.contains(participant)) {
 			// Enregistrer le participant
@@ -75,6 +119,12 @@ public class ModelPrix extends ModelAbstract
 	}
 	
 	// Removers
+	
+	/**
+	 * Supprimer un participant
+	 * @param participant participant
+	 * @throws ContestOrgModelException
+	 */
 	protected void removeParticipant (ModelParticipant participant) throws ContestOrgModelException {
 		// Supprimer le participant
 		int index;
@@ -89,19 +139,27 @@ public class ModelPrix extends ModelAbstract
 		}
 	}
 	
-	// Clone
+	/**
+	 * Cloner le prix
+	 * @param concours concours
+	 * @return clone du prix
+	 */
 	protected ModelPrix clone (ModelConcours concours) {
 		return new ModelPrix(concours, this);
 	}
 	
-	// ToInformation
-	public InfosModelPrix toInfos () {
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPrix getInfos () {
 		InfosModelPrix infos = new InfosModelPrix(this.nom);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	@Override
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
@@ -131,24 +189,35 @@ public class ModelPrix extends ModelAbstract
 		}
 	}
 	
-	// Classe pour mettre à jour la liste des prix d'un concours
+	/**
+	 * Classe pour mettre à jour la liste des prix d'un concours
+	 * @author Cyril
+	 *
+	 */
 	protected static class UpdaterForConcours implements IUpdater<InfosModelPrix, ModelPrix>
 	{
-		// Concours
+		/** Concours */
 		private ModelConcours concours;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 */
 		protected UpdaterForConcours(ModelConcours concours) {
 			this.concours = concours;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
 		public ModelPrix create (InfosModelPrix infos) {
 			return new ModelPrix(this.concours, infos);
 		}
 		
-		// Implémentation de update
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
 		public void update (ModelPrix prix, InfosModelPrix infos) {
 			prix.setInfos(infos);
@@ -156,10 +225,12 @@ public class ModelPrix extends ModelAbstract
 		
 	}
 	
-	// Classe pour valider les opérations sur la liste des prix d'un concours
-	protected static class ValidatorForConcours implements IListValidator<InfosModelPrix>
+	/**
+	 * Classe pour valider les opérations sur la liste des prix d'un concours
+	 */
+	protected static class ValidatorForConcours implements ITrackableListValidator<InfosModelPrix>
 	{
-		// Implémentation de IListValidator
+		// Implémentation de ITrackableListValidator
 		@Override
 		public String validateAdd (InfosModelPrix infos, TrackableList<InfosModelPrix> list) {
 			for (int i = 0; i < list.size(); i++) {

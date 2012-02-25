@@ -6,13 +6,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
+/**
+ * Ensemble d'outils
+ */
 public class Tools
 {
 	/**
 	 * Méthode permettant d'effectuer un case avec une chaîne de caractères
-	 * @param string String chaîne de caractères d'entrée
-	 * @param strings Array chaînes de caractères à comparer avec la chaîne de caractères d'entrée
-	 * @return int indice de la chaîne de caractères correspondant
+	 * @param string chaîne de caractères d'entrée
+	 * @param strings chaînes de caractères à comparer avec la chaîne de caractères d'entrée
+	 * @return indice de la chaîne de caractères correspondant
 	 */
 	public static int StringCase (String string, String... strings) {
 		for (int i = 0; i < strings.length; i++) {
@@ -25,9 +28,9 @@ public class Tools
 	
 	/**
 	 * Trouver le chemin relatif entre deux fichiers
-	 * @param target File fichier cible
-	 * @param base File fichier base
-	 * @return String chemin relatif entre les deux fichiers
+	 * @param target fichier cible
+	 * @param base fichier base
+	 * @return chemin relatif entre les deux fichiers
 	 * @throws IOException
 	 */
 	public static String getRelativePath (File target, File base) throws IOException {
@@ -59,10 +62,10 @@ public class Tools
 	public static final String HASH_SHA1 = "SHA-1";
 	
 	/**
-	 * Réalise le hashing d'une chaîne de caractères
-	 * @param string String chaine de caractère à hasher
-	 * @param hash String hashage à utiliser
-	 * @return String hashage
+	 * Réalise le hash d'une chaîne de caractères
+	 * @param string chaine de caractère à hasher
+	 * @param hash hashage à utiliser
+	 * @return hash de la chaîne de caractères
 	 * @throws NoSuchAlgorithmException 
 	 */
 	public static String hash(String string, String hash) throws NoSuchAlgorithmException {

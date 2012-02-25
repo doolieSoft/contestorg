@@ -1,11 +1,14 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite etre considérée comme un fournisseur de T
- * @param <T> classe de l'instance fournit
+ * Interface à implémenter si une classe souhaite être considérée comme un fournisseur d'objet
+ * @param <T> classe de l'objet fournit
  */
 public interface IFournisseur<T>
 {
-	// Fournir la donnée
+	/**
+	 * Récupérer un objet
+	 * @return objet
+	 */
 	public T get();
 }

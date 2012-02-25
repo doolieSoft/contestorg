@@ -1,10 +1,9 @@
 ﻿package org.contestorg.views;
 
-
-import java.awt.CardLayout;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -16,31 +15,41 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.contestorg.common.Pair;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.ICollector;
 import org.contestorg.interfaces.IOperation;
 
-
-
+/**
+ * Boîte de dialogue de création/édition de diffusion
+ */
 @SuppressWarnings("serial")
 public abstract class JDDiffusionAbstract extends JDPattern implements ItemListener
 {
-	// Collector d'informations sur la diffusion
+	/** Collecteur des informations de la diffusion */
 	private ICollector<Pair<InfosModelDiffusion,InfosModelTheme>> collector;
 	
-	// Panel
+	/** Panel du thème */
 	protected JPTheme jp_theme;
 
-	// Entrées
-	protected JTextField jtf_nom = new JTextField();
-	protected JTextField jtf_port = new JTextField("80");
-
-	// Bouton tester
+	/** Bouton tester */
 	private JButton jb_tester = new JButton("Tester", new ImageIcon("img/farm/16x16/control_play_blue.png"));
 
-	// Constructeur
+	// Entrées
+	
+	/** Nom */
+	protected JTextField jtf_nom = new JTextField();
+	
+	/** Port */
+	protected JTextField jtf_port = new JTextField("80");
+
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations de la diffusion
+	 */
 	public JDDiffusionAbstract(Window w_parent, String titre, ICollector<Pair<InfosModelDiffusion,InfosModelTheme>> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -75,7 +84,10 @@ public abstract class JDDiffusionAbstract extends JDPattern implements ItemListe
 		this.pack();
 	}
 	
-	// Récupérer le port
+	/**
+	 * Récupérer le port
+	 * @return port
+	 */
 	public Integer getPort() {
 		// Mettre 80 au port si pas de port spécifié
 		if (this.jtf_port.getText().trim().isEmpty()) {
@@ -92,7 +104,10 @@ public abstract class JDDiffusionAbstract extends JDPattern implements ItemListe
 		}
 	}
 
-	// Récupérer les informations de la diffusion
+	/**
+	 * Récupérer les informations de la diffusion
+	 * @return informations de la diffusion
+	 */
 	public InfosModelDiffusion getInfosModelDiffusion () {
 		// Récupérer les données
 		Integer port = this.getPort();
@@ -117,7 +132,9 @@ public abstract class JDDiffusionAbstract extends JDPattern implements ItemListe
 		return null;
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les informations de la diffusion
@@ -128,18 +145,22 @@ public abstract class JDDiffusionAbstract extends JDPattern implements ItemListe
 
 		// Envoyer les informations au collector
 		if (diffusion != null && theme != null) {
-			this.collector.accept(new Pair<InfosModelDiffusion,InfosModelTheme>(diffusion,theme));
+			this.collector.collect(new Pair<InfosModelDiffusion,InfosModelTheme>(diffusion,theme));
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler
 		this.collector.cancel();
 	}
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_tester) {
 			// Demander au controleur principal un test
@@ -157,7 +178,9 @@ public abstract class JDDiffusionAbstract extends JDPattern implements ItemListe
 		}
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		this.jtf_nom.setText(this.jp_theme.getTheme().getNom());

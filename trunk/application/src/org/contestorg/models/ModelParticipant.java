@@ -1,6 +1,5 @@
 ﻿package org.contestorg.models;
 
-
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
@@ -8,12 +7,10 @@ import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.ILinker;
 import org.contestorg.interfaces.IUpdater;
 import org.contestorg.log.Log;
-
-
 
 /**
  * Participant
@@ -22,20 +19,43 @@ public class ModelParticipant extends ModelMatchable
 {
 	
 	// Attributs objets
+	
+	/** Poule */
 	private ModelPoule poule;
+	
+	/** Liste des participations */
 	private ArrayList<ModelParticipation> participations = new ArrayList<ModelParticipation>();
+	
+	/** Liste des prix */
 	private ArrayList<ModelPrix> prix = new ArrayList<ModelPrix>();
-	private ArrayList<ModelProprietePossedee> proprietesParticipants = new ArrayList<ModelProprietePossedee>();
+	
+	/** Liste des propriétés possédées */
+	private ArrayList<ModelProprietePossedee> proprietesPossedees = new ArrayList<ModelProprietePossedee>();
 	
 	// Attributs scalaires
+	
+	/** Stand */
 	private String stand;
+	
+	/** Nom */
 	private String nom;
+	
+	/** Ville */
 	private String ville;
+	
+	/** Statut */
 	private InfosModelParticipant.Statut statut;
-	private String membres;
+	
+	/** Détails */
 	private String details;
 	
-	// Constructeur
+	// Constructeurs
+	
+	/**
+	 * Constructeur
+	 * @param poule poule
+	 * @param infos informations du participant
+	 */
 	public ModelParticipant(ModelPoule poule, InfosModelParticipant infos) {
 		// Retenir la poule
 		this.poule = poule;
@@ -43,60 +63,143 @@ public class ModelParticipant extends ModelMatchable
 		// Enregistrer les informations
 		this.setInfos(infos);
 	}
+	
+	/**
+	 * Constructeur par copie
+	 * @param poule poule
+	 * @param participant participant
+	 */
 	protected ModelParticipant(ModelPoule poule, ModelParticipant participant) {
 		// Appeller le constructeur principal
-		this(poule, participant.toInfos());
+		this(poule, participant.getInfos());
 		
 		// Récupérer l'id
 		this.setId(participant.getId());
 	}
 	
 	// Getters
+	
+	/**
+	 * Récupérer le stand
+	 * @return stand
+	 */
 	public String getStand () {
 		return this.stand;
 	}
+	
+	/**
+	 * Récupérer le nom
+	 * @return nom
+	 */
 	public String getNom () {
 		return this.nom;
 	}
+	
+	/**
+	 * Récupérer la ville
+	 * @return ville
+	 */
 	public String getVille () {
 		return this.ville;
 	}
+	
+	/**
+	 * Récupérer le statut
+	 * @return statut
+	 */
 	public InfosModelParticipant.Statut getStatut () {
 		return this.statut;
 	}
-	public String getMembres () {
-		return this.membres;
-	}
+	
+	/**
+	 * Récupérer les détails
+	 * @return détails
+	 */
 	public String getDetails () {
 		return this.details;
 	}
+	
+	/**
+	 * Récupérer la poule
+	 * @return poule
+	 */
 	public ModelPoule getPoule () {
 		return this.poule;
 	}
+	
+	/**
+	 * Récupérer la liste des participations
+	 * @return liste des participations
+	 */
 	public ArrayList<ModelParticipation> getParticipations () {
 		return new ArrayList<ModelParticipation>(this.participations);
 	}
+	
+	/**
+	 * Récupérer la liste des prix
+	 * @return liste des prix
+	 */
 	public ArrayList<ModelPrix> getPrix () {
 		return new ArrayList<ModelPrix>(this.prix);
 	}
-	public ArrayList<ModelProprietePossedee> getProprietesParticipant () {
-		return new ArrayList<ModelProprietePossedee>(this.proprietesParticipants);
+	
+	/**
+	 * Récupérer la liste des propriétés possédées
+	 * @return liste des propriétés possédées
+	 */
+	public ArrayList<ModelProprietePossedee> getProprietesPossedees () {
+		return new ArrayList<ModelProprietePossedee>(this.proprietesPossedees);
 	}
+	
+	/**
+	 * Récupérer le rang aux phases qualificatives
+	 * @return rang aux phases qualificatives
+	 */
 	public int getRangPhasesQualifs () {
-		return this.poule.getRang(this);
+		return this.poule.getRangPhasesQualifs(this);
 	}
+	
+	/**
+	 * Récupérer le rang aux phases qualificatives
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return rang aux phases qualificatives
+	 */
 	public int getRangPhasesQualifs (int phaseQualifMax) {
 		return this.poule.getRang(this,phaseQualifMax);
 	}
+	
+	/**
+	 * Récupérer le rang aux phases éliminatoires
+	 * @return rang aux phases éliminatoires
+	 */
 	public int getRangPhasesElims () {
 		return this.poule.getCategorie().getPhasesEliminatoires() == null ? 1 : this.poule.getCategorie().getPhasesEliminatoires().getRang(this);
 	}
+	
+	/**
+	 * Récupérer le nombre de victoires aux phases qualificatives
+	 * @return nombre de victoire aux phases qualificatives
+	 */
 	public int getNbVictoires () {
 		return this.getNbVictoires(false, true, -1);
 	}
+	
+	/**
+	 * Récupérer le nombre de victoires aux phases qualificatives
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de victoire aux phases qualificatives
+	 */
 	public int getNbVictoires (int phaseQualifMax) {
 		return this.getNbVictoires(false, true, phaseQualifMax);
 	}
+	
+	/**
+	 * Récupérer le nombre de victoires
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de victoires
+	 */
 	public int getNbVictoires (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
 		// Initialiser le nombre de victoires
 		int nbVictoires = 0;
@@ -128,12 +231,34 @@ public class ModelParticipant extends ModelMatchable
 		// Retourner le nombre de victoires
 		return nbVictoires;
 	}
+	
+	/**
+	 * Récupérer le nombre d'objectifs remportés aux phases qualificatives
+	 * @param objectif objectif
+	 * @return nombre d'objectifs remportés aux phases qualificatives
+	 */
 	public int getQuantiteObjectif (ModelObjectif objectif) {
 		return this.getQuantiteObjectifs(objectif, false, true, -1);
 	}
+	
+	/**
+	 * Récupérer le nombre d'objectifs remportés aux phases qualificatives
+	 * @param objectif objectif
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre d'objectifs remportés aux phases qualificatives
+	 */
 	public int getQuantiteObjectif (ModelObjectif objectif, int phaseQualifMax) {
 		return this.getQuantiteObjectifs(objectif, false, true, phaseQualifMax);
 	}
+	
+	/**
+	 * Récupérer le nombre d'objectifs remportés
+	 * @param objectif objectif
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre d'objectifs remportés
+	 */
 	public int getQuantiteObjectifs (ModelObjectif objectif, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
 		// Initialiser la quantite
 		int quantite = 0;
@@ -166,15 +291,41 @@ public class ModelParticipant extends ModelMatchable
 		// Retourner la quantite
 		return quantite;
 	}
+	
+	/**
+	 * Récupérer le nombre de points remportés aux phases qualificatives
+	 * @return nombre de points remportés aux phases qualificatives
+	 */
 	public double getPoints () {
 		return this.getPoints(false, true, -1);
 	}
+	
+	/**
+	 * Récupérer le nombre de points remportés aux phases qualificatives
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de points remportés aux phases qualificatives
+	 */
 	public double getPoints (int phaseQualifMax) {
 		return this.getPoints(false, true, phaseQualifMax);
 	}
+	
+	/**
+	 * Récupérer le nombre de points remportés
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @return nombre de points remportés
+	 */
 	public double getPoints (boolean phasesEliminatoires, boolean phasesQualificatives) {
 		return this.getPoints(phasesEliminatoires, phasesQualificatives, -1);
 	}	
+	
+	/**
+	 * Récupérer le nombre de points remportés
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de points remportés
+	 */
 	public double getPoints (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
 		// Initialiser le compteur de points
 		double points = 0;
@@ -204,9 +355,23 @@ public class ModelParticipant extends ModelMatchable
 		// Retourner le nombre de points
 		return points;
 	}
+	
+	/**
+	 * Récupérer le nombre de rencontres avec un participant aux phases qualificatives
+	 * @param participant participant
+	 * @return nombre de rencontres avec le participant aux phases qualificatives
+	 */
 	public int getNbRencontres (ModelParticipant participant) {
 		return this.getNbRencontres(participant, false, true);
 	}
+	
+	/**
+	 * Récupérer le nombre de rencontres avec un participant
+	 * @param participant participant
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @return nombre de rencontres avec le participant
+	 */
 	public int getNbRencontres (ModelParticipant participant, boolean phasesEliminatoires, boolean phasesQualificatives) {
 		// Initialiser le nombre de rencontres
 		int nbRencontres = 0;
@@ -233,6 +398,11 @@ public class ModelParticipant extends ModelMatchable
 	}
 	
 	// Setters
+	
+	/**
+	 * Définir les informations du participant
+	 * @param infos informations du participant
+	 */
 	protected void setInfos (InfosModelParticipant infos) {
 		// Appeller le setInfos du parent
 		super.setInfos(infos);
@@ -242,12 +412,16 @@ public class ModelParticipant extends ModelMatchable
 		this.nom = infos.getNom();
 		this.ville = infos.getVille();
 		this.statut = infos.getStatut();
-		this.membres = infos.getMembres();
 		this.details = infos.getDetails();
 		
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir le statut
+	 * @param statut statut
+	 */
 	protected void setStatut (InfosModelParticipant.Statut statut) {
 		// Enregistrer le statut
 		this.statut = statut;
@@ -255,6 +429,12 @@ public class ModelParticipant extends ModelMatchable
 		// Fire update
 		this.fireUpdate();
 	}
+	
+	/**
+	 * Définir la poule
+	 * @param poule poule
+	 * @throws ContestOrgModelException
+	 */
 	protected void setPoule (ModelPoule poule) throws ContestOrgModelException {
 		// Modifier la poule
 		this.poule.removeParticipant(this);
@@ -266,6 +446,12 @@ public class ModelParticipant extends ModelMatchable
 	}
 	
 	// Adders
+	
+	/**
+	 * Ajouter une participation
+	 * @param participation participation
+	 * @throws ContestOrgModelException
+	 */
 	public void addParticipation (ModelParticipation participation) throws ContestOrgModelException {
 		if (!this.participations.contains(participation)) {
 			// Ajouter la participation
@@ -277,6 +463,12 @@ public class ModelParticipant extends ModelMatchable
 			throw new ContestOrgModelException("La participation existe déjà dans le participant");
 		}
 	}
+	
+	/**
+	 * Ajouter un prix
+	 * @param prix prix
+	 * @throws ContestOrgModelException
+	 */
 	public void addPrix (ModelPrix prix) throws ContestOrgModelException {
 		if (!this.prix.contains(prix)) {
 			// Ajouter le prix
@@ -288,19 +480,31 @@ public class ModelParticipant extends ModelMatchable
 			throw new ContestOrgModelException("La participation existe déjà dans le participant");
 		}
 	}
-	public void addProprieteParticipant (ModelProprietePossedee proprieteParticipant) throws ContestOrgModelException {
-		if (!this.proprietesParticipants.contains(proprieteParticipant)) {
-			// Ajouter la propriété de participant
-			this.proprietesParticipants.add(proprieteParticipant);
+	
+	/**
+	 * Ajouter une propriété possédée
+	 * @param proprietePossedee propriété possédée
+	 * @throws ContestOrgModelException
+	 */
+	public void addProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgModelException {
+		if (!this.proprietesPossedees.contains(proprietePossedee)) {
+			// Ajouter la propriété possédée
+			this.proprietesPossedees.add(proprietePossedee);
 			
 			// Fire add
-			this.fireAdd(proprieteParticipant, this.proprietesParticipants.size() - 1);
+			this.fireAdd(proprietePossedee, this.proprietesPossedees.size() - 1);
 		} else {
 			throw new ContestOrgModelException("La participation existe déjà dans le participant");
 		}
 	}
 	
 	// Removers
+	
+	/**
+	 * Supprimer une participation
+	 * @param participation participation
+	 * @throws ContestOrgModelException
+	 */
 	protected void removeParticipation (ModelParticipation participation) throws ContestOrgModelException {
 		// Retirer la participation
 		int index;
@@ -314,6 +518,12 @@ public class ModelParticipant extends ModelMatchable
 			throw new ContestOrgModelException("La participation n'existe pas dans le participant");
 		}
 	}
+	
+	/**
+	 * Supprimer un prix
+	 * @param prix prix
+	 * @throws ContestOrgModelException
+	 */
 	protected void removePrix (ModelPrix prix) throws ContestOrgModelException {
 		// Retirer le prix
 		int index;
@@ -327,49 +537,77 @@ public class ModelParticipant extends ModelMatchable
 			throw new ContestOrgModelException("La participation n'existe pas dans le participant");
 		}
 	}
-	protected void removeProprieteParticipant (ModelProprietePossedee proprieteParticipant) throws ContestOrgModelException {
-		// Retirer la propriété de participant
+	
+	/**
+	 * Supprimer une propriété possédée
+	 * @param proprietePossedee propriété possédée
+	 * @throws ContestOrgModelException
+	 */
+	protected void removeProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgModelException {
+		// Retirer la propriété possédée
 		int index;
-		if ((index = this.proprietesParticipants.indexOf(proprieteParticipant)) != -1) {
+		if ((index = this.proprietesPossedees.indexOf(proprietePossedee)) != -1) {
 			// Remove
-			this.proprietesParticipants.remove(proprieteParticipant);
+			this.proprietesPossedees.remove(proprietePossedee);
 			
 			// Fire remove
-			this.fireRemove(proprieteParticipant, index);
+			this.fireRemove(proprietePossedee, index);
 		} else {
 			throw new ContestOrgModelException("La participation n'existe pas dans le paricipant");
 		}
 	}
 	
 	// Updaters
+	
+	/**
+	 * Mettre à jour la liste des prix
+	 * @param list liste des prix source
+	 * @throws ContestOrgModelException
+	 */
 	protected void updatePrix (TrackableList<String> list) throws ContestOrgModelException {
 		// Mettre à jour les prix remportés
 		this.links(new ModelParticipant.LinkerForPrix(this), list);
 	}
-	protected void updateProprietesParticipant (TrackableList<Pair<String, InfosModelProprieteParticipant>> list) throws ContestOrgModelException {
+	
+	/**
+	 * Mettre à jour la liste des propriétés possédées
+	 * @param list liste des propriétés possédées source
+	 * @throws ContestOrgModelException
+	 */
+	protected void updateProprietesPossedees (TrackableList<Pair<String, InfosModelProprietePossedee>> list) throws ContestOrgModelException {
 		// Mettre à jour les propriétés de participant
-		this.updates(new ModelProprietePossedee.UpdaterForParticipant(this), this.proprietesParticipants, list, true, null);
+		this.updates(new ModelProprietePossedee.UpdaterForParticipant(this), this.proprietesPossedees, list, true, null);
 	}
 	
-	// Implémentation de toStrings
+	/**
+	 * @see ModelMatchable#toStrings()
+	 */
 	protected String[] toStrings () {
-		String[] strings = { this.nom, this.stand, this.ville, this.membres, this.details };
+		String[] strings = { this.nom, this.stand, this.ville, this.details };
 		return strings;
 	}
 	
-	// Clone
+	/**
+	 * Cloner le participant
+	 * @param poule poule
+	 * @return clone du participant
+	 */
 	protected ModelParticipant clone (ModelPoule poule) {
 		return new ModelParticipant(poule, this);
 	}
 	
-	// ToInformation
-	public InfosModelParticipant toInfos () {
-		InfosModelParticipant infos = new InfosModelParticipant(this.stand, this.nom, this.ville, this.statut, this.membres, this.details);
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelParticipant getInfos () {
+		InfosModelParticipant infos = new InfosModelParticipant(this.stand, this.nom, this.ville, this.statut, this.details);
 		infos.setId(this.getId());
 		return infos;
 	}
 	
-	// Remove
+	/**
+	 * @see ModelAbstract#delete(ArrayList)
+	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
 		if (!removers.contains(this)) {
 			// Ajouter le participant à la liste des removers
@@ -407,21 +645,28 @@ public class ModelParticipant extends ModelMatchable
 		}
 	}
 	
-	// Classe pour mettre à jour une liste de participants indépendament de son conteneur
-	protected static class Updater implements IUpdater<Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>>, ModelParticipant>
+	/**
+	 * Classe pour mettre à jour une liste de participants indépendament de son conteneur
+	 */
+	protected static class Updater implements IUpdater<Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>>, ModelParticipant>
 	{
-		// Concours
+		/** Concours */
 		private ModelConcours concours;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 */
 		public Updater(ModelConcours concours) {
 			// Retenir le concours
 			this.concours = concours;
 		}
 		
-		// Implémentation de create
+		/**
+		 * @see IUpdater#create(Object)
+		 */
 		@Override
-		public ModelParticipant create (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) {
+		public ModelParticipant create (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) {
 			try {
 				// Récupérer la poule
 				ModelPoule poule = this.concours.getCategorieByNom(infos.getFirst()).getPouleByNom(infos.getSecond());
@@ -429,7 +674,7 @@ public class ModelParticipant extends ModelMatchable
 				// Créer, configurer et retourner le participant
 				ModelParticipant participant = new ModelParticipant(poule, infos.getThird());
 				poule.addParticipant(participant);
-				participant.updateProprietesParticipant(infos.getFourth());
+				participant.updateProprietesPossedees(infos.getFourth());
 				participant.updatePrix(infos.getFifth());
 				return participant;
 			} catch (ContestOrgModelException e) {
@@ -438,8 +683,11 @@ public class ModelParticipant extends ModelMatchable
 			}
 		}
 		
+		/**
+		 * @see IUpdater#update(Object, Object)
+		 */
 		@Override
-		public void update (ModelParticipant participant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) {
+		public void update (ModelParticipant participant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) {
 			try {
 				// Récupérer la poule
 				ModelPoule poule = this.concours.getCategorieByNom(infos.getFirst()).getPouleByNom(infos.getSecond());
@@ -449,7 +697,7 @@ public class ModelParticipant extends ModelMatchable
 					participant.setPoule(poule);
 				}
 				participant.setInfos(infos.getThird());
-				participant.updateProprietesParticipant(infos.getFourth());
+				participant.updateProprietesPossedees(infos.getFourth());
 				participant.updatePrix(infos.getFifth());
 			} catch (ContestOrgModelException e) {
 				Log.getLogger().fatal(e.getMessage());
@@ -457,18 +705,25 @@ public class ModelParticipant extends ModelMatchable
 		}
 	}
 	
-	// Classe pour lier une liste de prix à un participant
+	/**
+	 * Classe pour lier une liste de prix à un participant
+	 */
 	protected static class LinkerForPrix implements ILinker<String>
 	{
-		// Participant
+		/** Participant */
 		private ModelParticipant participant;
 		
-		// Constructeur
+		/**
+		 * Constructeur
+		 * @param participant participant
+		 */
 		public LinkerForPrix(ModelParticipant participant) {
 			this.participant = participant;
 		}
 		
-		// Implémentation de link
+		/**
+		 * @see ILinker#link(Object)
+		 */
 		@Override
 		public void link (String nomPrix) {
 			// Récupérer le prix
@@ -485,7 +740,9 @@ public class ModelParticipant extends ModelMatchable
 			}
 		}
 		
-		// Implémentation de unlink
+		/**
+		 * @see ILinker#unlink(Object)
+		 */
 		@Override
 		public void unlink (String nomPrix) {
 			// Récupérer le prix

@@ -3,13 +3,19 @@
 import org.contestorg.interfaces.IGeneration;
 import org.contestorg.interfaces.IGenerationListener;
 
+/**
+ * Classe d'aide à l'implémentation de l'interface IGeneration
+ * @param <T> classe des objets générés
+ */
 public abstract class GenerationAbstract<T> implements IGeneration<T>
 {
 	
-	// Runnable
+	/** Runnable */
 	private GenerationRunnableAbstract<T> runnable;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 */
 	public GenerationAbstract() {
 		this.runnable = this.getRunnable();
 	}
@@ -36,7 +42,10 @@ public abstract class GenerationAbstract<T> implements IGeneration<T>
 		this.runnable.removeListener(listener);
 	}
 
-	// Méthode à implémenter
+	/**
+	 * Méthode à implémenter qui doit retourner une génération éxecutable
+	 * @return génération éxecutable
+	 */
 	public abstract GenerationRunnableAbstract<T> getRunnable();
 	
 }

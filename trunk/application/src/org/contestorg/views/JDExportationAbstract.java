@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.FlowLayout;
@@ -30,7 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileSystemView;
 
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosConnexionFTP;
 import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelCheminFTP;
@@ -40,45 +39,77 @@ import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.ICollector;
 import org.contestorg.interfaces.IOperation;
 
-
-
+/**
+ * Boîte de dialogue de création/édition d'une exportation
+ */
 @SuppressWarnings("serial")
 public abstract class JDExportationAbstract extends JDPattern implements ItemListener, ActionListener
 {
 
-	// Collector d'informations sur l'exportation
+	/** Collecteur d'informations sur l'exportation */
 	protected ICollector<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> collector;
 	
 	// Labels des chemins
+	
+	/** Chemin local */
 	protected final static String LABEL_CHEMIN_LOCAL = "Répertoire";
+	
+	/** Chemin FTP */
 	protected final static String LABEL_CHEMIN_FTP = "Serveur FTP";
 
 	// Panels
+	
+	/** Chemins */
 	private JPanel jp_chemins;
+	
+	/** Thème */
 	protected JPTheme jp_theme;
 
 	// Entrées
+	
+	/** Nom */
 	protected JTextField jtf_nom = new JTextField();
+	
+	/** Automatique oui */
 	protected JRadioButton jrb_automatique_oui = new JRadioButton("Oui");
+	/** Automatique non */
 	protected JRadioButton jrb_automatique_non = new JRadioButton("Non", true);
 
-	protected JComboBox jcb_chemins;
+	/** Liste des chemins */
+	protected JComboBox<String> jcb_chemins;
 
+	/** Chemin du chemin local */
 	protected JTextField jtf_chemin_local_chemin = new JTextField(10);
 
+	/** Hôte du chemin FTP */
 	protected JTextField jtf_chemin_ftp_host = new JTextField();
+	/** Port du chemin FTP */
 	protected JTextField jtf_chemin_ftp_port = new JTextField("21");
+	/** Nom d'utilisateur du chemin FTP */
 	protected JTextField jtf_chemin_ftp_login = new JTextField();
+	/** Mot de passe du chemin FTP */
 	protected JPasswordField jtf_chemin_ftp_password = new JPasswordField();
+	/** Chemin du chemin FTP */
 	protected JTextField jtf_chemin_ftp_path = new JTextField("/");
+	/** Mode actif du chemin FTP */
 	protected JRadioButton jrb_chemin_ftp_mode_actif = new JRadioButton("Actif", true);
+	/** Mode passif du chemin FTP */
 	protected JRadioButton jrb_chemin_ftp_mode_passif = new JRadioButton("Passif");
 	
 	// Boutons
+	
+	/** Bouton de séléction du chemin local */
 	private JButton jb_chemin_local_chemin = new JButton("Séléctionner", new ImageIcon("img/farm/16x16/folder.png"));
+	
+	/** Bouton de test du chemin FTP */
 	private JButton jb_chemin_ftp_tester = new JButton("Tester", new ImageIcon("img/farm/16x16/control_play_blue.png"));
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informaitons de l'exportation
+	 */
 	public JDExportationAbstract(Window w_parent, String titre, ICollector<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> collector) {
 		// Appeler le constructeur du parent
 		super(w_parent, titre);
@@ -114,7 +145,7 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		// Informations sur le chemin
 		this.jp_contenu.add(ViewHelper.title("Chemin", ViewHelper.H1));
 		String[] chemins = { JDExportationAbstract.LABEL_CHEMIN_LOCAL, JDExportationAbstract.LABEL_CHEMIN_FTP };
-		this.jcb_chemins = new JComboBox(chemins);
+		this.jcb_chemins = new JComboBox<String>(chemins);
 		this.jp_contenu.add(this.jcb_chemins);
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		this.jp_chemins = new JPanel(new CardLayout());
@@ -178,7 +209,10 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		this.pack();
 	}
 
-	// Récupérer les informatios de la connexion FTP
+	/**
+	 * Récupérer les informations de la connexion FTP
+	 * @return informations de la connexion FTP
+	 */
 	private InfosConnexionFTP getInfosModelCheminFTP () {
 		// Ajouter un slash à la fin du path si nécéssaire
 		if (!this.jtf_chemin_ftp_path.getText().trim().endsWith("/")) {
@@ -234,7 +268,10 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		return null;
 	}
 
-	// Récupérer les informations du chemin local
+	/**
+	 * Récupérer les informations du chemin local
+	 * @return informations du chemin local
+	 */
 	private InfosModelCheminLocal getInfosModelCheminLocal () {
 		// Ajouter un slash à la fin du chemin si nécéssaire
 		if (!this.jtf_chemin_local_chemin.getText().trim().isEmpty() && !this.jtf_chemin_local_chemin.getText().trim().endsWith(File.separator)) {
@@ -263,7 +300,10 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		return new InfosModelCheminLocal(chemin);
 	}
 
-	// Récupérer les informations du chemin
+	/**
+	 * Récupérer les informations du chemin
+	 * @return informations du chemin
+	 */
 	private InfosModelChemin getInfosModelChemin () {
 		// Récupérer le thème et le chemin séléctionnés
 		String selectedChemin = (String)this.jcb_chemins.getSelectedItem();
@@ -289,7 +329,9 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		return null;
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Booléen d'erreur
@@ -318,18 +360,22 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 
 		// Envoyer les informations au collector
 		if (!erreur && theme != null && chemin != null) {
-			this.collector.accept(new Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>(exportation, chemin, theme));
+			this.collector.collect(new Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>(exportation, chemin, theme));
 		}
 	}
 
-	// Implémentation de quit
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler
 		this.collector.cancel();
 	}
 
-	// Implémentation de ActionListener
+	/**
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_chemin_local_chemin) {
 			// Demander à l'utilisateur l'emplacement du repertoire
@@ -353,7 +399,9 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		}
 	}
 
-	// Implémentation de ItemListener
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if(event.getSource() == this.jcb_chemins) {

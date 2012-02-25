@@ -9,23 +9,34 @@ import javax.swing.tree.TreeNode;
 
 import org.contestorg.interfaces.ITreeNode;
 
+/**
+ * Classe d'aide à l'implémentation de l'interface ITreeNode
+ * @param <T> classe des objets de la node
+ */
 public abstract class TreeNodeAbstract<T> implements ITreeNode
-{
-	// Indicateurs de modifications
-	private boolean inserted = false;
-	private boolean changed = false;
-	private ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> removed = new ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>>();
-	
-	// Parent
+{	
+	/** Parent */
 	private TreeNodeAbstract<?> parent;
 	
-	// Objet
+	/** Objet */
 	protected T object;
 	
-	// Enfants
+	/** Enfants */
 	protected ArrayList<TreeNodeAbstract<?>> children = new ArrayList<TreeNodeAbstract<?>>();
 	
-	// Constructeur
+	/** Enfants supprimés */
+	private ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> removed = new ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>>();
+	
+	/** La node a-t-elle un parent ? */
+	private boolean inserted = false;
+	
+	/** La node a-t-elle été modifiée ? */
+	private boolean changed = false;
+	
+	/**
+	 * Constructeur
+	 * @param object objet associé à la node
+	 */
 	public TreeNodeAbstract(T object) {
 		// Retenir l'objet associé à la node
 		this.object = object;
@@ -67,13 +78,13 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		return this.parent == null ? 0 : this.parent.getLevel()+1;
 	}
 	@Override
-	public TreeNode[] getPath() {
+	public ITreeNode[] getPath() {
 		// Initialiser le chemin
-		TreeNode[] path = new TreeNode[this.getLevel()+1];
+		ITreeNode[] path = new ITreeNode[this.getLevel()+1];
 		
 		// Remplir le chemin
 		int i = 0;
-		TreeNode parent = this;
+		ITreeNode parent = this;
 		while(parent != null) {
 			path[i++] = parent;
 			parent = parent.getParent();
@@ -83,7 +94,10 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		return path;
 	}
 	
-	// Définir le parent
+	/**
+	 * Définir le parent
+	 * @param parent parent de la node
+	 */
 	public void setParent(TreeNodeAbstract<?> parent) {
 		// Retenir l'évenement
 		this.inserted = true;
@@ -92,7 +106,11 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		this.parent = parent;
 	}
 	
-	// Ajouter/Déplacer/Supprimer des enfants
+	/**
+	 * Ajouter un enfant
+	 * @param index indice d'ajout 
+	 * @param child enfant à ajouter
+	 */
 	public void addChild(int index, TreeNodeAbstract<?> child) {
 		// Ajouter l'enfant dans la liste
 		this.children.add(index, child);
@@ -100,10 +118,22 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		// Définir le parent de l'enfant
 		child.setParent(this);
 	}
+	
+	/**
+	 * Déplacer un enfant
+	 * @param before indice de l'enfant à déplacer
+	 * @param after indice de destination 
+	 */
 	public void moveChild(int before, int after) {
 		// Déplacer l'enfant dans la liste
 		this.addChild(after,this.removeChild(before));
 	}
+	
+	/**
+	 * Supprimer un enfant
+	 * @param index indice de l'enfant à supprimer
+	 * @return enfant supprimé
+	 */
 	public TreeNodeAbstract<?> removeChild(int index) {
 		// Retirer l'enfant de la liste
 		TreeNodeAbstract<?> node = this.children.remove(index);
@@ -117,13 +147,18 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		return node;
 	}
 	
-	// Signaler la modification des données de la node
-	public void hasChanged() {
+	/**
+	 * Signaler la modification des données de la node
+	 */
+	public void setChanged() {
 		// Retenir l'évenement
 		this.changed = true;
 	}
 	
-	// Récupérer/Effacer les indicateurs de modifications
+	/**
+	 * Récupérer la liste des nodes ajoutées
+	 * @return liste des nodes ajoutées
+	 */
 	public ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> getTreeNodesInserted () {
 		// Initialiser la liste des nodes
 		ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> nodes = new ArrayList<Quadruple<TreeNode,TreeNode[],int[],TreeNode[]>>();
@@ -143,6 +178,11 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		// Retourner les nodes
 		return nodes;
 	}
+	
+	/**
+	 * Récupérer la liste des nodes modifiées
+	 * @return liste des nodes modifiées
+	 */
 	public ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> getTreeNodesChanged () {
 		// Initialiser la liste des nodes
 		ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> nodes = new ArrayList<Quadruple<TreeNode,TreeNode[],int[],TreeNode[]>>();
@@ -162,6 +202,11 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		// Retourner les nodes
 		return nodes;
 	}
+	
+	/**
+	 * Récupérer la liste des nodes supprimées
+	 * @return liste des nodes supprimées
+	 */
 	public ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> getTreeNodesRemoved () {
 		// Initialiser la liste des nodes
 		ArrayList<Quadruple<TreeNode, TreeNode[], int[], TreeNode[]>> nodes = this.removed;
@@ -174,13 +219,17 @@ public abstract class TreeNodeAbstract<T> implements ITreeNode
 		// Retourner les nodes
 		return nodes;
 	}
+	
+	/**
+	 * Effacer les indicateurs
+	 */
 	public void clearIndicators () {
-		// Remettre à zéro les indicateurs de la node courante
+		// Effacer les indicateurs
 		this.inserted = false;
 		this.changed = false;
 		this.removed.clear();
 		
-		// Remettre à zéro les indicateurs des nodes enfants
+		// Effacer les indicateurs des enfants
 		for(TreeNodeAbstract<?> child : this.children) {
 			child.clearIndicators();
 		}

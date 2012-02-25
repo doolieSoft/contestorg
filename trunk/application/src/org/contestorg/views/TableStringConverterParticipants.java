@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.text.DecimalFormat;
 
 import javax.swing.table.TableModel;
@@ -8,9 +7,14 @@ import javax.swing.table.TableStringConverter;
 
 import org.contestorg.infos.InfosModelParticipant;
 
+/**
+ * Classe permettant la conversion des données d'un modèle de données de tableau de participants en chaînes de caractères 
+ */
 public class TableStringConverterParticipants extends TableStringConverter
 {
-	// Implémentation de toString
+	/**
+	 * @see TableStringConverter#toString(TableModel, int, int)
+	 */
 	@Override
 	public String toString (TableModel model, int row, int column) {
 		// Récupérer l'objet de la cellule

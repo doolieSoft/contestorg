@@ -2,20 +2,27 @@
 
 import java.awt.Window;
 
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 
-
+/**
+ * Boîte de dialogue de création de concours
+ */
 @SuppressWarnings("serial")
 public class JDConcoursCreer extends JDConcoursAbstract
 {
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 */
 	public JDConcoursCreer(Window w_parent) {
 		// Appeler le constructeur du parent
 		super(w_parent, "Nouveau concours");
 	}
 
-	// Implémentation de l'action sur valider
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	public void ok () {
 		// Vérifier les validité des données
@@ -29,7 +36,9 @@ public class JDConcoursCreer extends JDConcoursAbstract
 		}
 	}
 
-	// Quitter la fenêtre
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	public void quit () {
 		// Demander l'annulation de la procédure de création de concours

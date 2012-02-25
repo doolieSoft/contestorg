@@ -3,19 +3,21 @@
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelParticipant;
-import org.contestorg.infos.InfosModelProprieteParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 
-
-
-
-public class CollectorParticipantCreer extends CollectorAbstract<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>>>
+/**
+ * Collecteur pour la création d'un participant
+ */
+public class CollectorParticipantCreer extends CollectorAbstract<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>>>
 {
 
-	// Implémentation de accept
+	/**
+	 * @see ICollector#collect(Object)
+	 */
 	@Override
-	public void accept (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprieteParticipant>>, TrackableList<String>> infos) {
+	public void collect (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) {
 		// Demander la création du participant
 		ContestOrg.get().getCtrlParticipants().addParticipant(infos);
 		

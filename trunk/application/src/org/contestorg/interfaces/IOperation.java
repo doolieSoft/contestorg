@@ -1,7 +1,7 @@
 ﻿package org.contestorg.interfaces;
 
 /**
- * Interface à implémenter si une classe souhaite etre considérée comme une opération
+ * Interface à implémenter si une classe souhaite être considérée comme une opération
  */
 public interface IOperation
 {

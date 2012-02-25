@@ -1,21 +1,26 @@
 package org.contestorg.views;
 
-
 import java.awt.BorderLayout;
 
 import javax.swing.JPasswordField;
 
 import org.contestorg.infos.Parametre;
 
+/**
+ * Panel d'un paramètre de thème d'exportation/diffusion de type "Mot de passe"
+ */
 @SuppressWarnings("serial")
-public class JCParametreMotDePasse extends JCParametreAbstract
+public class JPParametreMotDePasse extends JPParametreAbstract
 {
 	
-	// Entrée associée au composant
+	/** Mot de passe */
 	private JPasswordField jpf_valeur = new JPasswordField();
 
-	// Constructeur
-	public JCParametreMotDePasse(Parametre parametre) {
+	/**
+	 * Constructeur
+	 * @param parametre paramètre
+	 */
+	public JPParametreMotDePasse(Parametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		
@@ -24,19 +29,25 @@ public class JCParametreMotDePasse extends JCParametreAbstract
 		this.add(this.jpf_valeur,BorderLayout.CENTER);
 	}
 
-	// Implémentation de getValeur
+	/**
+	 * @see JPParametreAbstract#getValeur()
+	 */
 	@Override
 	public String getValeur () {
 		return new String(this.jpf_valeur.getPassword()).trim();
 	}
 	
-	// Implémentation de setValeur
+	/**
+	 * @see JPParametreAbstract#setValeur(String)
+	 */
 	@Override
 	public void setValeur (String valeur) {
 		this.jpf_valeur.setText(valeur);
 	}
 	
-	// Implémentation de getError
+	/**
+	 * @see JPParametreAbstract#getError()
+	 */
 	@Override
 	public String getError () {
 		// Vérifier si la valeur n'est pas vide
@@ -46,9 +57,11 @@ public class JCParametreMotDePasse extends JCParametreAbstract
 		return null;
 	}
 
-	// Implémentation de link
+	/**
+	 * @see JPParametreAbstract#link(JPParametreAbstract[])
+	 */
 	@Override
-	public void link (JCParametreAbstract[] composants) {
+	public void link (JPParametreAbstract[] panels) {
 	}
 	
 }

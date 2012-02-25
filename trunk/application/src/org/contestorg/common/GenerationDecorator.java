@@ -7,18 +7,27 @@ import org.contestorg.interfaces.IGeneration;
 import org.contestorg.interfaces.IGenerationListener;
 import org.contestorg.interfaces.ITransformer;
 
+/**
+ * Décorateur d'une génération
+ * @param <L> classe des objets générés par la génération initiale
+ * @param <M> classe des objets "générés" par le décorateur
+ */
 public class GenerationDecorator<L,M> implements IGeneration<M>, IGenerationListener<L>
 {
-	// Génération
+	/** Génération initiale */
 	private IGeneration<L> generation;
 	
-	// Transformer
+	/** Transformer */
 	private ITransformer<L,M> transformer;
 	
-	// Listeners
+	/** Liste des listeners */
 	private ArrayList<IGenerationListener<M>> listeners = new ArrayList<IGenerationListener<M>>();
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param generation génération initiale
+	 * @param transformer transformeur de L en M
+	 */
 	public GenerationDecorator(IGeneration<L> generation,ITransformer<L,M> transformer) {
 		// Retenir la génération et le transformeur
 		this.generation = generation;

@@ -6,34 +6,42 @@ import org.jgraph.graph.CellView;
 import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.GraphModel;
 
-
-
+/**
+ * Fabrique d'éléments du graphe des phases éliminatoires
+ */
 @SuppressWarnings("serial")
-public class CellViewsFactoryPhasesElims extends DefaultCellViewFactory {
-	
+public class CellViewsFactoryPhasesElims extends DefaultCellViewFactory
+{	
 		
-		// fenêtre parant
+		/** Fenêtre parent */
 		private Window w_parent;
 		
-		// Graphe
-		private GraphPhasesElims graphe;
+		/** Graphe des phases éliminatoires */
+		private JPGraphPhasesElims graphe;
 
-		// Constructeur
-		public CellViewsFactoryPhasesElims(Window w_parent,GraphPhasesElims graphe) {
+		/**
+		 * Constructeur
+		 * @param w_parent fenêtre parent
+		 * @param graphe graphe des phases éliminatoires
+		 */
+		public CellViewsFactoryPhasesElims(Window w_parent,JPGraphPhasesElims graphe) {
 			// Retenir la fenêtre parent et le graphe
 			this.w_parent = w_parent;
 			this.graphe = graphe;
 		}
 		
-		// Redéfinition de la méthode createView
-		public CellView createView(GraphModel model, Object cell) {
+		/**
+		 * @see DefaultCellViewFactory#createView(GraphModel, Object)
+		 */
+		@Override
+		public CellView createView(GraphModel graph, Object cell) {
 			// S'il s'agit d'un port
-			if (model.isPort(cell)) {
+			if (graph.isPort(cell)) {
 				return new GraphPortViewPhasesElims(cell);
 			}
 			
 			// S'il s'agit d'un lien
-			if (model.isEdge(cell)) {
+			if (graph.isEdge(cell)) {
 				return new GraphEdgeViewPhasesElims(cell);
 			}
 

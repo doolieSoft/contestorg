@@ -8,13 +8,22 @@ import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
+/**
+ * Classe d'aide à la réalisation d'opérations XML
+ */
 public class XMLHelper
 {
-	public static boolean save(Document document, File file) {
+	/**
+	 * Sauvegarder un document JDom dans un fichier
+	 * @param document document JDom
+	 * @param target fichier cible
+	 * @return opération réussie ?
+	 */
+	public static boolean save(Document document, File target) {
 		try {
 			// Enregistrer le document JDom
 			XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
-			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(file),"UTF8");
+			OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(target),"UTF8");
 			sortie.output(PersistanceXML.getConcoursDocument(), writer);
 			writer.close();
 			

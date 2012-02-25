@@ -1,6 +1,5 @@
 ﻿package org.contestorg.views;
 
-
 import java.awt.Window;
 
 import javax.swing.JComponent;
@@ -11,35 +10,51 @@ import javax.swing.JTextField;
 
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.controlers.ContestOrg;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelEmplacement;
 import org.contestorg.infos.InfosModelHoraire;
 import org.contestorg.infos.InfosModelLieu;
 import org.contestorg.interfaces.ICollector;
 
-
-
+/**
+ * Boîte de dialogue de création/édition d'un lieu
+ */
 @SuppressWarnings("serial")
 public abstract class JDLieuAbstract extends JDPattern
 {
 
-	// TableModel de la liste des horaires
+	/** TableModel de la liste des horaires */
 	protected TMHoraires tm_horaires;
 
-	// TableModel de la liste des emplacements
+	/** TableModel de la liste des emplacements */
 	protected TMEmplacements tm_emplacements;
 
-	// Collector d'informations sur le lieu
+	/** Collector d'informations sur le lieu */
 	protected ICollector<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> collector;
 
 	// Entrées
+	
+	/** Nom */
 	protected JTextField jtf_lieu_nom = new JTextField();
+	
+	/** Lieu */
 	protected JTextField jtf_lieu_lieu = new JTextField();
+	
+	/** Email */
 	protected JTextField jtf_lieu_email = new JTextField();
+	
+	/** Téléphone */
 	protected JTextField jtf_lieu_telephone = new JTextField();
+	
+	/** Description */
 	protected JTextArea jta_lieu_description = new JTextArea();
 
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param w_parent fenêtre parent
+	 * @param titre titre de la boîte de dialogue
+	 * @param collector collecteur des informations du lieu
+	 */
 	public JDLieuAbstract(Window w_parent, String titre, ICollector<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> collector) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -74,7 +89,9 @@ public abstract class JDLieuAbstract extends JDPattern
 		this.pack();
 	}
 
-	// Implémentation de ok
+	/**
+	 * @see JDPattern#ok()
+	 */
 	@Override
 	protected void ok () {
 		// Récupérer les données
@@ -99,11 +116,13 @@ public abstract class JDLieuAbstract extends JDPattern
 		
 		// Envoyer les informations au collector
 		if(!erreur) {
-			this.collector.accept(new Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>(new InfosModelLieu(nom, lieu, telephone, email, description), new TrackableList<InfosModelEmplacement>(this.tm_emplacements), new TrackableList<InfosModelHoraire>(this.tm_horaires)));
+			this.collector.collect(new Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>(new InfosModelLieu(nom, lieu, telephone, email, description), new TrackableList<InfosModelEmplacement>(this.tm_emplacements), new TrackableList<InfosModelHoraire>(this.tm_horaires)));
 		}
 	}
 
-	// Implémentation de qui
+	/**
+	 * @see JDPattern#quit()
+	 */
 	@Override
 	protected void quit () {
 		// Annuler
