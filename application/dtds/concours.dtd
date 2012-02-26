@@ -2,6 +2,7 @@
 
 <!-- Informations sur le concours -->
 <!ELEMENT concours (organisateur?,points,programmation?,listeCriteres?,listeLieux?,listeObjectifs?,listePrix?,listeProprietes?,listeExportations?,publication?,listeDiffusions?,listeCategories?)>
+<!ATTLIST concours id				ID					#REQUIRED>	<!-- Id du concours -->
 <!ATTLIST concours nom				CDATA				#REQUIRED>	<!-- Nom du concours -->
 <!ATTLIST concours site				CDATA				#IMPLIED>	<!-- Site web du concours -->
 <!ATTLIST concours lieu				CDATA				#IMPLIED>	<!-- Lieu du concours (pays, ville, ...) -->
