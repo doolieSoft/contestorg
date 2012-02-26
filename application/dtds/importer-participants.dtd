@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Liste des équipes -->
+<!-- Liste des participants -->
 <!ELEMENT listeParticipants (participant*)>
 <!ELEMENT participant EMPTY>
-<!ATTLIST participant nom		CDATA	#REQUIRED>	<!-- Nom de l'équipe -->
-<!ATTLIST participant ville		CDATA	#IMPLIED>	<!-- Ville de l'équipe -->
-<!ATTLIST participant statut	(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut de l'équipe -->
-<!ATTLIST participant stand		CDATA	#IMPLIED>	<!-- Numéro de stand de l'équipe -->
-<!ATTLIST participant details	CDATA	#IMPLIED>	<!-- Détails de l'équipe -->
+<!ATTLIST participant nom		CDATA	#REQUIRED>	<!-- Nom du participant -->
+<!ATTLIST participant ville		CDATA	#IMPLIED>	<!-- Ville du participant -->
+<!ATTLIST participant statut	(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut du participant -->
+<!ATTLIST participant stand		CDATA	#IMPLIED>	<!-- Numéro de stand du participant -->
+<!ATTLIST participant details	CDATA	#IMPLIED>	<!-- Détails du participant -->
