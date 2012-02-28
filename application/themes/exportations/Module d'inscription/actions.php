@@ -122,6 +122,9 @@ if(isset($_GET['action'])) {
 			case 'telecharger':
 				// Créer le document d'exportation
 				$documentExport = new DOMDocument('1.0');
+
+				// Sortie correctement formatée
+				$documentExport->formatOutput = true;
 				
 				// Ajouter le noeud racine
 				$root = $documentExport->appendChild($documentExport->createElement('listeParticipants'));
@@ -129,10 +132,22 @@ if(isset($_GET['action'])) {
 				// Ajouter les participants
 				foreach($xpath->query('//inscription/listeStatuts/statut[@type=\'accepte\']') as $statut) {
 					foreach($xpath->query('//inscription/listeParticipants/participant[@refStatut='.$statut->getAttribute('id').']') as $participant) {
+						// Ajouter le participant
 						$participantExport = $root->appendChild($documentExport->createElement('participant'));
 						$participantExport->appendChild($documentExport->createAttribute('nom'))->value = $participant->getAttribute('nom');
 						$participantExport->appendChild($documentExport->createAttribute('ville'))->value = $participant->getAttribute('ville');
 						$participantExport->appendChild($documentExport->createAttribute('details'))->value = $participant->getAttribute('details');
+						
+						// Ajouter les propriétés
+						if($participant->getElementsByTagName('listeProprietes')->length != 0) {
+							$proprietesExport = $participantExport->appendChild($documentExport->createElement('listeProprietes'));
+							foreach($participant->getElementsByTagName('listeProprietes')->item(0)->getElementsByTagName('propriete') as $propriete) {
+								// Ajouter la propriété
+								$proprieteExport = $proprietesExport->appendChild($documentExport->createElement('propriete'));
+								$proprieteExport->appendChild($documentExport->createAttribute('id'))->value = $propriete->getAttribute('id');
+								$proprieteExport->appendChild($documentExport->createAttribute('valeur'))->value = $propriete->getAttribute('valeur');
+							}
+						}
 					}
 				}
 				
