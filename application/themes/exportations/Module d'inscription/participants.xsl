@@ -46,7 +46,7 @@
 						<!-- Avancement de l'inscription -->
 						<h3>Avancement de votre inscription</h3>
 						<div class="bloc">
-							
+							<xsl:call-template name="participants-avancement-inscription" />
 						</div>
 					
 					<xsl:call-template name="php-start" />

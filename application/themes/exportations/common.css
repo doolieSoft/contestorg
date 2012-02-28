@@ -127,6 +127,13 @@ th {
 	text-align:center;
 	padding-bottom:10px;
 }
+table.cute th {
+	padding:4px;
+	background-color:#BDD6F3;
+}
+table.cute, table.cute th, table.cute td {
+	border:2px solid #A5C6D5;
+}
 
 /* Formulaires */
 form {
@@ -164,7 +171,7 @@ input[type="submit"]:hover {
 /* Messages */
 .success {
 	padding:5px;
-	background-color:#A7C7D7;
+	background-color:#669EB7;
 	color:#FFFFFF;
 	font-weight: bold;
 }

@@ -4,9 +4,12 @@
  * PHP tool to construct forms
  * @author Cyril Perrin
  * @license LGPL v3
- * @version 2011-11-12
+ * @version 2012-01-24
  */
 
+/**
+ * Form
+ */
 class Form
 {	
 	// Methods
@@ -76,6 +79,7 @@ class Form
 	 * Add an element
 	 * @param $element FormElement element to add
 	 * @param $required bool required element ?
+	 * @param $group string|array element group
 	 * @return FormElement element added
 	 */
 	public function add(FormElement $element,$required=true,$group=null)
@@ -90,6 +94,16 @@ class Form
 		
 		// Return element
 		return $element;
+	}
+	
+	/**
+	 * Add html
+	 * @param $html string html
+	 * @param $group string|array element group
+	 */
+	public function addHTML($html,$group=null)
+	{
+		$this->add(new FormHTML($html),false,$group);
 	}
 	
 	/**
@@ -283,7 +297,7 @@ class Form
 			} else {
 				// Open table
 				if(!$openedTable) {
-					$string .= '<table border="0" cellpadding="1">'."\n".
+					$string .= '<table style="border-collapse:collapse;">'."\n".
 					           (!is_string($groupName) ? '<tr>'."\n" : '');
 					$openedTable = true;
 				}
@@ -314,7 +328,7 @@ class Form
 	 * @param bool $tr
 	 */
 	private function displayElement(FormElement $element,$tr=true)
-	{
+	{		
 		// Init string
 		$string = '';
 		
@@ -333,7 +347,7 @@ class Form
 			
 			// Display element
 			$string .= ($tr ? '<tr>' : '').
-			             ($element->getDescription() != null ? '<td valign="top">'.$element->getDescription().' :</td>' : '').
+			             ($element->getDescription() != null ? '<td style="vertical-align:top;">'.$element->getDescription().' :</td>' : '').
 			             '<td'.($element->getDescription() == null ? ' colspan="2"' : '' ).'>'.$element->__toString().$msg.'</td>'.
 			           ($tr ? '</tr>' : '')."\n";
 		}
@@ -400,7 +414,7 @@ class Form
 				if($elementGroup === null) {
 					// Open table
 					if(!$openedTable) {
-						$string .= '<table border="0" cellpadding="1">'."\n";
+						$string .= '<table>'."\n";
 						$openedTable = true;
 					}
 					
@@ -446,6 +460,9 @@ class Form
 	}
 }
 
+/**
+ * Class to extend to become a form element
+ */
 abstract class FormElement
 {
 	// int id counter
@@ -610,10 +627,15 @@ abstract class FormElement
 		$this->after = $after;
 	}
 	
-	// To string
+	/**
+	 * To string
+	 */
 	abstract public function __toString();
 }
 
+/**
+ * Class to extend to become a form input
+ */
 abstract class FormInput extends FormElement
 {
 	// ? value
@@ -682,13 +704,17 @@ abstract class FormInput extends FormElement
 		$this->same = $same;
 	}
 	
-	// IsValid surcharge
+	/**
+	 * See FormElement::isValid
+	 */
 	public function isValid()
 	{
 		return parent::isValid() && ($this->same == null || $this->value == $this->same->value);
 	}
 	
-	// Validate implementation
+	/**
+	 * See FormElement::validate($method)
+	 */
 	public function validate($method)
 	{
 		$this->isValid = ($this->isSubmited = $method == Form::METHOD_GET ? isset($_GET[$this->name]) : isset($_POST[$this->name])) &&	// Is submited ?
@@ -696,6 +722,9 @@ abstract class FormInput extends FormElement
 	}
 }
 
+/**
+ * Form submit
+ */
 class FormSubmit extends FormElement
 {	
 	// string text
@@ -716,19 +745,26 @@ class FormSubmit extends FormElement
 		$this->text = $text;
 	}
 	
-	// Validate implementation
+	/**
+	 * @see FormElement::validate($method)
+	 */
 	public function validate($method)
 	{
 		$this->isValid = $this->isSubmited = $method == Form::METHOD_GET ? isset($_GET[$this->name]) : isset($_POST[$this->name]);
 	}
 	
-	// To string
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		return $this->before.'<input type="submit" name="'.$this->name.'" '.($this->text != null ? 'value="'.$this->text.'" ' : '').($this->extra != null ? $this->extra.' ' : '').'/>'.$this->after;
 	}
 }
 
+/**
+ * Form text
+ */
 class FormText extends FormInput
 {	
 	// Types
@@ -771,7 +807,9 @@ class FormText extends FormInput
 		$this->reset = $reset;
 	}
 	
-	// Validate implementation
+	/**
+	 * @see FormElement::validate($method)
+	 */
 	public function validate($method)
 	{
 		// Call parent validate method
@@ -784,7 +822,9 @@ class FormText extends FormInput
 		               
 	}
 	
-	// Overide setValue
+	/**
+	 * @see FormInput::setValue($value)
+	 */
 	protected function setValue($value)
 	{
 		// Operate on value
@@ -803,7 +843,9 @@ class FormText extends FormInput
 		return parent::setValue($value);
 	}
 	
-	// To string
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		// Reset
@@ -831,6 +873,9 @@ class FormText extends FormInput
 	}
 }
 
+/**
+ * Form hidden
+ */
 class FormHidden extends FormInput
 {
 	/**
@@ -843,20 +888,27 @@ class FormHidden extends FormInput
 		parent::__construct($name,null,$extra,$value);
 	}
 	
-	// Overide setValue
+	/**
+	 * @see FormInput::setValue($value)
+	 */
 	protected function setValue($value)
 	{
 		// Call parent setValue
 		return parent::setValue(trim(get_magic_quotes_gpc() ? stripslashes($value) : $value));
 	}
 	
-	// To string
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		return $this->before.'<input type="hidden" name="'.$this->name.'" value="'.htmlspecialchars($this->value).'" '.($this->extra != null ? $this->extra.' ' : '').'/>'.$this->after;
 	}
 }
 
+/**
+ * Form date
+ */
 class FormDate extends FormElement
 {
 	// int Timestamp
@@ -891,22 +943,24 @@ class FormDate extends FormElement
 		$this->end = $end;
 		
 		// Year from and to
-		$yearFrom = $start === null ? 1970 : date('Y',$start);
+		$yearFrom = $start === null ? 1930 : date('Y',$start);
 		$yearTo = $end === null ? date('Y') : date('Y',$end);
 		
 		// Create selects
-		$days = array();
-		for($i=1;$i<=31;++$i) $days[$i] = $i; 
-		$this->selectDay = new FormSelect($name.'_day',$days);
-		$months = array();
-		for($i=1;$i<=12;++$i) $months[$i] = $i; 
-		$this->selectMonth = new FormSelect($name.'_month',$months);
-		$years = array();
+		$days = array('--');
+		for($i=1;$i<=31;++$i) $days[$i] = str_pad($i,2,0,STR_PAD_LEFT); 
+		$this->selectDay = new FormSelect($name.'_day',$days,null,false,true,null,$init !== null ? date('j',$init) : null);
+		$months = array('--');
+		for($i=1;$i<=12;++$i) $months[$i] = str_pad($i,2,0,STR_PAD_LEFT); 
+		$this->selectMonth = new FormSelect($name.'_month',$months,null,false,true,null,$init !== null ? date('n',$init) : null);
+		$years = array('----');
 		for($i=$yearFrom;$i<=$yearTo;++$i) $years[$i] = $i; 
-		$this->selectYear = new FormSelect($name.'_year',$years);
+		$this->selectYear = new FormSelect($name.'_year',$years,null,false,true,null,$init !== null ? date('Y',$init) : null);
 	}
 	
-	// Validate implementation
+	/**
+	 * @see FormElement::validate($method)
+	 */
 	public function validate($method)
 	{	
 		// Validate selects
@@ -915,7 +969,10 @@ class FormDate extends FormElement
 		$this->selectYear->validate($method);
 		
 		// Is submited ?
-		$this->isSubmited = $this->selectDay->isSubmited() && $this->selectMonth->isSubmited() && $this->selectMonth->isSubmited();
+		$this->isSubmited =
+			$this->selectDay->isSubmited() && $this->selectDay->getValue() != 0 &&
+			$this->selectMonth->isSubmited() && $this->selectMonth->getValue() != 0 &&
+			$this->selectYear->isSubmited() && $this->selectYear->getValue() != 0;
 		if(!$this->isSubmited) { return false; }
 		
 		// Check selects
@@ -927,29 +984,36 @@ class FormDate extends FormElement
 		if(!$this->isValid) { return false; }
 		
 		// Get timestamp
-		$this->timestamp = mktime();
+		$this->timestamp = mktime(0,0,0,$this->selectMonth->getValue(),$this->selectDay->getValue(),$this->selectYear->getValue());
 		
 		// Check period
 		if($this->start !== null || $this->end !== null) {
-			
 			// Check timestamp
 			$this->isValid =  ($this->start === null || $this->start >= $this->timestamp) &&
 			                  ($this->end === null || $this->timestamp >= $this->end);
 		}
 	}
 	
-	// Get timestamp
+	/**
+	 * Get timestamp
+	 * @return int timestamp
+	 */
 	public function getTimestamp() {
 		return $this->timestamp;
 	}
 	
-	// To string
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		return $this->before.$this->selectDay->__toString().' / '.$this->selectMonth->__toString().' / '.$this->selectYear->__toString().$this->after;
 	}
 }
 
+/**
+ * Form select
+ */
 class FormSelect extends FormInput
 {
 	// array values
@@ -987,7 +1051,9 @@ class FormSelect extends FormInput
 		$this->inputSize = $inputSize;
 	}
 	
-	// Validate implementation
+	/**
+	 * @see FormInput::validate($method)
+	 */
 	public function validate($method)
 	{
 		// Redifine validate or not
@@ -1012,7 +1078,9 @@ class FormSelect extends FormInput
 		}
 	}
 	
-	// To string
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		// Init string
@@ -1053,6 +1121,9 @@ class FormSelect extends FormInput
 	}
 }
 
+/**
+ * Form file
+ */
 class FormFile extends FormElement
 {
 	// string path
@@ -1071,7 +1142,7 @@ class FormFile extends FormElement
 	private $mimetypes;
 	
 	// int error code
-	protected $error = null;
+	protected $errorCode = null;
 	
 	// bool saved ?
 	protected $saved = false;
@@ -1108,7 +1179,7 @@ class FormFile extends FormElement
 	 * Get file name
 	 * @return string file name
 	 */
-	public function getName()
+	public function getFileName()
 	{
 		return $this->isSubmited ? $_FILES[$this->name]['name'] : null;
 	}
@@ -1144,9 +1215,9 @@ class FormFile extends FormElement
 	 * Get error code
 	 * @return int error code
 	 */
-	public function getError()
+	public function getErrorCode()
 	{
-		return $this->error;
+		return $this->errorCode;
 	}
 	
 	/**
@@ -1168,7 +1239,7 @@ class FormFile extends FormElement
 	public function moveTo($path,$name=null,$overwrite=false)
 	{
 		// Complete path
-		$path .= $name != null ? $name.'.'.$this->getExtension() : $this->getName();
+		$path .= $name != null ? $name.'.'.$this->getExtension() : $this->getFileName();
 		
 		// Check if a file exists
 		if(!$overwrite && file_exists($path)) {
@@ -1198,7 +1269,7 @@ class FormFile extends FormElement
 	public function copyTo($path,$name=null,$overwrite=false)
 	{
 		// Complete path
-		$path .= $name != null ? $name.'.'.$this->getExtension() : $this->getName();
+		$path .= $name != null ? $name.'.'.$this->getExtension() : $this->getFileName();
 		
 		// Check if a file exists
 		if(!$overwrite && file_exists($path)) {
@@ -1214,12 +1285,14 @@ class FormFile extends FormElement
 		return $path;
 	}
 	
-	// Validate implementation
+	/**
+	 * @see FormElement::validate($method)
+	 */
 	public function validate($method)
 	{
 		// Is submited ?
 		if(empty($_FILES[$this->name]['name']) || $_FILES[$this->name]['error'] != UPLOAD_ERR_OK) {
-			$this->error = FormFile::ERROR_MISSING;	return false; // Error code and return false
+			$this->errorCode = FormFile::ERROR_MISSING;	return false; // Error code and return false
 		}
 		
 		// IsSubmited to true
@@ -1230,24 +1303,26 @@ class FormFile extends FormElement
 		
 		// Valid extension ?
 		if($this->extensions != null && !in_array($this->getExtension(),$this->extensions)) {
-			$this->error = FormFile::ERROR_EXTENSION; return false; // Error code and return false
+			$this->errorCode = FormFile::ERROR_EXTENSION; return false; // Error code and return false
 		}
 		
 		// Valid mimetype ?
 		if($this->mimetypes != null && $this->getMimeType() != null && !in_array($this->getMimeType(),$this->mimetypes)) {
-			$this->error = FormFile::ERROR_MIMETYPE; return false; // Error code
+			$this->errorCode = FormFile::ERROR_MIMETYPE; return false; // Error code
 		}
 		
 		// Valid size ?
 		if($this->fileSize != null && $this->getSize() > $this->fileSize) {
-			$this->error = FormFile::ERROR_SIZE; return false; // Error code
+			$this->errorCode = FormFile::ERROR_SIZE; return false; // Error code
 		}
 		
 		// IsValid to true
 		$this->isValid = true;
 	}
 	
-	// To string
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		return $this->before.'<input type="file" name="'.$this->name.'" '.
@@ -1256,6 +1331,9 @@ class FormFile extends FormElement
 	}
 }
 
+/**
+ * Form image
+ */
 class FormImage extends FormFile
 {
 	// int width
@@ -1337,7 +1415,9 @@ class FormImage extends FormFile
 		return $this->height;
 	}
 	
-	// Validate implementation
+	/**
+	 * @see FormFile::validate($method)
+	 */
 	public function validate($method)
 	{
 		// Call parent validate method
@@ -1346,7 +1426,7 @@ class FormImage extends FormFile
 		
 		// Get image infos
 		if(!($infos = getimagesize($this->path))) {
-			$this->error = FormImage::ERROR_INVALID;	// Error code
+			$this->errorCode = FormImage::ERROR_INVALID;	// Error code
 			 return $this->isValid = false;				// IsValid to false and return false
 		}
 		
@@ -1356,7 +1436,7 @@ class FormImage extends FormFile
 		// Exceed the maximum dimensions ?
 		if($this->maxWidth != null && $this->width > $this->maxWidth || $this->maxHeight != null && $this->height > $this->maxHeight) {
 			if(!$this->maxResize) {
-				$this->error = FormImage::ERROR_DIMENSIONS;	// Error Code
+				$this->errorCode = FormImage::ERROR_DIMENSIONS;	// Error Code
 				return $this->isValid = false;				// IsValid to false and return false
 			} elseif($this->minWidth != null || $this->minHeight != null) {
 				// Ratio
@@ -1364,7 +1444,7 @@ class FormImage extends FormFile
 
 				// Check if new dimensions don't exceed minimum
 				if($this->minWidth != null && $this->width*$ratio < $this->minWidth || $this->minHeight != null && $this->height*$ratio < $this->minHeight) {
-					$this->error = FormImage::ERROR_DIMENSIONS;	// Error Code
+					$this->errorCode = FormImage::ERROR_DIMENSIONS;	// Error Code
 					return $this->isValid = false;				// IsValid to false and return false
 				}
 			}
@@ -1373,7 +1453,7 @@ class FormImage extends FormFile
 		// Exceed the minimum dimensions ?
 		if($this->minWidth != null && $this->width < $this->minWidth || $this->minHeight != null && $this->height < $this->minHeight) {
 			if(!$this->minResize) {
-				$this->error = FormImage::ERROR_DIMENSIONS;	// Error Code
+				$this->errorCode = FormImage::ERROR_DIMENSIONS;	// Error Code
 					return $this->isValid = false;				// IsValid to false and return false
 			} elseif($this->maxWidth != null || $this->maxHeight != null) {
 				// Ratio
@@ -1381,7 +1461,7 @@ class FormImage extends FormFile
 
 				// Check if new dimensions don't exceed maximum
 				if($this->minWidth != null && $this->width*$ratio < $this->minWidth || $this->minHeight != null && $this->height*$ratio < $this->minHeight) {
-					$this->error = FormImage::ERROR_DIMENSIONS;	// Error Code
+					$this->errorCode = FormImage::ERROR_DIMENSIONS;	// Error Code
 					return $this->isValid = false;				// IsValid to false and return false
 				}
 			}
@@ -1511,6 +1591,9 @@ class FormImage extends FormFile
 	
 }
 
+/**
+ * Form captcha
+ */
 class FormCaptcha extends FormElement
 {
 	// string public key
@@ -1522,6 +1605,9 @@ class FormCaptcha extends FormElement
 	// string error captcha
 	private $errorCaptcha = null;
 	
+	/**
+	 * Constructor
+	 */
 	public function __construct($publicKey,$privateKey)
 	{
 		// Call parent constructor
@@ -1532,6 +1618,9 @@ class FormCaptcha extends FormElement
 		$this->privateKey = $privateKey;
 	}
 	
+	/**
+	 * @see FormElement::validate($method)
+	 */
 	public function validate($method)
 	{
 		// Submited ?
@@ -1597,6 +1686,9 @@ class FormCaptcha extends FormElement
         }
 	}
 	
+	/**
+	 * @see FormElement::__toString()
+	 */
 	public function __toString()
 	{
 		$error = $this->errorCaptcha != null ? '&amp;error='.$this->errorCaptcha : '';
@@ -1610,4 +1702,40 @@ class FormCaptcha extends FormElement
 	}
 }
 
-?>
+/**
+ * Form HTML
+ */
+class FormHTML extends FormElement
+{
+	// string html
+	private $html;
+	
+	/**
+	 * Constructor
+	 * @param $html string html
+	 */
+	public function __construct($html)
+	{
+		// Call parent constructor
+		parent::__construct(null,null,null);
+		
+		// Save HTML
+		$this->html = $html;
+	}
+	
+	/**
+	 * @see FormElement::validate($method)
+	 */
+	public function validate($method)
+	{
+	}
+	
+	/**
+	 * @see FormElement::__toString()
+	 */
+	public function __toString()
+	{
+		return $this->html;
+	}
+	
+}
