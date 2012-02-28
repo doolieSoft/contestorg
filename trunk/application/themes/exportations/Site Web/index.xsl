@@ -481,12 +481,6 @@
 				<br/>
 			</xsl:if>
 			
-			<!-- Membre -->
-			<xsl:if test="./@membres != ''">
-				<b>Membres :</b>&#160;<xsl:value-of select="./@membres" />
-				<br/>
-			</xsl:if>
-			
 			<!-- Details -->
 			<xsl:if test="./@details != ''">
 				<b>Stand :</b>&#160;<xsl:value-of select="./@details" />

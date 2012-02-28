@@ -43,7 +43,7 @@
 				<xsl:text disable-output-escaping="yes">
 					// Vérifier si l'utilisateur courant est connecté
 					if(isset($_SESSION['participant']) || isset($_SESSION['organisateur'])) {
-						echo '</xsl:text><li><a href="deconnexion.php" title="Se déconnecter">Déconnexion</a></li><xsl:text disable-output-escaping="yes">';
+						echo '</xsl:text><li><a href="actions.php?action=deconnexion" title="Se déconnecter">Déconnexion</a></li><xsl:text disable-output-escaping="yes">';
 					}
 				</xsl:text>
 			<xsl:call-template name="php-end" />
@@ -106,11 +106,6 @@
 				$form->nom->setCallback('check_nom',array($document));
 				$form->add(new FormText('ville', 'Ville', FormText::TYPE_MONOLINE,42),false,$group_participant);
 			</xsl:text>
-			<xsl:if test="/concours/@participants = 'equipes'">
-				<xsl:text disable-output-escaping="yes">
-					$form->add(new FormText('membres', 'Membres', FormText::TYPE_MONOLINE,42),false,$group_participant);
-				</xsl:text>
-			</xsl:if>
 			<xsl:for-each select="/concours/listeProprietes/propriete">
 				<xsl:text disable-output-escaping="yes"> 
 					$propriete = $form->add(new FormText('propriete_</xsl:text><xsl:value-of select="@id" /><xsl:text disable-output-escaping="yes">', '</xsl:text><xsl:value-of select="@nom" /><xsl:text disable-output-escaping="yes">', FormText::TYPE_MONOLINE,42),</xsl:text><xsl:choose><xsl:when test="@obligatoire = 'oui'">true</xsl:when><xsl:otherwise>false</xsl:otherwise></xsl:choose><xsl:text disable-output-escaping="yes">,$group_participant);
@@ -148,22 +143,23 @@
 				
 				// Valider le formulaire
 				if($form->validate(true)) {
-					// Ajouter le participant
+					// Récupérer une instance de xpath
 					$xpath = new DOMXPath($document);
+				
+					// Récupérer l'identifiant
+					$dernier = $xpath->query('//inscription/listeParticipants/participant[last()]');
+					$id = $dernier->length == 0 ? 0 : $dernier->item(0)->getAttribute('id')+1;
+				
+					// Ajouter le participant
 					$participants = $xpath->query('//inscription/listeParticipants')->item(0);
 					$participant = $participants->appendChild($document->createElement('participant'));
+					$participant->appendChild($document->createAttribute('id'))->value = $id;
 					$participant->appendChild($document->createAttribute('email'))->value = $form->email->getValue();
 					$participant->appendChild($document->createAttribute('password'))->value = sha1($form->password->getValue());
 					$participant->appendChild($document->createAttribute('nom'))->value = $form->nom->getValue();
 					$participant->appendChild($document->createAttribute('ville'))->value = $form->ville->getValue();
-				</xsl:text>
-				<xsl:if test="/concours/@participants = 'equipes'">
-					<xsl:text disable-output-escaping="yes">
-						$participant->appendChild($document->createAttribute('membres'))->value = $form->membres->getValue();
-					</xsl:text>
-				</xsl:if>
-				<xsl:text disable-output-escaping="yes">
 					$participant->appendChild($document->createAttribute('details'))->value = $form->details->getValue();
+					$participant->appendChild($document->createAttribute('refStatut'))->value = $xpath->query('//inscription/listeStatuts/statut')->item(0)->getAttribute('id');
 					$proprietes = $participant->appendChild($document->createElement('listeProprietes'));
 				</xsl:text>
 				<xsl:for-each select="/concours/listeProprietes/propriete">
@@ -181,6 +177,11 @@
 				}
 			</xsl:text>
 		<xsl:call-template name="php-end" />
+	</xsl:template>
+	
+	<!-- Template pour le formulaire d'inscription des participants -->
+	<xsl:template name="participants-avancement-inscription">
+		TODO
 	</xsl:template>
 	
 	<!-- Template pour le formulaire de connexion des participants -->
@@ -257,12 +258,148 @@
 	
 	<!-- Template pour la liste des statuts -->
 	<xsl:template name="organisateurs-statuts">
-		TODO
+		<xsl:call-template name="php-start" />
+			<xsl:text disable-output-escaping="yes">
+				$xpath = new DOMXPath($document);
+				$statuts = $xpath->query('//inscription/listeStatuts/statut');
+				if($statuts->length == 0) {
+					echo 'Pas de statuts';
+				} else {
+			</xsl:text>
+		<xsl:call-template name="php-end" />		
+		<script type="text/javascript">
+			function statut_modifier_suivants(statut,select) {
+				var suivants = new Array();
+				for (var i in select.options) {
+					if(select.options[i].selected) {
+						suivants.push(select.options[i].value);
+					}
+				}
+				window.location = 'actions.php?action=statut-modifier-suivants&amp;statut='+statut+'&amp;suivants='+suivants.join('-');
+			}
+		</script>	
+		<table class="cute" style="width:100%;">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>
+						<xsl:choose>
+							<xsl:when test="/concours/@participants = 'equipes'">Equipes acceptées ?</xsl:when>
+							<xsl:otherwise>Joueurs acceptés ?</xsl:otherwise> 
+						</xsl:choose>
+					</th>
+					<th>Statuts suivants</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>	
+				<xsl:call-template name="php-start" />
+					<xsl:text disable-output-escaping="yes">
+						foreach($statuts as $statut) {
+							echo '</xsl:text><tr><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><td><xsl:text disable-output-escaping="yes">',$statut->getAttribute('nom'),'</xsl:text></td><xsl:text disable-output-escaping="yes">';
+							if($statut->getAttribute('type') == 'accepte') {
+								echo '</xsl:text><td><input type="checkbox" checked="checked" onclick="window.location = \'actions.php?action=statut-modifier-type&amp;statut=',$statut->getAttribute('id'),'\'; return false;" /></td><xsl:text disable-output-escaping="yes">';
+							} else {
+								echo '</xsl:text><td><input type="checkbox" onclick="window.location = \'actions.php?action=statut-modifier-type&amp;statut=',$statut->getAttribute('id'),'\'; return false;" /></td><xsl:text disable-output-escaping="yes">';
+							}
+							echo '</xsl:text><td><select multiple="multiple" rows="3" onchange="statut_modifier_suivants(\'',$statut->getAttribute('id'),'\',this);"><xsl:text disable-output-escaping="yes">';
+							$suivants = array();
+							foreach($xpath->query('//inscription/listeStatuts/statut[@id='.$statut->getAttribute('id').']/listeSuivants/suivant') as $suivant) {
+								$suivants[] = $suivant->getAttribute('refStatut');
+							}
+							foreach($xpath->query('//inscription/listeStatuts/statut[@id!='.$statut->getAttribute('id').']') as $suivant) {
+								if(in_array($suivant->getAttribute('id'),$suivants)) {
+									echo '</xsl:text><option value="',$suivant->getAttribute('id'),'" selected="selected"><xsl:text disable-output-escaping="yes">',$suivant->getAttribute('nom'),'</xsl:text></option><xsl:text disable-output-escaping="yes">';
+								} else {
+									echo '</xsl:text><option value="',$suivant->getAttribute('id'),'"><xsl:text disable-output-escaping="yes">',$suivant->getAttribute('nom'),'</xsl:text></option><xsl:text disable-output-escaping="yes">';
+								}
+							}
+							echo '</xsl:text></select></td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><a onclick="var nom = window.prompt(\'Nom du statut :\',\'',$statut->getAttribute('nom'),'\'); if(nom != null) window.location = \'actions.php?action=statut-modifier-nom&amp;statut=',$statut->getAttribute('id'),'&amp;nom=\'+nom; return false;" href="#" title="Renommer le statut">Renommer</a><xsl:text disable-output-escaping="yes"> - ',
+							     '</xsl:text><a onclick="return window.confirm(\'Désirez-vous vraiment supprimer ce statut ?\');" href="actions.php?action=statut-supprimer&amp;statut=',$statut->getAttribute('id'),'" title="Supprimer le statut">Supprimer</a><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text></td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text></tr><xsl:text disable-output-escaping="yes">';
+						}
+					</xsl:text>
+				<xsl:call-template name="php-end" />	
+			</tbody>
+		</table>
+		<xsl:call-template name="php-start" />
+			<xsl:text disable-output-escaping="yes">
+				}
+			</xsl:text>
+		<xsl:call-template name="php-end" />
+		<p>
+			<a href="#" onclick="var nom = window.prompt('Nom du statut :'); if(nom != null) window.location = 'actions.php?action=statut-ajouter&amp;nom='+nom; return false;">Ajouter un statut</a>
+		</p>
 	</xsl:template>
 	
 	<!-- Template pour la liste des participants -->
 	<xsl:template name="organisateurs-participants">
-		TODO
+		<xsl:call-template name="php-start" />
+			<xsl:text disable-output-escaping="yes">
+				$xpath = new DOMXPath($document);
+				$participants = $xpath->query('//inscription/listeParticipants/participant');
+				if($participants->length == 0) {
+					echo 'Pas encore de participants';
+				} else {
+			</xsl:text>
+		<xsl:call-template name="php-end" />
+		<table class="cute" style="width:100%;">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Email</th>
+					<th>Statut</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<xsl:call-template name="php-start" />
+					<xsl:text disable-output-escaping="yes">
+						foreach($participants as $participant) {
+							echo '</xsl:text><tr><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><td><xsl:text disable-output-escaping="yes">',$participant->getAttribute('nom'),'</xsl:text></td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><td><a href="mailto:',$participant->getAttribute('email'),'" title="Contacter le participant"><xsl:text disable-output-escaping="yes">',$participant->getAttribute('email'),'</xsl:text></a></td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><td><select onchange="window.location=\'actions.php?action=participant-modifier-statut&amp;participant=',$participant->getAttribute('id'),'&amp;statut=\'+this.options[this.selectedIndex].value;"><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><option value="',$participant->getAttribute('refStatut'),'" selected="selected"><xsl:text disable-output-escaping="yes">',$xpath->query('//inscription/listeStatuts/statut[@id='.$participant->getAttribute('refStatut').']')->item(0)->getAttribute('nom'),'</xsl:text></option><xsl:text disable-output-escaping="yes">';
+							$xpath = new DOMXPath($document);
+							foreach($xpath->query('//inscription/listeStatuts/statut[@id='.$participant->getAttribute('refStatut').']/listeSuivants/suivant') as $suivant) {
+								echo '</xsl:text><option value="',$suivant->getAttribute('refStatut'),'"><xsl:text disable-output-escaping="yes">',$xpath->query('//inscription/listeStatuts/statut[@id='.$suivant->getAttribute('refStatut').']')->item(0)->getAttribute('nom'),'</xsl:text></option><xsl:text disable-output-escaping="yes">';
+							}
+							echo '</xsl:text></select></td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text><td><a onclick="return window.confirm(\'Désirez-vous vraiment supprimer ce participant ?\');" href="actions.php?action=participant-supprimer&amp;participant=',$participant->getAttribute('id'),'" title="Supprimer le participant">Supprimer</a></td><xsl:text disable-output-escaping="yes">',
+							     '</xsl:text></tr><xsl:text disable-output-escaping="yes">';
+						}
+					</xsl:text>
+				<xsl:call-template name="php-end" />
+			</tbody>
+		</table>
+		<p>
+			<a href="actions.php?action=telecharger">
+				Télécharger la liste des
+				<xsl:choose>
+					<xsl:when test="/concours/@participants = 'equipes'">équipes</xsl:when>
+					<xsl:otherwise>joueurs</xsl:otherwise>
+				</xsl:choose>
+			</a> -
+			<xsl:choose>
+				<xsl:when test="/concours/@participants = 'equipes'">
+					<a href="actions.php?action=participants-vider" onclick="return window.confirm('Désirez-vous vraiment vider la liste des équipes ?');">Vider la liste des équipes</a>
+				</xsl:when>
+				<xsl:otherwise>
+					<a href="actions.php?action=participants-vider" onclick="return window.confirm('Désirez-vous vraiment vider la liste des joueurs ?');">Vider la liste des joueurs</a>
+				</xsl:otherwise> 
+			</xsl:choose>
+			
+		</p>
+		<xsl:call-template name="php-start" />
+			<xsl:text disable-output-escaping="yes">
+				}
+			</xsl:text>
+		<xsl:call-template name="php-end" />
 	</xsl:template>
 
 </xsl:stylesheet>
