@@ -149,7 +149,7 @@ public class PersistanceXML extends PersistanceAbstract
 			
 			// Construire le concours
 			ModelConcours concours = new ModelConcours(new InfosModelConcours(concoursNom, concoursSite, concoursLieu, concoursEmail, concoursTelephone, concoursDescription, organismeNom, organismeSite, organismeLieu, organismeEmail, organismeTelephone, organismeDescription, typeQualifications, typeParticipants, pointsVictoire, pointsEgalite, pointsDefaite, programmationDuree, programmationInterval, programmationPause));
-			concours.setId(root.getAttribute("id") == null ? -1 : Integer.parseInt(root.getAttributeValue("id")));
+			concours.setId(root.getAttribute("id") == null ? -1 : Integer.parseInt(root.getAttributeValue("id"))); // TODO Retirer le test de présence de l'attribut "id" dès que le système de rétro-compatibilité sera mis en place
 			
 			// Ajouter les objectifs
 			if (root.getChild("listeObjectifs") != null) {
