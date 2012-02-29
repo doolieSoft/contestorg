@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.contestorg.common.Pair;
 import org.contestorg.common.Tools;
 import org.contestorg.comparators.CompPhasesElims;
 import org.contestorg.comparators.CompPhasesQualifs;
@@ -1199,7 +1200,7 @@ public class PersistanceXML extends PersistanceAbstract
 	 * @return liste des informations de participant du fichier XML
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ArrayList<InfosModelParticipant> loadParticipants (String chemin) {
+	public static ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>> loadParticipants (String chemin) {
 		try {
 			// Construire le document JDom à partir du fichier
 			Document document = new SAXBuilder().build(new File(chemin));
@@ -1208,7 +1209,7 @@ public class PersistanceXML extends PersistanceAbstract
 			Element root = document.getRootElement();
 			
 			// Initialiser la liste des participants
-			ArrayList<InfosModelParticipant> participants = new ArrayList<InfosModelParticipant>();
+			ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>> participants = new ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>>();
 			
 			// Récupérer la liste des participants
 			Iterator iteratorParticipants = root.getChildren("participant").iterator();
@@ -1216,7 +1217,7 @@ public class PersistanceXML extends PersistanceAbstract
 				// Récupérer le participant courant
 				Element elementParticipant = (Element)iteratorParticipants.next();
 				
-				// Récupérer les propriétés du participant
+				// Récupérer les données du participant
 				String stand = elementParticipant.getAttributeValue("stand");
 				if(stand != null) {
 					stand = stand.trim();
@@ -1235,9 +1236,43 @@ public class PersistanceXML extends PersistanceAbstract
 					details = details.trim();
 				}
 				
+				// Initialiser la liste des propriétés possédées
+				ArrayList<Pair<String, InfosModelProprietePossedee>> proprietes = new ArrayList<Pair<String,InfosModelProprietePossedee>>();
+				
+				// Récupérer les propriétés possédées
+				if(elementParticipant.getChild("listeProprietes") != null) {
+					Iterator iteratorProprietes = elementParticipant.getChild("listeProprietes").getChildren("propriete").iterator();
+					while(iteratorProprietes.hasNext()) {
+						try {
+							// Récupérer la propriété possédée courante
+							Element elementPropriete = (Element)iteratorProprietes.next();
+							
+							// Vérifier la présence de l'identifiant et de la valeur de la propriété possédée
+							if(elementPropriete.getAttribute("id") != null && elementPropriete.getAttribute("valeur") != null) {
+								// Récupérer les données de la propriété possédée
+								int id = Integer.parseInt(elementPropriete.getAttributeValue("id"));
+								String valeur = elementPropriete.getAttributeValue("valeur").trim();
+								
+								// Récupérer la propriété et vérifier si elle existe
+								ModelAbstract propriete = ModelAbstract.search(id);
+								if(propriete != null) {
+									// Ajouter la propriété possédée
+									proprietes.add(new Pair<String, InfosModelProprietePossedee>(((ModelPropriete)propriete).getNom(), new InfosModelProprietePossedee(valeur)));
+								} else {
+									// FIXME Faire remonter le problème
+								}
+							} else {
+								// FIXME Faire remonter le problème								
+							}
+						} catch(NumberFormatException e) {
+							// FIXME Faire remonter le problème
+						}
+					}
+				}
+				
 				// Ajouter le participant dans la liste des participants
 				if(!nom.isEmpty()) {
-					participants.add(new InfosModelParticipant(stand, nom, ville, statut, details));
+					participants.add(new Pair<InfosModelParticipant, ArrayList<Pair<String,InfosModelProprietePossedee>>>(new InfosModelParticipant(stand, nom, ville, statut, details), proprietes) );
 				}
 			}
 			

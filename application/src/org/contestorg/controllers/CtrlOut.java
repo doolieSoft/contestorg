@@ -14,6 +14,7 @@ import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelParticipant;
+import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IEventListener;
@@ -45,7 +46,7 @@ public class CtrlOut
 	 * @param chemin chemin du fichier des participants
 	 * @return liste des informations des participants trouvés
 	 */
-	public ArrayList<InfosModelParticipant> importerParticipants(String chemin) {
+	public ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>> importerParticipants(String chemin) {
 		return PersistanceXML.loadParticipants(chemin);
 	}
 	
