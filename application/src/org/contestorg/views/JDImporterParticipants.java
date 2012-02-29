@@ -64,7 +64,7 @@ public class JDImporterParticipants extends JDPattern
 		this.jp_contenu.add(ViewHelper.title("Choix du fichier", ViewHelper.H1));
 		this.jp_contenu.add(ViewHelper.left(this.jb_fichier));
 		this.jp_contenu.add(Box.createVerticalStrut(5));
-		this.jp_contenu.add(ViewHelper.pinformation("Rendez-vous dans l'aide pour récupérer le format de fichier à utiliser.","doc/Aide.pdf","Ouvrir l'aide au format PDF"));
+		this.jp_contenu.add(ViewHelper.pinformation("Rendez-vous dans l'aide pour connaître le format de fichier à utiliser.","doc/Aide.pdf","Ouvrir l'aide au format PDF"));
 		
 		this.jb_fichier.addActionListener(this);
 		
