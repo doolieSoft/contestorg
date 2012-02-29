@@ -24,8 +24,8 @@
 					<!-- Menu -->
 					<xsl:call-template name="menu" />
 					
-					<!-- Informations sur le tournois -->
-					<h2>Informations sur le tournois</h2>
+					<!-- Informations sur le tournoi -->
+					<h2>Informations sur le tournoi</h2>
 					<div class="bloc">
 						<xsl:if test="count(/concours/@nom) = 1">
 							<b>Nom :</b>&#160;<xsl:value-of select="/concours/@nom" /><br/>
