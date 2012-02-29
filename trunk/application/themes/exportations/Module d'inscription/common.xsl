@@ -179,9 +179,23 @@
 		<xsl:call-template name="php-end" />
 	</xsl:template>
 	
-	<!-- Template pour le formulaire d'inscription des participants -->
+	<!-- Template pour l'avancement de l'inscription des participants -->
 	<xsl:template name="participants-avancement-inscription">
-		TODO
+		<xsl:call-template name="php-start" />
+			<xsl:text disable-output-escaping="yes">
+				// Récupérer une instance de xpath
+				$xpath = new DOMXPath($document);
+				
+				// Récupérer le participant
+				$participant = $xpath->query('//inscription/listeParticipants/participant[@email="'.$_SESSION['participant'].'"]')->item(0);
+				
+				// Récupérer le statut du participant
+				$statut = $xpath->query('//inscription/listeStatuts/statut[@id='.$participant->getAttribute('refStatut').']')->item(0);
+				
+				// Afficher le statut du participant
+				echo $statut->getAttribute('nom');
+			</xsl:text>
+		<xsl:call-template name="php-end" />
 	</xsl:template>
 	
 	<!-- Template pour le formulaire de connexion des participants -->
@@ -211,8 +225,7 @@
 					// Valider le formulaire
 					if($form->validate(true)) {
 						// Connecter l'utilisateur
-						$_SESSION['participant'] = 1;
-						$_SESSION['email'] = $form->email->getValue();
+						$_SESSION['participant'] = $form->email->getValue();
 						
 						// Rafraichir la page
 						echo '</xsl:text><script type="text/javascript">window.location = \'participants.php\';</script><xsl:text disable-output-escaping="yes">';
