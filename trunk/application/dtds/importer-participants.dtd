@@ -16,5 +16,5 @@
 
 <!-- Priopriété -->
 <!ELEMENT propriete EMPTY>
-<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété -->
+<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété au sein du fichier de concours -->
 <!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété -->
