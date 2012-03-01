@@ -134,14 +134,22 @@ public class JDImporterParticipants extends JDPattern
 				this.participants.clear();
 				this.proprietes.clear();
 				
+				// Importer les participants
+				Pair<ArrayList<String>, ArrayList<Pair<InfosModelParticipant, ArrayList<Pair<String, InfosModelProprietePossedee>>>>> resultat = ContestOrg.get().getCtrlOut().importerParticipants(chemin);
+				
+				// Afficher les erreurs
+				for(String erreur : resultat.getFirst()) {
+					ViewHelper.derror(this, erreur);
+				}
+				
 				// Demander la liste des participants et leurs propriétés contenus dans le fichier
-				for(Pair<InfosModelParticipant, ArrayList<Pair<String, InfosModelProprietePossedee>>> participantProprietes : ContestOrg.get().getCtrlOut().importerParticipants(chemin)) {
+				for(Pair<InfosModelParticipant, ArrayList<Pair<String, InfosModelProprietePossedee>>> participant : resultat.getSecond()) {
 					// Ajouter le participant
-					this.participants.add(participantProprietes.getFirst());
+					this.participants.add(participant.getFirst());
 					
 					// Ajouter les propriétés
 					TrackableList<Pair<String,InfosModelProprietePossedee>> proprietes = new TrackableList<Pair<String,InfosModelProprietePossedee>>();
-					for(Pair<String, InfosModelProprietePossedee> propriete : participantProprietes.getSecond()) {
+					for(Pair<String, InfosModelProprietePossedee> propriete : participant.getSecond()) {
 						proprietes.add(propriete);
 					}
 					this.proprietes.add(proprietes);
@@ -175,29 +183,14 @@ public class JDImporterParticipants extends JDPattern
 			
 			// Mettre à jour la liste des participants
 			for(InfosModelParticipant participant : new ArrayList<InfosModelParticipant>(this.participants)) {
-				// Vérifier si le participant n'existe pas déjà
-				if(ContestOrg.get().getCtrlParticipants().isParticipantExiste(participant.getNom())) {
-					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participant.getNom()+"\" existe déjà.");
-					
-					// Retirer le participant de la liste
-					this.participants.remove(participant);
-				} else if(noms.contains(participant.getNom())) {
-					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participant.getNom()+"\" a été retrouvé plusieurs fois dans le fichier.");
-					
-					// Retirer le participant de la liste
-					this.participants.remove(participant);
-				} else {
-					// Créer la case à cocher et l'ajouter dans la liste et le panel
-					JCheckBox jc_participant = new JCheckBox(participant.getNom());
-					jc_participant.setSelected(true);
-					this.cs_participants.add(jc_participant);
-					this.jp_participants.add(jc_participant);
-					
-					// Comptabiliser le nom du participant
-					noms.add(participant.getNom());
-				}
+				// Créer la case à cocher et l'ajouter dans la liste et le panel
+				JCheckBox jc_participant = new JCheckBox(participant.getNom());
+				jc_participant.setSelected(true);
+				this.cs_participants.add(jc_participant);
+				this.jp_participants.add(jc_participant);
+				
+				// Comptabiliser le nom du participant
+				noms.add(participant.getNom());
 			}
 		}
 		

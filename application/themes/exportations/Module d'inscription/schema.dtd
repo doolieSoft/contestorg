@@ -30,10 +30,10 @@
 <!ATTLIST participant details	CDATA	#REQUIRED>	<!-- Détails du participant -->
 <!ATTLIST participant refStatut	IDREF	#REQUIRED>	<!-- Référence du statut -->
 
-<!-- Liste de propriétés -->
+<!-- Liste des propriétés personnalisées -->
 <!ELEMENT listeProprietes (propriete*)>
 
-<!-- Priopriété -->
+<!-- Priopriété personnalisée -->
 <!ELEMENT propriete EMPTY>
-<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété -->
-<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété -->
+<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété personnalisée -->
+<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété personnalisée -->

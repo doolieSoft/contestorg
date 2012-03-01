@@ -1197,16 +1197,19 @@ public class PersistanceXML extends PersistanceAbstract
 	/**
 	 * Extraire la liste des informations de participant d'un fichier XML
 	 * @param chemin chemin du fichier XML
-	 * @return liste des informations de participant du fichier XML
+	 * @return liste des informations des participants trouvés avec leurs propriétés possédées ainsi qu'une liste des erreurs rencontrées
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>> loadParticipants (String chemin) {
+	public static Pair<ArrayList<String>,ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>>> loadParticipants (String chemin) {
 		try {
 			// Construire le document JDom à partir du fichier
 			Document document = new SAXBuilder().build(new File(chemin));
 			
 			// Récupérer l'élément root
 			Element root = document.getRootElement();
+			
+			// Initialiser la liste des erreurs
+			ArrayList<String> erreurs = new ArrayList<String>();
 			
 			// Initialiser la liste des participants
 			ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>> participants = new ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>>();
@@ -1236,48 +1239,61 @@ public class PersistanceXML extends PersistanceAbstract
 					details = details.trim();
 				}
 				
-				// Initialiser la liste des propriétés possédées
-				ArrayList<Pair<String, InfosModelProprietePossedee>> proprietes = new ArrayList<Pair<String,InfosModelProprietePossedee>>();
-				
-				// Récupérer les propriétés possédées
-				if(elementParticipant.getChild("listeProprietes") != null) {
-					Iterator iteratorProprietes = elementParticipant.getChild("listeProprietes").getChildren("propriete").iterator();
-					while(iteratorProprietes.hasNext()) {
-						try {
-							// Récupérer la propriété possédée courante
-							Element elementPropriete = (Element)iteratorProprietes.next();
-							
-							// Vérifier la présence de l'identifiant et de la valeur de la propriété possédée
-							if(elementPropriete.getAttribute("id") != null && elementPropriete.getAttribute("valeur") != null) {
-								// Récupérer les données de la propriété possédée
-								int id = Integer.parseInt(elementPropriete.getAttributeValue("id"));
-								String valeur = elementPropriete.getAttributeValue("valeur").trim();
-								
-								// Récupérer la propriété et vérifier si elle existe
-								ModelAbstract propriete = ModelAbstract.search(id);
-								if(propriete != null) {
-									// Ajouter la propriété possédée
-									proprietes.add(new Pair<String, InfosModelProprietePossedee>(((ModelPropriete)propriete).getNom(), new InfosModelProprietePossedee(valeur)));
-								} else {
-									// FIXME Faire remonter le problème
-								}
-							} else {
-								// FIXME Faire remonter le problème								
-							}
-						} catch(NumberFormatException e) {
-							// FIXME Faire remonter le problème
-						}
-					}
-				}
-				
-				// Ajouter le participant dans la liste des participants
+				// Vérifier si le nom du participant est bien défini 
 				if(!nom.isEmpty()) {
-					participants.add(new Pair<InfosModelParticipant, ArrayList<Pair<String,InfosModelProprietePossedee>>>(new InfosModelParticipant(stand, nom, ville, statut, details), proprietes) );
+					// Vérifier si le participant n'existe pas déjà
+					if(!FrontModel.get().getFrontModelParticipants().isParticipantExiste(nom)) {
+						// Initialiser la liste des propriétés possédées
+						ArrayList<Pair<String, InfosModelProprietePossedee>> proprietes = new ArrayList<Pair<String,InfosModelProprietePossedee>>();
+						
+						// Récupérer les propriétés personnalisées
+						if(elementParticipant.getChild("listeProprietes") != null) {
+							Iterator iteratorProprietes = elementParticipant.getChild("listeProprietes").getChildren("propriete").iterator();
+							while(iteratorProprietes.hasNext()) {
+								// Récupérer la propriété personnalisée courante
+								Element elementPropriete = (Element)iteratorProprietes.next();
+		
+								// Vérifier la présence de l'identifiant et de la valeur de la propriété personnalisée
+								if(elementPropriete.getAttribute("id") != null && elementPropriete.getAttribute("valeur") != null) {
+									try {	
+											// Récupérer les données de la propriété personnalisée
+											int id = Integer.parseInt(elementPropriete.getAttributeValue("id"));
+											String valeur = elementPropriete.getAttributeValue("valeur").trim();
+											
+											// Récupérer la propriété et vérifier si elle existe
+											ModelAbstract propriete = ModelAbstract.search(id);
+											if(propriete != null && propriete instanceof ModelPropriete) {
+												// Ajouter la propriété personnalisée
+												proprietes.add(new Pair<String, InfosModelProprietePossedee>(((ModelPropriete)propriete).getNom(), new InfosModelProprietePossedee(valeur)));
+											} else {
+												// Signaler l'erreur
+												erreurs.add("La propriété personnalisée \""+id+"\" du participant \""+nom+"\" ne correspond pas à une propriété au sein du concours");
+											}
+									} catch(NumberFormatException e) {
+										// Signaler l'erreur
+										erreurs.add("La propriété personnalisée \""+elementPropriete.getAttributeValue("id")+"\" du participant \""+nom+"\" doit être un nombre entier");
+									}
+								} else {
+									// Signaler l'erreur
+									erreurs.add("L'une des propriétés personnalisées du participant \""+nom+"\" n'est pas valide");								
+								}
+							}
+							
+							// Ajouter le participant dans la liste des participants
+							participants.add(new Pair<InfosModelParticipant, ArrayList<Pair<String,InfosModelProprietePossedee>>>(new InfosModelParticipant(stand, nom, ville, statut, details), proprietes) );
+						}
+					} else {
+						// Signaler l'erreur
+						erreurs.add("Le participant \""+nom+"\" existe déjà");	
+					}
+				} else {
+					// Signaler l'erreur
+					erreurs.add("L'un des participant n'est pas valide");	
 				}
 			}
 			
 			// Retourner la liste des participants
-			return participants;
+			return new Pair<ArrayList<String>, ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>>>(erreurs, participants);
 		} catch (JDOMException e) {
 			Log.getLogger().error("Erreur lors de l'importation des participants",e);
 			return null;
