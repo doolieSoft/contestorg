@@ -11,10 +11,10 @@
 <!ATTLIST participant stand		CDATA	#IMPLIED>	<!-- Numéro de stand du participant -->
 <!ATTLIST participant details	CDATA	#IMPLIED>	<!-- Détails du participant -->
 
-<!-- Liste de propriétés -->
+<!-- Liste de propriétés personnalisées -->
 <!ELEMENT listeProprietes (propriete*)>
 
 <!-- Priopriété -->
 <!ELEMENT propriete EMPTY>
-<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété au sein du fichier de concours -->
-<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété -->
+<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété personnalisée au sein du fichier de concours -->
+<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété personnalisée -->

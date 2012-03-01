@@ -44,9 +44,9 @@ public class CtrlOut
 	/**
 	 * Importer des participants
 	 * @param chemin chemin du fichier des participants
-	 * @return liste des informations des participants trouvés
+	 * @return liste des informations des participants trouvés avec leurs propriétés possédées ainsi qu'une liste des erreurs rencontrées
 	 */
-	public ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>> importerParticipants(String chemin) {
+	public Pair<ArrayList<String>,ArrayList<Pair<InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>>>> importerParticipants(String chemin) {
 		return PersistanceXML.loadParticipants(chemin);
 	}
 	
