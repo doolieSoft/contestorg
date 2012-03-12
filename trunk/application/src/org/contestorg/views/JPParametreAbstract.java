@@ -24,6 +24,7 @@ public abstract class JPParametreAbstract extends JPanel
 			case Parametre.TYPE_POULE: return new JPParametrePoule(parametre);
 			case Parametre.TYPE_PHASE: return new JPParametrePhase(parametre);
 			case Parametre.TYPE_MOTDEPASSE: return new JPParametreMotDePasse(parametre);
+			case Parametre.TYPE_BOOLEEN: return new JPParametreBooleen(parametre);
 		}
 		return null;
 	}

@@ -49,6 +49,9 @@ public class Parametre
 	/** Type mot de passe */
 	public static final int TYPE_MOTDEPASSE = 7;
 	
+	/** Type booléen */
+	public static final int TYPE_BOOLEEN = 8;
+	
 	/**
 	 * Constructeur
 	 * @param id identifiant du paramètre
