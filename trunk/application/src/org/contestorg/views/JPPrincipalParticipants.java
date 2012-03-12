@@ -399,12 +399,8 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 	 * Rafraichir les boutons
 	 */
 	private void refreshButtons() {
-		// Compter le nombre de catégories et de poules
-		int nbPoules = 0;
-		ITreeNode root = (ITreeNode)this.jtree.getModel().getRoot();
-		for(int i=0;i<root.getChildCount();i++) {
-			nbPoules += ((ITreeNode)root.getChildAt(i)).getChildCount();
-		}
+		// Récupérer la catégorie et la poule séléctionnées
+		Pair<String,String> selection = this.getSelection();
 		
 		// Activer/Desactiver les boutons
 		this.jcb_statut.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() != 0);
@@ -412,8 +408,8 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jb_supprimer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() != 0);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
 		this.jb_categories.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
-		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && ContestOrg.get().getCtrlParticipants().getNbParticipants() >= 4);
-		this.jb_nouveau.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && nbPoules != 0);
+		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getFirst() != null && ContestOrg.get().getCtrlParticipants().getNbParticipants(selection.getFirst()) >= 4);
+		this.jb_nouveau.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_importer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}
 	

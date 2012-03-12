@@ -74,6 +74,15 @@ public class CtrlParticipants
 		return FrontModel.get().getFrontModelParticipants().getNbParticipants();
 	}
 	
+	/**
+	 * Récupérer le nombre de participants d'une catégorie
+	 * @param nomCategorie nom de la catégorie
+	 * @return nombre de participants de la catégorie
+	 */
+	public int getNbParticipants(String nomCategorie) {
+		return FrontModel.get().getFrontModelParticipants().getNbParticipants(nomCategorie);
+	}
+	
 	// Récupérer des données sur les catégories et les poules
 	
 	/**
