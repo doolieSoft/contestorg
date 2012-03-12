@@ -286,15 +286,15 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 				ContestOrg.get().procedureConcoursFermer();
 			}
 		} else if (event.getSource() == this.jb_aide) {
-			File file = new File("doc/Aide.pdf");
+			File file = new File("doc/documentation.pdf");
 			if (file.exists()) {
 				try {
 					Desktop.getDesktop().open(file);
 				} catch (IOException e) {
-					ViewHelper.derror(this, "Erreur de l'ouverture du fichier d'aide.");
+					ViewHelper.derror(this, "Erreur de l'ouverture de la documentation de ContestOrg.");
 				}
 			} else {
-				ViewHelper.derror(this, "Le fichier d'aide n'a pas été trouvé.");
+				ViewHelper.derror(this, "La documentation de ContestOrg n'a pas été trouvée.");
 			}
 		} else if (event.getSource() == this.jb_web) {
 			try {
