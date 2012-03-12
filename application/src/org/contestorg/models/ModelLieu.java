@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelEmplacement;
@@ -157,9 +158,9 @@ public class ModelLieu extends ModelAbstract
 	/**
 	 * Ajouter un emplacmeent
 	 * @param emplacement emplacement
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addEmplacement (ModelEmplacement emplacement) throws ContestOrgModelException {
+	public void addEmplacement (ModelEmplacement emplacement) throws ContestOrgErrorException {
 		if (!this.emplacements.contains(emplacement)) {
 			// Ajouter l'emplacement
 			this.emplacements.add(emplacement);
@@ -167,16 +168,16 @@ public class ModelLieu extends ModelAbstract
 			// Fire add
 			this.fireAdd(emplacement, this.emplacements.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'emplacement existe déjà dans le lieu");
+			throw new ContestOrgErrorException("L'emplacement existe déjà dans le lieu");
 		}
 	}
 	
 	/**
 	 * Ajouter un horaire
 	 * @param horaire horaire
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addHoraire (ModelHoraire horaire) throws ContestOrgModelException {
+	public void addHoraire (ModelHoraire horaire) throws ContestOrgErrorException {
 		if (!this.horaires.contains(horaire)) {
 			// Ajouter l'horaire
 			this.horaires.add(horaire);
@@ -184,7 +185,7 @@ public class ModelLieu extends ModelAbstract
 			// Fire add
 			this.fireAdd(horaire, this.horaires.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'horaire existe déjà dans le lieu");
+			throw new ContestOrgErrorException("L'horaire existe déjà dans le lieu");
 		}
 	}
 	
@@ -193,9 +194,9 @@ public class ModelLieu extends ModelAbstract
 	/**
 	 * Supprimer un emplacement
 	 * @param emplacement emplacement
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeEmplacement (ModelEmplacement emplacement) throws ContestOrgModelException {
+	protected void removeEmplacement (ModelEmplacement emplacement) throws ContestOrgErrorException {
 		// Retirer l'emplacement
 		int index;
 		if ((index = this.emplacements.indexOf(emplacement)) != -1) {
@@ -205,16 +206,16 @@ public class ModelLieu extends ModelAbstract
 			// Fire remove
 			this.fireRemove(emplacement, index);
 		} else {
-			throw new ContestOrgModelException("L'emplacement n'existe pas dans le lieu");
+			throw new ContestOrgErrorException("L'emplacement n'existe pas dans le lieu");
 		}
 	}
 	
 	/**
 	 * Supprimer un horaire
 	 * @param horaire horaire
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeHoraire (ModelHoraire horaire) throws ContestOrgModelException {
+	protected void removeHoraire (ModelHoraire horaire) throws ContestOrgErrorException {
 		// Retirer l'horaire
 		int index;
 		if ((index = this.horaires.indexOf(horaire)) != -1) {
@@ -224,7 +225,7 @@ public class ModelLieu extends ModelAbstract
 			// Fire remove
 			this.fireRemove(horaire, index);
 		} else {
-			throw new ContestOrgModelException("L'horaire n'existe pas dans le lieu");
+			throw new ContestOrgErrorException("L'horaire n'existe pas dans le lieu");
 		}
 	}
 	
@@ -233,9 +234,9 @@ public class ModelLieu extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des emplacements
 	 * @param list liste d'emplacement source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateEmplacements (TrackableList<InfosModelEmplacement> list) throws ContestOrgModelException {
+	protected void updateEmplacements (TrackableList<InfosModelEmplacement> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des emplacements
 		this.updates(new ModelEmplacement.UpdaterForLieu(this), this.emplacements, list, true, null);
 	}
@@ -243,9 +244,9 @@ public class ModelLieu extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des horaires
 	 * @param list liste des horaires source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateHoraires (TrackableList<InfosModelHoraire> list) throws ContestOrgModelException {
+	protected void updateHoraires (TrackableList<InfosModelHoraire> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des emplacements
 		this.updates(new ModelHoraire.UpdaterForLieu(this), this.horaires, list, true, null);
 	}
@@ -271,7 +272,7 @@ public class ModelLieu extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter le lieu aux removers
 			removers.add(this);
@@ -335,7 +336,7 @@ public class ModelLieu extends ModelAbstract
 				lieu.updateEmplacements(infos.getSecond());
 				lieu.updateHoraires(infos.getThird());
 				return lieu;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'un lieu.",e);
 				return null;
 			}
@@ -351,7 +352,7 @@ public class ModelLieu extends ModelAbstract
 				lieu.setInfos(infos.getFirst());
 				lieu.updateEmplacements(infos.getSecond());
 				lieu.updateHoraires(infos.getThird());
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un lieu.",e);
 			}
 		}

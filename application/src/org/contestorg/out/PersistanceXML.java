@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Tools;
 import org.contestorg.comparators.CompPhasesElims;
@@ -48,7 +49,6 @@ import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.log.Log;
-import org.contestorg.models.ContestOrgModelException;
 import org.contestorg.models.FrontModel;
 import org.contestorg.models.ModelAbstract;
 import org.contestorg.models.ModelCategorie;
@@ -437,7 +437,7 @@ public class PersistanceXML extends PersistanceAbstract
 												
 												poule.addPhaseQualificative(phaseQualificative);
 											}
-										} catch (ContestOrgModelException e) {
+										} catch (ContestOrgErrorException e) {
 											// FIXME Faire remonter l'exception
 										}
 									}
@@ -512,7 +512,7 @@ public class PersistanceXML extends PersistanceAbstract
 									}
 									
 									categorie.setPhasesEliminatoires(phasesEliminatoires);
-								} catch (ContestOrgModelException e) {
+								} catch (ContestOrgErrorException e) {
 									// FIXME Faire remonter l'exception
 								}
 							}
@@ -541,10 +541,10 @@ public class PersistanceXML extends PersistanceAbstract
 	 * @param elementParticipation element JDom de la participation
 	 * @param match match associé à la participation
 	 * @return participation
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ModelParticipation loadParticipation (Element elementParticipation, ModelMatchAbstract match) throws ContestOrgModelException {
+	public static ModelParticipation loadParticipation (Element elementParticipation, ModelMatchAbstract match) throws ContestOrgErrorException {
 		ModelParticipant participant = elementParticipation.getAttribute("refParticipant") == null ? null : (ModelParticipant)ModelAbstract.search(Integer.parseInt(elementParticipation.getAttributeValue("refParticipant")));
 		
 		int resultat = -1;

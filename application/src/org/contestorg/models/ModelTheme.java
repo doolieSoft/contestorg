@@ -3,6 +3,7 @@ package org.contestorg.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.infos.InfosModelTheme;
 
 /**
@@ -109,7 +110,7 @@ public class ModelTheme extends ModelAbstract
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter le type à la liste des removers
 			removers.add(this);

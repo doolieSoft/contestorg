@@ -3,6 +3,7 @@ package org.contestorg.out;
 import java.io.File;
 import java.util.HashMap;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.jdom.Document;
 
 /**
@@ -28,7 +29,7 @@ public class RessourceXSLT extends RessourceAbstract
 	 * @param xsl fichier XSL
 	 * @throws ContestOrgOutException
 	 */
-	public RessourceXSLT(String cible, boolean principal, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgOutException {
+	public RessourceXSLT(String cible, boolean principal, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgWarningException {
 		// Appeller le constructeur parent
 		super(cible, principal, parametres, fichiers);
 		
@@ -43,7 +44,7 @@ public class RessourceXSLT extends RessourceAbstract
 		
 		// Rafraichir le fichier
 		if(!this.refresh()) {
-			throw new ContestOrgOutException("La transformation XSLT a échoué.");
+			throw new ContestOrgWarningException("La transformation XSLT a échoué.");
 		}
 	}
 

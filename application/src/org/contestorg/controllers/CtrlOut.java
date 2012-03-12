@@ -4,6 +4,7 @@ package org.contestorg.controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Triple;
 import org.contestorg.events.Event;
@@ -24,7 +25,6 @@ import org.contestorg.log.Log;
 import org.contestorg.models.FrontModel;
 import org.contestorg.models.ModelDiffusion;
 import org.contestorg.models.ModelExportation;
-import org.contestorg.out.ContestOrgOutException;
 import org.contestorg.out.DiffusionHTTP;
 import org.contestorg.out.ExportationAbstract;
 import org.contestorg.out.ExportationLocale;
@@ -258,7 +258,7 @@ public class CtrlOut
 		// Retourner les thèmes disponibles
 		try {
 			return RessourceAbstract.getThemes("themes/diffusions");
-		} catch (ContestOrgOutException e) {
+		} catch (ContestOrgWarningException e) {
 			Log.getLogger().error("Erreur lors de la récupération des thèmes disponibles pour les diffusions.",e);
 			return null;
 		}

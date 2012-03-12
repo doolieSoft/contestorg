@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.interfaces.ITrackableListValidator;
@@ -118,9 +119,9 @@ public class ModelPropriete extends ModelAbstract
 	/**
 	 * Ajouter une propriété possédée
 	 * @param proprietePossedee propriété possedée
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgModelException {
+	public void addProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgErrorException {
 		if (!this.proprietesPossedees.contains(proprietePossedee)) {
 			// Ajouter la propriété possédée
 			this.proprietesPossedees.add(proprietePossedee);
@@ -128,7 +129,7 @@ public class ModelPropriete extends ModelAbstract
 			// Fire add
 			this.fireAdd(proprietePossedee, this.proprietesPossedees.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La propriété possédée existe déjà dans la propriété");
+			throw new ContestOrgErrorException("La propriété possédée existe déjà dans la propriété");
 		}
 	}
 	
@@ -137,15 +138,15 @@ public class ModelPropriete extends ModelAbstract
 	/**
 	 * Supprimer une propriété possédée
 	 * @param proprietePossedee propriété possédée
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgModelException {
+	protected void removeProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgErrorException {
 		// Retirer la propriété possédée
 		if (this.proprietesPossedees.remove(proprietePossedee)) {
 			// Fire remove
 			this.fireRemove(proprietePossedee, this.proprietesPossedees.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La propriété possédée n'existe pas dans la propriété");
+			throw new ContestOrgErrorException("La propriété possédée n'existe pas dans la propriété");
 		}
 	}
 	
@@ -171,7 +172,7 @@ public class ModelPropriete extends ModelAbstract
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la propriété à la liste des removers
 			removers.add(this);

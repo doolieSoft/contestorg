@@ -1,6 +1,7 @@
 package org.contestorg.models;
 
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.events.History;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
@@ -129,9 +130,9 @@ public class FrontModel
 	/**
 	 * Créer un concours
 	 * @param concours concours
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void nouveauConcours (ModelConcours concours) throws ContestOrgModelException {
+	public void nouveauConcours (ModelConcours concours) throws ContestOrgErrorException {
 		// Démarrer l'action de création
 		this.history.start("Chargement du concours");
 		
@@ -148,9 +149,9 @@ public class FrontModel
 	/**
 	 * Créer un concours
 	 * @param infos informations du concours
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void nouveauConcours (InfosModelConcours infos) throws ContestOrgModelException {
+	public void nouveauConcours (InfosModelConcours infos) throws ContestOrgErrorException {
 		// Démarrer l'action de création
 		this.history.start("Création du concours");
 		
@@ -169,9 +170,9 @@ public class FrontModel
 	
 	/**
 	 * Fermer le concours
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void closeConcours () throws ContestOrgModelException {
+	public void closeConcours () throws ContestOrgErrorException {
 		if (this.concours != null) {
 			// Vider le concours et en perdre la référence
 			this.history.start("Fermeture du concours");

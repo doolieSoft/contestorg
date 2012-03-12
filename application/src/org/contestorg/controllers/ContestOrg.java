@@ -284,6 +284,16 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		return FrontModel.get().getFrontModelParticipants().getPoulesValidator();
 	}
 	
+	// Récupérer des composants graphiques
+	
+	/**
+	 * Récupérer la fenêtre principale
+	 * @return fenêtre principale
+	 */
+	public JFPrincipal getFenetrePrincipale() {
+		return this.jf_general;
+	}
+	
 	// ==== Procédures liés au concours
 	
 	// Procédure de création

@@ -4,12 +4,15 @@ import java.util.ArrayList;
 
 import javax.swing.tree.TreeModel;
 
+import org.contestorg.common.ContestOrgErrorException;
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.Couple;
 import org.contestorg.infos.InfosModelCategorie;
+import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
@@ -114,9 +117,9 @@ public class FrontModelParticipants
 	/**
 	 * Mettre à jour les catégories
 	 * @param categories informations sur les catégories
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updateCategories(TrackableList<InfosModelCategorie> categories) throws ContestOrgModelException {
+	public void updateCategories(TrackableList<InfosModelCategorie> categories) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification des catégories");
 		
@@ -130,9 +133,9 @@ public class FrontModelParticipants
 	/**
 	 * Mettre à jour les poules
 	 * @param categoriesPoules informations sur les poules
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updatePoules(ArrayList<Pair<String,TrackableList<Pair<InfosModelPoule, ArrayList<String>>>>> categoriesPoules) throws ContestOrgModelException {
+	public void updatePoules(ArrayList<Pair<String,TrackableList<Pair<InfosModelPoule, ArrayList<String>>>>> categoriesPoules) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification des poules");
 		
@@ -151,9 +154,9 @@ public class FrontModelParticipants
 	/**
 	 * Ajouter un participant
 	 * @param infos informations du participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addParticipant (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) throws ContestOrgModelException {
+	public void addParticipant (Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) throws ContestOrgErrorException {
 		// Démarrer l'action de création
 		this.frontModel.getHistory().start("Ajout du participant \"" + infos.getThird().getNom() + "\"");
 		
@@ -168,9 +171,9 @@ public class FrontModelParticipants
 	 * Modifier un participant
 	 * @param nomParticipant nom du participant
 	 * @param infos nouvelles informations du participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updateParticipant (String nomParticipant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) throws ContestOrgModelException {
+	public void updateParticipant (String nomParticipant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) throws ContestOrgErrorException {
 		// Récupérer le participant
 		ModelParticipant participant = this.frontModel.getConcours().getParticipantByNom(nomParticipant);
 		
@@ -225,16 +228,29 @@ public class FrontModelParticipants
 	/**
 	 * Supprimer un participant
 	 * @param nomParticipant nom du participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
+	 * @throws ContestOrgWarningException 
 	 */
-	public void removeParticipant (String nomParticipant) throws ContestOrgModelException {
+	public void removeParticipant (String nomParticipant) throws ContestOrgErrorException, ContestOrgWarningException {
 		// Récupérer le participant
 		ModelParticipant participant = this.frontModel.getConcours().getParticipantByNom(nomParticipant);
+		
+		// Vérifier si le participant peut être participant
+		for(ModelParticipation participation : participant.getParticipations()) {
+			// Vérifier si la participation est associé à un match effectué des phases éliminatoires
+			ModelMatchAbstract match = participation.getMatch();
+			if(match != null && match instanceof ModelMatchPhasesElims) {
+				throw new ContestOrgWarningException(FrontModel.get().getConcours().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ?
+					"L'équipe "+participant.getNom()+" ne peut pas être supprimée car elle participe à un match des phases éliminatoires." :
+					"Le joueur "+participant.getNom()+" ne peut pas être supprimé car il participe à un match des phases éliminatoires."
+				);
+			}
+		}
 		
 		// Démarrer l'action de suppression
 		this.frontModel.getHistory().start("Suppression du participant \"" + participant.getNom() + "\"");
 		
-		// Chercher le participant et le supprimer
+		// Supprimer le participant
 		participant.delete();
 		
 		// Fermer l'action de suppression
@@ -244,9 +260,28 @@ public class FrontModelParticipants
 	/**
 	 * Supprimer une liste de participants
 	 * @param nomParticipants nom des participants
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
+	 * @throws ContestOrgWarningException 
 	 */
-	public void removeParticipants (ArrayList<String> nomParticipants) throws ContestOrgModelException {
+	public void removeParticipants (ArrayList<String> nomParticipants) throws ContestOrgErrorException, ContestOrgWarningException {
+		// Pour chaque participant
+		for(String nomParticipant : nomParticipants) {
+			// Récupérer le participant
+			ModelParticipant participant = this.frontModel.getConcours().getParticipantByNom(nomParticipant);
+			
+			// Vérifier si le participant peut être participant
+			for(ModelParticipation participation : participant.getParticipations()) {
+				// Vérifier si la participation est associé à un match des phases éliminatoires
+				ModelMatchAbstract match = participation.getMatch();
+				if(match != null && match instanceof ModelMatchPhasesElims) {
+					throw new ContestOrgWarningException(FrontModel.get().getConcours().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ?
+						"L'équipe "+participant.getNom()+" ne peut pas être supprimée car elle participe à un match des phases éliminatoires." :
+						"Le joueur "+participant.getNom()+" ne peut pas être supprimé car il participe à un match des phases éliminatoires."
+					);
+				}
+			}
+		}
+		
 		// Démarrer l'action de suppression
 		this.frontModel.getHistory().start("Suppression de plusieurs participants");
 		

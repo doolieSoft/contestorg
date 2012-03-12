@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.GenerationAbstract;
 import org.contestorg.common.GenerationRunnableAbstract;
 import org.contestorg.common.Permutations;
@@ -51,9 +52,9 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * @param infosMatchs informations des matchs
 	 * @param configuration configuration de participants
 	 * @param infos informations de la phase qualificative
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected ModelPhaseQualificative(ModelPoule poule, InfosModelMatchPhasesQualifs infosMatchs, Configuration<ModelParticipant> configuration, InfosModelPhaseQualificative infos) throws ContestOrgModelException {
+	protected ModelPhaseQualificative(ModelPoule poule, InfosModelMatchPhasesQualifs infosMatchs, Configuration<ModelParticipant> configuration, InfosModelPhaseQualificative infos) throws ContestOrgErrorException {
 		// Appeller le constructeur principal
 		this(poule, infos);
 		
@@ -186,9 +187,9 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * Modifier la liste des matchs
 	 * @param infosMatchs informations des matchs
 	 * @param configuration configuration de participants
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setConfiguration (InfosModelMatchPhasesQualifs infosMatchs, Configuration<ModelParticipant> configuration) throws ContestOrgModelException {
+	protected void setConfiguration (InfosModelMatchPhasesQualifs infosMatchs, Configuration<ModelParticipant> configuration) throws ContestOrgErrorException {
 		// Supprimer tout les matchs de la phase qualificative
 		for (ModelMatchPhasesQualifs match : this.matchs) {
 			match.delete(this);
@@ -227,9 +228,9 @@ public class ModelPhaseQualificative extends ModelAbstract
 	/**
 	 * Ajouter un match
 	 * @param match match
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addMatch (ModelMatchPhasesQualifs match) throws ContestOrgModelException {
+	public void addMatch (ModelMatchPhasesQualifs match) throws ContestOrgErrorException {
 		if (!this.matchs.contains(match)) {
 			// Ajouter le match
 			this.matchs.add(match);
@@ -237,7 +238,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 			// Fire add
 			this.fireAdd(match, this.matchs.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le match existe déjà dans la phase qualificative");
+			throw new ContestOrgErrorException("Le match existe déjà dans la phase qualificative");
 		}
 	}
 	
@@ -246,9 +247,9 @@ public class ModelPhaseQualificative extends ModelAbstract
 	/**
 	 * Supprimer un match
 	 * @param match match
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeMatch (ModelMatchPhasesQualifs match) throws ContestOrgModelException {
+	protected void removeMatch (ModelMatchPhasesQualifs match) throws ContestOrgErrorException {
 		// Retirer le match
 		int index;
 		if ((index = this.matchs.indexOf(match)) != -1) {
@@ -258,7 +259,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 			// Fire remove
 			this.fireRemove(match, index);
 		} else {
-			throw new ContestOrgModelException("Le match n'existe pas dans la phase qualificative");
+			throw new ContestOrgErrorException("Le match n'existe pas dans la phase qualificative");
 		}
 	}
 	
@@ -283,7 +284,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la phase qualificative à la liste des removers
 			removers.add(this);

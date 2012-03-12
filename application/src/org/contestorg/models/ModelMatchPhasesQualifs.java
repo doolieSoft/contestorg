@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
@@ -103,7 +104,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	/**
 	 * @see ModelMatchAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Appeller le remove du parent
 			super.delete(removers);
@@ -171,7 +172,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 				
 				// Retourner le match
 				return match;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'un match de phases qualificatives.",e);
 				return null;
 			}
@@ -217,7 +218,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 					}
 				}
 				participationB.updateObjectifsRemportes(infos.getSecond().getSecond());
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un match de phases qualificatives.",e);
 			}
 		}

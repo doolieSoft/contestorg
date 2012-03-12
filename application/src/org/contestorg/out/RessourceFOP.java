@@ -3,6 +3,7 @@ package org.contestorg.out;
 import java.io.File;
 import java.util.HashMap;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.jdom.Document;
 
 /**
@@ -31,7 +32,7 @@ public class RessourceFOP extends RessourceAbstract
 	 * @param xsl fichier XSL
 	 * @throws ContestOrgOutException
 	 */
-	public RessourceFOP(String cible, boolean principale, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgOutException {
+	public RessourceFOP(String cible, boolean principale, HashMap<String,String> parametres, HashMap<String,String> fichiers, File xsl) throws ContestOrgWarningException {
 		// Constructeur parent
 		super(cible, principale, parametres, fichiers);
 		
@@ -50,7 +51,7 @@ public class RessourceFOP extends RessourceAbstract
 		
 		// Rafraichir le fichier
 		if(!this.refresh()) {
-			throw new ContestOrgOutException("La transformation FOP a échoué.");
+			throw new ContestOrgWarningException("La transformation FOP a échoué.");
 		}
 	}
 	

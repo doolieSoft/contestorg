@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelChemin;
@@ -125,9 +126,9 @@ public class ModelExportation extends ModelAbstract
 	/**
 	 * Définir le thème
 	 * @param theme thème
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setTheme (ModelTheme theme) throws ContestOrgModelException {
+	protected void setTheme (ModelTheme theme) throws ContestOrgErrorException {
 		// Modifier le thème
 		ModelTheme before = this.theme;
 		this.theme = theme;
@@ -140,9 +141,9 @@ public class ModelExportation extends ModelAbstract
 	/**
 	 * Définir le chemin
 	 * @param chemin chemin
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setChemin (ModelCheminAbstract chemin) throws ContestOrgModelException {
+	protected void setChemin (ModelCheminAbstract chemin) throws ContestOrgErrorException {
 		// Modifier le chemin
 		ModelCheminAbstract before = this.chemin;
 		this.chemin = chemin;
@@ -175,7 +176,7 @@ public class ModelExportation extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter l'horaire aux removers
 			removers.add(this);
@@ -245,7 +246,7 @@ public class ModelExportation extends ModelAbstract
 				exportation.setInfos(infos.getFirst());
 				exportation.setChemin(ModelCheminAbstract.create(infos.getSecond()));
 				exportation.getTheme().setInfos(infos.getThird());
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'une exportation.",e);
 			}
 		}

@@ -3,6 +3,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.infos.InfosModelObjectifNul;
@@ -165,9 +166,9 @@ public class ModelObjectif extends ModelAbstract
 	/**
 	 * Ajouter un objectif remporté
 	 * @param objectifRemporte objectif remporté
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
+	public void addObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgErrorException {
 		if (!this.objectifsRemportes.contains(objectifRemporte)) {
 			// Ajouter l'objectif remporte
 			this.objectifsRemportes.add(objectifRemporte);
@@ -175,16 +176,16 @@ public class ModelObjectif extends ModelAbstract
 			// Fire add
 			this.fireAdd(objectifRemporte, this.objectifsRemportes.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'objectif remporté existe déjà dans l'objectif");
+			throw new ContestOrgErrorException("L'objectif remporté existe déjà dans l'objectif");
 		}
 	}
 	
 	/**
 	 * Ajouter un critère de classement des phases qualificatives
 	 * @param compPhasesQualifs critère de classement des phases qualificatives
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgModelException {
+	public void addCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgErrorException {
 		if (!this.compsPhasesQualifs.contains(compPhasesQualifs)) {
 			// Ajouter l'objectif remporte
 			this.compsPhasesQualifs.add(compPhasesQualifs);
@@ -192,7 +193,7 @@ public class ModelObjectif extends ModelAbstract
 			// Fire add
 			this.fireAdd(compPhasesQualifs, this.compsPhasesQualifs.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le comparateur pour phases qualificatives existe déjà dans l'objectif");
+			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives existe déjà dans l'objectif");
 		}
 	}
 	
@@ -201,9 +202,9 @@ public class ModelObjectif extends ModelAbstract
 	/**
 	 * Supprimer un objectif remporté
 	 * @param objectifRemporte objectif remporté
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
+	protected void removeObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgErrorException {
 		// Retirer l'objectif remporte
 		int index;
 		if ((index = this.objectifsRemportes.indexOf(objectifRemporte)) != -1) {
@@ -213,16 +214,16 @@ public class ModelObjectif extends ModelAbstract
 			// Fire remove
 			this.fireRemove(objectifRemporte, index);
 		} else {
-			throw new ContestOrgModelException("L'objectif remporté n'existe pas dans l'objectif");
+			throw new ContestOrgErrorException("L'objectif remporté n'existe pas dans l'objectif");
 		}
 	}
 	
 	/**
 	 * Supprimer un critère de classement des phases qualificatives
 	 * @param compPhasesQualifs critère de classement des phases qualificatives
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgModelException {
+	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgErrorException {
 		// Retirer l'objectif remporte
 		int index;
 		if ((index = this.compsPhasesQualifs.indexOf(compPhasesQualifs)) != -1) {
@@ -232,7 +233,7 @@ public class ModelObjectif extends ModelAbstract
 			// Fire remove
 			this.fireRemove(compPhasesQualifs, index);
 		} else {
-			throw new ContestOrgModelException("Le comparateur pour phases qualificatives n'existe pas dans l'objectif");
+			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives n'existe pas dans l'objectif");
 		}
 	}
 	
@@ -313,7 +314,7 @@ public class ModelObjectif extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter l'objectif à la liste des removers
 			removers.add(this);

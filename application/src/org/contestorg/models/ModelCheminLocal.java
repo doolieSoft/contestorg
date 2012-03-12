@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.infos.InfosModelCheminLocal;
 
 /**
@@ -85,7 +86,7 @@ public class ModelCheminLocal extends ModelCheminAbstract
 	/**
 	 * @see ModelAbstract#delete()
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Appeller le remove du parent
 			super.delete(removers);

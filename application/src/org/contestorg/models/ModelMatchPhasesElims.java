@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
@@ -200,12 +201,12 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	/**
 	 * Définir la participation A
 	 * @param participation participant A
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void setParticipationA (ModelParticipation participation) throws ContestOrgModelException {
+	public void setParticipationA (ModelParticipation participation) throws ContestOrgErrorException {
 		// Vérifier si le match suivant n'a pas déjà été joué
 		if (participation == null && this.matchSuivant != null && (this.matchSuivant.getParticipationA() != null || this.matchSuivant.getParticipationB() != null)) {
-			throw new ContestOrgModelException("Il n'est pas possible de retirer la participation d'un participant à un match de phases éliminatoires si le match suivant a été joué.");
+			throw new ContestOrgErrorException("Il n'est pas possible de retirer la participation d'un participant à un match de phases éliminatoires si le match suivant a été joué.");
 		}
 		super.setParticipationA(participation);
 	}
@@ -213,11 +214,11 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	/**
 	 * Définir la participation B
 	 * @param participation participation B
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void setParticipationB (ModelParticipation participation) throws ContestOrgModelException {
+	public void setParticipationB (ModelParticipation participation) throws ContestOrgErrorException {
 		if (participation == null && this.matchSuivant != null && (this.matchSuivant.getParticipationA() != null || this.matchSuivant.getParticipationB() != null)) {
-			throw new ContestOrgModelException("Il n'est pas possible de retirer la participation d'un participant à un match de phases éliminatoires si le match suivant a été joué.");
+			throw new ContestOrgErrorException("Il n'est pas possible de retirer la participation d'un participant à un match de phases éliminatoires si le match suivant a été joué.");
 		}
 		super.setParticipationB(participation);
 	}
@@ -258,7 +259,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	 * @see ModelMatchAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Appeller le remove du parent
 			super.delete(removers);
@@ -447,7 +448,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 						}
 					}
 				}
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un match de phases éliminatoires.",e);
 			}
 		}

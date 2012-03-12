@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.IUpdater;
@@ -108,7 +109,7 @@ public class ModelProprietePossedee extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la propriété de participant à la liste des removers
 			removers.add(this);
@@ -169,7 +170,7 @@ public class ModelProprietePossedee extends ModelAbstract
 				
 				// Retourner la propriété de participant
 				return proprieteParticipant;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'une propriété possédée.",e);
 				return null;
 			}

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.OperationAbstract;
 import org.contestorg.common.OperationRunnableAbstract;
 import org.contestorg.infos.InfosModelTheme;
@@ -66,7 +67,7 @@ public class ExportationLocale extends ExportationAbstract
 			this.fireMessage("Génération des ressources ...");
 			try {
 				this.ressources = RessourceAbstract.getRessources(theme,false);
-			} catch (ContestOrgOutException e) {
+			} catch (ContestOrgWarningException e) {
 				this.echec(e.getMessage());
 				return;
 			}

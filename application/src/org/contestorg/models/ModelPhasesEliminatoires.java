@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.comparators.CompPhasesElims;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelParticipation;
@@ -279,10 +280,10 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	 * @param infosMatchs informations des matchs
 	 * @param infosPhaseEliminatoire informations des phases éliminatoires
 	 * @return phases éliminatoires
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
 	@SuppressWarnings("unchecked")
-	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
+	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgErrorException {
 		// Trier les participants d'après leur score aux phases qualificatives
 		List<ModelParticipant> participants = categorie.getParticipantsParticipants();
 		Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
@@ -394,7 +395,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter les phases éliminatoires aux removers
 			removers.add(this);
