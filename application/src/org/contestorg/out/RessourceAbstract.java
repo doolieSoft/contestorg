@@ -97,7 +97,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 								
 								// Récupérer et parser le type
 								int parametreType;
-								switch (Tools.StringCase(parametre.getAttributeValue("type"), "entier", "reel", "texte", "idCategorie", "idPoule", "idPhase", "motDePasse")) {
+								switch (Tools.StringCase(parametre.getAttributeValue("type"), "entier", "reel", "texte", "idCategorie", "idPoule", "idPhase", "motDePasse", "booleen")) {
 									case 0:
 										parametreType = Parametre.TYPE_ENTIER;
 										break;
@@ -118,6 +118,9 @@ public abstract class RessourceAbstract implements IHistoryListener
 										break;
 									case 6:
 										parametreType = Parametre.TYPE_MOTDEPASSE;
+										break;
+									case 7:
+										parametreType = Parametre.TYPE_BOOLEEN;
 										break;
 									default:
 										throw new ContestOrgWarningException("Le type du paramètre \"" + parametreId + "\" du thème \"" + file.getName() + "\" n'est pas valide.");
