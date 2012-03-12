@@ -38,8 +38,8 @@ public class JDParticipantEditer extends JDParticipantAbstract
 		this.ancienNomParticipant = infos.getThird().getNom();
 		
 		// Remplir les entrées avec les informations du participant
-		this.jp_categoriePoule.setCategorie(infos.getFirst());
-		this.jp_categoriePoule.setPoule(infos.getSecond());
+		this.jp_categoriePoule.setNomCategorie(infos.getFirst());
+		this.jp_categoriePoule.setNomPoule(infos.getSecond());
 		this.jtf_nom.setText(infos.getThird().getNom());
 		this.jtf_nom.setText(infos.getThird().getNom());
 		this.jtf_stand.setText(infos.getThird().getStand());

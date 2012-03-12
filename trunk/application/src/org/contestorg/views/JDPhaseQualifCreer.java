@@ -2,7 +2,7 @@ package org.contestorg.views;
 
 import java.awt.Window;
 
-import org.contestorg.common.Triple;
+import org.contestorg.common.Quintuple;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelPhaseQualificative;
@@ -22,7 +22,7 @@ public class JDPhaseQualifCreer extends JDPhaseQualifAbstract
 	 * @param nomCategorie nom de la catégorie de destination
 	 * @param nomPoule nom de la poule de destination
 	 */
-	public JDPhaseQualifCreer(Window w_parent, ICollector<Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
+	public JDPhaseQualifCreer(Window w_parent, ICollector<Quintuple<String,String,Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Ajouter une phase qualificative", collector, nomCategorie, nomPoule);		
 	}

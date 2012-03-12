@@ -34,10 +34,10 @@ public abstract class JDParticipantAbstract extends JDPattern
 	/** Collecteur des informations du participant */
 	private ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprietePossedee>>,TrackableList<String>>> collector;
 	
+	// Entrées
+	
 	/** Panel des catégories et poules */
 	protected JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
-	
-	// Entrées
 	
 	/** Nom */
 	protected JTextField jtf_nom = new JTextField();
@@ -256,7 +256,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 			}
 			
 			// Transmettre les données au collector
-			this.collector.collect(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprietePossedee>>, TrackableList<String>>(this.jp_categoriePoule.getCategorie(), this.jp_categoriePoule.getPoule(), new InfosModelParticipant(stand, nom, ville, statut, details), this.proprietesPossedees, this.prix));
+			this.collector.collect(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprietePossedee>>, TrackableList<String>>(this.jp_categoriePoule.getNomCategorie(), this.jp_categoriePoule.getNomPoule(), new InfosModelParticipant(stand, nom, ville, statut, details), this.proprietesPossedees, this.prix));
 		}
 	}
 	

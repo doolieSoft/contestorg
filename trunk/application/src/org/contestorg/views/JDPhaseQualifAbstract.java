@@ -30,7 +30,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.contestorg.common.Triple;
+import org.contestorg.common.Quintuple;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.Couple;
@@ -49,13 +49,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 {
 	
 	/** Collecteur des informations de la phase qualificative */
-	private ICollector<Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector;
-	
-	/** Nom de la catégorie de destination */
-	private String nomCategorie;
-	
-	/** Nom de la poule de destination */
-	private String nomPoule;
+	private ICollector<Quintuple<String,String,Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector;
 	
 	/** Liste des participants */
 	protected ArrayList<String> participants;
@@ -63,16 +57,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	/** Rangs des participants */
 	private HashMap<String,Integer> rangsParticipants = new HashMap<String, Integer>();
 	
-	// Conservation/Restauration de configuration
-	
-	/** Bouton "Conserver" */
-	private JButton jb_conserver = new JButton("Conserver", new ImageIcon("img/farm/16x16/box.png"));
-	
-	/** Bouton "Restaurer" */
-	private JButton jb_restaurer = new JButton("Restaurer", new ImageIcon("img/farm/16x16/box_down.png"));
-	
-	/** Configuration conservée */
-	private Configuration<String> configurationConservee = null;
+	// Catégorie et poule
+
+	/** Panel des catégories et poules */
+	protected JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
 	
 	// Paramètres de la génération
 	
@@ -81,6 +69,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	
 	/** Mode basique */
 	private JRadioButton jrb_mode_basique = new JRadioButton("Basique", true);
+	
+	/** Panel des participants */
+	private JPanel jp_participants;
 	
 	/** Séléctions des participants */
 	protected JCheckBox[] jcbs_participants;
@@ -105,6 +96,17 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	private boolean demandeArret = false;
 	/** Annulation demandé ? */
 	private boolean demandeAnnulation = false;
+	
+	// Conservation/Restauration de configuration
+	
+	/** Bouton "Conserver" */
+	private JButton jb_conserver = new JButton("Conserver", new ImageIcon("img/farm/16x16/box.png"));
+	
+	/** Bouton "Restaurer" */
+	private JButton jb_restaurer = new JButton("Restaurer", new ImageIcon("img/farm/16x16/box_down.png"));
+	
+	/** Configuration conservée */
+	private Configuration<String> configurationConservee = null;
 	
 	// Meilleure configuration trouvée
 	
@@ -133,22 +135,35 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	 * @param nomCategorie nom de la catégorie de destination
 	 * @param nomPoule nom de la poule de destination
 	 */
-	public JDPhaseQualifAbstract(Window w_parent, String titre, ICollector<Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
+	public JDPhaseQualifAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
 		
-		// Retenir le collector, la catégorie et la poule
+		// Retenir le collector
 		this.collector = collector;
-		this.nomCategorie = nomCategorie;
-		this.nomPoule = nomPoule;
 		
-		// Récupérer les participants qui peuvent participer
-		this.participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(this.nomCategorie,this.nomPoule);
+		// Catégorie et poule
+		this.jp_contenu.add(this.jp_categoriePoule);
+		this.jp_categoriePoule.setNomCategorie(nomCategorie);
+		this.jp_categoriePoule.setNomPoule(nomPoule);
 		
-		// Récupérer les rangs des participants qui peuvent participer
-		for(String participant : this.participants) {
-			this.rangsParticipants.put(participant, ContestOrg.get().getCtrlPhasesQualificatives().getRang(participant));
-		}
+		// Ecoute les changements de catégorie et de poule
+		this.jp_categoriePoule.addItemListener(new ItemListener() {
+			/**
+			 * @see ItemListener#itemStateChanged(ItemEvent)
+			 */
+			@Override
+			public void itemStateChanged (ItemEvent event) {
+				// Réinitialiser la configuration conservée
+				configurationConservee = null;
+				
+				// Désactiver le bouton "restaurer"
+				jb_restaurer.setEnabled(false);
+				
+				// Tout rafraichir
+				refreshAll();
+			}
+		});
 		
 		// Paramètres de la génération
 		this.jp_contenu.add(ViewHelper.title("Paramètres de la génération", ViewHelper.H1));
@@ -168,18 +183,11 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		// Participants
 		this.jp_contenu.add(ViewHelper.left(new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes participantes :" : "Joueurs participants : ")));
 		
-		JPanel jp_participants = new JPanel();
-		jp_participants.setLayout(new BoxLayout(jp_participants, BoxLayout.Y_AXIS));
-		this.jcbs_participants = new JCheckBox[this.participants.size()];
-		for (int i = 0; i < this.participants.size(); i++) {
-			jcbs_participants[i] = new JCheckBox(this.participants.get(i));
-			jcbs_participants[i].setSelected(true);
-			jcbs_participants[i].addItemListener(this);
-			jp_participants.add(jcbs_participants[i]);
-		}
-		JScrollPane jsp_participants = new JScrollPane(jp_participants);
-		jsp_participants.setPreferredSize(new Dimension(jsp_participants.getPreferredSize().width, 140));
+		this.jp_participants = new JPanel();
+		this.jp_participants.setLayout(new BoxLayout(this.jp_participants, BoxLayout.Y_AXIS));
 		
+		JScrollPane jsp_participants = new JScrollPane(this.jp_participants);
+		jsp_participants.setPreferredSize(new Dimension(jsp_participants.getPreferredSize().width, 140));
 		this.jp_contenu.add(jsp_participants);
 		
 		// Avancement de la génération
@@ -232,36 +240,16 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		
 		this.jp_resultat = new JPanel();
 		this.jp_resultat.setLayout(new BoxLayout(this.jp_resultat, BoxLayout.Y_AXIS));
-		int nbMatchs = this.getParticipantsSelectionnes().size() / 2;
-		this.jcbs_participantsA = new JComboBox[nbMatchs];
-		this.jcbs_participantsB = new JComboBox[nbMatchs];
-		for (int i = 0; i < nbMatchs; i++) {
-			JPanel jp_match = new JPanel(new GridLayout(1, 2));
-			
-			this.jcbs_participantsA[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
-			this.jcbs_participantsA[i].setSelectedIndex(i * 2);
-			this.jcbs_participantsB[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
-			this.jcbs_participantsB[i].setSelectedIndex(i * 2 + 1);
-			
-			jp_match.add(this.jcbs_participantsA[i]);
-			jp_match.add(this.jcbs_participantsB[i]);
-			
-			this.jcbs_participantsA[i].addItemListener(this);
-			this.jcbs_participantsB[i].addItemListener(this);
-			
-			this.jp_resultat.add(jp_match);
-		}
+
 		JPanel jp_resultat_largeur = new JPanel(new BorderLayout());
 		jp_resultat_largeur.add(this.jp_resultat, BorderLayout.NORTH);
 		JScrollPane jsp_resultat = new JScrollPane(jp_resultat_largeur);
 		jsp_resultat.setPreferredSize(new Dimension(jsp_resultat.getPreferredSize().width, 140));
 		
-		this.refreshColors();
-		
 		this.jp_contenu.add(jsp_resultat);
 		
-		// Récupérer les statistiques sur la configuration
-		this.refreshStatistiques();
+		// Rafraichir les données d'après la catégorie et la poule séléctionné
+		this.refreshAll();
 		
 		// Ecouter les boutons
 		this.jb_generer.addActionListener(this);
@@ -356,7 +344,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			
 			// Transformer la informations au collector
 			if(!erreur) {
-				this.collector.collect(new Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
+				this.collector.collect(new Quintuple<String, String, Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.jp_categoriePoule.getNomCategorie(),this.jp_categoriePoule.getNomPoule(),this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
 			}
 		}
 	}
@@ -440,7 +428,48 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	}
 	
 	/**
-	 * Rafraichir les statistiques que la configuration actuelle
+	 * Tout rafraichir
+	 */
+	private void refreshAll() {
+		// Rafraichir la liste des participants
+		this.refreshParticipants();
+		
+		// Rafraichir la liste des matchs
+		this.refreshMatchs();
+		
+		// Rafraichir les statistiques
+		this.refreshStatistiques();
+		
+		// Rafraichir les couleurs
+		this.refreshColors();
+	}
+	
+	/**
+	 * Rafriachir la liste des participants
+	 */
+	private void refreshParticipants() {
+		// Récupérer les participants qui peuvent participer
+		this.participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(this.jp_categoriePoule.getNomCategorie(),this.jp_categoriePoule.getNomPoule());
+		
+		// Récupérer les rangs des participants qui peuvent participer
+		for(String participant : this.participants) {
+			this.rangsParticipants.put(participant, ContestOrg.get().getCtrlPhasesQualificatives().getRang(participant));
+		}
+		
+		// Ajouter les participants qui peuvent participer
+		this.jp_participants.removeAll();
+		this.jcbs_participants = new JCheckBox[this.participants.size()];
+		for (int i = 0; i < this.participants.size(); i++) {
+			this.jcbs_participants[i] = new JCheckBox(this.participants.get(i));
+			this.jcbs_participants[i].setSelected(true);
+			this.jcbs_participants[i].addItemListener(this);
+			this.jp_participants.add(this.jcbs_participants[i]);
+		}
+		this.jp_participants.revalidate();
+	}
+	
+	/**
+	 * Rafraichir les statistiques
 	 */
 	private void refreshStatistiques () {
 		// Récupérer la configuration
@@ -475,9 +504,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	}
 	
 	/**
-	 * Rafraichir les listes des participants
+	 * Rafraichir les listes des matchs
 	 */
-	private void refreshParticipants() {
+	private void refreshMatchs() {
 		// Récupérer le nombre de matchs
 		int nbMatchs = this.getParticipantsSelectionnes().size() / 2;
 		
@@ -636,7 +665,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	 * Récupérer le nombre de participants séléctionnés (sans le participant fantome)
 	 * @return nombre de participants séléctionnés (sans le participant fantome)
 	 */
-	public int getNbParticipantsSelectionnes() {
+	private int getNbParticipantsSelectionnes() {
 		int nbParticipantsSelectionnes = 0;
 		for (int i = 0; i < this.participants.size(); i++) {
 			if (this.jcbs_participants[i].isSelected()) {
@@ -654,7 +683,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		for(JCheckBox checkbox : this.jcbs_participants) {
 			if(event.getSource() == checkbox) {
 				// Rafraichir la liste des participants
-				this.refreshParticipants();
+				this.refreshMatchs();
 			}
 		}
 		
@@ -695,9 +724,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				// Récupérer la génération
 				this.generation = null;
 				if(this.jrb_mode_avance.isSelected()) {
-					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationAvance(this.nomCategorie, this.nomPoule, this.getParticipantsSelectionnes());
+					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationAvance(this.jp_categoriePoule.getNomCategorie(), this.jp_categoriePoule.getNomPoule(), this.getParticipantsSelectionnes());
 				} else {
-					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationBasique(this.nomCategorie, this.nomPoule, this.getParticipantsSelectionnes());
+					this.generation = ContestOrg.get().getCtrlPhasesQualificatives().getGenerationBasique(this.jp_categoriePoule.getNomCategorie(), this.jp_categoriePoule.getNomPoule(), this.getParticipantsSelectionnes());
 				}
 				
 				// Ecouter la génération
