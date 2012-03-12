@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.tree.TreeModel;
 
+import org.contestorg.common.ContestOrgErrorException;
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
@@ -16,6 +18,7 @@ import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.models.FrontModel;
+import org.contestorg.views.ViewHelper;
 
 /**
  * Controleur des participants
@@ -160,9 +163,11 @@ public class CtrlParticipants
 	public void removeParticipant(String nomParticipant) {
 		try {
 			FrontModel.get().getFrontModelParticipants().removeParticipant(nomParticipant);
-		} catch (Exception e) {
+		} catch (ContestOrgWarningException e) {
+			ViewHelper.derror(ContestOrg.get().getFenetrePrincipale(), e.getMessage());
+		} catch (ContestOrgErrorException e) {
 			ContestOrg.get().error("Erreur lors de la modification d'un participant", e);
-		}	
+		}
 	}
 	
 	/**
@@ -172,7 +177,9 @@ public class CtrlParticipants
 	public void removeParticipants(ArrayList<String> nomParticipants) {
 		try {
 			FrontModel.get().getFrontModelParticipants().removeParticipants(nomParticipants);
-		} catch (Exception e) {
+		} catch (ContestOrgWarningException e) {
+			ViewHelper.derror(ContestOrg.get().getFenetrePrincipale(), e.getMessage());
+		} catch (ContestOrgErrorException e) {
 			ContestOrg.get().error("Erreur lors de la modification de plusieurs participants", e);
 		}	
 	}

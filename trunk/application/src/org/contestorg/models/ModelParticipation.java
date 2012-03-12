@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelObjectifRemporte;
@@ -179,9 +180,9 @@ public class ModelParticipation extends ModelAbstract
 	/**
 	 * Définir le participant
 	 * @param participant participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setParticipant(ModelParticipant participant) throws ContestOrgModelException {
+	protected void setParticipant(ModelParticipant participant) throws ContestOrgErrorException {
 		// Retenir le nouveau participant
 		this.participant = participant;
 		
@@ -194,13 +195,13 @@ public class ModelParticipation extends ModelAbstract
 	/**
 	 * Ajouter un objectif remporté
 	 * @param objectifRemporte objectif remporté
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
+	public void addObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgErrorException {
 		if (!this.objectifsRemportes.contains(objectifRemporte)) {
 			// Vérifier si l'objectif de l'objectif remporté n'a pas déjà été remporté
 			if (this.getObjectifRemporte(objectifRemporte.getObjectif()) != null) {
-				throw new ContestOrgModelException("L'objectif a déjà été remporté");
+				throw new ContestOrgErrorException("L'objectif a déjà été remporté");
 			}
 			
 			// Ajouter l'objectif remporté
@@ -209,7 +210,7 @@ public class ModelParticipation extends ModelAbstract
 			// Fire add
 			this.fireAdd(objectifRemporte, this.objectifsRemportes.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'objectif remporté existe déjà dans la participation");
+			throw new ContestOrgErrorException("L'objectif remporté existe déjà dans la participation");
 		}
 	}
 	
@@ -218,9 +219,9 @@ public class ModelParticipation extends ModelAbstract
 	/**
 	 * Supprimer un objectif remporté
 	 * @param objectifRemporte objectif remporté
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgModelException {
+	protected void removeObjectifRemporte (ModelObjectifRemporte objectifRemporte) throws ContestOrgErrorException {
 		// Retirer l'objectif remporté
 		int index;
 		if ((index = this.objectifsRemportes.indexOf(objectifRemporte)) != -1) {
@@ -230,7 +231,7 @@ public class ModelParticipation extends ModelAbstract
 			// Fire remove
 			this.fireRemove(objectifRemporte, index);
 		} else {
-			throw new ContestOrgModelException("L'objectif remporté n'existe pas dans la participation");
+			throw new ContestOrgErrorException("L'objectif remporté n'existe pas dans la participation");
 		}
 	}
 	
@@ -239,9 +240,9 @@ public class ModelParticipation extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des objectifs remportés
 	 * @param list liste des objectifs remportés source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updateObjectifsRemportes(TrackableList<Pair<String, InfosModelObjectifRemporte>> list) throws ContestOrgModelException {
+	public void updateObjectifsRemportes(TrackableList<Pair<String, InfosModelObjectifRemporte>> list) throws ContestOrgErrorException {
 		this.updates(new ModelObjectifRemporte.UpdaterForParticipation(FrontModel.get().getConcours(), this), this.objectifsRemportes, list, true, null);
 	}
 	
@@ -267,7 +268,7 @@ public class ModelParticipation extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la participation à la liste des removers
 			removers.add(this);

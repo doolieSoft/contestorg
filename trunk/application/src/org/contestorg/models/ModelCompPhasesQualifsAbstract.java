@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
 import org.contestorg.infos.InfosModelCompPhasesQualifsObjectif;
@@ -37,9 +38,9 @@ public abstract class ModelCompPhasesQualifsAbstract extends ModelAbstract
 	 * @param concours concours
 	 * @param infos informations du critère de classement
 	 * @return critère de classement
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected static ModelCompPhasesQualifsAbstract create (ModelConcours concours, InfosModelCompPhasesQualifsAbstract infos) throws ContestOrgModelException {
+	protected static ModelCompPhasesQualifsAbstract create (ModelConcours concours, InfosModelCompPhasesQualifsAbstract infos) throws ContestOrgErrorException {
 		// Creer et retourner le critere correspondant aux informations
 		if (infos instanceof InfosModelCompPhasesQualifsPoints) {
 			return new ModelCompPhasesQualifsPoints(concours, (InfosModelCompPhasesQualifsPoints)infos);
@@ -50,7 +51,7 @@ public abstract class ModelCompPhasesQualifsAbstract extends ModelAbstract
 				objectif.addCompPhasesQualifs(critere);
 				return critere;
 			} else {
-				throw new ContestOrgModelException("L'objectif rattaché au critere de classement n'a pas été trouvé dans le concours");
+				throw new ContestOrgErrorException("L'objectif rattaché au critere de classement n'a pas été trouvé dans le concours");
 			}
 		} else if (infos instanceof InfosModelCompPhasesQualifsVictoires) {
 			return new ModelCompPhasesQualifsVictoires(concours, (InfosModelCompPhasesQualifsVictoires)infos);
@@ -79,7 +80,7 @@ public abstract class ModelCompPhasesQualifsAbstract extends ModelAbstract
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter le critere à la liste des removers
 			removers.add(this);
@@ -118,7 +119,7 @@ public abstract class ModelCompPhasesQualifsAbstract extends ModelAbstract
 		public ModelCompPhasesQualifsAbstract create (InfosModelCompPhasesQualifsAbstract infos) {
 			try {
 				return ModelCompPhasesQualifsAbstract.create(this.concours, infos);
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'un critère de classement.",e);
 				return null;
 			}

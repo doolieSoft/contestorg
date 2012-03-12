@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelPoule;
@@ -234,9 +235,9 @@ public class ModelPoule extends ModelAbstract
 	/**
 	 * Ajouter un participant
 	 * @param participant participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addParticipant (ModelParticipant participant) throws ContestOrgModelException {
+	public void addParticipant (ModelParticipant participant) throws ContestOrgErrorException {
 		if (!this.participants.contains(participant)) {
 			// Ajouter le participant
 			this.participants.add(participant);
@@ -244,16 +245,16 @@ public class ModelPoule extends ModelAbstract
 			// Fire add
 			this.fireAdd(participant, this.participants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le participant existe déjà dans la poule");
+			throw new ContestOrgErrorException("Le participant existe déjà dans la poule");
 		}
 	}
 	
 	/**
 	 * Ajouter une phase qualificative
 	 * @param phaseQualificative phase qualificative
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addPhaseQualificative (ModelPhaseQualificative phaseQualificative) throws ContestOrgModelException {
+	public void addPhaseQualificative (ModelPhaseQualificative phaseQualificative) throws ContestOrgErrorException {
 		if (!this.phasesQualificatives.contains(phaseQualificative)) {
 			// Ajouter la phase qualificative
 			this.phasesQualificatives.add(phaseQualificative);
@@ -261,7 +262,7 @@ public class ModelPoule extends ModelAbstract
 			// Fire add
 			this.fireAdd(phaseQualificative, this.phasesQualificatives.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La phase qualificative existe déjà dans la poule");
+			throw new ContestOrgErrorException("La phase qualificative existe déjà dans la poule");
 		}
 	}
 	
@@ -270,9 +271,9 @@ public class ModelPoule extends ModelAbstract
 	/**
 	 * Supprimer un participant
 	 * @param participant participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeParticipant (ModelParticipant participant) throws ContestOrgModelException {
+	protected void removeParticipant (ModelParticipant participant) throws ContestOrgErrorException {
 		// Retirer le participant
 		int index;
 		if ((index = this.participants.indexOf(participant)) != -1) {
@@ -282,16 +283,16 @@ public class ModelPoule extends ModelAbstract
 			// Fire remove
 			this.fireRemove(participant, index);
 		} else {
-			throw new ContestOrgModelException("Le participant n'existe pas dans la poule");
+			throw new ContestOrgErrorException("Le participant n'existe pas dans la poule");
 		}
 	}
 	
 	/**
 	 * Supprimer une phase qualificative
 	 * @param phaseQualificative phase qualificative
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removePhaseQualificative (ModelPhaseQualificative phaseQualificative) throws ContestOrgModelException {
+	protected void removePhaseQualificative (ModelPhaseQualificative phaseQualificative) throws ContestOrgErrorException {
 		// Retirer la phase qualificative
 		int index;
 		if ((index = this.phasesQualificatives.indexOf(phaseQualificative)) != -1) {
@@ -301,7 +302,7 @@ public class ModelPoule extends ModelAbstract
 			// Fire remove
 			this.fireRemove(phaseQualificative, index);
 		} else {
-			throw new ContestOrgModelException("La phase qualificative n'existe pas dans la poule");
+			throw new ContestOrgErrorException("La phase qualificative n'existe pas dans la poule");
 		}
 	}
 	
@@ -327,7 +328,7 @@ public class ModelPoule extends ModelAbstract
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la poule à la liste des removers
 			removers.add(this);
@@ -402,7 +403,7 @@ public class ModelPoule extends ModelAbstract
 				
 				// Retourner la poule
 				return poule;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'une poule.",e);
 				return null;
 			}
@@ -423,7 +424,7 @@ public class ModelPoule extends ModelAbstract
 						this.categorie.getParticipantByNom(participant).setPoule(poule);
 					}
 				}
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'une poule.",e);
 			}
 		}

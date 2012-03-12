@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 
 /**
@@ -50,7 +51,7 @@ public class ModelCompPhasesQualifsVictoires extends ModelCompPhasesQualifsAbstr
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Appeller le remove parent
 			super.delete(removers);

@@ -4,6 +4,7 @@ package org.contestorg.models;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.infos.InfosModelMatch;
 import org.contestorg.infos.InfosModelParticipation;
 
@@ -140,9 +141,9 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	/**
 	 * Définir la participation A
 	 * @param participation participation A
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void setParticipationA (ModelParticipation participation) throws ContestOrgModelException {
+	public void setParticipationA (ModelParticipation participation) throws ContestOrgErrorException {
 		// Enregistrer la participation
 		this.participationA = participation;
 		
@@ -153,9 +154,9 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	/**
 	 * Définir la participation B
 	 * @param participation participation B
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void setParticipationB (ModelParticipation participation) throws ContestOrgModelException {
+	public void setParticipationB (ModelParticipation participation) throws ContestOrgErrorException {
 		// Enregistrer la participation
 		this.participationB = participation;
 		
@@ -168,9 +169,9 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	/**
 	 * Supprimer une participation
 	 * @param participation participation
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeParticipation (ModelParticipation participation) throws ContestOrgModelException {
+	protected void removeParticipation (ModelParticipation participation) throws ContestOrgErrorException {
 		if (participation.equals(this.participationA)) {
 			this.setParticipationA(null);
 		}
@@ -197,7 +198,7 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter le match à la liste des removers
 			removers.add(this);

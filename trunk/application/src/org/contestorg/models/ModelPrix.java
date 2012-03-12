@@ -3,6 +3,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelPrix;
 import org.contestorg.interfaces.ITrackableListValidator;
@@ -104,9 +105,9 @@ public class ModelPrix extends ModelAbstract
 	/**
 	 * Ajouter un participant
 	 * @param participant participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addParticipant (ModelParticipant participant) throws ContestOrgModelException {
+	public void addParticipant (ModelParticipant participant) throws ContestOrgErrorException {
 		if (!this.participants.contains(participant)) {
 			// Enregistrer le participant
 			this.participants.add(participant);
@@ -114,7 +115,7 @@ public class ModelPrix extends ModelAbstract
 			// Fire add
 			this.fireAdd(participant, this.participants.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le participant existe déjà dans le prix");
+			throw new ContestOrgErrorException("Le participant existe déjà dans le prix");
 		}
 	}
 	
@@ -123,9 +124,9 @@ public class ModelPrix extends ModelAbstract
 	/**
 	 * Supprimer un participant
 	 * @param participant participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeParticipant (ModelParticipant participant) throws ContestOrgModelException {
+	protected void removeParticipant (ModelParticipant participant) throws ContestOrgErrorException {
 		// Supprimer le participant
 		int index;
 		if ((index = this.participants.indexOf(participant)) != -1) {
@@ -135,7 +136,7 @@ public class ModelPrix extends ModelAbstract
 			// Fire remove
 			this.fireRemove(participant, index);
 		} else {
-			throw new ContestOrgModelException("Le participant n'existe pas dans le prix");
+			throw new ContestOrgErrorException("Le participant n'existe pas dans le prix");
 		}
 	}
 	
@@ -161,7 +162,7 @@ public class ModelPrix extends ModelAbstract
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la poule à la liste des removers
 			removers.add(this);

@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.interfaces.IUpdater;
@@ -103,9 +104,9 @@ public class ModelObjectifRemporte extends ModelAbstract
 	/**
 	 * Définir l'objectif
 	 * @param objectif objectif
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setObjectif (ModelObjectif objectif) throws ContestOrgModelException {
+	protected void setObjectif (ModelObjectif objectif) throws ContestOrgErrorException {
 		this.objectif.removeObjectifRemporte(this);
 		this.objectif = objectif;
 		this.objectif.addObjectifRemporte(this);
@@ -134,7 +135,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter l'objectif remporte à la liste des removers
 			removers.add(this);
@@ -196,7 +197,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 				ModelObjectifRemporte objectifRemporte = new ModelObjectifRemporte(this.participation, objectif, infos.getSecond());
 				objectif.addObjectifRemporte(objectifRemporte);
 				return objectifRemporte;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'un objectif remporté.",e);
 				return null;
 			}
@@ -215,7 +216,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 				
 				// Modifier les informations
 				objectifRemporte.setInfos(infos.getSecond());
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un objectif remporté.",e);
 			}
 		}

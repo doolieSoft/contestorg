@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelEmplacement;
 import org.contestorg.interfaces.ITrackableListValidator;
@@ -119,7 +120,7 @@ public class ModelEmplacement extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter l'emplacement à la liste des removers
 			removers.add(this);

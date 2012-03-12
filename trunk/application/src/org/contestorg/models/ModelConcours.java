@@ -4,6 +4,7 @@ package org.contestorg.models;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
@@ -588,12 +589,12 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Définir la publication
 	 * @param publication publication
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void setPublication (ModelExportation publication) throws ContestOrgModelException {
+	public void setPublication (ModelExportation publication) throws ContestOrgErrorException {
 		// Vérifier si l'exportation de publication fait bien partie des exportations
 		if (publication != null && !this.exportations.contains(publication)) {
-			throw new ContestOrgModelException("L'exportation de publication ne fait pas partie de la liste des exportations.");
+			throw new ContestOrgErrorException("L'exportation de publication ne fait pas partie de la liste des exportations.");
 		}
 		
 		// Enregistrer l'exportation
@@ -608,9 +609,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Ajouter un objectif
 	 * @param objectif objectif
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addObjectif (ModelObjectif objectif) throws ContestOrgModelException {
+	public void addObjectif (ModelObjectif objectif) throws ContestOrgErrorException {
 		if (!this.objectifs.contains(objectif)) {
 			// Enregistrer l'objectif
 			this.objectifs.add(objectif);
@@ -618,16 +619,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(objectif, this.objectifs.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'objectif existe déjà dans le concours");
+			throw new ContestOrgErrorException("L'objectif existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter un prix
 	 * @param prix prix
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addPrix (ModelPrix prix) throws ContestOrgModelException {
+	public void addPrix (ModelPrix prix) throws ContestOrgErrorException {
 		if (!this.prix.contains(prix)) {
 			// Enregistrer le prix
 			this.prix.add(prix);
@@ -635,16 +636,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(prix, this.prix.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le prix existe déjà dans le concours");
+			throw new ContestOrgErrorException("Le prix existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter une catégorie
 	 * @param categorie catégorie
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addCategorie (ModelCategorie categorie) throws ContestOrgModelException {
+	public void addCategorie (ModelCategorie categorie) throws ContestOrgErrorException {
 		if (!this.categories.contains(categorie)) {
 			// Enregistrer la categorie
 			this.categories.add(categorie);
@@ -652,16 +653,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(categorie, this.categories.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La catégorie existe déjà dans le concours");
+			throw new ContestOrgErrorException("La catégorie existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter un lieu
 	 * @param lieu lieu
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addLieu (ModelLieu lieu) throws ContestOrgModelException {
+	public void addLieu (ModelLieu lieu) throws ContestOrgErrorException {
 		if (!this.lieux.contains(lieu)) {
 			// Enregistrer le lieu
 			this.lieux.add(lieu);
@@ -669,16 +670,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(lieu, this.lieux.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le lieu existe déjà dans le concours");
+			throw new ContestOrgErrorException("Le lieu existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter une propriété
 	 * @param propriete propriété
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addPropriete (ModelPropriete propriete) throws ContestOrgModelException {
+	public void addPropriete (ModelPropriete propriete) throws ContestOrgErrorException {
 		if (!this.proprietes.contains(propriete)) {
 			// Enregistrer la propriete
 			this.proprietes.add(propriete);
@@ -686,16 +687,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(propriete, this.proprietes.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La propriété existe déjà dans le concours");
+			throw new ContestOrgErrorException("La propriété existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter une exportation
 	 * @param exportation exportation
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addExportation (ModelExportation exportation) throws ContestOrgModelException {
+	public void addExportation (ModelExportation exportation) throws ContestOrgErrorException {
 		if (!this.exportations.contains(exportation)) {
 			// Enregistrer l'exportation
 			this.exportations.add(exportation);
@@ -703,16 +704,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(exportation, this.exportations.size() - 1);
 		} else {
-			throw new ContestOrgModelException("L'exportation existe déjà dans le concours");
+			throw new ContestOrgErrorException("L'exportation existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter une diffusion
 	 * @param diffusion diffusion
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addDiffusion (ModelDiffusion diffusion) throws ContestOrgModelException {
+	public void addDiffusion (ModelDiffusion diffusion) throws ContestOrgErrorException {
 		if (!this.diffusions.contains(diffusion)) {
 			// Enregistrer l'exportation
 			this.diffusions.add(diffusion);
@@ -720,16 +721,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(diffusion, this.diffusions.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La diffusion existe déjà dans le concours");
+			throw new ContestOrgErrorException("La diffusion existe déjà dans le concours");
 		}
 	}
 	
 	/**
 	 * Ajouter un critère de classement des phases qualificatives
 	 * @param compPhasesQualifs critère de classement des phases qualificatives
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addCompPhasesQualifs (ModelCompPhasesQualifsAbstract compPhasesQualifs) throws ContestOrgModelException {
+	public void addCompPhasesQualifs (ModelCompPhasesQualifsAbstract compPhasesQualifs) throws ContestOrgErrorException {
 		if (!this.compsPhasesQualifs.contains(compPhasesQualifs)) {
 			// Ajouter l'objectif remporte
 			this.compsPhasesQualifs.add(compPhasesQualifs);
@@ -737,7 +738,7 @@ public class ModelConcours extends ModelAbstract
 			// Fire add
 			this.fireAdd(compPhasesQualifs, this.compsPhasesQualifs.size() - 1);
 		} else {
-			throw new ContestOrgModelException("Le comparateur pour phases qualificatives existe déjà dans le concours");
+			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives existe déjà dans le concours");
 		}
 	}
 	
@@ -746,9 +747,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Supprimer l'objectif
 	 * @param objectif objectif
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeObjectif (ModelObjectif objectif) throws ContestOrgModelException {
+	protected void removeObjectif (ModelObjectif objectif) throws ContestOrgErrorException {
 		// Supprimer l'objectif
 		int index;
 		if ((index = this.objectifs.indexOf(objectif)) != -1) {
@@ -758,16 +759,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(objectif, index);
 		} else {
-			throw new ContestOrgModelException("L'objectif n'existe pas dans le concours");
+			throw new ContestOrgErrorException("L'objectif n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer un prix
 	 * @param prix prix
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removePrix (ModelPrix prix) throws ContestOrgModelException {
+	protected void removePrix (ModelPrix prix) throws ContestOrgErrorException {
 		// Supprimer le prix
 		int index;
 		if ((index = this.prix.indexOf(prix)) != -1) {
@@ -777,16 +778,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(prix, index);
 		} else {
-			throw new ContestOrgModelException("Le prix n'existe pas dans le concours");
+			throw new ContestOrgErrorException("Le prix n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer une catégorie
 	 * @param categorie catégorie
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeCategorie (ModelCategorie categorie) throws ContestOrgModelException {
+	protected void removeCategorie (ModelCategorie categorie) throws ContestOrgErrorException {
 		// Supprimer la categorie
 		int index;
 		if ((index = this.categories.indexOf(categorie)) != -1) {
@@ -796,16 +797,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(categorie, index);
 		} else {
-			throw new ContestOrgModelException("La catégorie n'existe pas dans le concours");
+			throw new ContestOrgErrorException("La catégorie n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer un lieu
 	 * @param lieu lieu
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeLieu (ModelLieu lieu) throws ContestOrgModelException {
+	protected void removeLieu (ModelLieu lieu) throws ContestOrgErrorException {
 		// Supprimer le lieu
 		int index;
 		if ((index = this.lieux.indexOf(lieu)) != -1) {
@@ -815,16 +816,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(lieu, index);
 		} else {
-			throw new ContestOrgModelException("Le lieu n'existe pas dans le concours");
+			throw new ContestOrgErrorException("Le lieu n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer une propriété
 	 * @param propriete propriété
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removePropriete (ModelPropriete propriete) throws ContestOrgModelException {
+	protected void removePropriete (ModelPropriete propriete) throws ContestOrgErrorException {
 		// Supprimer la propriete
 		int index;
 		if ((index = this.proprietes.indexOf(propriete)) != -1) {
@@ -834,16 +835,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(propriete, index);
 		} else {
-			throw new ContestOrgModelException("La propriété n'existe pas dans le concours");
+			throw new ContestOrgErrorException("La propriété n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer une exportation
 	 * @param exportation exportation
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeExportation (ModelExportation exportation) throws ContestOrgModelException {
+	protected void removeExportation (ModelExportation exportation) throws ContestOrgErrorException {
 		// Supprimer l'exportation
 		int index;
 		if ((index = this.exportations.indexOf(exportation)) != -1) {
@@ -858,16 +859,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(exportation, index);
 		} else {
-			throw new ContestOrgModelException("L'exportation n'existe pas dans le concours");
+			throw new ContestOrgErrorException("L'exportation n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer une diffusion
 	 * @param diffusion diffusion
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeDiffusion (ModelDiffusion diffusion) throws ContestOrgModelException {
+	protected void removeDiffusion (ModelDiffusion diffusion) throws ContestOrgErrorException {
 		// Supprimer l'exportation
 		int index;
 		if ((index = this.diffusions.indexOf(diffusion)) != -1) {
@@ -877,16 +878,16 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(diffusion, index);
 		} else {
-			throw new ContestOrgModelException("L'exportation n'existe pas dans le concours");
+			throw new ContestOrgErrorException("L'exportation n'existe pas dans le concours");
 		}
 	}
 	
 	/**
 	 * Supprimer un critère de classement des phases qualificatives
 	 * @param compPhasesQualifs critère de classement des phases qualificatives
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsAbstract compPhasesQualifs) throws ContestOrgModelException {
+	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsAbstract compPhasesQualifs) throws ContestOrgErrorException {
 		// Retirer l'objectif remporte
 		int index;
 		if ((index = this.compsPhasesQualifs.indexOf(compPhasesQualifs)) != -1) {
@@ -896,7 +897,7 @@ public class ModelConcours extends ModelAbstract
 			// Fire remove
 			this.fireRemove(compPhasesQualifs, index);
 		} else {
-			throw new ContestOrgModelException("Le comparateur pour phases qualificatives n'existe pas dans le concours");
+			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives n'existe pas dans le concours");
 		}
 	}
 	
@@ -905,9 +906,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des objectifs
 	 * @param list liste des objectifs source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateObjectifs (TrackableList<InfosModelObjectif> list) throws ContestOrgModelException {
+	protected void updateObjectifs (TrackableList<InfosModelObjectif> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des objectifs
 		this.updates(new ModelObjectif.UpdaterForConcours(this), this.objectifs, list, true, null);
 	}
@@ -915,9 +916,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des lieux
 	 * @param list liste des lieux source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateLieux (TrackableList<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> list) throws ContestOrgModelException {
+	protected void updateLieux (TrackableList<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des lieux
 		this.updates(new ModelLieu.UpdaterForConcours(this), this.lieux, list, true, null);
 	}
@@ -925,9 +926,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des prix
 	 * @param list liste des prix source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updatePrix (TrackableList<InfosModelPrix> list) throws ContestOrgModelException {
+	protected void updatePrix (TrackableList<InfosModelPrix> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des prix
 		this.updates(new ModelPrix.UpdaterForConcours(this), this.prix, list, true, null);
 	}
@@ -935,9 +936,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des catégories
 	 * @param list liste des catégories source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateCategories (TrackableList<InfosModelCategorie> list) throws ContestOrgModelException {
+	protected void updateCategories (TrackableList<InfosModelCategorie> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des catégories
 		this.updates(new ModelCategorie.UpdaterForConcours(this), this.categories, list, true, null);
 	}
@@ -945,9 +946,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des propiétés
 	 * @param list liste des propriétés source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateProprietes (TrackableList<InfosModelPropriete> list) throws ContestOrgModelException {
+	protected void updateProprietes (TrackableList<InfosModelPropriete> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des propriétés
 		this.updates(new ModelPropriete.UpdaterForConcours(this), this.proprietes, list, true, null);
 	}
@@ -955,9 +956,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des exportations
 	 * @param list liste des exportations source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateExportations (TrackableList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> list) throws ContestOrgModelException {
+	protected void updateExportations (TrackableList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des exportations
 		this.updates(new ModelExportation.UpdaterForConcours(this), this.exportations, list, true, null);
 	}
@@ -965,9 +966,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des diffusions
 	 * @param list liste des diffusions source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateDiffusions (TrackableList<Pair<InfosModelDiffusion, InfosModelTheme>> list) throws ContestOrgModelException {
+	protected void updateDiffusions (TrackableList<Pair<InfosModelDiffusion, InfosModelTheme>> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des diffusions
 		this.updates(new ModelDiffusion.UpdaterForConcours(this), this.diffusions, list, true, null);
 	}
@@ -975,9 +976,9 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des critères de classement des phases qualificatives
 	 * @param list liste des critères de classement des phases qualificatives source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateCompPhasesQualifs (TrackableList<InfosModelCompPhasesQualifsAbstract> list) throws ContestOrgModelException {
+	protected void updateCompPhasesQualifs (TrackableList<InfosModelCompPhasesQualifsAbstract> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des comparateurs
 		this.updates(new ModelCompPhasesQualifsAbstract.UpdaterForConcours(this), this.compsPhasesQualifs, list, true, null);
 	}
@@ -1002,7 +1003,7 @@ public class ModelConcours extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter l'emplacement à la liste des removers
 			removers.add(this);

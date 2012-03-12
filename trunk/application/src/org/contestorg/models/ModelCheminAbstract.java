@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.infos.InfosModelChemin;
 import org.contestorg.infos.InfosModelCheminFTP;
 import org.contestorg.infos.InfosModelCheminLocal;
@@ -55,7 +56,7 @@ public abstract class ModelCheminAbstract extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter le chemin à la liste des removers
 			removers.add(this);

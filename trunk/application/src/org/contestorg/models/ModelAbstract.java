@@ -3,6 +3,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
 import org.contestorg.events.Event;
 import org.contestorg.events.EventAdd;
@@ -110,18 +111,18 @@ public abstract class ModelAbstract
 	
 	/**
 	 * Supprimer le modèle
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void delete () throws ContestOrgModelException {
+	protected void delete () throws ContestOrgErrorException {
 		this.delete(new ArrayList<ModelAbstract>());
 	}
 	
 	/**
 	 * Supprimer le modèle
 	 * @param origin origine du message de suppression
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void delete (ModelAbstract origin) throws ContestOrgModelException {
+	protected void delete (ModelAbstract origin) throws ContestOrgErrorException {
 		ArrayList<ModelAbstract> removers = new ArrayList<ModelAbstract>();
 		removers.add(origin);
 		this.delete(removers);
@@ -130,9 +131,9 @@ public abstract class ModelAbstract
 	/**
 	 * Supprimer le modèle
 	 * @param removers liste des modèles traversées par le message de suppression
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected abstract void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException;
+	protected abstract void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException;
 	
 	// Signalements
 	
@@ -263,9 +264,9 @@ public abstract class ModelAbstract
 	 * @param source modèle associés source
 	 * @param remove appliquer des suppressions si nécéssaire ?
 	 * @param role rôle des modèles associés
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected <L, M extends ModelAbstract> void updates (IUpdater<L, M> updater, ArrayList<M> target, TrackableList<L> source, boolean remove, Integer role) throws ContestOrgModelException {
+	protected <L, M extends ModelAbstract> void updates (IUpdater<L, M> updater, ArrayList<M> target, TrackableList<L> source, boolean remove, Integer role) throws ContestOrgErrorException {
 		// Modifier les modèles à modifier
 		for (int before : source.getUpdates()) {
 			// Rechercher l'index correspondant à before dans la nouvelle liste
@@ -320,9 +321,9 @@ public abstract class ModelAbstract
 	 * Associer/Désassocier des modèles
 	 * @param linker objet d'association
 	 * @param list modèles associés
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected <T> void links (ILinker<T> linker, TrackableList<T> list) throws ContestOrgModelException {
+	protected <T> void links (ILinker<T> linker, TrackableList<T> list) throws ContestOrgErrorException {
 		// Récupérer les originaux
 		ArrayList<T> originaux = list.getOriginaux();
 		

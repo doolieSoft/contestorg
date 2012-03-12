@@ -2,6 +2,7 @@ package org.contestorg.out;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.OperationAbstract;
 import org.contestorg.common.OperationRunnableAbstract;
 import org.contestorg.infos.InfosConnexionFTP;
@@ -68,7 +69,7 @@ public class ExportationFTP extends ExportationAbstract
 			this.fireMessage("Génération des ressources ...");
 			try {
 				this.ressources = RessourceAbstract.getRessources(theme,false);
-			} catch (ContestOrgOutException e) {
+			} catch (ContestOrgWarningException e) {
 				this.echec(e.getMessage());
 				return;
 			}

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import javax.activation.MimetypesFileTypeMap;
 import javax.swing.filechooser.FileSystemView;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.Tools;
 import org.contestorg.events.Action;
 import org.contestorg.infos.Fichier;
@@ -40,7 +41,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 	 * @return liste des thèmes d'exportation/diffusion
 	 * @throws ContestOrgOutException
 	 */
-	public static ArrayList<Theme> getThemes (String chemin) throws ContestOrgOutException {
+	public static ArrayList<Theme> getThemes (String chemin) throws ContestOrgWarningException {
 		return RessourceAbstract.getThemes(chemin, null);
 	}
 	
@@ -52,7 +53,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 	 * @throws ContestOrgOutException
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ArrayList<Theme> getThemes (String chemin, String categorie) throws ContestOrgOutException {
+	public static ArrayList<Theme> getThemes (String chemin, String categorie) throws ContestOrgWarningException {
 		// Récupérer la vue sur le système de fichiers
 		FileSystemView view = FileSystemView.getFileSystemView();
 		
@@ -119,7 +120,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 										parametreType = Parametre.TYPE_MOTDEPASSE;
 										break;
 									default:
-										throw new ContestOrgOutException("Le type du paramètre \"" + parametreId + "\" du thème \"" + file.getName() + "\" n'est pas valide.");
+										throw new ContestOrgWarningException("Le type du paramètre \"" + parametreId + "\" du thème \"" + file.getName() + "\" n'est pas valide.");
 								}
 								
 								// Ajouter le paramètre
@@ -159,7 +160,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 						try {
 							relatif = Tools.getRelativePath(file, new File("."));
 						} catch (IOException e) {
-							throw new ContestOrgOutException("Erreur de la récupération du chemin relatif au thème.");
+							throw new ContestOrgWarningException("Erreur de la récupération du chemin relatif au thème.");
 						}
 						
 						// Ajouter le thème
@@ -179,11 +180,11 @@ public abstract class RessourceAbstract implements IHistoryListener
 	 * @return fichier de configuration parsé
 	 * @throws ContestOrgOutException
 	 */
-	private static Element getConfiguration (String chemin) throws ContestOrgOutException {
+	private static Element getConfiguration (String chemin) throws ContestOrgWarningException {
 		// Récupérer le fichier de configuration
 		File configuration = new File(chemin + File.separator + "configuration.xml");
 		if (!configuration.exists()) {
-			throw new ContestOrgOutException("Le fichier de configuration \"configuration.xml\" n'existe pas.");
+			throw new ContestOrgWarningException("Le fichier de configuration \"configuration.xml\" n'existe pas.");
 		}
 		
 		// Parser le fichier de configuration
@@ -192,9 +193,9 @@ public abstract class RessourceAbstract implements IHistoryListener
 			SAXBuilder builder = new SAXBuilder();
 			document = builder.build(configuration);
 		} catch (JDOMException e) {
-			throw new ContestOrgOutException("Le fichier de configuration \"configuration.xml\" n'est pas valide.");
+			throw new ContestOrgWarningException("Le fichier de configuration \"configuration.xml\" n'est pas valide.");
 		} catch (IOException e) {
-			throw new ContestOrgOutException("Le fichier de configuration \"configuration.xml\" est inaccessible.");
+			throw new ContestOrgWarningException("Le fichier de configuration \"configuration.xml\" est inaccessible.");
 		}
 		
 		// Retourner
@@ -209,10 +210,10 @@ public abstract class RessourceAbstract implements IHistoryListener
 	 * @throws ContestOrgOutException
 	 */
 	@SuppressWarnings("rawtypes")
-	public static ArrayList<RessourceAbstract> getRessources (InfosModelTheme theme, boolean refresh) throws ContestOrgOutException {
+	public static ArrayList<RessourceAbstract> getRessources (InfosModelTheme theme, boolean refresh) throws ContestOrgWarningException {
 		// Vérifier si le thème existe
 		if(!(new File(theme.getChemin()).exists())) {
-			throw new ContestOrgOutException("Le thème \""+theme.getNom()+"\" n'a pas été retrouvé.");
+			throw new ContestOrgWarningException("Le thème \""+theme.getNom()+"\" n'a pas été retrouvé.");
 		}
 		
 		// Initialiser les ressources
@@ -224,7 +225,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 			List listeParticipants = configuration.getChild("fichiers").getChildren("fichier");
 			Iterator i = listeParticipants.iterator();
 			if (!i.hasNext()) {
-				throw new ContestOrgOutException("Aucun fichier n'a été défini dans le fichier de configuration du thème.");
+				throw new ContestOrgWarningException("Aucun fichier n'a été défini dans le fichier de configuration du thème.");
 			} else {
 				while (i.hasNext()) {
 					// Récupérer le fichier dans le DOM
@@ -265,7 +266,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 			}
 		} else {
 			// Erreur
-			throw new ContestOrgOutException("Aucun fichier n'a été défini dans le fichier de configuration du thème.");
+			throw new ContestOrgWarningException("Aucun fichier n'a été défini dans le fichier de configuration du thème.");
 		}
 		
 		// Autoriser la mise à jour automatique si nécéssaire

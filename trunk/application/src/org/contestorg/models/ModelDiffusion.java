@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelDiffusion;
@@ -117,9 +118,9 @@ public class ModelDiffusion extends ModelAbstract
 	/**
 	 * Définir le thème
 	 * @param theme thème
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setTheme (ModelTheme theme) throws ContestOrgModelException {
+	protected void setTheme (ModelTheme theme) throws ContestOrgErrorException {
 		ModelTheme before = this.theme;
 		this.theme = theme;
 		before.delete(this);
@@ -147,7 +148,7 @@ public class ModelDiffusion extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la diffusion à la liste des removers
 			removers.add(this);

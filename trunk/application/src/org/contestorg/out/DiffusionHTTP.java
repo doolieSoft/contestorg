@@ -2,6 +2,7 @@ package org.contestorg.out;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.OperationAbstract;
 import org.contestorg.common.OperationRunnableAbstract;
 import org.contestorg.infos.InfosModelTheme;
@@ -88,7 +89,7 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 				ArrayList<RessourceAbstract> ressources;
 				try {
 					ressources = RessourceAbstract.getRessources(theme,true);
-				} catch (ContestOrgOutException e) {
+				} catch (ContestOrgWarningException e) {
 					this.echec(e.getMessage());
 					return;
 				}

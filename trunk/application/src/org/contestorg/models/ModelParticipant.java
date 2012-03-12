@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
@@ -433,9 +434,9 @@ public class ModelParticipant extends ModelMatchable
 	/**
 	 * Définir la poule
 	 * @param poule poule
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void setPoule (ModelPoule poule) throws ContestOrgModelException {
+	protected void setPoule (ModelPoule poule) throws ContestOrgErrorException {
 		// Modifier la poule
 		this.poule.removeParticipant(this);
 		this.poule = poule;
@@ -450,9 +451,9 @@ public class ModelParticipant extends ModelMatchable
 	/**
 	 * Ajouter une participation
 	 * @param participation participation
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addParticipation (ModelParticipation participation) throws ContestOrgModelException {
+	public void addParticipation (ModelParticipation participation) throws ContestOrgErrorException {
 		if (!this.participations.contains(participation)) {
 			// Ajouter la participation
 			this.participations.add(participation);
@@ -460,16 +461,16 @@ public class ModelParticipant extends ModelMatchable
 			// Fire add
 			this.fireAdd(participation, this.participations.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La participation existe déjà dans le participant");
+			throw new ContestOrgErrorException("La participation existe déjà dans le participant");
 		}
 	}
 	
 	/**
 	 * Ajouter un prix
 	 * @param prix prix
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addPrix (ModelPrix prix) throws ContestOrgModelException {
+	public void addPrix (ModelPrix prix) throws ContestOrgErrorException {
 		if (!this.prix.contains(prix)) {
 			// Ajouter le prix
 			this.prix.add(prix);
@@ -477,16 +478,16 @@ public class ModelParticipant extends ModelMatchable
 			// Fire add
 			this.fireAdd(prix, this.prix.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La participation existe déjà dans le participant");
+			throw new ContestOrgErrorException("La participation existe déjà dans le participant");
 		}
 	}
 	
 	/**
 	 * Ajouter une propriété possédée
 	 * @param proprietePossedee propriété possédée
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgModelException {
+	public void addProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgErrorException {
 		if (!this.proprietesPossedees.contains(proprietePossedee)) {
 			// Ajouter la propriété possédée
 			this.proprietesPossedees.add(proprietePossedee);
@@ -494,7 +495,7 @@ public class ModelParticipant extends ModelMatchable
 			// Fire add
 			this.fireAdd(proprietePossedee, this.proprietesPossedees.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La participation existe déjà dans le participant");
+			throw new ContestOrgErrorException("La participation existe déjà dans le participant");
 		}
 	}
 	
@@ -503,9 +504,9 @@ public class ModelParticipant extends ModelMatchable
 	/**
 	 * Supprimer une participation
 	 * @param participation participation
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeParticipation (ModelParticipation participation) throws ContestOrgModelException {
+	protected void removeParticipation (ModelParticipation participation) throws ContestOrgErrorException {
 		// Retirer la participation
 		int index;
 		if ((index = this.participations.indexOf(participation)) != -1) {
@@ -515,16 +516,16 @@ public class ModelParticipant extends ModelMatchable
 			// Fire remove
 			this.fireRemove(participation, index);
 		} else {
-			throw new ContestOrgModelException("La participation n'existe pas dans le participant");
+			throw new ContestOrgErrorException("La participation n'existe pas dans le participant");
 		}
 	}
 	
 	/**
 	 * Supprimer un prix
 	 * @param prix prix
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removePrix (ModelPrix prix) throws ContestOrgModelException {
+	protected void removePrix (ModelPrix prix) throws ContestOrgErrorException {
 		// Retirer le prix
 		int index;
 		if ((index = this.prix.indexOf(prix)) != -1) {
@@ -534,16 +535,16 @@ public class ModelParticipant extends ModelMatchable
 			// Fire remove
 			this.fireRemove(prix, index);
 		} else {
-			throw new ContestOrgModelException("La participation n'existe pas dans le participant");
+			throw new ContestOrgErrorException("La participation n'existe pas dans le participant");
 		}
 	}
 	
 	/**
 	 * Supprimer une propriété possédée
 	 * @param proprietePossedee propriété possédée
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removeProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgModelException {
+	protected void removeProprietePossedee (ModelProprietePossedee proprietePossedee) throws ContestOrgErrorException {
 		// Retirer la propriété possédée
 		int index;
 		if ((index = this.proprietesPossedees.indexOf(proprietePossedee)) != -1) {
@@ -553,7 +554,7 @@ public class ModelParticipant extends ModelMatchable
 			// Fire remove
 			this.fireRemove(proprietePossedee, index);
 		} else {
-			throw new ContestOrgModelException("La participation n'existe pas dans le paricipant");
+			throw new ContestOrgErrorException("La participation n'existe pas dans le paricipant");
 		}
 	}
 	
@@ -562,9 +563,9 @@ public class ModelParticipant extends ModelMatchable
 	/**
 	 * Mettre à jour la liste des prix
 	 * @param list liste des prix source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updatePrix (TrackableList<String> list) throws ContestOrgModelException {
+	protected void updatePrix (TrackableList<String> list) throws ContestOrgErrorException {
 		// Mettre à jour les prix remportés
 		this.links(new ModelParticipant.LinkerForPrix(this), list);
 	}
@@ -572,9 +573,9 @@ public class ModelParticipant extends ModelMatchable
 	/**
 	 * Mettre à jour la liste des propriétés possédées
 	 * @param list liste des propriétés possédées source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updateProprietesPossedees (TrackableList<Pair<String, InfosModelProprietePossedee>> list) throws ContestOrgModelException {
+	protected void updateProprietesPossedees (TrackableList<Pair<String, InfosModelProprietePossedee>> list) throws ContestOrgErrorException {
 		// Mettre à jour les propriétés de participant
 		this.updates(new ModelProprietePossedee.UpdaterForParticipant(this), this.proprietesPossedees, list, true, null);
 	}
@@ -608,7 +609,7 @@ public class ModelParticipant extends ModelMatchable
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter le participant à la liste des removers
 			removers.add(this);
@@ -677,7 +678,7 @@ public class ModelParticipant extends ModelMatchable
 				participant.updateProprietesPossedees(infos.getFourth());
 				participant.updatePrix(infos.getFifth());
 				return participant;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'un participant.",e);
 				return null;
 			}
@@ -699,7 +700,7 @@ public class ModelParticipant extends ModelMatchable
 				participant.setInfos(infos.getThird());
 				participant.updateProprietesPossedees(infos.getFourth());
 				participant.updatePrix(infos.getFifth());
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal(e.getMessage());
 			}
 		}
@@ -734,7 +735,7 @@ public class ModelParticipant extends ModelMatchable
 				try {
 					prix.addParticipant(this.participant);
 					this.participant.addPrix(prix);
-				} catch (ContestOrgModelException e) {
+				} catch (ContestOrgErrorException e) {
 					Log.getLogger().fatal("Erreur lors de la création du lien entre un prix et un participant.");
 				}
 			}
@@ -753,7 +754,7 @@ public class ModelParticipant extends ModelMatchable
 				try {
 					prix.removeParticipant(this.participant);
 					this.participant.removePrix(prix);
-				} catch (ContestOrgModelException e) {
+				} catch (ContestOrgErrorException e) {
 					Log.getLogger().fatal("Erreur lors de la suppression du lien entre un prix et un participant.");
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.tree.TreeModel;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.GenerationDecorator;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
@@ -348,9 +349,9 @@ public class FrontModelPhasesQualificatives
 	 * @param nomCategorie nom de la catégorie
 	 * @param nomPoule nom de la poule
 	 * @param infos informations de la phase qualificative
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgModelException {
+	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
 		// Démarrer l'action d'ajout
 		this.frontModel.getHistory().start("Ajout d'une phase qualificative dans la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -370,9 +371,9 @@ public class FrontModelPhasesQualificatives
 	 * @param nomPoule nom de la poule
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @param infos nouvelles informations de la phase qualificative
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updatePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgModelException {
+	public void updatePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification de la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -410,9 +411,9 @@ public class FrontModelPhasesQualificatives
 	 * @param nomCategorie nom de la catégorie
 	 * @param nomPoule nom de la poule
 	 * @param numeroPhase numéro de la phase qualificative
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void removePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase) throws ContestOrgModelException {
+	public void removePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase) throws ContestOrgErrorException {
 		// Démarrer l'action de suppression
 		this.frontModel.getHistory().start("Suppression de la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -431,9 +432,9 @@ public class FrontModelPhasesQualificatives
 	 * @param nomPoule nom de la poule
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @param infos informations du match
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addMatchPhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) throws ContestOrgModelException {
+	public void addMatchPhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
 		// Démarrer l'action d'ajout
 		this.frontModel.getHistory().start("Ajout d'un match dans la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -484,9 +485,9 @@ public class FrontModelPhasesQualificatives
 	 * @param nomPoule nom de la poule
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @param numeroMatch numéro du match
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void removeMatch(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch) throws ContestOrgModelException {
+	public void removeMatch(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch) throws ContestOrgErrorException {
 		// Démarrer l'action de suppression
 		this.frontModel.getHistory().start("Suppression du match "+numeroMatch+" de la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		

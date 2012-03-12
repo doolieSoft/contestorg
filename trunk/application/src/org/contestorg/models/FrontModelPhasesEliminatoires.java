@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
@@ -115,9 +116,9 @@ public class FrontModelPhasesEliminatoires
 	 * @param nbPhases nombre de phases éliminatoires
 	 * @param infosMatchs informations d'initialisation des matchs
 	 * @param infosPhaseEliminatoire informations de la phase éliminatoire
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void genererPhasesElims(String nomCategorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgModelException {
+	public void genererPhasesElims(String nomCategorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgErrorException {
 		// Démarrer l'action de génération
 		this.frontModel.getHistory().start("Génération des phases éliminatoires pour la catégorie \""+nomCategorie+"\"");
 		
@@ -131,9 +132,9 @@ public class FrontModelPhasesEliminatoires
 	/**
 	 * Remettre à zéro les phases éliminatoires d'une catégorie donnée
 	 * @param nomCategorie nom de la catégorie
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void resetPhasesElims(String nomCategorie) throws ContestOrgModelException {
+	public void resetPhasesElims(String nomCategorie) throws ContestOrgErrorException {
 		// Démarrer l'action de reset
 		this.frontModel.getHistory().start("Reset des phases éliminatoires pour la catégorie \""+nomCategorie+"\"");
 		
@@ -149,9 +150,9 @@ public class FrontModelPhasesEliminatoires
 	 * @param nomCategorie nom de la catégorie
 	 * @param numeroCellule numéro de la cellule
 	 * @param nomParticipant nom du participant
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void setParticipant(String nomCategorie, int numeroCellule, String nomParticipant) throws ContestOrgModelException {
+	public void setParticipant(String nomCategorie, int numeroCellule, String nomParticipant) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification d'un participant dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		
@@ -187,9 +188,9 @@ public class FrontModelPhasesEliminatoires
 	 * @param nomCategorie nom de la catégorie
 	 * @param numeroMatch numéro du match
 	 * @param infos nouvelles informations du match
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updateMatch(String nomCategorie, int numeroMatch, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgModelException {
+	public void updateMatch(String nomCategorie, int numeroMatch, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification d'un match dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		
@@ -207,9 +208,9 @@ public class FrontModelPhasesEliminatoires
 	 * Mettre à jour les informations de la petite finale d'une catégorie donnée
 	 * @param nomCategorie nom de la catégorie
 	 * @param infos nouvelles informations de la petite finale
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void updateMatchPetiteFinale(String nomCategorie, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgModelException {
+	public void updateMatchPetiteFinale(String nomCategorie, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification de la petite finale dans les phase éliminatoires de la catégorie \""+nomCategorie+"\"");
 		

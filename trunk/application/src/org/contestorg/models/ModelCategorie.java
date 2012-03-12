@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 
+import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.infos.InfosModelCategorie;
@@ -220,9 +221,9 @@ public class ModelCategorie extends ModelAbstract
 	/**
 	 * Ajouter un poule
 	 * @param poule poule à ajouter
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	public void addPoule (ModelPoule poule) throws ContestOrgModelException {
+	public void addPoule (ModelPoule poule) throws ContestOrgErrorException {
 		if (!this.poules.contains(poule)) {
 			// Ajouter la poule
 			this.poules.add(poule);
@@ -230,7 +231,7 @@ public class ModelCategorie extends ModelAbstract
 			// Fire add
 			this.fireAdd(poule, this.poules.size() - 1);
 		} else {
-			throw new ContestOrgModelException("La poule existe déjà dans la catégorie");
+			throw new ContestOrgErrorException("La poule existe déjà dans la catégorie");
 		}
 	}
 	
@@ -239,9 +240,9 @@ public class ModelCategorie extends ModelAbstract
 	/**
 	 * Retirer une poule
 	 * @param poule poule à retirer
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void removePoule (ModelPoule poule) throws ContestOrgModelException {
+	protected void removePoule (ModelPoule poule) throws ContestOrgErrorException {
 		// Retirer la poule
 		int index;
 		if ((index = this.poules.indexOf(poule)) != -1) {
@@ -251,7 +252,7 @@ public class ModelCategorie extends ModelAbstract
 			// Fire remove
 			this.fireRemove(poule, index);
 		} else {
-			throw new ContestOrgModelException("La poule n'existe pas dans la catégorie");
+			throw new ContestOrgErrorException("La poule n'existe pas dans la catégorie");
 		}
 	}
 	
@@ -260,9 +261,9 @@ public class ModelCategorie extends ModelAbstract
 	/**
 	 * Mettre à jour la liste des poules
 	 * @param source liste des poules source
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void updatePoules(TrackableList<Pair<InfosModelPoule, ArrayList<String>>> source) throws ContestOrgModelException {
+	protected void updatePoules(TrackableList<Pair<InfosModelPoule, ArrayList<String>>> source) throws ContestOrgErrorException {
 		// Mettre à jour la liste des poules
 		this.updates(new ModelPoule.UpdaterForCategorie(this), this.poules, source, true, null);
 	}
@@ -274,9 +275,9 @@ public class ModelCategorie extends ModelAbstract
 	 * @param nbPhases nombre de phases éliminatoires
 	 * @param infosMatchs informations des matchs
 	 * @param infosPhasesEliminatoires informations des phases éliminatoires
-	 * @throws ContestOrgModelException
+	 * @throws ContestOrgErrorException
 	 */
-	protected void genererPhasesEliminatoires (int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhasesEliminatoires) throws ContestOrgModelException {
+	protected void genererPhasesEliminatoires (int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhasesEliminatoires) throws ContestOrgErrorException {
 		// Supprimer les phases éliminatoires actuelles si nécéssaire
 		if (this.phasesEliminatoires != null) {
 			// Supprimer les phases éliminatoires
@@ -314,7 +315,7 @@ public class ModelCategorie extends ModelAbstract
 	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
-	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgModelException {
+	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
 		if (!removers.contains(this)) {
 			// Ajouter la catégorie a la liste des removers
 			removers.add(this);
@@ -376,7 +377,7 @@ public class ModelCategorie extends ModelAbstract
 				ModelCategorie categorie = new ModelCategorie(this.concours, infos);
 				categorie.addPoule(new ModelPoule(categorie, new InfosModelPoule("Défaut")));
 				return categorie;
-			} catch (ContestOrgModelException e) {
+			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la création d'une catégorie.",e);
 				return null;
 			}
