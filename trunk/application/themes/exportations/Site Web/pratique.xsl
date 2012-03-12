@@ -210,7 +210,7 @@
 	<xsl:template match="emplacement">
 		<li>
 			<xsl:value-of select="./@nom" />
-			<xsl:if test="./@description != ''">
+			<xsl:if test="./@description != ''"> :
 				<p style="padding-left:10px;">
 					<xsl:call-template name="html-nl2br">
 			          <xsl:with-param name="text" select="./@description"/>
