@@ -33,7 +33,6 @@ import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.InfosModelCategorie;
-import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
@@ -262,25 +261,13 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		
 		if (event.getSource() == this.jb_nouvellePhase) {
 			// Récupérer la catégorie et la poule séléctionnées
-			Triple<String, String, Integer> selection = this.getSelection(2, "Veuillez séléctionner la poule dans laquel vous désirez ajouter une nouvelle phase qualificative.", true);
+			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 			
-			// Vérifier si la séléction est correcte
-			if (selection != null) {
-				// Récupérer les participants qui peuvent participer
-				ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(selection.getFirst(), selection.getSecond());
-				
-				// Vérifier s'il y a des participants qui peuvent participer
-				if (participants.size() >= 2) {
-					// Créer et afficher la fenêtre de création
-					CollectorPhaseQualifCreer collector = new CollectorPhaseQualifCreer(selection.getFirst(), selection.getSecond());
-					JDialog jd_phase = new JDPhaseQualifCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond());
-					collector.setWindow(jd_phase);
-					jd_phase.setVisible(true);
-				} else {
-					// Erreur
-					ViewHelper.derror(this.w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il faut au moins deux équipes pouvant participer * pour créer une phase qualificative.\n<i>* Pour pouvoir participer, une équipe doit avoir le statut \"Homologuée\"</i>" : "Il faut au moins deux joueurs pouvant participer * pour créer une phase qualificative.\n<i>* Pour pouvoir participer, un joueur doit avoir le statut \"Homologué\"</i>");
-				}
-			}
+			// Créer et afficher la fenêtre de création
+			CollectorPhaseQualifCreer collector = new CollectorPhaseQualifCreer();
+			JDialog jd_phase = new JDPhaseQualifCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond());
+			collector.setWindow(jd_phase);
+			jd_phase.setVisible(true);
 		} else if (event.getSource() == this.jb_nouveauMatch) {
 			// Récupérer la catégorie, la poule et la phase qualificative séléctionnées
 			Triple<String, String, Integer> selection = this.getSelection(3, "Veuillez séléctionner la phase qualificative dans laquelle vous désirez ajouter un match.", true);
@@ -300,7 +287,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			// Vérifier si la séléction est correcte
 			if (selection != null) {
 				// Demander confirmation à l'utilisateur
-				if (ViewHelper.confirmation(this.w_parent, "En éditant cette phase qualificative de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ?", true)) {
+				if (ViewHelper.confirmation(this.w_parent, "En éditant cette phase qualificative de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ? *\n* Il est préférable d'éditer les matchs manuellement avec les opérations d'ajout, de modification et de suppression", true)) {
 					// Récupérer les informations de la phase qualificative à éditer
 					Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					
@@ -377,7 +364,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 	/**
 	 * Récupérer la catégorie, la poule et la phase qualificative séléctionnées
 	 * @param level niveau désiré (1 = catégorie, 2 = poule, 3 = phase qualificative)
-	 * @param message message d'erreur affiché si la séléction de l'utilisteur n'est pas suffisante
+	 * @param message message d'erreur affiché si la séléction de l'utilisateur n'est pas suffisante
 	 * @param implicite deviner au possible la séléction au niveau désiré si la séléction de l'utilisateur n'est pas suffisante
 	 * @return catégorie, la poule et la phase qualificative séléctionnées
 	 */
@@ -451,6 +438,8 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			if(message != null) {
 				ViewHelper.derror(this.w_parent, message);
 			}
+			
+			// Retourner null
 			return null;
 		}
 	}
@@ -459,71 +448,18 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 	 * Rafraichir les boutons
 	 */
 	private void refreshButtons () {
-		// Récupérer le niveau de séléction du jtree (explicite et implicite)
-		int level = 0;
-		TreePath path = this.jtree.getSelectionPath();
-		ITreeNode categories = null, categorie = null, poule = null;
-		if (path != null) {
-			// Récupérer la node séléctionnée
-			ITreeNode node = (ITreeNode)path.getLastPathComponent();
-			
-			// A partir du niveau de séléction explicite, vérifier s'il n'est pas possible de faire mieux implicitement
-			switch (level = node.getLevel()) {
-				case 0: // Racine
-					categories = node;
-					if (categories.getChildCount() == 1) { // Est-ce qu'il y a une seule catégorie ?
-						level++;
-						categorie = (ITreeNode)categories.getChildAt(0);
-						if (categorie.getChildCount() == 1) { // Est-ce qu'il y a qu'une seule poule ?
-							level++;
-							poule = (ITreeNode)categorie.getChildAt(0);
-							if (poule.getChildCount() == 1) { // Est-ce qu'il y a qu'une seule phase qualificative ?
-								level++;
-							}
-						}
-					}
-					break;
-				case 1: // Catégorie
-					categorie = node;
-					if (categorie.getChildCount() == 1) {
-						level++;
-						poule = (ITreeNode)categorie.getChildAt(0);
-						if (poule.getChildCount() == 1) {
-							level++;
-						}
-					}
-					break;
-				case 2: // Poule
-					poule = node;
-					if (poule.getChildCount() == 1) {
-						level++;
-					}
-					break;
-			}
-		} else {
-			categories = (ITreeNode)this.jtree.getModel().getRoot();
-			if (categories.getChildCount() == 1) { // Est-ce qu'il y a une seule catégorie ?
-				level++;
-				categorie = (ITreeNode)categories.getChildAt(0);
-				if (categorie.getChildCount() == 1) { // Est-ce qu'il y a qu'une seule poule ?
-					level++;
-					poule = (ITreeNode)categorie.getChildAt(0);
-					if (poule.getChildCount() == 1) { // Est-ce qu'il y a qu'une seule phase qualificative ?
-						level++;
-					}
-				}
-			}
-		}
+		// Récupérer la catégorie, la poule et la phase qualificative séléctionnées
+		Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 		
 		// Rafraichir les boutons
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
-		this.jb_nouvellePhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && level >= 2);
+		this.jb_nouvellePhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_editerMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
 		this.jb_supprimerMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
-		this.jb_nouveauMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && level == 3);
-		this.jb_editerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && level == 3);
-		this.jb_supprimerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && level == 3);
+		this.jb_nouveauMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getThird() != null);
+		this.jb_editerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getThird() != null);
+		this.jb_supprimerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getThird() != null);
 	}
 	
 	// Implémentation de MouseListener

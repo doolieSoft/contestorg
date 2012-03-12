@@ -4,6 +4,7 @@ import java.awt.Window;
 
 import javax.swing.JCheckBox;
 
+import org.contestorg.common.Quintuple;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.Configuration;
 import org.contestorg.infos.Couple;
@@ -17,6 +18,8 @@ import org.contestorg.interfaces.ICollector;
 @SuppressWarnings("serial")
 public class JDPhaseQualifEditer extends JDPhaseQualifAbstract
 {
+	/** Ancienne configuration */
+	private Configuration<String> ancienneConfiguration;
 
 	/**
 	 * Constructeur
@@ -26,7 +29,7 @@ public class JDPhaseQualifEditer extends JDPhaseQualifAbstract
 	 * @param nomPoule nom de la poule de destination
 	 * @param infos informations de la phase qualificative
 	 */
-	public JDPhaseQualifEditer(Window w_parent, ICollector<Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) {
+	public JDPhaseQualifEditer(Window w_parent, ICollector<Quintuple<String, String, Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer une phase qualificative", collector, nomCategorie, nomPoule);
 		
@@ -45,6 +48,21 @@ public class JDPhaseQualifEditer extends JDPhaseQualifAbstract
 		
 		// Remplir les entrées avec les informations de la phase qualificative
 		this.setConfiguration(infos.getFirst());
+		
+		// Retenir l'ancienne configuration
+		this.ancienneConfiguration = infos.getFirst();
+	}
+	
+	/**
+	 * @see JDPattern#quit()
+	 */
+	@Override
+	protected void quit () {
+		// Remplir les entrées avec les informations de la phase qualificative
+		this.setConfiguration(this.ancienneConfiguration);
+				
+		// Simuler le clic sur OK
+		this.ok();
 	}
 	
 }

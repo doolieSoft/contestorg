@@ -31,6 +31,8 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 	/** Collecteur des informations du match */
 	private ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector;
 	
+	// Entrées
+	
 	/** Nom de la catégorie de destination */
 	private String nomCategorie;
 	

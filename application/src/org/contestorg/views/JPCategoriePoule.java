@@ -21,6 +21,9 @@ import org.contestorg.infos.InfosModelPoule;
 @SuppressWarnings("serial")
 public class JPCategoriePoule extends JPanel implements ItemListener
 {
+	/** Listeners */
+	private ArrayList<ItemListener> listeners = new ArrayList<ItemListener>();
+	
 	// Entrées
 	
 	/** Catégorie */
@@ -76,7 +79,7 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 	 * Récupérer le nom de la catégorie séléctionnée
 	 * @return nom de la catégorie séléctionnée
 	 */
-	public String getCategorie() {
+	public String getNomCategorie() {
 		return (String)this.jcb_categorie.getSelectedItem();
 	}
 	
@@ -84,7 +87,7 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 	 * Récupérer la poule séléctionnée
 	 * @return nom de la poule séléctionnée
 	 */
-	public String getPoule() {
+	public String getNomPoule() {
 		return (String)this.jcb_poule.getSelectedItem();
 	}
 	
@@ -92,16 +95,20 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 	 * Définir le nom de la catégorie séléctionnée
 	 * @param nomCategorie nom de la catégorie
 	 */
-	public void setCategorie(String nomCategorie) {
-		this.jcb_categorie.setSelectedItem(nomCategorie);
+	public void setNomCategorie(String nomCategorie) {
+		if(nomCategorie != null) {
+			this.jcb_categorie.setSelectedItem(nomCategorie);
+		}
 	}
 	
 	/**
 	 * Définir la poule séléctionnée
 	 * @param nomPoule nom de la poule
 	 */
-	public void setPoule(String nomPoule) {
-		this.jcb_poule.setSelectedItem(nomPoule);
+	public void setNomPoule(String nomPoule) {
+		if(nomPoule != null) {
+			this.jcb_poule.setSelectedItem(nomPoule);
+		}
 	}
 
 	/**
@@ -109,6 +116,11 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 	 */
 	@Override
 	public void itemStateChanged (ItemEvent event) {
+		// Supprimer les listeners
+		for(ItemListener listener : this.listeners) {
+			this.jcb_poule.removeItemListener(listener);
+		}
+		
 		// Vider la liste des poules
 		this.jcb_poule.removeAllItems();
 		
@@ -119,5 +131,19 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 		for(InfosModelPoule poule : ContestOrg.get().getCtrlParticipants().getListePoules(nomCategorie)) {
 			this.jcb_poule.addItem(poule.getNom());
 		}
+		
+		// Propager l'événement
+		for(ItemListener listener : this.listeners) {
+			listener.itemStateChanged(event);
+			this.jcb_poule.addItemListener(listener);
+		}
+	}
+	
+	/**
+	 * @see JComboBox#addItemListener(ItemListener)
+	 */
+	public void addItemListener(ItemListener listener) {
+		this.jcb_poule.addItemListener(listener);
+		this.listeners.add(listener);
 	}
 }

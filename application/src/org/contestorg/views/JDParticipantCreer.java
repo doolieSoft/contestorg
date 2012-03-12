@@ -31,9 +31,9 @@ public class JDParticipantCreer extends JDParticipantAbstract
 		
 		// Séléctionner la catégorie et la poule si nécéssaire
 		if(nomCategorie != null) {
-			this.jp_categoriePoule.setCategorie(nomCategorie);
+			this.jp_categoriePoule.setNomCategorie(nomCategorie);
 			if(nomPoule != null) {
-				this.jp_categoriePoule.setPoule(nomPoule);
+				this.jp_categoriePoule.setNomPoule(nomPoule);
 			}
 		}
 	}

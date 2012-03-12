@@ -92,8 +92,8 @@ public class JDImporterParticipants extends JDPattern
 	@Override
 	protected void ok () {
 		// Récupérer la catégorie et la poule de destination
-		String categorie = this.jp_categoriePoule.getCategorie();
-		String poule = this.jp_categoriePoule.getPoule();
+		String categorie = this.jp_categoriePoule.getNomCategorie();
+		String poule = this.jp_categoriePoule.getNomPoule();
 		
 		// Liste des prix vides
 		TrackableList<String> prix = new TrackableList<String>();
