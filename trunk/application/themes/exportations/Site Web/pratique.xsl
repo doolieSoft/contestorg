@@ -102,6 +102,25 @@
 		<h3><xsl:value-of select="./@nom"></xsl:value-of></h3>
 		
 		<div class="bloc">
+			<!-- Informations du lieu -->
+			<xsl:if test="./@lieu != ''">
+				<b>Lieu : </b><xsl:value-of select="./@lieu"></xsl:value-of><br/>
+			</xsl:if>
+			<xsl:if test="./@telephone != ''">
+				<b>Téléphone : </b><xsl:value-of select="./@telephone"></xsl:value-of><br/>
+			</xsl:if>
+			<xsl:if test="./@email != ''">
+				<b>Email : </b><xsl:value-of select="./@email"></xsl:value-of><br/>
+			</xsl:if>
+			<xsl:if test="./@description != ''">
+				<b>Description : </b><br/>
+				<p>
+					<xsl:call-template name="html-nl2br">
+		          		<xsl:with-param name="text" select="./@description"/>
+		        	</xsl:call-template>
+		        </p>
+			</xsl:if>
+		
 			<!-- Liste des horaires -->
 			<xsl:if test="count(./listeHoraires/horaire) > 0">
 				<b>Horaires :</b>
@@ -146,16 +165,12 @@
 		<!-- Paramètre -->
 		<xsl:param name="timestamp" />
 		
-		<!-- Calculcs -->
+		<!-- Calculs -->
 		<xsl:variable name="heures"><xsl:number value="floor($timestamp div 60)" /></xsl:variable>
 		<xsl:variable name="minutes"><xsl:number value="$timestamp mod 60" /></xsl:variable>
 		
 		<!-- Heures et minutes -->
-		<xsl:if test="10 > $heures">0</xsl:if>
-		<xsl:value-of select="$heures" />
-		h
-		<xsl:if test="10 > $minutes">0</xsl:if>
-		<xsl:value-of select="$minutes" />
+		<xsl:if test="10 > $heures">0</xsl:if><xsl:value-of select="$heures" />h<xsl:if test="10 > $minutes">0</xsl:if><xsl:value-of select="$minutes" />
 	</xsl:template>
 	
 	<!-- Template pour une liste de jours -->
@@ -195,8 +210,12 @@
 	<xsl:template match="emplacement">
 		<li>
 			<xsl:value-of select="./@nom" />
-			<xsl:if test="count(./@description) = 1">
-				: <xsl:value-of select="./@description" />
+			<xsl:if test="./@description != ''">
+				<p style="padding-left:10px;">
+					<xsl:call-template name="html-nl2br">
+			          <xsl:with-param name="text" select="./@description"/>
+			        </xsl:call-template>
+	    		</p>
 			</xsl:if>
 		</li>
 	</xsl:template>
