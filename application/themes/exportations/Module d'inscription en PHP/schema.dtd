@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Noeud racine -->
+<!ELEMENT inscription (listeStatuts,listeParticipants)>
+
+<!-- Liste des statuts -->
+<!ELEMENT listeStatuts (statut*)>
+
+<!-- Statut -->
+<!ELEMENT statut (listeSuivants?)>
+<!ATTLIST statut id		ID					#REQUIRED> 	<!-- Identifiant du statut -->
+<!ATTLIST statut nom	CDATA				#REQUIRED> 	<!-- Nom du statut -->
+<!ATTLIST statut type	(accepte|refuse)	"refuse"> 	<!-- Type du statut -->
+
+<!-- Workflow de statuts -->
+<!ELEMENT listeSuivants (suivant*)>
+<!ELEMENT suivant EMPTY>
+<!ATTLIST suivant refStatut IDREF #REQUIRED>	<!-- Référence du statut suivant -->
+
+<!-- Liste des participants -->
+<!ELEMENT listeParticipants (participant*)>
+
+<!-- Participant -->
+<!ELEMENT participant (listeProprietes?)>
+<!ATTLIST participant id		ID 		#REQUIRED>	<!-- Identifiant du participant -->
+<!ATTLIST participant email		ID 		#REQUIRED>	<!-- Email du participant -->
+<!ATTLIST participant password	CDATA	#REQUIRED>	<!-- Mot de passe du participant -->
+<!ATTLIST participant nom		ID		#REQUIRED>	<!-- Nom du participant -->
+<!ATTLIST participant ville		CDATA	#IMPLIED>	<!-- Ville du participant -->
+<!ATTLIST participant details	CDATA	#REQUIRED>	<!-- Détails du participant -->
+<!ATTLIST participant refStatut	IDREF	#REQUIRED>	<!-- Référence du statut -->
+
+<!-- Liste des propriétés personnalisées -->
+<!ELEMENT listeProprietes (propriete*)>
+
+<!-- Priopriété personnalisée -->
+<!ELEMENT propriete EMPTY>
+<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété personnalisée -->
+<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété personnalisée -->
