@@ -40,6 +40,7 @@ import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IClosableTableModel;
+import org.contestorg.interfaces.ICollector;
 import org.contestorg.interfaces.IMoody;
 import org.contestorg.interfaces.IMoodyListener;
 import org.contestorg.interfaces.ITreeNode;
@@ -270,24 +271,45 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			jd_phase.setVisible(true);
 		} else if (event.getSource() == this.jb_nouveauMatch) {
 			// Récupérer la catégorie, la poule et la phase qualificative séléctionnées
-			Triple<String, String, Integer> selection = this.getSelection(3, "Veuillez séléctionner la phase qualificative dans laquelle vous désirez ajouter un match.", true);
+			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 			
 			// Vérifier si la séléction est correcte
-			if (selection != null) {
+			if (selection.getFirst() != null && selection.getSecond() != null && selection.getThird() != null) {
 				// Créer et afficher la fenêtre de création
 				CollectorMatchPhasesQualifsCreer collector = new CollectorMatchPhasesQualifsCreer(selection.getFirst(), selection.getSecond(), selection.getThird());
 				JDialog jd_match = new JDMatchPhasesQualifsCreer(this.w_parent, collector, selection.getFirst(), selection.getSecond(), selection.getThird());
 				collector.setWindow(jd_match);
 				jd_match.setVisible(true);
+			} else {
+				// Créer et afficher la fenêtre de création
+				CollectorAbstract<Triple<String,String,Integer>> collector = new CollectorAbstract<Triple<String,String,Integer>>() {
+					/**
+					 * @see ICollector#collect(Object)
+					 */
+					@Override
+					public void collect (Triple<String, String, Integer> selection) {
+						// Fermer le collecteur
+						this.close();
+						
+						// Créer et afficher la fenêtre de création
+						CollectorMatchPhasesQualifsCreer collector = new CollectorMatchPhasesQualifsCreer(selection.getFirst(), selection.getSecond(), selection.getThird());
+						JDialog jd_match = new JDMatchPhasesQualifsCreer(w_parent, collector, selection.getFirst(), selection.getSecond(), selection.getThird());
+						collector.setWindow(jd_match);
+						jd_match.setVisible(true);
+					}
+				};
+				JDialog jd_categoriePoulePhaseQualif = new JDCategoriePoulePhaseQualif(this.w_parent, collector, selection.getFirst(), selection.getSecond());
+				collector.setWindow(jd_categoriePoulePhaseQualif);
+				jd_categoriePoulePhaseQualif.setVisible(true);
 			}
 		} else if (event.getSource() == this.jb_editerPhase) {
 			// Récupérer la catégorie, la poule et la phase qualificative
-			Triple<String, String, Integer> selection = this.getSelection(3, "Veuillez séléctionner la phase qualificative que vous désirez éditer.", true);
+			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 			
 			// Vérifier si la séléction est correcte
-			if (selection != null) {
+			if (selection.getFirst() != null && selection.getSecond() != null && selection.getThird() != null) {
 				// Demander confirmation à l'utilisateur
-				if (ViewHelper.confirmation(this.w_parent, "En éditant cette phase qualificative de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ? *\n* Il est préférable d'éditer les matchs manuellement avec les opérations d'ajout, de modification et de suppression", true)) {
+				if (ViewHelper.confirmation(this.w_parent, "En éditant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\" de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ? *\n* Il est préférable d'éditer les matchs manuellement avec les opérations d'ajout, de modification et de suppression", true)) {
 					// Récupérer les informations de la phase qualificative à éditer
 					Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					
@@ -300,21 +322,69 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 					// Perdre la sélection du jtree
 					path = null;
 				}
+			} else {
+				// Créer et afficher la fenêtre de création
+				CollectorAbstract<Triple<String,String,Integer>> collector = new CollectorAbstract<Triple<String,String,Integer>>() {
+					/**
+					 * @see ICollector#collect(Object)
+					 */
+					@Override
+					public void collect (Triple<String, String, Integer> selection) {
+						// Fermer le collecteur
+						this.close();
+
+						// Demander confirmation à l'utilisateur
+						if (ViewHelper.confirmation(w_parent, "En éditant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\" de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ? *\n* Il est préférable d'éditer les matchs manuellement avec les opérations d'ajout, de modification et de suppression", true)) {
+							// Récupérer les informations de la phase qualificative à éditer
+							Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
+							
+							// Créer et afficher la fenêtre d'édition (en prenant soin de supprimer la phase qualificative)
+							CollectorPhaseQualifEditer collector = new CollectorPhaseQualifEditer(selection.getFirst(), selection.getSecond(), selection.getThird());
+							JDialog jd_phase = new JDPhaseQualifEditer(w_parent, collector, selection.getFirst(), selection.getSecond(), infos);
+							collector.setWindow(jd_phase);
+							jd_phase.setVisible(true);
+						}
+					}
+				};
+				JDialog jd_categoriePoulePhaseQualif = new JDCategoriePoulePhaseQualif(this.w_parent, collector, selection.getFirst(), selection.getSecond());
+				collector.setWindow(jd_categoriePoulePhaseQualif);
+				jd_categoriePoulePhaseQualif.setVisible(true);
 			}
 		} else if (event.getSource() == this.jb_supprimerPhase) {
 			// Récupérer la catégorie, la poule et la phase qualificative
-			Triple<String, String, Integer> selection = this.getSelection(3, "Veuillez séléctionner la phase qualificative que vous désirez supprimer.", true);
+			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 			
 			// Vérifier si la séléction est correcte
-			if (selection != null) {
+			if (selection.getFirst() != null && selection.getSecond() != null && selection.getThird() != null) {
 				// Demander la confirmation de l'utilisateur
-				if (ViewHelper.confirmation(this.w_parent, "En supprimant cette phase qualificative, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ?", true)) {
+				if (ViewHelper.confirmation(this.w_parent, "En supprimant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\", tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ?", true)) {
 					// Demander la suppression de la phase qualificative
 					ContestOrg.get().getCtrlPhasesQualificatives().removePhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					
 					// Perdre la sélection du jtree
 					path = null;
 				}
+			} else {
+				// Créer et afficher la fenêtre de création
+				CollectorAbstract<Triple<String,String,Integer>> collector = new CollectorAbstract<Triple<String,String,Integer>>() {
+					/**
+					 * @see ICollector#collect(Object)
+					 */
+					@Override
+					public void collect (Triple<String, String, Integer> selection) {
+						// Fermer le collecteur
+						this.close();
+
+						// Demander la confirmation de l'utilisateur
+						if (ViewHelper.confirmation(w_parent, "En supprimant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\", tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ?", true)) {
+							// Demander la suppression de la phase qualificative
+							ContestOrg.get().getCtrlPhasesQualificatives().removePhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
+						}
+					}
+				};
+				JDialog jd_categoriePoulePhaseQualif = new JDCategoriePoulePhaseQualif(this.w_parent, collector, selection.getFirst(), selection.getSecond());
+				collector.setWindow(jd_categoriePoulePhaseQualif);
+				jd_categoriePoulePhaseQualif.setVisible(true);
 			}
 		} else if (event.getSource() == this.jb_exporter) {
 			// Récupérer la catégorie, la poule et la phase qualificative
@@ -448,18 +518,15 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 	 * Rafraichir les boutons
 	 */
 	private void refreshButtons () {
-		// Récupérer la catégorie, la poule et la phase qualificative séléctionnées
-		Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
-		
 		// Rafraichir les boutons
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_nouvellePhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_editerMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
 		this.jb_supprimerMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
-		this.jb_nouveauMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getThird() != null);
-		this.jb_editerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getThird() != null);
-		this.jb_supprimerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getThird() != null);
+		this.jb_nouveauMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
+		this.jb_editerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
+		this.jb_supprimerPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}
 	
 	// Implémentation de MouseListener

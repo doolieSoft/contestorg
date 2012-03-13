@@ -133,6 +133,16 @@ public class FrontModelPhasesQualificatives
 		}
 		return false;
 	}
+
+	/**
+	 * Récupérer le nombre de phases qualificatives d'une poule d'une catégorie
+	 * @param nomCategorie nom de la catégorie
+	 * @param nomPoule nom de la poule
+	 * @return nombre de phases qualificatives d'une poule d'une catégorie
+	 */
+	public int getNbPhasesQualifs (String nomCategorie, String nomPoule) {
+		return this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPouleByNom(nomPoule).getPhasesQualificatives().size();
+	}
 	
 	/**
 	 * Récupérer les données manquantes à partir d'un numéro de match
