@@ -1,11 +1,19 @@
 package org.contestorg.views;
 
 import java.awt.Window;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.filechooser.FileSystemView;
 
+import org.contestorg.common.Tools;
 import org.contestorg.controllers.ContestOrg;
+import org.contestorg.infos.InfosModelConcours;
+import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IEndListener;
 import org.contestorg.interfaces.IOperation;
 
@@ -13,10 +21,13 @@ import org.contestorg.interfaces.IOperation;
  * Boîte de dialogue d'exportation
  */
 @SuppressWarnings("serial")
-public class JDExporter extends JDPattern
+public class JDExporter extends JDPattern implements ItemListener
 {
 	/** Panel du thème */
 	protected JPTheme jp_theme;
+	
+	/** Liste des catégories */
+	private JComboBox<String> jcb_categorie = new JComboBox<String>();
 	
 	/**
 	 * Constructeur
@@ -31,6 +42,24 @@ public class JDExporter extends JDPattern
 		super(w_parent, "Exporter");
 		
 		// FIXME Transmettre les informations nomCategorie, nomPoule et numeroPhase au panel
+		
+		// Ajouter la liste des catégorie
+		this.jcb_categorie.addItem("Tous");
+		this.jcb_categorie.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
+		this.jcb_categorie.addItem("Phases qualificatives");
+		this.jcb_categorie.addItem("Phases éliminatoires");
+		
+		// Séléctionner la catégorie courante
+		this.jcb_categorie.setSelectedIndex(Tools.StringCase(categorie, Theme.CATEGORIE_PARTICIPANTS, Theme.CATEGORIE_PHASES_QUALIFICATIVES, Theme.CATEGORIE_PHASES_ELIMINATOIRES)+1);
+		
+		// Ecouter la liste des catégories
+		this.jcb_categorie.addItemListener(this);
+		
+		// Catégorie
+		this.jp_contenu.add(ViewHelper.title("Catégorie", ViewHelper.H1));
+		JLabel[] jls_categorie = { new JLabel("Catégorie : ") };
+		JComponent[] jcs_categorie = { this.jcb_categorie };
+		this.jp_contenu.add(ViewHelper.inputs(jls_categorie, jcs_categorie));
 		
 		// Informations sur le thème
 		this.jp_contenu.add(ViewHelper.title("Thème", ViewHelper.H1));
@@ -111,6 +140,30 @@ public class JDExporter extends JDPattern
 	protected void quit () {
 		// Masquer la fenêtre
 		this.setVisible(false);
+	}
+
+	/**
+	 * @see ItemListener#itemStateChanged(ItemEvent)
+	 */
+	@Override
+	public void itemStateChanged (ItemEvent event) {
+		switch(this.jcb_categorie.getSelectedIndex()) {
+			case 0:
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(),true);
+				break;
+			case 1:
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(Theme.CATEGORIE_PARTICIPANTS),true);
+				break;
+			case 2:
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(Theme.CATEGORIE_PHASES_QUALIFICATIVES),true);
+				break;
+			case 3:
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(Theme.CATEGORIE_PHASES_ELIMINATOIRES),true);
+				break;
+		}
+		
+		// Pack
+		this.pack();
 	}
 	
 }

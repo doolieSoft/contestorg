@@ -66,6 +66,19 @@ public class JPTheme extends JPanel implements ItemListener
 		// Retenir la fenêtre
 		this.w_parent = w_parent;
 		
+		// Définir les thèmes du panel
+		this.setThemes(themes, local);
+	}
+	
+	/**
+	 * Définir les thèmes du panel
+	 * @param themes thèmes
+	 * @param local exportation en local ?
+	 */
+	public void setThemes(ArrayList<Theme> themes, boolean local) {
+		// Vider le panel
+		this.removeAll();
+		
 		// Retenir les thèmes
 		this.themes = themes;
 		
@@ -177,6 +190,9 @@ public class JPTheme extends JPanel implements ItemListener
 			ViewHelper.derror(this.w_parent, "Aucun thème valide n'a été trouvé.");
 			this.add(ViewHelper.perror("Aucun thème valide n'a été trouvé."));
 		}
+		
+		// Revalider le panel
+		this.revalidate();
 	}
 	
 	/**
