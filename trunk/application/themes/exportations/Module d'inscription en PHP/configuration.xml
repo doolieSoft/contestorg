@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<fichiers>
+		<fichier id="php-index" nom="Page d'accueil" source="index.xsl" cible="index.php" transformation="xslt" principal="oui" fixe="oui" />
+		<fichier id="php-inscription" nom="Page des participants" source="participants.xsl" cible="participants.php" transformation="xslt" fixe="oui" />
+		<fichier id="php-administration" nom="Page des organisateurs" source="organisateurs.xsl" cible="organisateurs.php" transformation="xslt" fixe="oui" />
+		<fichier id="php-actions" nom="Page des actions" source="actions.php" fixe="oui" />
+		<fichier id="php-initialisation" nom="Script d'initialisation à importer au début de chaque page" source="initialisation.php" fixe="oui" />
+		<fichier id="css-specific" nom="Feuille de style spécifique" source="style.css" fixe="oui" />
+		<fichier id="css-common" nom="Feuille de style commune" source="../common.css" cible="common.css" fixe="oui" />
+		<fichier id="img-favicon" nom="Favicon" source="../../favicon.png" cible="favicon.png" fixe="oui" />
+		<fichier id="php-form" nom="Librairie d'édition de formulaire" source="form.php" fixe="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="password" nom="Mot de passe administrateur" type="motDePasse" optionnel="non" />
+	</parametres>
+</configuration>
