@@ -44,7 +44,7 @@ public class JDExporter extends JDPattern implements ItemListener
 		// FIXME Transmettre les informations nomCategorie, nomPoule et numeroPhase au panel
 		
 		// Ajouter la liste des catégorie
-		this.jcb_categorie.addItem("Tous");
+		this.jcb_categorie.addItem("Toutes");
 		this.jcb_categorie.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
 		this.jcb_categorie.addItem("Phases qualificatives");
 		this.jcb_categorie.addItem("Phases éliminatoires");
