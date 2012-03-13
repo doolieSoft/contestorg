@@ -172,6 +172,18 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 	protected void addButton (JButton button) {
 		this.jp_bas.add(button);
 	}
+	
+	/**
+	 * Initialiser les boutons en bas de la boîte de dialogue
+	 * @param buttons boutons qui seront placés en bas de la boîte de dialogue
+	 */
+	protected void initButtons(JButton... buttons) {
+		this.jp_bas.removeAll();
+		for(JButton button : buttons) {
+			this.jp_bas.add(button);
+		}
+		this.jp_bas.revalidate();
+	}
 
 	/**
 	 * Demande de validation
