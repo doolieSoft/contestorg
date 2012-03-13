@@ -476,7 +476,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				this.jp_participants.add(this.jcbs_participants[i]);
 			}
 		} else {
-			this.jp_participants.add(ViewHelper.pwarning(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'est homologuée." : "Aucune joueur n'est homologué"));
+			this.jp_participants.add(new JPanel());
+			this.jp_participants.add(ViewHelper.center(ViewHelper.pwarning(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'est homologuée." : "Aucune joueur n'est homologué")));
+			this.jp_participants.add(new JPanel());
 		}
 		this.jp_participants.revalidate();
 	}
