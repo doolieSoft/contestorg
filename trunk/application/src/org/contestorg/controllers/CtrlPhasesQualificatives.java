@@ -94,6 +94,16 @@ public class CtrlPhasesQualificatives
 	public boolean isParticipantPhaseQualif(String nomCategorie, String nomPoule, int numeroPhase, String nomParticipant) {
 		return FrontModel.get().getFrontModelPhasesQualificatives().isParticipantPhasesQualif(nomCategorie, nomPoule, numeroPhase, nomParticipant);
 	}
+	
+	/**
+	 * Récupérer le nombre de phases qualificatives d'une poule d'une catégorie
+	 * @param nomCategorie nom de la catégorie
+	 * @param nomPoule nom de la poule
+	 * @return nombre de phases qualificatives d'une poule d'une catégorie
+	 */
+	public int getNbPhasesQualifs(String nomCategorie, String nomPoule) {
+		return FrontModel.get().getFrontModelPhasesQualificatives().getNbPhasesQualifs(nomCategorie, nomPoule);
+	}
 				
 	// Récupérer des données utiles à la génération d'une phase qualificative
 	
