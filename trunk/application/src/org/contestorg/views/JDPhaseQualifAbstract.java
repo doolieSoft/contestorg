@@ -467,12 +467,16 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		
 		// Ajouter les participants qui peuvent participer
 		this.jp_participants.removeAll();
-		this.jcbs_participants = new JCheckBox[this.participants.size()];
-		for (int i = 0; i < this.participants.size(); i++) {
-			this.jcbs_participants[i] = new JCheckBox(this.participants.get(i));
-			this.jcbs_participants[i].setSelected(true);
-			this.jcbs_participants[i].addItemListener(this);
-			this.jp_participants.add(this.jcbs_participants[i]);
+		if(this.participants.size() != 0) {
+			this.jcbs_participants = new JCheckBox[this.participants.size()];
+			for (int i = 0; i < this.participants.size(); i++) {
+				this.jcbs_participants[i] = new JCheckBox(this.participants.get(i));
+				this.jcbs_participants[i].setSelected(true);
+				this.jcbs_participants[i].addItemListener(this);
+				this.jp_participants.add(this.jcbs_participants[i]);
+			}
+		} else {
+			this.jp_participants.add(ViewHelper.pwarning(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'est homologuée." : "Aucune joueur n'est homologué"));
 		}
 		this.jp_participants.revalidate();
 	}
