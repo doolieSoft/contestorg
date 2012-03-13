@@ -51,13 +51,15 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	/** Collecteur des informations de la phase qualificative */
 	private ICollector<Quintuple<String,String,Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector;
 	
+	// Participants
+	
 	/** Liste des participants */
 	protected ArrayList<String> participants;
 	
 	/** Rangs des participants */
 	private HashMap<String,Integer> rangsParticipants = new HashMap<String, Integer>();
 	
-	// Catégorie et poule
+	// Choix de la catégorie et de la poule
 
 	/** Panel des catégories et poules */
 	protected JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
@@ -112,17 +114,23 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	
 	/** Nombre de matchs déjàs joués */
 	private JTextField jtf_matchsDejaJoues = new JTextField();
+	
 	/** Nombre de villes communes */
 	private JTextField jtf_villesCommunes = new JTextField();
+	
 	/** Différence moyenne de rang */
 	private JTextField jtf_differenceMoyenneRang = new JTextField();
+	
 	/** Différence maximale de rang */
 	private JTextField jtf_differenceMaximaleRang = new JTextField();
+	
 	/** Panel du résultat */
 	private JPanel jp_resultat;
+	
 	/** Listes des participants A */
 	@SuppressWarnings("rawtypes")
 	private JComboBox[] jcbs_participantsA;
+	
 	/** Listes des participants B */
 	@SuppressWarnings("rawtypes")
 	private JComboBox[] jcbs_participantsB;
@@ -452,6 +460,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(this.jp_categoriePoule.getNomCategorie(),this.jp_categoriePoule.getNomPoule());
 		
 		// Récupérer les rangs des participants qui peuvent participer
+		this.rangsParticipants.clear();
 		for(String participant : this.participants) {
 			this.rangsParticipants.put(participant, ContestOrg.get().getCtrlPhasesQualificatives().getRang(participant));
 		}
