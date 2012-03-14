@@ -50,7 +50,7 @@ import org.contestorg.views.ViewHelper;
 public class ContestOrg extends MoodyAbstract implements IHistoryListener
 {
 	
-	/** Version de ContestOrg */
+	/** Version de ContestOrg ([version principale].[fonctionnalités développées].[anomalies corrigées]) */
 	public static final String VERSION = "2.0.0b";  
 
 	/** Instance unique de ContestOrg */
