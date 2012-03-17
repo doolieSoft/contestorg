@@ -18,6 +18,7 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.Tools;
 import org.contestorg.comparators.CompPhasesElims;
 import org.contestorg.comparators.CompPhasesQualifs;
+import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosConnexionFTP;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelCheminFTP;
@@ -112,6 +113,15 @@ public class PersistanceXML extends PersistanceAbstract
 			// Construire le document JDom à partir du fichier
 			Document document = new SAXBuilder().build(new File(this.chemin));
 			
+			// Effectuer la rétro-compatibilité
+			document = this.retroCompatibilite(document);
+			
+			// Vérifier si la rétro-compatibilité a bien été effectuée
+			if(document == null) {
+				Log.getLogger().error("La retro-compatibilité a échoué.");
+				return null;
+			}
+			
 			// Récupérer l'élément root
 			Element root = document.getRootElement();
 			
@@ -150,7 +160,7 @@ public class PersistanceXML extends PersistanceAbstract
 			
 			// Construire le concours
 			ModelConcours concours = new ModelConcours(new InfosModelConcours(concoursNom, concoursSite, concoursLieu, concoursEmail, concoursTelephone, concoursDescription, organismeNom, organismeSite, organismeLieu, organismeEmail, organismeTelephone, organismeDescription, typeQualifications, typeParticipants, pointsVictoire, pointsEgalite, pointsDefaite, programmationDuree, programmationInterval, programmationPause));
-			concours.setId(root.getAttribute("id") == null ? -1 : Integer.parseInt(root.getAttributeValue("id"))); // TODO Retirer le test de présence de l'attribut "id" dès que le système de rétro-compatibilité sera mis en place
+			concours.setId(Integer.parseInt(root.getAttributeValue("id")));
 			
 			// Ajouter les objectifs
 			if (root.getChild("listeObjectifs") != null) {
@@ -535,6 +545,132 @@ public class PersistanceXML extends PersistanceAbstract
 			return null;
 		}
 	}
+
+	/**
+	 * Effectuer la rétro-compatibilité
+	 * @param xml document XML potentiellement non compatible
+	 * @return document XML compatible 
+	 */
+	private Document retroCompatibilite(Document xml) {
+		// Récupérer la version du fichier
+		String version = xml.getRootElement().getAttributeValue("version");
+		
+		// Vérifier si la rétro-compatibilité est nécéssaire
+		if(!ContestOrg.VERSION.equals(version)) {
+			// Comparateur de feuilles de style XSL
+			final Comparator<String> comparateur = new Comparator<String>() {
+				/**
+				 * @see Comparator#compare(Object,Object)
+				 */
+				@Override
+				public int compare (String versionA, String versionB) {
+					// Vérifier si les versions sont vides
+					boolean versionAVide = versionA == null || versionA.isEmpty();
+					boolean versionBVide = versionB == null || versionB.isEmpty();
+					if(!versionAVide && versionBVide) {
+						return -1;
+					}
+					if(versionAVide && !versionBVide) {
+						return 1;
+					}
+					if(versionAVide && versionBVide) {
+						return 0;
+					}
+					
+					// Extraire les informations de la version A
+					String[] informationsVersionA = versionA.split("\\.");
+					int versionPrincipaleA = -1;
+					try {
+						versionPrincipaleA = Integer.parseInt(informationsVersionA[0]);
+					} catch(NumberFormatException e) {}
+					int fonctionnalitesDeveloppeesA = -1;
+					try {
+						fonctionnalitesDeveloppeesA = Integer.parseInt(informationsVersionA[1]);
+					} catch(NumberFormatException e) {}
+					int anomaliesCorrigeesA = -1;
+					try {
+						anomaliesCorrigeesA = Integer.parseInt(informationsVersionA[2]);
+					} catch(NumberFormatException e) {}
+	
+					// Extraire les informations de la version B
+					String[] informationsVersionB = versionB.split("\\.");
+					int versionPrincipaleB = -1;
+					try {
+						versionPrincipaleB = Integer.parseInt(informationsVersionB[0]);
+					} catch(NumberFormatException e) {}
+					int fonctionnalitesDeveloppeesB = -1;
+					try {
+						fonctionnalitesDeveloppeesB = Integer.parseInt(informationsVersionB[1]);
+					} catch(NumberFormatException e) {}
+					int anomaliesCorrigeesB = -1;
+					try {
+						anomaliesCorrigeesB = Integer.parseInt(informationsVersionB[2]);
+					} catch(NumberFormatException e) {}
+					
+					// Comparer les information de version
+					if(versionPrincipaleA == versionPrincipaleB) {
+						if(fonctionnalitesDeveloppeesA == fonctionnalitesDeveloppeesB) {
+							if(anomaliesCorrigeesA == anomaliesCorrigeesB) {
+								return 0;
+							} else {
+								return anomaliesCorrigeesA < anomaliesCorrigeesB ? -1 : 1;
+							}
+						} else {
+							return fonctionnalitesDeveloppeesA < fonctionnalitesDeveloppeesB ? -1 : 1;
+						}
+					} else {
+						return versionPrincipaleA < versionPrincipaleB ? -1 : 1;
+					}
+				}
+				
+			};
+			
+			// Récupérer la liste des feuilles de style XSL
+			ArrayList<File> xsls = new ArrayList<File>();
+			for(File xsl : new File("retro").listFiles()) {
+				xsls.add(xsl);
+			}
+			Collections.sort(xsls, new Comparator<File>() {
+				/**
+				 * @see Comparator#compare(Object,Object)
+				 */
+				@Override
+				public int compare (File xslA, File xslB) {
+					return comparateur.compare(xslA.getName(), xslB.getName());
+				}
+			});
+			
+			// Supprimer les feuilles de style XSL non nécéssaires
+			while(xsls.size() != 0 && comparateur.compare(version,xsls.get(0).getName()) <= 0) {
+				xsls.remove(0);
+			}
+			
+			// S'assurer de la compatibilité du document XML
+			while(xsls.size() != 0) {
+				// Charger la feuille de style XSL
+				Document xsl = null;
+				try {
+					xsl = new SAXBuilder().build(xsls.remove(0));
+				} catch (Exception e) {
+					Log.getLogger().error("Erreur lors du chargement de la feuille de style XSL.", e);
+					return null;
+				}
+				
+				// Appliquer la feuille de style XSL
+				xml = XSLTHelper.transform(xml, xsl, null);
+				
+				// Vérifier si la transformation a bien été effectuée
+				if(xml == null) {
+					Log.getLogger().error("Erreur lors de la transformation XSLT.");
+					return null;
+				}
+			}
+		}
+		
+		// Retourner le document XML compatible
+		return xml;
+	}
+	
 	
 	/**
 	 * Récupérer une participation à partir de son élément JDom
@@ -616,6 +752,7 @@ public class PersistanceXML extends PersistanceAbstract
 		Document document = new Document(root);
 		
 		// Ajouter les informations du concours
+		root.setAttribute("version",ContestOrg.VERSION);
 		root.setAttribute("id", String.valueOf(concours.getId()));
 		root.setAttribute("nom", concours.getConcoursNom());
 		if (concours.getConcoursSite() != null && !concours.getConcoursSite().isEmpty())
