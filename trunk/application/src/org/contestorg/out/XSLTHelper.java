@@ -14,6 +14,9 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.contestorg.log.Log;
+import org.jdom.Document;
+import org.jdom.transform.JDOMResult;
+import org.jdom.transform.JDOMSource;
 
 /**
  * Classe d'aide à la réalisation d'opérations XSLT
@@ -50,6 +53,39 @@ public class XSLTHelper
 		} catch (Exception e) {
 			Log.getLogger().error("Erreur lors de la transformation XSLT.", e);
 			return false;
+		}
+	}
+	
+	/**
+	 * Transformer un document XML avec une feuille de style XSL
+	 * @param xml document XML
+	 * @param xsl feuille de style XSL
+	 * @param parameters liste des paramètres XSL
+	 * @return résultat de la transformation
+	 */
+	public static Document transform(Document xml, Document xsl, HashMap<String, String> parameters) {
+		try {
+			// Configuration du transformer
+			TransformerFactory factory = TransformerFactory.newInstance();
+			JDOMSource stylesource = new JDOMSource(xsl);
+			Transformer transformer = factory.newTransformer(stylesource);
+			if (parameters != null) {
+				for (Entry<String, String> parameter : parameters.entrySet()) {
+					transformer.setParameter(parameter.getKey(), parameter.getValue() == null ? "" : parameter.getValue());
+				}
+			}
+			
+			// Créer le résultat de la transformation
+			JDOMResult result = new JDOMResult();
+			
+			// Transformation
+			transformer.transform(new JDOMSource(xml), result);
+			
+			// Récupérer et retourner le document associé au résultat de la transformation
+			return result.getDocument();
+		} catch (Exception e) {
+			Log.getLogger().error("Erreur lors de la transformation XSLT.", e);
+			return null;
 		}
 	}
 }
