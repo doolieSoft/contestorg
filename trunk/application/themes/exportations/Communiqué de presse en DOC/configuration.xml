@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<fichiers>
+		<fichier id="doc" nom="Fichier DOC" source="index.xsl" cible="Communiqué de presse.doc" transformation="xslt" principal="oui" />
+	</fichiers>
+</configuration>
