@@ -12,7 +12,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -299,9 +298,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		} else if (event.getSource() == this.jb_web) {
 			try {
 				Desktop.getDesktop().browse(new URI("http://www.elfangels.fr/contestorg/"));
-			} catch (IOException e) {
-				ViewHelper.derror(this, "Erreur lors de l'ouverture du site web de ContestOrg.");
-			} catch (URISyntaxException e) {
+			} catch (Exception e) {
 				ViewHelper.derror(this, "Erreur lors de l'ouverture du site web de ContestOrg.");
 			}
 		} else if (event.getSource() == this.jb_apropos) {
