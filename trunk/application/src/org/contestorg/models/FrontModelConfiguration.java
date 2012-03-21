@@ -20,6 +20,9 @@ import org.contestorg.infos.InfosModelPropriete;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.interfaces.ITrackableListValidator;
 
+/**
+ * Point d'entrée aux modèles concernant la configuration
+ */
 public class FrontModelConfiguration
 {
 	// Point d'entrée principal aux modèles
