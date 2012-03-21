@@ -1,9 +1,9 @@
+# Activer l'URL rewriting
 RewriteEngine On
 
+# Rediriger les requetes ne correspondant pas à un fichier vers index.php
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
-
 RewriteRule ^.*$ index.php [NC,L]
-
