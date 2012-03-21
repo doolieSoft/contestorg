@@ -1,6 +1,1 @@
-﻿[2012-03-21 23:10:56,550] INFO  (ContestOrg.java:118) - Lancement de l'application
-[2012-03-21 23:11:08,896] INFO  (History.java:58) - Action démarrée : "Création du concours".
-[2012-03-21 23:11:08,939] INFO  (History.java:71) - Action fermée : "Création du concours".
-[2012-03-21 23:11:08,976] INFO  (History.java:58) - Action démarrée : "Configuration du concours".
-[2012-03-21 23:11:08,996] INFO  (History.java:71) - Action fermée : "Configuration du concours".
-[2012-03-21 23:11:14,200] INFO  (ContestOrg.java:619) - Fermeture de l'application
+﻿
