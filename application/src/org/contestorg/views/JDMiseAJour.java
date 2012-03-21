@@ -7,10 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JCheckBox;
@@ -25,7 +22,6 @@ import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosMiseAJour;
 import org.contestorg.infos.InfosMiseAJour.Modification;
 import org.contestorg.infos.InfosMiseAJour.Telechargement;
-import org.contestorg.interfaces.IOperation;
 import org.contestorg.preferences.Preferences;
 
 /**
