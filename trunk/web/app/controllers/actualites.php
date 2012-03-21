@@ -9,13 +9,13 @@ class ActualitesController extends Controller
 		$conf = Application::getService('conf');
 		
 		// Require de l'outil RSS
-		require_once('rss.php');
+		require_once('tools/rss.php');
 		
 		// Initialiser le flux RSS
-		$rss = new RSS('Actualités de ContestOrg',$conf['MISC']['URL'],'Flux des actualités concernant le logiciel d\'organisation de tournois ContestOrg','en','120',time());
+		$rss = new RSS('Actualités de ContestOrg',$conf['MISC']['URL'],'Flux des actualités du logiciel d\'organisation de tournois ContestOrg','fr','120',time());
 		
 		// Ajouter l'image aux flux RSS
-		$rss->setImage('Logo de ContestOrg',Request::getBaseUrl().'media/logo.png',$conf['MISC']['URL'],'Logo de ContestOrg');
+		$rss->setImage('Logo de ContestOrg',Request::getBase().'media/logo.png',$conf['MISC']['URL'],'Logo de ContestOrg');
 		
 		// Ajouter les items au flux RSS
 		// TODO
