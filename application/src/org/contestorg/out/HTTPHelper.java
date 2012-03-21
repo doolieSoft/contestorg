@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -58,9 +57,7 @@ public class HTTPHelper
 			try {
 				// Executer la requete
 				return this.client.execute(new HttpGet(host + ":" + String.valueOf(port) + path));
-			} catch (ClientProtocolException e) {
-				return null;
-			} catch (IOException e) {
+			} catch (Exception e) {
 				return null;
 			}
 		}
