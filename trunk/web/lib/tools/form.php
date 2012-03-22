@@ -4,7 +4,7 @@
  * PHP tool to construct forms
  * @author Cyril Perrin
  * @license LGPL v3
- * @version 2012-03-20
+ * @version 2012-03-22
  */
 
 /**
@@ -117,15 +117,22 @@ class Form
 		$submited = false;
 		
 		// Validate each button
+		$nbButtons = 0;
 		foreach($this->elements as $key => $element) {
 			if($element instanceof FormSubmit) {
 				$element->validate($this->method);
+				$nbButtons++;
 			}
 		}
 		
-		// Check if a button has been submited
-		foreach($this->elements as $element) {
-			$submited = $submited || $element instanceof FormSubmit && $element->isValid();
+		// Check if there is buttons
+		if($nbButtons != 0) {
+			// Check if a button has been submited
+			foreach($this->elements as $element) {
+				$submited = $submited || $element instanceof FormSubmit && $element->isValid();
+			}
+		} else {
+			$submited = true;
 		}
 		
 		// Set submited attribute
