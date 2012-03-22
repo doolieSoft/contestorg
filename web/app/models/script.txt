@@ -7,3 +7,9 @@
    |email,string/130,"Email de la personne qui a signé le livre d'or"|,
    |message,string/2000,"Message laisser par la personne qui a signé le livre d'or"|
 ]
+
+// Erreurs dans l'applications
+[erreur,"Erreur dans l'application":
+   |description,string|,
+   |log,string/50000|
+]
