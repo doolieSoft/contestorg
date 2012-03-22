@@ -10,10 +10,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.activation.MimetypesFileTypeMap;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -57,6 +65,48 @@ public class HTTPHelper
 			try {
 				// Executer la requete
 				return this.client.execute(new HttpGet(host + ":" + String.valueOf(port) + path));
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		
+		/**
+		 * Effectuer une requete POST
+		 * @param host hôte
+		 * @param port port
+		 * @param path chemin
+		 * @param parameters paramètres
+		 * @param files fichiers
+		 * @return réponse
+		 */
+		public HttpResponse post (String host, int port, String path, Map<String,String> parameters, Map<String,File> files) {
+			try {
+				// Construire la requête
+				HttpPost request = new HttpPost(host + ":" + String.valueOf(port) + path);
+				
+				// Initialiser la liste des paramètres
+		        MultipartEntity requestParameters = new MultipartEntity();
+				
+				// Ajouter les paramètres
+				if(parameters != null && parameters.size() != 0) {
+					for(Entry<String, String> parameter : parameters.entrySet()) {
+						requestParameters.addPart(parameter.getKey(), new StringBody(parameter.getValue()));
+					}
+				}
+
+				// Ajouter les fichiers
+				if(files != null && files.size() != 0) {
+			        for(Entry<String,File> file : files.entrySet()) {
+			        	String mimetype = new MimetypesFileTypeMap().getContentType(file.getValue());
+			        	requestParameters.addPart(file.getKey(), new FileBody(file.getValue(),mimetype));
+			        }
+				}
+				
+				// Ajouter les paramètres à la requête
+		        request.setEntity(requestParameters);
+				
+				// Executer la requete
+				return this.client.execute(request);
 			} catch (Exception e) {
 				return null;
 			}
