@@ -592,11 +592,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		ViewHelper.derror(null,"Erreur fatale","Une erreur fatale est survenue. L'application va être fermée.");
 		if(ViewHelper.confirmation(null, "Un rapport d'erreur peut être envoyé aux développeurs de l'application. Autorisez-vous l'envoi de ce rapport ?")) {
 			// Préparer le rapport
-			Report report = new Report(description);
-			for(Exception exception : exceptions) {
-				report.pushException(exception);
-			}
-			IOperation operation = report.send();
+			IOperation operation = new Report(description).send();
 			
 			// Démarrer l'opération et afficher la progression
 			JDOperation jd_operation = new JDOperation(null, "Envoi du rapport d'erreur", operation, true, false);

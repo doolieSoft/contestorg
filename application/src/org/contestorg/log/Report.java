@@ -1,11 +1,13 @@
 package org.contestorg.log;
 
-
-import java.util.Stack;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.contestorg.common.OperationAbstract;
 import org.contestorg.common.OperationRunnableAbstract;
 import org.contestorg.interfaces.IOperation;
+import org.contestorg.out.HTTPHelper;
 
 /**
  * Rapport d'erreur
@@ -15,9 +17,6 @@ public class Report
 	/** Description de l'erreur */
 	private String description;
 	
-	/** Pile des exceptions */
-	private Stack<Exception> exceptions = new Stack<Exception>();
-	
 	/**
 	 * Constructeur
 	 * @param description description de l'erreur
@@ -25,29 +24,6 @@ public class Report
 	public Report(String description) {
 		// Retenir la description
 		this.description = description;
-	}
-	
-	/**
-	 * Constructeur
-	 * @param description description de l'erreur
-	 * @param exceptions liste des exceptions
-	 */
-	public Report(String description, Exception... exceptions) {
-		// Appeller le constructeur principal
-		this(description);
-		
-		// Ajouter les exceptions
-		for(Exception exception : exceptions) {
-			this.pushException(exception);
-		}
-	}
-	
-	/**
-	 * Ajouter une exception
-	 * @param exception exception
-	 */
-	public void pushException(Exception exception) {
-		this.exceptions.push(exception);
 	}
 	
 	/**
@@ -80,20 +56,20 @@ public class Report
 			// Envoi du rapport d'erreur
 			this.fireMessage("Envoi du rapport ...");
 			
-			// TODO Envoie du rapport d'erreur sur le site web de contestorg
-			try {
-				Thread.sleep(1000);
-				this.fireAvancement(0.2);
-				Thread.sleep(1000);
-				this.fireAvancement(0.4);
-				Thread.sleep(1000);
-				this.fireAvancement(0.6);
-				Thread.sleep(1000);
-				this.fireAvancement(0.8);
-				Thread.sleep(1000);
-				this.fireAvancement(1.0);
-			} catch (InterruptedException e) {
-			}
+			// Construire la liste des paramètres
+			Map<String, String> parameters = new HashMap<String, String>();
+			parameters.put("description", description);
+
+			// Construire la liste des fichiers
+			Map<String, File> files = new HashMap<String, File>();
+			files.put("log", new File("log.txt"));
+			
+			// Envoie du rapport d'erreur
+			HTTPHelper.Browser browser = new HTTPHelper.Browser();
+			browser.post("http://localhost", 80, "/Projets/ContestOrg/api/error", parameters, files);
+			
+			// Avancement
+			this.fireAvancement(1.0);
 			
 			// Opération réussie
 			this.reussite("Rapport envoyé !");
@@ -106,6 +82,5 @@ public class Report
 		protected void clean () {
 		}
 	}
-	
 }
 
