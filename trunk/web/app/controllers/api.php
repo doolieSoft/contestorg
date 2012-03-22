@@ -157,8 +157,25 @@ class ApiController extends Controller
 	
 	// Action enregistrant une erreur survenue dans l'application
 	public function errorAction() {
-		// TODO Enregistrer en base de données le fichier de log
-		echo 'En construction...';
+		// Construire le formulaire de soumission d'erreur
+		require_once('tools/form.php');
+		$form = new Form(Form::METHOD_POST);
+		$description = $form->add(new FormText('description'));
+		$log = $form->add(new FormFile('log'));
+		
+		// Valider le formulaire
+		if($form->validate()) {
+			// Require des erreurs
+			require_once('erreur_base.php');
+			require_once('erreur.php');
+			
+			// Enregistrer en base de données le fichier de log
+			Erreur::create(
+				Application::getService('pdo'),
+				$description->getValue(),
+				file_get_contents($log->getPath())
+			);
+		}
 	}
 	
 }
