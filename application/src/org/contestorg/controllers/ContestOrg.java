@@ -1,5 +1,6 @@
 package org.contestorg.controllers;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
@@ -108,42 +109,51 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	 * Constructeur
 	 */
 	private ContestOrg() {
-		// Retenir l'instance ContestOrg
-		ContestOrg.contestOrg = this;
-		
-		// Configurer le logger
-		Log.configure();
-		
-		// Log du lancement de l'application
-		Log.getLogger().info("Lancement de l'application");
-
-		// Charger les préférences
-		this.preferences = new Preferences();
-
-		// Créer les différents controleurs
-		this.ctrl_participants = new CtrlParticipants();
-		this.ctrl_phasesQualificatives = new CtrlPhasesQualificatives();
-		this.ctrl_phasesEliminatoires = new CtrlPhasesEliminatoires();
-		this.ctrl_out = new CtrlOut();
-		
-		// S'abonner à l'historique des modèles
-		FrontModel.get().getHistory().addListener(this);
-
-		// Lancer la fenêtre générale
-		this.jf_general = new JFPrincipal("ContestOrg "+ContestOrg.VERSION);
-		this.addListener(this.jf_general);
-		this.jf_general.setVisible(true);
-		
-		// Vérifier s'il faut vérifier les mises à jour
-		Boolean verifierMisesAJour = this.preferences.getBoolean(Preferences.VERIFIER_MISES_A_JOUR);
-		if(verifierMisesAJour != null && verifierMisesAJour == true) {
-			// Vérifier les mises à jour
-			InfosMiseAJour miseAJour = MiseAJour.verifier();
-			if(miseAJour != null) {
-				// Demander à l'utilisateur s'il souhaite télécharger la mise à jour
-				JDMiseAJour jd_miseAJour = new JDMiseAJour(this.jf_general, miseAJour);
-				jd_miseAJour.setVisible(true);
+		// Vérifier si l'application a bien été lancé
+		if(new File("conf").exists()) {
+			// Retenir l'instance ContestOrg
+			ContestOrg.contestOrg = this;
+			
+			// Configurer le logger
+			Log.configure();
+			
+			// Log du lancement de l'application
+			Log.getLogger().info("Lancement de l'application");
+	
+			// Charger les préférences
+			this.preferences = new Preferences();
+	
+			// Créer les différents controleurs
+			this.ctrl_participants = new CtrlParticipants();
+			this.ctrl_phasesQualificatives = new CtrlPhasesQualificatives();
+			this.ctrl_phasesEliminatoires = new CtrlPhasesEliminatoires();
+			this.ctrl_out = new CtrlOut();
+			
+			// S'abonner à l'historique des modèles
+			FrontModel.get().getHistory().addListener(this);
+	
+			// Lancer la fenêtre générale
+			this.jf_general = new JFPrincipal("ContestOrg "+ContestOrg.VERSION);
+			this.addListener(this.jf_general);
+			this.jf_general.setVisible(true);
+			
+			// Vérifier s'il faut vérifier les mises à jour
+			Boolean verifierMisesAJour = this.preferences.getBoolean(Preferences.VERIFIER_MISES_A_JOUR);
+			if(verifierMisesAJour != null && verifierMisesAJour == true) {
+				// Vérifier les mises à jour
+				InfosMiseAJour miseAJour = MiseAJour.verifier();
+				if(miseAJour != null) {
+					// Demander à l'utilisateur s'il souhaite télécharger la mise à jour
+					JDMiseAJour jd_miseAJour = new JDMiseAJour(this.jf_general, miseAJour);
+					jd_miseAJour.setVisible(true);
+				}
 			}
+		} else {
+			// Message d'erreur
+			ViewHelper.derror(null,"ContestOrg doit être lancé depuis son répertoire d'installation.");
+			
+			// Quitter l'application avec un statut d'erreur
+			System.exit(1);
 		}
 	}
 
@@ -603,8 +613,8 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		// Log de la fermeture
 		Log.getLogger().info("Fermeture de l'application suite à une erreur");
 		
-		// Quitter l'application
-		System.exit(0);
+		// Quitter l'application avec un statut d'erreur
+		System.exit(1);
 	}
 	
 	/**
