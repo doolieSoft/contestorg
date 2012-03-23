@@ -14,7 +14,7 @@ class ApiController extends Controller
 			array(
 				'version',
 				'@numero' => '2.0.0',
-				'@date' => '21/03/2012', // Date pas encore effective
+				'@date' => '26/03/2012',
 				'listeTelechargements' => array(
 					array(
 						'telechargement',
@@ -118,6 +118,11 @@ class ApiController extends Controller
 						'tache',
 						'@description' => 'Création d\'une liste de diffusion',
 						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=24'
+					),
+					array(
+						'tache',
+						'@description' => 'Ecrire une FAQ',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=25'
 					)
 				)
 			),
