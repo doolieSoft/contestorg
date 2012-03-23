@@ -68,7 +68,7 @@ public class JDCategoriePoulePhaseQualif extends JDPattern
 		// Phase qualificative
 		this.jp_contenu.add(ViewHelper.title("Phase qualificative", ViewHelper.H1));
 		JLabel[] jls_phaseQualif = { new JLabel("Phase qualificative : ") };
-		this.jcb_phaseQualif.setPreferredSize(new Dimension(160, (int)this.jcb_phaseQualif.getPreferredSize().getHeight()));
+		this.jcb_phaseQualif.setPreferredSize(new Dimension(160, this.jcb_phaseQualif.getPreferredSize().height));
 		JComponent[] jcs_phaseQualif = { this.jcb_phaseQualif };
 		this.jp_contenu.add(ViewHelper.inputs(jls_phaseQualif, jcs_phaseQualif));
 		
