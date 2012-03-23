@@ -628,7 +628,10 @@ public class PersistanceXML extends PersistanceAbstract
 			// Récupérer la liste des feuilles de style XSL
 			ArrayList<File> xsls = new ArrayList<File>();
 			for(File xsl : new File("retro").listFiles()) {
-				xsls.add(xsl);
+				// Vérifier s'il s'agit d'un fichier xsl
+				if(xsl.getName().substring(xsl.getName().length()-3).compareToIgnoreCase("xsl") == 0) {
+					xsls.add(xsl);
+				}
 			}
 			Collections.sort(xsls, new Comparator<File>() {
 				/**
