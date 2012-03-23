@@ -9,6 +9,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,6 +39,7 @@ import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
+import org.contestorg.interfaces.ICollector;
 
 /**
  * Boîte de dialogue d'édition des poules
@@ -46,6 +50,9 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	
 	/** Liste des poules et leurs participants */
 	private ArrayList<Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>>> categoriesPoulesParticipants = new ArrayList<Pair<String,TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>>();
+	
+	/** Poids des participants */
+	private HashMap<String, Integer> poids = new HashMap<String,Integer>();
 	
 	// Entrées
 	
@@ -87,6 +94,9 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	/** Bouton "Affectation automatique" */
 	private JButton jb_affecterParticipants = new JButton("Affectation automatique",new ImageIcon("img/farm/16x16/control_play_blue.png"));
 	
+	/** Bouton "Définir les poids" */
+	private JButton jb_definirPoids = new JButton("Définir les poids",new ImageIcon("img/farm/16x16/screwdriver.png"));
+	
 	/** Bouton "Ajouter" */
 	private JButton jb_ajouterParticipant = new JButton("Ajouter",new ImageIcon("img/farm/16x16/add.png"));
 	
@@ -103,17 +113,25 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		
 		// Récupérer les poules et les affectations
 		for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>>> categorie : ContestOrg.get().getCtrlParticipants().getListeCategoriesPoulesParticipants()) {
+			// Récupérer les poules de la catégorie
 			int nbParticipants = 0;
 			ArrayList<Pair<InfosModelPoule,ArrayList<String>>> poules = new ArrayList<Pair<InfosModelPoule,ArrayList<String>>>();
 			for(Pair<InfosModelPoule, ArrayList<InfosModelParticipant>> poule : categorie.getSecond()) {
 				ArrayList<String> participants = new ArrayList<String>();
 				for(InfosModelParticipant participant : poule.getSecond()) {
+					// Retenir le nom du participant
 					participants.add(participant.getNom());
+					
+					// Retenir le poids du participant
+					this.poids.put(participant.getNom(), 0);
 				}
 				poules.add(new Pair<InfosModelPoule, ArrayList<String>>(poule.getFirst(), participants));
 				nbParticipants += participants.size();
 			}
+			
+			// Vérifier si le nombre de participants est suffisant pour éditer les poules
 			if(nbParticipants >= 4) {
+				// Créer la liste suivable
 				TrackableList<Pair<InfosModelPoule, ArrayList<String>>> list = new TrackableList<Pair<InfosModelPoule,ArrayList<String>>>(poules);
 				list.addValidator(ContestOrg.get().getPoulesValidator());
 				this.categoriesPoulesParticipants.add(new Pair<String, TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>(categorie.getFirst().getNom(),list));
@@ -164,7 +182,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Affectation des équipes" : "Affectation des joueurs", ViewHelper.H1));
 		
 		// Automatique
-		this.jp_contenu.add(ViewHelper.left(this.jb_affecterParticipants));
+		this.jp_contenu.add(ViewHelper.left(this.jb_affecterParticipants,this.jb_definirPoids));
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		
 		// Manuelle
@@ -199,7 +217,6 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		jp_affectation.add(jp_participantsPoule);
 		
 		this.jp_contenu.add(Box.createVerticalStrut(5));
-		this.jp_contenu.add(ViewHelper.pinformation("L'affectation automatique des "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" s'effectue de manière totalement aléatoire."));
 		
 		// Redimensionner les tableaux
 		int height, row;
@@ -223,6 +240,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		// Ecouter les boutons
 		this.jb_creerPoules.addActionListener(this);
 		this.jb_affecterParticipants.addActionListener(this);
+		this.jb_definirPoids.addActionListener(this);
 		this.jb_ajouterParticipant.addActionListener(this);
 		this.jb_retirerParticipant.addActionListener(this);
 		
@@ -370,7 +388,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				ViewHelper.derror(this, "Le nombre de poules ne peut pas être égal à zéro.");
 			}
 		} else if(event.getSource() == this.jb_affecterParticipants) {
-			// Vérifier si le nombre de poules est correcte
+			// Vérifier s'il y a au moins deux poules
 			if(poules.size() > 1) {
 				// Récupérer la liste des participants disponibles
 				ArrayList<String> participants = new ArrayList<String>();
@@ -382,6 +400,19 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				
 				// Mélanger les participants
 				Collections.shuffle(participants);
+				
+				
+				// Trier les participants
+				Collections.sort(participants,new Comparator<String>() {
+					// Implémentation de compare
+					@Override
+					public int compare (String participantA, String participantB) {
+						if(poids.get(participantA).equals(poids.get(participantB))) {
+							return 0;
+						}
+						return poids.get(participantA) < poids.get(participantB) ? 1 : -1;
+					}
+				});
 				
 				// Répartir les participants dans les poules
 				for(int i=0;participants.size()>0;i=(i+1)%poules.size()) {
@@ -399,7 +430,39 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				this.refreshBottom();
 			} else {
 				// Erreur
-				ViewHelper.derror(this, "Il faut au moins une poule pour lancer l'affectation automatique.");
+				ViewHelper.derror(this, "Il faut au moins une poule en plus de la poule par défaut pour lancer l'affectation automatique.");
+			}
+		} else if(event.getSource() == this.jb_definirPoids) {
+			// Récupérer les poids des participants de la catégorie
+			HashMap<String,Integer> anciensPoids = new HashMap<String,Integer>();
+			for(Pair<InfosModelPoule, ArrayList<String>> poule : poules) {
+				for(String participant : poule.getSecond()) {
+					anciensPoids.put(participant, this.poids.get(participant));
+				}
+			}
+			
+			// Vérifier s'il y a des participants
+			if(anciensPoids.size() != 0) {
+				// Demander à l'utilisateur les poids des participants
+				CollectorAbstract<HashMap<String,Integer>> collector = new CollectorAbstract<HashMap<String,Integer>>() {
+					/**
+					 * @see ICollector#collect(Object)
+					 */
+					@Override
+					public void collect (HashMap<String,Integer> nouveauxPoids) {
+						// Retenir les nouveaux poids
+						poids.putAll(nouveauxPoids);
+						
+						// Fermer le collecteur
+						this.close();
+					}
+				};
+				JDialog jd_poulesPoidsParticipants = new JDPoulesPoidsParticipants(this, anciensPoids, collector);
+				collector.setWindow(jd_poulesPoidsParticipants);
+				jd_poulesPoidsParticipants.setVisible(true);
+			} else {
+				// Erreur
+				ViewHelper.derror(this, "Il n'y a aucun participant.");
 			}
 		} else if(event.getSource() == this.jb_ajouterParticipant) {
 			// Vérifier le nombre de lignes séléctionnées
