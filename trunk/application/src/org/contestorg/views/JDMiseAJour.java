@@ -98,7 +98,7 @@ public class JDMiseAJour extends JDPattern implements MouseListener
 				this.jt_evolutions = new JTable(tm_evolutions);
 				this.jt_evolutions.addMouseListener(this);
 				JScrollPane jsp_evolutions = new JScrollPane(this.jt_evolutions);
-				jsp_evolutions.setPreferredSize(new Dimension((int)jsp_evolutions.getPreferredSize().getWidth(), 85));
+				jsp_evolutions.setPreferredSize(new Dimension(jsp_evolutions.getPreferredSize().width, 85));
 				this.jp_contenu.add(jsp_evolutions);
 			}
 			
@@ -112,7 +112,7 @@ public class JDMiseAJour extends JDPattern implements MouseListener
 				this.jt_anomalies = new JTable(tm_anomalies);
 				JScrollPane jsp_anomalies = new JScrollPane(this.jt_anomalies);
 				this.jt_anomalies.addMouseListener(this);
-				jsp_anomalies.setPreferredSize(new Dimension((int)jsp_anomalies.getPreferredSize().getWidth(), 85));
+				jsp_anomalies.setPreferredSize(new Dimension(jsp_anomalies.getPreferredSize().width, 85));
 				this.jp_contenu.add(jsp_anomalies);
 			}
 			
@@ -126,7 +126,7 @@ public class JDMiseAJour extends JDPattern implements MouseListener
 				this.jt_revues = new JTable(tm_revues);
 				JScrollPane jsp_revues = new JScrollPane(this.jt_revues);
 				this.jt_revues.addMouseListener(this);
-				jsp_revues.setPreferredSize(new Dimension((int)jsp_revues.getPreferredSize().getWidth(), 85));
+				jsp_revues.setPreferredSize(new Dimension(jsp_revues.getPreferredSize().width, 85));
 				this.jp_contenu.add(jsp_revues);
 			}
 			
@@ -140,7 +140,7 @@ public class JDMiseAJour extends JDPattern implements MouseListener
 				this.jt_taches = new JTable(tm_taches);
 				JScrollPane jsp_taches = new JScrollPane(this.jt_taches);
 				this.jt_taches.addMouseListener(this);
-				jsp_taches.setPreferredSize(new Dimension((int)jsp_taches.getPreferredSize().getWidth(), 85));
+				jsp_taches.setPreferredSize(new Dimension(jsp_taches.getPreferredSize().width, 85));
 				this.jp_contenu.add(jsp_taches);
 			}
 		}
