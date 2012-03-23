@@ -55,7 +55,7 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 	protected JComboBox<String> jcb_resultatB;
 	
 	/** Panel des objectifs remportés */
-	protected JPObjectifs jp_prix;
+	protected JPObjectifs jp_objectifs;
 	
 	/** Détails */
 	protected JTextArea jta_details;
@@ -107,10 +107,10 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 		this.jcb_resultatA.addItemListener(this);
 		this.jcb_resultatB.addItemListener(this);
 		
-		// Prix remportés
+		// Objectifs remportés
 		this.jp_contenu.add(Box.createVerticalStrut(5));
-		this.jp_prix = new JPObjectifs();
-		this.jp_contenu.add(this.jp_prix);
+		this.jp_objectifs = new JPObjectifs();
+		this.jp_contenu.add(this.jp_objectifs);
 		
 		// Détails
 		this.jp_contenu.add(ViewHelper.title("Détails", ViewHelper.H1));
@@ -208,12 +208,12 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 		if(!erreur) {
 			// Récupérer la liste des prix remportés
 			if(resultatA == InfosModelParticipation.RESULTAT_ATTENTE || resultatB == InfosModelParticipation.RESULTAT_ATTENTE) {
-				this.jp_prix.clear();
+				this.jp_objectifs.clear();
 			} else {
-				this.jp_prix.collect();
+				this.jp_objectifs.collect();
 			}
-			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = this.jp_prix.getObjectifsRemportesA();
-			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = this.jp_prix.getObjectifsRemportesB();
+			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = this.jp_objectifs.getObjectifsRemportesA();
+			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = this.jp_objectifs.getObjectifsRemportesB();
 			
 			// Créer les informations de participation
 			Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationA = new Triple<String, TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(nomParticipantA, objectifsRemportesA, new InfosModelParticipation(resultatA));
