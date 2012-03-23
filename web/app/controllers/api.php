@@ -67,6 +67,21 @@ class ApiController extends Controller
 						'evolution',
 						'@description' => 'Exportation d\'un rapport journalistique',
 						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=3'
+					),
+					array(
+						'evolution',
+						'@description' => 'Vérification automatique d\'une nouvelle version',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=1'
+					),
+					array(
+						'evolution',
+						'@description' => 'Envoi d\'un rapport d\'erreur',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=4'
+					),
+					array(
+						'evolution',
+						'@description' => 'Affectation automatique des équipes aux poules par "chapeaux"',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=13'
 					)
 				),
 				'listeAnomalies' => array(
