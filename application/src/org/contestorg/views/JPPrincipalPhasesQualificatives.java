@@ -357,7 +357,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			// Vérifier si la séléction est correcte
 			if (selection.getFirst() != null && selection.getSecond() != null && selection.getThird() != null) {
 				// Demander la confirmation de l'utilisateur
-				if (ViewHelper.confirmation(this.w_parent, "En supprimant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\", tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ?", true)) {
+				if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\" ?", true)) {
 					// Demander la suppression de la phase qualificative
 					ContestOrg.get().getCtrlPhasesQualificatives().removePhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					
@@ -376,7 +376,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 						this.close();
 
 						// Demander la confirmation de l'utilisateur
-						if (ViewHelper.confirmation(w_parent, "En supprimant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\", tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ?", true)) {
+						if (ViewHelper.confirmation(w_parent, "Désirez-vous vraiment supprimer la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\" ?", true)) {
 							// Demander la suppression de la phase qualificative
 							ContestOrg.get().getCtrlPhasesQualificatives().removePhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 						}
