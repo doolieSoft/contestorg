@@ -4,7 +4,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -56,9 +55,6 @@ public class JPObjectifs extends JPanel
 
 			JLabel[] jls_objectifsA = new JLabel[objectifsDisponibles.size()];
 			JLabel[] jls_objectifsB = new JLabel[objectifsDisponibles.size()];
-			
-			JComponent[] jcs_objectifsA = new JComponent[objectifsDisponibles.size()];
-			JComponent[] jcs_objectifsB = new JComponent[objectifsDisponibles.size()];
 
 			this.js_objectifsA = new JSpinner[objectifsDisponibles.size()];
 			this.js_objectifsB = new JSpinner[objectifsDisponibles.size()];
@@ -68,13 +64,11 @@ public class JPObjectifs extends JPanel
 				this.js_objectifsB[i] = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
 				jls_objectifsA[i] = new JLabel(objectifsDisponibles.get(i)+" : ");
 				jls_objectifsB[i] = new JLabel(" "+objectifsDisponibles.get(i)+" : ");
-				jcs_objectifsA[i] = this.js_objectifsA[i];
-				jcs_objectifsB[i] = this.js_objectifsB[i];
 			}
 
 			JPanel jp_objectifs = new JPanel(new GridLayout(1,2));
-			jp_objectifs.add(ViewHelper.inputs(jls_objectifsA, jcs_objectifsA));
-			jp_objectifs.add(ViewHelper.inputs(jls_objectifsB, jcs_objectifsB));
+			jp_objectifs.add(ViewHelper.inputs(jls_objectifsA, this.js_objectifsA));
+			jp_objectifs.add(ViewHelper.inputs(jls_objectifsB, this.js_objectifsB));
 			this.add(jp_objectifs);
 		}
 	}
