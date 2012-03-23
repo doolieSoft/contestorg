@@ -2,6 +2,7 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.contestorg.common.ContestOrgErrorException;
@@ -289,11 +290,26 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
 		Collections.reverse(participants);
 		
-		// Garder les participant qui vont participer aux phases finales
+		// Garder les participants qui vont participer aux phases finales
 		int nbParticipants = (int)Math.pow(2, nbPhases);
 		participants = participants.subList(0, nbParticipants);
 		
-		// FIXME Eviter les rencontres entre participants venant de même poule
+		// Eviter les rencontres entre participants venant de même poule (méthode sensible aux ex-aequos)
+		Collections.sort(participants, new Comparator<ModelParticipant>() {
+			// Implémentation de compare
+			@Override
+			public int compare (ModelParticipant participantA, ModelParticipant participantB) {
+				// Comparer les participants selon leur rang
+				int rangA = participantA.getRangPhasesQualifs();
+				int rangB = participantB.getRangPhasesQualifs();
+				if (rangA != rangB) {
+					return rangA < rangB ? -1 : 1;
+				}
+				
+				// Comparer les participants selon leur poule
+				return participantA.getPoule().getNom().compareTo(participantB.getPoule().getNom());
+			}
+		});
 		
 		// Tirer les couples de participants de la première phase
 		/*
