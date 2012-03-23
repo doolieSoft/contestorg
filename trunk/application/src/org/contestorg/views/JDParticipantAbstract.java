@@ -214,7 +214,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 				// Vérifier si la propriété été déjà donnée
 				boolean ancien = false; int index = 0;
 				for(Pair<String, InfosModelProprietePossedee> proprietePossedee : this.proprietesPossedees) {
-					if(proprietePossedee.getFirst().equals(proprietesDisponibles.get(i))) {
+					if(proprietePossedee.getFirst().equals(proprietesDisponibles.get(i).getNom())) {
 						ancien = true;
 					} else if(!ancien) {
 						index++;
@@ -223,8 +223,13 @@ public abstract class JDParticipantAbstract extends JDPattern
 				
 				// Vérifier si la propriété est obligatoire
 				if(!valeur.isEmpty()) {
-					// Ajouter la propriété de participant
-					this.proprietesPossedees.add(new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
+					if(!ancien) {
+						// Ajouter la propriété de participant
+						this.proprietesPossedees.add(new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
+					} else {
+						// Modifier la propriété de participant
+						this.proprietesPossedees.update(index, new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
+					}
 				} else if(ancien) {
 					// Supprimer la propriété de participant
 					this.proprietesPossedees.remove(index);
@@ -248,9 +253,11 @@ public abstract class JDParticipantAbstract extends JDPattern
 				}
 				
 				// Ajouter/Supprimer le prix
-				if(nouveau && !ancien) { // Ajouter le prix
+				if(nouveau && !ancien) {
+					// Ajouter le prix
 					this.prix.add(prixDisponibles.get(i).getNom());
-				} else if(!nouveau && ancien) { // Supprimer le prix
+				} else if(!nouveau && ancien) {
+					// Supprimer le prix
 					this.prix.remove(index);
 				}
 			}
