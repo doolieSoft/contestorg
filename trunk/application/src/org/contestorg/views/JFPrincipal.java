@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 
 import javax.swing.Box;
@@ -287,8 +286,8 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		} else if (event.getSource() == this.jb_aide) {
 			try {
 				Desktop.getDesktop().open(new File("doc/documentation.pdf"));
-			} catch (IOException e) {
-				ViewHelper.derror(this, "Erreur de l'ouverture de la documentation de ContestOrg.");
+			} catch (Exception e) {
+				ViewHelper.derror(this, "Erreur de l'ouverture de l'aide de ContestOrg.");
 			}
 		} else if (event.getSource() == this.jb_web) {
 			try {
