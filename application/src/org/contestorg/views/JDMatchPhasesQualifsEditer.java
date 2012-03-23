@@ -44,8 +44,8 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 		}
 		
 		// Remplir la liste des objectifs remportés
-		this.jp_prix.setObjectifsRemportesA(infos.getFirst().getSecond());
-		this.jp_prix.setObjectifsRemportesB(infos.getSecond().getSecond());
+		this.jp_objectifs.setObjectifsRemportesA(infos.getFirst().getSecond());
+		this.jp_objectifs.setObjectifsRemportesB(infos.getSecond().getSecond());
 		
 		// Remplir les entrées avec les informations du match
 		if(infos.getFirst().getFirst() != null) {
