@@ -1,5 +1,6 @@
 package org.contestorg.views;
 
+import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -67,6 +68,7 @@ public class JDCategoriePoulePhaseQualif extends JDPattern
 		// Phase qualificative
 		this.jp_contenu.add(ViewHelper.title("Phase qualificative", ViewHelper.H1));
 		JLabel[] jls_phaseQualif = { new JLabel("Phase qualificative : ") };
+		this.jcb_phaseQualif.setPreferredSize(new Dimension(160, (int)this.jcb_phaseQualif.getPreferredSize().getHeight()));
 		JComponent[] jcs_phaseQualif = { this.jcb_phaseQualif };
 		this.jp_contenu.add(ViewHelper.inputs(jls_phaseQualif, jcs_phaseQualif));
 		
