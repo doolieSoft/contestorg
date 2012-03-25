@@ -137,16 +137,13 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			this.addListener(this.jf_general);
 			this.jf_general.setVisible(true);
 			
-			// Vérifier s'il faut vérifier les mises à jour
-			Boolean verifierMisesAJour = this.preferences.getBoolean(Preferences.VERIFIER_MISES_A_JOUR);
-			if(verifierMisesAJour != null && verifierMisesAJour == true) {
-				// Vérifier les mises à jour
-				InfosMiseAJour miseAJour = MiseAJour.verifier();
-				if(miseAJour != null) {
-					// Demander à l'utilisateur s'il souhaite télécharger la mise à jour
-					JDMiseAJour jd_miseAJour = new JDMiseAJour(this.jf_general, miseAJour);
-					jd_miseAJour.setVisible(true);
-				}
+			
+			// Vérifier les mises à jour
+			InfosMiseAJour miseAJour = MiseAJour.verifier();
+			if(miseAJour != null) {
+				// Demander à l'utilisateur s'il souhaite télécharger la mise à jour
+				JDMiseAJour jd_miseAJour = new JDMiseAJour(this.jf_general, miseAJour);
+				jd_miseAJour.setVisible(true);
 			}
 		} else {
 			// Message d'erreur
