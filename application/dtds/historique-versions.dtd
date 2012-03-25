@@ -12,7 +12,7 @@
 <!ELEMENT listeTelechargements (telechargement*)>
 
 <!-- Téléchargement -->
-<!ELEMENT telechargement>
+<!ELEMENT telechargement EMPTY>
 <!ATTLIST telechargement nom	CDATA #REQUIRED>
 <!ATTLIST telechargement url	CDATA #REQUIRED>
 
@@ -20,7 +20,7 @@
 <!ELEMENT listeEvolutions (evolution*)>
 
 <!-- Evolution développée -->
-<!ELEMENT evolution>
+<!ELEMENT evolution EMPTY>
 <!ATTLIST evolution description	CDATA #REQUIRED>
 <!ATTLIST evolution ticket		CDATA #IMPLIED>
 
@@ -28,7 +28,7 @@
 <!ELEMENT listeAnomalies (anomalie*)>
 
 <!-- Anoamlie corrigée -->
-<!ELEMENT anomalie>
+<!ELEMENT anomalie EMPTY>
 <!ATTLIST anomalie description	CDATA #REQUIRED>
 <!ATTLIST anomalie ticket		CDATA #IMPLIED>
 
@@ -36,7 +36,7 @@
 <!ELEMENT listeRevues (revue*)>
 
 <!-- Revue effectuée -->
-<!ELEMENT revue>
+<!ELEMENT revue EMPTY>
 <!ATTLIST revue description	CDATA #REQUIRED>
 <!ATTLIST revue ticket		CDATA #IMPLIED>
 
@@ -44,6 +44,6 @@
 <!ELEMENT listeTaches (tache*)>
 
 <!-- Tâche effectuée -->
-<!ELEMENT tache>
+<!ELEMENT tache EMPTY>
 <!ATTLIST tache description	CDATA #REQUIRED>
 <!ATTLIST tache ticket		CDATA #IMPLIED>
