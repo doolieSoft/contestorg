@@ -1124,10 +1124,10 @@ FIN PROCEDURE;</programlisting>
         <para>Concernant le format de fichier contenant la liste des
         participants, il s'agit d'un fichier <acronym>XML</acronym> respectant
         la <acronym>DTD</acronym> fournie dans le fichier
-        <filename>dtds/importation.dtd</filename> au sein du répertoire de
-        ContestOrg. La <acronym>DTD</acronym> est également disponible sur le
-        site Web de ContestOrg à l'adresse
-        <uri>http://www.elfangels.fr/contestorg/data/dtds/importation.dtd</uri>.</para>
+        <filename>dtds/importer-participants.dtd</filename> au sein du
+        répertoire de ContestOrg. La <acronym>DTD</acronym> est également
+        disponible sur le site Web de ContestOrg à l'adresse
+        <uri>http://www.elfangels.fr/contestorg/data/dtds/importer-participants.dtd</uri>.</para>
 
         <remark>L'exportation "Module d'inscription" permet la mise en place
         d'un site web permettant l'inscription des participants et fournissant
@@ -1538,8 +1538,8 @@ FIN PROCEDURE;</programlisting>
         configuration intitulé <filename>configuration.xml</filename>.
         Celui-ci est écrit en <acronym>XML</acronym> et sa
         <acronym>DTD</acronym> est disponible dans le fichier
-        <filename>dtds/theme.dtd</filename> ou à l'adresse
-        <uri>http://www.elfangels.fr/contestorg/data/dtds/theme.dtd</uri>.
+        <filename>dtds/configuration-theme.dtd</filename> ou à l'adresse
+        <uri>http://www.elfangels.fr/contestorg/data/dtds/configuration-theme.dtd</uri>.
         Nous retrouvons dans ce fichier de configuration la liste des fichiers
         à fournir dans l'exportation ou la diffusion ainsi que la liste des
         paramètres à demander à l'utilisateur.</para>
