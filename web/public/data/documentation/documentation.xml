@@ -5,7 +5,7 @@
   <bookinfo>
     <title>ContestOrg</title>
 
-    <graphic fileref="images/logo.png" format="PNG" />
+    <graphic fileref="images/logo.png" format="PNG"/>
 
     <author>
       <firstname>Cyril</firstname>
@@ -15,7 +15,7 @@
 
     <date>12 novembre 2012</date>
 
-    <releaseinfo>2.0.0b</releaseinfo>
+    <releaseinfo>2.0.0</releaseinfo>
 
     <subtitle>Logiciel d'organisation de tournois</subtitle>
   </bookinfo>
@@ -47,7 +47,10 @@
       <application>ContestOrg 2</application> à la fin de l'été 2010. Désireux
       de livrer une application complète, la date de sortie a subi de nombreux
       reports. Après de longs mois d'effort, la nouvelle version voit enfin le
-      jour au printemps 2011.</para>
+      jour au printemps 2011 en version beta. L'année qui suit fut dédiée à la
+      récolte d'avis des utilisateurs et c'est au printemps 2012 que
+      <application>ContestOrg 2</application> est enfin disponible au
+      téléchargement.</para>
     </section>
 
     <section>
@@ -181,6 +184,14 @@
     sur <filename>ContestOrg.exe</filename>. Sous Linux et Mac OS, il vous
     faut lancer le terminal et exécuter la ligne suivante : <command>$ java
     -jar ContestOrg.jar</command>.</para>
+
+    <remark>ContestOrg doit être lancé depuis sont répertoire d'installation.
+    Si vous désirez créer un script de lancement, vous ne pourrez donc pas
+    effectuer directement la ligne suivante : <command>$ java -jar
+    /chemin/de/contestorg/ContestOrg.jar</command>. Il vous faudra d'abord
+    effectuer la ligne suivante : <command>$ cd
+    /chemin/de/contestorg</command>, puis la ligne suivante : <command>$ java
+    -jar ContestOrg.jar</command>.</remark>
   </chapter>
 
   <chapter>
@@ -202,7 +213,7 @@
           <imageobject>
             <imagedata depth="273px"
                        fileref="images/ecrans/interface-generale.png"
-                       format="PNG" width="450px" />
+                       format="PNG" width="450px"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -274,15 +285,15 @@
       </itemizedlist>
 
       <para>Sur la zone de droite, nous retrouvons les trois grandes parties
-      de l'application (<link linkend="participants">équipes/joueurs</link>, <link
-      linkend="phases-qualificatives">phases qualificatives</link> et <link
-      linkend="phases-eliminatoires">phases éliminatoires</link>) disponibles
-      sous la forme d'onglets. Chacune de ces trois parties est divisée en
-      quatre zones : une zone dédiée à l'arborescence catégories/poules, une
-      zone dédiée aux données de l'onglet courant, une zone dédiée aux actions
-      sur l'arborescence, une zone dédiée aux actions sur les données. Notez
-      que la zone dédiée aux données de l'onglet courant dépendent de la
-      sélection effectuée dans l'arborescence.</para>
+      de l'application (<link linkend="participants">équipes/joueurs</link>,
+      <link linkend="phases-qualificatives">phases qualificatives</link> et
+      <link linkend="phases-eliminatoires">phases éliminatoires</link>)
+      disponibles sous la forme d'onglets. Chacune de ces trois parties est
+      divisée en quatre zones : une zone dédiée à l'arborescence
+      catégories/poules, une zone dédiée aux données de l'onglet courant, une
+      zone dédiée aux actions sur l'arborescence, une zone dédiée aux actions
+      sur les données. Notez que la zone dédiée aux données de l'onglet
+      courant dépendent de la sélection effectuée dans l'arborescence.</para>
     </section>
 
     <section>
@@ -325,7 +336,7 @@
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-general.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -349,7 +360,7 @@
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-points-classement.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -361,7 +372,7 @@
           en cas de victoire, d'égalité ou de défaite. Il n'y a aucun point de
           remporté si le participant est déclaré forfait au match. Si votre
           tournois n'attribue aucun points en fonction du résultat d'un match,
-          spécifiez <quote>0</quote> dans chacun des entrées.</para>
+          spécifiez <quote>0</quote> dans chacune des entrées.</para>
         </section>
 
         <section>
@@ -371,7 +382,7 @@
           participant peut remporter au cours d'un match. Trois types
           d'objectifs sont disponibles : les objectifs à points, les objectifs
           à pourcentage et les objectifs nuls. Notez que l'ordre des objectifs
-          importe dans l'attribution des points.</para>
+          est important dans l'attribution des points.</para>
 
           <section>
             <title>Objectifs à points</title>
@@ -416,7 +427,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="158"
                              fileref="images/ecrans/configurer-objectif-points.png"
-                             width="200" />
+                             width="200"/>
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -513,7 +524,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="158"
                              fileref="images/ecrans/configurer-objectif-pourcentage.png"
-                             width="200" />
+                             width="200"/>
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -553,7 +564,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="158"
                              fileref="images/ecrans/configurer-objectif-nul.png"
-                             width="200" />
+                             width="200"/>
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -588,7 +599,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-lieux-emplacements.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -604,7 +615,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="444"
                          fileref="images/ecrans/configurer-lieu.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -622,7 +633,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="218"
                          fileref="images/ecrans/configurer-lieu-horaire.png"
-                         width="280" />
+                         width="280"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -640,7 +651,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="151"
                          fileref="images/ecrans/configurer-lieu-emplacement.png"
-                         width="280" />
+                         width="280"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -678,7 +689,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-prix.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -700,30 +711,35 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-programmation-matchs.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
+
+        <remark>Les informations de programmation sont définis purement à
+        titre informatif et ne sont pas pris en compte par
+        <application>ContestOrg</application> pour une programmation
+        automatique des matchs.</remark>
       </section>
 
       <section id="configurer-proprietes-participant">
-        <title>Onglet "Propriétés de participant"</title>
+        <title>Onglet "Propriétés des participant"</title>
 
         <para>Dans cet onglet, nous retrouvons la configuration des propriétés
-        de participant. L'objectif est de pouvoir palier au manque de
+        des participant. L'objectif est de pouvoir palier au manque de
         propriétés proposées par défaut lors de la création d'un participant.
         Une propriété possède trois paramètres : son nom, son type (nombre
         entier, nombre décimal et texte) et s'il s'agit d'une propriété
         obligatoire.</para>
 
         <screenshot>
-          <screeninfo>Onglet "Propriétés de participant"</screeninfo>
+          <screeninfo>Onglet "Propriétés des participant"</screeninfo>
 
           <mediaobject>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-proprietes-participant.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -733,7 +749,7 @@ FIN PROCEDURE;</programlisting>
 
           <para>Dans le cadre d'un tournoi de judo, le responsable de
           l'organisation du tournois désire pouvoir renseigner le poids de
-          chaque participant. Pour cela, il crée une propriété de participant
+          chaque participant. Pour cela, il crée une propriété
           <quote>Poids</quote> de type <quote>Nombre décimal</quote>. Ainsi, à
           la création d'un participant, son poids est demandé.</para>
         </example>
@@ -749,7 +765,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-exportations-diffusions.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -812,7 +828,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="469"
                              fileref="images/ecrans/configurer-exportation.png"
-                             width="300" />
+                             width="300"/>
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -891,7 +907,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="293"
                              fileref="images/ecrans/configurer-diffusion.png"
-                             width="300" />
+                             width="300"/>
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -931,8 +947,9 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="277" fileref="images/ecrans/onglet-participants.png"
-                       width="450" />
+            <imagedata depth="277"
+                       fileref="images/ecrans/onglet-participants.png"
+                       width="450"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -961,7 +978,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="208"
                          fileref="images/ecrans/gerer-categories.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -996,7 +1013,7 @@ FIN PROCEDURE;</programlisting>
           <mediaobject>
             <imageobject>
               <imagedata depth="515" fileref="images/ecrans/gerer-poules.png"
-                         width="400" />
+                         width="400"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1038,8 +1055,9 @@ FIN PROCEDURE;</programlisting>
 
           <para>Pour affecter automatiquement les participants aux poules,
           cliquez sur le bouton <guibutton>Affectation
-          automatique</guibutton>. Notez que l'affectation des participants se
-          fait de manière aléatoire.</para>
+          automatique</guibutton>. Pour éviter de générer des poules
+          déséquilibrées, il est possible de définir des poids pour chacun des
+          participants.</para>
         </section>
       </section>
 
@@ -1081,7 +1099,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="460"
                          fileref="images/ecrans/creer-editer-participant.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1106,10 +1124,10 @@ FIN PROCEDURE;</programlisting>
         <para>Concernant le format de fichier contenant la liste des
         participants, il s'agit d'un fichier <acronym>XML</acronym> respectant
         la <acronym>DTD</acronym> fournie dans le fichier
-        <filename>dtds/importation.dtd</filename> au sein du répertoire de
-        ContestOrg. La <acronym>DTD</acronym> est également disponible sur le
-        site Web de ContestOrg à l'adresse
-        <uri>http://www.elfangels.fr/contestorg/data/dtds/importation.dtd</uri>.</para>
+        <filename>dtds/importer-participants.dtd</filename> au sein du
+        répertoire de ContestOrg. La <acronym>DTD</acronym> est également
+        disponible sur le site Web de ContestOrg à l'adresse
+        <uri>http://www.elfangels.fr/contestorg/data/dtds/importer-participants.dtd</uri>.</para>
 
         <remark>L'exportation "Module d'inscription" permet la mise en place
         d'un site web permettant l'inscription des participants et fournissant
@@ -1122,7 +1140,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="361"
                          fileref="images/ecrans/importer-participants.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1153,7 +1171,7 @@ FIN PROCEDURE;</programlisting>
           <imageobject>
             <imagedata depth="277"
                        fileref="images/ecrans/onglet-phases-qualificatives.png"
-                       width="450" />
+                       width="450"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1199,7 +1217,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="475"
                          fileref="images/ecrans/creer-editer-phase-qualificative.png"
-                         width="400" />
+                         width="400"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1293,7 +1311,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="296"
                          fileref="images/ecrans/creer-editer-match-phases-qualificatives.png"
-                         width="240" />
+                         width="240"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1329,7 +1347,7 @@ FIN PROCEDURE;</programlisting>
           <imageobject>
             <imagedata depth="277"
                        fileref="images/ecrans/onglet-phases-eliminatoires.png"
-                       width="450" />
+                       width="450"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1366,7 +1384,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="126"
                          fileref="images/ecrans/editer-participant-phases-eliminatoires.png"
-                         width="250" />
+                         width="250"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1400,7 +1418,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="295"
                          fileref="images/ecrans/editer-match-phases-eliminatoires.png"
-                         width="240" />
+                         width="240"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1433,7 +1451,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="139"
                          fileref="images/ecrans/exportations-predefinies.png"
-                         width="350" />
+                         width="350"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1444,12 +1462,14 @@ FIN PROCEDURE;</programlisting>
 
         <para>Vous n'avez pas besoin de défininr à l'avance une exportation
         pour la lancer. Pour cela, rendez-vous dans l'onglet de votre choix
-        (participants/Joueurs, Phases qualificatives ou Phases éliminatoires) puis
-        cliquez sur le bouton <guibutton>Exporter</guibutton>. Les
-        exportations affichées concernent l'onglet courant. Choisissez le
-        thème de votre choix, renseignez les différents paramètres puis
-        cliquez sur le bouton <guibutton>Valider</guibutton>. Il vous sera
-        alors demander l'emplacement de destination.</para>
+        (participants/Joueurs, Phases qualificatives ou Phases éliminatoires)
+        puis cliquez sur le bouton <guibutton>Exporter</guibutton>. Les
+        exportations affichées concernent l'onglet courant. Si vous désirez
+        changer la catégorie du thème, il vous suffit de la séléctionner dans
+        la liste prévue à cet effet. Choisissez le thème de votre choix,
+        renseignez les différents paramètres puis cliquez sur le bouton
+        <guibutton>Valider</guibutton>. Il vous sera alors demander
+        l'emplacement de destination.</para>
 
         <screenshot>
           <screeninfo>Fenêtre des exportations à la volée</screeninfo>
@@ -1458,7 +1478,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="179"
                          fileref="images/ecrans/exportations-volee.png"
-                         width="280" />
+                         width="280"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1492,7 +1512,7 @@ FIN PROCEDURE;</programlisting>
         <mediaobject>
           <imageobject>
             <imagedata depth="154" fileref="images/ecrans/diffuser.png"
-                       width="350" />
+                       width="350"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1518,8 +1538,8 @@ FIN PROCEDURE;</programlisting>
         configuration intitulé <filename>configuration.xml</filename>.
         Celui-ci est écrit en <acronym>XML</acronym> et sa
         <acronym>DTD</acronym> est disponible dans le fichier
-        <filename>dtds/theme.dtd</filename> ou à l'adresse
-        <uri>http://www.elfangels.fr/contestorg/data/dtds/theme.dtd</uri>.
+        <filename>dtds/configuration-theme.dtd</filename> ou à l'adresse
+        <uri>http://www.elfangels.fr/contestorg/data/dtds/configuration-theme.dtd</uri>.
         Nous retrouvons dans ce fichier de configuration la liste des fichiers
         à fournir dans l'exportation ou la diffusion ainsi que la liste des
         paramètres à demander à l'utilisateur.</para>
@@ -1540,6 +1560,27 @@ FIN PROCEDURE;</programlisting>
         Les paramètres demandés à l'utilisateur seront passés à vos feuilles
         <acronym>XSL</acronym>.</para>
       </section>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>FAQ</title>
+
+    <para>Ce chapitre contient une liste des questions fréquemment
+    posées.</para>
+
+    <section>
+      <title>Je n'arrive pas à créer une phase qualificative</title>
+
+      <para>Solution : appliquer le statut "Homologué" à deux participants au
+      moins.</para>
+    </section>
+
+    <section>
+      <title>Je ne vois pas les icones de l'application</title>
+
+      <para>Solution : lancer l'application depuis son répertoire
+      d'installation.</para>
     </section>
   </chapter>
 
@@ -1758,9 +1799,9 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
@@ -1784,9 +1825,9 @@ FIN PROCEDURE;</programlisting>
 
           <tbody>
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
@@ -1816,9 +1857,9 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
@@ -1853,11 +1894,11 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
@@ -1975,11 +2016,11 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
@@ -2097,13 +2138,13 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
@@ -2135,15 +2176,13 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry></entry>
+              <entry/>
 
-              <entry></entry>
+              <entry/>
             </row>
           </tbody>
         </tgroup>
       </table>
-
-      <para></para>
     </section>
   </chapter>
 </book>

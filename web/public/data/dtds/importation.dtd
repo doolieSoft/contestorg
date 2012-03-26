@@ -1,9 +1,0 @@
-<!-- Liste des équipes -->
-<!ELEMENT listeEquipes (equipe*)>
-<!ELEMENT equipe EMPTY>
-<!ATTLIST equipe nom		CDATA	#REQUIRED>	<!-- Nom de l'équipe -->
-<!ATTLIST equipe ville		CDATA	#IMPLIED>	<!-- Ville de l'équipe -->
-<!ATTLIST equipe statut		(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut de l'équipe -->
-<!ATTLIST equipe stand		CDATA	#IMPLIED>	<!-- Numéro de stand de l'équipe -->
-<!ATTLIST equipe membres	CDATA	#IMPLIED>	<!-- Liste des membres de l'équipe -->
-<!ATTLIST equipe details	CDATA	#IMPLIED>	<!-- Détails de l'équipe -->

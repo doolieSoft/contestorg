@@ -11,16 +11,44 @@
 
 <!-- Signaler des erreurs -->
 <h2 class="title t_signaler_erreurs">Signaler des erreurs</h2>
-<p class="message m_construct">En construction...</p>
+<p>
+	Nous vous invitons à nous contacter au travers du <a href="<?php echo Request::buildURL(null,'index','contact'); ?>">formulaire de contact</a> en nous précisant :
+</p>
+<ul>
+	<li>les étapes pour reproduire l'erreur</li>
+	<li>le résultat attendu</li>
+	<li>le résultat obtenu</li>
+	<li>d'éventuelles informations supplémentaires</li>
+</ul>
 
 <!-- Proposer des améliorations -->
 <h2 class="title t_proposer_ameliorations">Proposer des améliorations</h2>
-<p class="message m_construct">En construction...</p>
+<p>
+	Nous vous invitons à nous contacter au travers du <a href="<?php echo Request::buildURL(null,'index','contact'); ?>">formulaire de contact</a> en nous précisant :
+</p>
+<ul>
+	<li>l'objectif de l'amélioration</li>
+	<li>la description de la solution</li>
+</ul>
 
 <!-- Promouvoir le projet -->
 <h2 class="title t_promouvoir_projet">Promouvoir le projet</h2>
-<p class="message m_construct">En construction...</p>
+<p>
+	Pour promouvoir le projet, il est possible d'en parler autour de vous et/ou sur
+	votre site web. Vous pouvez également télécharger le pack de promotion en cliquant
+	<a href="<?php echo Request::getBase(); ?>data/promotion.zip">ici</a>. Celui-ci contient
+	une affiche et un sticker à imprimer. 
+</p>
 
 <!-- Effectuer un don -->
 <h2 class="title t_effectuer_don">Effectuer un don</h2>
-<p class="message m_construct">En construction...</p>
+<p>
+	Vous pouvez soutenir le projet en effectuant un don. Le montant est libre et vous pouvez ainsi
+	nous aider dans la mesure de vos moyens. L'argent récolté permet de louer l'hébergement du site
+	web et de promouvoir le projet au travers d'impressions d'affiches, de stickers, ...
+</p>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+	<input type="hidden" name="cmd" value="_s-xclick" />
+	<input type="hidden" name="hosted_button_id" value="YNQVH5WQCFHQL" />
+	<input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donate_LG.gif" name="submit" style="border:none;" alt="Faire un don" />
+</form>

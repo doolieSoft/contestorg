@@ -1,5 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!-- Informations sur le concours -->
 <!ELEMENT concours (organisateur?,points,programmation?,listeCriteres?,listeLieux?,listeObjectifs?,listePrix?,listeProprietes?,listeExportations?,publication?,listeDiffusions?,listeCategories?)>
+<!ATTLIST concours id				ID					#REQUIRED>	<!-- Identifiant du concours -->
 <!ATTLIST concours nom				CDATA				#REQUIRED>	<!-- Nom du concours -->
 <!ATTLIST concours site				CDATA				#IMPLIED>	<!-- Site web du concours -->
 <!ATTLIST concours lieu				CDATA				#IMPLIED>	<!-- Lieu du concours (pays, ville, ...) -->
@@ -26,11 +29,11 @@
 
 <!-- Informations de programmation -->
 <!ELEMENT programmation EMPTY>
-<!ATTLIST programmation	duree CDATA	#IMPLIED> <!-- Durée de chaque match (en minutes) -->
-<!ATTLIST programmation	interval CDATA	#IMPLIED> <!-- Interval entre chaque match (en minutes) -->
-<!ATTLIST programmation	pause CDATA	#IMPLIED> <!-- Pause minimale pour une équipe entre chaque match (en minutes) -->
+<!ATTLIST programmation	duree 		CDATA	#IMPLIED> <!-- Durée de chaque match (en minutes) -->
+<!ATTLIST programmation	interval 	CDATA	#IMPLIED> <!-- Interval entre chaque match (en minutes) -->
+<!ATTLIST programmation	pause 		CDATA	#IMPLIED> <!-- Pause minimale pour un participant entre chaque match (en minutes) -->
 
-<!-- Liste des critères de classement des équipes -->
+<!-- Liste des critères de classement des participants -->
 <!ELEMENT listeCriteres (critere*)>
 
 <!ELEMENT critere (critereNbPoints|critereNbVictoires|critereNbObjectifs)>
@@ -71,12 +74,12 @@
 
 <!ELEMENT objectifPoints EMPTY>
 <!ATTLIST objectifPoints nom				CDATA	#REQUIRED>	<!-- Nom de l'objectif -->
-<!ATTLIST objectifPoints points				CDATA	#REQUIRED>	<!-- Nombre de points attribués à l'équipe qui remporte cet objectif -->
+<!ATTLIST objectifPoints points				CDATA	#REQUIRED>	<!-- Nombre de points attribués au participant qui remporte cet objectif -->
 <!ATTLIST objectifPoints borneParticipation	CDATA	#IMPLIED>	<!-- Borne que le nombre de points remportés au cours du match ne peut pas dépassé suite à l'ajout des points -->
 
 <!ELEMENT objectifPourcentage EMPTY>
 <!ATTLIST objectifPourcentage nom					CDATA	#REQUIRED>	<!-- Nom de l'objectif -->
-<!ATTLIST objectifPourcentage pourcentage			CDATA	#REQUIRED>	<!-- Pourcentage du nombre de points remportés au cours du match attribué au score de l'équipe qui remporte cet objecitf -->
+<!ATTLIST objectifPourcentage pourcentage			CDATA	#REQUIRED>	<!-- Pourcentage du nombre de points remportés au cours du match attribué au score du participant qui remporte cet objecitf -->
 <!ATTLIST objectifPourcentage borneAugmentation		CDATA	#IMPLIED>	<!-- Borne que l'augmentation du nombre de points remportés au cours du match ne peut pas dépassé -->
 <!ATTLIST objectifPourcentage borneParticipation	CDATA	#IMPLIED>	<!-- Borne que le nombre de points remportés au cours du match ne peut pas dépassé suite à l'ajout des points -->
 
@@ -89,12 +92,12 @@
 <!ATTLIST prix id		ID		#REQUIRED> <!-- Identifiant du prix -->
 <!ATTLIST prix nom		CDATA	#REQUIRED> <!-- Nom du prix -->
 
-<!-- Liste des propriétés d'équipe -->
+<!-- Liste des propriétés de participant -->
 <!ELEMENT listeProprietes (propriete*)>
 <!ELEMENT propriete EMPTY>
 <!ATTLIST propriete	id			ID								#REQUIRED>	<!-- Identifiant de la propriété -->
 <!ATTLIST propriete	nom			CDATA							#REQUIRED>	<!-- Nom de la propriété -->
-<!ATTLIST propriete	type		(entier|decimal|caracteres) 	"entier">	<!-- Type de la propriété -->
+<!ATTLIST propriete	type		(entier|decimal|texte) 			"entier">	<!-- Type de la propriété -->
 <!ATTLIST propriete	obligatoire	(oui|non) 						"oui">		<!-- S'agit-il d'un propriété obligatoire ? -->
 
 <!-- Liste des exportations -->
@@ -102,7 +105,7 @@
 <!ELEMENT exportation (chemin,theme)>
 <!ATTLIST exportation id			ID			#REQUIRED>	<!-- Identifiant de l'exportation -->
 <!ATTLIST exportation nom			CDATA		#REQUIRED>	<!-- Nom de l'exportation -->
-<!ATTLIST exportation automatique (oui|non)		"non">		<!-- S'agit-il d'une exportation automatique ? (executée à chaque enregistrement) -->
+<!ATTLIST exportation automatique 	(oui|non)	"non">		<!-- S'agit-il d'une exportation automatique ? (executée à chaque enregistrement) -->
 
 <!-- Exportation pour la publication -->
 <!ELEMENT publication EMPTY>
@@ -145,37 +148,36 @@
 <!ATTLIST fichier id	CDATA 	#REQUIRED>	<!-- Identifiant du paramètre (correspondant à l'identifiant du fichier dans theme.dtd) -->
 <!ATTLIST fichier cible	CDATA	#REQUIRED>	<!-- Chemin du fichier cible -->
 
-<!-- Liste des catégories d'équipes -->
+<!-- Liste des catégories de participant -->
 <!ELEMENT listeCategories (categorie*)>
 <!ELEMENT categorie (classementCategoriePhasesQualificatives?,listePoules?,classementCategoriePhasesEliminatoires?,listePhasesEliminatoires?)>
 <!ATTLIST categorie	id		ID		#REQUIRED>	<!-- Identifiant de la catégorie -->
 <!ATTLIST categorie	nom		CDATA	#REQUIRED>	<!-- Nom de la catégorie -->
 
-<!ELEMENT classementCategoriePhasesQualificatives (listeClassementEquipes)> <!-- Classement des équipes aux phases qualificative au niveau de la catégorie (aide pour traitements XSLT) -->
-<!ELEMENT classementCategoriePhasesEliminatoires (listeClassementEquipes)> <!-- Classement des équipes aux phases éliminatoires au niveau de la catégorie (aide pour traitements XSLT) -->
+<!ELEMENT classementCategoriePhasesQualificatives (listeClassementParticipants)> <!-- Classement des participants aux phases qualificative au niveau de la catégorie (aide pour traitements XSLT) -->
+<!ELEMENT classementCategoriePhasesEliminatoires (listeClassementParticipants)> <!-- Classement des participants aux phases éliminatoires au niveau de la catégorie (aide pour traitements XSLT) -->
 
-<!-- Poules d'équipes -->
+<!-- Liste des poules de participants -->
 <!ELEMENT listePoules (poule*)>
-<!ELEMENT poule (listeEquipes?,classementPoulePhasesQualificatives?,listePhasesQualificatives?)>
+<!ELEMENT poule (listeParticipants?,classementPoulePhasesQualificatives?,listePhasesQualificatives?)>
 <!ATTLIST poule id		ID		#REQUIRED>	<!-- Identifiant de la poule -->
 <!ATTLIST poule nom		CDATA	#REQUIRED>	<!-- Nom de la poule -->
 
-<!ELEMENT classementPoulePhasesQualificatives (listeClassementEquipes)> <!-- Classement des équipes aux phases qualificatives au niveau de la poule (aide pour traitements XSLT) -->
+<!ELEMENT classementPoulePhasesQualificatives (listeClassementParticipants)> <!-- Classement des participants aux phases qualificatives au niveau de la poule (aide pour traitements XSLT) -->
 
-<!-- Liste des équipes -->
-<!ELEMENT listeEquipes (equipe*)>
-<!ELEMENT equipe (listeProprietesPossedees?,listePrixRemportes?)>
-<!ATTLIST equipe id						ID		#REQUIRED>	<!-- Identifiant de l'équipe -->
-<!ATTLIST equipe nom					CDATA	#REQUIRED>	<!-- Nom de l'équipe -->
-<!ATTLIST equipe ville					CDATA	#IMPLIED>	<!-- Ville de l'équipe -->
-<!ATTLIST equipe statut					(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut de l'équipe -->
-<!ATTLIST equipe stand					CDATA	#IMPLIED>	<!-- Numéro de stand de l'équipe -->
-<!ATTLIST equipe membres				CDATA	#IMPLIED>	<!-- Liste des membres de l'équipe -->
-<!ATTLIST equipe details				CDATA	#IMPLIED>	<!-- Détails de l'équipe -->
-<!ATTLIST equipe rangPhasesQualifs 		CDATA	#IMPLIED> 	<!-- Information calculée (aide pour traitements XSLT) -->
-<!ATTLIST equipe pointsPhasesQualifs 	CDATA 	#IMPLIED> 	<!-- Information calculée (aide pour traitements XSLT) -->
-<!ATTLIST equipe rangPhasesElims 		CDATA 	#IMPLIED> 	<!-- Information calculée (aide pour traitements XSLT) -->
-<!ATTLIST equipe pointsPhasesElims 		CDATA 	#IMPLIED> 	<!-- Information calculée (aide pour traitements XSLT) -->
+<!-- Liste des participants -->
+<!ELEMENT listeParticipants (participant*)>
+<!ELEMENT participant (listeProprietesPossedees?,listePrixRemportes?)>
+<!ATTLIST participant id					ID		#REQUIRED>	<!-- Identifiant du participant -->
+<!ATTLIST participant nom					CDATA	#REQUIRED>	<!-- Nom du participant -->
+<!ATTLIST participant ville					CDATA	#IMPLIED>	<!-- Ville du participant -->
+<!ATTLIST participant statut				(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut du participant -->
+<!ATTLIST participant stand					CDATA	#IMPLIED>	<!-- Numéro de stand du participant -->
+<!ATTLIST participant details				CDATA	#IMPLIED>	<!-- Détails du participant -->
+<!ATTLIST participant rangPhasesQualifs 	CDATA	#IMPLIED> 	<!-- Rang aux phases qualificatives (aide pour traitements XSLT) -->
+<!ATTLIST participant pointsPhasesQualifs 	CDATA 	#IMPLIED> 	<!-- Points remportés aux phases qualificatives (aide pour traitements XSLT) -->
+<!ATTLIST participant rangPhasesElims 		CDATA 	#IMPLIED> 	<!-- Rang aux phases éliminatoires (aide pour traitements XSLT) -->
+<!ATTLIST participant pointsPhasesElims 	CDATA 	#IMPLIED> 	<!-- Points remportés aux phases éliminatoires (aide pour traitements XSLT) -->
 
 <!ELEMENT listeProprietesPossedees (proprietePossedee*)>
 <!ELEMENT proprietePossedee EMPTY>
@@ -192,7 +194,7 @@
 <!ATTLIST phaseQualificative id 	ID		#REQUIRED>	<!-- Identifiant de la phase qualificative -->
 <!ATTLIST phaseQualificative numero	CDATA	#REQUIRED>	<!-- Numéro de la phase qualificative indicé de 0 à N (aide pour traitements XSLT) -->
 
-<!ELEMENT classementPhaseQualificative (listeClassementEquipes)> <!-- Classement des équipes au niveau de la phase qualificative (aide pour traitements XSLT) -->
+<!ELEMENT classementPhaseQualificative (listeClassementParticipants)> <!-- Classement des participants sur une phase qualificative (aide pour traitements XSLT) -->
 
 <!ELEMENT matchPhaseQualificative (participation,participation)>
 <!ATTLIST matchPhaseQualificative id		ID		#REQUIRED>
@@ -217,20 +219,20 @@
 
 <!-- Participation pour les matchs de phases qualificatives/éliminatoires -->
 <!ELEMENT participation (objectifRempli*)>
-<!ATTLIST participation id 			ID 		#REQUIRED>	<!-- Identifiant de la participation -->
-<!ATTLIST participation refEquipe 	IDREF 	#IMPLIED>	<!-- Référence de l'équipe (non fourni si equipe fantome) -->
-<!ATTLIST participation resultat 	(attente|victoire|egalite|defaite|forfait)	"attente">	<!-- Résultat de la participation -->
-<!ATTLIST participation points 		CDATA 	#REQUIRED> 	<!-- Points remportés par l'équipe (aide pour traitements XSLT) -->
+<!ATTLIST participation id 				ID 		#REQUIRED>	<!-- Identifiant de la participation -->
+<!ATTLIST participation refParticipant 	IDREF 	#IMPLIED>	<!-- Référence du participant (non fourni si participant fantome) -->
+<!ATTLIST participation resultat 		(attente|victoire|egalite|defaite|forfait)	"attente">	<!-- Résultat de la participation -->
+<!ATTLIST participation points 			CDATA 	#REQUIRED> 	<!-- Points remportés par le participant (aide pour traitements XSLT) -->
 
 <!ELEMENT objectifRempli EMPTY>
 <!ATTLIST objectifRempli id 			ID 		#REQUIRED>	<!-- Identifiant de l'objectif rempli -->
 <!ATTLIST objectifRempli refObjectif	IDREF	#REQUIRED>	<!-- Référence de l'objectif associé -->
 <!ATTLIST objectifRempli quantite		CDATA	#REQUIRED>	<!-- Quantité d'objectifs remplis -->
 
-<!-- Classement d'équipes (aide pour traitements XSLT) -->
-<!ELEMENT listeClassementEquipes (classementEquipe*)>
-<!ELEMENT classementEquipe EMPTY>
-<!ATTLIST classementEquipe
-	refEquipe	IDREF	#REQUIRED
-	rang 		CDATA 	#REQUIRED
+<!-- Classement des participants (aide pour traitements XSLT) -->
+<!ELEMENT listeClassementParticipants (classementParticipant*)>
+<!ELEMENT classementParticipant EMPTY>
+<!ATTLIST classementParticipant
+	refParticipant	IDREF	#REQUIRED
+	rang 			CDATA 	#REQUIRED
 >

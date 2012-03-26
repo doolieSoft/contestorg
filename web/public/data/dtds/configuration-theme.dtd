@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!-- Configuration du thême -->
 <!ELEMENT configuration (fichiers,parametres?)>
-<!ATTLIST configuration categorie (equipes|phasesQualificatives|phasesEliminatoires) #IMPLIED> <!-- Indique à quelle catégorie peut correspondre le thème -->
+<!ATTLIST configuration categorie (participants|phasesQualificatives|phasesEliminatoires) #IMPLIED> <!-- Indique à quelle catégorie peut correspondre le thème -->
 <!ATTLIST configuration description	CDATA #IMPLIED> <!-- Description du thème -->
 
 <!-- Liste des fichiers -->
@@ -24,7 +26,7 @@
 <!ELEMENT parametre EMPTY>
 <!ATTLIST parametre id			ID				#REQUIRED> 	<!-- Chaine servant d'identifiant au paramètre -->
 <!ATTLIST parametre nom			CDATA			#REQUIRED> 	<!-- Nom du paramètre -->
-<!ATTLIST parametre type		(entier|reel|texte|idCategorie|idPoule|idPoule) #REQUIRED> <!-- Type du paramètre -->
+<!ATTLIST parametre type		(entier|reel|texte|idCategorie|idPoule|idPoule|motDePasse|booleen) #REQUIRED> <!-- Type du paramètre -->
 <!ATTLIST parametre optionnel	(oui|non) 		"non"> 		<!-- S'agit-il d'un paramètre optionnel ? -->
 <!ATTLIST parametre dependance	IDREF			#IMPLIED> 	<!-- Id du paramètre dont dépent le paramètre courant -->
 <!ATTLIST parametre description	CDATA			#IMPLIED>	<!-- Description du paramètre -->
