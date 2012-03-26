@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Liste des participants -->
+<!ELEMENT listeParticipants (participant*)>
+
+<!-- Participant -->
+<!ELEMENT participant (listeProprietes?)>
+<!ATTLIST participant nom		CDATA	#REQUIRED>	<!-- Nom du participant -->
+<!ATTLIST participant ville		CDATA	#IMPLIED>	<!-- Ville du participant -->
+<!ATTLIST participant statut	(absente|presente|homologuee|forfait|disqualifiee)	"absente">	<!-- Statut du participant -->
+<!ATTLIST participant stand		CDATA	#IMPLIED>	<!-- Numéro de stand du participant -->
+<!ATTLIST participant details	CDATA	#IMPLIED>	<!-- Détails du participant -->
+
+<!-- Liste de propriétés personnalisées -->
+<!ELEMENT listeProprietes (propriete*)>
+
+<!-- Priopriété -->
+<!ELEMENT propriete EMPTY>
+<!ATTLIST propriete id		ID		#REQUIRED> 	<!-- Identifiant de la propriété personnalisée au sein du fichier de concours -->
+<!ATTLIST propriete valeur	CDATA	#REQUIRED> 	<!-- Valeur de la propriété personnalisée -->

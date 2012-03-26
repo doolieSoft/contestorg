@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Liste des versions -->
+<!ELEMENT listeVersions (version*)>
+
+<!-- Version -->
+<!ELEMENT version (listeTelechargements?,listeEvolutions?,listeAnomalies?,listeRevues?,listeTaches?)>
+<!ATTLIST anomalie numero	CDATA #REQUIRED>
+<!ATTLIST anomalie date		CDATA #REQUIRED>
+
+<!-- Liste des téléchargements -->
+<!ELEMENT listeTelechargements (telechargement*)>
+
+<!-- Téléchargement -->
+<!ELEMENT telechargement EMPTY>
+<!ATTLIST telechargement nom	CDATA #REQUIRED>
+<!ATTLIST telechargement url	CDATA #REQUIRED>
+
+<!-- Liste d'évolutions développées -->
+<!ELEMENT listeEvolutions (evolution*)>
+
+<!-- Evolution développée -->
+<!ELEMENT evolution EMPTY>
+<!ATTLIST evolution description	CDATA #REQUIRED>
+<!ATTLIST evolution ticket		CDATA #IMPLIED>
+
+<!-- Liste d'anomalies corrigées -->
+<!ELEMENT listeAnomalies (anomalie*)>
+
+<!-- Anoamlie corrigée -->
+<!ELEMENT anomalie EMPTY>
+<!ATTLIST anomalie description	CDATA #REQUIRED>
+<!ATTLIST anomalie ticket		CDATA #IMPLIED>
+
+<!-- Liste de revues effectuées -->
+<!ELEMENT listeRevues (revue*)>
+
+<!-- Revue effectuée -->
+<!ELEMENT revue EMPTY>
+<!ATTLIST revue description	CDATA #REQUIRED>
+<!ATTLIST revue ticket		CDATA #IMPLIED>
+
+<!-- Liste de tâches effectuées -->
+<!ELEMENT listeTaches (tache*)>
+
+<!-- Tâche effectuée -->
+<!ELEMENT tache EMPTY>
+<!ATTLIST tache description	CDATA #REQUIRED>
+<!ATTLIST tache ticket		CDATA #IMPLIED>
