@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Controleur des erreurs
+ */
 class ErrorController extends Controller
 {
-	// Action appellée lors d'une erreur
+	/**
+	 * Action appelée lors d'une erreur
+	 */
 	public function errorAction()
 	{
 		// Récupérer le message d'erreur

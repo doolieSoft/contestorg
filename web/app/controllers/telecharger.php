@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * Controleur des téléchargements
+ */
 class TelechargerController extends Controller
 {
 	
-	// Action par défaut
+	/**
+	 * Action pour la liste des téléchargements
+	 */
 	public function indexAction() {
 		// Require des signatures et du paginator
 		require_once('signature_base.php');

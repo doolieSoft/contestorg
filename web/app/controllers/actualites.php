@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * Controleur des actualités
+ */
 class ActualitesController extends Controller
 {
 	
-	// Action affichant le flux RSS des actualités
+	/**
+	 * Action affichant le flux RSS des actualités
+	 */
 	public function rssAction() {
 		// Récupérer la configuration
 		$conf = Application::getService('conf');
