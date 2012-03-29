@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * Controleur de l'API
+ */
 class ApiController extends Controller
 {
 	
-	// Action affichant les versions de l'application
+	/**
+	 * Action affichant les versions de l'application
+	 */
 	public function versionsAction() {
 		// Require de l'outil array_2_xml
 		require('tools/array_2_xml.php');
@@ -175,7 +180,9 @@ class ApiController extends Controller
 		));
 	}
 	
-	// Action enregistrant une erreur survenue dans l'application
+	/**
+	 * Action enregistrant une erreur survenue dans l'application
+	 */
 	public function errorAction() {
 		// Construire le formulaire de soumission d'erreur
 		require_once('tools/form.php');

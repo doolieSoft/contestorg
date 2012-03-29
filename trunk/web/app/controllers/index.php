@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Controleur principal
+ */
 class IndexController extends Controller 
 {
-	// Action de contact
+	/**
+	 * Action pour la page de contact
+	 */
 	public function contactAction() {
 		// Récupérer la configuration
 		$conf = Application::getService('conf');
@@ -42,4 +47,5 @@ class IndexController extends Controller
 		// Render sur la vue associée à l'action
 		$this->render();
 	}
+
 }
