@@ -15,32 +15,10 @@
 		<!-- Librairies JS -->
 		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.js"></script>
 		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.fancybox/jquery.easing-1.4.pack.js"></script>
+		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.fancybox/jquery.easing-1.3.pack.js"></script>
 		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
 		<link rel="stylesheet" href="<?php echo Request::getBase(); ?>js/jquery.fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
-		
-		<!-- Quand le DOM de la page est prêt -->
-		<script type="text/javascript">
-			$(document).ready(function() {
-				// Images fancybox
-				$('a.fancybox').fancybox({
-					transitionIn:'elastic',
-					transitionOut:'elastic',
-					titlePosition:'over'
-				});
-
-				// Présentation youtube
-				$('#youtube').fancybox({
-					transitionIn:'elastic',
-					transitionOut:'elastic',
-					type:'swf',
-					'swf':{'wmode':'transparent','allowfullscreen':'true'},
-					titleShow:false,
-					width:640,
-					height:390
-				});
-			});
-		</script>
+		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/main.js"></script>
 		
 		<!-- Balises meta -->
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8;" />
@@ -48,19 +26,6 @@
 		<meta http-equiv="Description" content="ContestOrg est un logiciel d’organisation de tournois : football, judo, rugby… En quelques clics, créez les participants, générez les séries de matchs et renseignez les résultats." />
 		<meta http-equiv="Keywords" content="logiciel software concours tournois organisation organiser équipes joueurs participants matchs phases qualificatives éliminatoires finales sportif exportation diffusion publication FTP HTTP PDF site web mise mettre en ligne résultats football rugby judo pétanque belote" />
 		<meta http-equiv="Subject" content="Logiciel d'organisation de tournois" />
-		
-		<!--  Code analytics -->
-		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-9937933-7']);
-		  _gaq.push(['_trackPageview']);
-		
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-		</script>
 	</head>
 	<body>
 		<!-- Page -->
