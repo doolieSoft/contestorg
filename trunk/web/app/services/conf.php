@@ -1,22 +1,31 @@
 <?php
 
+/**
+ * Service de récupération de la configuration
+ */
 class ConfService extends Service
 {
-	// Configuration
+	/** @var $conf array Configuration */
 	private $conf;
 	
-	// Démarrer le service
+	/**
+	 * @see Service::start()
+	 */
 	public function start() {
 		// Parser le fichier de configuration
 		$this->conf = parse_ini_file(ROOT_DIR.'conf/app.ini',true);
 	}
 	
-	// Récupérer la ressource du service
+	/**
+	 * @see Service::getRessource()
+	 */
 	public function getRessource() {
 		return $this->conf;
 	}
 	
-	// Arreter le service
+	/**
+	 * @see Service::stop()
+	 */
 	public function stop() {
 		
 	}

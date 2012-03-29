@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * Service de connexion à la base de données
+ */
 class PdoService extends Service
 {
-	// PDO
+	/** @var $pdo PDO PDO */
 	private $pdo;
 	
-	// Démarrer le service
+	/**
+	 * @see Service::start()
+	 */
 	public function start() {
 		// Récupérer l'objet de configuration
 		$conf = Application::getService('conf');
@@ -21,12 +26,16 @@ class PdoService extends Service
 		}
 	}
 	
-	// Récupérer la ressource du service
+	/**
+	 * @see Service::getRessource()
+	 */
 	public function getRessource() {
 		return $this->pdo;
 	}
 	
-	// Arreter le service
+	/**
+	 * @see Service::stop()
+	 */
 	public function stop() {
 		
 	}

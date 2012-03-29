@@ -1,9 +1,14 @@
 <?php
 
+/**
+ * Service d'accès à la session
+ */
 class SessionService extends Service
 {
 	
-	// Démarrer le service
+	/**
+	 * @see Service::start()
+	 */
 	public function start() {
 		// Démarrer la session
 		if (!session_start()) {
@@ -12,13 +17,17 @@ class SessionService extends Service
 		}
 	}
 	
-	// Récupérer la ressource du service
+	/**
+	 * @see Service::getRessource()
+	 */
 	public function getRessource() {
 		// Retourner la variable globale de la session
 		return $_SESSION;
 	}
 	
-	// Arreter le service
+	/**
+	 * @see Service::stop()
+	 */
 	public function stop() {
 		
 	}

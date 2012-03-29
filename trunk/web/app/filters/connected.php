@@ -6,7 +6,7 @@
 class ConnectedFilter extends Filter
 {
 	/**
-	 * @see Filter#process()
+	 * @see Filter::process()
 	 */
 	public function process() {
 		// Continuer l'éxecution

@@ -1,22 +1,26 @@
 <?php
 
+/**
+ * Service de logging de messages
+ */
 class LogService extends Service
 {
-	// Logger
+	/** @var $logger Logger Logger */
 	private $logger;
 	
-	// Démarrer le service
+	/**
+	 * @see Service::start()
+	 */
 	public function start() {
 		// Importer les classes de log
-		require('tools/log.php');
-		require('tools/log_data.php');
+		require('tools/logger.php');
 		
 		// Récupérer le service de configuration
 		$conf = Application::getService('conf');
 
 		// Créer le logger
-		$log_data = new LogData_File_XML(ROOT_DIR.$conf['LOG']['PATH'],$conf['LOG']['DURATION'],$conf['LOG']['NB_MAX']);
-		$this->logger = new Log($log_data,$conf['MISC']['DEV']?E_ALL:0,E_ALL&~E_NOTICE,E_ALL&~E_NOTICE,$conf['MISC']['DEV']);
+		$log_data = new LogSaver_File_XML(ROOT_DIR.$conf['LOG']['PATH'],$conf['LOG']['DURATION'],$conf['LOG']['NB_MAX']);
+		$this->logger = new Logger($log_data,$conf['MISC']['DEV']?E_ALL:0,E_ALL&~E_NOTICE,E_ALL&~E_NOTICE,$conf['MISC']['DEV']);
 		if (!$conf['MISC']['DEV']) {
 			$this->logger->addErrorsPage(Request::buildURL(null,'error','error'),'Request::redirect');
 			$this->logger->setExceptionsPage(Request::buildURL(null,'error','error'),'Request::redirect');
@@ -27,12 +31,16 @@ class LogService extends Service
 		set_exception_handler(array($this->logger,'addException'));
 	}
 	
-	// Récupérer la ressource du service
+	/**
+	 * @see Service::getRessource()
+	 */
 	public function getRessource() {
 		return $this->logger;
 	}
 	
-	// Arreter le service
+	/**
+	 * @see Service::stop()
+	 */
 	public function stop() {
 		
 	}
