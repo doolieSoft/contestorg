@@ -24,12 +24,12 @@ class ApiController extends Controller
 					array(
 						'telechargement',
 						'@nom' => 'Version EXE (Windows)',
-						'@url' => 'http://exe/'
+						'@url' => 'http://contestorg.googlecode.com/files/ContestOrg-2.0.0-exe.zip'
 					),
 					array(
 						'telechargement',
 						'@nom' => 'Version JAR (Linux, Mac)',
-						'@url' => 'http://jar/'
+						'@url' => 'http://contestorg.googlecode.com/files/ContestOrg-2.0.0-jar.zip'
 					)
 				),
 				'listeEvolutions' => array(
