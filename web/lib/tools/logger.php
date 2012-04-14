@@ -4,7 +4,7 @@
  * Class to logg events
  * @author Cyril Perrin
  * @license LGPL v3
- * @version 2011-08-21
+ * @version 2012-04-14
  */
 class Logger
 {
@@ -175,7 +175,7 @@ class Logger
 	 */
 	public function addErrorsPage($page,$callBack,$errors=30709)
 	{
-		if(is_callable($pCallBack)) {
+		if(is_callable($callBack)) {
 			$this->errorsRedirect[] = $errors;
 			$this->errorsRedirectPage[] = $page;
 			$this->errorsRedirectCallBack[] = $callBack;
@@ -191,7 +191,7 @@ class Logger
 	 */
 	public function setExceptionsPage($page,$callBack)
 	{
-		if(is_callable($pCallBack)) {
+		if(is_callable($callBack)) {
 			$this->exceptionsRedirectPage = $page;
 			$this->exceptionsRedirectCallBack = $callBack;
 		} else {
