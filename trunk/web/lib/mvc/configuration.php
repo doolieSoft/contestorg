@@ -124,7 +124,7 @@ class Configuration
 	 */
 	public function getControllerPath($controllerName)
 	{
-		return $this->get(self::PATH_MODULE).$this->get(self::PATH_CONTROLLERS).strtolower($controllerName).'.php';
+		return $this->get(self::PATH_MODULE).$this->get(self::PATH_CONTROLLERS).$controllerName.'.php';
 	}
 
 	/**
@@ -135,7 +135,7 @@ class Configuration
 	 */
 	public function getViewPath($controllerName,$actionName)
 	{
-		return $this->get(self::PATH_MODULE).$this->get(self::PATH_VIEWS).strtolower($controllerName).'/'.strtolower($actionName).'.phtml';
+		return $this->get(self::PATH_MODULE).$this->get(self::PATH_VIEWS).$controllerName.'/'.$actionName.'.phtml';
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Configuration
 	 */
 	public function getLayoutPath($layoutName)
 	{
-		return $this->get(self::PATH_MODULE).$this->get(self::PATH_LAYOUTS).strtolower($layoutName).'.phtml';
+		return $this->get(self::PATH_MODULE).$this->get(self::PATH_LAYOUTS).$layoutName.'.phtml';
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Configuration
 	 */
 	public function getPartialPath($partialName)
 	{
-		return $this->get(self::PATH_MODULE).$this->get(self::PATH_PARTIALS).strtolower($partialName).'.phtml';
+		return $this->get(self::PATH_MODULE).$this->get(self::PATH_PARTIALS).$partialName.'.phtml';
 	}
 
 	/**
@@ -165,7 +165,7 @@ class Configuration
 	 */
 	public function getFilterPath($filterName)
 	{
-		return $this->get(self::PATH_MODULE).$this->get(self::PATH_FILTERS).strtolower($filterName).'.php';
+		return $this->get(self::PATH_MODULE).$this->get(self::PATH_FILTERS).$filterName.'.php';
 	}
 
 	/**
@@ -175,7 +175,7 @@ class Configuration
 	 */
 	public function getServicePath($serviceName)
 	{
-		return $this->get(self::PATH_MODULE).$this->get(self::PATH_SERVICES).strtolower($serviceName).'.php';
+		return $this->get(self::PATH_MODULE).$this->get(self::PATH_SERVICES).$serviceName.'.php';
 	}
 }
 

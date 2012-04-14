@@ -9,8 +9,9 @@ abstract class Controller
 	 * Run a controller
 	 * @param $request Request request
 	 * @param $view View view
+	 * @param $layoutName string default layout name
 	 */
-	public static function run(Request $request,$view=null)
+	public static function run(Request $request,$view=null,$layoutName=null)
 	{
 		// Get configuration
 		$configuration = Configuration::getInstance(
@@ -39,9 +40,10 @@ abstract class Controller
 			// Construct controller
 			$controller = eval('return new '.ucfirst($controllerName).'Controller();');
 
-			// Send request and view to controller
+			// Send request, view and layout name to controller
 			$controller->request = $request;
 			$controller->view = $view;
+			$controller->layoutName = $layoutName;
 
 			// Check if action exists
 			if(method_exists($controller,$actionName.'Action')) {
@@ -70,7 +72,7 @@ abstract class Controller
 				}
 			} else {
 				// Error
-				Application::error('Action "'.$actionName.'" does not exist in controller "'.$controllerName.'".');
+				Application::error(Application::getMode() == Application::MODE_DEVELOPMENT ? 'Action "'.$actionName.'" does not exist in controller "'.$controllerName.'".' : 'Error 404');
 			}
 		} elseif($view != null) {
 			// Get view path
@@ -95,7 +97,7 @@ abstract class Controller
 			}
 		} else {
 			// Error
-			Application::error('Controller "'.$controllerName.'" does not exist.');
+			Application::error(Application::getMode() == Application::MODE_DEVELOPMENT ? 'Controller "'.$controllerName.'" does not exist.' : 'Error 404');
 		}
 	}
 
@@ -104,13 +106,17 @@ abstract class Controller
 
 	/** @var $request Request request */
 	protected $request;
+	
+	/** @var $layoutName string default layout name */
+	protected $layoutName;
 
 	/**
 	 * Render view
-	 * @param $actionName string actionName
-	 * @param $controllerName string controllerName
-	 * @param $moduleName string moduleName
-	 * @param $layoutName string layoutName
+	 * @param $actionName string action name
+	 * @param $controllerName string controller name
+	 * @param $moduleName string module name
+	 * @param $layoutName string layout name
+	 * @param $return bool return view rendering result ?
 	 */
 	protected function render($actionName=null,$controllerName=null,$moduleName=null,$layoutName=null,$return=false)
 	{
@@ -134,7 +140,7 @@ abstract class Controller
 
 		// Get layout name
 		if($layoutName !== false && $layoutName === null) {
-			$layoutName = $configuration->get(Configuration::LAYOUT_DEFAULT);
+			$layoutName = $this->layoutName !== null ? $this->layoutName : $configuration->get(Configuration::LAYOUT_DEFAULT);
 		}
 		
 		// Start buffering
@@ -165,9 +171,9 @@ abstract class Controller
 
 	/**
 	 * Forward request
-	 * @param $actionName string actionName
-	 * @param $controllerName string controllerName
-	 * @param $moduleName string moduleName
+	 * @param $actionName string action name
+	 * @param $controllerName string controller name
+	 * @param $moduleName string module name
 	 */
 	protected function forward($actionName=null,$controllerName=null,$moduleName=null)
 	{

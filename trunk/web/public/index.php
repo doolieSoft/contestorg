@@ -46,9 +46,11 @@ Configuration::getInstance()->set(Configuration::LAYOUT_DEFAULT,'main');
 // Définir le filtre par défaut
 Configuration::getInstance()->set(Configuration::FILTERS_DEFAULT,array('connected'));
 
-// Démarrer les services de log et de session
+// Démarrer le service de log
 Application::startService('log');
-Application::startService('session');
+
+// Récupérer la configuration
+$conf = Application::getService('conf');
 
 // Démarrer l'application
-Application::run();
+Application::run($conf['MISC']['DEV'] ? Application::MODE_DEVELOPMENT : Application::MODE_PRODUCTION);

@@ -5,17 +5,38 @@
  */
 class Application
 {
+	// Modes
+	const MODE_DEVELOPMENT = 1;
+	const MODE_PRODUCTION = 2;
+
+	/** @var $mode int mode */
+	private static $mode;
+	
 	/**
 	 * Run application
+	 * @param $mode int mode
 	 */
-	public static function run()
-	{		
+	public static function run($mode=self::MODE_DEVELOPMENT)
+	{	
+		// Save mode
+		self::$mode = $mode;
+		
 		// Parse URL
 		$request = Request::parseURL();
 
 		// Check if request is valid
 		if(!$request) {
 			self::error('Invalid request.');
+		}
+		
+		// Start session
+		if (!session_start()) {
+			self::error('Error while start session.');
+		}
+		
+		// Import ressources
+		foreach($_SESSION as $ressourceName => $ressourceValue) {
+			self::$ressources[$ressourceName] = $ressourceValue;
 		}
 		
 		// Get configuration
@@ -27,6 +48,9 @@ class Application
 		
 		// Get filters names
 		$filtersNames = $configuration->get(Configuration::FILTERS_DEFAULT);
+		
+		// Start buffering
+		ob_start();
 
 		// Check if filters are defined
 		if(!$filtersNames) {
@@ -39,6 +63,9 @@ class Application
 
 		// Stop services
 		self::stopServices();
+		
+		// Flush buffering
+		ob_end_flush();
 	}
 
 	/**
@@ -53,6 +80,15 @@ class Application
 		// Redirect on error page
 		Request::redirect(Request::buildURL(null,'error','error',$message === null ? null : array('message' => $message)));
 	}
+	
+	/**
+	 * Get mode
+	 * @return int mode
+	 */
+	public static function getMode()
+	{
+		return self::$mode;
+	}
 
 	// Ressources
 
@@ -66,17 +102,42 @@ class Application
 	 */
 	public static function getRessource($ressourceName)
 	{
-		return isset(self::$ressources[$name]) ? self::$ressources[$name] : null;
+		return isset(self::$ressources[$ressourceName]) ? self::$ressources[$ressourceName] : null;
 	}
 
 	/**
 	 * Add a ressource
 	 * @param $ressourceName string ressource name
-	 * @param $ressource ressource
+	 * @param $ressourceValue ? ressource value
+	 * @param $persistant bool put ressource into session ?
 	 */
-	public static function addRessource($ressourceName,$ressource)
+	public static function addRessource($ressourceName,$ressourceValue,$persistant=false)
 	{
-		self::$ressources[$ressourceName] = $ressource;
+		// Save ressource
+		self::$ressources[$ressourceName] = $ressourceValue;
+		
+		// Put ressource into session if necessary
+		if($persistant) {
+			$_SESSION[$ressourceName] = $ressourceValue;
+		}
+	}
+	
+	/**
+	 * Get ressources session id
+	 * @return string session id
+	 */
+	public static function getRessourcesSessionId()
+	{
+		return session_id();
+	}
+	
+	/**
+	 * Set ressources session id
+	 * @param $id string session id
+	 */
+	public static function setRessourcesSessionId($id)
+	{
+		session_id($id);
 	}
 
 	// Services
@@ -116,7 +177,7 @@ class Application
 			self::$services[$serviceName] = $service;
 		} else {
 			// Error
-			Application::error('Service "'.$serviceName.'" is unknown.');
+			Application::error(Application::getMode() == Application::MODE_DEVELOPMENT ? 'Service "'.$serviceName.'" is unknown.' : 'Error 500');
 		}
 	}
 

@@ -24,7 +24,7 @@ class View
 			require($viewPath);
 		} else {
 			// Error
-			Application::error('View "'.basename($viewPath).'" is unknown.');
+			Application::error(Application::getMode() == Application::MODE_DEVELOPMENT ? 'View "'.basename($viewPath).'" is unknown.' : 'Error 404');
 		}
 	}
 
@@ -47,5 +47,21 @@ class View
 	{
 		// Call partial
 		Partial::call($this->request, $partialName, $parameters);
+	}
+	
+	/**
+	 * Call an action
+	 * @param $moduleName string module name
+	 * @param $controllerName string controller name
+	 * @param $actionName string action name
+	 * @param $parameters array parameters
+	 */
+	public function action($moduleName,$controllerName,$actionName,$parameters=array())
+	{
+		// Build request
+		$request = new Request($moduleName, $controllerName, $actionName, $parameters);
+		
+		// Run controller
+		Controller::run($request,null,false);
 	}
 }
