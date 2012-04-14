@@ -44,7 +44,7 @@ abstract class Filter
 				$following = $filter;
 			} else {
 				// Error
-				Application::error('Filter "'.$filterName.'" does not exist.');
+				Application::error(Application::getMode() == Application::MODE_DEVELOPMENT ? 'Filter "'.$filterName.'" does not exist.' : 'Error 500');
 			}
 		}
 		

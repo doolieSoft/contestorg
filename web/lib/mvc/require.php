@@ -4,7 +4,7 @@
  * PHP tool to apply MVC pattern
  * @author Cyril Perrin
  * @license LGPL v3
- * @version 2011-05-19
+ * @version 2012-01-25
  */
 
 // Require configuration

@@ -14,7 +14,7 @@ abstract class Service
 	{
 		// Get service path
 		$servicePath = Configuration::getInstance()->getServicePath($serviceName);
-		
+
 		// Check if service exists
 		if(file_exists($servicePath)) {
 			// Require service
