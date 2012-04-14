@@ -168,7 +168,8 @@ ul.pagination li a.current {
 	width:280px;
 }
 
-.comment {
+/* Commentaire */
+p.comment {
 	font-style:italic;
 }
 
