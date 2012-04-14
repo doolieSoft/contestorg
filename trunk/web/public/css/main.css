@@ -168,6 +168,10 @@ ul.pagination li a.current {
 	width:280px;
 }
 
+.comment {
+	font-style:italic;
+}
+
 /* Pied de page */
 #footer {
 	text-align:center;
