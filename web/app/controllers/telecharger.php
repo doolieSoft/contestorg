@@ -47,7 +47,7 @@ class TelechargerController extends Controller
 		$this->view->page = $this->request->getParameter('page',0);
 		
 		// Nombre de signatures par page
-		$count = 5;
+		$count = 8;
 		
 		// Récupérer la liste des signatures
 		$statement = Signature::paginate($pdo, $this->view->page*$count, $this->view->page*$count+$count);
