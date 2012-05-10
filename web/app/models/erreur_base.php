@@ -2,7 +2,7 @@
 
 /**
  * @name Erreur
- * @version 22/03/2012 (dd/mm/yyyy)
+ * @version 10/05/2012 (dd/mm/yyyy)
  * @author WebProjectHelper (http://www.elfangels.fr/webprojecthelper/)
  */
 abstract class ErreurBase
@@ -16,18 +16,18 @@ abstract class ErreurBase
 	/** @var int  */
 	protected $idErreur;
 	
-	/** @var string  */
+	/** @var string description de l'erreur */
 	protected $description;
 	
-	/** @var string  */
+	/** @var string contenu du fichier de log */
 	protected $log;
 	
 	/**
 	 * Construire un(e) erreur
 	 * @param $pdo PDO 
 	 * @param $idErreur int 
-	 * @param $description string 
-	 * @param $log string 
+	 * @param $description string Description de l'erreur
+	 * @param $log string Contenu du fichier de log
 	 * @param $lazyload bool Activer le chargement fainéant ?
 	 */
 	protected function __construct(PDO $pdo,$idErreur,$description,$log,$lazyload=false)
@@ -49,10 +49,10 @@ abstract class ErreurBase
 	/**
 	 * Créer un(e) erreur
 	 * @param $pdo PDO 
-	 * @param $description string 
-	 * @param $log string 
+	 * @param $description string Description de l'erreur
+	 * @param $log string Contenu du fichier de log
 	 * @param $lazyload bool Activer le chargement fainéant ?
-	 * @return Erreur Erreur dans l'application
+	 * @return Erreur Erreur survenue dans ContestOrg
 	 */
 	public static function create(PDO $pdo,$description,$log,$lazyload=true)
 	{
@@ -89,7 +89,7 @@ abstract class ErreurBase
 	 * @param $pdo PDO 
 	 * @param $idErreur int 
 	 * @param $lazyload bool Activer le chargement fainéant ?
-	 * @return Erreur Erreur dans l'application
+	 * @return Erreur Erreur survenue dans ContestOrg
 	 */
 	public static function load(PDO $pdo,$idErreur,$lazyload=true)
 	{
@@ -119,11 +119,8 @@ abstract class ErreurBase
 		// Sélectionner tous/toutes les erreurs
 		$pdoStatement = self::selectAll($pdo);
 		
-		// Mettre chaque erreur dans un tableau
-		$erreurs = array();
-		while ($erreur = self::fetch($pdo,$pdoStatement,$lazyload)) {
-			$erreurs[] = $erreur;
-		}
+		// Récupèrer tous/toutes les erreurs
+		$erreurs = self::fetchAll($pdo,$pdoStatement,$lazyload);
 		
 		// Retourner le tableau
 		return $erreurs;
@@ -144,11 +141,11 @@ abstract class ErreurBase
 	}
 	
 	/**
-	 * Récupère le/la erreur suivant(e) d'un jeu de résultats
+	 * Récupèrer le/la erreur suivant(e) d'un jeu de résultats
 	 * @param $pdo PDO 
 	 * @param $pdoStatement PDOStatement 
 	 * @param $lazyload bool Activer le chargement fainéant ?
-	 * @return Erreur Erreur dans l'application
+	 * @return Erreur Erreur survenue dans ContestOrg
 	 */
 	public static function fetch(PDO $pdo,PDOStatement $pdoStatement,$lazyload=false)
 	{
@@ -160,6 +157,22 @@ abstract class ErreurBase
 		// Construire le/la erreur
 		return isset(self::$lazyload[$idErreur]) ? self::$lazyload[$idErreur] :
 		       new Erreur($pdo,$idErreur,$description,$log,$lazyload);
+	}
+	
+	/**
+	 * Récupèrer tous/toutes les erreurs d'un jeu de résultats
+	 * @param $pdo PDO 
+	 * @param $pdoStatement PDOStatement 
+	 * @param $lazyload bool Activer le chargement fainéant ?
+	 * @return Erreur[] Tableau de erreurs
+	 */
+	public static function fetchAll(PDO $pdo,PDOStatement $pdoStatement,$lazyload=false)
+	{
+		$erreurs = array();
+		while ($erreur = self::fetch($pdo,$pdoStatement,$lazyload)) {
+			$erreurs[] = $erreur;
+		}
+		return $erreurs;
 	}
 	
 	/**
@@ -222,7 +235,7 @@ abstract class ErreurBase
 	
 	/**
 	 * Récupérer le/la description
-	 * @return string 
+	 * @return string Description de l'erreur
 	 */
 	public function getDescription()
 	{
@@ -231,7 +244,7 @@ abstract class ErreurBase
 	
 	/**
 	 * Définir le/la description
-	 * @param $description string 
+	 * @param $description string Description de l'erreur
 	 * @param $execute bool Exécuter la requête update ?
 	 * @return bool Opération réussie ?
 	 */
@@ -246,7 +259,7 @@ abstract class ErreurBase
 	
 	/**
 	 * Récupérer le/la log
-	 * @return string 
+	 * @return string Contenu du fichier de log
 	 */
 	public function getLog()
 	{
@@ -255,7 +268,7 @@ abstract class ErreurBase
 	
 	/**
 	 * Définir le/la log
-	 * @param $log string 
+	 * @param $log string Contenu du fichier de log
 	 * @param $execute bool Exécuter la requête update ?
 	 * @return bool Opération réussie ?
 	 */
