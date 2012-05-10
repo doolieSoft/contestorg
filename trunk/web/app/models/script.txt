@@ -2,14 +2,14 @@
 
 // Livre d'or
 (c)[signature,"Signature sur le livre d'or":
-   |prenom,string/20,"Prénom de la personne qui a signé le livre d'or"|,
-   |date,datetime,"Date du message"|,
-   |email,string/130,"Email de la personne qui a signé le livre d'or"|,
-   |message,string/2000,"Message laisser par la personne qui a signé le livre d'or"|
+   |prenom,string/20,"Prénom"|,
+   |date,datetime,"Date"|,
+   |email,string/130,"Email"|,
+   |message,string/2000,"Message"|
 ]
 
-// Erreurs dans l'applications
-[erreur,"Erreur dans l'application":
-   |description,string|,
-   |log,string/50000|
+// Erreurs survenues dans ContestOrg
+[erreur,"Erreur survenue dans ContestOrg":
+   |description,string,"Description de l'erreur"|,
+   |log,string/50000,"Contenu du fichier de log"|
 ]

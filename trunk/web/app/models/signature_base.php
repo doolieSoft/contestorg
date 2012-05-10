@@ -2,7 +2,7 @@
 
 /**
  * @name Signature
- * @version 22/09/2011 (dd/mm/yyyy)
+ * @version 10/05/2012 (dd/mm/yyyy)
  * @author WebProjectHelper (http://www.elfangels.fr/webprojecthelper/)
  */
 abstract class SignatureBase
@@ -10,33 +10,33 @@ abstract class SignatureBase
 	/** @var PDO  */
 	protected $pdo;
 	
-	/** @var array tableau pour le chargement faineant */
+	/** @var array tableau pour le chargement fainéant */
 	protected static $lazyload;
 	
 	/** @var int  */
 	protected $idSignature;
 	
-	/** @var string prénom de la personne qui a signé le livre d'or */
+	/** @var string prénom */
 	protected $prenom;
 	
-	/** @var int date du message */
+	/** @var int date */
 	protected $date;
 	
-	/** @var string email de la personne qui a signé le livre d'or */
+	/** @var string email */
 	protected $email;
 	
-	/** @var string message laisser par la personne qui a signé le livre d'or */
+	/** @var string message */
 	protected $message;
 	
 	/**
 	 * Construire un(e) signature
 	 * @param $pdo PDO 
 	 * @param $idSignature int 
-	 * @param $prenom string Prénom de la personne qui a signé le livre d'or
-	 * @param $date int Date du message
-	 * @param $email string Email de la personne qui a signé le livre d'or
-	 * @param $message string Message laisser par la personne qui a signé le livre d'or
-	 * @param $lazyload bool Activer le chargement faineant ?
+	 * @param $prenom string Prénom
+	 * @param $date int Date
+	 * @param $email string Email
+	 * @param $message string Message
+	 * @param $lazyload bool Activer le chargement fainéant ?
 	 */
 	protected function __construct(PDO $pdo,$idSignature,$prenom,$date,$email,$message,$lazyload=false)
 	{
@@ -50,7 +50,7 @@ abstract class SignatureBase
 		$this->email = $email;
 		$this->message = $message;
 		
-		// Sauvegarder pour le chargement faineant
+		// Sauvegarder pour le chargement fainéant
 		if ($lazyload) {
 			self::$lazyload[$idSignature] = $this;
 		}
@@ -59,11 +59,11 @@ abstract class SignatureBase
 	/**
 	 * Créer un(e) signature
 	 * @param $pdo PDO 
-	 * @param $prenom string Prénom de la personne qui a signé le livre d'or
-	 * @param $date int Date du message
-	 * @param $email string Email de la personne qui a signé le livre d'or
-	 * @param $message string Message laisser par la personne qui a signé le livre d'or
-	 * @param $lazyload bool Activer le chargement faineant ?
+	 * @param $prenom string Prénom
+	 * @param $date int Date
+	 * @param $email string Email
+	 * @param $message string Message
+	 * @param $lazyload bool Activer le chargement fainéant ?
 	 * @return Signature Signature sur le livre d'or
 	 */
 	public static function create(PDO $pdo,$prenom,$date,$email,$message,$lazyload=true)
@@ -79,7 +79,7 @@ abstract class SignatureBase
 	}
 	
 	/**
-	 * Requête de séléction
+	 * Requête de sélection
 	 * @param $pdo PDO 
 	 * @param $where string|array 
 	 * @param $orderby string|array 
@@ -89,7 +89,7 @@ abstract class SignatureBase
 	 */
 	protected static function _select(PDO $pdo,$where=null,$orderby=null,$limit=null,$from=null)
 	{
-		return $pdo->prepare('SELECT '.Signature::TABLENAME.'.'.Signature::FIELDNAME_IDSIGNATURE.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_PRENOM.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_DATE.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_EMAIL.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_MESSAGE.' '.
+		return $pdo->prepare('SELECT DISTINCT '.Signature::TABLENAME.'.'.Signature::FIELDNAME_IDSIGNATURE.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_PRENOM.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_DATE.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_EMAIL.', '.Signature::TABLENAME.'.'.Signature::FIELDNAME_MESSAGE.' '.
 		                     'FROM '.Signature::TABLENAME.($from != null ? ', '.(is_array($from) ? implode(', ',$from) : $from) : '').
 		                     ($where != null ? ' WHERE '.(is_array($where) ? implode(' AND ',$where) : $where) : '').
 		                     ($orderby != null ? ' ORDER BY '.(is_array($orderby) ? implode(', ',$orderby) : $orderby) : '').
@@ -100,7 +100,7 @@ abstract class SignatureBase
 	 * Charger un(e) signature
 	 * @param $pdo PDO 
 	 * @param $idSignature int 
-	 * @param $lazyload bool Activer le chargement faineant ?
+	 * @param $lazyload bool Activer le chargement fainéant ?
 	 * @return Signature Signature sur le livre d'or
 	 */
 	public static function load(PDO $pdo,$idSignature,$lazyload=true)
@@ -123,7 +123,7 @@ abstract class SignatureBase
 	/**
 	 * Charger tous/toutes les signatures
 	 * @param $pdo PDO 
-	 * @param $lazyload bool Activer le chargement faineant ?
+	 * @param $lazyload bool Activer le chargement fainéant ?
 	 * @return Signature[] Tableau de signatures
 	 */
 	public static function loadAll(PDO $pdo,$lazyload=false)
@@ -131,11 +131,8 @@ abstract class SignatureBase
 		// Sélectionner tous/toutes les signatures
 		$pdoStatement = self::selectAll($pdo);
 		
-		// Mettre chaque signature dans un tableau
-		$signatures = array();
-		while ($signature = self::fetch($pdo,$pdoStatement,$lazyload)) {
-			$signatures[] = $signature;
-		}
+		// Récupèrer tous/toutes les signatures
+		$signatures = self::fetchAll($pdo,$pdoStatement,$lazyload);
 		
 		// Retourner le tableau
 		return $signatures;
@@ -156,10 +153,10 @@ abstract class SignatureBase
 	}
 	
 	/**
-	 * Récupère le/la signature suivant(e) d'un jeu de résultats
+	 * Récupèrer le/la signature suivant(e) d'un jeu de résultats
 	 * @param $pdo PDO 
 	 * @param $pdoStatement PDOStatement 
-	 * @param $lazyload bool Activer le chargement faineant ?
+	 * @param $lazyload bool Activer le chargement fainéant ?
 	 * @return Signature Signature sur le livre d'or
 	 */
 	public static function fetch(PDO $pdo,PDOStatement $pdoStatement,$lazyload=false)
@@ -172,6 +169,22 @@ abstract class SignatureBase
 		// Construire le/la signature
 		return isset(self::$lazyload[$idSignature]) ? self::$lazyload[$idSignature] :
 		       new Signature($pdo,$idSignature,$prenom,strtotime($date),$email,$message,$lazyload);
+	}
+	
+	/**
+	 * Récupèrer tous/toutes les signatures d'un jeu de résultats
+	 * @param $pdo PDO 
+	 * @param $pdoStatement PDOStatement 
+	 * @param $lazyload bool Activer le chargement fainéant ?
+	 * @return Signature[] Tableau de signatures
+	 */
+	public static function fetchAll(PDO $pdo,PDOStatement $pdoStatement,$lazyload=false)
+	{
+		$signatures = array();
+		while ($signature = self::fetch($pdo,$pdoStatement,$lazyload)) {
+			$signatures[] = $signature;
+		}
+		return $signatures;
 	}
 	
 	/**
@@ -196,7 +209,7 @@ abstract class SignatureBase
 		// Supprimer le/la signature
 		$pdoStatement = $this->pdo->prepare('DELETE FROM '.Signature::TABLENAME.' WHERE '.Signature::FIELDNAME_IDSIGNATURE.' = ?');
 		if (!$pdoStatement->execute(array($this->getIdSignature()))) {
-			throw new Exception('Erreur lors de la supression d\'un(e) signature dans la base de données');
+			throw new Exception('Erreur lors de la suppression d\'un(e) signature dans la base de données');
 		}
 		
 		// Opération réussie ?
@@ -247,7 +260,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Récupérer le/la prenom
-	 * @return string Prénom de la personne qui a signé le livre d'or
+	 * @return string Prénom
 	 */
 	public function getPrenom()
 	{
@@ -256,7 +269,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Définir le/la prenom
-	 * @param $prenom string Prénom de la personne qui a signé le livre d'or
+	 * @param $prenom string Prénom
 	 * @param $execute bool Exécuter la requête update ?
 	 * @return bool Opération réussie ?
 	 */
@@ -271,7 +284,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Récupérer le/la date
-	 * @return int Date du message
+	 * @return int Date
 	 */
 	public function getDate()
 	{
@@ -280,7 +293,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Définir le/la date
-	 * @param $date int Date du message
+	 * @param $date int Date
 	 * @param $execute bool Exécuter la requête update ?
 	 * @return bool Opération réussie ?
 	 */
@@ -295,7 +308,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Récupérer le/la email
-	 * @return string Email de la personne qui a signé le livre d'or
+	 * @return string Email
 	 */
 	public function getEmail()
 	{
@@ -304,7 +317,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Définir le/la email
-	 * @param $email string Email de la personne qui a signé le livre d'or
+	 * @param $email string Email
 	 * @param $execute bool Exécuter la requête update ?
 	 * @return bool Opération réussie ?
 	 */
@@ -319,7 +332,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Récupérer le/la message
-	 * @return string Message laisser par la personne qui a signé le livre d'or
+	 * @return string Message
 	 */
 	public function getMessage()
 	{
@@ -328,7 +341,7 @@ abstract class SignatureBase
 	
 	/**
 	 * Définir le/la message
-	 * @param $message string Message laisser par la personne qui a signé le livre d'or
+	 * @param $message string Message
 	 * @param $execute bool Exécuter la requête update ?
 	 * @return bool Opération réussie ?
 	 */
