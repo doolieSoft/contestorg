@@ -16,7 +16,7 @@ class IndexController extends Controller
 		$this->view->email = $conf['MISC']['EMAIL'];
 			
 		// Construire le formulaire de contact
-		require_once('tools/form.php');
+		require_once('form.php');
 		$this->view->form = new Form(Form::METHOD_POST);
 		$this->view->form->add(new FormText('nom', 'Votre nom', FormText::TYPE_MONOLINE, 50, 20));
 		$this->view->form->add(new FormText('email', 'Votre email', FormText::TYPE_MONOLINE, 50, 130));
@@ -34,8 +34,8 @@ class IndexController extends Controller
 		// Valider le formulaire
 		if($this->view->form->validate()) {
 			// Envoyer l'email
-			require_once('tools/mail.php');
-			require_once('tools/bbcode.php');
+			require_once('mail.php');
+			require_once('bbcode.php');
 			$mail = new Mail();
 			$mail->setSubjet($this->view->form->sujet->getValue());
 			$mail->setFrom($conf['MISC']['EMAIL'],'Equipe ContestOrg');
