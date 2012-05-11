@@ -38,14 +38,11 @@ if(empty($this->success)) {
 	echo '<p class="message m_success">Merci d\'avoir signé notre livre d\'or</p>';
 }
 
-// Require de la fonction de BBCode
-require_once('tools/bbcode.php');
-
 // Liste des signatures
 echo '<h3 id="messages">Messages</h3>';
 if($this->paginator->getCount() != 0) {
-	foreach($this->paginator as $signatures) {
-		echo '<b>',date('d/m/Y',$signatures->getDate()),' : ',$signatures->getPrenom(),'</b><p>',bbcode($signatures->getMessage()),'</p>';
+	foreach($this->paginator as $signature) {
+		echo '<b>',date('d/m/Y',$signature->getDate()),' : ',$signature->getPrenom(),'</b><p>',$signature->getMessage(),'</p>';
 	}
 	$this->partial('pagination',array('paginator' => $this->paginator,'anchor' => 'messages'));
 } else {

@@ -11,7 +11,7 @@ class ApiController extends Controller
 	 */
 	public function versionsAction() {
 		// Require de l'outil array_2_xml
-		require('tools/array_2_xml.php');
+		require('array_2_xml.php');
 		
 		// Afficher les versions de l'application
 		header('content-type:text/xml');
@@ -185,7 +185,7 @@ class ApiController extends Controller
 	 */
 	public function errorAction() {
 		// Construire le formulaire de soumission d'erreur
-		require_once('tools/form.php');
+		require_once('form.php');
 		$form = new Form(Form::METHOD_POST);
 		$description = $form->add(new FormText('description'));
 		$log = $form->add(new FormFile('log'));
@@ -193,8 +193,8 @@ class ApiController extends Controller
 		// Valider le formulaire
 		if($form->validate()) {
 			// Require des erreurs
-			require_once('erreur_base.php');
-			require_once('erreur.php');
+			require_once('db_erreur_base.php');
+			require_once('db_erreur.php');
 			
 			// Enregistrer en base de données le fichier de log
 			Erreur::create(

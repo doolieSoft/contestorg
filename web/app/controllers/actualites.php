@@ -14,7 +14,7 @@ class ActualitesController extends Controller
 		$conf = Application::getService('conf');
 		
 		// Require de l'outil RSS
-		require_once('tools/rss.php');
+		require_once('rss.php');
 		
 		// Initialiser le flux RSS
 		$rss = new RSS('Actualités de ContestOrg',$conf['MISC']['URL'],'Flux des actualités du logiciel d\'organisation de tournois ContestOrg','fr','120',time());

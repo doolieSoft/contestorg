@@ -13,7 +13,7 @@ class LogService extends Service
 	 */
 	public function start() {
 		// Importer les classes de log
-		require('tools/logger.php');
+		require('logger.php');
 		
 		// Récupérer le service de configuration
 		$conf = Application::getService('conf');

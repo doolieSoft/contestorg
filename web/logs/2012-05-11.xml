@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<logs>
+  <exceptions/>
+  <errors>
+    <error date="Fri, 11 May 2012 07:17:21" time="1336720641" code="2" message="require_once(tools/bbcode.php) [function.require-once]: failed to open stream: No such file or directory" file="D:\Developpement\Web\Projets\ContestOrg\app\renders\views\telecharger\index.phtml" line="42" ip="127.0.0.1" url="/Projets/ContestOrg/telecharger/index"/>
+  </errors>
+  <messages/>
+</logs>

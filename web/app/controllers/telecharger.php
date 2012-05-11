@@ -11,16 +11,16 @@ class TelechargerController extends Controller
 	 */
 	public function indexAction() {
 		// Require des signatures et du paginator
-		require_once('signature_base.php');
-		require_once('signature.php');
-		require_once('tools/paginator.php');
+		require_once('db_signature_base.php');
+		require_once('db_signature.php');
+		require_once('paginator.php');
 		
 		// Récupérer la configuration et pdo
 		$conf = Application::getService('conf');
 		$pdo = Application::getService('pdo');
 		
 		// Construire le formulaire du livre d'or
-		require_once('tools/form.php');
+		require_once('form.php');
 		$this->view->form = new Form(Form::METHOD_POST);
 		$this->view->form->add(new FormText('prenom', 'Votre prénom', FormText::TYPE_MONOLINE, 50, 20));
 		$this->view->form->add(new FormText('email', 'Votre email', FormText::TYPE_MONOLINE, 50, 130));
