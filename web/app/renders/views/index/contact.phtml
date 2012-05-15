@@ -14,9 +14,7 @@ if(empty($this->success)) {
 	$this->form->sujet->addExtra('style="width:400px;"');
 	$this->form->message->addExtra('style="width:400px;"');
 	
-	// Afficher le formulaire 
-	$this->form->setMsgRequired('<p class="message m_error">Champ requis</p>');
-	$this->form->setMsgInvalid('<p class="message m_error">Champ invalide</p>');
+	// Afficher le formulaire
 	echo $this->form;
 } else {
 	// Message de réussite
