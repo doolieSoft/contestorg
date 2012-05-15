@@ -192,10 +192,6 @@ class ApiController extends Controller
 		
 		// Valider le formulaire
 		if($form->validate()) {
-			// Require des erreurs
-			require_once('db_erreur_base.php');
-			require_once('db_erreur.php');
-			
 			// Enregistrer en base de données le fichier de log
 			Erreur::create(
 				Application::getService('pdo'),
