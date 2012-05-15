@@ -23,9 +23,8 @@ class FormLivredor extends Form
 		$this->add(new FormSubmit('valider','Valider'));
 		
 		// Vérification de l'email
-		function form_check_email(FormText $email) {
+		$this->email->setCallback(function (FormText $email) {
 			return filter_var($email->getValue(), FILTER_VALIDATE_EMAIL) !== false;
-		}
-		$this->email->setCallback('form_check_email');
+		});
 	}
 }
