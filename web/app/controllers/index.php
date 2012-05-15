@@ -15,21 +15,9 @@ class IndexController extends Controller
 		// Transmettre l'adresse email à la vue
 		$this->view->email = $conf['MISC']['EMAIL'];
 			
-		// Construire le formulaire de contact
-		require_once('form.php');
-		$this->view->form = new Form(Form::METHOD_POST);
-		$this->view->form->add(new FormText('nom', 'Votre nom', FormText::TYPE_MONOLINE, 50, 20));
-		$this->view->form->add(new FormText('email', 'Votre email', FormText::TYPE_MONOLINE, 50, 130));
-		$this->view->form->add(new FormText('sujet', 'Votre sujet', FormText::TYPE_MONOLINE, 50, 100));
-		$this->view->form->add(new FormText('message', 'Votre message', FormText::TYPE_MULTILINE, array(50,6), 2000));
-		// $this->view->form->add(new FormCaptcha($conf['RECAPTCHA']['PUBLIC_KEY'],$conf['RECAPTCHA']['PRIVATE_KEY']));
-		$this->view->form->add(new FormSubmit('envoyer','Envoyer'));
-		
-		// Vérification de l'email
-		function form_check_email(FormText $email) {
-			return filter_var($email->getValue(), FILTER_VALIDATE_EMAIL) !== false;
-		}
-		$this->view->form->email->setCallback('form_check_email');
+		// Récupérer le formulaire de contact
+		require_once('form_contact.php');
+		$this->view->form = new FormContact();
 		
 		// Valider le formulaire
 		if($this->view->form->validate()) {

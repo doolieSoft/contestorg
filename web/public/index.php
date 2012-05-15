@@ -7,10 +7,13 @@ ini_set('session.use_only_cookies', '1');
 define('ROOT_DIR', realpath(dirname(__FILE__).'/..').'/');
 
 // Ajouter des répertoires dans le chemin utilisé pour les includes et requires
-set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'lib',ROOT_DIR.'app/models',get_include_path())));
+set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'lib',ROOT_DIR.'app/forms',get_include_path())));
 
 // Récupérer la librairie MVC
 require('mvc/require.php');
+
+// Require des classes métier
+require(ROOT_DIR.'app/models/requires.php');
 
 // Définir les routes
 Request::addRoute(new Route(
