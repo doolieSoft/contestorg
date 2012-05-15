@@ -21,8 +21,8 @@ class Signature extends SignatureBase
 	/**
 	 * Sélectionner tous les messages de manière paginée et triés par date
 	 * @param $pdo PDO 
-	 * @param from int numero de message de début
-	 * @param to int numero de message de fin
+	 * @param from int indice de début
+	 * @param to int indice de fin
 	 * @return PDOStatement 
 	 */
 	public static function paginate(PDO $pdo,$from,$to)
