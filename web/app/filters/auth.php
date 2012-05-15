@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Filtre vérifiant si l'utilisateur est connecté
+ * Filtre vérifiant si l'utilisateur est authentifié sur certaines pages
  */
-class ConnecteFilter extends Filter
+class AuthFilter extends Filter
 {
 	/**
 	 * @see Filter::process()
