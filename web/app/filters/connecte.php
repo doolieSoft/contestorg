@@ -3,7 +3,7 @@
 /**
  * Filtre vérifiant si l'utilisateur est connecté
  */
-class ConnectedFilter extends Filter
+class ConnecteFilter extends Filter
 {
 	/**
 	 * @see Filter::process()
