@@ -12,7 +12,7 @@
 <?php
 
 // Vérifier si le formulaire n'a pas été envoyé 
-if(empty($this->success)) {
+if(!$this->form->isValid()) {
 	// Encourager l'ajout de message
 	echo '<p>N\'hésitez pas à laisser un message sur le livre d\'or :</p>';
 	

@@ -25,9 +25,6 @@ class TelechargerController extends Controller
 		if($this->view->form->validate()) {
 			// Ajouter la signature
 			Signature::create($pdo, $this->view->form->prenom->getValue(), time(), $this->view->form->email->getValue(), $this->view->form->message->getValue());
-		
-			// Prévenir la vue du succès de l'opération
-			$this->view->success = true;
 		}
 		
 		// Récupérer le numéro de page
