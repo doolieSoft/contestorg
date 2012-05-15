@@ -44,7 +44,7 @@ Configuration::getInstance()->set(Configuration::PATH_MODULE,ROOT_DIR.'app/');
 Configuration::getInstance()->set(Configuration::LAYOUT_DEFAULT,'main');
 
 // Définir le filtre par défaut
-Configuration::getInstance()->set(Configuration::FILTERS_DEFAULT,array('connected'));
+Configuration::getInstance()->set(Configuration::FILTERS_DEFAULT,array('connecte'));
 
 // Démarrer le service de log
 Application::startService('log');
