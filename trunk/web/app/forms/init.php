@@ -4,5 +4,7 @@
 require('form.php');
 
 // Définir les messages en cas de champs requis/invalide
-Form::setMsgRequired('<p class="message m_error">Champ requis</p>');
-Form::setMsgInvalid('<p class="message m_error">Champ invalide</p>');
+Form::setErrorStart('<p class="message m_error">');
+Form::setErrorEnd('</p>');
+Form::setMsgRequired('Champ requis');
+Form::setMsgInvalid('Champ invalide');
