@@ -46,9 +46,6 @@ Configuration::getInstance()->set(Configuration::PATH_MODULE,ROOT_DIR.'app/');
 // Définir le layout par défaut
 Configuration::getInstance()->set(Configuration::LAYOUT_DEFAULT,'main');
 
-// Définir le filtre par défaut
-Configuration::getInstance()->set(Configuration::FILTERS_DEFAULT,array('auth'));
-
 // Démarrer le service de log
 Application::startService('log');
 
