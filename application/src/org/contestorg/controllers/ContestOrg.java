@@ -53,7 +53,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 {
 	
 	/** Version de ContestOrg ([version principale].[évolutions développées].[anomalies corrigées]) */
-	public static final String VERSION = "2.0.0"; // Version pas encore effective
+	public static final String VERSION = "2.3.0"; // Version pas encore effective
 
 	/** Instance unique de ContestOrg */
 	private static ContestOrg contestOrg;
