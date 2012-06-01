@@ -181,7 +181,7 @@ public class JPTheme extends JPanel implements ItemListener
 			if(nbParametres > 0 || nbFichiers > 0) {
 				this.add(Box.createVerticalStrut(5));
 			}
-			this.add(ViewHelper.pinformation("Saviez-vous que vous pouvez créer vos propres thèmes ?","doc/Aide.pdf","Ouvrir l'aide au format PDF"));
+			this.add(ViewHelper.pinformation("Saviez-vous que vous pouvez créer vos propres thèmes ?","doc/documentation.pdf","Ouvrir l'aide au format PDF"));
 			
 			// Ecouter la liste des thèmes
 			this.jcb_themes.addItemListener(this);
