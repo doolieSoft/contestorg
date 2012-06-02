@@ -31,7 +31,7 @@
 					<xsl:call-template name="pdf-entete">
 						<xsl:with-param name="titre">
 							<!-- Titre -->
-							Liste des matchs des dernières phases qualificatives
+							Résultats des matchs des dernières phases qualificatives
 						</xsl:with-param>
 					</xsl:call-template>
 				</fo:static-content>
