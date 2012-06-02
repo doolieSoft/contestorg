@@ -13,9 +13,9 @@
       <surname>Perrin</surname>
     </author>
 
-    <date>12 novembre 2012</date>
+    <date>2 juin 2012</date>
 
-    <releaseinfo>2.0.0</releaseinfo>
+    <releaseinfo>2.3.0</releaseinfo>
 
     <subtitle>Logiciel d'organisation de tournois</subtitle>
   </bookinfo>
@@ -1814,10 +1814,12 @@ FIN PROCEDURE;</programlisting>
       <table>
         <title>Liste des donateurs</title>
 
-        <tgroup cols="2">
+        <tgroup cols="3">
           <thead>
             <row>
               <entry>Prénom/Nom</entry>
+
+              <entry>Date du don</entry>
 
               <entry>Montant du don</entry>
             </row>
@@ -1825,6 +1827,16 @@ FIN PROCEDURE;</programlisting>
 
           <tbody>
             <row>
+              <entry>Yvan Kraehenbuehl</entry>
+
+              <entry>02/06/2012</entry>
+
+              <entry>20€</entry>
+            </row>
+
+            <row>
+              <entry/>
+
               <entry/>
 
               <entry/>
