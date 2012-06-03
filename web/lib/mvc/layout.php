@@ -7,19 +7,23 @@ class Layout extends View
 {
 	/** @var $view View view */
 	private $view;
+	
+	/** @var $viewPath string view path */
+	private $viewPath;
 
 	/** @var $content string view rendering */
 	protected $content;
 
 	/**
 	 * Constructor
-	 * @param $path string layout path
 	 * @param $view View view
+	 * @param $viewPath string view path
 	 */
-	public function __construct(View $view)
+	public function __construct(View $view,$viewPath)
 	{
-		// Save view
+		// Save view and view path
 		$this->view = $view;
+		$this->viewPath = $viewPath;
 	}
 	
 	/**
@@ -45,13 +49,13 @@ class Layout extends View
 	/**
 	 * @see View::render()
 	 */
-	public function render(Request $request,$layoutPath,$viewPath)
+	public function render(Request $request,$layoutPath)
 	{
 		// Start view buffering
 		ob_start();
 
 		// Render view
-		$this->view->render($request,$viewPath);
+		$this->view->render($request,$this->viewPath);
 
 		// Save view buffering
 		$this->content = ob_get_clean();
