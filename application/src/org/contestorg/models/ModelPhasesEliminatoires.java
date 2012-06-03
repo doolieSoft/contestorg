@@ -445,7 +445,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 				if(participants.get(nbParticipantsQualifiesPoule-1).getRangPhasesQualifs() == participants.get(nbParticipantsQualifiesPoule).getRangPhasesQualifs()) {
 					// Construire la liste des participants ex-aequo à la qualification aux phases éliminatoires
 					List<ModelParticipant> participantsExAequoPoule = new ArrayList<ModelParticipant>();
-					for(int j=nbParticipantsQualifiesPoule-1;j>1 && participants.get(j-1).getRangPhasesQualifs() == participants.get(j).getRangPhasesQualifs();j--) {
+					for(int j=nbParticipantsQualifiesPoule-1;j>0 && participants.get(j-1).getRangPhasesQualifs() == participants.get(j).getRangPhasesQualifs();j--) {
 						participantsExAequoPoule.add(participants.get(j-1));
 					}
 					participantsExAequoPoule.add(participants.get(nbParticipantsQualifiesPoule-1));
