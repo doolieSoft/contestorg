@@ -52,5 +52,8 @@ Application::startService('log');
 // Récupérer la configuration
 $conf = Application::getService('conf');
 
+// Définir l'URL de base
+Request::setBase($conf['MISC']['BASE']);
+
 // Démarrer l'application
 Application::run($conf['MISC']['DEV'] ? Application::MODE_DEVELOPMENT : Application::MODE_PRODUCTION);
