@@ -2,6 +2,8 @@ package org.contestorg.controllers;
 
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.tree.TreeModel;
 
@@ -14,6 +16,7 @@ import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelPhasesEliminatoires;
+import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.interfaces.IGraphModel;
 import org.contestorg.models.FrontModel;
 
@@ -80,6 +83,16 @@ public class CtrlPhasesEliminatoires
 	 */
 	public boolean isMatchResultatsEditables(String nomCategorie, int numeroMatch) {
 		return FrontModel.get().getFrontModelPhasesEliminatoires().isMatchResultatsEditables(nomCategorie, numeroMatch);
+	}
+	
+	/**
+	 * Vérifier si des participants sont ex-aequo à la qualification aux phases éliminatoires
+	 * @param categorie catégorie
+	 * @param nbPhases nombre de phases éliminatoires à générer
+	 * @return participants ex-aequo à la qualification au phases éliminatoires
+	 */
+	public Map<InfosModelPoule,List<InfosModelParticipant>> verifierExAequo(String nomCategorie, int nbPhases) {
+		return FrontModel.get().getFrontModelPhasesEliminatoires().verifierExAequo(nomCategorie, nbPhases);
 	}
 
 	// ==== Modifier des données

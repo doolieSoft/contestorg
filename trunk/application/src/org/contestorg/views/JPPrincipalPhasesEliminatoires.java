@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +26,9 @@ import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPhasesEliminatoires;
+import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.infos.Theme;
 import org.contestorg.interfaces.IMoody;
 import org.contestorg.interfaces.IMoodyListener;
@@ -171,12 +176,51 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 			
 			// Vérifier si l'utilisateur a bien séléctionné une catégorie
 			if(nomCategorie != null) {
-				// Vérifier si le nombre de phases est correct
+				// Vérifier si le nombre de phases qualificatives est correct
 				if(nbPhases <= ContestOrg.get().getCtrlPhasesEliminatoires().getNbPhasesElimsPossibles(nomCategorie)) {
 					// Demander à l'utilisateur s'il souhaite vraiment regénérer les phases éliminatoires
 					if(this.grapheGrandeFinale.isClear() || ViewHelper.confirmation(this.w_parent, "En regénérant les phases éliminatoires, les matchs déjà générés seront perdus. Désirez-vous continuer ?", true)) {
-						// Demander la création 
-						ContestOrg.get().getCtrlPhasesEliminatoires().genererPhasesElims(nomCategorie, nbPhases, new InfosModelMatchPhasesElims(null,null), new InfosModelPhasesEliminatoires());
+						// Vérifier s'il y a des participants ex-aequo à la qualification aux phases éliminatoires
+						Map<InfosModelPoule, List<InfosModelParticipant>> participantsExAequos = ContestOrg.get().getCtrlPhasesEliminatoires().verifierExAequo(nomCategorie, nbPhases);
+						boolean continuer = true;
+						if(participantsExAequos.size() != 0) {
+							// Récupérer le nombre de poules de la catégorie
+							int nbPoules = ContestOrg.get().getCtrlParticipants().getListePoules(nomCategorie).size();
+							
+							// Construire le message de confirmation
+							StringBuilder message = new StringBuilder("Il y a des participants ex-aequo à la qualification aux phases éliminatoires :");
+							for(Entry<InfosModelPoule, List<InfosModelParticipant>> participantsExAequosPoule : participantsExAequos.entrySet()) {
+								// Récupérer la liste des participants et leur nombre
+								List<InfosModelParticipant> participants = participantsExAequosPoule.getValue();
+								int nbParticipants = participants.size();
+								
+								// Formater la liste des participants
+								if(nbPoules == 1) {
+									for(int i=0;i<nbParticipants;i++) {
+										message.append("\n- "+participants.get(i).getNom());
+									}
+								} else {
+									message.append("\n- "+participantsExAequosPoule.getKey().getNom()+" : ");
+									for(int i=0;i<nbParticipants;i++) {
+										if(i != 0) {
+											message.append(", ");
+										}
+										message.append(participants.get(i).getNom());
+									}
+								}
+							}
+							message.append("\nDésirez-vous continuer ?");
+							
+							// Demander à l'utilisateur s'il souhaite continuer
+							if(!ViewHelper.confirmation(this.w_parent, message.toString(), true)) {
+								continuer = false;
+							}
+						}
+						
+						// Demander la création
+						if(continuer) {
+							ContestOrg.get().getCtrlPhasesEliminatoires().genererPhasesElims(nomCategorie, nbPhases, new InfosModelMatchPhasesElims(null,null), new InfosModelPhasesEliminatoires());
+						}
 					}
 				} else {
 					// Erreur

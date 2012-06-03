@@ -1,6 +1,8 @@
 package org.contestorg.models;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
@@ -292,6 +294,15 @@ public class ModelCategorie extends ModelAbstract
 		
 		// Fire update
 		this.fireUpdate();
+	}
+	
+	/**
+	 * Vérifier si des participants sont ex-aequo à la qualification aux phases éliminatoires
+	 * @param nbPhases nombre de phases éliminatoires à générer
+	 * @return participants ex-aequo à la qualification au phases éliminatoires
+	 */
+	protected Map<ModelPoule,List<ModelParticipant>> verifierExAequo(int nbPhases) {
+		return ModelPhasesEliminatoires.verifierExAequo(this, nbPhases);
 	}
 	
 	/**
