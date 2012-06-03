@@ -65,10 +65,10 @@ abstract class Controller
 					$layoutPath = $configuration->getLayoutPath($layoutName);
 				
 					// Construct layout
-					$layout = new Layout($view);
+					$layout = new Layout($view,$viewPath);
 				
 					// Render layout
-					$layout->render($request,$layoutPath,$viewPath);
+					$layout->render($request,$layoutPath);
 				}
 			} else {
 				// Error
@@ -90,10 +90,10 @@ abstract class Controller
 				$layoutPath = $configuration->getLayoutPath($layoutName);
 			
 				// Construct layout
-				$layout = new Layout($view);
+				$layout = new Layout($view,$viewPath);
 			
 				// Render layout
-				$layout->render($request,$layoutPath,$viewPath);
+				$layout->render($request,$layoutPath);
 			}
 		} else {
 			// Error
@@ -157,10 +157,10 @@ abstract class Controller
 			$layoutPath = $configuration->getLayoutPath($layoutName);
 				
 			// Construct layout
-			$layout = new Layout($this->view);
+			$layout = new Layout($this->view,$viewPath);
 				
 			// Render layout
-			$layout->render($this->request,$layoutPath,$viewPath);
+			$layout->render($this->request,$layoutPath);
 		}
 		
 		// Stop buffering

@@ -73,7 +73,7 @@ class Request
 			return self::$instance;
 		}
 		
-		// Resize them
+		// Resize base and url
 		$nbCharacters = min(strlen(self::$base),strlen(self::$url));
 		for($i=0;$i < $nbCharacters && self::$base[$i] == self::$url[$i];$i++) {}
 		self::$base = substr(self::$base,0,$i);
@@ -286,7 +286,7 @@ class Request
 }
 
 // Get base
-Request::setBase(substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/')+1));
+Request::setBase(dirname($_SERVER['SCRIPT_NAME']).'/');
 
 // Get URL
 Request::setURL($_SERVER['REQUEST_URI']);
