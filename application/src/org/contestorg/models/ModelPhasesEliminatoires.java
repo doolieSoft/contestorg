@@ -2,8 +2,9 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.comparators.CompPhasesElims;
@@ -285,33 +286,35 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	 */
 	@SuppressWarnings("unchecked")
 	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgErrorException {
-		// Trier les participants d'après leur score aux phases qualificatives
-		List<ModelParticipant> participants = categorie.getParticipantsParticipants();
-		Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
+		// Récupérer la liste des participants pour chaque poule triée d'après leur rang aux phases qualificatives
+		int nbParticipants = 0;
+		List<List<ModelParticipant>> participantsPoules = new ArrayList<List<ModelParticipant>>();
+		for(ModelPoule poule : categorie.getPoules()) {
+			List<ModelParticipant> participantsPoule = poule.getParticipantsParticipants();
+			Collections.sort(participantsPoule, categorie.getConcours().getComparateurPhasesQualificatives()); 
+			participantsPoules.add(participantsPoule);
+			nbParticipants += participantsPoule.size();
+		}
+		
+		// Rassembler tous les participants au sein d'une même liste en alternant sur chacune des poules
+		List<ModelParticipant> participants = new ArrayList<ModelParticipant>();
+		while(nbParticipants != 0) {
+			for(List<ModelParticipant> participantsPoule : participantsPoules) {
+				if(nbParticipants != 0 && participantsPoule.size() != 0) {
+					participants.add(participantsPoule.remove(0));
+					nbParticipants--;
+				}
+			}
+		}
+		
+		// Inverser la liste pour avoir les meilleurs participants en premier
 		Collections.reverse(participants);
 		
-		// Garder les participants qui vont participer aux phases finales
-		int nbParticipants = (int)Math.pow(2, nbPhases);
-		participants = participants.subList(0, nbParticipants);
+		// Garder les participants qualifiés aux phases éliminatoires
+		int nbParticipantsQualifies = (int)Math.pow(2, nbPhases);
+		participants = participants.subList(0, nbParticipantsQualifies);
 		
-		// Eviter les rencontres entre participants venant de même poule (méthode sensible aux ex-aequos)
-		Collections.sort(participants, new Comparator<ModelParticipant>() {
-			// Implémentation de compare
-			@Override
-			public int compare (ModelParticipant participantA, ModelParticipant participantB) {
-				// Comparer les participants selon leur rang
-				int rangA = participantA.getRangPhasesQualifs();
-				int rangB = participantB.getRangPhasesQualifs();
-				if (rangA != rangB) {
-					return rangA < rangB ? -1 : 1;
-				}
-				
-				// Comparer les participants selon leur poule
-				return participantA.getPoule().getNom().compareTo(participantB.getPoule().getNom());
-			}
-		});
-		
-		// Tirer les couples de participants de la première phase
+		// Tirer les couples de participants de la première phase éliminatoire
 		/*
 		 * Explication de l'algorythme :
 		 * - on ajoute le premier participant
@@ -321,9 +324,9 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		 */
 		ArrayList<Integer> numeros = new ArrayList<Integer>();
 		numeros.add(0);
-		for (int i = 2; i < nbParticipants * 2; i = i * 2) { // i : Nombre de participants restants dans la phase
-			for (int j = 0; j < i; j = j + 2) { // j : Curseur sur les bons participants
-				numeros.add(j + 1, i - numeros.get(j) - 1); // Ajouter le participant de rang inférieur sous le participant de rang supérieur
+		for (int i = 2; i < nbParticipantsQualifies * 2; i = i * 2) { // i : Nombre de participants restants dans la phase
+			for (int j = 0; j < i; j = j + 2) { // j : Curseur sur les "bons" participants
+				numeros.add(j + 1, i - numeros.get(j) - 1); // Ajouter le "mauvais" participant sous le "bon" participant
 			}
 		}
 		
@@ -337,7 +340,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		ArrayList<ModelMatchPhasesElims> matchs = new ArrayList<ModelMatchPhasesElims>();
 		for (int i=0;i<nbPhases; i++) { // i : Numero de phase
 			int nbParticipantsPhase = (int)Math.pow(2, nbPhases-i); // Nombre de participants dans la phase
-			for (int j=0; j<nbParticipantsPhase; j+=2) { // j : Curseur sur le premièr participant de chaque match
+			for (int j=0; j<nbParticipantsPhase; j+=2) { // j : Curseur sur le premier participant de chaque match
 				// Matchs précédants
 				matchPrecedantA = null;
 				matchPrecedantB = null;
@@ -388,6 +391,74 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		
 		// Retourner la phase éliminatoire
 		return phasesEliminatoires;
+	}
+	
+	/**
+	 * Vérifier si des participants sont ex-aequo à la qualification aux phases éliminatoires
+	 * @param categorie catégorie
+	 * @param nbPhases nombre de phases éliminatoires à générer
+	 * @return participants ex-aequo à la qualification au phases éliminatoires
+	 */
+	@SuppressWarnings("unchecked")
+	protected static Map<ModelPoule,List<ModelParticipant>> verifierExAequo(ModelCategorie categorie, int nbPhases) {
+		// Initialiser la liste des participants ex-aeqo à la qualification aux phases éliminatoires
+		Map<ModelPoule,List<ModelParticipant>> participantsExAequo = new HashMap<ModelPoule,List<ModelParticipant>>();
+
+		// Récupérer la liste des poules
+		List<ModelPoule> poules = categorie.getPoules();
+		
+		// Calculer le nombre de participants qualifiés aux phases éliminatoires pour chaque poule
+		int nbPoules = poules.size();
+		List<Integer> nbParticipantsPoules = new ArrayList<Integer>();
+		for(int i=0;i<nbPoules;i++) {
+			nbParticipantsPoules.add(0);
+		}
+		int nbParticipants = (int)Math.pow(2, nbPhases);
+		while(nbParticipants != 0) {
+			for(int i=0;i<nbPoules && nbParticipants!=0;i++) {
+				if(poules.get(i).getParticipants().size() > nbParticipantsPoules.get(i)) {
+					nbParticipantsPoules.set(i,nbParticipantsPoules.get(i)+1);
+					nbParticipants--;
+				}
+			}
+		}
+		
+		// Vérifier si des participants sont ex-aequo à la qualification aux phases éliminatoires
+		for(int i=0;i<nbPoules;i++) {
+			// Récupérer la liste des participants de la poule
+			List<ModelParticipant> participants = poules.get(i).getParticipantsParticipants();
+			
+			// Trier d'après leur rang aux phases qualificatives
+			Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
+			
+			// Inverser la liste pour avoir les meilleurs participants en premier
+			Collections.reverse(participants);
+			
+			// Récupérer le nombre de participants
+			int nbParticipantsPoule = participants.size();
+			
+			// Récupérer le nombre de participants qualifiés aux phases éliminatoires
+			int nbParticipantsQualifiesPoule = nbParticipantsPoules.get(i);
+
+			// Vérifier si le dernier participant qualifié aux phases éliminatoires n'est pas ex-aequo avec celui qui suit
+			if(nbParticipantsQualifiesPoule != 0 && nbParticipantsPoule > nbParticipantsQualifiesPoule) {
+				if(participants.get(nbParticipantsQualifiesPoule-1).getRangPhasesQualifs() == participants.get(nbParticipantsQualifiesPoule).getRangPhasesQualifs()) {
+					// Construire la liste des participants ex-aequo à la qualification aux phases éliminatoires
+					List<ModelParticipant> participantsExAequoPoule = new ArrayList<ModelParticipant>();
+					for(int j=nbParticipantsQualifiesPoule-1;j>1 && participants.get(j-1).getRangPhasesQualifs() == participants.get(j).getRangPhasesQualifs();j--) {
+						participantsExAequoPoule.add(participants.get(j-1));
+					}
+					participantsExAequoPoule.add(participants.get(nbParticipantsQualifiesPoule-1));
+					for(int j=nbParticipantsQualifiesPoule;j<nbParticipantsPoule && participants.get(j-1).getRangPhasesQualifs() == participants.get(j).getRangPhasesQualifs();j++) {
+						participantsExAequoPoule.add(participants.get(j));
+					}
+					participantsExAequo.put(poules.get(i),participantsExAequoPoule);
+				}
+			}
+		}
+		
+		// Retourner la liste des participants ex-aeqo à la qualification aux phases éliminatoires
+		return participantsExAequo;
 	}
 	
 	/**

@@ -1,6 +1,10 @@
 package org.contestorg.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
@@ -12,6 +16,7 @@ import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelPhasesEliminatoires;
+import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.interfaces.IGraphModel;
 
 /**
@@ -127,6 +132,24 @@ public class FrontModelPhasesEliminatoires
 		
 		// Fermer l'action de génération
 		this.frontModel.getHistory().close();
+	}
+	
+	/**
+	 * Vérifier si des participants sont ex-aequo à la qualification aux phases éliminatoires
+	 * @param categorie catégorie
+	 * @param nbPhases nombre de phases éliminatoires à générer
+	 * @return participants ex-aequo à la qualification au phases éliminatoires
+	 */
+	public Map<InfosModelPoule,List<InfosModelParticipant>> verifierExAequo(String nomCategorie, int nbPhases) {
+		Map<InfosModelPoule,List<InfosModelParticipant>> participantsExAequo = new HashMap<InfosModelPoule,List<InfosModelParticipant>>();
+		for(Entry<ModelPoule, List<ModelParticipant>> participantsExAequoPoule : this.frontModel.getConcours().getCategorieByNom(nomCategorie).verifierExAequo(nbPhases).entrySet()) {
+			List<InfosModelParticipant> participants = new ArrayList<InfosModelParticipant>();
+			for(ModelParticipant participant : participantsExAequoPoule.getValue()) {
+				participants.add(participant.getInfos());
+			}
+			participantsExAequo.put(participantsExAequoPoule.getKey().getInfos(), participants);
+		}
+		return participantsExAequo;
 	}
 	
 	/**
