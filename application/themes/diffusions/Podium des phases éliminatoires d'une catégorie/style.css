@@ -1,0 +1,57 @@
+/* Body */
+body {
+	height:100%;
+	margin:0px;
+	padding:0px;
+	position:relative;
+}
+
+/* Titre */
+h1 {
+	text-align:center;
+	padding-top:10px;
+}
+
+/* Marches */
+#steps {
+	text-align:center;
+	position:absolute;
+	bottom:0px;
+	height:70%;
+	width:90%;
+	overflow:hidden;
+	background:#CCCCCC;
+	margin-left:5%;
+	margin-right:5%;
+	margin-bottom:5%;
+}
+#step1st, #step2nd, #step3rd {
+	float:left;
+}
+#step1st {
+	width:34%;
+}	
+#step2nd, #step3rd {
+	width:33%;
+}
+#steps .equipe {
+	margin:0px;
+	padding:0px;
+	background-color:#EEEEEE;
+	font-size:1.8em;
+}
+#step1st .equipe {
+	height:15%;
+	padding-top:10%;
+}
+#step2nd .equipe {
+	height:15%;
+	padding-top:30%;
+}
+#step3rd .equipe {
+	height:15%;
+	padding-top:50%;
+}
+#steps img {
+	width:70%;
+}

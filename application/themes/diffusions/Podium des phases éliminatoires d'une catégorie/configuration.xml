@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<fichiers>
+		<fichier id="html" nom="Page HTML" source="index.xsl" cible="index.html" transformation="xslt" principal="oui" fixe="oui" />
+		<fichier id="style.css" nom="Feuille de style" source="style.css" fixe="oui" />
+		<fichier id="common.css" nom="Feuille de style partagée" source="../common.css" cible="common.css" fixe="oui" />
+		<fichier id="common.js" nom="Librairie JS partagée" source="../common.js" cible="common.js" fixe="oui" />
+		<fichier id="favicon" nom="Favicon" source="../../favicon.png" cible="favicon.png" fixe="oui" />
+		<fichier id="medal-gold" nom="Gold medal" source="medal-gold.png" fixe="oui" />
+		<fichier id="medal-silver" nom="Silver medal" source="medal-silver.png" fixe="oui" />
+		<fichier id="medal-bronze" nom="Bronze medal" source="medal-bronze.png" fixe="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" />
+	</parametres>
+</configuration>
