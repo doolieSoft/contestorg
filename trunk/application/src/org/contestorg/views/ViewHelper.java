@@ -414,7 +414,7 @@ public class ViewHelper
 			}
 
 			// Ouvrir le JFileChooser
-			int reponse = fileChooser.showOpenDialog(parent);
+			int reponse = fileChooser.showSaveDialog(parent);
 
 			// Si l'utilisateur a choisi un fichier
 			if (reponse == JFileChooser.APPROVE_OPTION) {
