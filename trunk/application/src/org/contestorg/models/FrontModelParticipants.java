@@ -93,6 +93,15 @@ public class FrontModelParticipants
 		}
 		return nbVillesCommunes;
 	}
+
+	/**
+	 * Vérifier si une catégorie existe
+	 * @param nomCategorie nom de la catégorie
+	 * @return la catégorie ?
+	 */
+	public boolean isCategorieExiste (String nomCategorie) {
+		return this.frontModel.getConcours().getCategorieByNom(nomCategorie) != null;
+	}
 	
 	// Récupérer des données uniques
 	

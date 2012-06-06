@@ -408,7 +408,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jb_supprimer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() != 0);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
 		this.jb_categories.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
-		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getFirst() != null && ContestOrg.get().getCtrlParticipants().getNbParticipants(selection.getFirst()) >= 4);
+		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getFirst() != null && ContestOrg.get().getCtrlParticipants().isCategorieExiste(selection.getFirst()) && ContestOrg.get().getCtrlParticipants().getNbParticipants(selection.getFirst()) >= 4);
 		this.jb_nouveau.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_importer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}
