@@ -118,6 +118,15 @@ public class CtrlParticipants
 		return FrontModel.get().getFrontModelParticipants().getListeCategoriesPoulesParticipants();
 	}
 	
+	/**
+	 * Vérifier si une catégorie existe
+	 * @param nomCategorie nom de la catégorie
+	 * @return la catégorie ?
+	 */
+	public boolean isCategorieExiste(String nomCategorie) {
+		return FrontModel.get().getFrontModelParticipants().isCategorieExiste(nomCategorie);
+	}
+	
 	// ==== Modifier des données
 
 	// Participants
