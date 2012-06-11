@@ -1294,14 +1294,16 @@ FIN PROCEDURE;</programlisting>
         sélectionner la phase qualificative de destination au préalable. Pour
         éditer un match, vous pouvez également effectuer un double-clic sur la
         ligne dans la liste des matchs. Dans la fenêtre de création/édition de
-        match, nous retrouvons quatre zones : la zone
+        match, nous retrouvons six zones : la zone
         <guilabel>Équipes</guilabel>/<guilabel>Joueurs</guilabel> concernant
         le choix des deux participants, la zone <guilabel>Résultats</guilabel>
         concernant les résultats des deux participants, la zone
         <guilabel>Objectifs remportés</guilabel> concernant la liste des
-        objectifs remportés par les deux participants (optionnel) et la zone
-        <guilabel>Détails</guilabel> concernant d'éventuels commentaires sur
-        le match.</para>
+        objectifs remportés par les deux participants (optionnel), la zone
+        <guilabel>Date</guilabel> concernant le date du match, la zone
+        <guilabel>Lieu et emplacement</guilabel> concernant le lieu du match
+        et la zone <guilabel>Détails</guilabel> concernant d'éventuels
+        commentaires sur le match.</para>
 
         <screenshot>
           <screeninfo>Fenêtre de création/édition d'un match de phase
@@ -1309,9 +1311,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="296"
+              <imagedata depth="386"
                          fileref="images/ecrans/creer-editer-match-phases-qualificatives.png"
-                         width="240"/>
+                         width="220"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1395,20 +1397,22 @@ FIN PROCEDURE;</programlisting>
 
         <para>Pour renseigner les résultats d'un match, cliquez sur la case
         bleue associée au match. Dans la fenêtre d'édition du match, nous
-        retrouvons quatre zones : la zone
+        retrouvons six zones : la zone
         <guilabel>Équipes</guilabel>/<guibutton>Joueurs</guibutton> concernant
         les deux participants, la zone <guilabel>Résultats</guilabel>
         concernant les résultats des deux participants, la zone
         <guilabel>Objectifs remportés</guilabel> concernant la liste des
-        objectifs remportés par les deux participants (optionnel) et la zone
-        <guilabel>Détails</guilabel> concernant d'éventuels commentaires sur
-        le match. Cette fenêtre est identique la fenêtre d'édition d'un match
-        d'une phase qualificative à la différence près que le choix des
-        participants n'est pas possible car les deux participants affichés
-        correspondent aux participants vainqueurs du match précédant. Si le
-        match suivant est renseigné, il n'est plus possible de modifier les
-        résultats car de nouveaux résultats seraient pas conformes avec les
-        participants du match suivant.</para>
+        objectifs remportés par les deux participants (optionnel), la zone
+        <guilabel>Date</guilabel> concernant le date du match, la zone
+        <guilabel>Lieu et emplacement</guilabel> concernant le lieu du match
+        et la zone <guilabel>Détails</guilabel> concernant d'éventuels
+        commentaires sur le match. Cette fenêtre est identique la fenêtre
+        d'édition d'un match d'une phase qualificative à la différence près
+        que le choix des participants n'est pas possible car les deux
+        participants affichés correspondent aux participants vainqueurs du
+        match précédant. Si le match suivant est renseigné, il n'est plus
+        possible de modifier les résultats car de nouveaux résultats seraient
+        pas conformes avec les participants du match suivant.</para>
 
         <screenshot>
           <screeninfo>Fenêtre d'édition d'un match des phases
@@ -1416,9 +1420,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="295"
+              <imagedata depth="383"
                          fileref="images/ecrans/editer-match-phases-eliminatoires.png"
-                         width="240"/>
+                         width="220"/>
             </imageobject>
           </mediaobject>
         </screenshot>
