@@ -28,12 +28,27 @@ public class FrontModelConfiguration
 	// Point d'entrée principal aux modèles
 	private FrontModel frontModel;
 	
-	// Constructeur
+	/**
+	 * Constructeur
+	 * @param frontModel point d'entrée principal aux modèles
+	 */
 	public FrontModelConfiguration(FrontModel frontModel) {
 		this.frontModel = frontModel;
 	}
 	
-	// Configurer le concours
+	/**
+	 * Configurer le concours
+	 * @param infos informations du concours
+	 * @param objectifs liste des objectifs
+	 * @param comparateurs liste des comparateurs
+	 * @param exportations liste des exportations
+	 * @param publication indice de l'exportation qui fait office de publication
+	 * @param diffusions liste des diffusions
+	 * @param prix liste des prix
+	 * @param lieux liste des lieux
+	 * @param proprietes liste des propriétés
+	 * @throws ContestOrgErrorException
+	 */
 	public void configurerConcours (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion, InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) throws ContestOrgErrorException {
 		// Démarrer l'action de configuration
 		this.frontModel.getHistory().start("Configuration du concours");
@@ -56,6 +71,11 @@ public class FrontModelConfiguration
 	}
 	
 	// Récupérer des données uniques
+	
+	/**
+	 * Récupérer l'indice de l'exportation qui fait office de publication
+	 * @return indice de l'exportation qui fait office de publication
+	 */
 	public int getPublicationIndex () {
 		ModelConcours concours = this.frontModel.getConcours();
 		if (concours.getPublication() != null) {
@@ -63,6 +83,11 @@ public class FrontModelConfiguration
 		}
 		return -1;
 	}
+	
+	/**
+	 * Récupérer les informations de l'exportation qui fait office de publication
+	 * @return informations de l'exportation qui fait office de publication
+	 */
 	public Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> getInfosPublication () {
 		ModelConcours concours = this.frontModel.getConcours();
 		if (concours.getPublication() != null) {
@@ -72,6 +97,11 @@ public class FrontModelConfiguration
 	}
 	
 	// Récupérer des données liste
+	
+	/**
+	 * Récupérer la liste des objectifs
+	 * @return liste des objectifs
+	 */
 	public ArrayList<InfosModelObjectif> getListeObjectifs () {
 		ArrayList<InfosModelObjectif> objectifs = new ArrayList<InfosModelObjectif>();
 		for (ModelObjectif objectif : this.frontModel.getConcours().getObjectifs()) {
@@ -79,6 +109,11 @@ public class FrontModelConfiguration
 		}
 		return objectifs;
 	}
+	
+	/**
+	 * Récupérer la liste des exportations
+	 * @return liste des exportations
+	 */
 	public ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getListeExportations () {
 		ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations = new ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>>();
 		for (ModelExportation exportation : this.frontModel.getConcours().getExportations()) {
@@ -86,6 +121,11 @@ public class FrontModelConfiguration
 		}
 		return exportations;
 	}
+	
+	/**
+	 * Récupérer la liste des diffusions
+	 * @return liste des diffusions
+	 */
 	public ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>> getListeDiffusions () {
 		ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>> diffusions = new ArrayList<Pair<InfosModelDiffusion, InfosModelTheme>>();
 		for (ModelDiffusion diffusion : this.frontModel.getConcours().getDiffusions()) {
@@ -93,6 +133,11 @@ public class FrontModelConfiguration
 		}
 		return diffusions;
 	}
+	
+	/**
+	 * Récupérer la liste des prix
+	 * @return liste des prix
+	 */
 	public ArrayList<InfosModelPrix> getListePrix () {
 		ArrayList<InfosModelPrix> prixs = new ArrayList<InfosModelPrix>();
 		for (ModelPrix prix : this.frontModel.getConcours().getPrix()) {
@@ -100,7 +145,12 @@ public class FrontModelConfiguration
 		}
 		return prixs;
 	}
-	public ArrayList<Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>> getListeLieux () {
+	
+	/**
+	 * Récupérer la structure des lieux et emplacements
+	 * @return structure des lieux et emplacements
+	 */
+	public ArrayList<Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>> getListeLieuxEmplacements () {
 		ArrayList<Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>> lieux = new ArrayList<Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>>();
 		for (ModelLieu lieu : this.frontModel.getConcours().getLieux()) {
 			ArrayList<InfosModelEmplacement> emplacements = new ArrayList<InfosModelEmplacement>();
@@ -115,6 +165,11 @@ public class FrontModelConfiguration
 		}
 		return lieux;
 	}
+	
+	/**
+	 * Récupérer la liste des propriétés
+	 * @return liste des propriétés
+	 */
 	public ArrayList<InfosModelPropriete> getListeProprietes () {
 		ArrayList<InfosModelPropriete> proprietes = new ArrayList<InfosModelPropriete>();
 		for (ModelPropriete propriete : this.frontModel.getConcours().getProprietes()) {
@@ -122,6 +177,11 @@ public class FrontModelConfiguration
 		}
 		return proprietes;
 	}
+	
+	/**
+	 * Récupérer la liste des comparateurs
+	 * @return liste des comparateurs
+	 */
 	public ArrayList<InfosModelCompPhasesQualifsAbstract> getListeComparateurs () {
 		ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs = new ArrayList<InfosModelCompPhasesQualifsAbstract>();
 		for (ModelCompPhasesQualifsAbstract comparateur : this.frontModel.getConcours().getCompsPhasesQualifs()) {
@@ -131,30 +191,75 @@ public class FrontModelConfiguration
 	}
 	
 	// Récupérer des validateurs de listes
+	
+	/**
+	 * Récupérer un validateur de liste d'objectifs
+	 * @return validateur de liste d'objectifs
+	 */
 	public ITrackableListValidator<InfosModelObjectif> getObjectifsValidator () {
 		return new ModelObjectif.ValidatorForConcours();
 	}
+	
+	/**
+	 * Récupérer validateur de liste de comparateurs
+	 * @return validateur de liste de comparateurs
+	 */
 	public ITrackableListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator () {
 		return new ModelCompPhasesQualifsAbstract.ValidatorForConcours();
 	}
+	
+	/**
+	 * Récupérer un validateur de liste d'exportations 
+	 * @return validateur de liste d'exportations
+	 */
 	public ITrackableListValidator<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportationsValidator () {
 		return new ModelExportation.ValidatorForConcours();
 	}
+	
+	/**
+	 * Récupérer un validateur de liste de diffusions
+	 * @return validateur de liste de diffusions
+	 */
 	public ITrackableListValidator<Pair<InfosModelDiffusion, InfosModelTheme>> getDiffusionsValidator () {
 		return new ModelDiffusion.ValidatorForConcours();
 	}
+	
+	/**
+	 * Récupérer validateur de liste de prix
+	 * @return validateur de liste de prix
+	 */
 	public ITrackableListValidator<InfosModelPrix> getPrixValidator () {
 		return new ModelPrix.ValidatorForConcours();
 	}
+	
+	/**
+	 * Récupérer un validateur de liste de lieux
+	 * @return validateur de liste de lieux
+	 */
 	public ITrackableListValidator<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> getLieuxValidator () {
 		return new ModelLieu.ValidatorForConcours();
 	}
+	
+	/**
+	 * Récupérer un validateur de liste d'emplacements
+	 * @return validateur de liste d'emplacements
+	 */
 	public ITrackableListValidator<InfosModelEmplacement> getEmplacementsValidator () {
 		return new ModelEmplacement.ValidatorForLieu();
 	}
+	
+	/**
+	 * Récupérer un validateur de liste d'horaires
+	 * @return validateur de liste d'horaires
+	 */
 	public ITrackableListValidator<InfosModelHoraire> getHorairesValidator () {
 		return new ModelHoraire.ValidatorForLieu();
 	}
+	
+	/**
+	 * Récupérer un validateur de liste de propriétés
+	 * @return validateur de liste de propriétés
+	 */
 	public ITrackableListValidator<InfosModelPropriete> getProprietesValidator () {
 		return new ModelPropriete.ValidatorForConcours();
 	}

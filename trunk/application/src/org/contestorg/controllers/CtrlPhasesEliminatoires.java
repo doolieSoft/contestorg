@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.swing.tree.TreeModel;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelCategorie;
@@ -62,7 +63,7 @@ public class CtrlPhasesEliminatoires
 	 * @param numeroMatch numéro de match
 	 * @return informations sur le match de la catégorie
 	 */
-	public Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> getInfosMatch(String nomCategorie, int numeroMatch) {
+	public Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> getInfosMatch(String nomCategorie, int numeroMatch) {
 		return FrontModel.get().getFrontModelPhasesEliminatoires().getInfosMatch(nomCategorie, numeroMatch);
 	}
 	
@@ -71,7 +72,7 @@ public class CtrlPhasesEliminatoires
 	 * @param nomCategorie nom de la catégorie
 	 * @return informations sur la petite finale de la catégorie
 	 */
-	public Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> getInfosMatchPetiteFinale(String nomCategorie) {
+	public Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> getInfosMatchPetiteFinale(String nomCategorie) {
 		return FrontModel.get().getFrontModelPhasesEliminatoires().getInfosMatchPetiteFinale(nomCategorie);
 	}
 	
@@ -144,7 +145,7 @@ public class CtrlPhasesEliminatoires
 	 * @param numeroMatch numéro du match
 	 * @param infos nouvelles informations du match
 	 */
-	public void updateMatch(String nomCategorie, int numeroMatch, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
+	public void updateMatch(String nomCategorie, int numeroMatch, Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims> infos) {
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().updateMatch(nomCategorie, numeroMatch, infos);
 		} catch (Exception e) {
@@ -157,7 +158,7 @@ public class CtrlPhasesEliminatoires
 	 * @param nomCategorie nom de la catégorie
 	 * @param infos nouvelles informations de la petite finale
 	 */
-	public void updateMatchPetiteFinale(String nomCategorie, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
+	public void updateMatchPetiteFinale(String nomCategorie, Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims> infos) {
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().updateMatchPetiteFinale(nomCategorie, infos);
 		} catch (Exception e) {

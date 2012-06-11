@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
@@ -35,7 +36,7 @@ import org.contestorg.interfaces.ICollector;
 public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListener, ChangeListener
 {
 	/** Collecteur des informations du match */
-	private ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector;
+	private ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs>> collector;
 	
 	// Entrées
 	
@@ -69,6 +70,9 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	/** Date */
 	protected JSpinner js_date;
 	
+	/** Lieu et emplacement */
+	protected JPLieuEmplacement jp_lieuEmplacement;
+	
 	/** Détails */
 	protected JTextArea jta_details;
 	
@@ -81,7 +85,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 * @param nomPoule nom de la poule de destination
 	 * @param numeroPhase numéro de la phase qualificative de destination
 	 */
-	public JDMatchPhasesQualifsAbstract(Window w_parent, String titre, ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
+	public JDMatchPhasesQualifsAbstract(Window w_parent, String titre, ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
 		
@@ -127,7 +131,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		// Date
 		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
 		
-		this.jcb_date = new JCheckBox("Spécifier la date du match");
+		this.jcb_date = new JCheckBox("Spécifier la date du match ?");
 		this.jcb_date.setSelected(false);
 		this.jcb_date.addChangeListener(this);
 
@@ -138,6 +142,10 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		this.js_date.setValue(new Date());
 		this.js_date.setEnabled(false);
 		this.jp_contenu.add(this.js_date);
+		
+		// Lieu et emplacement
+		this.jp_lieuEmplacement = new JPLieuEmplacement();
+		this.jp_contenu.add(this.jp_lieuEmplacement);
 		
 		// Détails
 		this.jp_contenu.add(ViewHelper.title("Détails", ViewHelper.H1));
@@ -198,6 +206,8 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		}
 		String details = this.jta_details.getText().trim();
 		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
+		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
+		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -248,7 +258,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationB = new Triple<String, TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(nomParticipantB, objectifsRemportesB, new InfosModelParticipation(resultatB));
 			
 			// Transmettre les données au collector
-			this.collector.collect(new Triple<Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(participationA , participationB, new InfosModelMatchPhasesQualifs(date,details)));
+			this.collector.collect(new Quadruple<Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesQualifs>(participationA , participationB, new Pair<String,String>(nomLieu,nomEmplacement), new InfosModelMatchPhasesQualifs(date,details)));
 		}
 	}
 	

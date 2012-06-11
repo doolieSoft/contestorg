@@ -1,6 +1,7 @@
 package org.contestorg.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.TrackableList;
@@ -18,6 +19,9 @@ public class ModelEmplacement extends ModelAbstract
 	
 	/** Lieu */
 	private ModelLieu lieu;
+	
+	/** Liste des matchs */
+	private List<ModelMatchAbstract> matchs = new ArrayList<ModelMatchAbstract>();
 	
 	// Attributs scalaires
 	
@@ -81,6 +85,14 @@ public class ModelEmplacement extends ModelAbstract
 		return this.lieu;
 	}
 	
+	/**
+	 * Récupérer la liste des matchs
+	 * @return liste des matchs
+	 */
+	public List<ModelMatchAbstract> getMatchs() {
+		return this.matchs;
+	}
+	
 	// Setters
 	
 	/**
@@ -97,6 +109,46 @@ public class ModelEmplacement extends ModelAbstract
 		
 		// Fire update
 		this.fireUpdate();
+	}
+	
+	// Adders
+	
+	/**
+	 * Ajouter un match
+	 * @param match match
+	 * @throws ContestOrgErrorException
+	 */
+	public void addMatch (ModelMatchAbstract match) throws ContestOrgErrorException {
+		if (!this.matchs.contains(match)) {
+			// Ajouter le match
+			this.matchs.add(match);
+			
+			// Fire add
+			this.fireAdd(match, this.matchs.size() - 1);
+		} else {
+			throw new ContestOrgErrorException("Le match existe déjà dans l'emplacement");
+		}
+	}
+	
+	// Removers
+	
+	/**
+	 * Supprimer un match
+	 * @param match match
+	 * @throws ContestOrgErrorException
+	 */
+	protected void removeMatch (ModelMatchAbstract match) throws ContestOrgErrorException {
+		// Retirer le match
+		int index;
+		if ((index = this.matchs.indexOf(match)) != -1) {
+			// Remove
+			this.matchs.remove(match);
+			
+			// Fire remove
+			this.fireRemove(match, index);
+		} else {
+			throw new ContestOrgErrorException("Le match n'existe pas dans l'emplacement");
+		}
 	}
 	
 	/**
@@ -133,6 +185,15 @@ public class ModelEmplacement extends ModelAbstract
 				this.lieu = null;
 				this.fireClear(ModelLieu.class);
 			}
+			
+			// Retirer l'emplacement des matchs
+			for (ModelMatchAbstract match : this.matchs) {
+				if (!removers.contains(match)) {
+					match.setEmplacement(null);
+				}
+			}
+			this.matchs.clear();
+			this.fireClear(ModelParticipant.class);
 			
 			// Fire delete
 			this.fireDelete();

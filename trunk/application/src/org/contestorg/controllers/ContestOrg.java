@@ -222,6 +222,15 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		return FrontModel.get().getConcours().getTypePhasesQualificatives();
 	}
 	
+	/**
+	 * Récupérer la structure des lieux et emplacements
+	 * @return 
+	 * @return structure des lieux et emplacements
+	 */
+	public ArrayList<Triple<InfosModelLieu, ArrayList<InfosModelEmplacement>, ArrayList<InfosModelHoraire>>> getListeLieuxEmplacement() {
+		return FrontModel.get().getFrontModelConfiguration().getListeLieuxEmplacements();
+	}
+	
 	// Récupérer des validateurs de liste
 	
 	/**
@@ -399,7 +408,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		FrontModelConfiguration front = FrontModel.get().getFrontModelConfiguration();
 		
 		// Créer et afficher la fenêtre de configuration de concours
-		this.jd_concours = new JDConcoursEditer(this.jf_general,FrontModel.get().getConcours().getInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieux(),front.getListeProprietes());
+		this.jd_concours = new JDConcoursEditer(this.jf_general,FrontModel.get().getConcours().getInfos(),front.getListeObjectifs(),front.getListeComparateurs(),front.getListeExportations(),front.getPublicationIndex(),front.getListeDiffusions(),front.getListePrix(),front.getListeLieuxEmplacements(),front.getListeProprietes());
 		this.jd_concours.setVisible(true);
 	}
 	

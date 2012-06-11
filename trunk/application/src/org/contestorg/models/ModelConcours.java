@@ -321,6 +321,20 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
+	 * Récupérer un lieu d'après son nom
+	 * @param nom nom du lieu
+	 * @return lieu trouvé
+	 */
+	public ModelLieu getLieuByNom(String nom) {
+		for(ModelLieu lieu : this.lieux) {
+			if(lieu.getNom().equals(nom)) {
+				return lieu;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Récupérer les critères de classement des phases qualificatives
 	 * @return critères de classement des phases qualificatives
 	 */

@@ -23,6 +23,9 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 {
 	/** Listeners */
 	private ArrayList<ItemListener> listeners = new ArrayList<ItemListener>();
+
+	/** Catégories et poules */
+	private ArrayList<Pair<InfosModelCategorie, ArrayList<InfosModelPoule>>> categoriesPoules;
 	
 	// Entrées
 	
@@ -40,14 +43,14 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Récupérer les catégories et leurs poules
-		ArrayList<Pair<InfosModelCategorie, ArrayList<InfosModelPoule>>> categoriesPoules = ContestOrg.get().getCtrlParticipants().getListeCategoriesPoules();
+		this.categoriesPoules = ContestOrg.get().getCtrlParticipants().getListeCategoriesPoules();
 		
-		// Récupérer le nombre de catégories et le nombre de poules
+		// Récupérer le nombre de catégories et le nombre de poules et remplir les listes
 		int nbCategories = 0; int nbPoules = 0;
-		for(int i=0;i<categoriesPoules.size();i++) {
-			if(categoriesPoules.get(i).getSecond().size() != 0) {
-				this.jcb_categorie.addItem(categoriesPoules.get(i).getFirst().getNom());
-				ArrayList<InfosModelPoule> poules = categoriesPoules.get(i).getSecond();
+		for(int i=0;i<this.categoriesPoules.size();i++) {
+			if(this.categoriesPoules.get(i).getSecond().size() != 0) {
+				this.jcb_categorie.addItem(this.categoriesPoules.get(i).getFirst().getNom());
+				ArrayList<InfosModelPoule> poules = this.categoriesPoules.get(i).getSecond();
 				if(nbCategories == 0) {
 					for(int j=0;j<poules.size();j++) {
 						this.jcb_poule.addItem(poules.get(j).getNom());
@@ -84,7 +87,7 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 	}
 	
 	/**
-	 * Récupérer la poule séléctionnée
+	 * Récupérer le nom de la poule séléctionnée
 	 * @return nom de la poule séléctionnée
 	 */
 	public String getNomPoule() {
@@ -128,8 +131,12 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 		String nomCategorie = (String)event.getItem();
 		
 		// Remplir la liste des poules avec les poules de la catégorie
-		for(InfosModelPoule poule : ContestOrg.get().getCtrlParticipants().getListePoules(nomCategorie)) {
-			this.jcb_poule.addItem(poule.getNom());
+		for(int i=0;i<this.categoriesPoules.size();i++) {
+			if(this.categoriesPoules.get(i).getFirst().getNom().equals(nomCategorie)) {
+				for(int j=0;j<this.categoriesPoules.get(i).getSecond().size();j++) {
+					this.jcb_poule.addItem(this.categoriesPoules.get(i).getSecond().get(j).getNom());
+				}
+			}
 		}
 		
 		// Propager l'événement

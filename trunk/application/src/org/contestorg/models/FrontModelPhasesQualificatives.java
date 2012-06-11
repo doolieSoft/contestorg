@@ -200,7 +200,7 @@ public class FrontModelPhasesQualificatives
 	 * @param numeroMatch numéro du match
 	 * @return informations sur le match
 	 */
-	public Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> getInfosMatch(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch) {
+	public Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> getInfosMatch(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch) {
 		// Récupérer le match
 		ModelMatchPhasesQualifs match;
 		if(nomCategorie == null) {
@@ -214,10 +214,13 @@ public class FrontModelPhasesQualificatives
 		}
 		
 		// Récupérer les informations du match
-		Pair<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>> infos = this.getInfosMatch(match);
+		Pair<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>> infosMatch = this.getInfosMatch(match);
+
+		// Récupérer informations de l'emplacement
+		Pair<String,String> infosEmplacement = match.getEmplacement() == null ? null : new Pair<String,String>(match.getEmplacement().getLieu().getNom(),match.getEmplacement().getNom());
 		
 		// Retourner les informations du match
-		return new Triple<Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(infos.getFirst(), infos.getSecond(), match.getInfos());
+		return new Quadruple<Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,ArrayList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesQualifs>(infosMatch.getFirst(), infosMatch.getSecond(), infosEmplacement, match.getInfos());
 	}
 	
 	/**
@@ -444,7 +447,7 @@ public class FrontModelPhasesQualificatives
 	 * @param infos informations du match
 	 * @throws ContestOrgErrorException
 	 */
-	public void addMatchPhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
+	public void addMatchPhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
 		// Démarrer l'action d'ajout
 		this.frontModel.getHistory().start("Ajout d'un match dans la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -452,7 +455,7 @@ public class FrontModelPhasesQualificatives
 		ModelPhaseQualificative phase = this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPouleByNom(nomPoule).getPhasesQualificatives().get(numeroPhase);
 		
 		// Créer le match de phase qualificative
-		phase.addMatch(new ModelMatchPhasesQualifs.UpdaterForPhaseQualif(phase).create(infos));
+		phase.addMatch(new ModelMatchPhasesQualifs.UpdaterForPhaseQualif(this.frontModel.getConcours(),phase).create(infos));
 		
 		// Fermer l'action d'ajout
 		this.frontModel.getHistory().close();
@@ -466,7 +469,7 @@ public class FrontModelPhasesQualificatives
 	 * @param numeroMatch numéro du match
 	 * @param infos nouvelles informations du match
 	 */
-	public void updateMatch(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) {
+	public void updateMatch(String nomCategorie, String nomPoule, Integer numeroPhase, int numeroMatch, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos) {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification du match "+numeroMatch+" de la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -483,7 +486,7 @@ public class FrontModelPhasesQualificatives
 		}
 		
 		// Modifier le match
-		new ModelMatchPhasesQualifs.UpdaterForPhaseQualif(match.getPhaseQualificative()).update(match, infos);
+		new ModelMatchPhasesQualifs.UpdaterForPhaseQualif(this.frontModel.getConcours(),match.getPhaseQualificative()).update(match, infos);
 		
 		// Fermer l'action de modification
 		this.frontModel.getHistory().close();

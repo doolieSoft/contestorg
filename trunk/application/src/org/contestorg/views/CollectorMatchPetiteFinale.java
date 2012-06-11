@@ -1,8 +1,8 @@
 package org.contestorg.views;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelObjectifRemporte;
@@ -12,7 +12,7 @@ import org.contestorg.interfaces.ICollector;
 /**
  * Collecteur pour l'édition de la petite finale d'une catégorie
  */
-public class CollectorMatchPetiteFinale extends CollectorAbstract<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>>
+public class CollectorMatchPetiteFinale extends CollectorAbstract<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims>>
 {
 
 	/** Nom de la catégorie */
@@ -31,7 +31,7 @@ public class CollectorMatchPetiteFinale extends CollectorAbstract<Triple<Pair<Tr
 	 * @see ICollector#collect(Object)
 	 */
 	@Override
-	public void collect (Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
+	public void collect (Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims> infos) {
 		// Demander la modification du match
 		ContestOrg.get().getCtrlPhasesEliminatoires().updateMatchPetiteFinale(this.nomCategorie, infos);
 		

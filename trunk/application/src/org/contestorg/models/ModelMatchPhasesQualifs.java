@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
@@ -28,24 +29,26 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	/**
 	 * Constructeur
 	 * @param phaseQualificative phase qualificative
+	 * @param emplacement emplacement
 	 * @param infos informations du match des phases qualificatives
 	 */
-	public ModelMatchPhasesQualifs(ModelPhaseQualificative phaseQualificative, InfosModelMatchPhasesQualifs infos) {
+	public ModelMatchPhasesQualifs(ModelPhaseQualificative phaseQualificative, ModelEmplacement emplacement, InfosModelMatchPhasesQualifs infos) {
+		// Appeller le constructeur parent
+		super(emplacement,infos);
+		
 		// Retenir la phase qualificative
 		this.phaseQualificative = phaseQualificative;
-		
-		// Enregistrer les informations
-		this.setInfos(infos);
 	}
 	
 	/**
 	 * Constructeur par copie
 	 * @param phaseQualificative phase qualificative
+	 * @param emplacement emplacement
 	 * @param match match des phases qualificatives
 	 */
-	protected ModelMatchPhasesQualifs(ModelPhaseQualificative phaseQualificative, ModelMatchPhasesQualifs match) {
+	protected ModelMatchPhasesQualifs(ModelPhaseQualificative phaseQualificative, ModelEmplacement emplacement, ModelMatchPhasesQualifs match) {
 		// Appeller le constructeur principal
-		this(phaseQualificative, match.getInfos());
+		this(phaseQualificative, emplacement, match.getInfos());
 		
 		// Récupérer l'id
 		this.setId(match.getId());
@@ -86,17 +89,18 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	/**
 	 * Cloner le match des phases qualificatives
 	 * @param phaseQualificative phase qualificative
+	 * @param emplacement emplacement
 	 * @return clone du match des phases qualificatives
 	 */
-	protected ModelMatchPhasesQualifs clone (ModelPhaseQualificative phaseQualificative) {
-		return new ModelMatchPhasesQualifs(phaseQualificative, this);
+	protected ModelMatchPhasesQualifs clone (ModelPhaseQualificative phaseQualificative, ModelEmplacement emplacement) {
+		return new ModelMatchPhasesQualifs(phaseQualificative, emplacement, this);
 	}
 	
 	/**
 	 * @see ModelAbstract#getInfos()
 	 */
 	public InfosModelMatchPhasesQualifs getInfos () {
-		InfosModelMatchPhasesQualifs infos = new InfosModelMatchPhasesQualifs(this.getDate(),this.getDetails());
+		InfosModelMatchPhasesQualifs infos = new InfosModelMatchPhasesQualifs(this.getDate(), this.getDetails());
 		infos.setId(this.getId());
 		return infos;
 	}
@@ -129,17 +133,21 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	/**
 	 * Classe pour mettre à jour la liste des matchs d'une phase qualificative
 	 */
-	protected static class UpdaterForPhaseQualif implements IUpdater<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs>, ModelMatchPhasesQualifs>
-	{
+	protected static class UpdaterForPhaseQualif implements IUpdater<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,Pair<String,String>,InfosModelMatchPhasesQualifs>, ModelMatchPhasesQualifs>
+	{	
+		/** Concours */
+		private ModelConcours concours;
 		
 		/** Phase qualificative */
 		private ModelPhaseQualificative phaseQualif;
 		
 		/**
 		 * Constructeur
+		 * @param concours concours
 		 * @param phaseQualif phase qualificative
 		 */
-		public UpdaterForPhaseQualif(ModelPhaseQualificative phaseQualif) {
+		public UpdaterForPhaseQualif(ModelConcours concours,ModelPhaseQualificative phaseQualif) {
+			this.concours = concours;
 			this.phaseQualif = phaseQualif;
 		}
 
@@ -147,10 +155,21 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 		 * @see IUpdater#create(Object)
 		 */
 		@Override
-		public ModelMatchPhasesQualifs create (Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) {
+		public ModelMatchPhasesQualifs create (Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,Pair<String,String>,InfosModelMatchPhasesQualifs> infos) {
 			try {
+				// Récupérer l'emplacement
+				ModelEmplacement emplacement = null;
+				if(infos.getThird() != null && infos.getThird().getFirst() != null && infos.getThird().getSecond() != null) {
+					emplacement = this.concours.getLieuByNom(infos.getThird().getFirst()).getEmplacementByNom(infos.getThird().getSecond());
+				}
+				
 				// Créer le match
-				ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(this.phaseQualif, infos.getThird());
+				ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(this.phaseQualif, emplacement, infos.getFourth());
+				
+				// Ajouter le match à l'emplacement
+				if(emplacement != null) {
+					emplacement.addMatch(match);
+				}
 				
 				// Créer la participation A
 				ModelParticipant participantA = infos.getFirst().getFirst() == null ? null : this.phaseQualif.getPoule().getParticipantByNom(infos.getFirst().getFirst());
@@ -182,10 +201,25 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelMatchPhasesQualifs match, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) {
+		public void update (ModelMatchPhasesQualifs match, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,Pair<String,String>,InfosModelMatchPhasesQualifs> infos) {
 			try {
 				// Modifier le match
-				match.setInfos(infos.getThird());
+				match.setInfos(infos.getFourth());
+				
+				// Modifier l'emplacement
+				if(infos.getThird() != null && infos.getThird().getFirst() != null && infos.getThird().getSecond() != null) {
+					if(match.getEmplacement() == null || !match.getEmplacement().getNom().equals(infos.getThird().getFirst()) || !match.getEmplacement().getLieu().getNom().equals(infos.getThird().getSecond())) {
+						if(match.getEmplacement() != null) {
+							match.getEmplacement().removeMatch(match);
+						}
+						ModelEmplacement emplacement = this.concours.getLieuByNom(infos.getThird().getFirst()).getEmplacementByNom(infos.getThird().getSecond());
+						match.setEmplacement(emplacement);
+						emplacement.addMatch(match);
+					}
+				} else if(match.getEmplacement() != null) {
+					match.getEmplacement().removeMatch(match);
+					match.setEmplacement(null);
+				}
 				
 				// Modifier la participationA
 				ModelParticipation participationA = match.getParticipationA();

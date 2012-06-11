@@ -132,6 +132,20 @@ public class ModelLieu extends ModelAbstract
 		return new ArrayList<ModelEmplacement>(this.emplacements);
 	}
 	
+	/**
+	 * Récupérer un emplacement d'après son nom
+	 * @param nom nom de l'emplacement
+	 * @return emplacement trouvé
+	 */
+	public ModelEmplacement getEmplacementByNom(String nom) {
+		for(ModelEmplacement emplacement : this.emplacements) {
+			if(emplacement.getNom().equals(nom)) {
+				return emplacement;
+			}
+		}
+		return null;
+	}
+	
 	// Setters
 	
 	/**

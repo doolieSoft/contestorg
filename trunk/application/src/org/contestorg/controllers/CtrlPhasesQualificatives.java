@@ -69,7 +69,7 @@ public class CtrlPhasesQualificatives
 	 * @param numeroMatch numéro du match
 	 * @return informations sur le match
 	 */
-	public Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> getInfosMatch(String nomCategorie,String nomPoule,int numeroPhase,int numeroMatch) {
+	public Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> getInfosMatch(String nomCategorie,String nomPoule,int numeroPhase,int numeroMatch) {
 		return FrontModel.get().getFrontModelPhasesQualificatives().getInfosMatch(nomCategorie,nomPoule,numeroPhase,numeroMatch);
 	}
 	
@@ -232,7 +232,7 @@ public class CtrlPhasesQualificatives
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @param infos informations du match
 	 */
-	public void addMatch (String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) {
+	public void addMatch (String nomCategorie, String nomPoule, int numeroPhase, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos) {
 		try {
 			FrontModel.get().getFrontModelPhasesQualificatives().addMatchPhaseQualif(nomCategorie, nomPoule, numeroPhase, infos);
 		} catch (Exception e) {
@@ -248,7 +248,7 @@ public class CtrlPhasesQualificatives
 	 * @param numeroMatch numéro du match
 	 * @param infos nouvelles informations du match
 	 */
-	public void updateMatch(String nomCategorie, String nomPoule, int numeroPhase, int numeroMatch, Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs> infos) {
+	public void updateMatch(String nomCategorie, String nomPoule, int numeroPhase, int numeroMatch, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos) {
 		FrontModel.get().getFrontModelPhasesQualificatives().updateMatch(nomCategorie, nomPoule, numeroPhase, numeroMatch, infos);
 	}
 	

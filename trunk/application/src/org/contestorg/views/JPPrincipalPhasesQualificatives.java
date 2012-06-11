@@ -402,7 +402,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 				Quadruple<String, String, Integer, Integer> resolution = ContestOrg.get().getCtrlPhasesQualificatives().getCategoriePoulePhase(selection.getFirst(), selection.getSecond(), selection.getThird(), this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()));
 				
 				// Récupérer les informations du match à éditer
-				Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
+				Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 				
 				// Créer et afficher la fenêtre d'édition
 				CollectorMatchPhasesQualifsEditer collector = new CollectorMatchPhasesQualifsEditer(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
@@ -544,7 +544,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 					Quadruple<String, String, Integer, Integer> resolution = ContestOrg.get().getCtrlPhasesQualificatives().getCategoriePoulePhase(selection.getFirst(), selection.getSecond(), selection.getThird(), this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()));
 					
 					// Récupérer les informations du match à éditer
-					Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
+					Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosMatch(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());
 					
 					// Créer et afficher la fenêtre d'édition
 					CollectorMatchPhasesQualifsEditer collector = new CollectorMatchPhasesQualifsEditer(resolution.getFirst(), resolution.getSecond(), resolution.getThird(), resolution.getFourth());

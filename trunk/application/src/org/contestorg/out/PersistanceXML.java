@@ -424,6 +424,8 @@ public class PersistanceXML extends PersistanceAbstract
 												while (iteratorMatchsPhaseQualificative.hasNext()) {
 													Element elementMatchPhaseQualificative = (Element)iteratorMatchsPhaseQualificative.next();
 													
+													ModelEmplacement emplacement = elementMatchPhaseQualificative.getAttributeValue("refEmplacement") == null ? null : (ModelEmplacement)ModelAbstract.search(Integer.parseInt(elementMatchPhaseQualificative.getAttributeValue("refEmplacement")));
+													
 													String details = elementMatchPhaseQualificative.getAttributeValue("details");
 													String timestamp = elementMatchPhaseQualificative.getAttributeValue("timestamp");
 													Date date = null;
@@ -431,7 +433,7 @@ public class PersistanceXML extends PersistanceAbstract
 														date = new Date(Long.parseLong(timestamp)*1000);
 													}
 													
-													ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(phaseQualificative, new InfosModelMatchPhasesQualifs(date,details));
+													ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(phaseQualificative, emplacement, new InfosModelMatchPhasesQualifs(date,details));
 													match.setId(Integer.parseInt(elementMatchPhaseQualificative.getAttributeValue("id")));
 													
 													Iterator iteratorParticipations = elementMatchPhaseQualificative.getChildren("participation").iterator();
@@ -440,6 +442,9 @@ public class PersistanceXML extends PersistanceAbstract
 													match.setParticipationB(PersistanceXML.loadParticipation((Element)iteratorParticipations.next(), match));
 													
 													phaseQualificative.addMatch(match);
+													if(emplacement != null) {
+														emplacement.addMatch(match);
+													}
 												}
 												
 												poule.addPhaseQualificative(phaseQualificative);
@@ -482,6 +487,7 @@ public class PersistanceXML extends PersistanceAbstract
 											
 											ModelMatchPhasesElims matchPrecedantA = elementMatchPhasesEliminatoires.getAttributeValue("refMatchPrecedantA") == null ? null : (ModelMatchPhasesElims)ModelAbstract.search(Integer.parseInt(elementMatchPhasesEliminatoires.getAttributeValue("refMatchPrecedantA")));
 											ModelMatchPhasesElims matchPrecedantB = elementMatchPhasesEliminatoires.getAttributeValue("refMatchPrecedantB") == null ? null : (ModelMatchPhasesElims)ModelAbstract.search(Integer.parseInt(elementMatchPhasesEliminatoires.getAttributeValue("refMatchPrecedantB")));
+											ModelEmplacement emplacement = elementMatchPhasesEliminatoires.getAttributeValue("refEmplacement") == null ? null : (ModelEmplacement)ModelAbstract.search(Integer.parseInt(elementMatchPhasesEliminatoires.getAttributeValue("refEmplacement")));
 											
 											String details = elementMatchPhasesEliminatoires.getAttributeValue("details");
 											String timestamp = elementMatchPhasesEliminatoires.getAttributeValue("timestamp");
@@ -490,7 +496,7 @@ public class PersistanceXML extends PersistanceAbstract
 												date = new Date(Long.parseLong(timestamp)*1000);
 											}
 											
-											ModelMatchPhasesElims match = new ModelMatchPhasesElims(phasesEliminatoires, matchPrecedantA, matchPrecedantB, new InfosModelMatchPhasesElims(date,details));
+											ModelMatchPhasesElims match = new ModelMatchPhasesElims(phasesEliminatoires, emplacement, matchPrecedantA, matchPrecedantB, new InfosModelMatchPhasesElims(date,details));
 											match.setId(Integer.parseInt(elementMatchPhasesEliminatoires.getAttributeValue("id")));
 
 											if(elementMatchPhasesEliminatoires.getAttributeValue("petiteFinale") == null) {
@@ -514,6 +520,10 @@ public class PersistanceXML extends PersistanceAbstract
 												phasesEliminatoires.setGrandeFinale(match);
 											} else if (elementMatchPhasesEliminatoires.getAttributeValue("petiteFinale") != null) {
 												phasesEliminatoires.setPetiteFinale(match);
+											}
+											
+											if(emplacement != null) {
+												emplacement.addMatch(match);
 											}
 										}
 									}
@@ -565,10 +575,10 @@ public class PersistanceXML extends PersistanceAbstract
 					boolean versionAVide = versionA == null || versionA.isEmpty();
 					boolean versionBVide = versionB == null || versionB.isEmpty();
 					if(!versionAVide && versionBVide) {
-						return -1;
+						return 1;
 					}
 					if(versionAVide && !versionBVide) {
-						return 1;
+						return -1;
 					}
 					if(versionAVide && versionBVide) {
 						return 0;
@@ -641,7 +651,7 @@ public class PersistanceXML extends PersistanceAbstract
 			});
 			
 			// Supprimer les feuilles de style XSL non nécéssaires
-			while(xsls.size() != 0 && comparateur.compare(version,xsls.get(0).getName()) <= 0) {
+			while(xsls.size() != 0 && comparateur.compare(version,xsls.get(0).getName()) >= 0) {
 				xsls.remove(0);
 			}
 			
@@ -1106,13 +1116,16 @@ public class PersistanceXML extends PersistanceAbstract
 								Element elementParticipant = new Element("participant");
 								elementParticipant.setAttribute("id", String.valueOf(participant.getId()));
 								elementParticipant.setAttribute("nom", participant.getNom());
-								if (participant.getVille() != null && !participant.getVille().isEmpty())
+								if (participant.getVille() != null && !participant.getVille().isEmpty()) {
 									elementParticipant.setAttribute("ville", participant.getVille());
+								}
 								elementParticipant.setAttribute("statut", participant.getStatut().getId());
-								if (participant.getStand() != null && !participant.getStand().isEmpty())
+								if (participant.getStand() != null && !participant.getStand().isEmpty()) {
 									elementParticipant.setAttribute("stand", participant.getStand());
-								if (participant.getDetails() != null && !participant.getDetails().isEmpty())
+								}
+								if (participant.getDetails() != null && !participant.getDetails().isEmpty()) {
 									elementParticipant.setAttribute("details", participant.getDetails());
+								}
 								elementParticipant.setAttribute("rangPhasesQualifs", String.valueOf(participant.getRangPhasesQualifs()));
 								elementParticipant.setAttribute("pointsPhasesQualifs", String.valueOf(String.valueOf(participant.getPoints(false, true))));
 								elementParticipant.setAttribute("rangPhasesElims", String.valueOf(participant.getRangPhasesElims()));
@@ -1196,10 +1209,15 @@ public class PersistanceXML extends PersistanceAbstract
 								for (ModelMatchPhasesQualifs match : phase.getMatchs()) {
 									Element elementMatchPhaseQualificative = new Element("matchPhaseQualificative");
 									elementMatchPhaseQualificative.setAttribute("id", String.valueOf(match.getId()));
-									elementMatchPhaseQualificative.setAttribute("details", match.getDetails() == null ? "" : match.getDetails());
-									if (match.getDate() != null)
+									if(match.getDetails() != null && !match.getDetails().isEmpty()) {
+										elementMatchPhaseQualificative.setAttribute("details", match.getDetails());
+									}
+									if (match.getDate() != null) {
 										elementMatchPhaseQualificative.setAttribute("timestamp", String.valueOf(match.getDate().getTime() / 1000));
-										
+									}
+									if(match.getEmplacement() != null) {
+										elementMatchPhaseQualificative.setAttribute("refEmplacement", String.valueOf(match.getEmplacement().getId()));
+									}
 									
 									elementMatchPhaseQualificative.addContent(PersistanceXML.getElementParticipation(match.getParticipationA()));
 									elementMatchPhaseQualificative.addContent(PersistanceXML.getElementParticipation(match.getParticipationB()));
@@ -1252,19 +1270,27 @@ public class PersistanceXML extends PersistanceAbstract
 						for (ModelMatchPhasesElims match : matchs) {
 							Element elementMatchPhaseEliminatoire = new Element("matchPhaseEliminatoire");
 							elementMatchPhaseEliminatoire.setAttribute("id", String.valueOf(match.getId()));
-							elementMatchPhaseEliminatoire.setAttribute("details", match.getDetails() == null ? "" : match.getDetails());
+							if(match.getDetails() != null && !match.getDetails().isEmpty()) {
+								elementMatchPhaseEliminatoire.setAttribute("details", match.getDetails());
+							}
 							if (match.isGrandeFinale()) {
 								elementMatchPhaseEliminatoire.setAttribute("grandeFinale", "oui");
 							}
 							if(match.isPetiteFinale()) {
 								elementMatchPhaseEliminatoire.setAttribute("petiteFinale", "oui");
 							}
-							if (match.getDate() != null)
+							if (match.getDate() != null) {
 								elementMatchPhaseEliminatoire.setAttribute("timestamp", String.valueOf(match.getDate().getTime() / 1000));
-							if (match.getMatchPrecedantA() != null)
+							}
+							if(match.getEmplacement() != null) {
+								elementMatchPhaseEliminatoire.setAttribute("refEmplacement", String.valueOf(match.getEmplacement().getId()));
+							}
+							if (match.getMatchPrecedantA() != null) {
 								elementMatchPhaseEliminatoire.setAttribute("refMatchPrecedantA", String.valueOf(match.getMatchPrecedantA().getId()));
-							if (match.getMatchPrecedantB() != null)
+							}
+							if (match.getMatchPrecedantB() != null) {
 								elementMatchPhaseEliminatoire.setAttribute("refMatchPrecedantB", String.valueOf(match.getMatchPrecedantB().getId()));
+							}
 							elementMatchPhaseEliminatoire.setAttribute("id", String.valueOf(match.getId()));
 							
 							if (match.getParticipationA() != null) {

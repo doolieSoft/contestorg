@@ -1,6 +1,7 @@
 package org.contestorg.views;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
@@ -12,7 +13,7 @@ import org.contestorg.interfaces.ICollector;
 /**
  * Collecteur pour la création d'un match au sein d'une phase qualificative d'une catégorie
  */
-public class CollectorMatchPhasesQualifsCreer extends CollectorAbstract<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,InfosModelMatchPhasesQualifs>>
+public class CollectorMatchPhasesQualifsCreer extends CollectorAbstract<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs>>
 {
 	
 	/** Nom de la catégorie */
@@ -36,9 +37,9 @@ public class CollectorMatchPhasesQualifsCreer extends CollectorAbstract<Triple<T
 	 * @see ICollector#collect(Object)
 	 */
 	@Override
-	public void collect (Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
+	public void collect (Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs> infos) {
 		// Demander la création du match
-		ContestOrg.get().getCtrlPhasesQualificatives().addMatch(nomCategorie, nomPoule, numeroPhase, infos);
+		ContestOrg.get().getCtrlPhasesQualificatives().addMatch(this.nomCategorie, this.nomPoule, this.numeroPhase, infos);
 		
 		// Fermer le collector
 		this.close();

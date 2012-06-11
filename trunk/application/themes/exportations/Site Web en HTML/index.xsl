@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:java="http://xml.apache.org/xslt/java" exclude-result-prefixes="java">
 	<!-- Importation des templates communs -->
 	<xsl:import href="../../common.xsl"/>
 	<xsl:import href="../common.xsl"/>
@@ -250,6 +250,8 @@
 		</xsl:if>
 	</xsl:template>
 	<xsl:template match="matchPhaseEliminatoire" mode="liste">
+		<xsl:variable name="timestamp" select="@timestamp"></xsl:variable>
+		<xsl:variable name="refEmplacement" select="@refEmplacement"></xsl:variable>
 		<li>
 			<!-- Grande finale ? Petite finale ? -->
 			<xsl:if test="./@grandeFinale = 'oui'">
@@ -298,6 +300,26 @@
 					...
 				</xsl:otherwise>
 			</xsl:choose>
+			
+			<!-- Date/Emplacement -->
+			<xsl:if test="$timestamp != '' or $refEmplacement != ''">
+				<p class="comment" style="margin-top:0px;">
+					Match joué
+				
+					<!-- Date -->
+					<xsl:if test="$timestamp != ''">
+						le
+						<xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('dd/MM/yyyy'),java:java.util.Date.new($timestamp*1000))" />
+						à
+						<xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('HH:mm'),java:java.util.Date.new($timestamp*1000))" /> 
+					</xsl:if>
+				
+					<!-- Emplacement -->
+					<xsl:if test="$refEmplacement != ''">
+						sur l'emplacement "<xsl:value-of select="//emplacement[@id=$refEmplacement]/@nom"></xsl:value-of>" du lieu "<xsl:value-of select="//emplacement[@id=$refEmplacement]/../../@nom"></xsl:value-of>"
+					</xsl:if>
+				</p>
+			</xsl:if>
 		</li>
 	</xsl:template>
 	
@@ -403,6 +425,8 @@
 	
 	<!-- Template d'un match de phase qualificative -->
 	<xsl:template match="matchPhaseQualificative">
+		<xsl:variable name="timestamp" select="@timestamp"></xsl:variable>
+		<xsl:variable name="refEmplacement" select="@refEmplacement"></xsl:variable>
 		<li>		
 			<!-- Participant A -->
 			<xsl:call-template name="participant">
@@ -430,6 +454,26 @@
 			<xsl:call-template name="participant">
 			  <xsl:with-param name="id" select="./participation[2]/@refParticipant" />
 			</xsl:call-template>
+			
+			<!-- Date/Emplacement -->
+			<xsl:if test="$timestamp != '' or $refEmplacement != ''">
+				<p class="comment" style="margin-top:0px;">
+					Match joué
+				
+					<!-- Date -->
+					<xsl:if test="$timestamp != ''">
+						le
+						<xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('dd/MM/yyyy'),java:java.util.Date.new($timestamp*1000))" />
+						à
+						<xsl:value-of select="java:format(java:java.text.SimpleDateFormat.new('HH:mm'),java:java.util.Date.new($timestamp*1000))" /> 
+					</xsl:if>
+				
+					<!-- Emplacement -->
+					<xsl:if test="$refEmplacement != ''">
+						sur l'emplacement "<xsl:value-of select="//emplacement[@id=$refEmplacement]/@nom"></xsl:value-of>" du lieu "<xsl:value-of select="//emplacement[@id=$refEmplacement]/../../@nom"></xsl:value-of>"
+					</xsl:if>
+				</p>
+			</xsl:if>
 		</li>
 	</xsl:template>
 	

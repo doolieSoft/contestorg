@@ -197,9 +197,10 @@
 <!ELEMENT classementPhaseQualificative (listeClassementParticipants)> <!-- Classement des participants sur une phase qualificative (aide pour traitements XSLT) -->
 
 <!ELEMENT matchPhaseQualificative (participation,participation)>
-<!ATTLIST matchPhaseQualificative id		ID		#REQUIRED>
-<!ATTLIST matchPhaseQualificative details	CDATA	#REQUIRED>	<!-- Détails du match -->
-<!ATTLIST matchPhaseQualificative timestamp	CDATA	#IMPLIED>	<!-- Timestamp du match (en secondes) -->
+<!ATTLIST matchPhaseQualificative id				ID		#REQUIRED>
+<!ATTLIST matchPhaseQualificative details			CDATA	#REQUIRED>	<!-- Détails du match -->
+<!ATTLIST matchPhaseQualificative timestamp			CDATA	#IMPLIED>	<!-- Timestamp du match (en secondes) -->
+<!ATTLIST matchPhaseQualificative refEmplacement	IDREF	#IMPLIED>	<!-- Référence de l'emplacement -->
 
 <!-- Phases eliminatoires -->
 <!ELEMENT listePhasesEliminatoires (phaseEliminatoire*)>
@@ -209,13 +210,14 @@
 <!ATTLIST phaseEliminatoire numero CDATA #REQUIRED>	<!-- Numéro de la phase éliminatoire indicé de 0 à N -->
 
 <!ELEMENT matchPhaseEliminatoire (participation?,participation?)>
-<!ATTLIST matchPhaseEliminatoire id 				ID #REQUIRED>		<!-- Identifiant du match -->
-<!ATTLIST matchPhaseEliminatoire details			CDATA #REQUIRED>	<!-- Détails du match -->
-<!ATTLIST matchPhaseEliminatoire grandeFinale 		(oui|non) #IMPLIED> <!-- Indique s'il s'agit de la grande finale -->
-<!ATTLIST matchPhaseEliminatoire petiteFinale 		(oui|non) #IMPLIED> <!-- Indique s'il s'agit de la petite finale -->
-<!ATTLIST matchPhaseEliminatoire timestamp 			CDATA #IMPLIED> 	<!-- Timestamp du match (en secondes) -->
-<!ATTLIST matchPhaseEliminatoire refMatchPrecedantA	IDREF #IMPLIED> 	<!-- Référence du match précédant par le haut (non fourni si pas de match précédant) -->
-<!ATTLIST matchPhaseEliminatoire refMatchPrecedantB	IDREF #IMPLIED> 	<!-- Référence du match précédant par le bas (non fourni si pas de match précédant) -->
+<!ATTLIST matchPhaseEliminatoire id 				ID 			#REQUIRED>	<!-- Identifiant du match -->
+<!ATTLIST matchPhaseEliminatoire details			CDATA 		#REQUIRED>	<!-- Détails du match -->
+<!ATTLIST matchPhaseEliminatoire grandeFinale 		(oui|non) 	#IMPLIED> 	<!-- Indique s'il s'agit de la grande finale -->
+<!ATTLIST matchPhaseEliminatoire petiteFinale 		(oui|non) 	#IMPLIED> 	<!-- Indique s'il s'agit de la petite finale -->
+<!ATTLIST matchPhaseEliminatoire timestamp 			CDATA 		#IMPLIED> 	<!-- Timestamp du match (en secondes) -->
+<!ATTLIST matchPhaseEliminatoire refEmplacement		IDREF 		#IMPLIED>	<!-- Référence de l'emplacement -->
+<!ATTLIST matchPhaseEliminatoire refMatchPrecedantA	IDREF 		#IMPLIED> 	<!-- Référence du match précédant par le haut (non fourni si pas de match précédant) -->
+<!ATTLIST matchPhaseEliminatoire refMatchPrecedantB	IDREF 		#IMPLIED> 	<!-- Référence du match précédant par le bas (non fourni si pas de match précédant) -->
 
 <!-- Participation pour les matchs de phases qualificatives/éliminatoires -->
 <!ELEMENT participation (objectifRempli*)>
