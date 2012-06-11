@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
@@ -111,10 +112,10 @@ public class GraphVertexEditorPhasesElimsMatch extends AbstractCellEditor implem
 			int numeroMatch = model.getGraph().indexOf(model)-model.getGraph().size();
 			
 			// Récupérer le collector du match
-			CollectorAbstract<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector = petiteFinale ? new CollectorMatchPetiteFinale(nomCategorie) : new CollectorMatchPhasesElims(nomCategorie, numeroMatch);
+			CollectorAbstract<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims>> collector = petiteFinale ? new CollectorMatchPetiteFinale(nomCategorie) : new CollectorMatchPhasesElims(nomCategorie, numeroMatch);
 			
 			// Récupérer les informations sur le match
-			Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos = petiteFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPetiteFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatch(nomCategorie,numeroMatch);
+			Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims> infos = petiteFinale ? ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatchPetiteFinale(nomCategorie) : ContestOrg.get().getCtrlPhasesEliminatoires().getInfosMatch(nomCategorie,numeroMatch);
 			
 			// Créer et afficher la fenêtre d'édition de la fenêtre
 			JDialog jd_match = new JDMatchPhasesEliminatoires(w_parent, collector, infos, resultatsEditable);

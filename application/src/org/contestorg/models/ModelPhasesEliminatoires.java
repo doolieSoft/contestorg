@@ -351,7 +351,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 				}
 				
 				// Créer le match
-				match = new ModelMatchPhasesElims(phasesEliminatoires, matchPrecedantA, matchPrecedantB, infosMatchs);
+				match = new ModelMatchPhasesElims(phasesEliminatoires, null, matchPrecedantA, matchPrecedantB, infosMatchs);
 				
 				// Participations
 				if (i == 0) {
@@ -387,7 +387,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		phasesEliminatoires.setGrandeFinale(match);
 		
 		// Créer et définir la petite finale
-		phasesEliminatoires.setPetiteFinale(new ModelMatchPhasesElims(phasesEliminatoires, matchPrecedantA, matchPrecedantB, infosMatchs));
+		phasesEliminatoires.setPetiteFinale(new ModelMatchPhasesElims(phasesEliminatoires, null, matchPrecedantA, matchPrecedantB, infosMatchs));
 		
 		// Retourner la phase éliminatoire
 		return phasesEliminatoires;

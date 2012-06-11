@@ -21,7 +21,7 @@ public class ModelPrix extends ModelAbstract
 	/** Concours */
 	private ModelConcours concours;
 	
-	/** Participants */
+	/** Liste des participants */
 	private ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 	
 	// Attributs scalaires
@@ -192,8 +192,6 @@ public class ModelPrix extends ModelAbstract
 	
 	/**
 	 * Classe pour mettre à jour la liste des prix d'un concours
-	 * @author Cyril
-	 *
 	 */
 	protected static class UpdaterForConcours implements IUpdater<InfosModelPrix, ModelPrix>
 	{

@@ -16,6 +16,8 @@ public abstract class InfosModelMatch extends InfosModelAbstract
 	/**
 	 * Constructeur
 	 * @param date date
+	 * @param lieu lieu
+	 * @param emplacement emplacement
 	 * @param details détails
 	 */
 	public InfosModelMatch(Date date,String details) {

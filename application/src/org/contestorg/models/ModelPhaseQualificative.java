@@ -200,7 +200,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 		// Ajouter tous les couples de la configuration
 		for (Couple<ModelParticipant> couple : configuration.getCouples()) {
 			// Créer le match
-			ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(this, infosMatchs);
+			ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(this, null, infosMatchs);
 			
 			// Créer la participation A et l'ajouter au participant et au match
 			ModelParticipant participantA = couple.getParticipantA();

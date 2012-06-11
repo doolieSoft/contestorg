@@ -23,6 +23,9 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	
 	// Attributs objets
 	
+	/** Emplacement */
+	protected ModelEmplacement emplacement;
+	
 	/** Participation A */
 	protected ModelParticipation participationA;
 	
@@ -36,6 +39,18 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	
 	/** Détails */
 	private String details;
+	
+	/**
+	 * Constructeur
+	 * @param emplacement emplacement
+	 */
+	public ModelMatchAbstract(ModelEmplacement emplacement, InfosModelMatch infos) {
+		// Retenir l'emplacement
+		this.emplacement = emplacement;
+		
+		// Enregistrer les informations
+		this.setInfos(infos);
+	}
 	
 	// Getters
 	
@@ -53,6 +68,14 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	 */
 	public String getDetails() {
 		return this.details;
+	}
+	
+	/**
+	 * Récupérer l'emplacement
+	 * @return emplacement
+	 */
+	public ModelEmplacement getEmplacement() {
+		return this.emplacement;
 	}
 	
 	/**
@@ -139,6 +162,18 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	}
 	
 	/**
+	 * Définir l'emplacmeent
+	 * @param emplacement emplacement
+	 */
+	public void setEmplacement(ModelEmplacement emplacement) {
+		// Enregistrer l'emplacement
+		this.emplacement = emplacement;
+		
+		// Fire update
+		this.fireUpdate();
+	}
+	
+	/**
 	 * Définir la participation A
 	 * @param participation participation A
 	 * @throws ContestOrgErrorException
@@ -202,6 +237,15 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 		if (!removers.contains(this)) {
 			// Ajouter le match à la liste des removers
 			removers.add(this);
+			
+			// Retirer le match de l'emplacement
+			if(this.emplacement != null) {
+				if (!removers.contains(this.emplacement)) {
+					this.emplacement.removeMatch(this);
+				}
+				this.emplacement = null;
+				this.fireClear(ModelEmplacement.class);
+			}
 			
 			// Supprimer la participation A du match
 			if (this.participationA != null) {

@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
@@ -35,7 +36,7 @@ import org.contestorg.interfaces.ICollector;
 public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListener, ChangeListener
 {
 	/** Collecteur des informations du latch */
-	private ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector;
+	private ICollector<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims>> collector;
 	
 	
 	/** Résultat du participant A */
@@ -53,6 +54,9 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	/** Date */
 	private JSpinner js_date;
 	
+	/** Lieu et emplacement */
+	protected JPLieuEmplacement jp_lieuEmplacement;
+	
 	/** Détails */
 	private JTextArea jta_details;
 	
@@ -63,7 +67,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 * @param infos informations du match
 	 * @param resultatsEditable résultats éditables ?
 	 */
-	public JDMatchPhasesEliminatoires(Window w_parent, ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector, Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos, boolean resultatsEditable) {
+	public JDMatchPhasesEliminatoires(Window w_parent, ICollector<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims>> collector, Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos, boolean resultatsEditable) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un match");
 		
@@ -139,22 +143,30 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		// Date
 		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
 		
-		this.jcb_date = new JCheckBox("Spécifier la date du match");
-		this.jcb_date.setSelected(infos.getThird().getDate() != null);
+		this.jcb_date = new JCheckBox("Spécifier la date du match ?");
+		this.jcb_date.setSelected(infos.getFourth().getDate() != null);
 		this.jcb_date.addChangeListener(this);
 
 		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
 		
 		this.js_date = new JSpinner(new SpinnerDateModel());
 		this.js_date.setEditor(new JSpinner.DateEditor(this.js_date, "dd/MM/yyyy  HH:mm"));
-		this.js_date.setValue(infos.getThird().getDate() != null ? infos.getThird().getDate() : new Date());
-		this.js_date.setEnabled(infos.getThird().getDate() != null);
+		this.js_date.setValue(infos.getFourth().getDate() != null ? infos.getFourth().getDate() : new Date());
+		this.js_date.setEnabled(infos.getFourth().getDate() != null);
 		this.jp_contenu.add(this.js_date);
+		
+		// Lieu et emplacement
+		this.jp_lieuEmplacement = new JPLieuEmplacement();
+		if(infos.getThird() != null) {
+			this.jp_lieuEmplacement.setNomLieu(infos.getThird().getFirst());
+			this.jp_lieuEmplacement.setNomEmplacement(infos.getThird().getSecond());
+		}
+		this.jp_contenu.add(this.jp_lieuEmplacement);
 		
 		// Détails
 		this.jp_contenu.add(ViewHelper.title("Détails", ViewHelper.H1));
 		
-		this.jta_details = new JTextArea(infos.getThird().getDetails());
+		this.jta_details = new JTextArea(infos.getFourth().getDetails());
 		this.jta_details.setLineWrap(true);
 		this.jta_details.setWrapStyleWord(true);
 		this.jta_details.setRows(5);
@@ -196,6 +208,8 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		}
 		String details = this.jta_details.getText().trim();
 		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
+		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
+		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -231,7 +245,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationB = new Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(objectifsRemportesB, new InfosModelParticipation(resultatB));
 			
 			// Transmettre les données au collector
-			this.collector.collect(new Triple<Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(participationA , participationB, new InfosModelMatchPhasesElims(date,details)));
+			this.collector.collect(new Quadruple<Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims>(participationA , participationB, new Pair<String,String>(nomLieu,nomEmplacement), new InfosModelMatchPhasesElims(date,details)));
 		}
 	}
 	

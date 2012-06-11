@@ -4,6 +4,7 @@ import java.awt.Window;
 import java.util.ArrayList;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
@@ -28,7 +29,7 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 	 * @param numeroPhase numéro de la phase qualificative de destination
 	 * @param infos informations du match
 	 */
-	public JDMatchPhasesQualifsEditer(Window w_parent, ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase, Triple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs> infos) {
+	public JDMatchPhasesQualifsEditer(Window w_parent, ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase, Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesQualifs> infos) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un match", collector, nomCategorie, nomPoule, numeroPhase);
 		
@@ -92,14 +93,18 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 				this.jcb_resultatB.setSelectedIndex(4);
 				break;
 		}
-		if(infos.getThird().getDate() != null) {
+		if(infos.getFourth().getDate() != null) {
 			this.jcb_date.setSelected(true);
-			this.js_date.setValue(infos.getThird().getDate());
+			this.js_date.setValue(infos.getFourth().getDate());
 		} else {
 			this.jcb_date.setSelected(false);
 			this.js_date.setEnabled(false);
 		}
-		this.jta_details.setText(infos.getThird().getDetails());
+		if(infos.getThird() != null) {
+			this.jp_lieuEmplacement.setNomLieu(infos.getThird().getFirst());
+			this.jp_lieuEmplacement.setNomEmplacement(infos.getThird().getSecond());
+		}
+		this.jta_details.setText(infos.getFourth().getDetails());
 	}
 	
 }

@@ -3,6 +3,7 @@ package org.contestorg.views;
 import java.awt.Window;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
@@ -25,7 +26,7 @@ public class JDMatchPhasesQualifsCreer extends JDMatchPhasesQualifsAbstract
 	 * @param nomPoule nom de la poule de destination
 	 * @param numeroPhase numéro de la phase qualificative de destination
 	 */
-	public JDMatchPhasesQualifsCreer(Window w_parent, ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
+	public JDMatchPhasesQualifsCreer(Window w_parent, ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Ajouter un match", collector, nomCategorie, nomPoule, numeroPhase);
 	}

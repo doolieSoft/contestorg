@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
+import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
@@ -48,18 +48,19 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	/**
 	 * Constructeur
 	 * @param phasesEliminatoires phases éliminatoires
+	 * @param emplacement emplacement
 	 * @param matchPrecedantA match précédant A
 	 * @param matchPrecedantB match précédant V
 	 * @param infos informations du match des phases éliminatoires
 	 */
-	public ModelMatchPhasesElims(ModelPhasesEliminatoires phasesEliminatoires, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB, InfosModelMatchPhasesElims infos) {
+	public ModelMatchPhasesElims(ModelPhasesEliminatoires phasesEliminatoires, ModelEmplacement emplacement, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB, InfosModelMatchPhasesElims infos) {
+		// Appeller le constructeur parent
+		super(emplacement, infos);
+		
 		// Retenir la phase éliminatoire et les deux matchs précédant
 		this.phasesEliminatoires = phasesEliminatoires;
 		this.matchPrecedantA = matchPrecedantA;
 		this.matchPrecedantB = matchPrecedantB;
-		
-		// Enregistrer les informations
-		this.setInfos(infos);
 	}
 	
 	/**
@@ -69,9 +70,9 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	 * @param matchPrecedantB match précédant B
 	 * @param match match de phases éliminatoires
 	 */
-	protected ModelMatchPhasesElims(ModelPhasesEliminatoires phasesEliminatoires, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB, ModelMatchPhasesElims match) {
+	protected ModelMatchPhasesElims(ModelPhasesEliminatoires phasesEliminatoires, ModelEmplacement emplacement, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB, ModelMatchPhasesElims match) {
 		// Appeller le constructeur principal
-		this(phasesEliminatoires, matchPrecedantA, matchPrecedantB, match.getInfos());
+		this(phasesEliminatoires, emplacement, matchPrecedantA, matchPrecedantB, match.getInfos());
 		
 		// Récupérer l'id
 		this.setId(match.getId());
@@ -238,12 +239,13 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	/**
 	 * Cloner le match des phases éliminatoires
 	 * @param phasesEliminatoires phases éliminatoires
+	 * @param emplacement emplacement
 	 * @param matchPrecedantA match précédant A
 	 * @param matchPrecedantB match précédant B
 	 * @return clone du match des phases éliminatoires
 	 */
-	protected ModelMatchPhasesElims clone (ModelPhasesEliminatoires phasesEliminatoires, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB) {
-		return new ModelMatchPhasesElims(phasesEliminatoires, matchPrecedantA, matchPrecedantB, this);
+	protected ModelMatchPhasesElims clone (ModelPhasesEliminatoires phasesEliminatoires, ModelEmplacement emplacement, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB) {
+		return new ModelMatchPhasesElims(phasesEliminatoires, emplacement, matchPrecedantA, matchPrecedantB, this);
 	}
 	
 	/**
@@ -299,14 +301,25 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	/**
 	 * Classe pour mettre à jour une liste de participants indépendament de son conteneur
 	 */
-	protected static class Updater implements IUpdater<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>, ModelMatchPhasesElims>
+	protected static class Updater implements IUpdater<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims>, ModelMatchPhasesElims>
 	{
 		
+		/** Concours */
+		private ModelConcours concours;
+
+		/**
+		 * Constructeur
+		 * @param concours concours
+		 */
+		public Updater(ModelConcours concours) {
+			this.concours = concours;
+		}
+
 		/**
 		 * @see IUpdater#create(Object)
 		 */
 		@Override
-		public ModelMatchPhasesElims create (Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
+		public ModelMatchPhasesElims create (Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos) {
 			return null; // La création est effectuée par les phases éliminatoires
 		}
 		
@@ -314,10 +327,25 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelMatchPhasesElims match, Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims> infos) {
+		public void update (ModelMatchPhasesElims match, Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos) {
 			try {
 				// Modifier le match
-				match.setInfos(infos.getThird());
+				match.setInfos(infos.getFourth());
+				
+				// Modifier l'emplacement
+				if(infos.getThird() != null && infos.getThird().getFirst() != null && infos.getThird().getSecond() != null) {
+					if(match.getEmplacement() == null || !match.getEmplacement().getNom().equals(infos.getThird().getFirst()) || !match.getEmplacement().getLieu().getNom().equals(infos.getThird().getSecond())) {
+						if(match.getEmplacement() != null) {
+							match.getEmplacement().removeMatch(match);
+						}
+						ModelEmplacement emplacement = this.concours.getLieuByNom(infos.getThird().getFirst()).getEmplacementByNom(infos.getThird().getSecond());
+						match.setEmplacement(emplacement);
+						emplacement.addMatch(match);
+					}
+				} else if(match.getEmplacement() != null) {
+					match.getEmplacement().removeMatch(match);
+					match.setEmplacement(null);
+				}
 				
 				// Modifier la participationA
 				ModelParticipation participationA = match.getParticipationA();

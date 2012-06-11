@@ -181,4 +181,9 @@ input[type="submit"]:hover {
 	color:#FFFFFF;
 	font-weight: bold;
 }
-	
+
+/* Commentaires */
+.comment {
+	font-size:0.8em;
+	font-style:italic;
+}
