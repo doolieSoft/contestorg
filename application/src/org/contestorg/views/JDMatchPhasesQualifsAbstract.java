@@ -5,12 +5,18 @@ import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.Box;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
@@ -26,7 +32,7 @@ import org.contestorg.interfaces.ICollector;
  * Boîte de dialogue de création/édition d'un match des phases qualificatives
  */
 @SuppressWarnings("serial")
-public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListener
+public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListener, ChangeListener
 {
 	/** Collecteur des informations du match */
 	private ICollector<Triple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesQualifs>> collector;
@@ -56,6 +62,12 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 	
 	/** Panel des objectifs remportés */
 	protected JPObjectifs jp_objectifs;
+	
+	/** Spécifier la date du match ? */
+	protected JCheckBox jcb_date;
+	
+	/** Date */
+	protected JSpinner js_date;
 	
 	/** Détails */
 	protected JTextArea jta_details;
@@ -111,6 +123,21 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		this.jp_objectifs = new JPObjectifs();
 		this.jp_contenu.add(this.jp_objectifs);
+		
+		// Date
+		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
+		
+		this.jcb_date = new JCheckBox("Spécifier la date du match");
+		this.jcb_date.setSelected(false);
+		this.jcb_date.addChangeListener(this);
+
+		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
+		
+		this.js_date = new JSpinner(new SpinnerDateModel());
+		this.js_date.setEditor(new JSpinner.DateEditor(this.js_date, "dd/MM/yyyy  HH:mm"));
+		this.js_date.setValue(new Date());
+		this.js_date.setEnabled(false);
+		this.jp_contenu.add(this.js_date);
 		
 		// Détails
 		this.jp_contenu.add(ViewHelper.title("Détails", ViewHelper.H1));
@@ -170,6 +197,7 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 				break;
 		}
 		String details = this.jta_details.getText().trim();
+		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -220,7 +248,7 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 			Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationB = new Triple<String, TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(nomParticipantB, objectifsRemportesB, new InfosModelParticipation(resultatB));
 			
 			// Transmettre les données au collector
-			this.collector.collect(new Triple<Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(participationA , participationB, new InfosModelMatchPhasesQualifs(null,details)));
+			this.collector.collect(new Triple<Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Triple<String,TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesQualifs>(participationA , participationB, new InfosModelMatchPhasesQualifs(date,details)));
 		}
 	}
 	
@@ -263,6 +291,14 @@ public class JDMatchPhasesQualifsAbstract extends JDPattern implements ItemListe
 					break;
 			}
 		}
+	}
+
+	/**
+	 * @see ChangeListener#stateChanged(ChangeEvent)
+	 */
+	@Override
+	public void stateChanged (ChangeEvent event) {
+		this.js_date.setEnabled(this.jcb_date.isSelected());
 	}
 	
 }

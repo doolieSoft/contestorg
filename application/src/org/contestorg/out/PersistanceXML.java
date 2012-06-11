@@ -432,9 +432,6 @@ public class PersistanceXML extends PersistanceAbstract
 													}
 													
 													ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(phaseQualificative, new InfosModelMatchPhasesQualifs(date,details));
-													if (elementMatchPhaseQualificative.getAttributeValue("timestamp") != null) {
-														match.setDate(new Date(Integer.parseInt(elementMatchPhaseQualificative.getAttributeValue("timestamp")) * 1000));
-													}
 													match.setId(Integer.parseInt(elementMatchPhaseQualificative.getAttributeValue("id")));
 													
 													Iterator iteratorParticipations = elementMatchPhaseQualificative.getChildren("participation").iterator();

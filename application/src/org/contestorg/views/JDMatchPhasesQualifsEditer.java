@@ -92,6 +92,13 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 				this.jcb_resultatB.setSelectedIndex(4);
 				break;
 		}
+		if(infos.getThird().getDate() != null) {
+			this.jcb_date.setSelected(true);
+			this.js_date.setValue(infos.getThird().getDate());
+		} else {
+			this.jcb_date.setSelected(false);
+			this.js_date.setEnabled(false);
+		}
 		this.jta_details.setText(infos.getThird().getDetails());
 	}
 	
