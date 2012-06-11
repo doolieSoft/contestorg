@@ -19,6 +19,7 @@ public abstract class InfosModelMatch extends InfosModelAbstract
 	 * @param details détails
 	 */
 	public InfosModelMatch(Date date,String details) {
+		this.date = date;
 		this.details = details;
 	}
 	

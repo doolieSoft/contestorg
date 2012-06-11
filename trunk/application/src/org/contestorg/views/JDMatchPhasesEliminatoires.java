@@ -5,12 +5,18 @@ import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.Box;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
@@ -26,23 +32,29 @@ import org.contestorg.interfaces.ICollector;
  * Boîte de dialogue d'édition d'un match des phases éliminatoires
  */
 @SuppressWarnings("serial")
-public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListener
+public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListener, ChangeListener
 {
 	/** Collecteur des informations du latch */
 	private ICollector<Triple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, InfosModelMatchPhasesElims>> collector;
 	
 	
 	/** Résultat du participant A */
-	protected JComboBox<String> jcb_resultatA;
+	private JComboBox<String> jcb_resultatA;
 	
 	/** Résultat du participant B */
-	protected JComboBox<String> jcb_resultatB;
+	private JComboBox<String> jcb_resultatB;
 	
 	/** Panel des objectifs remportés */
-	protected JPObjectifs jp_prix;
+	private JPObjectifs jp_prix;
+	
+	/** Spécifier la date du match ? */
+	protected JCheckBox jcb_date;
+	
+	/** Date */
+	private JSpinner js_date;
 	
 	/** Détails */
-	protected JTextArea jta_details;
+	private JTextArea jta_details;
 	
 	/**
 	 * Constructeur
@@ -124,6 +136,21 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.jp_prix.setObjectifsRemportesA(infos.getFirst().getSecond());
 		this.jp_prix.setObjectifsRemportesB(infos.getSecond().getSecond());
 		
+		// Date
+		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
+		
+		this.jcb_date = new JCheckBox("Spécifier la date du match");
+		this.jcb_date.setSelected(infos.getThird().getDate() != null);
+		this.jcb_date.addChangeListener(this);
+
+		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
+		
+		this.js_date = new JSpinner(new SpinnerDateModel());
+		this.js_date.setEditor(new JSpinner.DateEditor(this.js_date, "dd/MM/yyyy  HH:mm"));
+		this.js_date.setValue(infos.getThird().getDate() != null ? infos.getThird().getDate() : new Date());
+		this.js_date.setEnabled(infos.getThird().getDate() != null);
+		this.jp_contenu.add(this.js_date);
+		
 		// Détails
 		this.jp_contenu.add(ViewHelper.title("Détails", ViewHelper.H1));
 		
@@ -168,6 +195,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 				break;
 		}
 		String details = this.jta_details.getText().trim();
+		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -203,7 +231,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationB = new Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(objectifsRemportesB, new InfosModelParticipation(resultatB));
 			
 			// Transmettre les données au collector
-			this.collector.collect(new Triple<Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(participationA , participationB, new InfosModelMatchPhasesElims(null,details)));
+			this.collector.collect(new Triple<Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>,InfosModelParticipation>, InfosModelMatchPhasesElims>(participationA , participationB, new InfosModelMatchPhasesElims(date,details)));
 		}
 	}
 	
@@ -240,6 +268,14 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 				}
 			}
 		}
+	}
+
+	/**
+	 * @see ChangeListener#stateChanged(ChangeEvent)
+	 */
+	@Override
+	public void stateChanged (ChangeEvent event) {
+		this.js_date.setEnabled(this.jcb_date.isSelected());
 	}
 	
 }
