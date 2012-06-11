@@ -18,6 +18,82 @@ class ApiController extends Controller
 		echo array_2_xml('listeVersions',array(
 			array(
 				'version',
+				'@numero' => '2.3.0',
+				'@date' => '11/06/2012',
+				'listeTelechargements' => array(
+					array(
+						'telechargement',
+						'@nom' => 'Version EXE (Windows)',
+						'@url' => 'http://contestorg.googlecode.com/files/ContestOrg-2.3.0-exe.zip'
+					),
+					array(
+						'telechargement',
+						'@nom' => 'Version JAR (Linux, Mac)',
+						'@url' => 'http://contestorg.googlecode.com/files/ContestOrg-2.3.0-jar.zip'
+					)
+				),
+				'listeEvolutions' => array(
+					array(
+						'evolution',
+						'@description' => 'Exportation "Liste des matchs des phases qualificatives en PDF"',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=26'
+					),
+					array(
+						'evolution',
+						'@description' => 'Exportation "Liste des matchs des phases qualificatives non jouées en PDF"',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=50'
+					),
+					array(
+						'evolution',
+						'@description' => 'Renommer l\'exportation "Liste des matchs des prochaines phases qualificatives en PDF"',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=51'
+					),
+					array(
+						'evolution',
+						'@description' => 'Exportation "Résultats des matchs des phases qualificatives en PDF"',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=53'
+					),
+					array(
+						'evolution',
+						'@description' => 'Diffusion du podium',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=23'
+					),
+					array(
+						'evolution',
+						'@description' => 'Implémenter la définition de la date d\'un match',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=33'
+					),
+					array(
+						'evolution',
+						'@description' => 'Implémenter la définition du lieu d\'un match',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=35'
+					)
+				),
+				'listeAnomalies' => array(
+					array(
+						'anomalie',
+						'@description' => 'Lien vers l\'aide invalide',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=48'
+					),
+					array(
+						'anomalie',
+						'@description' => 'Problème lors de la génération des phases éliminatoires',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=54'
+					),
+					array(
+						'anomalie',
+						'@description' => 'Sauvegarder sous l\'environnement Mac-OS',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=55'
+					),
+					array(
+						'anomalie',
+						'@description' => 'Erreur lors de la modification des catégories',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=57'
+					)
+				)
+			),
+			array(
+				'version',
 				'@numero' => '2.0.0',
 				'@date' => '26/03/2012',
 				'listeTelechargements' => array(
