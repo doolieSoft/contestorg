@@ -136,8 +136,8 @@ public class MiseAJour
 				
 				// Récupérer la liste des anomalies corrigées
 				ArrayList<Modification> anomalies = new ArrayList<Modification>();
-				if(elementVersion.getChild("listeModifications") != null) {
-					Iterator iteratorAnomalies = elementVersion.getChild("listeModifications").getChildren().iterator();
+				if(elementVersion.getChild("listeAnomalies") != null) {
+					Iterator iteratorAnomalies = elementVersion.getChild("listeAnomalies").getChildren().iterator();
 					while (iteratorAnomalies.hasNext()) {
 						Element evolution = (Element)iteratorAnomalies.next();
 						anomalies.add(new Modification(
