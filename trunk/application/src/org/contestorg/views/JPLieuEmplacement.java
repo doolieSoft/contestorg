@@ -40,7 +40,7 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 	protected JComboBox<String> jcb_emplacement = new JComboBox<String>();
 	
 	/** Spécifier le lieu et l'emplacement ? */
-	protected JCheckBox jcb_lieuEmplacement;
+	protected JCheckBox jcb_lieuEmplacement = new JCheckBox();
 	
 	/**
 	 * Constructeur
@@ -69,6 +69,8 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 		}
 		
 		// Désactiver les listes par défaut
+		this.jcb_lieuEmplacement.setSelected(false);
+		this.jcb_lieuEmplacement.setEnabled(false);
 		this.jcb_lieu.setEnabled(false);
 		this.jcb_emplacement.setEnabled(false);
 		
@@ -76,7 +78,8 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 		if(nbLieux > 1) {
 			// Ajouter la case à cocher
 			this.add(ViewHelper.title("Lieu et emplacement", ViewHelper.H1));
-			this.jcb_lieuEmplacement = new JCheckBox("Spécifier le lieu et l'emplacement ?",false);
+			this.jcb_lieuEmplacement.setText("Spécifier le lieu et l'emplacement ?");
+			this.jcb_lieuEmplacement.setEnabled(true);
 			this.add(ViewHelper.left(this.jcb_lieuEmplacement));
 			this.jcb_lieuEmplacement.addChangeListener(this);
 			
@@ -84,10 +87,11 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 			JLabel[] jls_lieu = { new JLabel("Lieu : "), new JLabel("Emplacement : ") };
 			JComponent[] jcs_lieu = { this.jcb_lieu, this.jcb_emplacement };
 			this.add(ViewHelper.inputs(jls_lieu, jcs_lieu));
-		} else  if(nbEmplacements > 1) {
+		} else  if(nbEmplacements >= 1) {
 			// Ajouter la case à coucher
 			this.add(ViewHelper.title("Emplacement", ViewHelper.H1));
-			this.jcb_lieuEmplacement = new JCheckBox("Spécifier l'emplacement ?",false);
+			this.jcb_lieuEmplacement.setText("Spécifier l'emplacement ?");
+			this.jcb_lieuEmplacement.setEnabled(true);
 			this.add(ViewHelper.left(this.jcb_lieuEmplacement));
 			this.jcb_lieuEmplacement.addChangeListener(this);
 			
