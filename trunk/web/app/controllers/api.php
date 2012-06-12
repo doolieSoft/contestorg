@@ -18,6 +18,30 @@ class ApiController extends Controller
 		echo array_2_xml('listeVersions',array(
 			array(
 				'version',
+				'@numero' => '2.3.1',
+				'@date' => '12/06/2012',
+				'listeTelechargements' => array(
+					array(
+						'telechargement',
+						'@nom' => 'Version EXE (Windows)',
+						'@url' => 'http://contestorg.googlecode.com/files/ContestOrg-2.3.1-exe.zip'
+					),
+					array(
+						'telechargement',
+						'@nom' => 'Version JAR (Linux, Mac)',
+						'@url' => 'http://contestorg.googlecode.com/files/ContestOrg-2.3.1-jar.zip'
+					)
+				),
+				'listeAnomalies' => array(
+					array(
+						'anomalie',
+						'@description' => 'Erreur lors de la saisie des résultats d\'un match',
+						'@ticket' => 'http://code.google.com/p/contestorg/issues/detail?id=58'
+					)
+				)
+			),
+			array(
+				'version',
 				'@numero' => '2.3.0',
 				'@date' => '11/06/2012',
 				'listeTelechargements' => array(
