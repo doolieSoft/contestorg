@@ -13,9 +13,9 @@
       <surname>Perrin</surname>
     </author>
 
-    <date>12 novembre 2012</date>
+    <date>3 juin 2012</date>
 
-    <releaseinfo>2.0.0</releaseinfo>
+    <releaseinfo>2.3.1</releaseinfo>
 
     <subtitle>Logiciel d'organisation de tournois</subtitle>
   </bookinfo>
@@ -45,12 +45,12 @@
       grande aide pour l'établissement du cahier des charges de cette deuxième
       version. C'est ainsi que j'ai commencé le développement de
       <application>ContestOrg 2</application> à la fin de l'été 2010. Désireux
-      de livrer une application complète, la date de sortie a subi de nombreux
-      reports. Après de longs mois d'effort, la nouvelle version voit enfin le
-      jour au printemps 2011 en version beta. L'année qui suit fut dédiée à la
-      récolte d'avis des utilisateurs et c'est au printemps 2012 que
-      <application>ContestOrg 2</application> est enfin disponible au
-      téléchargement.</para>
+      de livrer une application complète et par manque de temps, la date de
+      sortie a subi de nombreux reports. Après de longs mois d'effort, la
+      nouvelle version voit enfin le jour au printemps 2011 en version beta.
+      L'année qui suit fut dédiée à la récolte d'avis des utilisateurs et
+      c'est au printemps 2012 que <application>ContestOrg 2</application> est
+      enfin disponible en version finale.</para>
     </section>
 
     <section>
@@ -1294,14 +1294,16 @@ FIN PROCEDURE;</programlisting>
         sélectionner la phase qualificative de destination au préalable. Pour
         éditer un match, vous pouvez également effectuer un double-clic sur la
         ligne dans la liste des matchs. Dans la fenêtre de création/édition de
-        match, nous retrouvons quatre zones : la zone
+        match, nous retrouvons six zones : la zone
         <guilabel>Équipes</guilabel>/<guilabel>Joueurs</guilabel> concernant
         le choix des deux participants, la zone <guilabel>Résultats</guilabel>
         concernant les résultats des deux participants, la zone
         <guilabel>Objectifs remportés</guilabel> concernant la liste des
-        objectifs remportés par les deux participants (optionnel) et la zone
-        <guilabel>Détails</guilabel> concernant d'éventuels commentaires sur
-        le match.</para>
+        objectifs remportés par les deux participants (optionnel), la zone
+        <guilabel>Date</guilabel> concernant le date du match, la zone
+        <guilabel>Lieu et emplacement</guilabel> concernant le lieu du match
+        et la zone <guilabel>Détails</guilabel> concernant d'éventuels
+        commentaires sur le match.</para>
 
         <screenshot>
           <screeninfo>Fenêtre de création/édition d'un match de phase
@@ -1309,9 +1311,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="296"
+              <imagedata depth="386"
                          fileref="images/ecrans/creer-editer-match-phases-qualificatives.png"
-                         width="240"/>
+                         width="220"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1395,20 +1397,22 @@ FIN PROCEDURE;</programlisting>
 
         <para>Pour renseigner les résultats d'un match, cliquez sur la case
         bleue associée au match. Dans la fenêtre d'édition du match, nous
-        retrouvons quatre zones : la zone
+        retrouvons six zones : la zone
         <guilabel>Équipes</guilabel>/<guibutton>Joueurs</guibutton> concernant
         les deux participants, la zone <guilabel>Résultats</guilabel>
         concernant les résultats des deux participants, la zone
         <guilabel>Objectifs remportés</guilabel> concernant la liste des
-        objectifs remportés par les deux participants (optionnel) et la zone
-        <guilabel>Détails</guilabel> concernant d'éventuels commentaires sur
-        le match. Cette fenêtre est identique la fenêtre d'édition d'un match
-        d'une phase qualificative à la différence près que le choix des
-        participants n'est pas possible car les deux participants affichés
-        correspondent aux participants vainqueurs du match précédant. Si le
-        match suivant est renseigné, il n'est plus possible de modifier les
-        résultats car de nouveaux résultats seraient pas conformes avec les
-        participants du match suivant.</para>
+        objectifs remportés par les deux participants (optionnel), la zone
+        <guilabel>Date</guilabel> concernant le date du match, la zone
+        <guilabel>Lieu et emplacement</guilabel> concernant le lieu du match
+        et la zone <guilabel>Détails</guilabel> concernant d'éventuels
+        commentaires sur le match. Cette fenêtre est identique la fenêtre
+        d'édition d'un match d'une phase qualificative à la différence près
+        que le choix des participants n'est pas possible car les deux
+        participants affichés correspondent aux participants vainqueurs du
+        match précédant. Si le match suivant est renseigné, il n'est plus
+        possible de modifier les résultats car de nouveaux résultats seraient
+        pas conformes avec les participants du match suivant.</para>
 
         <screenshot>
           <screeninfo>Fenêtre d'édition d'un match des phases
@@ -1416,9 +1420,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="295"
+              <imagedata depth="383"
                          fileref="images/ecrans/editer-match-phases-eliminatoires.png"
-                         width="240"/>
+                         width="220"/>
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1814,10 +1818,12 @@ FIN PROCEDURE;</programlisting>
       <table>
         <title>Liste des donateurs</title>
 
-        <tgroup cols="2">
+        <tgroup cols="3">
           <thead>
             <row>
               <entry>Prénom/Nom</entry>
+
+              <entry>Date du don</entry>
 
               <entry>Montant du don</entry>
             </row>
@@ -1825,6 +1831,16 @@ FIN PROCEDURE;</programlisting>
 
           <tbody>
             <row>
+              <entry>Yvan Kraehenbuehl</entry>
+
+              <entry>02/06/2012</entry>
+
+              <entry>20€</entry>
+            </row>
+
+            <row>
+              <entry/>
+
               <entry/>
 
               <entry/>
