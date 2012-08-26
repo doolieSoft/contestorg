@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Contrôleur abstract
+* Contrôleur abstrait
 */
 abstract class AbstractController extends Controller
 {
