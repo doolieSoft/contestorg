@@ -3,7 +3,7 @@
 /**
  * Controleur des téléchargements
  */
-class TelechargerController extends Controller
+class TelechargerController extends AbstractController
 {
 	
 	/**

@@ -3,7 +3,7 @@
 /**
  * Controleur de l'API
  */
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
 	
 	/**

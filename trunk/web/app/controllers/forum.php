@@ -3,7 +3,7 @@
 /**
  * Controleur du forum
  */
-class ForumController extends Controller
+class ForumController extends AbstractController
 {
 	
 }

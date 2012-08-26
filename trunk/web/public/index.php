@@ -12,6 +12,9 @@ set_include_path(implode(PATH_SEPARATOR, array(ROOT_DIR.'lib',ROOT_DIR.'app/form
 // Récupérer la librairie MVC
 require('mvc/require.php');
 
+// Récupérer le contrôleur abstrait
+require(ROOT_DIR.'app/controllers/abstract.php');
+
 // Require des classes métier
 require(ROOT_DIR.'app/models/requires.php');
 
