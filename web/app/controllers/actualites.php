@@ -3,7 +3,7 @@
 /**
  * Controleur des actualités
  */
-class ActualitesController extends Controller
+class ActualitesController extends AbstractController
 {
 	
 	/**

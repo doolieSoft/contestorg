@@ -3,7 +3,7 @@
 /**
  * Controleur principal
  */
-class IndexController extends Controller 
+class IndexController extends AbstractController 
 {
 	/**
 	 * Action pour la page de contact

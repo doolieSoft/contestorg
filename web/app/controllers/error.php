@@ -3,7 +3,7 @@
 /**
  * Controleur des erreurs
  */
-class ErrorController extends Controller
+class ErrorController extends AbstractController
 {
 	/**
 	 * Action appelée lors d'une erreur
