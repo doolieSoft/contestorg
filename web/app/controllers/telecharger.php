@@ -31,14 +31,10 @@ class TelechargerController extends AbstractController
 		$this->view->page = $this->request->getParameter('page',0);
 		
 		// Nombre de signatures par page
-		$count = 8;
+		$count = 25;
 		
 		// Récupérer la liste des signatures
-		$statement = Signature::paginate($pdo, $this->view->page*$count, $this->view->page*$count+$count);
-		$signatures = array();
-		while($signature = Signature::fetch($pdo, $statement)) {
-			$signatures[] = $signature;
-		}
+		$signatures = Signature::fetchAll($pdo, Signature::paginate($pdo, $this->view->page*$count, $this->view->page*$count+$count));
 		
 		// Créer le paginateur
 		$this->view->paginator = new Paginator($signatures, $this->view->page, ceil(Signature::count($pdo)/$count));

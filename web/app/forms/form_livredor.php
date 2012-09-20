@@ -15,6 +15,9 @@ class FormLivredor extends Form
 		// Appeller le constructeur parent
 		parent::__construct();
 		
+		// Récupérer la configuration
+		//$conf = Application::getService('conf');
+		
 		// Ajouter les champs
 		$this->add(new FormText('prenom', 'Votre prénom', FormText::TYPE_MONOLINE, 50, 20));
 		$this->add(new FormText('email', 'Votre email', FormText::TYPE_MONOLINE, 50, 130));

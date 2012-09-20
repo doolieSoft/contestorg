@@ -4,7 +4,7 @@
  * PHP tool to construct forms
  * @author Cyril Perrin
  * @license LGPL v3
- * @version 2012-03-22
+ * @version 2012-06-23
  */
 
 /**
@@ -35,7 +35,7 @@ class Form
 	private $file = false;
 	
 	// bool submited form ?
-	private $isSubmited = false;
+	private $isSubmitted = false;
 	
 	// bool valid form ?
 	private $isValid = false;
@@ -136,7 +136,7 @@ class Form
 		}
 		
 		// Set submited attribute
-		$this->isSubmited = $submited;
+		$this->isSubmitted = $submited;
 		
 		// Init valid variable
 		$valid = $submited;
@@ -152,7 +152,7 @@ class Form
 			
 			// Check if all elements are valid
 			foreach($this->elements as $element) {
-				$valid = ($element instanceof FormSubmit || $element->isSubmited() && $element->isValid() || !$element->isSubmited() && !$this->required[$element->getId()]) && $valid;
+				$valid = ($element instanceof FormSubmit || $element->isSubmitted() && $element->isValid() || !$element->isSubmitted() && !$this->required[$element->getId()]) && $valid;
 			}
 			
 			// Valid callback if necessary
@@ -177,9 +177,9 @@ class Form
 	 * Know if form has been submited
 	 * @return bool submited form ?
 	 */
-	public function isSubmited()
+	public function isSubmitted()
 	{
-		return $this->isSubmited;
+		return $this->isSubmitted;
 	}
 	
 	/**
@@ -238,12 +238,11 @@ class Form
 	}
 	
 	/**
-	 * Set extra
-	 * @param string $extra extra
+	 * Add extra
 	 */
-	public function setExtra($extra)
-	{
-		$this->extra = $extra;
+	public function addExtra($extra) {
+		if($this->extra == null) { $this->extra = ''; } else { $this->extra .= ' '; }
+		$this->extra .= $extra;
 	}
 	
 	/**
@@ -331,7 +330,7 @@ class Form
 	
 	/**
 	 * Display an element
-	 * @param FormElement $element
+	 * @param FormElement $element element
 	 * @param bool $tr
 	 */
 	private function displayElement(FormElement $element,$tr=true)
@@ -342,14 +341,10 @@ class Form
 		if($element instanceof FormHidden || $element instanceof FormSubmit) {
 			$string .= $element->__toString();
 		} else {
-			// Message if not valid or not submited
-			$msg = '';
-			if($this->isSubmited && !($element instanceof FormCaptcha)) {
-				if($this->required[$element->getId()] && !$element->isSubmited()) {
-					$msg = ' '.self::$errorStart.self::$msgRequired.self::$errorEnd;
-				} else if($element->isSubmited() && !$element->isValid()) {
-					$msg = ' '.self::$errorStart.($element->getError() != null ? $element->getError() : self::$msgInvalid).self::$errorEnd;
-				}
+			// Get error
+			$msg = $this->getError($element);
+			if($msg != null) {
+				$msg = ' '.$msg;
 			}
 			
 			// Display element
@@ -361,6 +356,23 @@ class Form
 		
 		// Return string
 		return $string;
+	}
+	
+	/**
+	 * Get error for an element
+	 * @param $element FormElement element
+	 * @return string error
+	 */
+	public function getError(FormElement $element)
+	{
+		if($this->isSubmitted && !($element instanceof FormCaptcha)) {
+			if($this->required[$element->getId()] && !$element->isSubmitted()) {
+				return self::$errorStart.self::$msgRequired.self::$errorEnd;
+			} else if($element->isSubmitted() && !$element->isValid()) {
+				return self::$errorStart.($element->getError() != null ? $element->getError() : self::$msgInvalid).self::$errorEnd;
+			}
+		}
+		return null;
 	}
 	
 	/**
@@ -497,7 +509,7 @@ abstract class FormElement
 	protected $after = '';
 	
 	// bool submited element ?
-	protected $isSubmited = false;
+	protected $isSubmitted = false;
 	
 	// bool valid element ?
 	protected $isValid = false;
@@ -545,9 +557,9 @@ abstract class FormElement
 	 * Know if element is submited
 	 * @return bool submited element ?
 	 */
-	public function isSubmited()
+	public function isSubmitted()
 	{
-		return $this->isValid || $this->isSubmited;
+		return $this->isValid || $this->isSubmitted;
 	}
 	
 	/**
@@ -574,7 +586,7 @@ abstract class FormElement
 	 */
 	public function setError($error) 
 	{
-		$this->isSubmited = true;
+		$this->isSubmitted = true;
 		$this->isValid = false;
 		$this->error = $error;
 	}
@@ -725,7 +737,7 @@ abstract class FormInput extends FormElement
 	 */
 	public function validate($method)
 	{
-		$this->isValid = ($this->isSubmited = $method == Form::METHOD_GET ? isset($_GET[$this->name]) : isset($_POST[$this->name])) &&	// Is submited ?
+		$this->isValid = ($this->isSubmitted = $method == Form::METHOD_GET ? isset($_GET[$this->name]) : isset($_POST[$this->name])) &&	// Is submited ?
 		               	 ($this->setValue($method == Form::METHOD_GET ? $_GET[$this->name] : $_POST[$this->name]));						// Set value
 	}
 }
@@ -758,7 +770,7 @@ class FormSubmit extends FormElement
 	 */
 	public function validate($method)
 	{
-		$this->isValid = $this->isSubmited = $method == Form::METHOD_GET ? isset($_GET[$this->name]) : isset($_POST[$this->name]);
+		$this->isValid = $this->isSubmitted = $method == Form::METHOD_GET ? isset($_GET[$this->name]) : isset($_POST[$this->name]);
 	}
 	
 	/**
@@ -841,7 +853,7 @@ class FormText extends FormInput
 		// Check if value is empty
 		if($value == '') {
 			// Consider input as not submited
-			$this->isSubmited = false;
+			$this->isSubmitted = false;
 			
 			// Return false
 			return false;
@@ -977,11 +989,11 @@ class FormDate extends FormElement
 		$this->selectYear->validate($method);
 		
 		// Is submited ?
-		$this->isSubmited =
-			$this->selectDay->isSubmited() && $this->selectDay->getValue() != 0 &&
-			$this->selectMonth->isSubmited() && $this->selectMonth->getValue() != 0 &&
-			$this->selectYear->isSubmited() && $this->selectYear->getValue() != 0;
-		if(!$this->isSubmited) { return false; }
+		$this->isSubmitted =
+			$this->selectDay->isSubmitted() && $this->selectDay->getValue() != 0 &&
+			$this->selectMonth->isSubmitted() && $this->selectMonth->getValue() != 0 &&
+			$this->selectYear->isSubmitted() && $this->selectYear->getValue() != 0;
+		if(!$this->isSubmitted) { return false; }
 		
 		// Check selects
 		$this->isValid =  $this->selectDay->isValid() && $this->selectMonth->isValid() && $this->selectYear->isValid();
@@ -1067,7 +1079,7 @@ class FormSelect extends FormInput
 		// Redifine validate or not
 		if($this->multiple && !$this->list) {
 			// Submited
-			$this->isSubmited = true;
+			$this->isSubmitted = true;
 			
 			// Selected values
 			$selected = array(); $i = 0;
@@ -1189,7 +1201,7 @@ class FormFile extends FormElement
 	 */
 	public function getFileName()
 	{
-		return $this->isSubmited ? $_FILES[$this->name]['name'] : null;
+		return $this->isSubmitted ? $_FILES[$this->name]['name'] : null;
 	}
 	
 	/**
@@ -1198,7 +1210,7 @@ class FormFile extends FormElement
 	 */
 	public function getMimeType()
 	{
-		return $this->isSubmited && function_exists('finfo_file') ? strtolower(finfo_file(finfo_open(FILEINFO_MIME_TYPE),$this->path)) : null;
+		return $this->isSubmitted && function_exists('finfo_file') ? strtolower(finfo_file(finfo_open(FILEINFO_MIME_TYPE),$this->path)) : null;
 	}
 	
 	/**
@@ -1207,7 +1219,7 @@ class FormFile extends FormElement
 	 */
 	public function getExtension()
 	{
-		return $this->isSubmited ? strtolower(pathinfo($_FILES[$this->name]['name'], PATHINFO_EXTENSION)) : null;
+		return $this->isSubmitted ? strtolower(pathinfo($_FILES[$this->name]['name'], PATHINFO_EXTENSION)) : null;
 	}
 	
 	/**
@@ -1216,7 +1228,7 @@ class FormFile extends FormElement
 	 */
 	public function getSize()
 	{
-		return $this->isSubmited ? $_FILES[$this->name]['size'] : null;
+		return $this->isSubmitted ? $_FILES[$this->name]['size'] : null;
 	}
 	
 	/**
@@ -1303,8 +1315,8 @@ class FormFile extends FormElement
 			$this->errorCode = FormFile::ERROR_MISSING;	return false; // Error code and return false
 		}
 		
-		// IsSubmited to true
-		$this->isSubmited = true;
+		// isSubmitted to true
+		$this->isSubmitted = true;
 		
 		// Path
 		$this->path = $_FILES[$this->name]['tmp_name'];
@@ -1632,9 +1644,9 @@ class FormCaptcha extends FormElement
 	public function validate($method)
 	{
 		// Submited ?
-		$this->isSubmited = $method == Form::METHOD_POST ? !empty($_POST['recaptcha_challenge_field']) && !empty($_POST['recaptcha_response_field']) :
+		$this->isSubmitted = $method == Form::METHOD_POST ? !empty($_POST['recaptcha_challenge_field']) && !empty($_POST['recaptcha_response_field']) :
 		                                                   !empty($_GET['recaptcha_challenge_field']) && !empty($_GET['recaptcha_response_field']);
-		if (!$this->isSubmited) {
+		if (!$this->isSubmitted) {
 			return false;
 		}
 		
