@@ -116,6 +116,12 @@ ul.pagination li a.current {
 	margin:4px;
 	float:left;
 }
+#menu a.b_download {
+	background-color:#A0D430;
+}
+#menu a.b_download:hover {
+	background-color:#B8DF63;
+}
 
 /* A propos */
 #about {
@@ -125,6 +131,8 @@ ul.pagination li a.current {
 	padding:10px;
 	text-align:justify;
 	min-height:240px;
+	margin-top:15px;
+	margin-bottom:20px;
 }
 #about  h2 {
 	display:none;
@@ -166,6 +174,54 @@ ul.pagination li a.current {
 	float:left;
 	margin-top:-25px;
 	width:280px;
+}
+
+/* Téléchargement */
+#downloads {
+	background-color:#E7E7E7;
+	border:1px solid #CBCBCB;
+	padding:10px;
+	margin-top:15px;
+	margin-bottom:20px;
+}
+#downloads h2 {
+	display:none;
+}
+#downloads p {
+	margin:0px;
+}
+#downloads ul {
+	list-style:none;
+	padding:0px;
+	overflow:hidden;
+	margin-top:20px;
+	margin-bottom:20px;
+	margin-left:70px;
+}
+#downloads ul li {
+	float:left;
+	margin-right:20px;
+}
+#downloads ul li a {
+	background-color:#A0D430;
+	background-repeat:no-repeat;
+	padding-left:40px;
+}
+#downloads ul li a:hover {
+	background-color:#B8DF63;
+}
+#downloads ul li a.b_windows { background-image:url('../media/farm/32x32/download_for_windows.png'); }
+#downloads ul li a.b_linux { background-image:url('../media/farm/32x32/download_for_linux.png'); }
+#downloads ul li a.b_mac { background-image:url('../media/farm/32x32/download_for_mac.png'); }
+
+/* Livre d'or */
+#signatures .signature {
+	margin-right:20px;
+	margin-bottom:20px;
+	padding:10px;
+	width:290px;
+	background-color:#E7E7E7;
+	border:1px solid #CBCBCB;
 }
 
 /* Commentaire */

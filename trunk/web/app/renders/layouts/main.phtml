@@ -21,6 +21,7 @@
 		
 		<!-- Librairies JS -->
 		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.js"></script>
+		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.isotope.js"></script>
 		
 		<!-- Fancybox -->
 		<script type="text/javascript" src="<?php echo Request::getBase(); ?>js/jquery.fancybox/jquery.fancybox.js"></script>
@@ -49,7 +50,7 @@
 				<ul>
 					<li><a class="button" href="<?php echo Request::buildURL(null,'actualites','index'); ?>" title="Afficher les actualités">Actualités</a></li>
 					<li><a class="button" href="<?php echo Request::buildURL(null,'documentation','index'); ?>" title="Consulter la documentation">Documentation</a></li>
-					<li><a class="button" href="<?php echo Request::buildURL(null,'telecharger','index'); ?>" title="Accéder à la page de téléchargement">Télécharger</a></li>
+					<li><a class="button b_download" href="<?php echo Request::buildURL(null,'telecharger','index'); ?>" title="Télécharger ContestOrg">Télécharger</a></li>
 					<li><a class="button" href="<?php echo Request::buildURL(null,'forum','index'); ?>" title="Accéder au forum">Forum</a></li>
 					<li><a class="button" href="<?php echo Request::buildURL(null,'contribuer','index'); ?>" title="Contribuer au projet">Contribuer</a></li>
 				</ul>

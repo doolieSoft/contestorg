@@ -19,7 +19,7 @@ class Signature extends SignatureBase
 	const FIELDNAME_MESSAGE = 'message';
 	
 	/**
-	 * Sélectionner tous les messages de manière paginée et triés par date
+	 * Sélectionner les signatures de manière paginée et triés par date
 	 * @param $pdo PDO 
 	 * @param from int indice de début
 	 * @param to int indice de fin
@@ -29,7 +29,7 @@ class Signature extends SignatureBase
 	{
 		$pdoStatement = SignatureBase::_select($pdo,null,self::FIELDNAME_DATE.' DESC',$from.', '.($to-$from));
 		if (!$pdoStatement->execute()) {
-			throw new Exception('Erreur lors du chargement des messages depuis la base de données');
+			throw new Exception('Erreur lors du chargement des signatures de manière paginée depuis la base de données');
 		}
 		return $pdoStatement;
 	}

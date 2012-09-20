@@ -1,50 +1,76 @@
-<h2 class="title t_telecharger">Télécharger</h2>
+<div id="downloads">
+	<h2>Télécharger</h2>
+	<p>Séléctionnez le fichier à télécharger selon votre plateforme :</p>
+	<ul>
+		<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.3.1-exe.zip" title="Télécharger ContestOrg pour Windows" class="button b_windows">ContestOrg pour Windows</a></li>
+		<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.3.1-jar.zip" title="Télécharger ContestOrg pour Linux" class="button b_linux">ContestOrg pour Linux</a></li>
+		<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.3.1-jar.zip" title="Télécharger ContestOrg pour Mac-OS" class="button b_mac">ContestOrg pour Mac-OS</a></li>
+	</ul>
+	<p class="comment">La version actuelle de ContestOrg est la 2.3.1</p>
+</div>
 
-<p>Séléctionnez le fichier à télécharger selon votre plateforme :</p>
+<h2 class="title t_et_apres">Et après ?</h2>
 
 <ul class="buttons">
-	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.3.1-exe.zip" class="button">ContestOrg 2.3.1 (Windows)</a></li>
-	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.3.1-jar.zip" class="button">ContestOrg 2.3.1 (Linux)</a></li>
-	<li><a href="http://contestorg.googlecode.com/files/ContestOrg-2.3.1-jar.zip" class="button">ContestOrg 2.3.1 (Mac)</a></li>
+	<li><a href="#" class="button" onclick="$('#formulaire').slideToggle();return false;">Signer le livre d'or</a></li>
+	<li><a href="<?php echo Request::buildURL(null,'documentation','index'); ?>" class="button">Consulter la documentation</a></li>
+	<li><a href="<?php echo Request::buildURL(null,'index','contact'); ?>" class="button">Demander de l'aide</a></li>
+	<li><a href="<?php echo Request::buildURL(null,'contribuer','index'); ?>" class="button">Contribuer au projet</a></li>
 </ul>
 
 <h2 class="title t_livre_or" id="livredor">Livre d'or</h2>
 <?php
 
-// Vérifier si le formulaire n'a pas été envoyé 
+// Vérifier si le formulaire n'a pas été envoyé
 if(!$this->form->isValid()) {
-	// Encourager l'ajout de message
-	echo '<p>N\'hésitez pas à laisser un message sur le livre d\'or :</p>';
+	// Début de la div du formulaire
+	echo '<div id="formulaire" style="display:',$this->form->isSubmitted() ? 'block' : 'none',';margin-bottom:20px;">';
 	
 	// Vérifier si erreur
 	if(isset($this->success)) {
 		echo '<p class="message m_error">Erreur lors de l\'ajout du message</p>';
 	}
-	
+
 	// Action
 	$this->form->setAction('#livredor');
-	
-	// Largeurs des champs 
+
+	// Largeurs des champs
 	$this->form->prenom->addExtra('style="width:400px;"');
 	$this->form->email->addExtra('style="width:400px;"');
 	$this->form->message->addExtra('style="width:400px;"');
-	
+
 	// Afficher le formulaire
 	echo $this->form;
+	
+	// Fin de la div du formulaire
+	echo '</div>';
 } else {
 	// Message de réussite
 	echo '<p class="message m_success">Merci d\'avoir signé notre livre d\'or</p>';
 }
 
-// Liste des signatures
-echo '<h3 id="messages">Messages</h3>';
+// Vérifier s'il y a des signatures
 if($this->paginator->getCount() != 0) {
+	// Liste des signatures
+	echo '<div id="signatures">';
 	foreach($this->paginator as $signature) {
-		echo '<b>',date('d/m/Y',$signature->getDate()),' : ',$signature->getPrenom(),'</b><p>',$signature->getMessage(),'</p>';
+		echo '<div class="signature"><b>',date('d/m/Y',$signature->getDate()),' : ',$signature->getPrenom(),'</b><br/>',$signature->getMessage(),'</div>';
 	}
-	$this->partial('pagination',array('paginator' => $this->paginator,'anchor' => 'messages'));
+	echo '</div>';
+	
+	// Pagination
+	$this->partial('pagination',array('paginator' => $this->paginator,'anchor' => 'livredor'));
+	
+	// Lancer Isotope 
+	?>
+	 <script type="text/javascript">
+	 	$(document).ready(function() {
+	 		$('#signatures').isotope({
+			  itemSelector : '.signature'
+			});	
+	 	});
+	 </script>
+	<?php
 } else {
-	echo 'Pas de messages';
+	echo '<p>Pas de messages</p>';
 }
-
-?>
