@@ -16,13 +16,13 @@ class FormLivredor extends Form
 		parent::__construct();
 		
 		// Récupérer la configuration
-		//$conf = Application::getService('conf');
+		$conf = Application::getService('conf');
 		
 		// Ajouter les champs
 		$this->add(new FormText('prenom', 'Votre prénom', FormText::TYPE_MONOLINE, 50, 20));
 		$this->add(new FormText('email', 'Votre email', FormText::TYPE_MONOLINE, 50, 130));
 		$this->add(new FormText('message', 'Votre message', FormText::TYPE_MULTILINE, array(50,6), 2000));
-		//$this->add(new FormCaptcha($conf['RECAPTCHA']['PUBLIC_KEY'],$conf['RECAPTCHA']['PRIVATE_KEY']));
+		$this->add(new FormCaptcha($conf['RECAPTCHA']['PUBLIC_KEY'],$conf['RECAPTCHA']['PRIVATE_KEY']));
 		$this->add(new FormSubmit('valider','Valider'));
 		
 		// Vérification de l'email
