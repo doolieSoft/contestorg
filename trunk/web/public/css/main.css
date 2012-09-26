@@ -205,6 +205,7 @@ ul.pagination li a.current {
 #downloads ul li a {
 	background-color:#A0D430;
 	background-repeat:no-repeat;
+	background-position:4px 3px;
 	padding-left:40px;
 }
 #downloads ul li a:hover {
