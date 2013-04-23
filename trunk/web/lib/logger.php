@@ -4,7 +4,7 @@
  * Class to logg events
  * @author Cyril Perrin
  * @license LGPL v3
- * @version 2012-04-14
+ * @version 2013-01-05
  */
 class Logger
 {
@@ -171,9 +171,9 @@ class Logger
 	 * Add page wich user will be redirected when errors given happen
 	 * @param $page string page where visitor will be redirected when errors happen
 	 * @param $callBack callback callback will be called to redirect user
-	 * @param $errors int error types, use bit operators to combine values, default : E_ERROR&~E_NOTICE&~E_WARNING
+	 * @param $errors int error types, use bit operators to combine values, default : E_ALL&~E_NOTICE
 	 */
-	public function addErrorsPage($page,$callBack,$errors=30709)
+	public function addErrorsPage($page,$callBack,$errors=30711)
 	{
 		if(is_callable($callBack)) {
 			$this->errorsRedirect[] = $errors;
