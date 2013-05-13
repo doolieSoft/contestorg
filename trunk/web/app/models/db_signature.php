@@ -8,16 +8,6 @@
 class Signature extends SignatureBase
 {
 	
-	// Nom de la table
-	const TABLENAME = 'contestorg_signature';
-	
-	// Nom des champs
-	const FIELDNAME_IDSIGNATURE = 'idsignature';
-	const FIELDNAME_PRENOM = 'prenom';
-	const FIELDNAME_DATE = 'date';
-	const FIELDNAME_EMAIL = 'email';
-	const FIELDNAME_MESSAGE = 'message';
-	
 	/**
 	 * Sélectionner les signatures de manière paginée et triés par date
 	 * @param $pdo PDO 

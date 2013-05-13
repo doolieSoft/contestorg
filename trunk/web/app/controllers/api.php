@@ -284,20 +284,76 @@ class ApiController extends AbstractController
 	 * Action enregistrant une erreur survenue dans l'application
 	 */
 	public function errorAction() {
-		// Construire le formulaire de soumission d'erreur
-		require_once('form.php');
+		// Formulaire de soumission d'erreur
+		require_once('form/require.php');
 		$form = new Form(Form::METHOD_POST);
-		$description = $form->add(new FormText('description'));
-		$log = $form->add(new FormFile('log'));
+		$erreurDescription = $form->add(new FormText('erreur_description'));
+		$erreurExceptionsMessages = $form->add(new FormSequence(
+			'error_exceptions_messages','/^erreur_exception[0-9]+_message$/',
+			function($name) { return new FormText($name); }
+		),false);
+		$erreurExceptionsStacktraces = $form->add(new FormSequence(
+			'error_exceptions_stacktraces','/^erreur_exception[0-9]+_stacktrace$/',
+			function($name) { return new FormText($name); }
+		),false);
+		$clientLOG = $form->add(new FormFile('client_log'));
+		$clientXML = $form->add(new FormText('client_xml'),false);
+		$clientVersion = $form->add(new FormText('client_version'));
+		$environnementOS = $form->add(new FormText('environnement_os'));
+		$environnementJAVA = $form->add(new FormText('environnement_java'));
 		
 		// Valider le formulaire
 		if($form->validate()) {
-			// Enregistrer en base de données le fichier de log
-			Erreur::create(
-				Application::getService('pdo'),
-				$description->getValue(),
-				file_get_contents($log->getPath())
+			// Récupérer les données des exceptions
+			$messages = $erreurExceptionsMessages->getElements();
+			$stacktraces = $erreurExceptionsStacktraces->getElements();
+			if(count($messages) != count($stacktraces)) {
+				Application::error();
+			}
+			
+			// Récupérer PDO
+			$pdo = Application::getService('pdo');
+			
+			// Enregistrer l'erreur
+			$erreur = Erreur::create(
+				$pdo,
+				time(),
+				$erreurDescription->getValue(),
+				file_get_contents($clientLOG->getPath()),
+				$clientVersion->getValue(),
+				$clientXML->getValue(),
+				$environnementOS->getValue(),
+				$environnementJAVA->getValue()
 			);
+			
+			// Enregistrer les exceptions associées à l'erreur
+			for($i=0;$i<count($messages);$i++) {
+				ErreurException::create(
+					$pdo,
+					$erreur,
+					$messages['erreur_exception'.$i.'_message']->getValue(),
+					$stacktraces['erreur_exception'.$i.'_stacktrace']->getValue()
+				);
+			}
+		} else {
+			// Ancien formulaire de soumission d'erreur
+			$oldForm = new Form(Form::METHOD_POST);
+			$erreurDescription = $oldForm->add(new FormText('description'));
+			$clientLOG = $oldForm->add(new FormFile('log'));
+			
+			// Valider l'ancien formulaire
+			if($oldForm->validate()) {
+				// Enregistrer l'erreur
+				Erreur::create(
+					Application::getService('pdo'),
+					time(),
+					$erreurDescription->getValue(),
+					file_get_contents($clientLOG->getPath()),
+					'<= 2.3.1'
+				);
+			} else {
+				Application::error();
+			}
 		}
 	}
 	

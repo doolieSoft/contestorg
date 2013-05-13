@@ -35,9 +35,9 @@ if(!$this->form->isValid()) {
 	$this->form->setAction('#livredor');
 
 	// Largeurs des champs
-	$this->form->prenom->addExtra('style="width:400px;"');
-	$this->form->email->addExtra('style="width:400px;"');
-	$this->form->message->addExtra('style="width:400px;"');
+	$this->form->prenom->addAttributes('style="width:400px;"');
+	$this->form->email->addAttributes('style="width:400px;"');
+	$this->form->message->addAttributes('style="width:400px;"');
 
 	// Afficher le formulaire
 	echo $this->form;

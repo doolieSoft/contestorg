@@ -8,8 +8,19 @@
    |message,string/2000,"Message"|
 ]
 
-// Erreurs survenues dans ContestOrg
-[erreur,"Erreur survenue dans ContestOrg":
-   |description,string,"Description de l'erreur"|,
-   |log,string/50000,"Contenu du fichier de log"|
+// Erreurs/Exceptions
+[erreur,"Erreur dans l'application":
+   |date,datetime,"Date"|,
+   |description,string/250,"Description de l'erreur"|,
+   ?|clientVersion,string/10,"Version de l'application"|,
+   |clientLOG,string/50000,"Fichier de LOG"|,
+   ?|clientXML,string/50000,"Fichier de tournoi"|,
+   ?|environnementOS,string/50,"Nom et version de l'OS"|,
+   ?|environnementJAVA,string/50,"Version de JAVA"|,
+   *erreurException
+]
+[erreurException,"Exception dans l'application":
+	erreur,
+	|message,string/100,"Message"|,
+	|stacktrace,string/20000,"Stacktrace"|
 ]

@@ -9,10 +9,10 @@ if(empty($this->success)) {
 	}
 	
 	// Largeurs des champs 
-	$this->form->nom->addExtra('style="width:400px;"');
-	$this->form->email->addExtra('style="width:400px;"');
-	$this->form->sujet->addExtra('style="width:400px;"');
-	$this->form->message->addExtra('style="width:400px;"');
+	$this->form->nom->addAttributes('style="width:400px;"');
+	$this->form->email->addAttributes('style="width:400px;"');
+	$this->form->sujet->addAttributes('style="width:400px;"');
+	$this->form->message->addAttributes('style="width:400px;"');
 	
 	// Afficher le formulaire
 	echo $this->form;

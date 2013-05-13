@@ -8,14 +8,6 @@
 class Erreur extends ErreurBase
 {
 	
-	// Nom de la table
-	const TABLENAME = 'contestorg_erreur';
-	
-	// Nom des champs
-	const FIELDNAME_IDERREUR = 'iderreur';
-	const FIELDNAME_DESCRIPTION = 'description';
-	const FIELDNAME_LOG = 'log';
-	
 	// Placez votre code ici...
 	
 }
