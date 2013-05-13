@@ -255,7 +255,7 @@ public class PersistanceXML extends PersistanceAbstract
 				while (iteratorProprietes.hasNext()) {
 					Element elementPropriete = (Element)iteratorProprietes.next();
 					int type = -1;
-					switch (Tools.StringCase(elementPropriete.getAttributeValue("type"), "entier", "decimal", "texte")) {
+					switch (Tools.stringCase(elementPropriete.getAttributeValue("type"), "entier", "decimal", "texte")) {
 						case 0:
 							type = InfosModelPropriete.TYPE_INT;
 							break;
@@ -694,7 +694,7 @@ public class PersistanceXML extends PersistanceAbstract
 		ModelParticipant participant = elementParticipation.getAttribute("refParticipant") == null ? null : (ModelParticipant)ModelAbstract.search(Integer.parseInt(elementParticipation.getAttributeValue("refParticipant")));
 		
 		int resultat = -1;
-		switch (Tools.StringCase(elementParticipation.getAttributeValue("resultat"), "attente", "victoire", "egalite", "defaite", "forfait")) {
+		switch (Tools.stringCase(elementParticipation.getAttributeValue("resultat"), "attente", "victoire", "egalite", "defaite", "forfait")) {
 			case 0:
 				resultat = InfosModelParticipation.RESULTAT_ATTENTE;
 				break;

@@ -33,4 +33,17 @@ public class XMLHelper
 			return false;
 		}
 	}
+	
+	/**
+	 * Convertir un document JDom en String
+	 * @param document document JDom
+	 * @return document JDom en String
+	 */
+	public static String toString(Document document) {
+		try {
+			return new XMLOutputter(Format.getPrettyFormat()).outputString(document);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
