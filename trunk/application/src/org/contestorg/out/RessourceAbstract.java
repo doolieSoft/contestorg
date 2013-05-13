@@ -97,7 +97,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 								
 								// Récupérer et parser le type
 								int parametreType;
-								switch (Tools.StringCase(parametre.getAttributeValue("type"), "entier", "reel", "texte", "idCategorie", "idPoule", "idPhase", "motDePasse", "booleen")) {
+								switch (Tools.stringCase(parametre.getAttributeValue("type"), "entier", "reel", "texte", "idCategorie", "idPoule", "idPhase", "motDePasse", "booleen")) {
 									case 0:
 										parametreType = Parametre.TYPE_ENTIER;
 										break;
@@ -255,7 +255,7 @@ public abstract class RessourceAbstract implements IHistoryListener
 					File fichier = new File(theme.getChemin() + File.separator + source);
 					
 					// Créer et ajouter la ressource
-					switch (Tools.StringCase(transformation, Fichier.TRANSFORMATION_XSLT, Fichier.TRANSFORMATION_FOP)) {
+					switch (Tools.stringCase(transformation, Fichier.TRANSFORMATION_XSLT, Fichier.TRANSFORMATION_FOP)) {
 						case 0: // Ressource XSLT
 							ressources.add(new RessourceXSLT(cible, principal, theme.getParametres(), theme.getFichiers(), fichier));
 							break;

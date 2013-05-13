@@ -370,7 +370,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	 * @param proprietes liste des propriétés
 	 */
 	public void procedureConcoursNouveau (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) {
-		try {			
+		try {
 			// Créer le nouveau concours
 			FrontModel.get().nouveauConcours(infos);
 			
@@ -608,7 +608,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 		ViewHelper.derror(null,"Erreur fatale","Une erreur fatale est survenue. L'application va être fermée.");
 		if(ViewHelper.confirmation(null, "Un rapport d'erreur peut être envoyé aux développeurs de l'application. Autorisez-vous l'envoi de ce rapport ?")) {
 			// Préparer le rapport
-			IOperation operation = new Report(description).send();
+			IOperation operation = new Report(description, exceptions).send();
 			
 			// Démarrer l'opération et afficher la progression
 			JDOperation jd_operation = new JDOperation(null, "Envoi du rapport d'erreur", operation, true, false);

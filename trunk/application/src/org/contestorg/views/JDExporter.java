@@ -50,7 +50,7 @@ public class JDExporter extends JDPattern implements ItemListener
 		this.jcb_categorie.addItem("Phases éliminatoires");
 		
 		// Séléctionner la catégorie courante
-		this.jcb_categorie.setSelectedIndex(Tools.StringCase(categorie, Theme.CATEGORIE_PARTICIPANTS, Theme.CATEGORIE_PHASES_QUALIFICATIVES, Theme.CATEGORIE_PHASES_ELIMINATOIRES)+1);
+		this.jcb_categorie.setSelectedIndex(Tools.stringCase(categorie, Theme.CATEGORIE_PARTICIPANTS, Theme.CATEGORIE_PHASES_QUALIFICATIVES, Theme.CATEGORIE_PHASES_ELIMINATOIRES)+1);
 		
 		// Ecouter la liste des catégories
 		this.jcb_categorie.addItemListener(this);

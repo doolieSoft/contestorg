@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
 public class Tools
 {
 	/**
-	 * Méthode permettant d'effectuer un case avec une chaîne de caractères
+	 * Méthode permettant d'effectuer un switch case avec une chaîne de caractères
 	 * @param string chaîne de caractères d'entrée
 	 * @param strings chaînes de caractères à comparer avec la chaîne de caractères d'entrée
 	 * @return indice de la chaîne de caractères correspondant
 	 */
-	public static int StringCase (String string, String... strings) {
+	public static int stringCase (String string, String... strings) {
 		for (int i = 0; i < strings.length; i++) {
 			if (strings[i].equals(string)) {
 				return i;
@@ -84,5 +84,19 @@ public class Tools
             } while(j++ < 1);
         }
         return buffer.toString();
+	}
+	
+	/**
+	 * Récupérer la stracktrace d'un objet Throwable
+	 * @param throwable object throwable
+	 * @return stracktrace de l'objet throwable
+	 */
+	public static String getStackTrace(Throwable throwable) {
+		StringBuilder stackTrace = new StringBuilder();
+	    for (StackTraceElement element : throwable.getStackTrace()) {
+	        stackTrace.append(element.toString());
+	        stackTrace.append("\r\n");
+	    }
+	    return stackTrace.toString();
 	}
 }
