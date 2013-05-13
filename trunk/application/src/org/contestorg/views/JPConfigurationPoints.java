@@ -67,8 +67,8 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 		// Ecouter la liste des objectifs
 		this.tm_objectifs.addITrackableListListener(this);
 		
-		// Ordre de classement
-		this.jp_contenu.add(ViewHelper.title("Ordre de classement", ViewHelper.H1));
+		// Critères de classement
+		this.jp_contenu.add(ViewHelper.title("Critères de classement", ViewHelper.H1));
 		final TMObjectifs tm_objectifs = this.tm_objectifs;
 		this.tm_comparateurs = new TMComparateurs(this.w_parent,new IFournisseur<ArrayList<InfosModelObjectif>>() {
 			// Fournir les objectifs
@@ -211,7 +211,7 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 		// Valider les classements
 		if(this.tm_comparateurs.getRowCount() == 0) {
 			// Message d'erreur
-			ViewHelper.derror(this, "Points et classement", "L'ordre de classement des participants doit avoir au moins un critère.");
+			ViewHelper.derror(this, "Points et classement", "Les critères de classement doivent avoir au moins un critère.");
 			erreur = true;
 		}
 
