@@ -15,11 +15,24 @@ class Application
 	/**
 	 * Run application
 	 * @param $mode int mode
+	 * @param $startSession boolean start session ?
 	 */
-	public static function run($mode=self::MODE_DEVELOPMENT)
+	public static function run($mode=self::MODE_DEVELOPMENT,$startSession=true)
 	{	
 		// Save mode
 		self::$mode = $mode;
+		
+		// Start session
+		if ($startSession && !isset($_SESSION) && !session_start()) {
+			self::error('Error while start session.');
+		}
+		
+		// Import ressources
+		if(isset($_SESSION)) {
+			foreach($_SESSION as $ressourceName => $ressourceValue) {
+				self::$ressources[$ressourceName] = $ressourceValue;
+			}
+		}
 		
 		// Parse URL
 		$request = Request::parseURL();
@@ -27,16 +40,6 @@ class Application
 		// Check if request is valid
 		if(!$request) {
 			self::error('Invalid request.');
-		}
-		
-		// Start session
-		if (!session_start()) {
-			self::error('Error while start session.');
-		}
-		
-		// Import ressources
-		foreach($_SESSION as $ressourceName => $ressourceValue) {
-			self::$ressources[$ressourceName] = $ressourceValue;
 		}
 		
 		// Get configuration
@@ -78,7 +81,7 @@ class Application
 		self::stopServices();
 		
 		// Redirect on error page
-		Request::redirect(Request::buildURL(null,'error','error',$message === null ? null : array('message' => $message)));
+		Request::redirect(Request::buildURL(null,'error','error',$message === null ? array() : array('message' => $message)));
 	}
 	
 	/**

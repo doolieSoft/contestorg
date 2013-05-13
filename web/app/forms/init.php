@@ -1,7 +1,7 @@
 <?php
 
 // Require de l'outil form
-require('form.php');
+require('form/require.php');
 
 // Définir les messages en cas de champs requis/invalide
 Form::setErrorStart('<p class="message m_error">');

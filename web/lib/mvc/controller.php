@@ -44,6 +44,11 @@ abstract class Controller
 			$controller->request = $request;
 			$controller->view = $view;
 			$controller->layoutName = $layoutName;
+			
+			// Call init method if necessary
+			if(method_exists($controller,'init')) {
+				$controller->init();
+			}
 
 			// Check if action exists
 			if(method_exists($controller,$actionName.'Action')) {
