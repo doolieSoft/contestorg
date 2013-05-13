@@ -5,7 +5,7 @@
   <bookinfo>
     <title>ContestOrg</title>
 
-    <graphic fileref="images/logo.png" format="PNG"/>
+    <graphic fileref="images/logo.png" format="PNG" />
 
     <author>
       <firstname>Cyril</firstname>
@@ -213,7 +213,7 @@
           <imageobject>
             <imagedata depth="273px"
                        fileref="images/ecrans/interface-generale.png"
-                       format="PNG" width="450px"/>
+                       format="PNG" width="450px" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -336,7 +336,7 @@
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-general.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -360,7 +360,7 @@
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-points-classement.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -427,7 +427,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="158"
                              fileref="images/ecrans/configurer-objectif-points.png"
-                             width="200"/>
+                             width="200" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -524,7 +524,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="158"
                              fileref="images/ecrans/configurer-objectif-pourcentage.png"
-                             width="200"/>
+                             width="200" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -564,7 +564,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="158"
                              fileref="images/ecrans/configurer-objectif-nul.png"
-                             width="200"/>
+                             width="200" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -572,9 +572,9 @@ FIN PROCEDURE;</programlisting>
         </section>
 
         <section>
-          <title>Classement</title>
+          <title>Critères de classement</title>
 
-          <para>Cette zone permet de spécifier l'ordre des critère de
+          <para>Cette zone permet de spécifier l'ordre des critères de
           classement. Trois types de critères de classement sont disponibles :
           nombre de points, nombre de victoires et nombre d'un type d'objectif
           donné remportés. Les critères situés en haut du tableau ont le poids
@@ -599,7 +599,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-lieux-emplacements.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -615,7 +615,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="444"
                          fileref="images/ecrans/configurer-lieu.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -633,7 +633,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="218"
                          fileref="images/ecrans/configurer-lieu-horaire.png"
-                         width="280"/>
+                         width="280" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -651,7 +651,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="151"
                          fileref="images/ecrans/configurer-lieu-emplacement.png"
-                         width="280"/>
+                         width="280" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -689,7 +689,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-prix.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -711,7 +711,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-programmation-matchs.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -739,7 +739,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-proprietes-participant.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -765,7 +765,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="370"
                          fileref="images/ecrans/configurer-exportations-diffusions.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -828,7 +828,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="469"
                              fileref="images/ecrans/configurer-exportation.png"
-                             width="300"/>
+                             width="300" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -907,7 +907,7 @@ FIN PROCEDURE;</programlisting>
                 <imageobject>
                   <imagedata depth="293"
                              fileref="images/ecrans/configurer-diffusion.png"
-                             width="300"/>
+                             width="300" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -949,7 +949,7 @@ FIN PROCEDURE;</programlisting>
           <imageobject>
             <imagedata depth="277"
                        fileref="images/ecrans/onglet-participants.png"
-                       width="450"/>
+                       width="450" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -978,7 +978,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="208"
                          fileref="images/ecrans/gerer-categories.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1013,7 +1013,7 @@ FIN PROCEDURE;</programlisting>
           <mediaobject>
             <imageobject>
               <imagedata depth="515" fileref="images/ecrans/gerer-poules.png"
-                         width="400"/>
+                         width="400" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1099,7 +1099,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="460"
                          fileref="images/ecrans/creer-editer-participant.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1140,7 +1140,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="361"
                          fileref="images/ecrans/importer-participants.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1171,7 +1171,7 @@ FIN PROCEDURE;</programlisting>
           <imageobject>
             <imagedata depth="277"
                        fileref="images/ecrans/onglet-phases-qualificatives.png"
-                       width="450"/>
+                       width="450" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1217,7 +1217,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="475"
                          fileref="images/ecrans/creer-editer-phase-qualificative.png"
-                         width="400"/>
+                         width="400" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1313,7 +1313,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="386"
                          fileref="images/ecrans/creer-editer-match-phases-qualificatives.png"
-                         width="220"/>
+                         width="220" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1349,7 +1349,7 @@ FIN PROCEDURE;</programlisting>
           <imageobject>
             <imagedata depth="277"
                        fileref="images/ecrans/onglet-phases-eliminatoires.png"
-                       width="450"/>
+                       width="450" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1386,7 +1386,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="126"
                          fileref="images/ecrans/editer-participant-phases-eliminatoires.png"
-                         width="250"/>
+                         width="250" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1422,7 +1422,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="383"
                          fileref="images/ecrans/editer-match-phases-eliminatoires.png"
-                         width="220"/>
+                         width="220" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1455,7 +1455,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="139"
                          fileref="images/ecrans/exportations-predefinies.png"
-                         width="350"/>
+                         width="350" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1482,7 +1482,7 @@ FIN PROCEDURE;</programlisting>
             <imageobject>
               <imagedata depth="179"
                          fileref="images/ecrans/exportations-volee.png"
-                         width="280"/>
+                         width="280" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1516,7 +1516,7 @@ FIN PROCEDURE;</programlisting>
         <mediaobject>
           <imageobject>
             <imagedata depth="154" fileref="images/ecrans/diffuser.png"
-                       width="350"/>
+                       width="350" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1803,9 +1803,9 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -1839,11 +1839,11 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -1873,9 +1873,9 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -1910,11 +1910,11 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -2032,11 +2032,11 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -2154,13 +2154,13 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -2192,9 +2192,9 @@ FIN PROCEDURE;</programlisting>
             </row>
 
             <row>
-              <entry/>
+              <entry></entry>
 
-              <entry/>
+              <entry></entry>
             </row>
           </tbody>
         </tgroup>
