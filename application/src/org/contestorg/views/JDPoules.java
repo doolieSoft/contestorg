@@ -362,16 +362,30 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 						poules.remove(1);
 					}
 					
+					// Combien de lettres dans le numéro ?
+					int nbLettres = 1;
+					while(Math.pow(26, nbLettres) < nbPoules) {
+						nbLettres++;
+					}
+					
 					// Créer les poules
 					String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 					for(int i=0;i<nbPoules;i++) {
 						// Trouver le numéro de la poule
 						StringBuilder numero = new StringBuilder();
-						int j = i;
-						while(j >= 0) {
-							numero.append(alphabet.charAt(j));
-							j -= 26;
+						int resultat = i, reste;
+						do {
+							reste = resultat%26;
+							resultat = resultat/26;
+							numero.append(alphabet.charAt(reste));
+							if(nbLettres > 1 && resultat < 26) {
+								numero.append(alphabet.charAt(resultat));
+							}
+						} while(resultat >= 26);
+						while(numero.length() < nbLettres) {
+							numero.append("A");
 						}
+						numero.reverse();
 						
 						// Ajouter la poule
 						poules.add(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule("Poule "+numero), new ArrayList<String>()));
