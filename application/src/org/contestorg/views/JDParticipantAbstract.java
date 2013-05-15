@@ -109,6 +109,9 @@ public abstract class JDParticipantAbstract extends JDPattern
 				this.jtfs_proprietes[i] = new JTextField();
 			}
 			this.jp_contenu.add(ViewHelper.inputs(jls_proprietes, this.jtfs_proprietes));
+		} else {
+			this.jp_contenu.add(Box.createVerticalStrut(5));
+			this.jp_contenu.add(ViewHelper.pinformation("Saviez-vous que vous pouvez ajouter de nouvelles propriétés ?","doc/documentation.pdf","Ouvrir l'aide au format PDF"));
 		}
 		
 		// Prix
