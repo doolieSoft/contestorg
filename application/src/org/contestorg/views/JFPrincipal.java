@@ -47,11 +47,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	private JButton jb_nouveau;
 	/** Bouton "Ouvrir" */
 	private JButton jb_ouvrir;
-	/** Bouton "Serveur" */
-	private JButton jb_serveur;
 
-	/** Bouton "Editer" */
-	private JButton jb_editer;
 	/** Bouton "Sauvegarder" */
 	private JButton jb_sauvegarder;
 	/** Bouton "Exporter" */
@@ -108,8 +104,6 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 
 		this.jb_nouveau = new JButton("Nouveau", new ImageIcon("img/farm/32x32/add.png"));
 		this.jb_ouvrir = new JButton("Ouvrir", new ImageIcon("img/farm/32x32/folder.png"));
-		this.jb_serveur = new JButton("Connexion", new ImageIcon("img/farm/32x32/server.png"));
-		this.jb_editer = new JButton("Editer", new ImageIcon("img/farm/16x16/pencil.png"));
 		this.jb_sauvegarder = new JButton("Sauvegarder", new ImageIcon("img/farm/16x16/disk.png"));
 		this.jb_exporter = new JButton("Exporter", new ImageIcon("img/farm/16x16/application_go.png"));
 		this.jb_publier = new JButton("Publier", new ImageIcon("img/farm/16x16/world_go.png"));
@@ -123,8 +117,6 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		
 		this.jb_nouveau.setToolTipText("Créer un nouveau concours");
 		this.jb_ouvrir.setToolTipText("Ouvrir un concours existant");
-		this.jb_serveur.setToolTipText("Se connecter à un serveur ContestOrg");
-		this.jb_editer.setToolTipText("Prendre le jeton d'édition");
 		this.jb_sauvegarder.setToolTipText("Sauvegarder les modifications");
 		this.jb_exporter.setToolTipText("Lancer des exportations prédéfinies");
 		this.jb_publier.setToolTipText("Lancer l'exportation choisie pour la publication");
@@ -136,7 +128,6 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_apropos.setToolTipText("Afficher les informations de ContestOrg");
 		this.jb_quitter.setToolTipText("Quitter le programme");
 
-		this.jb_editer.setEnabled(false);
 		this.jb_sauvegarder.setEnabled(false);
 		this.jb_exporter.setEnabled(false);
 		this.jb_publier.setEnabled(false);
@@ -146,14 +137,12 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 
 		this.addButton(jp_gauche, this.jb_nouveau);
 		this.addButton(jp_gauche, this.jb_ouvrir);
-		this.addButton(jp_gauche, this.jb_serveur);
 
 		JSeparator js_sep1 = new JSeparator();
 		js_sep1.setMaximumSize(new Dimension(280, 12));
 		jp_gauche.add(js_sep1);
 		jp_gauche.add(Box.createVerticalStrut(5));
 
-		this.addButton(jp_gauche, this.jb_editer);
 		this.addButton(jp_gauche, this.jb_sauvegarder);
 		this.addButton(jp_gauche, this.jb_exporter);
 		this.addButton(jp_gauche, this.jb_publier);
@@ -186,8 +175,6 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.addWindowListener(this);
 		this.jb_nouveau.addActionListener(this);
 		this.jb_ouvrir.addActionListener(this);
-		this.jb_serveur.addActionListener(this);
-		this.jb_editer.addActionListener(this);
 		this.jb_sauvegarder.addActionListener(this);
 		this.jb_exporter.addActionListener(this);
 		this.jb_publier.addActionListener(this);
@@ -254,12 +241,6 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 			if(!ContestOrg.get().is(ContestOrg.STATE_OPEN) || ContestOrg.get().is(ContestOrg.STATE_SAVE) || ViewHelper.confirmation(this, "En ouvrant un autre concours, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?", true)) {
 				ContestOrg.get().procedureConcoursOuvrirDemarrer();
 			}
-		} else if (event.getSource() == this.jb_serveur) {
-			if(!ContestOrg.get().is(ContestOrg.STATE_OPEN) || ContestOrg.get().is(ContestOrg.STATE_SAVE) || ViewHelper.confirmation(this, "En vous connectant à un autre concours, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?", true)) {
-				ContestOrg.get().procedureServeurConnexionDemarrer();
-			}
-		} else if (event.getSource() == this.jb_editer) {
-			ContestOrg.get().procedureServeurEditionDemarrer();
 		} else if (event.getSource() == this.jb_sauvegarder) {
 			ContestOrg.get().procedureConcoursSauvegarderDemarrer(); 
 		} else if (event.getSource() == this.jb_exporter) {
@@ -348,7 +329,6 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	@Override
 	public void moodyChanged (IMoody moody) {
 		// Mettre à jour l'état de certains boutons
-		this.jb_editer.setToolTipText(moody.is(ContestOrg.STATE_OPEN) || moody.is(ContestOrg.STATE_SERVER) ? "Cette option n'est disponible que dans le mode serveur" : "Prendre le jeton d'édition");
 		this.jb_sauvegarder.setEnabled(moody.is(ContestOrg.STATE_EDIT) && !moody.is(ContestOrg.STATE_SAVE));
 		this.setTitle(!moody.is(ContestOrg.STATE_OPEN) || moody.is(ContestOrg.STATE_SAVE) ? this.titre : this.titre+" *");
 		this.jb_exporter.setEnabled(moody.is(ContestOrg.STATE_OPEN));

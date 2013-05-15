@@ -10,7 +10,6 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.events.Action;
-import org.contestorg.infos.InfosConnexionServeur;
 import org.contestorg.infos.InfosMiseAJour;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelChemin;
@@ -40,7 +39,6 @@ import org.contestorg.preferences.Preferences;
 import org.contestorg.views.FiltreFichier;
 import org.contestorg.views.JDConcoursCreer;
 import org.contestorg.views.JDConcoursEditer;
-import org.contestorg.views.JDConnexionCreer;
 import org.contestorg.views.JDMiseAJour;
 import org.contestorg.views.JDOperation;
 import org.contestorg.views.JFPrincipal;
@@ -66,11 +64,8 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	/** Est-ce que le concours est sauvegardé ? */
 	public static final int STATE_SAVE = 2;
 	
-	/** Est-ce que le mode serveur est utilisé ? */
-	public static final int STATE_SERVER = 4;
-	
 	/** Est-ce que le mode édition est activé ? */
-	public static final int STATE_EDIT = 8;
+	public static final int STATE_EDIT = 4;
 
 	// Vues
 	
@@ -79,9 +74,6 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	
 	/** Fenêtre de création et d'édition de concours */
 	private JDialog jd_concours;
-	
-	/** Fenêtre de connexion au serveur de ContestOrg */
-	private JDialog jd_connexion;
 
 	// Controleurs
 	
@@ -543,52 +535,6 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 				ViewHelper.derror(this.jf_general, "Une erreur est survenue lors de la sauvegarde du concours.");
 			}
 		}
-	}
-	
-	// ==== Procédures liées à la connexion au serveur
-	
-	// Procédure de connexion
-	
-	/**
-	 * Lancer la connexion de connexion au serveur
-	 */
-	public void procedureServeurConnexionDemarrer () {
-		// Créer et afficher la fenêtre de connexion
-		this.jd_connexion = new JDConnexionCreer(this.jf_general);
-		this.jd_connexion.setVisible(true);
-	}
-	
-	/**
-	 * Se connecter au serveur
-	 * @param infos informations de connexion au serveur
-	 */
-	public void procedureServeurConnexion (InfosConnexionServeur infos) {
-		// TODO Connexion au serveur
-	}
-	
-	/**
-	 * Annuler la procédure de connexion au serveur
-	 */
-	public void procedureServeurConnexionAnnuler () {
-		// Masquer et détruire la fenêtre de connexion 
-		this.jd_connexion.setVisible(false);
-		this.jd_connexion = null;
-	}
-	
-	// Procédure d'édition du concours via le serveur
-	
-	/**
-	 * Prendre le jeton d'édition du serveur
-	 */
-	public void procedureServeurEditionDemarrer() {
-		// TODO
-	}
-	
-	/**
-	 * Rendre le jeton d'édition du serveur
-	 */
-	public void procedureServeurEditionAnnuler() {
-		// TODO
 	}
 	
 	// ==== Autres
