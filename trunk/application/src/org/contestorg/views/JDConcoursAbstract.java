@@ -68,7 +68,7 @@ abstract public class JDConcoursAbstract extends JDPattern
 
 		// Ajouter les onglets
 		jtb_onglets.addTab("Général", new ImageIcon("img/farm/16x16/cog.png"), new JScrollPane(this.jp_general),"Configurer les propriétés générales du concours");
-		jtb_onglets.addTab("Points et classement", new ImageIcon("img/farm/16x16/table.png"), new JScrollPane(this.jp_points),"Configurer les points acquis au cours des matchs et l'ordre de classement des participants");
+		jtb_onglets.addTab("Points et classement", new ImageIcon("img/farm/16x16/table.png"), new JScrollPane(this.jp_points),"Configurer les points et objectifs que peuvent remporter les participants ainsi les critères de classement");
 		jtb_onglets.addTab("Exportations et diffusions", new ImageIcon("img/farm/16x16/arrow_right.png"), new JScrollPane(this.jp_exportations),"Configurer les exportations et les diffusions");
 		jtb_onglets.addTab("Prix à remporter", new ImageIcon("img/farm/16x16/award_star_gold_2.png"), new JScrollPane(this.jp_prix),"Configurer les prix que peuvent remporter les participants");
 		jtb_onglets.addTab("Lieux et emplacements", new ImageIcon("img/farm/16x16/house.png"), new JScrollPane(this.jp_lieux),"Configuration les lieux et emplacements où se déroulent les matchs");
