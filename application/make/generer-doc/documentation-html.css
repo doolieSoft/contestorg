@@ -1,0 +1,117 @@
+/* Propriétés générales */
+body {
+	background-color: #EEEEEE;
+	font-family: arial,helvetica,sans-serif;
+	font-size:1em;
+}
+
+/* Page */
+.book {
+	background-color: #D3E4F7;
+	padding: 20px;
+	max-width:800px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+/* Titres */
+.book > .titlepage {
+	padding-top:70px;
+	background-image:url('images/logo.png');
+	background-repeat:no-repeat;
+	background-position:center top;
+}
+.book > .titlepage .subtitle {
+	text-align:center;
+	font-size:1.2em;
+	font-style:italic;
+	font-weight:normal;
+}
+.book > .titlepage .title, .book > .titlepage hr {
+	display:none;
+}
+.book > .toc b, .chapter > .titlepage h2 {
+	font-size: 1.6em;
+	display:block;
+	background-color: #669EB7;
+	margin-left:-20px;
+	margin-right:-20px;
+	color: #FFFFFF;
+	padding: 8px;
+}
+.chapter > .section > .titlepage h2 {
+	font-size: 1.4em;
+	background-color: #9CCA30;
+	margin-left:-20px;
+	margin-right:-20px;
+	color: #FFFFFF;
+	padding: 6px;
+}
+.chapter > .section > .section > .titlepage h3 {
+	font-size: 1.2em;
+	background-color: #72A8E6;
+	margin-left:-20px;
+	margin-right:-20px;
+	color: #FFFFFF;
+	padding: 4px;
+}
+
+/* Tableaux */
+table {
+	width:100%;
+	border-collapse:collapse;
+}
+.table > .title {
+	display:none;
+}
+th {
+	background-color:#93BCEB;
+}
+td, th {
+	padding:3px;
+}
+
+/* Listes */
+li p {
+	margin:0px;
+}
+
+/* Images */
+img {
+    max-width:800px;
+    width:auto;
+    height:auto;
+}
+
+/* Spécificités DocBook */
+.book > .titlepage .author, .book > .titlepage .releaseinfo {
+	font-size:1em;
+	font-weight:normal;
+}
+.book > .titlepage h3.author:before {
+	content: "Auteur : ";
+}
+.book > .titlepage p.releaseinfo:before {
+	content: "Version : ";
+}
+.guibutton {
+	background-color:#CCCCCC;
+	padding:2px;
+	display:inline-block;
+	border:1px solid #AAAAAA;
+	margin:1px;
+}
+.programlisting, .example-contents {
+	padding:5px;
+	background-color:#E6EFFA;
+	border:1px dashed #669DE0;
+}
+.command {
+	color:#FFFFFF;
+	background-color:#000000;
+	padding-left:5px;
+	padding-right:5px;
+}
+.chapter .toc {
+	display:none;
+}

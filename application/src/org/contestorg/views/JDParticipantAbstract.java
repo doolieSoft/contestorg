@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
+import org.contestorg.common.Tools;
 import org.contestorg.common.TrackableList;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
@@ -111,7 +112,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 			this.jp_contenu.add(ViewHelper.inputs(jls_proprietes, this.jtfs_proprietes));
 		} else {
 			this.jp_contenu.add(Box.createVerticalStrut(5));
-			this.jp_contenu.add(ViewHelper.pinformation("Saviez-vous que vous pouvez ajouter de nouvelles propriétés ?","doc/documentation.pdf","Ouvrir l'aide au format PDF"));
+			this.jp_contenu.add(ViewHelper.pinformation("Saviez-vous que vous pouvez ajouter de nouvelles propriétés ?",Tools.isWindows() ? "doc/documentation.chm" : "doc/documentation.html","Ouvrir l'aide"));
 		}
 		
 		// Prix

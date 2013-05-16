@@ -99,4 +99,31 @@ public class Tools
 	    }
 	    return stackTrace.toString();
 	}
+	
+	/** Système d'exploitation */
+	private static String OS = System.getProperty("os.name").toLowerCase();
+	
+	/**
+	 * Vérifier si le système d'exploitation est bien Windows
+	 * @return le système d'exploitation est bien Windows ?
+	 */
+	public static boolean isWindows() {
+		return OS.indexOf("win") >= 0;
+	}
+
+	/**
+	 * Vérifier si le système d'exploitation est bien Mac-OS
+	 * @return le système d'exploitation est bien Mac-OS ?
+	 */
+	public static boolean isMac() {
+		return OS.indexOf("mac") >= 0; 
+	}
+	
+	/**
+	 * Vérifier si le système d'exploitation est bien Linux
+	 * @return le système d'exploitation est bien Linux ?
+	 */
+	public static boolean isUnix() {
+		return OS.indexOf("nux") >= 0;
+	}
 }

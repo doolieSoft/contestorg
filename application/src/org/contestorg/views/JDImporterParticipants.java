@@ -17,6 +17,7 @@ import javax.swing.JScrollPane;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
+import org.contestorg.common.Tools;
 import org.contestorg.common.TrackableList;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
@@ -64,7 +65,7 @@ public class JDImporterParticipants extends JDPattern
 		this.jp_contenu.add(ViewHelper.title("Choix du fichier", ViewHelper.H1));
 		this.jp_contenu.add(ViewHelper.left(this.jb_fichier));
 		this.jp_contenu.add(Box.createVerticalStrut(5));
-		this.jp_contenu.add(ViewHelper.pinformation("Rendez-vous dans l'aide pour connaître le format de fichier à utiliser.","doc/documentation.pdf","Ouvrir l'aide au format PDF"));
+		this.jp_contenu.add(ViewHelper.pinformation("Rendez-vous dans l'aide pour connaître le format de fichier à utiliser.",Tools.isWindows() ? "doc/documentation.chm" : "doc/documentation.html","Ouvrir l'aide"));
 		
 		this.jb_fichier.addActionListener(this);
 		
