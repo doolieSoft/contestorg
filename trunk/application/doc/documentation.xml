@@ -211,9 +211,8 @@
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="273px"
-                       fileref="images/ecrans/interface-generale.png"
-                       format="PNG" width="450px" />
+            <imagedata scalefit="1" width="100%" contentdepth="100%"
+                       fileref="images/ecrans/interface-generale.png" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -334,9 +333,8 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-general.png"
-                         width="350" />
+              <imagedata fileref="images/ecrans/configurer-general.png"
+                         scalefit="1" width="100%" contentdepth="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -358,9 +356,8 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-points-classement.png"
-                         width="350" />
+              <imagedata fileref="images/ecrans/configurer-points-classement.png"
+                         scalefit="1" width="100%" contentdepth="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -425,9 +422,8 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata depth="158"
-                             fileref="images/ecrans/configurer-objectif-points.png"
-                             width="200" />
+                  <imagedata scalefit="1" width="100%" contentdepth="100%"
+                             fileref="images/ecrans/configurer-objectif-points.png" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -522,9 +518,8 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata depth="158"
-                             fileref="images/ecrans/configurer-objectif-pourcentage.png"
-                             width="200" />
+                  <imagedata scalefit="1" width="100%" contentdepth="100%"
+                             fileref="images/ecrans/configurer-objectif-pourcentage.png" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -562,9 +557,8 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata depth="158"
-                             fileref="images/ecrans/configurer-objectif-nul.png"
-                             width="200" />
+                  <imagedata scalefit="1" width="100%" contentdepth="100%"
+                             fileref="images/ecrans/configurer-objectif-nul.png" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -597,9 +591,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-lieux-emplacements.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieux-emplacements.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -613,9 +606,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="444"
-                         fileref="images/ecrans/configurer-lieu.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieu.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -631,9 +623,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="218"
-                         fileref="images/ecrans/configurer-lieu-horaire.png"
-                         width="280" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieu-horaire.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -649,9 +640,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="151"
-                         fileref="images/ecrans/configurer-lieu-emplacement.png"
-                         width="280" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieu-emplacement.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -687,9 +677,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-prix.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-prix.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -709,9 +698,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-programmation-matchs.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-programmation-matchs.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -737,9 +725,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-proprietes-participant.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-proprietes-participant.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -763,9 +750,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="370"
-                         fileref="images/ecrans/configurer-exportations-diffusions.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/configurer-exportations-diffusions.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -826,9 +812,8 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata depth="469"
-                             fileref="images/ecrans/configurer-exportation.png"
-                             width="300" />
+                  <imagedata scalefit="1" width="100%" contentdepth="100%"
+                             fileref="images/ecrans/configurer-exportation.png" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -905,9 +890,8 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata depth="293"
-                             fileref="images/ecrans/configurer-diffusion.png"
-                             width="300" />
+                  <imagedata scalefit="1" width="100%" contentdepth="100%"
+                             fileref="images/ecrans/configurer-diffusion.png" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -947,9 +931,8 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="277"
-                       fileref="images/ecrans/onglet-participants.png"
-                       width="450" />
+            <imagedata scalefit="1" width="100%" contentdepth="100%"
+                       fileref="images/ecrans/onglet-participants.png" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -976,9 +959,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="208"
-                         fileref="images/ecrans/gerer-categories.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/gerer-categories.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1012,7 +994,7 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="515" fileref="images/ecrans/gerer-poules.png"
+              <imagedata fileref="images/ecrans/gerer-poules.png"
                          width="400" />
             </imageobject>
           </mediaobject>
@@ -1097,9 +1079,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="460"
-                         fileref="images/ecrans/creer-editer-participant.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/creer-editer-participant.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1138,9 +1119,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="361"
-                         fileref="images/ecrans/importer-participants.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/importer-participants.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1169,9 +1149,8 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="277"
-                       fileref="images/ecrans/onglet-phases-qualificatives.png"
-                       width="450" />
+            <imagedata scalefit="1" width="100%" contentdepth="100%"
+                       fileref="images/ecrans/onglet-phases-qualificatives.png" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1215,9 +1194,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="475"
-                         fileref="images/ecrans/creer-editer-phase-qualificative.png"
-                         width="400" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/creer-editer-phase-qualificative.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1311,9 +1289,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="386"
-                         fileref="images/ecrans/creer-editer-match-phases-qualificatives.png"
-                         width="220" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/creer-editer-match-phases-qualificatives.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1347,9 +1324,8 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="277"
-                       fileref="images/ecrans/onglet-phases-eliminatoires.png"
-                       width="450" />
+            <imagedata scalefit="1" width="100%" contentdepth="100%"
+                       fileref="images/ecrans/onglet-phases-eliminatoires.png" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1384,9 +1360,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="126"
-                         fileref="images/ecrans/editer-participant-phases-eliminatoires.png"
-                         width="250" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/editer-participant-phases-eliminatoires.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1420,9 +1395,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="383"
-                         fileref="images/ecrans/editer-match-phases-eliminatoires.png"
-                         width="220" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/editer-match-phases-eliminatoires.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1453,9 +1427,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="139"
-                         fileref="images/ecrans/exportations-predefinies.png"
-                         width="350" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/exportations-predefinies.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1480,9 +1453,8 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata depth="179"
-                         fileref="images/ecrans/exportations-volee.png"
-                         width="280" />
+              <imagedata scalefit="1" width="100%" contentdepth="100%"
+                         fileref="images/ecrans/exportations-volee.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1515,8 +1487,7 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata depth="154" fileref="images/ecrans/diffuser.png"
-                       width="350" />
+            <imagedata scalefit="1" width="100%" contentdepth="100%" fileref="images/ecrans/diffuser.png" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1801,12 +1772,6 @@ FIN PROCEDURE;</programlisting>
 
               <entry>Tous</entry>
             </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
-            </row>
           </tbody>
         </tgroup>
       </table>
@@ -1837,14 +1802,6 @@ FIN PROCEDURE;</programlisting>
 
               <entry>20€</entry>
             </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
-
-              <entry></entry>
-            </row>
           </tbody>
         </tgroup>
       </table>
@@ -1870,12 +1827,6 @@ FIN PROCEDURE;</programlisting>
               <entry>Gaëlle Bély</entry>
 
               <entry>Voix de la présentation vidéo</entry>
-            </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -1907,14 +1858,6 @@ FIN PROCEDURE;</programlisting>
               url="http://www.fatcow.com/">Cliquez-ici</ulink></entry>
 
               <entry>Creative Commons Attribution 3.0</entry>
-            </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
-
-              <entry></entry>
             </row>
           </tbody>
         </tgroup>
@@ -2030,14 +1973,6 @@ FIN PROCEDURE;</programlisting>
               <entry><ulink
               url="http://pngnq.sourceforge.net/">Cliquez-ici</ulink></entry>
             </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
-
-              <entry></entry>
-            </row>
           </tbody>
         </tgroup>
       </table>
@@ -2152,16 +2087,6 @@ FIN PROCEDURE;</programlisting>
 
               <entry>Mozilla Public License 1.0</entry>
             </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
-
-              <entry></entry>
-
-              <entry></entry>
-            </row>
           </tbody>
         </tgroup>
       </table>
@@ -2189,12 +2114,6 @@ FIN PROCEDURE;</programlisting>
 
               <entry><ulink url="http://www.le-pongiste.com">Le
               Pongiste</ulink> avec l'autorisation de l'auteur</entry>
-            </row>
-
-            <row>
-              <entry></entry>
-
-              <entry></entry>
             </row>
           </tbody>
         </tgroup>

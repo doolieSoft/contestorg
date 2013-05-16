@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.contestorg.common.Pair;
+import org.contestorg.common.Tools;
 import org.contestorg.infos.Fichier;
 import org.contestorg.infos.InfosModelTheme;
 import org.contestorg.infos.Parametre;
@@ -181,7 +182,7 @@ public class JPTheme extends JPanel implements ItemListener
 			if(nbParametres > 0 || nbFichiers > 0) {
 				this.add(Box.createVerticalStrut(5));
 			}
-			this.add(ViewHelper.pinformation("Saviez-vous que vous pouvez créer vos propres thèmes ?","doc/documentation.pdf","Ouvrir l'aide au format PDF"));
+			this.add(ViewHelper.pinformation("Saviez-vous que vous pouvez créer vos propres thèmes ?",Tools.isWindows() ? "doc/documentation.chm" : "doc/documentation.html","Ouvrir l'aide"));
 			
 			// Ecouter la liste des thèmes
 			this.jcb_themes.addItemListener(this);

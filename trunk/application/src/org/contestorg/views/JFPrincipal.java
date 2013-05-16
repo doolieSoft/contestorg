@@ -23,6 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 
+import org.contestorg.common.Tools;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.interfaces.IMoody;
@@ -123,7 +124,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_diffuser.setToolTipText("Démarrer des diffusions d'informations sur le réseau");
 		this.jb_configurer.setToolTipText("Configurer le concours");
 		this.jb_fermer.setToolTipText("Fermer le concours sans sauvegarder les modifications");
-		this.jb_aide.setToolTipText("Ouvrir l'aide au format PDF");
+		this.jb_aide.setToolTipText("Ouvrir l'aide");
 		this.jb_web.setToolTipText("Se rendre sur le site web de ContestOrg");
 		this.jb_apropos.setToolTipText("Afficher les informations de ContestOrg");
 		this.jb_quitter.setToolTipText("Quitter le programme");
@@ -266,7 +267,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 			}
 		} else if (event.getSource() == this.jb_aide) {
 			try {
-				Desktop.getDesktop().open(new File("doc/documentation.pdf"));
+				Desktop.getDesktop().open(new File(Tools.isWindows() ? "doc/documentation.chm" : "doc/documentation.html"));
 			} catch (Exception e) {
 				ViewHelper.derror(this, "Erreur de l'ouverture de l'aide de ContestOrg.");
 			}

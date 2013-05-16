@@ -556,7 +556,7 @@
 </xsl:template>
 
 <xsl:template match="guibutton">
-  <span style="background-color:#CCCCCC;padding:2px;display:inline-block;border:1px solid #AAAAAA;"><xsl:call-template name="inline.charseq"/></span>
+  <xsl:call-template name="inline.charseq"/>
 </xsl:template>
 
 <xsl:template match="guiicon">
