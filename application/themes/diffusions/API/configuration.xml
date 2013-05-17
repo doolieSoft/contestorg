@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+	<fichiers>
+		<fichier id="xml" nom="Concours au format XML" source="index.xsl" cible="concours.xml" transformation="xslt" principal="oui" fixe="oui" />
+	</fichiers>
+</configuration>
