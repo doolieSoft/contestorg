@@ -532,26 +532,38 @@
 			</xsl:if>
 			
 			<!-- Participations -->
-			<b>Participations :</b>
-			<xsl:call-template name="participations">
+			<xsl:call-template name="participationsPhasesQualificatives">
+			  <xsl:with-param name="id" select="./@id" />
+			</xsl:call-template>
+			<xsl:call-template name="participationsPhasesEliminatoires">
 			  <xsl:with-param name="id" select="./@id" />
 			</xsl:call-template>
 		</div>
 	</xsl:template>
 	
-	<!-- Template des participations d'un participant -->
-	<xsl:template name="participations">
+	<!-- Templates des participations d'un participant -->
+	<xsl:template name="participationsPhasesQualificatives">
 		<xsl:param name="id" />
 		<xsl:choose>
-			<xsl:when test="count(//participation[@refParticipant = $id]) != 0">
+			<xsl:when test="count(//matchPhaseQualificative[participation/@refParticipant = $id]) != 0">
+				<b>Participations aux phases qualificatives:</b>
 				<ul>
 					<xsl:apply-templates select="//matchPhaseQualificative[participation/@refParticipant = $id]">
 					</xsl:apply-templates>
 				</ul>
 			</xsl:when>
-			<xsl:otherwise>
-				<blockquote>Pas encore de participations.</blockquote>
-			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<xsl:template name="participationsPhasesEliminatoires">
+		<xsl:param name="id" />
+		<xsl:choose>
+			<xsl:when test="count(//matchPhaseEliminatoire[participation/@refParticipant = $id]) != 0">
+				<b>Participations aux phases éliminatoires :</b>
+				<ul>
+					<xsl:apply-templates select="//matchPhaseEliminatoire[participation/@refParticipant = $id]" mode="liste">
+					</xsl:apply-templates>
+				</ul>
+			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 	
