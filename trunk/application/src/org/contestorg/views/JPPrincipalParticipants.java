@@ -293,14 +293,8 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 			// Créer et afficher la fenêtre de gestion des catégories
 			new JDCategories(this.w_parent).setVisible(true);
 		} else if (event.getSource() == this.jb_poules) {
-			// Vérifier s'il y a suffisement de participants
-			if(ContestOrg.get().getCtrlParticipants().getNbParticipants() >= 4) {
-				// Créer et afficher la fenêtre de gestion des poules
-				new JDPoules(this.w_parent).setVisible(true);
-			} else {
-				// Erreur
-				ViewHelper.derror(this.w_parent, "Il faut au moins 4 "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" pour pouvoir gérer les poules.");
-			}
+			// Créer et afficher la fenêtre de gestion des poules
+			new JDPoules(this.w_parent).setVisible(true);
 		} else if (event.getSource() == this.jb_nouveau) {
 			// Récupérer la catégorie et la poule séléctionnées
 			Pair<String,String> selection = this.getSelection();
@@ -408,7 +402,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jb_supprimer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() != 0);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));
 		this.jb_categories.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
-		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && selection.getFirst() != null && ContestOrg.get().getCtrlParticipants().isCategorieExiste(selection.getFirst()) && ContestOrg.get().getCtrlParticipants().getNbParticipants(selection.getFirst()) >= 4);
+		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_nouveau.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_importer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 	}

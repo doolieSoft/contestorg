@@ -114,7 +114,6 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		// Récupérer les poules et les affectations
 		for(Pair<InfosModelCategorie, ArrayList<Pair<InfosModelPoule, ArrayList<InfosModelParticipant>>>> categorie : ContestOrg.get().getCtrlParticipants().getListeCategoriesPoulesParticipants()) {
 			// Récupérer les poules de la catégorie
-			int nbParticipants = 0;
 			ArrayList<Pair<InfosModelPoule,ArrayList<String>>> poules = new ArrayList<Pair<InfosModelPoule,ArrayList<String>>>();
 			for(Pair<InfosModelPoule, ArrayList<InfosModelParticipant>> poule : categorie.getSecond()) {
 				ArrayList<String> participants = new ArrayList<String>();
@@ -126,16 +125,12 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 					this.poids.put(participant.getNom(), 0);
 				}
 				poules.add(new Pair<InfosModelPoule, ArrayList<String>>(poule.getFirst(), participants));
-				nbParticipants += participants.size();
 			}
 			
-			// Vérifier si le nombre de participants est suffisant pour éditer les poules
-			if(nbParticipants >= 4) {
-				// Créer la liste suivable
-				TrackableList<Pair<InfosModelPoule, ArrayList<String>>> list = new TrackableList<Pair<InfosModelPoule,ArrayList<String>>>(poules);
-				list.addValidator(ContestOrg.get().getPoulesValidator());
-				this.categoriesPoulesParticipants.add(new Pair<String, TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>(categorie.getFirst().getNom(),list));
-			}
+			// Créer la liste suivable
+			TrackableList<Pair<InfosModelPoule, ArrayList<String>>> list = new TrackableList<Pair<InfosModelPoule,ArrayList<String>>>(poules);
+			list.addValidator(ContestOrg.get().getPoulesValidator());
+			this.categoriesPoulesParticipants.add(new Pair<String, TrackableList<Pair<InfosModelPoule,ArrayList<String>>>>(categorie.getFirst().getNom(),list));
 		}
 		
 		// Catégorie
@@ -144,7 +139,6 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 			this.jp_contenu.add(this.jcb_categorie);
 			this.jp_contenu.add(Box.createVerticalStrut(5));
 		}
-		
 		for(Pair<String, TrackableList<Pair<InfosModelPoule, ArrayList<String>>>> categorie : this.categoriesPoulesParticipants) {
 			this.jcb_categorie.addItem(categorie.getFirst());
 		}
@@ -312,6 +306,9 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 			this.js_nbParticipantsMaxPoule.setValue(0);
 		}
 		
+		// Désactiver le nombre maximale de participants par poule s'il n'y a aucun participant
+		this.js_nbParticipantsMaxPoule.setEnabled(nbParticipantsCategorie != 0);
+		
 		// Ecouter à nouveau les spinners
 		this.js_nbParticipantsMaxPoule.addChangeListener(this);
 		this.js_nbPoulesCategorie.addChangeListener(this);
@@ -351,52 +348,47 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 			int nbPoules = (Integer)this.js_nbPoulesCategorie.getValue();
 			
 			// Vérifier si le nombre de poules est correcte
-			if(nbPoules != 0) {
-				if(new Double(Math.ceil(Integer.parseInt(this.jtf_nbParticipantsCategorie.getText())/nbPoules)).intValue() >= 2) {					
-					// Supprimer toutes les poules excepté la première et placer leurs participants dans la première poule
-					while(poules.size() > 1) {
-						// Placer les participants de la poule dans la première poule
-						poules.get(0).getSecond().addAll(poules.get(1).getSecond());
-						
-						// Supprimer la deuxième poule
-						poules.remove(1);
-					}
+			if(nbPoules != 0) {					
+				// Supprimer toutes les poules excepté la première et placer leurs participants dans la première poule
+				while(poules.size() > 1) {
+					// Placer les participants de la poule dans la première poule
+					poules.get(0).getSecond().addAll(poules.get(1).getSecond());
 					
-					// Combien de lettres dans le numéro ?
-					int nbLettres = 1;
-					while(Math.pow(26, nbLettres) < nbPoules) {
-						nbLettres++;
-					}
-					
-					// Créer les poules
-					String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-					for(int i=0;i<nbPoules;i++) {
-						// Trouver le numéro de la poule
-						StringBuilder numero = new StringBuilder();
-						int resultat = i, reste;
-						do {
-							reste = resultat%26;
-							resultat = resultat/26;
-							numero.append(alphabet.charAt(reste));
-							if(nbLettres > 1 && resultat < 26) {
-								numero.append(alphabet.charAt(resultat));
-							}
-						} while(resultat >= 26);
-						while(numero.length() < nbLettres) {
-							numero.append("A");
-						}
-						numero.reverse();
-						
-						// Ajouter la poule
-						poules.add(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule("Poule "+numero), new ArrayList<String>()));
-					}
-					
-					// Lier la nouvelle liste des poules au tableau
-					this.tm_poules.link(poules);
-				} else {
-					// Erreur
-					ViewHelper.derror(this, "Il faut au moins 2 "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" par poule.");
+					// Supprimer la deuxième poule
+					poules.remove(1);
 				}
+				
+				// Combien de lettres dans le numéro ?
+				int nbLettres = 1;
+				while(Math.pow(26, nbLettres) < nbPoules) {
+					nbLettres++;
+				}
+				
+				// Créer les poules
+				String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				for(int i=0;i<nbPoules;i++) {
+					// Trouver le numéro de la poule
+					StringBuilder numero = new StringBuilder();
+					int resultat = i, reste;
+					do {
+						reste = resultat%26;
+						resultat = resultat/26;
+						numero.append(alphabet.charAt(reste));
+						if(nbLettres > 1 && resultat < 26) {
+							numero.append(alphabet.charAt(resultat));
+						}
+					} while(resultat >= 26);
+					while(numero.length() < nbLettres) {
+						numero.append("A");
+					}
+					numero.reverse();
+					
+					// Ajouter la poule
+					poules.add(new Pair<InfosModelPoule, ArrayList<String>>(new InfosModelPoule("Poule "+numero), new ArrayList<String>()));
+				}
+				
+				// Lier la nouvelle liste des poules au tableau
+				this.tm_poules.link(poules);
 			} else {
 				// Erreur
 				ViewHelper.derror(this, "Le nombre de poules ne peut pas être égal à zéro.");
@@ -412,36 +404,41 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 					}
 				}
 				
-				// Mélanger les participants
-				Collections.shuffle(participants);
-				
-				
-				// Trier les participants
-				Collections.sort(participants,new Comparator<String>() {
-					// Implémentation de compare
-					@Override
-					public int compare (String participantA, String participantB) {
-						if(poids.get(participantA).equals(poids.get(participantB))) {
-							return 0;
+				// Vérifier s'il y a assez de participants
+				if(participants.size() != 0) {
+					// Mélanger les participants
+					Collections.shuffle(participants);
+					
+					// Trier les participants
+					Collections.sort(participants,new Comparator<String>() {
+						// Implémentation de compare
+						@Override
+						public int compare (String participantA, String participantB) {
+							if(poids.get(participantA).equals(poids.get(participantB))) {
+								return 0;
+							}
+							return poids.get(participantA) < poids.get(participantB) ? 1 : -1;
 						}
-						return poids.get(participantA) < poids.get(participantB) ? 1 : -1;
+					});
+					
+					// Répartir les participants dans les poules
+					for(int i=0;participants.size()>0;i=(i+1)%poules.size()) {
+						if(i != 0) {
+							// Transférer le participant
+							poules.get(i).getSecond().add(participants.remove(0));
+							
+							// Informer la liste des poules du transfert
+							poules.update(0);
+							poules.update(i);
+						}
 					}
-				});
-				
-				// Répartir les participants dans les poules
-				for(int i=0;participants.size()>0;i=(i+1)%poules.size()) {
-					if(i != 0) {
-						// Transférer le participant
-						poules.get(i).getSecond().add(participants.remove(0));
-						
-						// Informer la liste des poules du transfert
-						poules.update(0);
-						poules.update(i);
-					}
+					
+					// Rafraichir le bas des champs
+					this.refreshBottom();
+				} else {
+					// Erreur
+					ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a aucune équipe dans la catégorie." : "Il n'y a aucun joueur dans la catégorie.");
 				}
-				
-				// Rafraichir le bas des champs
-				this.refreshBottom();
 			} else {
 				// Erreur
 				ViewHelper.derror(this, "Il faut au moins une poule en plus de la poule par défaut pour lancer l'affectation automatique.");
@@ -476,7 +473,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				jd_poulesPoidsParticipants.setVisible(true);
 			} else {
 				// Erreur
-				ViewHelper.derror(this, "Il n'y a aucun participant.");
+				ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a aucune équipe dans la catégorie." : "Il n'y a aucun joueur dans la catégorie.");
 			}
 		} else if(event.getSource() == this.jb_ajouterParticipant) {
 			// Vérifier le nombre de lignes séléctionnées
