@@ -278,7 +278,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 					   "<br/>" +
 					   "<h1>Mode basique</h1>" +
 					   "Le mode basique est bien moins gourmant en ressource. Il génère tous les couples de<br/>" +
-					   "participants possibles et les trie en fonction de l'affinité des participants que les composent.<br/>" +
+					   "participants possibles et les trie en fonction de l'affinité des participants qui les composent.<br/>" +
 					   "L'algorithme choisit ensuite des couples compatibles en retrouvés en haut de classement.<br/>" +
 					   "Celui ci peut parfois donner de bon résultats mais il ne s'agit pas forcement de la meilleure<br/>" +
 					   "configuration.<br/>" +

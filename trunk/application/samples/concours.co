@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<concours version="2.3.1" id="-1" nom="Exemple de tournois" site="http://www.example.org" lieu="France" email="contact@example.org" telephone="..-..-..-..-.." participants="joueurs" qualifications="phases">
+<concours version="2.3.1" id="-1" nom="Exemple de tournoi" site="http://www.example.org" lieu="France" email="contact@example.org" telephone="..-..-..-..-.." participants="joueurs" qualifications="phases">
   <!--Informations de l'organisateur du concours-->
   <organisateur nom="Exemple d'association" site="http://www.example.org" lieu="France" email="contact@example.org" telephone="..-..-..-..-.." />
   <!--Liste des points remportés en fonction du résultat des matchs-->
