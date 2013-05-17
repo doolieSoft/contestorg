@@ -1441,10 +1441,10 @@ public class PersistanceXML extends PersistanceAbstract
 									erreurs.add("L'une des propriétés personnalisées du participant \""+nom+"\" n'est pas valide");								
 								}
 							}
-							
-							// Ajouter le participant dans la liste des participants
-							participants.add(new Pair<InfosModelParticipant, ArrayList<Pair<String,InfosModelProprietePossedee>>>(new InfosModelParticipant(stand, nom, ville, statut, details), proprietes) );
 						}
+						
+						// Ajouter le participant dans la liste des participants
+						participants.add(new Pair<InfosModelParticipant, ArrayList<Pair<String,InfosModelProprietePossedee>>>(new InfosModelParticipant(stand, nom, ville, statut, details), proprietes) );
 					} else {
 						// Signaler l'erreur
 						erreurs.add("Le participant \""+nom+"\" existe déjà");	

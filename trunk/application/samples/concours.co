@@ -1,0 +1,1024 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concours version="2.3.1" id="-1" nom="Exemple de tournois" site="http://www.example.org" lieu="France" email="contact@example.org" telephone="..-..-..-..-.." participants="joueurs" qualifications="phases">
+  <!--Informations de l'organisateur du concours-->
+  <organisateur nom="Exemple d'association" site="http://www.example.org" lieu="France" email="contact@example.org" telephone="..-..-..-..-.." />
+  <!--Liste des points remportés en fonction du résultat des matchs-->
+  <points victoire="4.0" egalite="2.0" defaite="1.0" />
+  <!--Liste des critère de classement-->
+  <listeCriteres>
+    <critere id="11">
+      <critereNbPoints />
+    </critere>
+    <critere id="12">
+      <critereNbVictoires />
+    </critere>
+    <critere id="4085">
+      <critereNbObjectifs refObjectif="637" />
+    </critere>
+    <critere id="4086">
+      <critereNbObjectifs refObjectif="638" />
+    </critere>
+    <critere id="4087">
+      <critereNbObjectifs refObjectif="639" />
+    </critere>
+  </listeCriteres>
+  <!--Liste des lieux ou peuvent se dérouler les matchs-->
+  <listeLieux>
+    <lieu id="1662" nom="Complexe sportif" lieu="Ville d'exemple" telephone="..-..-..-..-.." email="contact@example.org">
+      <listeHoraires>
+        <horaire id="1659" debut="540" fin="750" jours="32" />
+        <horaire id="1660" debut="840" fin="1080" jours="32" />
+        <horaire id="1661" debut="840" fin="1020" jours="64" />
+      </listeHoraires>
+      <listeEmplacements>
+        <emplacement id="1656" nom="Terrain 1" />
+        <emplacement id="1657" nom="Terrain 2" />
+        <emplacement id="1658" nom="Terrain 3" />
+      </listeEmplacements>
+    </lieu>
+  </listeLieux>
+  <!--Liste des objectifs à remporter au cours matchs-->
+  <listeObjectifs>
+    <objectif id="637">
+      <objectifPoints nom="Objectif A" points="4.0" />
+    </objectif>
+    <objectif id="638">
+      <objectifPourcentage nom="Objectif B" pourcentage="10.0" />
+    </objectif>
+    <objectif id="639">
+      <objectifNul nom="Objectif C" />
+    </objectif>
+  </listeObjectifs>
+  <!--Liste des prix à remporter pendant le concours-->
+  <listePrix>
+    <prix id="644" nom="Prix du fair-play" />
+  </listePrix>
+  <!--Liste des propriétés de participant-->
+  <listeProprietes>
+    <propriete id="643" nom="Poids (en kgs)" type="decimal" obligatoire="oui" />
+  </listeProprietes>
+  <!--Liste des catégories-->
+  <listeCategories>
+    <categorie id="0" nom="Défaut">
+      <listePoules>
+        <poule id="2" nom="Défaut" />
+      </listePoules>
+    </categorie>
+    <categorie id="3" nom="-50kgs">
+      <classementCategoriePhasesQualificatives>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="24" rang="1" />
+          <classementParticipant refParticipant="23" rang="2" />
+          <classementParticipant refParticipant="22" rang="3" />
+          <classementParticipant refParticipant="21" rang="4" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesQualificatives>
+      <listePoules>
+        <poule id="4" nom="Défaut" />
+        <poule id="49" nom="Poule A">
+          <listeParticipants>
+            <participant id="22" nom="Laura" ville="Marseille" statut="homologuee" stand="F3" rangPhasesQualifs="3" pointsPhasesQualifs="17.4" rangPhasesElims="2" pointsPhasesElims="17.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="654" refPropriete="643" valeur="46.4" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="23" nom="Florian" ville="Lyon" statut="homologuee" stand="E4" rangPhasesQualifs="2" pointsPhasesQualifs="22.6" rangPhasesElims="4" pointsPhasesElims="6.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="655" refPropriete="643" valeur="47.2" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="21" nom="Kévin" ville="Paris" statut="homologuee" stand="A4" rangPhasesQualifs="4" pointsPhasesQualifs="10.4" rangPhasesElims="1" pointsPhasesElims="24.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="657" refPropriete="643" valeur="46.7" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="24" nom="Camille" ville="Toulouse" statut="homologuee" stand="D3" rangPhasesQualifs="1" pointsPhasesQualifs="28.8" rangPhasesElims="3" pointsPhasesElims="17.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="659" refPropriete="643" valeur="48.1" />
+              </listeProprietesPossedees>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="24" rang="1" />
+              <classementParticipant refParticipant="23" rang="2" />
+              <classementParticipant refParticipant="22" rang="3" />
+              <classementParticipant refParticipant="21" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="62" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="24" rang="1" />
+                  <classementParticipant refParticipant="22" rang="2" />
+                  <classementParticipant refParticipant="21" rang="3" />
+                  <classementParticipant refParticipant="23" rang="3" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="56">
+                <participation id="57" refParticipant="22" resultat="victoire" points="12.0">
+                  <objectifRempli id="1055" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1056" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="58" refParticipant="23" resultat="defaite" points="5.4">
+                  <objectifRempli id="1057" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1058" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="59">
+                <participation id="60" refParticipant="21" resultat="defaite" points="5.4">
+                  <objectifRempli id="1053" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1054" refObjectif="637" quantite="1" />
+                </participation>
+                <participation id="61" refParticipant="24" resultat="victoire" points="16.0">
+                  <objectifRempli id="1059" refObjectif="637" quantite="3" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="63" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="24" rang="1" />
+                  <classementParticipant refParticipant="23" rang="2" />
+                  <classementParticipant refParticipant="22" rang="3" />
+                  <classementParticipant refParticipant="21" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="64">
+                <participation id="65" refParticipant="23" resultat="victoire" points="17.2">
+                  <objectifRempli id="1060" refObjectif="637" quantite="3" />
+                  <objectifRempli id="1061" refObjectif="638" quantite="1" />
+                </participation>
+                <participation id="66" refParticipant="21" resultat="defaite" points="5.0">
+                  <objectifRempli id="1062" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="67">
+                <participation id="68" refParticipant="22" resultat="defaite" points="5.4">
+                  <objectifRempli id="1063" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1064" refObjectif="638" quantite="1" />
+                </participation>
+                <participation id="69" refParticipant="24" resultat="victoire" points="12.8">
+                  <objectifRempli id="1065" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1066" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1067" refObjectif="639" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+      </listePoules>
+      <classementCategoriePhasesEliminatoires>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="21" rang="1" />
+          <classementParticipant refParticipant="22" rang="2" />
+          <classementParticipant refParticipant="24" rang="3" />
+          <classementParticipant refParticipant="23" rang="4" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesEliminatoires>
+      <listePhasesEliminatoires id="2426">
+        <phaseEliminatoire numero="0">
+          <matchPhaseEliminatoire id="2427">
+            <participation id="2428" refParticipant="24" resultat="defaite" points="5.0">
+              <objectifRempli id="2847" refObjectif="637" quantite="1" />
+            </participation>
+            <participation id="2429" refParticipant="21" resultat="victoire" points="12.0">
+              <objectifRempli id="2848" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2430">
+            <participation id="2431" refParticipant="23" resultat="defaite" points="1.0">
+              <objectifRempli id="2851" refObjectif="638" quantite="1" />
+            </participation>
+            <participation id="2432" refParticipant="22" resultat="victoire" points="12.0">
+              <objectifRempli id="2852" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+        <phaseEliminatoire numero="1">
+          <matchPhaseEliminatoire id="2433" grandeFinale="oui" refMatchPrecedantA="2427" refMatchPrecedantB="2430">
+            <participation id="2849" refParticipant="21" resultat="victoire" points="12.0">
+              <objectifRempli id="2855" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="2853" refParticipant="22" resultat="defaite" points="5.0">
+              <objectifRempli id="2856" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2434" petiteFinale="oui" refMatchPrecedantA="2427" refMatchPrecedantB="2430">
+            <participation id="2850" refParticipant="24" resultat="victoire" points="12.0">
+              <objectifRempli id="2857" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="2854" refParticipant="23" resultat="defaite" points="5.0">
+              <objectifRempli id="2858" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+      </listePhasesEliminatoires>
+    </categorie>
+    <categorie id="5" nom="50kgs - 60kgs">
+      <classementCategoriePhasesQualificatives>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="27" rang="1" />
+          <classementParticipant refParticipant="28" rang="1" />
+          <classementParticipant refParticipant="29" rang="2" />
+          <classementParticipant refParticipant="31" rang="2" />
+          <classementParticipant refParticipant="30" rang="3" />
+          <classementParticipant refParticipant="26" rang="3" />
+          <classementParticipant refParticipant="25" rang="4" />
+          <classementParticipant refParticipant="32" rang="4" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesQualificatives>
+      <listePoules>
+        <poule id="6" nom="Défaut" />
+        <poule id="50" nom="Poule A">
+          <listeParticipants>
+            <participant id="26" nom="Léa" ville="Nantes" statut="homologuee" stand="B2" rangPhasesQualifs="3" pointsPhasesQualifs="13.0" rangPhasesElims="8" pointsPhasesElims="5.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="664" refPropriete="643" valeur="54.2" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="29" nom="Quentin" ville="Bordeaux" statut="homologuee" stand="E5" rangPhasesQualifs="2" pointsPhasesQualifs="22.2" rangPhasesElims="1" pointsPhasesElims="32.4">
+              <listeProprietesPossedees>
+                <proprietePossedee id="666" refPropriete="643" valeur="52.3" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="25" nom="Nicolas" ville="Nice" statut="homologuee" stand="F1" rangPhasesQualifs="4" pointsPhasesQualifs="10.0" rangPhasesElims="3" pointsPhasesElims="29.4">
+              <listeProprietesPossedees>
+                <proprietePossedee id="668" refPropriete="643" valeur="56.2" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="28" nom="Mathilde" ville="Montpellier" statut="homologuee" stand="A6" rangPhasesQualifs="1" pointsPhasesQualifs="24.0" rangPhasesElims="8" pointsPhasesElims="1.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="670" refPropriete="643" valeur="55.8" />
+              </listeProprietesPossedees>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="28" rang="1" />
+              <classementParticipant refParticipant="29" rang="2" />
+              <classementParticipant refParticipant="26" rang="3" />
+              <classementParticipant refParticipant="25" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="70" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="26" rang="1" />
+                  <classementParticipant refParticipant="28" rang="2" />
+                  <classementParticipant refParticipant="29" rang="3" />
+                  <classementParticipant refParticipant="25" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="71">
+                <participation id="72" refParticipant="26" resultat="victoire" points="12.0">
+                  <objectifRempli id="1068" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1069" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="73" refParticipant="25" resultat="defaite" points="1.0">
+                  <objectifRempli id="1070" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="74">
+                <participation id="75" refParticipant="29" resultat="defaite" points="5.0">
+                  <objectifRempli id="1071" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1072" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="76" refParticipant="28" resultat="victoire" points="12.0">
+                  <objectifRempli id="1073" refObjectif="637" quantite="2" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="77" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="28" rang="1" />
+                  <classementParticipant refParticipant="29" rang="2" />
+                  <classementParticipant refParticipant="26" rang="3" />
+                  <classementParticipant refParticipant="25" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="78">
+                <participation id="79" refParticipant="28" resultat="victoire" points="12.0">
+                  <objectifRempli id="1074" refObjectif="637" quantite="2" />
+                </participation>
+                <participation id="80" refParticipant="26" resultat="defaite" points="1.0">
+                  <objectifRempli id="1075" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1076" refObjectif="639" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="81">
+                <participation id="82" refParticipant="25" resultat="defaite" points="9.0">
+                  <objectifRempli id="1077" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1078" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="83" refParticipant="29" resultat="victoire" points="17.2">
+                  <objectifRempli id="1079" refObjectif="637" quantite="3" />
+                  <objectifRempli id="1080" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+        <poule id="51" nom="Poule B">
+          <listeParticipants>
+            <participant id="31" nom="Thomas" ville="Rennes" statut="homologuee" stand="C2" rangPhasesQualifs="2" pointsPhasesQualifs="20.0" rangPhasesElims="4" pointsPhasesElims="22.8">
+              <listeProprietesPossedees>
+                <proprietePossedee id="673" refPropriete="643" valeur="58.0" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="32" nom="Manon" ville="Reims" statut="homologuee" stand="C1" rangPhasesQualifs="4" pointsPhasesQualifs="1.0" rangPhasesElims="2" pointsPhasesElims="29.8">
+              <listeProprietesPossedees>
+                <proprietePossedee id="675" refPropriete="643" valeur="59.1" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="27" nom="Jordan" ville="Strasbourg" statut="homologuee" stand="A3" rangPhasesQualifs="1" pointsPhasesQualifs="26.0" rangPhasesElims="8" pointsPhasesElims="5.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="677" refPropriete="643" valeur="50.2" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="30" nom="Marine" ville="Lille" statut="homologuee" stand="C6" rangPhasesQualifs="3" pointsPhasesQualifs="19.4" rangPhasesElims="8" pointsPhasesElims="5.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="679" refPropriete="643" valeur="53.9" />
+              </listeProprietesPossedees>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="27" rang="1" />
+              <classementParticipant refParticipant="31" rang="2" />
+              <classementParticipant refParticipant="30" rang="3" />
+              <classementParticipant refParticipant="32" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="84" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="30" rang="1" />
+                  <classementParticipant refParticipant="27" rang="1" />
+                  <classementParticipant refParticipant="31" rang="3" />
+                  <classementParticipant refParticipant="32" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="85">
+                <participation id="86" refParticipant="27" resultat="egalite" points="14.0">
+                  <objectifRempli id="1081" refObjectif="637" quantite="3" />
+                  <objectifRempli id="1082" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="87" refParticipant="30" resultat="egalite" points="14.0">
+                  <objectifRempli id="1083" refObjectif="637" quantite="3" />
+                  <objectifRempli id="1273" refObjectif="639" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="88">
+                <participation id="89" refParticipant="31" resultat="victoire" points="8.0">
+                  <objectifRempli id="1239" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1240" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="90" refParticipant="32" resultat="defaite" points="1.0">
+                  <objectifRempli id="1241" refObjectif="639" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="91" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="27" rang="1" />
+                  <classementParticipant refParticipant="31" rang="2" />
+                  <classementParticipant refParticipant="30" rang="3" />
+                  <classementParticipant refParticipant="32" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="92">
+                <participation id="93" refParticipant="27" resultat="victoire" points="12.0">
+                  <objectifRempli id="1242" refObjectif="637" quantite="2" />
+                </participation>
+                <participation id="94" refParticipant="32" resultat="forfait" points="0.0" />
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="95">
+                <participation id="96" refParticipant="30" resultat="defaite" points="5.4">
+                  <objectifRempli id="1243" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1244" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1245" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="97" refParticipant="31" resultat="victoire" points="12.0">
+                  <objectifRempli id="1246" refObjectif="637" quantite="2" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+      </listePoules>
+      <classementCategoriePhasesEliminatoires>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="29" rang="1" />
+          <classementParticipant refParticipant="32" rang="2" />
+          <classementParticipant refParticipant="25" rang="3" />
+          <classementParticipant refParticipant="31" rang="4" />
+          <classementParticipant refParticipant="27" rang="8" />
+          <classementParticipant refParticipant="28" rang="8" />
+          <classementParticipant refParticipant="30" rang="8" />
+          <classementParticipant refParticipant="26" rang="8" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesEliminatoires>
+      <listePhasesEliminatoires id="2409">
+        <phaseEliminatoire numero="0">
+          <matchPhaseEliminatoire id="2410">
+            <participation id="2411" refParticipant="27" resultat="defaite" points="5.0">
+              <objectifRempli id="2822" refObjectif="637" quantite="1" />
+            </participation>
+            <participation id="2412" refParticipant="32" resultat="victoire" points="12.8">
+              <objectifRempli id="2823" refObjectif="637" quantite="2" />
+              <objectifRempli id="2824" refObjectif="638" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2413">
+            <participation id="2414" refParticipant="31" resultat="victoire" points="12.8">
+              <objectifRempli id="2825" refObjectif="637" quantite="2" />
+              <objectifRempli id="2826" refObjectif="638" quantite="1" />
+            </participation>
+            <participation id="2415" refParticipant="30" resultat="defaite" points="5.0">
+              <objectifRempli id="2827" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2416">
+            <participation id="2417" refParticipant="28" resultat="defaite" points="1.0" />
+            <participation id="2418" refParticipant="25" resultat="victoire" points="8.0">
+              <objectifRempli id="2829" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2419">
+            <participation id="2420" refParticipant="29" resultat="victoire" points="8.4">
+              <objectifRempli id="2831" refObjectif="637" quantite="1" />
+              <objectifRempli id="2832" refObjectif="638" quantite="1" />
+              <objectifRempli id="2833" refObjectif="639" quantite="1" />
+            </participation>
+            <participation id="2421" refParticipant="26" resultat="defaite" points="5.0">
+              <objectifRempli id="2834" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+        <phaseEliminatoire numero="1">
+          <matchPhaseEliminatoire id="2422" refMatchPrecedantA="2410" refMatchPrecedantB="2413">
+            <participation id="2821" refParticipant="32" resultat="victoire" points="12.0">
+              <objectifRempli id="2841" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="2828" refParticipant="31" resultat="defaite" points="1.0">
+              <objectifRempli id="2842" refObjectif="638" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2423" refMatchPrecedantA="2416" refMatchPrecedantB="2419">
+            <participation id="2830" refParticipant="25" resultat="defaite" points="5.4">
+              <objectifRempli id="2836" refObjectif="637" quantite="1" />
+              <objectifRempli id="2837" refObjectif="638" quantite="1" />
+            </participation>
+            <participation id="2835" refParticipant="29" resultat="victoire" points="12.0">
+              <objectifRempli id="2838" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+        <phaseEliminatoire numero="2">
+          <matchPhaseEliminatoire id="2424" grandeFinale="oui" refMatchPrecedantA="2422" refMatchPrecedantB="2423">
+            <participation id="2843" refParticipant="32" resultat="defaite" points="5.0">
+              <objectifRempli id="2845" refObjectif="637" quantite="1" />
+            </participation>
+            <participation id="2839" refParticipant="29" resultat="victoire" points="12.0">
+              <objectifRempli id="2846" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="2425" petiteFinale="oui" refMatchPrecedantA="2422" refMatchPrecedantB="2423">
+            <participation id="2844" refParticipant="31" resultat="defaite" points="9.0">
+              <objectifRempli id="2859" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="2840" refParticipant="25" resultat="victoire" points="16.0">
+              <objectifRempli id="2860" refObjectif="637" quantite="3" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+      </listePhasesEliminatoires>
+    </categorie>
+    <categorie id="7" nom="60kgs - 70kgs">
+      <classementCategoriePhasesQualificatives>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="35" rang="1" />
+          <classementParticipant refParticipant="44" rang="1" />
+          <classementParticipant refParticipant="41" rang="1" />
+          <classementParticipant refParticipant="42" rang="2" />
+          <classementParticipant refParticipant="43" rang="2" />
+          <classementParticipant refParticipant="33" rang="2" />
+          <classementParticipant refParticipant="39" rang="3" />
+          <classementParticipant refParticipant="34" rang="3" />
+          <classementParticipant refParticipant="36" rang="3" />
+          <classementParticipant refParticipant="40" rang="4" />
+          <classementParticipant refParticipant="38" rang="4" />
+          <classementParticipant refParticipant="37" rang="4" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesQualificatives>
+      <listePoules>
+        <poule id="8" nom="Défaut" />
+        <poule id="52" nom="Poule A">
+          <listeParticipants>
+            <participant id="42" nom="Sarah" ville="Villeurbanne" statut="homologuee" stand="D2" rangPhasesQualifs="2" pointsPhasesQualifs="28.0" rangPhasesElims="3" pointsPhasesElims="25.8">
+              <listeProprietesPossedees>
+                <proprietePossedee id="684" refPropriete="643" valeur="67.2" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="39" nom="Lucas" ville="Le Mans" statut="homologuee" stand="E1" rangPhasesQualifs="3" pointsPhasesQualifs="13.0" rangPhasesElims="-1" pointsPhasesElims="0.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="686" refPropriete="643" valeur="62.4" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="38" nom="Anaïs" ville="Saint-Denis" statut="homologuee" stand="C3" rangPhasesQualifs="4" pointsPhasesQualifs="10.0" rangPhasesElims="-1" pointsPhasesElims="0.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="688" refPropriete="643" valeur="67.1" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="35" nom="Julien" ville="Grenoble" statut="homologuee" stand="E3" rangPhasesQualifs="1" pointsPhasesQualifs="30.6" rangPhasesElims="8" pointsPhasesElims="5.4">
+              <listeProprietesPossedees>
+                <proprietePossedee id="690" refPropriete="643" valeur="64.3" />
+              </listeProprietesPossedees>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="35" rang="1" />
+              <classementParticipant refParticipant="42" rang="2" />
+              <classementParticipant refParticipant="39" rang="3" />
+              <classementParticipant refParticipant="38" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="98" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="42" rang="1" />
+                  <classementParticipant refParticipant="39" rang="2" />
+                  <classementParticipant refParticipant="35" rang="3" />
+                  <classementParticipant refParticipant="38" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="99">
+                <participation id="100" refParticipant="39" resultat="victoire" points="12.0">
+                  <objectifRempli id="1247" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1248" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="101" refParticipant="38" resultat="defaite" points="5.0">
+                  <objectifRempli id="1249" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="102">
+                <participation id="103" refParticipant="35" resultat="defaite" points="9.0">
+                  <objectifRempli id="1250" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1251" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="104" refParticipant="42" resultat="victoire" points="16.0">
+                  <objectifRempli id="1252" refObjectif="637" quantite="3" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="119" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="35" rang="1" />
+                  <classementParticipant refParticipant="42" rang="2" />
+                  <classementParticipant refParticipant="39" rang="3" />
+                  <classementParticipant refParticipant="38" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="120">
+                <participation id="121" refParticipant="39" resultat="defaite" points="1.0">
+                  <objectifRempli id="1253" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1254" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="122" refParticipant="42" resultat="victoire" points="12.0">
+                  <objectifRempli id="1255" refObjectif="637" quantite="2" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="123">
+                <participation id="124" refParticipant="35" resultat="victoire" points="21.6">
+                  <objectifRempli id="1256" refObjectif="637" quantite="4" />
+                  <objectifRempli id="1257" refObjectif="638" quantite="1" />
+                </participation>
+                <participation id="125" refParticipant="38" resultat="defaite" points="5.0">
+                  <objectifRempli id="1258" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+        <poule id="53" nom="Poule B">
+          <listeParticipants>
+            <participant id="44" nom="Emma" ville="Perpignan" statut="homologuee" stand="B3" rangPhasesQualifs="1" pointsPhasesQualifs="20.0" rangPhasesElims="4" pointsPhasesElims="18.4">
+              <listeProprietesPossedees>
+                <proprietePossedee id="693" refPropriete="643" valeur="61.8" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="33" nom="Alexandre" ville="Le Havre" statut="homologuee" stand="C4" rangPhasesQualifs="2" pointsPhasesQualifs="13.0" rangPhasesElims="2" pointsPhasesElims="29.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="695" refPropriete="643" valeur="69.3" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="37" nom="Anthony" ville="Angers" statut="homologuee" stand="A5" rangPhasesQualifs="4" pointsPhasesQualifs="5.4" rangPhasesElims="-1" pointsPhasesElims="0.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="697" refPropriete="643" valeur="64.8" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="36" nom="Ophelie" ville="Dijon" statut="homologuee" stand="B1" rangPhasesQualifs="3" pointsPhasesQualifs="13.0" rangPhasesElims="8" pointsPhasesElims="5.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="699" refPropriete="643" valeur="68.7" />
+              </listeProprietesPossedees>
+              <listePrixRemportes>
+                <prixRemporte refPrix="644" />
+              </listePrixRemportes>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="44" rang="1" />
+              <classementParticipant refParticipant="33" rang="2" />
+              <classementParticipant refParticipant="36" rang="3" />
+              <classementParticipant refParticipant="37" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="105" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="36" rang="1" />
+                  <classementParticipant refParticipant="44" rang="1" />
+                  <classementParticipant refParticipant="37" rang="3" />
+                  <classementParticipant refParticipant="33" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="106">
+                <participation id="107" refParticipant="33" resultat="defaite" points="1.0">
+                  <objectifRempli id="1259" refObjectif="638" quantite="1" />
+                </participation>
+                <participation id="108" refParticipant="36" resultat="victoire" points="12.0">
+                  <objectifRempli id="1260" refObjectif="637" quantite="2" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="109">
+                <participation id="110" refParticipant="44" resultat="victoire" points="12.0">
+                  <objectifRempli id="1261" refObjectif="637" quantite="2" />
+                </participation>
+                <participation id="111" refParticipant="37" resultat="defaite" points="5.4">
+                  <objectifRempli id="1262" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1263" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="126" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="44" rang="1" />
+                  <classementParticipant refParticipant="33" rang="2" />
+                  <classementParticipant refParticipant="36" rang="3" />
+                  <classementParticipant refParticipant="37" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="127">
+                <participation id="128" refParticipant="44" resultat="victoire" points="8.0">
+                  <objectifRempli id="1264" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1265" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="129" refParticipant="36" resultat="defaite" points="1.0">
+                  <objectifRempli id="1266" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="130">
+                <participation id="131" refParticipant="37" resultat="forfait" points="0.0" />
+                <participation id="132" refParticipant="33" resultat="victoire" points="12.0">
+                  <objectifRempli id="1267" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1268" refObjectif="639" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+        <poule id="54" nom="Poule C">
+          <listeParticipants>
+            <participant id="43" nom="Maxime" ville="Metz" statut="homologuee" stand="B6" rangPhasesQualifs="2" pointsPhasesQualifs="13.0" rangPhasesElims="1" pointsPhasesElims="36.8">
+              <listeProprietesPossedees>
+                <proprietePossedee id="703" refPropriete="643" valeur="65.3" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="40" nom="Chloé" ville="Aix-en-Provence" statut="homologuee" stand="A2" rangPhasesQualifs="4" pointsPhasesQualifs="11.0" rangPhasesElims="-1" pointsPhasesElims="0.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="705" refPropriete="643" valeur="69.4" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="41" nom="Hugo" ville="Brest" statut="homologuee" stand="B4" rangPhasesQualifs="1" pointsPhasesQualifs="14.4" rangPhasesElims="8" pointsPhasesElims="5.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="707" refPropriete="643" valeur="60.3" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="34" nom="Charlotte" ville="Toulon" statut="homologuee" stand="C5" rangPhasesQualifs="3" pointsPhasesQualifs="13.0" rangPhasesElims="8" pointsPhasesElims="5.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="709" refPropriete="643" valeur="60.7" />
+              </listeProprietesPossedees>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="41" rang="1" />
+              <classementParticipant refParticipant="43" rang="2" />
+              <classementParticipant refParticipant="34" rang="3" />
+              <classementParticipant refParticipant="40" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="112" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="34" rang="1" />
+                  <classementParticipant refParticipant="40" rang="2" />
+                  <classementParticipant refParticipant="41" rang="2" />
+                  <classementParticipant refParticipant="43" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="113">
+                <participation id="114" refParticipant="34" resultat="victoire" points="12.0">
+                  <objectifRempli id="1269" refObjectif="637" quantite="2" />
+                </participation>
+                <participation id="115" refParticipant="43" resultat="defaite" points="1.0">
+                  <objectifRempli id="1270" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="116">
+                <participation id="117" refParticipant="40" resultat="egalite" points="6.0">
+                  <objectifRempli id="1271" refObjectif="637" quantite="1" />
+                </participation>
+                <participation id="118" refParticipant="41" resultat="egalite" points="6.0">
+                  <objectifRempli id="1272" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="133" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="41" rang="1" />
+                  <classementParticipant refParticipant="43" rang="2" />
+                  <classementParticipant refParticipant="34" rang="3" />
+                  <classementParticipant refParticipant="40" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="134">
+                <participation id="135" refParticipant="43" resultat="victoire" points="12.0">
+                  <objectifRempli id="1274" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1275" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="136" refParticipant="40" resultat="defaite" points="5.0">
+                  <objectifRempli id="1276" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="137">
+                <participation id="138" refParticipant="41" resultat="victoire" points="8.4">
+                  <objectifRempli id="1277" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1278" refObjectif="638" quantite="1" />
+                </participation>
+                <participation id="139" refParticipant="34" resultat="defaite" points="1.0">
+                  <objectifRempli id="1279" refObjectif="638" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+      </listePoules>
+      <classementCategoriePhasesEliminatoires>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="43" rang="1" />
+          <classementParticipant refParticipant="33" rang="2" />
+          <classementParticipant refParticipant="42" rang="3" />
+          <classementParticipant refParticipant="44" rang="4" />
+          <classementParticipant refParticipant="35" rang="8" />
+          <classementParticipant refParticipant="41" rang="8" />
+          <classementParticipant refParticipant="34" rang="8" />
+          <classementParticipant refParticipant="36" rang="8" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesEliminatoires>
+      <listePhasesEliminatoires id="1318">
+        <phaseEliminatoire numero="0">
+          <matchPhaseEliminatoire id="1319">
+            <participation id="1320" refParticipant="35" resultat="defaite" points="5.4">
+              <objectifRempli id="1382" refObjectif="637" quantite="1" />
+              <objectifRempli id="1383" refObjectif="638" quantite="1" />
+            </participation>
+            <participation id="1321" refParticipant="33" resultat="victoire" points="12.0">
+              <objectifRempli id="1384" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1322">
+            <participation id="1323" refParticipant="42" resultat="victoire" points="12.8">
+              <objectifRempli id="1386" refObjectif="637" quantite="2" />
+              <objectifRempli id="1387" refObjectif="638" quantite="1" />
+            </participation>
+            <participation id="1324" refParticipant="34" resultat="defaite" points="5.0">
+              <objectifRempli id="1388" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1325">
+            <participation id="1326" refParticipant="44" resultat="victoire" points="12.0">
+              <objectifRempli id="1390" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="1327" refParticipant="36" resultat="defaite" points="5.0">
+              <objectifRempli id="1391" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1328">
+            <participation id="1329" refParticipant="41" resultat="defaite" points="5.0">
+              <objectifRempli id="1393" refObjectif="637" quantite="1" />
+            </participation>
+            <participation id="1330" refParticipant="43" resultat="victoire" points="12.8">
+              <objectifRempli id="1394" refObjectif="637" quantite="2" />
+              <objectifRempli id="1395" refObjectif="638" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+        <phaseEliminatoire numero="1">
+          <matchPhaseEliminatoire id="1331" refMatchPrecedantA="1319" refMatchPrecedantB="1322">
+            <participation id="1385" refParticipant="33" resultat="victoire" points="12.0">
+              <objectifRempli id="1402" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="1389" refParticipant="42" resultat="defaite" points="1.0">
+              <objectifRempli id="1403" refObjectif="638" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1332" refMatchPrecedantA="1325" refMatchPrecedantB="1328">
+            <participation id="1392" refParticipant="44" resultat="defaite" points="5.4">
+              <objectifRempli id="1397" refObjectif="637" quantite="1" />
+              <objectifRempli id="1398" refObjectif="638" quantite="1" />
+            </participation>
+            <participation id="1396" refParticipant="43" resultat="victoire" points="12.0">
+              <objectifRempli id="1399" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+        <phaseEliminatoire numero="2">
+          <matchPhaseEliminatoire id="1333" grandeFinale="oui" refMatchPrecedantA="1331" refMatchPrecedantB="1332">
+            <participation id="1404" refParticipant="33" resultat="defaite" points="5.0">
+              <objectifRempli id="1406" refObjectif="637" quantite="1" />
+            </participation>
+            <participation id="1400" refParticipant="43" resultat="victoire" points="12.0">
+              <objectifRempli id="1407" refObjectif="637" quantite="2" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1334" petiteFinale="oui" refMatchPrecedantA="1331" refMatchPrecedantB="1332">
+            <participation id="1405" refParticipant="42" resultat="victoire" points="12.0">
+              <objectifRempli id="1408" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="1401" refParticipant="44" resultat="defaite" points="1.0">
+              <objectifRempli id="1409" refObjectif="638" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+      </listePhasesEliminatoires>
+    </categorie>
+    <categorie id="9" nom="+70kgs">
+      <classementCategoriePhasesQualificatives>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="45" rang="1" />
+          <classementParticipant refParticipant="47" rang="2" />
+          <classementParticipant refParticipant="46" rang="3" />
+          <classementParticipant refParticipant="48" rang="4" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesQualificatives>
+      <listePoules>
+        <poule id="10" nom="Défaut" />
+        <poule id="55" nom="Poule A">
+          <listeParticipants>
+            <participant id="47" nom="Arthur" ville="Nanterre" statut="homologuee" stand="B5" rangPhasesQualifs="2" pointsPhasesQualifs="14.0" rangPhasesElims="2" pointsPhasesElims="9.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="714" refPropriete="643" valeur="72.1" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="45" nom="Clément" ville="Orléans" statut="homologuee" stand="F2" rangPhasesQualifs="1" pointsPhasesQualifs="28.8" rangPhasesElims="1" pointsPhasesElims="24.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="716" refPropriete="643" valeur="71.9" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="48" nom="Sophie" ville="Avignon" statut="homologuee" stand="A1" rangPhasesQualifs="4" pointsPhasesQualifs="13.0" rangPhasesElims="3" pointsPhasesElims="13.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="718" refPropriete="643" valeur="73.6" />
+              </listeProprietesPossedees>
+            </participant>
+            <participant id="46" nom="Océane" ville="Roubaix" statut="homologuee" stand="F4" rangPhasesQualifs="3" pointsPhasesQualifs="13.8" rangPhasesElims="4" pointsPhasesElims="2.0">
+              <listeProprietesPossedees>
+                <proprietePossedee id="720" refPropriete="643" valeur="70.4" />
+              </listeProprietesPossedees>
+            </participant>
+          </listeParticipants>
+          <classementPoulePhasesQualificatives>
+            <listeClassementParticipants>
+              <classementParticipant refParticipant="45" rang="1" />
+              <classementParticipant refParticipant="47" rang="2" />
+              <classementParticipant refParticipant="46" rang="3" />
+              <classementParticipant refParticipant="48" rang="4" />
+            </listeClassementParticipants>
+          </classementPoulePhasesQualificatives>
+          <listePhasesQualificatives>
+            <phaseQualificative id="140" numero="0">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="45" rang="1" />
+                  <classementParticipant refParticipant="47" rang="2" />
+                  <classementParticipant refParticipant="48" rang="3" />
+                  <classementParticipant refParticipant="46" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="141">
+                <participation id="142" refParticipant="46" resultat="defaite" points="1.0" />
+                <participation id="143" refParticipant="48" resultat="victoire" points="8.0">
+                  <objectifRempli id="1280" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="144">
+                <participation id="145" refParticipant="45" resultat="victoire" points="16.0">
+                  <objectifRempli id="1281" refObjectif="637" quantite="3" />
+                  <objectifRempli id="1282" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="146" refParticipant="47" resultat="defaite" points="9.0">
+                  <objectifRempli id="1283" refObjectif="637" quantite="2" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+            <phaseQualificative id="147" numero="1">
+              <classementPhaseQualificative>
+                <listeClassementParticipants>
+                  <classementParticipant refParticipant="45" rang="1" />
+                  <classementParticipant refParticipant="47" rang="2" />
+                  <classementParticipant refParticipant="46" rang="3" />
+                  <classementParticipant refParticipant="48" rang="4" />
+                </listeClassementParticipants>
+              </classementPhaseQualificative>
+              <matchPhaseQualificative id="148">
+                <participation id="149" refParticipant="45" resultat="victoire" points="12.8">
+                  <objectifRempli id="1284" refObjectif="637" quantite="2" />
+                  <objectifRempli id="1285" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1286" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="150" refParticipant="48" resultat="defaite" points="5.0">
+                  <objectifRempli id="1287" refObjectif="637" quantite="1" />
+                </participation>
+              </matchPhaseQualificative>
+              <matchPhaseQualificative id="151">
+                <participation id="152" refParticipant="47" resultat="defaite" points="5.0">
+                  <objectifRempli id="1288" refObjectif="637" quantite="1" />
+                  <objectifRempli id="1289" refObjectif="639" quantite="1" />
+                </participation>
+                <participation id="153" refParticipant="46" resultat="victoire" points="12.8">
+                  <objectifRempli id="1290" refObjectif="638" quantite="1" />
+                  <objectifRempli id="1291" refObjectif="637" quantite="2" />
+                </participation>
+              </matchPhaseQualificative>
+            </phaseQualificative>
+          </listePhasesQualificatives>
+        </poule>
+      </listePoules>
+      <classementCategoriePhasesEliminatoires>
+        <listeClassementParticipants>
+          <classementParticipant refParticipant="45" rang="1" />
+          <classementParticipant refParticipant="47" rang="2" />
+          <classementParticipant refParticipant="48" rang="3" />
+          <classementParticipant refParticipant="46" rang="4" />
+        </listeClassementParticipants>
+      </classementCategoriePhasesEliminatoires>
+      <listePhasesEliminatoires id="1335">
+        <phaseEliminatoire numero="0">
+          <matchPhaseEliminatoire id="1336">
+            <participation id="1337" refParticipant="45" resultat="victoire" points="12.0">
+              <objectifRempli id="1410" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="1338" refParticipant="48" resultat="defaite" points="1.0" />
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1339">
+            <participation id="1340" refParticipant="46" resultat="defaite" points="1.0" />
+            <participation id="1341" refParticipant="47" resultat="victoire" points="8.0">
+              <objectifRempli id="1413" refObjectif="637" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+        <phaseEliminatoire numero="1">
+          <matchPhaseEliminatoire id="1342" grandeFinale="oui" refMatchPrecedantA="1336" refMatchPrecedantB="1339">
+            <participation id="1411" refParticipant="45" resultat="victoire" points="12.0">
+              <objectifRempli id="1416" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="1414" refParticipant="47" resultat="defaite" points="1.0">
+              <objectifRempli id="1417" refObjectif="638" quantite="1" />
+            </participation>
+          </matchPhaseEliminatoire>
+          <matchPhaseEliminatoire id="1343" petiteFinale="oui" refMatchPrecedantA="1336" refMatchPrecedantB="1339">
+            <participation id="1412" refParticipant="48" resultat="victoire" points="12.0">
+              <objectifRempli id="1418" refObjectif="637" quantite="2" />
+            </participation>
+            <participation id="1415" refParticipant="46" resultat="defaite" points="1.0" />
+          </matchPhaseEliminatoire>
+        </phaseEliminatoire>
+      </listePhasesEliminatoires>
+    </categorie>
+  </listeCategories>
+</concours>
+
