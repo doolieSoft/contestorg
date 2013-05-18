@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="phasesQualificatives">
+	<fichiers>
+		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Feuilles des matchs d'une phase qualificative.pdf" transformation="fop-pdf" principal="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" />
+		<parametre id="idPoule" nom="Poule" type="idPoule" dependance="idCategorie" />
+		<parametre id="idPhase" nom="Phase" type="idPhase" dependance="idPoule" />
+		<parametre id="couleurJoueurA" nom="Couleur du joueur A" type="texte" defaut="#CCCCCC" />
+		<parametre id="couleurJoueurB" nom="Couleur du joueur B" type="texte" defaut="#CCCCCC" />
+		<parametre id="signature" nom="Faire signer les participants ?" type="booleen" defaut="0" />
+	</parametres>
+</configuration>
