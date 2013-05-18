@@ -3,6 +3,9 @@
 	<!-- Importation des templates communs -->
 	<xsl:import href="../common.xsl"/>
 	
+	<!-- Paramètres-->
+	<xsl:param name="nbPages">#</xsl:param>
+	
 	<!-- Templates pour documents PDF -->
 	<xsl:template name="pdf-titre-h1">
 		<xsl:param name="titre" />
@@ -46,7 +49,7 @@
 						</fo:table-cell>
 						<fo:table-cell>
 							<fo:block text-align="right">
-								Page <fo:page-number />
+								Page <fo:page-number />/<xsl:value-of select="$nbPages" />
 							</fo:block>
 						</fo:table-cell>
 					</fo:table-row>
