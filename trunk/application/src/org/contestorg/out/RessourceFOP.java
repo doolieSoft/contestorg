@@ -62,7 +62,30 @@ public class RessourceFOP extends RessourceAbstract
 	protected boolean refresh () {
 		Document document = PersistanceXML.getConcoursDocument();
 		if(document != null) {
-			return XMLHelper.save(document, this.xml) && XSLTHelper.transform(this.xml, this.xsl, this.xslfo, this.getParametres()) && FOPHelper.transformPDF(this.xslfo, this.target);
+			// Sauvegarder le fichier XML
+			if(!XMLHelper.save(document, this.xml)) {
+				return false;
+			}
+			
+			// Récupérer les paramètres
+			HashMap<String, String> parametres = this.getParametres();
+			
+			// Transformation XSLT
+			if(!XSLTHelper.transform(this.xml, this.xsl, this.xslfo, parametres)) {
+				return false;
+			}
+			
+			// Récupérer le nombre de pages du futur fichier PDF
+			int nbPages = FOPHelper.getNbPages(this.xslfo);
+			parametres.put("nbPages", String.valueOf(nbPages));
+			
+			// Transformation XSLT
+			if(!XSLTHelper.transform(this.xml, this.xsl, this.xslfo, parametres)) {
+				return false;
+			}
+			
+			// Transformation FOP
+			return FOPHelper.transformPDF(this.xslfo, this.target);
 		} else {
 			this.clean();
 			return false;
