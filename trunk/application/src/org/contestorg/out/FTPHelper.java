@@ -116,9 +116,11 @@ public class FTPHelper
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				if (line.contains("XCRC")) {
+					scanner.close();
 					return true;
 				}
 			}
+			scanner.close();
 			
 			// La commande XCRC n'a pas été trouvée
 			return false;
