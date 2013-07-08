@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concours version="2.4.0" id="1" nom="Judo" participants="equipes" qualifications="phases" statutHomologueActive="non">
+  <!--Liste des points remportés en fonction du résultat des matchs-->
+  <points victoire="0.0" egalite="0.0" egaliteActivee="oui" defaite="0.0" forfait="0.0" />
+  <!--Liste des critère de classement-->
+  <listeCriteres>
+    <critere id="3" inverse="non">
+      <critereNbVictoires />
+    </critere>
+    <critere id="7" inverse="non">
+      <critereRencontresDirectes />
+    </critere>
+    <critere id="8" inverse="non">
+      <critereQuantiteObjectif refObjectif="6" />
+    </critere>
+    <critere id="2" inverse="non">
+      <critereNbPoints />
+    </critere>
+  </listeCriteres>
+  <!--Liste des objectifs à remporter au cours des matchs-->
+  <listeObjectifs>
+    <objectif id="5">
+      <objectifNul nom="Points" />
+    </objectif>
+    <objectif id="6">
+      <objectifNul nom="Full Ipon" />
+    </objectif>
+  </listeObjectifs>
+  <!--Liste des catégories-->
+  <listeCategories>
+    <categorie id="0" nom="Défaut">
+      <listePoules>
+        <poule id="4" nom="Défaut" />
+      </listePoules>
+    </categorie>
+  </listeCategories>
+</concours>
+

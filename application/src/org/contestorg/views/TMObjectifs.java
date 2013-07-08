@@ -144,13 +144,11 @@ public class TMObjectifs extends TMAbstract<InfosModelObjectif>
 			case 0: // Nom
 				// Quel type d'objectif ?
 				if (infos instanceof InfosModelObjectifPourcentage) {
-					InfosModelObjectifPourcentage cast = (InfosModelObjectifPourcentage)infos;
-					this.update(row, new InfosModelObjectifPourcentage(string, cast.getPourcentage(), cast.getBorneParticipation(), cast.getBorneAugmentation()));
+					this.update(row, new InfosModelObjectifPourcentage(string, ((InfosModelObjectifPourcentage)infos).getPourcentage(), ((InfosModelObjectifPourcentage)infos).getBorneParticipation(), ((InfosModelObjectifPourcentage)infos).getBorneAugmentation()));
 				} else if (infos instanceof InfosModelObjectifNul) {
 					this.update(row, new InfosModelObjectifNul(string));
 				} else if (infos instanceof InfosModelObjectifPoints) {
-					InfosModelObjectifPoints cast = (InfosModelObjectifPoints)infos;
-					this.update(row, new InfosModelObjectifPoints(string, cast.getPoints(), cast.getBorneParticipation()));
+					this.update(row, new InfosModelObjectifPoints(string, ((InfosModelObjectifPoints)infos).getPoints(), ((InfosModelObjectifPoints)infos).getBorneParticipation()));
 				}
 				break;
 			case 1: // Valeur

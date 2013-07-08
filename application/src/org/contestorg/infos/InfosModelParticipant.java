@@ -26,11 +26,11 @@ public class InfosModelParticipant extends InfosModelAbstract
 	 */
 	public static enum Statut {
 		// Statuts possibles
-		ABSENTE("absente","Absente","Absent",false),
-		PRESENTE("presente","Présente","Présent",false),
-		HOMOLOGUEE("homologuee","Homologuée","Homologué",true),
-		FORFAIT("forfait","Forfait","Forfait",false),
-		DISQUALIFIE("disqualifiee","Disqualifiée","Disqualifié",false);
+		ABSENT("absente","Absente","Absent"),
+		PRESENT("presente","Présente","Présent"),
+		HOMOLOGUE("homologuee","Homologuée","Homologué"),
+		FORFAIT("forfait","Forfait","Forfait"),
+		DISQUALIFIE("disqualifiee","Disqualifiée","Disqualifié");
 		
 		/** Id utilisé pour la persistance */
 		private String id;
@@ -41,21 +41,16 @@ public class InfosModelParticipant extends InfosModelAbstract
 		/** Nom pour un joueur */
 		private String nomJoueur;
 		
-		/** Autorise la participation à un match ? */
-		private boolean participation;
-		
 		/**
 		 * Constructeur
 		 * @param id id utilisé pour la persistance
 		 * @param nomEquipe nom pour une équipe
 		 * @param nomJoueur nom pour un joueur
-		 * @param participation autorise la participation à un match ?
 		 */
-		Statut(String id,String nomEquipe,String nomJoueur,boolean participation) {
+		Statut(String id,String nomEquipe,String nomJoueur) {
 			this.id = id;
 			this.nomEquipe = nomEquipe;
 			this.nomJoueur = nomJoueur;
-			this.participation = participation;
 		}
 		
 		/**
@@ -69,7 +64,7 @@ public class InfosModelParticipant extends InfosModelAbstract
 					return statut;
 				}
 			}
-			return Statut.ABSENTE;
+			return Statut.ABSENT;
 		}
 		
 		/**
@@ -94,14 +89,6 @@ public class InfosModelParticipant extends InfosModelAbstract
 		 */
 		public String getNomJoueur() {
 			return this.nomJoueur;
-		}
-		
-		/**
-		 * Savoir si le statut autorise la participation à un match ?
-		 * @return autorise la participation à un match ?
-		 */
-		public boolean isParticipation() {
-			return this.participation;
 		}
 	};
 
@@ -166,7 +153,7 @@ public class InfosModelParticipant extends InfosModelAbstract
 	 * @return données par défaut
 	 */
 	public static InfosModelParticipant defaut () {
-		return new InfosModelParticipant("", "", "", Statut.ABSENTE, "");
+		return new InfosModelParticipant("", "", "", Statut.ABSENT, "");
 	}
 
 }

@@ -18,10 +18,10 @@ import javax.swing.JTextField;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Tools;
-import org.contestorg.infos.Fichier;
+import org.contestorg.infos.InfosThemeFichier;
 import org.contestorg.infos.InfosModelTheme;
-import org.contestorg.infos.Parametre;
-import org.contestorg.infos.Theme;
+import org.contestorg.infos.InfosThemeParametre;
+import org.contestorg.infos.InfosTheme;
 
 /**
  * Panel de thème d'exportation/diffusion
@@ -31,15 +31,15 @@ public class JPTheme extends JPanel implements ItemListener
 {
 	
 	/** Liste des thèmes */
-	private ArrayList<Theme> themes;
+	private ArrayList<InfosTheme> themes;
 	
 	/** Panel des thèmes */
 	private JPanel jp_themes;
 	
-	/** Thème */
+	/** Liste des thèmes */
 	protected JComboBox<String> jcb_themes = new JComboBox<String>();
 	
-	/** Paramètre des thèmes */
+	/** Paramètres des thèmes */
 	protected HashMap<String,Pair<HashMap<String,JPParametreAbstract>,HashMap<String,JTextField>>> jcs_themes_parametres_cibles = new HashMap<String, Pair<HashMap<String,JPParametreAbstract>,HashMap<String,JTextField>>>();
 	
 	/** Fenêtre parent */
@@ -50,7 +50,7 @@ public class JPTheme extends JPanel implements ItemListener
 	 * @param w_parent fenêtre parent
 	 * @param themes liste des thèmes
 	 */
-	public JPTheme(Window w_parent, ArrayList<Theme> themes) {
+	public JPTheme(Window w_parent, ArrayList<InfosTheme> themes) {
 		this(w_parent, themes, false);
 	}
 	
@@ -60,7 +60,7 @@ public class JPTheme extends JPanel implements ItemListener
 	 * @param themes liste des thèmes
 	 * @param local exportation en local ?
 	 */
-	public JPTheme(Window w_parent, ArrayList<Theme> themes, boolean local) {
+	public JPTheme(Window w_parent, ArrayList<InfosTheme> themes, boolean local) {
 		// Configurer le panel
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -76,7 +76,7 @@ public class JPTheme extends JPanel implements ItemListener
 	 * @param themes thèmes
 	 * @param local exportation en local ?
 	 */
-	public void setThemes(ArrayList<Theme> themes, boolean local) {
+	public void setThemes(ArrayList<InfosTheme> themes, boolean local) {
 		// Vider le panel
 		this.removeAll();
 		
@@ -94,7 +94,7 @@ public class JPTheme extends JPanel implements ItemListener
 			
 			// Ajouter les thèmes
 			int nbParametres = 0, nbFichiers = 0;
-			for(Theme theme : this.themes) {
+			for(InfosTheme theme : this.themes) {
 				// Ajouter le thème
 				this.jcb_themes.addItem(theme.getNom());
 				
@@ -106,7 +106,7 @@ public class JPTheme extends JPanel implements ItemListener
 				jp_theme.setLayout(new BoxLayout(jp_theme, BoxLayout.Y_AXIS));
 				
 				// Ajouter les paramètres
-				ArrayList<Parametre> parametres = theme.getParametres();
+				ArrayList<InfosThemeParametre> parametres = theme.getParametres();
 				JLabel[] jls_theme_parametres = new JLabel[parametres.size()];
 				JPParametreAbstract[] jcs_theme_parametres = new JPParametreAbstract[parametres.size()];
 				for(int i=0;i<parametres.size();i++) {					
@@ -142,8 +142,8 @@ public class JPTheme extends JPanel implements ItemListener
 				}
 				
 				// Ajouter les fichiers
-				ArrayList<Fichier> fichiers = theme.getFichiers();
-				for(Fichier fichier : new ArrayList<Fichier>(fichiers)) {
+				ArrayList<InfosThemeFichier> fichiers = theme.getFichiers();
+				for(InfosThemeFichier fichier : new ArrayList<InfosThemeFichier>(fichiers)) {
 					if(fichier.isFixe()) {
 						fichiers.remove(fichier);
 					}
@@ -188,8 +188,7 @@ public class JPTheme extends JPanel implements ItemListener
 			this.jcb_themes.addItemListener(this);
 		} else {
 			// Erreur
-			ViewHelper.derror(this.w_parent, "Aucun thème valide n'a été trouvé.");
-			this.add(ViewHelper.perror("Aucun thème valide n'a été trouvé."));
+			this.add(ViewHelper.perror("Erreur lors de la récupération des thèmes (cf. log.txt)."));
 		}
 		
 		// Revalider le panel
@@ -200,7 +199,7 @@ public class JPTheme extends JPanel implements ItemListener
 	 * Récupérer le thème séléctionné
 	 * @return thème séléctionné
 	 */
-	public Theme getTheme() {
+	public InfosTheme getTheme() {
 		return this.themes.get(this.jcb_themes.getSelectedIndex());
 	}
 	
@@ -218,13 +217,13 @@ public class JPTheme extends JPanel implements ItemListener
 	 */
 	public InfosModelTheme getInfosModelTheme() {
 		// Récupérer le thème séléctionné
-		Theme theme = this.themes.get(this.jcb_themes.getSelectedIndex());
+		InfosTheme theme = this.themes.get(this.jcb_themes.getSelectedIndex());
 		
 		// Récupérer et vérifier les données
 		boolean erreur = false;
 		String chemin = theme.getChemin();
 		HashMap<String,String> parametres = new HashMap<String,String>();
-		for(Parametre parametre : theme.getParametres()) {
+		for(InfosThemeParametre parametre : theme.getParametres()) {
 			// Récupérer le composant
 			JPParametreAbstract composant = this.jcs_themes_parametres_cibles.get(theme.getNom()).getFirst().get(parametre.getId());
 			
@@ -240,7 +239,7 @@ public class JPTheme extends JPanel implements ItemListener
 			}
 		}
 		HashMap<String,String> fichiers = new HashMap<String,String>();
-		for(Fichier fichier : theme.getFichiers()) {
+		for(InfosThemeFichier fichier : theme.getFichiers()) {
 			// Récupérer le chemin du fichier
 			String valeur = this.jcs_themes_parametres_cibles.get(theme.getNom()).getSecond().get(fichier.getId()).getText().trim();
 			
@@ -284,7 +283,7 @@ public class JPTheme extends JPanel implements ItemListener
 					
 					// Compter le nombre de paramètre obligatoires dans le thème
 					int nbParametresObligatoires = 0;
-					for(Parametre parametre : this.themes.get(i).getParametres()) {
+					for(InfosThemeParametre parametre : this.themes.get(i).getParametres()) {
 						if(!parametre.isOptionnel()) {
 							nbParametresObligatoires++;
 						}
@@ -298,7 +297,7 @@ public class JPTheme extends JPanel implements ItemListener
 						// Pour chacun des paramètre dans du thème restants à renseigner
 						for(Entry<String,String> parametreUtilise : new HashMap<String,String>(parametresRestants).entrySet()) {
 							// Récupérer le paramètre correspondant
-							Parametre parametre = this.themes.get(i).getParametre(parametreUtilise.getKey());
+							InfosThemeParametre parametre = this.themes.get(i).getParametre(parametreUtilise.getKey());
 							
 							// Vérifier que le paramètre correspondant existe
 							if(parametre == null) {
@@ -331,7 +330,7 @@ public class JPTheme extends JPanel implements ItemListener
 					// Renseigner les fichiers du thème
 					for(Entry<String,String> fichierUtilise : infos.getFichiers().entrySet()) {
 						// Récupérer le fichier correspondant
-						Fichier fichier = this.themes.get(i).getFichier(fichierUtilise.getKey());
+						InfosThemeFichier fichier = this.themes.get(i).getFichier(fichierUtilise.getKey());
 						
 						// Vérifier que le fichier correspondant existe
 						if(fichier == null) {

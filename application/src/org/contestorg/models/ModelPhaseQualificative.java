@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.GenerationAbstract;
+import org.contestorg.common.GenerationConfigurations;
 import org.contestorg.common.GenerationRunnableAbstract;
-import org.contestorg.common.Permutations;
-import org.contestorg.infos.Configuration;
-import org.contestorg.infos.Couple;
+import org.contestorg.comparators.CompPhasesQualifs;
+import org.contestorg.infos.InfosConfiguration;
+import org.contestorg.infos.InfosConfigurationCouple;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelPhaseQualificative;
@@ -54,7 +56,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * @param infos informations de la phase qualificative
 	 * @throws ContestOrgErrorException
 	 */
-	protected ModelPhaseQualificative(ModelPoule poule, InfosModelMatchPhasesQualifs infosMatchs, Configuration<ModelParticipant> configuration, InfosModelPhaseQualificative infos) throws ContestOrgErrorException {
+	protected ModelPhaseQualificative(ModelPoule poule, InfosModelMatchPhasesQualifs infosMatchs, InfosConfiguration<ModelParticipant> configuration, InfosModelPhaseQualificative infos) throws ContestOrgErrorException {
 		// Appeller le constructeur principal
 		this(poule, infos);
 		
@@ -123,9 +125,11 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<ModelParticipant> getClassement () {
-		// Récupérer, trier et retourner la liste des participants
+		// Trier et retourner la liste des participants
 		ArrayList<ModelParticipant> participants = this.getParticipants();
-		Collections.sort(participants, this.poule.getCategorie().getConcours().getComparateurPhasesQualificatives(this.getNumero()));
+		CompPhasesQualifs comparateur = this.poule.getCategorie().getConcours().getComparateurPhasesQualificatives(this.getNumero());
+		comparateur.etablirClassement(participants);
+		Collections.sort(participants, comparateur);
 		return participants;
 	}
 	
@@ -134,7 +138,6 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * @param participant participant
 	 * @return rang du participant
 	 */
-	@SuppressWarnings("unchecked")
 	public int getRang (ModelParticipant participant) {
 		// Récupérer les participants
 		ArrayList<ModelParticipant> participants = this.getParticipants();
@@ -144,21 +147,14 @@ public class ModelPhaseQualificative extends ModelAbstract
 			return -1;
 		}
 		
-		// Initialiser le rang
-		int rang = 1;
-		
 		// Récupérer le comparateur des phases qualificatives
-		Comparator<ModelParticipant> comparateur = this.poule.getCategorie().getConcours().getComparateurPhasesQualificatives(this.getNumero());
+		CompPhasesQualifs comparateur = this.poule.getCategorie().getConcours().getComparateurPhasesQualificatives(this.getNumero());
 		
-		// Comptabiliser le nombre de participants ayant un rang supérieur au participant spécifiée
-		for (ModelParticipant concurrent : participants) {
-			if (comparateur.compare(participant, concurrent) < 0) {
-				rang++;
-			}
-		}
+		// Etablir le classement
+		Map<ModelParticipant, Integer> classement = comparateur.etablirClassement(participants);
 		
 		// Retourner le rang
-		return rang;
+		return classement.get(participant);
 	}
 	
 	/**
@@ -167,6 +163,15 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 */
 	public int getNumero () {
 		return this.poule.getPhasesQualificatives().indexOf(this);
+	}
+	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPhaseQualificative getInfos () {
+		InfosModelPhaseQualificative infos = new InfosModelPhaseQualificative();
+		infos.setId(this.getId());
+		return infos;
 	}
 	
 	// Setters
@@ -189,7 +194,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * @param configuration configuration de participants
 	 * @throws ContestOrgErrorException
 	 */
-	protected void setConfiguration (InfosModelMatchPhasesQualifs infosMatchs, Configuration<ModelParticipant> configuration) throws ContestOrgErrorException {
+	protected void setConfiguration (InfosModelMatchPhasesQualifs infosMatchs, InfosConfiguration<ModelParticipant> configuration) throws ContestOrgErrorException {
 		// Supprimer tout les matchs de la phase qualificative
 		for (ModelMatchPhasesQualifs match : this.matchs) {
 			match.delete(this);
@@ -198,7 +203,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 		this.fireClear(ModelMatchPhasesQualifs.class);
 		
 		// Ajouter tous les couples de la configuration
-		for (Couple<ModelParticipant> couple : configuration.getCouples()) {
+		for (InfosConfigurationCouple<ModelParticipant> couple : configuration.getCouples()) {
 			// Créer le match
 			ModelMatchPhasesQualifs match = new ModelMatchPhasesQualifs(this, null, infosMatchs);
 			
@@ -273,15 +278,6 @@ public class ModelPhaseQualificative extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelPhaseQualificative getInfos () {
-		InfosModelPhaseQualificative infos = new InfosModelPhaseQualificative();
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
@@ -320,11 +316,11 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * @param comparateur comparateur de configurations de participants
 	 * @return génération de phase qualificative en mode avancé
 	 */
-	protected static IGeneration<Configuration<ModelParticipant>> genererConfigurationAvance (final ModelParticipant[] participants, final Comparator<Configuration<ModelParticipant>> comparateur) {
+	protected static IGeneration<InfosConfiguration<ModelParticipant>> genererConfigurationAvance (final ModelParticipant[] participants, final Comparator<InfosConfiguration<ModelParticipant>> comparateur) {
 		// Créer et retourner la génération
-		return new GenerationAbstract<Configuration<ModelParticipant>>() {
+		return new GenerationAbstract<InfosConfiguration<ModelParticipant>>() {
 			@Override
-			public GenerationRunnableAbstract<Configuration<ModelParticipant>> getRunnable () {
+			public GenerationRunnableAbstract<InfosConfiguration<ModelParticipant>> getRunnable () {
 				return new GenerationAvancee(participants, comparateur);
 			}
 		};
@@ -336,11 +332,11 @@ public class ModelPhaseQualificative extends ModelAbstract
 	 * @param comparateur comparateur de configurations de participants
 	 * @return génération de phase qualificative en mode basique
 	 */
-	protected static IGeneration<Configuration<ModelParticipant>> genererConfigurationBasique (final ModelParticipant[] participants, final Comparator<Couple<ModelParticipant>> comparateur) {
+	protected static IGeneration<InfosConfiguration<ModelParticipant>> genererConfigurationBasique (final ModelParticipant[] participants, final Comparator<InfosConfigurationCouple<ModelParticipant>> comparateur) {
 		// Créer et retourner la génération
-		return new GenerationAbstract<Configuration<ModelParticipant>>() {
+		return new GenerationAbstract<InfosConfiguration<ModelParticipant>>() {
 			@Override
-			public GenerationRunnableAbstract<Configuration<ModelParticipant>> getRunnable () {
+			public GenerationRunnableAbstract<InfosConfiguration<ModelParticipant>> getRunnable () {
 				return new GenerationBasique(participants, comparateur);
 			}
 		};
@@ -349,20 +345,23 @@ public class ModelPhaseQualificative extends ModelAbstract
 	/**
 	 * Classe permettant d'effectuer une génération en mode avancé
 	 */
-	private static class GenerationAvancee extends GenerationRunnableAbstract<Configuration<ModelParticipant>>
+	private static class GenerationAvancee extends GenerationRunnableAbstract<InfosConfiguration<ModelParticipant>>
 	{
 		/** Liste des participants */
 		private ModelParticipant[] participants;
 		
 		/** Comparateur de configurations de participants */
-		private Comparator<Configuration<ModelParticipant>> comparateur;
+		private Comparator<InfosConfiguration<ModelParticipant>> comparateur;
+		
+		// Initialiser la meilleure configuration
+		private InfosConfiguration<ModelParticipant> max = null;
 		
 		/**
 		 * Constructeur
 		 * @param participants liste des participants
 		 * @param comparateur comparateur de configurations de participants
 		 */
-		public GenerationAvancee(ModelParticipant[] participants, Comparator<Configuration<ModelParticipant>> comparateur) {
+		public GenerationAvancee(ModelParticipant[] participants, Comparator<InfosConfiguration<ModelParticipant>> comparateur) {
 			this.participants = participants;
 			this.comparateur = comparateur;
 		}
@@ -372,41 +371,48 @@ public class ModelPhaseQualificative extends ModelAbstract
 		 */
 		@Override
 		public void run () {
-			// Initialiser la meilleure configuration
-			Configuration<ModelParticipant> max = null;
+			// Lancement de la génération
+			this.fireMessage("Lancement de la génération ...");
 			
-			// Calcul de la factorielle
-			double factorielle = Permutations.factorial(this.participants.length);
+			// Créer le générateur de configurations
+			GenerationConfigurations generateur = new GenerationConfigurations(this.participants.length);
+			
+			// Récupérer le nombre total de configurations
+			final int nbTotalConfigurations = generateur.getNbTotalConfigurations();
+			
+			// Informations pour le message d'avancement
+			final DecimalFormat format = new DecimalFormat("0.00E00");
+			final String total = format.format(nbTotalConfigurations);
 			
 			// Trouver la meilleure configuration
-			DecimalFormat format = new DecimalFormat("0.00E00");
-			String total = format.format(factorielle);
-			for (double i = 0; i < factorielle; i++) {
-				// Construire la configuration
-				Configuration<ModelParticipant> configuration = new Configuration<ModelParticipant>((ModelParticipant[])Permutations.permutation(i, this.participants));
-
-				// Comparer la configuration à la meilleure configuration trouvée jusque là
-				if (max == null || this.comparateur.compare(max, configuration) < 0) {
-					// Enregistrer la meilleure configuration
-					max = configuration;
+			generateur.generer(new GenerationConfigurations.IGenerationConfigurationsListener() {
+				/**
+				 * @see GenerationConfigurations.IGenerationConfigurationsListener#nouvelleConfiguration(int,int[])
+				 */
+				@Override
+				public boolean nouvelleConfiguration (int i,int[] configuration) {
+					// Construire la configuration
+					InfosConfiguration<ModelParticipant> configurationParticipants = new InfosConfiguration<ModelParticipant>(GenerationConfigurations.trier(configuration, participants));
 					
-					// Prévenir les listeners d'une nouvelle configuration
-					this.fireMax(configuration);
+					// Comparer la configuration à la meilleure configuration trouvée jusque là
+					if (comparateur.compare(max, configurationParticipants) < 0) {
+						// Enregistrer la meilleure configuration
+						max = configurationParticipants;
+						
+						// Prévenir les listeners d'une nouvelle configuration
+						fireMax(configurationParticipants);
+					}
+					
+					// Informer les listeners de l'avancement
+					if(i%200 == 0) {
+						fireAvancement((double)i/nbTotalConfigurations);
+						fireMessage("Traitement de la configuration "+format.format(i)+" sur les "+total+" configurations possibles ...");
+					}
+					
+					// Continuer ?
+					return !arret && !annuler;
 				}
-				
-				// Informer les listeners de l'avancement de la génération
-				this.fireAvancement((double)i / factorielle);
-				
-				// Vérifier s'il faut arrêter ou annuler la génération
-				if (this.arret || this.annuler) {
-					i = factorielle;
-				}
-				
-				// Informer les listeners de l'avancement
-				if(i%100 == 0) {
-					this.fireMessage("Traitement de la configuration "+format.format(i)+" sur les "+total+" configurations possibles ...");
-				}
-			}
+			});
 			
 			// Informer les listeners de la fin, de l'arret ou de l'annulation de la génération
 			if (this.annuler) {
@@ -420,25 +426,26 @@ public class ModelPhaseQualificative extends ModelAbstract
 			}
 		}
 		
+		
 	}
 	
 	/**
 	 * Classe permettant d'effectuer une génération en mode basique
 	 */
-	private static class GenerationBasique extends GenerationRunnableAbstract<Configuration<ModelParticipant>>
+	private static class GenerationBasique extends GenerationRunnableAbstract<InfosConfiguration<ModelParticipant>>
 	{
 		/** Liste des participants */
 		private ModelParticipant[] participants;
 		
 		/** Comparateur de configurations de participants */
-		private Comparator<Couple<ModelParticipant>> comparateur;
+		private Comparator<InfosConfigurationCouple<ModelParticipant>> comparateur;
 		
 		/**
 		 * Constructeur
 		 * @param participants liste des participants
 		 * @param comparateur comparateur de configurations de participants
 		 */
-		public GenerationBasique(ModelParticipant[] participants, Comparator<Couple<ModelParticipant>> comparateur) {
+		public GenerationBasique(ModelParticipant[] participants, Comparator<InfosConfigurationCouple<ModelParticipant>> comparateur) {
 			this.participants = participants;
 			this.comparateur = comparateur;
 		}
@@ -453,7 +460,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 			this.fireMessage("Génération de tous les couples de participants possibles");
 			
 			// Générer les couples
-			Couple<ModelParticipant>[] couples = Couple.genererCouples(participants);
+			InfosConfigurationCouple<ModelParticipant>[] couples = InfosConfigurationCouple.genererCouples(participants);
 			
 			// Informer les listeners de la génération des couples
 			this.fireAvancement(0.5);
@@ -467,7 +474,7 @@ public class ModelPhaseQualificative extends ModelAbstract
 			this.fireMessage("Construction de la configuration");
 			
 			// Créer la configuration
-			Configuration<ModelParticipant> configuration = new Configuration<ModelParticipant>(participants.length / 2);
+			InfosConfiguration<ModelParticipant> configuration = new InfosConfiguration<ModelParticipant>(participants.length / 2);
 			for (int i = couples.length - 1; !configuration.isComplet(); i--) {
 				if (couples[i].isCompatible(configuration)) {
 					configuration.addCouple(couples[i]);

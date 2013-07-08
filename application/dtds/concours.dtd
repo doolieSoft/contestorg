@@ -2,15 +2,18 @@
 
 <!-- Informations sur le concours -->
 <!ELEMENT concours (organisateur?,points,programmation?,listeCriteres?,listeLieux?,listeObjectifs?,listePrix?,listeProprietes?,listeExportations?,publication?,listeDiffusions?,listeCategories?)>
-<!ATTLIST concours id				ID					#REQUIRED>	<!-- Identifiant du concours -->
-<!ATTLIST concours nom				CDATA				#REQUIRED>	<!-- Nom du concours -->
-<!ATTLIST concours site				CDATA				#IMPLIED>	<!-- Site web du concours -->
-<!ATTLIST concours lieu				CDATA				#IMPLIED>	<!-- Lieu du concours (pays, ville, ...) -->
-<!ATTLIST concours email			CDATA				#IMPLIED>	<!-- Email de contact pour le concours -->
-<!ATTLIST concours telephone		CDATA				#IMPLIED>	<!-- Numéro de téléphone de contact pour le concours -->
-<!ATTLIST concours description		CDATA				#IMPLIED>	<!-- Description du concours -->
-<!ATTLIST concours participants		(equipes|joueurs) 	"equipes">	<!-- Type de participants du concours -->
-<!ATTLIST concours qualifications	(phases|grille) 	"phases">	<!-- Types de qualificiatives du concours -->
+
+<!ATTLIST concours id						ID					#REQUIRED>	<!-- Identifiant du concours -->
+<!ATTLIST concours nom						CDATA				#REQUIRED>	<!-- Nom du concours -->
+<!ATTLIST concours site						CDATA				#IMPLIED>	<!-- Site web du concours -->
+<!ATTLIST concours lieu						CDATA				#IMPLIED>	<!-- Lieu du concours (pays, ville, ...) -->
+<!ATTLIST concours email					CDATA				#IMPLIED>	<!-- Email de contact pour le concours -->
+<!ATTLIST concours telephone				CDATA				#IMPLIED>	<!-- Numéro de téléphone de contact pour le concours -->
+<!ATTLIST concours description				CDATA				#IMPLIED>	<!-- Description du concours -->
+
+<!ATTLIST concours participants				(equipes|joueurs) 	"equipes">	<!-- Type de participants du concours -->
+<!ATTLIST concours qualifications			(phases|grille) 	"phases">	<!-- Types de qualificiatives du concours -->
+<!ATTLIST concours statutHomologueActive	(oui|non) 			"non">		<!-- Statut "homologué" activé ? -->
 
 <!-- Informations sur l'organisateur du concours -->
 <!ELEMENT organisateur EMPTY>
@@ -23,9 +26,10 @@
 
 <!-- Points remportés en fonction du résultat des matchs -->
 <!ELEMENT points EMPTY>
-<!ATTLIST points victoire	CDATA	#REQUIRED> <!-- Points attribués en cas de victoire -->
-<!ATTLIST points egalite	CDATA	#REQUIRED> <!-- Points attribués en cas d'égalité -->
-<!ATTLIST points defaite	CDATA	#REQUIRED> <!-- Points attribués en cas de défaite -->
+<!ATTLIST points victoire		CDATA		#REQUIRED>	<!-- Points attribués en cas de victoire -->
+<!ATTLIST points egalite		CDATA		#IMPLIED>	<!-- Points attribués en cas d'égalité -->
+<!ATTLIST points egaliteActivee	(oui|non) 	"oui">		<!-- Egalité activée ? -->
+<!ATTLIST points defaite		CDATA		#REQUIRED>	<!-- Points attribués en cas de défaite -->
 
 <!-- Informations de programmation -->
 <!ELEMENT programmation EMPTY>
@@ -37,12 +41,29 @@
 <!ELEMENT listeCriteres (critere*)>
 
 <!ELEMENT critere (critereNbPoints|critereNbVictoires|critereNbObjectifs)>
-<!ATTLIST critere id ID #REQUIRED> <!-- Identifiant du critère -->
+<!ATTLIST critere id		ID 			#REQUIRED>	<!-- Identifiant du critère -->
+<!ATTLIST critere inverse	(oui|non)	"non">		<!-- Est-ce que le critère est inversé ? -->
 
-<!ELEMENT critereNbPoints EMPTY>
-<!ELEMENT critereNbVictoires EMPTY>
-<!ELEMENT critereNbObjectifs EMPTY>
-<!ATTLIST critereNbObjectifs refObjectif IDREF #REQUIRED> <!-- Référence de l'objectif associé au critère de classement -->
+<!ELEMENT critereNbPoints 				EMPTY>
+
+<!ELEMENT critereNbVictoires 			EMPTY>
+
+<!ELEMENT critereNbEgalites 			EMPTY>
+
+<!ELEMENT critereNbDefaites 			EMPTY>
+
+<!ELEMENT critereNbForfaits 			EMPTY>
+
+<!ELEMENT critereRencontresDirectes		EMPTY>
+
+<!ELEMENT critereQuantiteObjectif		EMPTY>
+<!ATTLIST critereQuantiteObjectif		refObjectif IDREF #REQUIRED> <!-- Référence de l'objectif associé au critère de classement -->
+
+<!ELEMENT critereGoalAverage 	EMPTY>
+<!ATTLIST critereGoalAverage 	type		(general,particulier) 				"general">
+<!ATTLIST critereGoalAverage 	methode		(difference,division) 				"difference">
+<!ATTLIST critereGoalAverage 	donnee 		(points,resultat,quantiteObjectif) 	"points">
+<!ATTLIST critereGoalAverage 	refObjectif IDREF 								#IMPLIED> <!-- Référence de l'objectif associé au critère de classement (si le type est "quantiteObjectif") -->
 
 <!-- Liste des lieux, emplacements et horaires -->
 <!ELEMENT listeLieux (lieu*)>

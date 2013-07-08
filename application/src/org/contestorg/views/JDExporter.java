@@ -13,7 +13,7 @@ import javax.swing.filechooser.FileSystemView;
 import org.contestorg.common.Tools;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelConcours;
-import org.contestorg.infos.Theme;
+import org.contestorg.infos.InfosTheme;
 import org.contestorg.interfaces.IEndListener;
 import org.contestorg.interfaces.IOperation;
 
@@ -45,12 +45,12 @@ public class JDExporter extends JDPattern implements ItemListener
 		
 		// Ajouter la liste des catégorie
 		this.jcb_categorie.addItem("Toutes");
-		this.jcb_categorie.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
+		this.jcb_categorie.addItem(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
 		this.jcb_categorie.addItem("Phases qualificatives");
 		this.jcb_categorie.addItem("Phases éliminatoires");
 		
 		// Séléctionner la catégorie courante
-		this.jcb_categorie.setSelectedIndex(Tools.stringCase(categorie, Theme.CATEGORIE_PARTICIPANTS, Theme.CATEGORIE_PHASES_QUALIFICATIVES, Theme.CATEGORIE_PHASES_ELIMINATOIRES)+1);
+		this.jcb_categorie.setSelectedIndex(Tools.stringCase(categorie, InfosTheme.CATEGORIE_PARTICIPANTS, InfosTheme.CATEGORIE_PHASES_QUALIFICATIVES, InfosTheme.CATEGORIE_PHASES_ELIMINATOIRES)+1);
 		
 		// Ecouter la liste des catégories
 		this.jcb_categorie.addItemListener(this);
@@ -152,13 +152,13 @@ public class JDExporter extends JDPattern implements ItemListener
 				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(),true);
 				break;
 			case 1:
-				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(Theme.CATEGORIE_PARTICIPANTS),true);
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(InfosTheme.CATEGORIE_PARTICIPANTS),true);
 				break;
 			case 2:
-				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(Theme.CATEGORIE_PHASES_QUALIFICATIVES),true);
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(InfosTheme.CATEGORIE_PHASES_QUALIFICATIVES),true);
 				break;
 			case 3:
-				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(Theme.CATEGORIE_PHASES_ELIMINATOIRES),true);
+				this.jp_theme.setThemes(ContestOrg.get().getCtrlOut().getThemesExportation(InfosTheme.CATEGORIE_PHASES_ELIMINATOIRES),true);
 				break;
 		}
 		

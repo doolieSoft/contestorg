@@ -9,13 +9,18 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.comparators.CompPhasesQualifs;
-import org.contestorg.comparators.CompPhasesQualifsNbObjectifs;
+import org.contestorg.comparators.CompPhasesQualifsGoalAverage;
+import org.contestorg.comparators.CompPhasesQualifsNbDefaites;
+import org.contestorg.comparators.CompPhasesQualifsNbEgalites;
+import org.contestorg.comparators.CompPhasesQualifsNbForfaits;
 import org.contestorg.comparators.CompPhasesQualifsNbPoints;
 import org.contestorg.comparators.CompPhasesQualifsNbVictoires;
+import org.contestorg.comparators.CompPhasesQualifsQuantiteObjectif;
+import org.contestorg.comparators.CompPhasesQualifsRencontresDirectes;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelChemin;
-import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
 import org.contestorg.infos.InfosModelConcours;
+import org.contestorg.infos.InfosModelCritereClassementAbstract;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
 import org.contestorg.infos.InfosModelExportation;
@@ -59,8 +64,8 @@ public class ModelConcours extends ModelAbstract
 	/** Liste des diffusions */
 	private ArrayList<ModelDiffusion> diffusions = new ArrayList<ModelDiffusion>();
 	
-	/** Liste des critères de classement des phases qualificatives */
-	private ArrayList<ModelCompPhasesQualifsAbstract> compsPhasesQualifs = new ArrayList<ModelCompPhasesQualifsAbstract>();
+	/** Liste des critères de classement */
+	private ArrayList<ModelCritereClassementAbstract> criteresClassement = new ArrayList<ModelCritereClassementAbstract>();
 	
 	// Attributs scalaires
 	
@@ -100,6 +105,8 @@ public class ModelConcours extends ModelAbstract
 	private int typePhasesQualificatives;
 	/** Type de participants */
 	private int typeParticipants;
+	/** Statut "homologué" activé ? */
+	private boolean statutHomologueActive;
 	
 	// Informations sur les points
 	
@@ -107,8 +114,12 @@ public class ModelConcours extends ModelAbstract
 	private double pointsVictoire;
 	/** Points d'égalité */
 	private double pointsEgalite;
+	/** Egalité activée ? */
+	private boolean egaliteActivee;
 	/** Points de défaite */
 	private double pointsDefaite;
+	/** Points de forfait */
+	private double pointsForfait;
 	
 	// Informations de programmation
 	
@@ -257,6 +268,14 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
+	 * Savoir si le statut "homologué" est activé
+	 * @return statut "homologué" est activé ?
+	 */
+	public boolean isStatutHomologueActive() {
+		return this.statutHomologueActive;
+	}
+	
+	/**
 	 * Récupérer les points de victoire
 	 * @return points de victoire
 	 */
@@ -273,11 +292,27 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
+	 * Savoir si l'égalité est activée
+	 * @return égalité activée ?
+	 */
+	public boolean isEgaliteActivee() {
+		return this.egaliteActivee;
+	}
+	
+	/**
 	 * Récupérer les points de défaite
 	 * @return points de défaite
 	 */
 	public double getPointsDefaite () {
 		return this.pointsDefaite;
+	}
+	
+	/**
+	 * Récupérer les points de forfait
+	 * @return points de forfait
+	 */
+	public double getPointsForfait () {
+		return this.pointsForfait;
 	}
 	
 	/**
@@ -335,39 +370,49 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
-	 * Récupérer les critères de classement des phases qualificatives
-	 * @return critères de classement des phases qualificatives
+	 * Récupérer le comparateur pour établir le classement des phases qualificatives
+	 * @return comparateur pour établir le classement des phases qualificatives
 	 */
 	public CompPhasesQualifs getComparateurPhasesQualificatives () {
 		return this.getComparateurPhasesQualificatives(-1);
 	}
 	
 	/**
-	 * Récupérer les critères de classement des phases qualificatives
+	 * Récupérer le comparateur pour établir le classement des phases qualificatives
 	 * @param phaseQualifMax numéro de la phase qualificative maximale (-1 pour toutes les phases qualificatives)
-	 * @return critères de classement des phases qualificatives
+	 * @return comparateur pour établir le classement des phases qualificatives
 	 */
 	public CompPhasesQualifs getComparateurPhasesQualificatives (int phaseQualifMax) {
-		// Récupérer une copie des comparateurs
-		ArrayList<ModelCompPhasesQualifsAbstract> compsPhasesQualifs = new ArrayList<ModelCompPhasesQualifsAbstract>(this.compsPhasesQualifs);
+		// Récupérer une copie des critères
+		ArrayList<ModelCritereClassementAbstract> criteresClassement = new ArrayList<ModelCritereClassementAbstract>(this.criteresClassement);
 		
-		// Renverser l'ordre des comparateurs
-		Collections.reverse(compsPhasesQualifs);
+		// Renverser l'ordre des critères
+		Collections.reverse(criteresClassement);
 		
 		// Construire le comparateur
-		CompPhasesQualifs result = null;
-		for (ModelCompPhasesQualifsAbstract comparateur : compsPhasesQualifs) {
-			if (comparateur instanceof ModelCompPhasesQualifsPoints) {
-				result = new CompPhasesQualifsNbPoints(result, phaseQualifMax);
-			} else if (comparateur instanceof ModelCompPhasesQualifsVictoires) {
-				result = new CompPhasesQualifsNbVictoires(result, phaseQualifMax);
-			} else if (comparateur instanceof ModelCompPhasesQualifsObjectif) {
-				result = new CompPhasesQualifsNbObjectifs(result, phaseQualifMax, ((ModelCompPhasesQualifsObjectif)comparateur).getObjectif());
+		CompPhasesQualifs comparateur = null;
+		for (ModelCritereClassementAbstract critereClassement : criteresClassement) {
+			if (critereClassement instanceof ModelCritereClassementNbPoints) {
+				comparateur = new CompPhasesQualifsNbPoints(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax);
+			} else if (critereClassement instanceof ModelCritereClassementNbVictoires) {
+				comparateur = new CompPhasesQualifsNbVictoires(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax);
+			} else if (critereClassement instanceof ModelCritereClassementNbEgalites) {
+				comparateur = new CompPhasesQualifsNbEgalites(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax);
+			} else if (critereClassement instanceof ModelCritereClassementNbDefaites) {
+				comparateur = new CompPhasesQualifsNbDefaites(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax);
+			} else if (critereClassement instanceof ModelCritereClassementNbForfaits) {
+				comparateur = new CompPhasesQualifsNbForfaits(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax);
+			} else if (critereClassement instanceof ModelCritereClassementRencontresDirectes) {
+				comparateur = new CompPhasesQualifsRencontresDirectes(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax);
+			} else if (critereClassement instanceof ModelCritereClassementQuantiteObjectif) {
+				comparateur = new CompPhasesQualifsQuantiteObjectif(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax, ((ModelCritereClassementQuantiteObjectif)critereClassement).getObjectif());
+			} else if (critereClassement instanceof ModelCritereClassementGoalAverage) {
+				comparateur = new CompPhasesQualifsGoalAverage(comparateur, critereClassement.isInverse ? CompPhasesQualifs.SENS_ASCENDANT : CompPhasesQualifs.SENS_DESCENDANT, phaseQualifMax, ((ModelCritereClassementGoalAverage)critereClassement).getType(), ((ModelCritereClassementGoalAverage)critereClassement).getMethode(), ((ModelCritereClassementGoalAverage)critereClassement).getDonnee(), ((ModelCritereClassementGoalAverage)critereClassement).getObjectif());
 			}
 		}
 		
 		// Retourner le comparacteur
-		return result;
+		return comparateur;
 	}
 	
 	/**
@@ -515,11 +560,11 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
-	 * Récupérer la liste des critères de classement des phases qualificatives
-	 * @return liste des critères de classement des phases qualificatives
+	 * Récupérer la liste des critères de classement
+	 * @return liste des critères de classement
 	 */
-	public ArrayList<ModelCompPhasesQualifsAbstract> getCompsPhasesQualifs () {
-		return new ArrayList<ModelCompPhasesQualifsAbstract>(this.compsPhasesQualifs);
+	public ArrayList<ModelCritereClassementAbstract> getCriteresClassement () {
+		return new ArrayList<ModelCritereClassementAbstract>(this.criteresClassement);
 	}
 	
 	/**
@@ -560,6 +605,15 @@ public class ModelConcours extends ModelAbstract
 		return null;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelConcours getInfos () {
+		InfosModelConcours infos = new InfosModelConcours(this.concoursNom, this.concoursSite, this.concoursLieu, this.concoursEmail, this.concoursTelephone, this.concoursDescription, this.organisateurNom, this.organisateurSite, this.organisateurLieu, this.organisateurEmail, this.organisateurTelephone, this.organisateurDescription, this.typePhasesQualificatives, this.typeParticipants, this.statutHomologueActive, this.pointsVictoire, this.pointsEgalite, this.egaliteActivee, this.pointsDefaite, this.pointsForfait, this.programmationDuree, this.programmationInterval, this.programmationPause);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -587,10 +641,13 @@ public class ModelConcours extends ModelAbstract
 		
 		this.typePhasesQualificatives = infos.getTypeQualifications();
 		this.typeParticipants = infos.getTypeParticipants();
+		this.statutHomologueActive = infos.isStatutHomologueActive();
 		
 		this.pointsVictoire = infos.getPointsVictoire();
 		this.pointsEgalite = infos.getPointsEgalite();
+		this.egaliteActivee = infos.isEgaliteActivee();
 		this.pointsDefaite = infos.getPointsDefaite();
+		this.pointsForfait = infos.getPointsForfait();
 		
 		this.programmationDuree = infos.getProgrammationDuree();
 		this.programmationInterval = infos.getProgrammationInterval();
@@ -740,19 +797,19 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
-	 * Ajouter un critère de classement des phases qualificatives
-	 * @param compPhasesQualifs critère de classement des phases qualificatives
+	 * Ajouter un critère de classement
+	 * @param critereClassement critère de classement
 	 * @throws ContestOrgErrorException
 	 */
-	public void addCompPhasesQualifs (ModelCompPhasesQualifsAbstract compPhasesQualifs) throws ContestOrgErrorException {
-		if (!this.compsPhasesQualifs.contains(compPhasesQualifs)) {
-			// Ajouter l'objectif remporte
-			this.compsPhasesQualifs.add(compPhasesQualifs);
+	public void addCritereClassement (ModelCritereClassementAbstract critereClassement) throws ContestOrgErrorException {
+		if (!this.criteresClassement.contains(critereClassement)) {
+			// Ajouter le critère de classement
+			this.criteresClassement.add(critereClassement);
 			
 			// Fire add
-			this.fireAdd(compPhasesQualifs, this.compsPhasesQualifs.size() - 1);
+			this.fireAdd(critereClassement, this.criteresClassement.size() - 1);
 		} else {
-			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives existe déjà dans le concours");
+			throw new ContestOrgErrorException("Le critère de classement existe déjà dans le concours");
 		}
 	}
 	
@@ -897,21 +954,21 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
-	 * Supprimer un critère de classement des phases qualificatives
-	 * @param compPhasesQualifs critère de classement des phases qualificatives
+	 * Supprimer un critère de classement
+	 * @param critereClassement critère de classement
 	 * @throws ContestOrgErrorException
 	 */
-	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsAbstract compPhasesQualifs) throws ContestOrgErrorException {
-		// Retirer l'objectif remporte
+	protected void removeCritereClassement (ModelCritereClassementAbstract critereClassement) throws ContestOrgErrorException {
+		// Retirer le critère de classement
 		int index;
-		if ((index = this.compsPhasesQualifs.indexOf(compPhasesQualifs)) != -1) {
+		if ((index = this.criteresClassement.indexOf(critereClassement)) != -1) {
 			// Remove
-			this.compsPhasesQualifs.remove(compPhasesQualifs);
+			this.criteresClassement.remove(critereClassement);
 			
 			// Fire remove
-			this.fireRemove(compPhasesQualifs, index);
+			this.fireRemove(critereClassement, index);
 		} else {
-			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives n'existe pas dans le concours");
+			throw new ContestOrgErrorException("Le critère de classement n'existe pas dans le concours");
 		}
 	}
 	
@@ -988,13 +1045,13 @@ public class ModelConcours extends ModelAbstract
 	}
 	
 	/**
-	 * Mettre à jour la liste des critères de classement des phases qualificatives
-	 * @param list liste des critères de classement des phases qualificatives source
+	 * Mettre à jour la liste des critères de classement
+	 * @param list liste des critères de classement
 	 * @throws ContestOrgErrorException
 	 */
-	protected void updateCompPhasesQualifs (TrackableList<InfosModelCompPhasesQualifsAbstract> list) throws ContestOrgErrorException {
+	protected void updateCriteresClassement (TrackableList<InfosModelCritereClassementAbstract> list) throws ContestOrgErrorException {
 		// Mettre à jour la liste des comparateurs
-		this.updates(new ModelCompPhasesQualifsAbstract.UpdaterForConcours(this), this.compsPhasesQualifs, list, true, null);
+		this.updates(new ModelCritereClassementAbstract.UpdaterForConcours(this), this.criteresClassement, list, true, null);
 	}
 	
 	/**
@@ -1003,15 +1060,6 @@ public class ModelConcours extends ModelAbstract
 	 */
 	protected ModelConcours clone () {
 		return new ModelConcours(this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelConcours getInfos () {
-		InfosModelConcours infos = new InfosModelConcours(this.concoursNom, this.concoursSite, this.concoursLieu, this.concoursEmail, this.concoursTelephone, this.concoursDescription, this.organisateurNom, this.organisateurSite, this.organisateurLieu, this.organisateurEmail, this.organisateurTelephone, this.organisateurDescription, this.typePhasesQualificatives, this.typeParticipants, this.pointsVictoire, this.pointsEgalite, this.pointsDefaite, this.programmationDuree, this.programmationInterval, this.programmationPause);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**

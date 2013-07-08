@@ -95,6 +95,15 @@ public class ModelPropriete extends ModelAbstract
 		return new ArrayList<ModelProprietePossedee>(this.proprietesPossedees);
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPropriete getInfos () {
+		InfosModelPropriete infos = new InfosModelPropriete(this.nom, this.type, this.obligatoire);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -160,15 +169,6 @@ public class ModelPropriete extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelPropriete getInfos () {
-		InfosModelPropriete infos = new InfosModelPropriete(this.nom, this.type, this.obligatoire);
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
@@ -228,8 +228,9 @@ public class ModelPropriete extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelPropriete propriete, InfosModelPropriete infos) {
+		public ModelPropriete update (ModelPropriete propriete, InfosModelPropriete infos) {
 			propriete.setInfos(infos);
+			return null;
 		}
 	}
 	

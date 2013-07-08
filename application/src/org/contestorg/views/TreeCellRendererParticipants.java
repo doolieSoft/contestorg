@@ -48,7 +48,7 @@ public class TreeCellRendererParticipants implements TreeCellRenderer
 				nom = ((InfosModelPoule)node.getObject()).getNom();
 				break;
 			case 3: // Participant
-				image = ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/16x16/group.png" : "img/farm/16x16/user_green.png";
+				image = ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/16x16/group.png" : "img/farm/16x16/user_green.png";
 				nom = ((InfosModelParticipant)node.getObject()).getNom();
 				break;
 		}

@@ -32,8 +32,8 @@ import javax.swing.JTextField;
 
 import org.contestorg.common.Quintuple;
 import org.contestorg.controllers.ContestOrg;
-import org.contestorg.infos.Configuration;
-import org.contestorg.infos.Couple;
+import org.contestorg.infos.InfosConfiguration;
+import org.contestorg.infos.InfosConfigurationCouple;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelPhaseQualificative;
@@ -45,11 +45,11 @@ import org.contestorg.interfaces.IGenerationListener;
  * Boîte de dialogue de création/édition d'une phase qualificative
  */
 @SuppressWarnings("serial")
-public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IGenerationListener<Configuration<String>>
+public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IGenerationListener<InfosConfiguration<String>>
 {
 	
 	/** Collecteur des informations de la phase qualificative */
-	private ICollector<Quintuple<String,String,Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector;
+	private ICollector<Quintuple<String,String,InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector;
 	
 	// Participants
 	
@@ -92,7 +92,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	private JButton jb_arreter = new JButton("Arrêter", new ImageIcon("img/farm/16x16/control_stop_blue.png"));
 
 	/** Génération */
-	private IGeneration<Configuration<String>> generation;
+	private IGeneration<InfosConfiguration<String>> generation;
 
 	/** Arrêt demandé ? */
 	private boolean demandeArret = false;
@@ -108,7 +108,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	private JButton jb_restaurer = new JButton("Restaurer", new ImageIcon("img/farm/16x16/box_down.png"));
 	
 	/** Configuration conservée */
-	private Configuration<String> configurationConservee = null;
+	private InfosConfiguration<String> configurationConservee = null;
 	
 	// Meilleure configuration trouvée
 	
@@ -143,7 +143,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	 * @param nomCategorie nom de la catégorie de destination
 	 * @param nomPoule nom de la poule de destination
 	 */
-	public JDPhaseQualifAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
+	public JDPhaseQualifAbstract(Window w_parent, String titre, ICollector<Quintuple<String,String,InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
 		
@@ -189,7 +189,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		this.jp_contenu.add(ViewHelper.inputs(jls_mode, jcs_mode));
 		
 		// Participants
-		this.jp_contenu.add(ViewHelper.left(new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes participantes :" : "Joueurs participants : ")));
+		this.jp_contenu.add(ViewHelper.left(new JLabel(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes participantes :" : "Joueurs participants : ")));
 		
 		this.jp_participants = new JPanel();
 		this.jp_participants.setLayout(new BoxLayout(this.jp_participants, BoxLayout.Y_AXIS));
@@ -272,7 +272,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				return "<h1>Mode avancé</h1>" +
 					   "Le mode avancé teste l'ensemble des configurations possibles. Dès que l'algorithme<br/>" +
 					   "remonte une meilleure configuration que celle précédement trouvée, celle-ci apparait<br/>" +
-					   "dans le cadre \"Meilleure configuration trouvée\". Au délà de 8 participants, le temps de<br/>" +
+					   "dans le cadre \"Meilleure configuration trouvée\". Au délà de 12 participants, le temps de<br/>" +
 					   "génération devient exponentiellement long. Vous pouvez arrêter la génération à tout<br/>" +
 					   "moment et considérer la meilleure configuration trouvée jusque là.<br/>" +
 					   "<br/>" +
@@ -320,24 +320,24 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				// Vérifier si un participant joue avec lui-même
 				if(this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsB[i].getSelectedIndex()) {
 					// Récupérer le nom du participant
-					String nomParticipant = this.isFantome() && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount()-1 ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
+					String nomParticipant = this.isFantome() && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount()-1 ? (ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
 					
 					// Erreur
-					ViewHelper.derror(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+nomParticipant+"\" a un match contre "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "elle-même" : "lui-même")+".");
+					ViewHelper.derror(this, (ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+nomParticipant+"\" a un match contre "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "elle-même" : "lui-même")+".");
 					erreur = true;
 				}
 				if(!erreur) {
 					// Vérifier si un participant participe plusieurs fois dans la phase qualificative 
 					if(!this.isFantome() || this.jcbs_participantsA[i].getSelectedIndex() != this.jcbs_participantsA[i].getItemCount()-1) {
 						if(participantsConfiguration.contains(participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex()))) {
-							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
+							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
 						} else {
 							participantsConfiguration.add(participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex()));
 						}
 					}
 					if(!this.isFantome() || this.jcbs_participantsB[i].getSelectedIndex() != this.jcbs_participantsB[i].getItemCount()-1) {
 						if(participantsConfiguration.contains(participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex()))) {
-							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
+							erreur = !ViewHelper.confirmation(this,(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" \""+participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex())+"\" participe plusieurs fois dans la phase qualificative. Désirez-vous continuer ?"); 
 						} else {
 							participantsConfiguration.add(participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex()));
 						}
@@ -352,7 +352,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			
 			// Transformer la informations au collector
 			if(!erreur) {
-				this.collector.collect(new Quintuple<String, String, Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.jp_categoriePoule.getNomCategorie(),this.jp_categoriePoule.getNomPoule(),this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
+				this.collector.collect(new Quintuple<String, String, InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.jp_categoriePoule.getNomCategorie(),this.jp_categoriePoule.getNomPoule(),this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
 			}
 		}
 	}
@@ -393,15 +393,15 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	 * Récupérer la configuration actuelle
 	 * @return configuration actuelle
 	 */
-	private Configuration<String> getConfiguration () {
+	private InfosConfiguration<String> getConfiguration () {
 		if (this.jcbs_participantsA != null && this.jcbs_participantsB != null) {
 			ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
-			Configuration<String> configuration = new Configuration<String>(this.jcbs_participantsA.length);
+			InfosConfiguration<String> configuration = new InfosConfiguration<String>(this.jcbs_participantsA.length);
 			boolean fantome = this.isFantome();
 			for (int i = 0; i < this.jcbs_participantsA.length; i++) {
 				String participantA = fantome && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount() - 1 ? null : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
 				String participantB = fantome && this.jcbs_participantsB[i].getSelectedIndex() == this.jcbs_participantsB[i].getItemCount() - 1 ? null : participantsSelectionnes.get(this.jcbs_participantsB[i].getSelectedIndex());
-				configuration.addCouple(new Couple<String>(participantA, participantB));
+				configuration.addCouple(new InfosConfigurationCouple<String>(participantA, participantB));
 			}
 			return configuration;
 		}
@@ -412,7 +412,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	 * Définir la configuration actuelle
 	 * @param configuration configuration
 	 */
-	protected void setConfiguration(Configuration<String> configuration) {
+	protected void setConfiguration(InfosConfiguration<String> configuration) {
 		// Placer la configuration
 		ArrayList<String> participantsSelectionnes = this.getParticipantsSelectionnes();
 		for(int i=0;i<configuration.getCouples().length;i++) {
@@ -477,7 +477,19 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			}
 		} else {
 			this.jp_participants.add(new JPanel());
-			this.jp_participants.add(ViewHelper.center(ViewHelper.pwarning(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'est homologuée." : "Aucune joueur n'est homologué")));
+			if(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES) {
+				if(!ContestOrg.get().getCtrlParticipants().isStatutHomologueActive()) {
+					this.jp_participants.add(ViewHelper.center(ViewHelper.pwarning("Aucune équipe n'est présente.")));
+				} else {
+					this.jp_participants.add(ViewHelper.center(ViewHelper.pwarning("Aucune équipe n'est homologuée.")));
+				}
+			} else {
+				if(!ContestOrg.get().getCtrlParticipants().isStatutHomologueActive()) {
+					this.jp_participants.add(ViewHelper.center(ViewHelper.pwarning("Aucune joueur n'est présent.")));
+				} else {
+					this.jp_participants.add(ViewHelper.center(ViewHelper.pwarning("Aucune joueur n'est homologué.")));
+				}
+			}
 			this.jp_participants.add(new JPanel());
 		}
 		this.jp_participants.revalidate();
@@ -488,7 +500,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	 */
 	private void refreshStatistiques () {
 		// Récupérer la configuration
-		Configuration<String> configuration = this.getConfiguration();
+		InfosConfiguration<String> configuration = this.getConfiguration();
 		
 		// Récupérer certaines données
 		int matchsDejaJoues = ContestOrg.get().getCtrlPhasesQualificatives().getNbMatchDejaJoues(configuration);
@@ -496,7 +508,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		
 		// Calculer la différence moyenne et maximale de rang
 		int differenceMoyenne = 0; int differenceMaximale = 0;
-		for(Couple<String> couple : configuration.getCouples()) {
+		for(InfosConfigurationCouple<String> couple : configuration.getCouples()) {
 			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
 				int difference = Math.abs(this.rangsParticipants.get(couple.getParticipantA())-this.rangsParticipants.get(couple.getParticipantB()));
 				differenceMoyenne += difference;
@@ -580,10 +592,10 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			if(this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsB[i].getSelectedIndex()) {
 				this.jcbs_participantsA[i].setBackground(new Color(250, 90, 90));
 				this.jcbs_participantsA[i].setOpaque(true);
-				this.jcbs_participantsA[i].setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
+				this.jcbs_participantsA[i].setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
 				this.jcbs_participantsB[i].setBackground(new Color(250, 90, 90));
 				this.jcbs_participantsB[i].setOpaque(true);
-				this.jcbs_participantsB[i].setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
+				this.jcbs_participantsB[i].setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
 			} else {
 				// Récupérer le nom des participants
 				String nomParticipantA = this.isFantome() && this.jcbs_participantsA[i].getSelectedIndex() == this.jcbs_participantsA[i].getItemCount()-1 ? null : participantsSelectionnes.get(this.jcbs_participantsA[i].getSelectedIndex());
@@ -596,31 +608,31 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				if(nbRencontres > 0) {
 					this.jcbs_participantsA[i].setBackground(new Color(250, 90, 90));
 					this.jcbs_participantsA[i].setOpaque(true);
-					this.jcbs_participantsA[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
+					this.jcbs_participantsA[i].setToolTipText("Les deux "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
 					this.jcbs_participantsB[i].setBackground(new Color(250, 90, 90));
 					this.jcbs_participantsB[i].setOpaque(true);
-					this.jcbs_participantsB[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
+					this.jcbs_participantsB[i].setToolTipText("Les deux "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" se sont déjà rencontrés "+nbRencontres+" fois.");
 				} else {
 					// Vérifier si le participant A ne participe pas plusieurs fois
 					if(participantsRedondants.contains(this.jcbs_participantsA[i].getSelectedIndex())) {
 						this.jcbs_participantsA[i].setBackground(new Color(250, 180, 76));
 						this.jcbs_participantsA[i].setOpaque(true);
-						this.jcbs_participantsA[i].setToolTipText((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
+						this.jcbs_participantsA[i].setToolTipText((ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
 					} else {
 						this.jcbs_participantsA[i].setBackground(new Color(168, 239, 101));
 						this.jcbs_participantsA[i].setOpaque(true);
-						this.jcbs_participantsA[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
+						this.jcbs_participantsA[i].setToolTipText("Les deux "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
 					}
 
 					// Vérifier si le participant B ne participe pas plusieurs fois
 					if(participantsRedondants.contains(this.jcbs_participantsB[i].getSelectedIndex())) {
 						this.jcbs_participantsB[i].setBackground(new Color(250, 180, 76));
 						this.jcbs_participantsB[i].setOpaque(true);
-						this.jcbs_participantsB[i].setToolTipText((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
+						this.jcbs_participantsB[i].setToolTipText((ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" participe plusieurs fois dans la phase qualificative.");
 					} else {
 						this.jcbs_participantsB[i].setBackground(new Color(168, 239, 101));
 						this.jcbs_participantsB[i].setOpaque(true);
-						this.jcbs_participantsB[i].setToolTipText("Les deux "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
+						this.jcbs_participantsB[i].setToolTipText("Les deux "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" ne se sont jamais rencontrés.");
 					}
 				}
 			}
@@ -669,7 +681,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			}
 		}
 		if (participantsSelectionnes.size() % 2 != 0) {
-			participantsSelectionnes.add(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
+			participantsSelectionnes.add(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
 		}
 		
 		// Retourner la liste
@@ -718,8 +730,8 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 			// Vérifier si le nombre de participants est suffisant
 			if(this.getNbParticipantsSelectionnes() < 3) {
 				// Erreur
-				ViewHelper.derror(this, "Il faut séléctionner au moins trois "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" pour lancer une génération.");
-			} else if(this.getNbParticipantsSelectionnes() <= 8 || this.jrb_mode_basique.isSelected() || ViewHelper.confirmation(this, "Au dela de 8 "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+", le nombre de configurations possibles devient très grand. Désirez-vous continuer ?")) {
+				ViewHelper.derror(this, "Il faut séléctionner au moins trois "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" pour lancer une génération.");
+			} else if(this.getNbParticipantsSelectionnes() <= 12 || this.jrb_mode_basique.isSelected() || ViewHelper.confirmation(this, "Au dela de 12 "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+", le nombre de configurations possibles devient très grand. Désirez-vous continuer ?")) {
 				// Modifier les boutons
 				this.jb_valider.setEnabled(false);
 				this.jb_generer.setEnabled(false);
@@ -834,7 +846,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		}
 	}
 	@Override
-	public void generationMax (Configuration<String> configuration) {
+	public void generationMax (InfosConfiguration<String> configuration) {
 		// Ne pas considérer les générations si demande d'annulation ou d'arret
 		if(!this.demandeAnnulation && !this.demandeArret) {
 			this.setConfiguration(configuration);

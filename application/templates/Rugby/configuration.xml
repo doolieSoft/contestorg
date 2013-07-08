@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat : victoire à 4 pts, égalité à 2 pts, défaite à 0 pts, forfait à -2 pts</li>
+			<li>Objectifs : score, essais, marque au moins 3 essais de plus que son adversaire (1 pts), a perdu avec un écart de 7 pts ou moins (1 pts)</li>
+			<li>Critères de classement : points, goal-average particulier par différence du score, goal-average général par différence du score, goal-average général par différence des essais, le plus d'objectif "score", le plus d'objectifs "essais", le moins de forfaits</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante fichier="Rugby.co" />
+	</variantes>
+</configuration>

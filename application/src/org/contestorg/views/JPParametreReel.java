@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JTextField;
 
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 
 /**
  * Panel d'un paramètre de thème d'exportation/diffusion de type "Nombre réel"
@@ -20,7 +20,7 @@ public class JPParametreReel extends JPParametreAbstract
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametreReel(Parametre parametre) {
+	public JPParametreReel(InfosThemeParametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		

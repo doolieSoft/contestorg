@@ -48,7 +48,7 @@ public class JDExportations extends JDPattern
 		this.jp_contenu.add(ViewHelper.title("Exportation des informations du concours",ViewHelper.H1));
 		
 		// Retenir les exportations
-		this.exportations = ContestOrg.get().getCtrlOut().getExportations();
+		this.exportations = ContestOrg.get().getCtrlOut().getListeExportations();
 		
 		// Vérifier s'il y a des exportations
 		if(exportations.size() > 0) {

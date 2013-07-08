@@ -9,8 +9,9 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
-import org.contestorg.infos.Configuration;
+import org.contestorg.infos.InfosConfiguration;
 import org.contestorg.infos.InfosModelCategorie;
+import org.contestorg.infos.InfosModelCritereClassementAbstract;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.infos.InfosModelObjectifRemporte;
@@ -29,6 +30,30 @@ import org.contestorg.models.FrontModel;
 public class CtrlPhasesQualificatives
 {
 	// ==== Récupérer des données
+	
+	/**
+	 * Récupérer le type des phases qualificatives
+	 * @return le type des phases qualificatives
+	 */
+	public int getTypePhasesQualificatives() {
+		return FrontModel.get().getConcours().getTypePhasesQualificatives();
+	}
+	
+	/**
+	 * Savoir si l'égalité est activée
+	 * @return égalité activée ?
+	 */
+	public boolean isEgaliteActivee() {
+		return FrontModel.get().getConcours().isEgaliteActivee();
+	}
+	
+	/**
+	 * Récupérer la liste des critères de classement
+	 * @return liste des critères de classement
+	 */
+	public ArrayList<InfosModelCritereClassementAbstract> getListeCriteresClassement() {
+		return FrontModel.get().getFrontModelConfiguration().getListeCriteresClassement();
+	}
 	
 	/**
 	 * Récupérer les données manquantes à partir d'un numéro de match
@@ -57,7 +82,7 @@ public class CtrlPhasesQualificatives
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @return informations sur la phase qualificative
 	 */
-	public Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> getInfosPhaseQualif(String nomCategorie,String nomPoule,int numeroPhase) {
+	public Triple<InfosConfiguration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> getInfosPhaseQualif(String nomCategorie,String nomPoule,int numeroPhase) {
 		return FrontModel.get().getFrontModelPhasesQualificatives().getInfosPhaseQualif(nomCategorie, nomPoule, numeroPhase);
 	}
 	
@@ -112,7 +137,7 @@ public class CtrlPhasesQualificatives
 	 * @param configuration configuration
 	 * @return nombre de villes communes au sein de la configuration
 	 */
-	public int getNbVillesCommunes(Configuration<String> configuration) {
+	public int getNbVillesCommunes(InfosConfiguration<String> configuration) {
 		return FrontModel.get().getFrontModelParticipants().getNbVillesCommunes(configuration);
 	}
 	
@@ -121,7 +146,7 @@ public class CtrlPhasesQualificatives
 	 * @param configuration configuration
 	 * @return nombre de matchs déjà joués au sein de la configuration
 	 */
-	public int getNbMatchDejaJoues(Configuration<String> configuration) {
+	public int getNbMatchDejaJoues(InfosConfiguration<String> configuration) {
 		return FrontModel.get().getFrontModelPhasesQualificatives().getNbMatchDejaJoues(configuration);
 	}
 	
@@ -165,7 +190,7 @@ public class CtrlPhasesQualificatives
 	 * @param participantes liste des participants
 	 * @return générateur de phase qualificative en mode avancé
 	 */
-	public IGeneration<Configuration<String>> getGenerationAvance(String nomCategorie, String nomPoule, ArrayList<String> participantes) {
+	public IGeneration<InfosConfiguration<String>> getGenerationAvance(String nomCategorie, String nomPoule, ArrayList<String> participantes) {
 		return FrontModel.get().getFrontModelPhasesQualificatives().getGenerationAvance(nomCategorie, nomPoule, participantes);
 	}
 	
@@ -176,7 +201,7 @@ public class CtrlPhasesQualificatives
 	 * @param participantes liste des participants
 	 * @return générateur de phase qualificative en mode basique
 	 */
-	public IGeneration<Configuration<String>> getGenerationBasique(String nomCategorie, String nomPoule, ArrayList<String> participantes) {
+	public IGeneration<InfosConfiguration<String>> getGenerationBasique(String nomCategorie, String nomPoule, ArrayList<String> participantes) {
 		return FrontModel.get().getFrontModelPhasesQualificatives().getGenerationBasique(nomCategorie, nomPoule, participantes);
 	}
 	
@@ -186,11 +211,11 @@ public class CtrlPhasesQualificatives
 	 * @param nomPoule nom de la poule
 	 * @param infos informations de la phase qualificative
 	 */
-	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) {
+	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<InfosConfiguration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) {
 		try {
 			FrontModel.get().getFrontModelPhasesQualificatives().addPhaseQualif(nomCategorie, nomPoule, infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la création d'une phase qualificative", e);
+			ContestOrg.get().erreur("Erreur lors de la création d'une phase qualificative", e);
 		}
 	}
 	
@@ -201,11 +226,11 @@ public class CtrlPhasesQualificatives
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @param infos nouvelles informations de la phase qualificative
 	 */
-	public void updatePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) {
+	public void updatePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<InfosConfiguration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) {
 		try {
 			FrontModel.get().getFrontModelPhasesQualificatives().updatePhaseQualif(nomCategorie, nomPoule, numeroPhase, infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la modification d'une phase qualificative", e);
+			ContestOrg.get().erreur("Erreur lors de la modification d'une phase qualificative", e);
 		}
 	}
 	
@@ -219,7 +244,7 @@ public class CtrlPhasesQualificatives
 		try {
 			FrontModel.get().getFrontModelPhasesQualificatives().removePhaseQualif(nomCategorie, nomPoule, numeroPhase);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la suppression d'une phase qualificative", e);
+			ContestOrg.get().erreur("Erreur lors de la suppression d'une phase qualificative", e);
 		}
 	}
 	
@@ -236,7 +261,7 @@ public class CtrlPhasesQualificatives
 		try {
 			FrontModel.get().getFrontModelPhasesQualificatives().addMatchPhaseQualif(nomCategorie, nomPoule, numeroPhase, infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de l'ajout d'un match de phase qualificative", e);
+			ContestOrg.get().erreur("Erreur lors de l'ajout d'un match de phase qualificative", e);
 		}
 	}
 	
@@ -263,7 +288,7 @@ public class CtrlPhasesQualificatives
 		try {
 			FrontModel.get().getFrontModelPhasesQualificatives().removeMatch(nomCategorie, nomPoule, numeroPhase, numeroMatch);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la suppression d'un match de phase qualificative", e);
+			ContestOrg.get().erreur("Erreur lors de la suppression d'un match de phase qualificative", e);
 		}
 	}
 	

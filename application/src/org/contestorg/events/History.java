@@ -83,7 +83,7 @@ public class History implements IEventListener
 	public void event (Event event) {
 		// Vérifier si une action a été ouverte
 		if(this.action == null) {
-			Log.getLogger().error("Aucune action n'est démarrée.");
+			Log.getLogger().error("Aucune action n'est démarrée.",new Exception());
 		} else {
 			// Ajouter l'évenement à l'action en cours
 			this.actions.lastElement().push(event);

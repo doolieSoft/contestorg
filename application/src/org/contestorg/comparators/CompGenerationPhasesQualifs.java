@@ -4,8 +4,8 @@ package org.contestorg.comparators;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import org.contestorg.infos.Configuration;
-import org.contestorg.infos.Couple;
+import org.contestorg.infos.InfosConfiguration;
+import org.contestorg.infos.InfosConfigurationCouple;
 import org.contestorg.models.ModelParticipant;
 
 
@@ -24,10 +24,10 @@ public class CompGenerationPhasesQualifs implements Comparator
 	private CompPhasesQualifs comparateur;
 
 	/** Couples A déjà comparés (pour optimisation) */
-	private ArrayList<Couple<ModelParticipant>> couplesA = new ArrayList<Couple<ModelParticipant>>();
+	private ArrayList<InfosConfigurationCouple<ModelParticipant>> couplesA = new ArrayList<InfosConfigurationCouple<ModelParticipant>>();
 	
 	/** Couples B déjà comparés (pour optimisation) */
-	private ArrayList<Couple<ModelParticipant>> couplesB = new ArrayList<Couple<ModelParticipant>>();
+	private ArrayList<InfosConfigurationCouple<ModelParticipant>> couplesB = new ArrayList<InfosConfigurationCouple<ModelParticipant>>();
 	
 	/** Résultats des comparaisons entre couples A et B (pour optimisation) */
 	private ArrayList<Integer> results = new ArrayList<Integer>();
@@ -44,15 +44,15 @@ public class CompGenerationPhasesQualifs implements Comparator
 	@SuppressWarnings("unchecked")
 	public int compare (Object objectA, Object objectB) {
 		if (objectA == null || objectB == null) {
-			return this.compareNullObjects(objectA, objectB);
-		} else if (objectA instanceof Couple && objectB instanceof Couple) {
-			return this.compare((Couple)objectA, (Couple)objectB);
-		} else if (objectA instanceof Configuration && objectB instanceof Configuration) {
-			return this.compare((Configuration)objectA, (Configuration)objectB);
+			return objectA == null && objectB == null ? 0 : (objectB == null ? 1 : -1);
+		} else if (objectA instanceof InfosConfigurationCouple && objectB instanceof InfosConfigurationCouple) {
+			return this.compare((InfosConfigurationCouple)objectA, (InfosConfigurationCouple)objectB);
+		} else if (objectA instanceof InfosConfiguration && objectB instanceof InfosConfiguration) {
+			return this.compare((InfosConfiguration)objectA, (InfosConfiguration)objectB);
 		}
 		return 0;
 	}
-	public int compare (Couple<ModelParticipant> coupleA, Couple<ModelParticipant> coupleB) {
+	public int compare (InfosConfigurationCouple<ModelParticipant> coupleA, InfosConfigurationCouple<ModelParticipant> coupleB) {
 		// Vérifier de si le couple n'a pas déjà été comparé
 		int nbResults = this.results.size();
 		for (int i = 0; i < nbResults; i++) {
@@ -69,11 +69,11 @@ public class CompGenerationPhasesQualifs implements Comparator
 
 		// Vérifier si l'un des deux couples n'est pas null
 		if (coupleA == null || coupleB == null) {
-			result = this.compareNullObjects(coupleA, coupleB);
+			return coupleA == null && coupleB == null ? 0 : (coupleB == null ? 1 : -1);
 		} else {
 			// Comparer par rapport au nombre de rencontres des participants des deux couples
-			int nbRencontresA = coupleA.getParticipantA() != null ? coupleA.getParticipantA().getNbRencontres(coupleA.getParticipantB()) : coupleA.getParticipantB().getNbRencontres(coupleA.getParticipantA());
-			int nbRencontresB = coupleB.getParticipantA() != null ? coupleB.getParticipantA().getNbRencontres(coupleB.getParticipantB()) : coupleB.getParticipantB().getNbRencontres(coupleB.getParticipantA());
+			int nbRencontresA = coupleA.getParticipantA() != null ? coupleA.getParticipantA().getNbRencontres(coupleA.getParticipantB(),false,true) : coupleA.getParticipantB().getNbRencontres(coupleA.getParticipantA(),false,true);
+			int nbRencontresB = coupleB.getParticipantA() != null ? coupleB.getParticipantA().getNbRencontres(coupleB.getParticipantB(),false,true) : coupleB.getParticipantB().getNbRencontres(coupleB.getParticipantA(),false,true);
 			if (nbRencontresA != nbRencontresB) {
 				result = nbRencontresA < nbRencontresB ? 1 : -1;
 			} else {
@@ -104,15 +104,15 @@ public class CompGenerationPhasesQualifs implements Comparator
 		// Retourner le resultat
 		return result;
 	}
-	public int compare (Configuration<ModelParticipant> configurationA, Configuration<ModelParticipant> configurationB) {
+	public int compare (InfosConfiguration<ModelParticipant> configurationA, InfosConfiguration<ModelParticipant> configurationB) {
 		// Vérifier si l'une des deux configurations n'est pas null
 		if (configurationA == null || configurationB == null) {
-			this.compareNullObjects(configurationA, configurationB);
+			return configurationA == null && configurationB == null ? 0 : (configurationB == null ? 1 : -1);
 		}
 
 		// Calculer la différence entre les deux configurations
-		Couple<ModelParticipant>[] couplesA = configurationA.getCouples();
-		Couple<ModelParticipant>[] couplesB = configurationB.getCouples();
+		InfosConfigurationCouple<ModelParticipant>[] couplesA = configurationA.getCouples();
+		InfosConfigurationCouple<ModelParticipant>[] couplesB = configurationB.getCouples();
 
 		int nbMatchsDejaJouesA = 0;
 		int nbVillesCommunesA = 0;
@@ -120,8 +120,8 @@ public class CompGenerationPhasesQualifs implements Comparator
 		int differenceMaxNiveauA = 0;
 		int nbMatchsNiveauA = 0;
 		
-		for(Couple<ModelParticipant> couple : couplesA) {
-			nbMatchsDejaJouesA += couple.getParticipantA() != null ? couple.getParticipantA().getNbRencontres(couple.getParticipantB()) : couple.getParticipantB().getNbRencontres(couple.getParticipantA());
+		for(InfosConfigurationCouple<ModelParticipant> couple : couplesA) {
+			nbMatchsDejaJouesA += couple.getParticipantA() != null ? couple.getParticipantA().getNbRencontres(couple.getParticipantB(),false,true) : couple.getParticipantB().getNbRencontres(couple.getParticipantA(),false,true);
 			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
 				differenceSommeNiveauA += Math.abs(couple.getParticipantA().getRangPhasesQualifs()-couple.getParticipantB().getRangPhasesQualifs());
 				differenceMaxNiveauA = Math.max(differenceMaxNiveauA,Math.abs(couple.getParticipantA().getRangPhasesQualifs()-couple.getParticipantB().getRangPhasesQualifs()));
@@ -140,8 +140,8 @@ public class CompGenerationPhasesQualifs implements Comparator
 		int nbMatchsNiveauB = 0;
 		int nbVillesCommunesB = 0;
 		
-		for(Couple<ModelParticipant> couple : couplesB) {
-			nbMatchsDejaJouesB += couple.getParticipantA() != null ? couple.getParticipantA().getNbRencontres(couple.getParticipantB()) : couple.getParticipantB().getNbRencontres(couple.getParticipantA());
+		for(InfosConfigurationCouple<ModelParticipant> couple : couplesB) {
+			nbMatchsDejaJouesB += couple.getParticipantA() != null ? couple.getParticipantA().getNbRencontres(couple.getParticipantB(),false,true) : couple.getParticipantB().getNbRencontres(couple.getParticipantA(),false,true);
 			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
 				differenceSommeNiveauB += Math.abs(couple.getParticipantA().getRangPhasesQualifs()-couple.getParticipantB().getRangPhasesQualifs());
 				differenceMaxNiveauB = Math.max(differenceMaxNiveauA,Math.abs(couple.getParticipantA().getRangPhasesQualifs()-couple.getParticipantB().getRangPhasesQualifs()));
@@ -176,19 +176,6 @@ public class CompGenerationPhasesQualifs implements Comparator
 			return 1;
 		}
 		return 0;
-	}
-
-	/**
-	 * Comparaison dans le cas ou l'un des deux objets est null
-	 * @param objectA objet A
-	 * @param objectB objet B
-	 * @return résultat
-	 */
-	private int compareNullObjects (Object objectA, Object objectB) {
-		if (objectA == null && objectB == null) {
-			return 0;
-		}
-		return objectB == null ? 1 : -1;
 	}
 
 }

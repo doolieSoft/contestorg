@@ -31,14 +31,14 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
-import org.contestorg.infos.Configuration;
+import org.contestorg.infos.InfosConfiguration;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
-import org.contestorg.infos.Theme;
+import org.contestorg.infos.InfosTheme;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.ICollector;
 import org.contestorg.interfaces.IMoody;
@@ -311,7 +311,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 				// Demander confirmation à l'utilisateur
 				if (ViewHelper.confirmation(this.w_parent, "En éditant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\" de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ? *\n* Il est préférable d'éditer les matchs manuellement avec les opérations d'ajout, de modification et de suppression", true)) {
 					// Récupérer les informations de la phase qualificative à éditer
-					Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
+					Triple<InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 					
 					// Créer et afficher la fenêtre d'édition (en prenant soin de supprimer la phase qualificative)
 					CollectorPhaseQualifEditer collector = new CollectorPhaseQualifEditer(selection.getFirst(), selection.getSecond(), selection.getThird());
@@ -336,7 +336,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 						// Demander confirmation à l'utilisateur
 						if (ViewHelper.confirmation(w_parent, "En éditant la phase qualificative "+(selection.getThird()+1)+" de la poule \""+selection.getSecond()+"\" de la catégorie \""+selection.getFirst()+"\" de cette manière, tous les matchs qu'elle possède seront perdus. Désirez-vous continuer ? *\n* Il est préférable d'éditer les matchs manuellement avec les opérations d'ajout, de modification et de suppression", true)) {
 							// Récupérer les informations de la phase qualificative à éditer
-							Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
+							Triple<InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs> infos = ContestOrg.get().getCtrlPhasesQualificatives().getInfosPhaseQualif(selection.getFirst(), selection.getSecond(), selection.getThird());
 							
 							// Créer et afficher la fenêtre d'édition (en prenant soin de supprimer la phase qualificative)
 							CollectorPhaseQualifEditer collector = new CollectorPhaseQualifEditer(selection.getFirst(), selection.getSecond(), selection.getThird());
@@ -391,7 +391,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 
 			// Créer et afficher la fenêtre de gestion d'exportation
-			new JDExporter(this.w_parent, Theme.CATEGORIE_PHASES_QUALIFICATIVES, selection.getFirst(), selection.getSecond(), null).setVisible(true);
+			new JDExporter(this.w_parent, InfosTheme.CATEGORIE_PHASES_QUALIFICATIVES, selection.getFirst(), selection.getSecond(), null).setVisible(true);
 		} else if (event.getSource() == this.jb_editerMatch) {
 			// Récupérer la catégorie, la poule et la phase qualificative
 			Triple<String, String, Integer> selection = this.getSelection(4, "Veuillez séléctionner le match que vous désirez editer.", false);

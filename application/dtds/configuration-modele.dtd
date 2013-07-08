@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Configuration du modèle -->
+<!ELEMENT configuration (description?,variantes?)>
+<!ATTLIST configuration categorie	(sports|jeuxDeSociete|jeuxVideos|divers) "divers"> <!-- Catégorie du modèle -->
+<!ATTLIST configuration image		CDATA #IMPLIED> 	<!-- Chemin de l'image du modèle -->
+
+<!-- Description -->
+<!ELEMENT description (CDATA)>
+
+<!-- Liste des variantes -->
+<!ELEMENT variantes (variante*)>
+
+<!-- Variante -->
+<!ELEMENT variante EMPTY>
+<!ATTLIST variante nom		CDATA #IMPLIED> <!-- Nom de la variante (à ignorer si une seule variante) -->
+<!ATTLIST variante fichier	CDATA #REQUIRED> <!-- Chemin du fichier de la variante -->

@@ -29,7 +29,7 @@ import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPhasesEliminatoires;
 import org.contestorg.infos.InfosModelPoule;
-import org.contestorg.infos.Theme;
+import org.contestorg.infos.InfosTheme;
 import org.contestorg.interfaces.IMoody;
 import org.contestorg.interfaces.IMoodyListener;
 import org.contestorg.interfaces.ITreeNode;
@@ -166,7 +166,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 			String nomCategorie = this.getSelection();
 
 			// Créer et afficher la fenêtre de gestion d'exportation
-			new JDExporter(this.w_parent, Theme.CATEGORIE_PHASES_ELIMINATOIRES, nomCategorie, null, null).setVisible(true);
+			new JDExporter(this.w_parent, InfosTheme.CATEGORIE_PHASES_ELIMINATOIRES, nomCategorie, null, null).setVisible(true);
 		} else if(event.getSource() == this.jb_generer) {
 			// Récupérer le nombre de phases à générer
 			int nbPhases = this.jcb_participants.getSelectedIndex()+2;
@@ -224,7 +224,19 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 					}
 				} else {
 					// Erreur
-					ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a pas assez d'équipes pouvant participer *.\n<i>* Pour pouvoir participer, une équipe doit avoir le statut \"Homologuée\"</i>" : "Il n'y a pas assez de joueurs pouvant participer *.\n<i>* Pour pouvoir participer, un joueur doit avoir le statut \"Homologué\"</i>");
+					if(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES) {
+						if(!ContestOrg.get().getCtrlParticipants().isStatutHomologueActive()) {
+							ViewHelper.derror(this, "Il n'y a pas assez d'équipes pouvant participer *.\n<i>* Pour pouvoir participer, une équipe doit avoir le statut \"Présente\"</i>");
+						} else {
+							ViewHelper.derror(this, "Il n'y a pas assez d'équipes pouvant participer *.\n<i>* Pour pouvoir participer, une équipe doit avoir le statut \"Homologuée\"</i>");
+						}
+					} else {
+						if(!ContestOrg.get().getCtrlParticipants().isStatutHomologueActive()) {
+							ViewHelper.derror(this, "Il n'y a pas assez de joueurs pouvant participer *.\n<i>* Pour pouvoir participer, un joueur doit avoir le statut \"Présent\"</i>");
+						} else {
+							ViewHelper.derror(this, "Il n'y a pas assez de joueurs pouvant participer *.\n<i>* Pour pouvoir participer, un joueur doit avoir le statut \"Homologué\"</i>");
+						}
+					}
 				}
 			} else {
 				// Erreur

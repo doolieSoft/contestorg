@@ -1,20 +1,26 @@
 package org.contestorg.views;
 
+import java.awt.GridLayout;
 import java.awt.Window;
 import java.util.ArrayList;
 
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.contestorg.common.TrackableList;
 import org.contestorg.controllers.ContestOrg;
-import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
-import org.contestorg.infos.InfosModelCompPhasesQualifsObjectif;
-import org.contestorg.infos.InfosModelCompPhasesQualifsPoints;
-import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
-import org.contestorg.infos.InfosModelConcours;
+import org.contestorg.infos.InfosModelCritereClassementAbstract;
+import org.contestorg.infos.InfosModelCritereClassementGoalAverage;
+import org.contestorg.infos.InfosModelCritereClassementNbPoints;
+import org.contestorg.infos.InfosModelCritereClassementNbVictoires;
+import org.contestorg.infos.InfosModelCritereClassementQuantiteObjectif;
 import org.contestorg.infos.InfosModelObjectif;
 import org.contestorg.interfaces.IFournisseur;
 import org.contestorg.interfaces.ITrackableListListener;
@@ -23,13 +29,13 @@ import org.contestorg.interfaces.ITrackableListListener;
  * Panel de configuration des points
  */
 @SuppressWarnings("serial")
-public class JPConfigurationPoints extends JPConfigurationAbstract implements ITrackableListListener<InfosModelObjectif>
+public class JPConfigurationPoints extends JPConfigurationAbstract implements ITrackableListListener<InfosModelObjectif>, ChangeListener
 {
 	/** TableModel de la liste des objectifs */
 	private TMObjectifs tm_objectifs;
 
-	/** TableModel de la liste des comparateurs */
-	private TMComparateurs tm_comparateurs;
+	/** TableModel de la liste des critères de classement */
+	private TMCriteresClassement tm_criteresClassement;
 	
 	// Points en fonction des résultats
 	
@@ -39,8 +45,17 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 	/** Points d'égalité */
 	protected JTextField jtf_scores_resultats_pegalite = new JTextField();
 	
+	/** Egalité activé */
+	protected JRadioButton jrb_egalite_activee_oui = new JRadioButton("Oui", true);
+	
+	/** Egalité désactivée */
+	protected JRadioButton jrb_egalite_activee_non = new JRadioButton("Non");
+	
 	/** Points de défaite */
 	protected JTextField jtf_scores_resultats_pdefaite = new JTextField();
+	
+	/** Points de forfait */
+	protected JTextField jtf_scores_resultats_pforfait = new JTextField();
 
 	/**
 	 * Constructeur
@@ -52,11 +67,22 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 
 		// En fonction du résultat
 		this.jp_contenu.add(ViewHelper.title("En fonction du résultat", ViewHelper.H1));
-		JLabel[] jls_scores_resultat = { new JLabel("Points de victoire : "), new JLabel("Points d'égalité : "), new JLabel("Points de défaite : ") };
-		JComponent[] jcs_scores_resultat = { this.jtf_scores_resultats_pvictoire, this.jtf_scores_resultats_pegalite, this.jtf_scores_resultats_pdefaite };
+		
+		ButtonGroup bg_egalite_activee = new ButtonGroup();
+		bg_egalite_activee.add(this.jrb_egalite_activee_oui);
+		bg_egalite_activee.add(this.jrb_egalite_activee_non);
+		JPanel jp_egalite_activee = new JPanel(new GridLayout(1, 2));
+		jp_egalite_activee.add(this.jrb_egalite_activee_oui);
+		jp_egalite_activee.add(this.jrb_egalite_activee_non);
+		
+		JLabel[] jls_scores_resultat = { new JLabel("Points de victoire : "), new JLabel("Points d'égalité : "), new JLabel("Egalité activée : "), new JLabel("Points de défaite : "), new JLabel("Points de forfait : ") };
+		JComponent[] jcs_scores_resultat = { this.jtf_scores_resultats_pvictoire, this.jtf_scores_resultats_pegalite, jp_egalite_activee, this.jtf_scores_resultats_pdefaite, this.jtf_scores_resultats_pforfait };
 		this.jp_contenu.add(ViewHelper.inputs(jls_scores_resultat, jcs_scores_resultat));
 		this.jp_contenu.add(Box.createVerticalStrut(8));
-		this.jp_contenu.add(ViewHelper.pinformation("Aucun point n'est attribué en cas de forfait"));
+		
+		// Ecouter l'activation ou non de l'égalié
+		this.jrb_egalite_activee_non.addChangeListener(this);
+		this.jrb_egalite_activee_oui.addChangeListener(this);
 
 		// Liste des objectifs
 		this.jp_contenu.add(ViewHelper.title("Liste des objectifs", ViewHelper.H1));
@@ -70,25 +96,25 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 		// Critères de classement
 		this.jp_contenu.add(ViewHelper.title("Critères de classement", ViewHelper.H1));
 		final TMObjectifs tm_objectifs = this.tm_objectifs;
-		this.tm_comparateurs = new TMComparateurs(this.w_parent,new IFournisseur<ArrayList<InfosModelObjectif>>() {
+		this.tm_criteresClassement = new TMCriteresClassement(this.w_parent,new IFournisseur<ArrayList<InfosModelObjectif>>() {
 			// Fournir les objectifs
 			@Override
 			public ArrayList<InfosModelObjectif> get () {
 				return tm_objectifs.getModifies();
 			}
 		});
-		this.tm_comparateurs.addValidator(ContestOrg.get().getComparateursValidator());
-		this.jp_contenu.add(new JPTable<InfosModelCompPhasesQualifsAbstract>(this.w_parent, this.tm_comparateurs, true, false, true, true, true));
+		this.tm_criteresClassement.addValidator(ContestOrg.get().getCriteresClassementValidator());
+		this.jp_contenu.add(new JPTable<InfosModelCritereClassementAbstract>(this.w_parent, this.tm_criteresClassement, true, true, true, true, true));
 		
 		// Placer les valeurs par défaut
-		InfosModelConcours defaut = InfosModelConcours.defaut();
-		this.jtf_scores_resultats_pvictoire.setText(String.valueOf(defaut.getPointsVictoire()));
-		this.jtf_scores_resultats_pegalite.setText(String.valueOf(defaut.getPointsEgalite()));
-		this.jtf_scores_resultats_pdefaite.setText(String.valueOf(defaut.getPointsDefaite()));
+		this.jtf_scores_resultats_pvictoire.setText("2.0");
+		this.jtf_scores_resultats_pegalite.setText("1.0");
+		this.jtf_scores_resultats_pdefaite.setText("0.0");
+		this.jtf_scores_resultats_pforfait.setText("0.0");
 		
 		// Placer des critères de classement par défaut
-		this.tm_comparateurs.add(new InfosModelCompPhasesQualifsPoints());
-		this.tm_comparateurs.add(new InfosModelCompPhasesQualifsVictoires());
+		this.tm_criteresClassement.add(new InfosModelCritereClassementNbPoints(false));
+		this.tm_criteresClassement.add(new InfosModelCritereClassementNbVictoires(false));
 	}
 
 	/**
@@ -108,11 +134,27 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 	}
 	
 	/**
+	 * Savoir si l'égalite est activée
+	 * @return égalité activée ?
+	 */
+	public boolean isEgaliteActivee () {
+		return this.jrb_egalite_activee_oui.isSelected();
+	}
+	
+	/**
 	 * Récupérer les points de défaite
 	 * @return points de défaite
 	 */
 	public float getPointsDefaite () {
 		return Float.parseFloat(this.jtf_scores_resultats_pdefaite.getText().trim());
+	}
+	
+	/**
+	 * Récupérer les points de forfait
+	 * @return points de forfait
+	 */
+	public float getPointsForfait () {
+		return Float.parseFloat(this.jtf_scores_resultats_pforfait.getText().trim());
 	}
 	
 	/**
@@ -124,11 +166,11 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 	}
 	
 	/**
-	 * Récupérer la liste des comparateurs
-	 * @return liste des comparateurs
+	 * Récupérer la liste des critères de classement
+	 * @return liste des critères de classement
 	 */
-	public TrackableList<InfosModelCompPhasesQualifsAbstract> getComparacteurs() {
-		return new TrackableList<InfosModelCompPhasesQualifsAbstract>(this.tm_comparateurs);
+	public TrackableList<InfosModelCritereClassementAbstract> getComparacteurs() {
+		return new TrackableList<InfosModelCritereClassementAbstract>(this.tm_criteresClassement);
 	}
 	
 	/**
@@ -148,11 +190,28 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 	}
 	
 	/**
+	 * Définir si l'égalité est activée
+	 * @param egaliteActivee égalité activée ?
+	 */
+	public void setIsEgaliteActivee(boolean egaliteActivee) {
+		this.jrb_egalite_activee_oui.setSelected(egaliteActivee);
+		this.jrb_egalite_activee_non.setSelected(!egaliteActivee);
+	}
+	
+	/**
 	 * Définir les points de défaite
 	 * @param points points de défaite
 	 */
 	public void setPointsDefaite(double points) {
 		this.jtf_scores_resultats_pdefaite.setText(String.valueOf(points));
+	}
+	
+	/**
+	 * Définir les points de forfait
+	 * @param points points de forfait
+	 */
+	public void setPointsForfait(double points) {
+		this.jtf_scores_resultats_pforfait.setText(String.valueOf(points));
 	}
 	
 	/**
@@ -164,11 +223,11 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 	}
 	
 	/**
-	 * Définir la liste des comparateurs
-	 * @param comparateurs liste des comparateurs
+	 * Définir la liste des critères de classement
+	 * @param criteresClassement liste des critères de classement
 	 */
-	public void setComparateurs(ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs) {
-		this.tm_comparateurs.fill(comparateurs);
+	public void setCriteresClassement(ArrayList<InfosModelCritereClassementAbstract> criteresClassement) {
+		this.tm_criteresClassement.fill(criteresClassement);
 	}
 	
 	/**
@@ -186,21 +245,10 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 		} else {
 			try {
 				// Conversion de données
-				float pvictoire = Float.parseFloat(this.jtf_scores_resultats_pvictoire.getText().trim());
-				float pegalite = Float.parseFloat(this.jtf_scores_resultats_pegalite.getText().trim());
-				float pdefaite = Float.parseFloat(this.jtf_scores_resultats_pdefaite.getText().trim());
-				
-				// Vérifier que les valeurs sont logique
-				if(pvictoire < pegalite) {
-					// Message d'erreur
-					ViewHelper.derror(this.w_parent, "Points et classement", "Les points de victoire doivent être inférieurs ou égaux aux points d'égalité.");
-					erreur = true;
-				}
-				if(pegalite < pdefaite) {
-					// Message d'erreur
-					ViewHelper.derror(this.w_parent, "Points et classement", "Les points d'égalité doivent être inférieurs ou égaux aux points de défaite.");
-					erreur = true;
-				}
+				Float.parseFloat(this.jtf_scores_resultats_pvictoire.getText().trim());
+				Float.parseFloat(this.jtf_scores_resultats_pegalite.getText().trim());
+				Float.parseFloat(this.jtf_scores_resultats_pdefaite.getText().trim());
+				Float.parseFloat(this.jtf_scores_resultats_pforfait.getText().trim());
 			} catch (NumberFormatException exception) {
 				// Message d'erreur
 				ViewHelper.derror(this.w_parent, "Points et classement", "Les points de victoire, d'égalité et de défaite doivent être des nombres décimales.");
@@ -209,7 +257,7 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 		}
 		
 		// Valider les classements
-		if(this.tm_comparateurs.getRowCount() == 0) {
+		if(this.tm_criteresClassement.getRowCount() == 0) {
 			// Message d'erreur
 			ViewHelper.derror(this, "Points et classement", "Les critères de classement doivent avoir au moins un critère.");
 			erreur = true;
@@ -224,41 +272,62 @@ public class JPConfigurationPoints extends JPConfigurationAbstract implements IT
 	public void addEvent (int row, InfosModelObjectif added) { }
 	@Override
 	public void updateEvent (int row, InfosModelObjectif before, InfosModelObjectif after) {
-		// Modifier les comparateurs correspondants à l'objectif
-		for(InfosModelCompPhasesQualifsAbstract comparateur : this.getCompPhasesQualifsObjectif(before)) {
-			this.tm_comparateurs.update(this.tm_comparateurs.getRow(comparateur), new InfosModelCompPhasesQualifsObjectif(after));
+		// Modifier les critères de classement correspondants à l'objectif
+		for(InfosModelCritereClassementAbstract critere : this.getCriteresClassementParObjectif(before)) {
+			if(critere instanceof InfosModelCritereClassementQuantiteObjectif) {
+				this.tm_criteresClassement.update(this.tm_criteresClassement.getRow(critere), new InfosModelCritereClassementQuantiteObjectif(critere.isInverse(),after));
+			} else if(critere instanceof InfosModelCritereClassementGoalAverage) {
+				this.tm_criteresClassement.update(this.tm_criteresClassement.getRow(critere), new InfosModelCritereClassementGoalAverage(critere.isInverse(),((InfosModelCritereClassementGoalAverage)critere).getType(),((InfosModelCritereClassementGoalAverage)critere).getMethode(),((InfosModelCritereClassementGoalAverage)critere).getDonnee(),after));
+			}
 		}
 	}
 	@Override
 	public void removeEvent (int row, InfosModelObjectif deleted) {
-		// Supprimer les comparateurs correspondants à l'objectif
-		for(InfosModelCompPhasesQualifsAbstract comparateur : this.getCompPhasesQualifsObjectif(deleted)) {
-			this.tm_comparateurs.remove(this.tm_comparateurs.getRow(comparateur));
+		// Supprimer les critères de classement correspondants à l'objectif
+		for(InfosModelCritereClassementAbstract critereClassement : this.getCriteresClassementParObjectif(deleted)) {
+			this.tm_criteresClassement.remove(this.tm_criteresClassement.getRow(critereClassement));
 		}
 	}
 	
 	/**
-	 * Chercher la liste des comparateurs d'objectifs pour un objectif donnée
+	 * Chercher la liste des critères de classement pour un objectif donné
 	 * @param objectif objectif
-	 * @return liste des comparateurs d'objectif de l'objectif
+	 * @return liste des critères de classement de l'objectif
 	 */
-	private ArrayList<InfosModelCompPhasesQualifsObjectif> getCompPhasesQualifsObjectif(InfosModelObjectif objectif) {
-		// Initialiser la liste des comparateurs correspondants
-		ArrayList<InfosModelCompPhasesQualifsObjectif> comparateurs = new ArrayList<InfosModelCompPhasesQualifsObjectif>();
+	private ArrayList<InfosModelCritereClassementAbstract> getCriteresClassementParObjectif(InfosModelObjectif objectif) {
+		// Initialiser la liste des critères de classement correspondants
+		ArrayList<InfosModelCritereClassementAbstract> criteresClassement = new ArrayList<InfosModelCritereClassementAbstract>();
 		
-		// Pour chaque comparateur du TableModel
-		for(InfosModelCompPhasesQualifsAbstract comparateur : this.tm_comparateurs) {
-			// Vérifier s'il s'agit d'un comparateur d'objectif
-			if(comparateur instanceof InfosModelCompPhasesQualifsObjectif) {
-				// Vérifier si l'objectif supprimé correspond à l'objectif du comparateur
-				if(((InfosModelCompPhasesQualifsObjectif)comparateur).getObjectif().getNom().equals(objectif.getNom())) {
-					// Ajouter le comparateur dans la liste des comparateurs correspondants
-					comparateurs.add((InfosModelCompPhasesQualifsObjectif)comparateur);
+		// Pour chaque critère de classement du TableModel
+		for(InfosModelCritereClassementAbstract critereClassement : this.tm_criteresClassement) {
+			// Vérifier s'il s'agit d'un critère de classement avec un objectif
+			if(critereClassement instanceof InfosModelCritereClassementQuantiteObjectif) {
+				// Vérifier si l'objectif supprimé correspond à l'objectif du critère de classement
+				if(((InfosModelCritereClassementQuantiteObjectif)critereClassement).getObjectif().getNom().equals(objectif.getNom())) {
+					// Ajouter le critère de classement dans la liste des critères de classement correspondants
+					criteresClassement.add(critereClassement);
+				}
+			} else if(critereClassement instanceof InfosModelCritereClassementGoalAverage) {
+				// Vérifier si l'objectif supprimé correspond à l'objectif du critère de classement
+				if(((InfosModelCritereClassementGoalAverage)critereClassement).getDonnee() == InfosModelCritereClassementGoalAverage.DONNEE_QUANTITE_OBJECTIF && ((InfosModelCritereClassementGoalAverage)critereClassement).getObjectif().getNom().equals(objectif.getNom())) {
+					// Ajouter le critère de classement dans la liste des critères de classement correspondants
+					criteresClassement.add(critereClassement);
 				}
 			}
 		}
 		
-		// Retourner la liste des comparateurs correspondants
-		return comparateurs;
+		// Retourner la liste des critères de classement correspondants
+		return criteresClassement;
+	}
+
+	/**
+	 * @see ChangeListener#stateChanged(ChangeEvent)
+	 */
+	@Override
+	public void stateChanged (ChangeEvent event) {
+		this.jtf_scores_resultats_pegalite.setEnabled(this.jrb_egalite_activee_oui.isSelected());
+		if(this.jrb_egalite_activee_non.isSelected()) {
+			this.jtf_scores_resultats_pegalite.setText("0.0");
+		}
 	}
 }

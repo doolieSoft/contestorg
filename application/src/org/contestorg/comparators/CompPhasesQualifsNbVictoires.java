@@ -3,38 +3,44 @@ package org.contestorg.comparators;
 import org.contestorg.models.ModelParticipant;
 
 /**
- * Comparateur qui retourne le participant qui a eu le plus de victoires aux phases qualificatives
+ * Comparateur qui prend en compte le nombre de victoires aux phases qualificatives
  */
 public class CompPhasesQualifsNbVictoires extends CompPhasesQualifs
 {
 
 	/**
 	 * Constructeur
+	 * @param sens sens (+1 pour un tri descendant, -1 pour un tri ascendant)
 	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
 	 */
-	public CompPhasesQualifsNbVictoires(int phaseQualifMax) {
-		super(null,phaseQualifMax);
+	public CompPhasesQualifsNbVictoires(int sens,int phaseQualifMax) {
+		this(null,sens,phaseQualifMax);
 	}
 	
 	/**
 	 * Constructeur
 	 * @param comparateurSupp comparateur supplémentaire
+	 * @param sens sens (+1 pour un tri descendant, -1 pour un tri ascendant)
 	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
 	 */
-	public CompPhasesQualifsNbVictoires(CompPhasesQualifs comparateurSupp, int phaseQualifMax) {
-		super(comparateurSupp,phaseQualifMax);
+	public CompPhasesQualifsNbVictoires(CompPhasesQualifs comparateurSupp,int sens,int phaseQualifMax) {
+		super(comparateurSupp,sens,phaseQualifMax);
 	}
 
-	// Implémentation de getValue()
+	/**
+	 * @see CompPhasesQualifs#getValue(ModelParticipant, ModelParticipant, int)
+	 */
 	@Override
-	protected double getValue (ModelParticipant participant) {
-		return participant == null ? 0 : (double)participant.getNbVictoires(this.phaseQualifMax);
+	protected double getValue (ModelParticipant participant, ModelParticipant adversaire, int phaseQualifMax) {
+		return participant == null ? 0 : (double)participant.getNbVictoires(false,true,phaseQualifMax);
 	}
 
-	// Implémentation de getSens()
+	/**
+	 * @see CompPhasesQualifs#getMaxParticipants()
+	 */
 	@Override
-	protected int getSens () {
-		return 1;
+	protected int getMaxParticipants () {
+		return -1;
 	}
 
 }

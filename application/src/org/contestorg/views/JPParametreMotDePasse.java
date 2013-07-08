@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JPasswordField;
 
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 
 /**
  * Panel d'un paramètre de thème d'exportation/diffusion de type "Mot de passe"
@@ -20,7 +20,7 @@ public class JPParametreMotDePasse extends JPParametreAbstract
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametreMotDePasse(Parametre parametre) {
+	public JPParametreMotDePasse(InfosThemeParametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		

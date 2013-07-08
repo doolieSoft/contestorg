@@ -42,13 +42,13 @@ public class JDPoulesPoidsParticipants extends JDPattern
 	 */
 	public JDPoulesPoidsParticipants(Window w_parent, HashMap<String,Integer> poids, ICollector<HashMap<String,Integer>> collector) {
 		// Appeller le constructeur du parent
-		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Poids des équipes" : "Poids des participants");
+		super(w_parent, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Poids des équipes" : "Poids des participants");
 		
 		// Retenir le collecteur des poids des participants
 		this.collector = collector;
 		
 		// Titre
-		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Poids des équipes" : "Poids des participants"));
+		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Poids des équipes" : "Poids des participants"));
 		
 		// Récupérer et trier la liste des participants
 		this.participants.addAll(poids.keySet());

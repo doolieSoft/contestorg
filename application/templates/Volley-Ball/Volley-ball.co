@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concours version="2.4.0" id="1" nom="Volley-ball" participants="equipes" qualifications="phases" statutHomologueActive="non">
+  <!--Liste des points remportés en fonction du résultat des matchs-->
+  <points victoire="2.0" egaliteActivee="non" defaite="1.0" forfait="0.0" />
+  <!--Liste des critère de classement-->
+  <listeCriteres>
+    <critere id="2" inverse="non">
+      <critereNbPoints />
+    </critere>
+    <critere id="10" inverse="non">
+      <critereGoalAverage type="general" methode="division" donnee="quantiteObjectif" refObjectif="9" />
+    </critere>
+    <critere id="11" inverse="non">
+      <critereGoalAverage type="general" methode="division" donnee="quantiteObjectif" refObjectif="7" />
+    </critere>
+  </listeCriteres>
+  <!--Liste des objectifs à remporter au cours des matchs-->
+  <listeObjectifs>
+    <objectif id="7">
+      <objectifNul nom="Score" />
+    </objectif>
+    <objectif id="9">
+      <objectifNul nom="Manches remportées" />
+    </objectif>
+  </listeObjectifs>
+  <!--Liste des catégories-->
+  <listeCategories>
+    <categorie id="0" nom="Défaut">
+      <listePoules>
+        <poule id="4" nom="Défaut" />
+      </listePoules>
+    </categorie>
+  </listeCategories>
+</concours>
+

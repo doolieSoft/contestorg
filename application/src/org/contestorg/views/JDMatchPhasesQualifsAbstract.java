@@ -76,6 +76,19 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	/** Détails */
 	protected JTextArea jta_details;
 	
+	// Index des résultats
+
+	/** Attente */
+	protected int index_attente;
+	/** Victoire */
+	protected int index_victoire;
+	/** Egalité */
+	protected int index_egalite;
+	/** Défaite */
+	protected int index_defaite;
+	/** FORFAIT */
+	protected int index_forfait;
+	
 	/**
 	 * Constructeur
 	 * @param w_parent fenêtre parent
@@ -96,14 +109,14 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		this.numeroPhase = numeroPhase;
 		
 		// Participants
-		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
+		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
 		
 		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(this.nomCategorie,this.nomPoule);
 		JPanel jp_participants = new JPanel(new GridLayout(1,2));
 		this.jcb_participantA = new JComboBox<String>(participants.toArray(new String[participants.size()]));
-		this.jcb_participantA.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
+		this.jcb_participantA.addItem(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
 		this.jcb_participantB = new JComboBox<String>(participants.toArray(new String[participants.size()]));
-		this.jcb_participantB.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
+		this.jcb_participantB.addItem(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
 		jp_participants.add(this.jcb_participantA);
 		jp_participants.add(this.jcb_participantB);
 		this.jp_contenu.add(jp_participants);
@@ -113,9 +126,25 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		this.jp_contenu.add(ViewHelper.title("Résultats", ViewHelper.H1));
 		
 		JPanel jp_resultat = new JPanel(new GridLayout(1,2));
-		String[] resultats = { "Attente", "Victoire", "Egalité", "Défaite", "Forfait" };
-		this.jcb_resultatA = new JComboBox<String>(resultats);
-		this.jcb_resultatB = new JComboBox<String>(resultats);
+		if(ContestOrg.get().getCtrlPhasesQualificatives().isEgaliteActivee()) {
+			String[] resultats = { "Attente", "Victoire", "Egalité", "Défaite", "Forfait" };
+			this.jcb_resultatA = new JComboBox<String>(resultats);
+			this.jcb_resultatB = new JComboBox<String>(resultats);
+			this.index_attente = 0;
+			this.index_victoire = 1;
+			this.index_egalite = 2;
+			this.index_defaite = 3;
+			this.index_forfait = 4;
+		} else {
+			String[] resultats = { "Attente", "Victoire", "Défaite", "Forfait" };
+			this.jcb_resultatA = new JComboBox<String>(resultats);
+			this.jcb_resultatB = new JComboBox<String>(resultats);
+			this.index_attente = 0;
+			this.index_victoire = 1;
+			this.index_egalite = -1;
+			this.index_defaite = 2;
+			this.index_forfait = 3;
+		}
 		jp_resultat.add(this.jcb_resultatA);
 		jp_resultat.add(this.jcb_resultatB);
 		this.jp_contenu.add(jp_resultat);
@@ -159,6 +188,17 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		// Pack
 		this.pack();
 	}
+	
+	/**
+	 * Ajouter le résultat "égalité" (dans le cas où l'égalité est désactivée et si l'on souhaite quand même en disposer)
+	 */
+	protected void addResultatEgalite() {
+		this.jcb_resultatA.insertItemAt("Egalité", 2);
+		this.jcb_resultatB.insertItemAt("Egalité", 2);
+		this.index_egalite = 2;
+		this.index_defaite = 3;
+		this.index_forfait = 4;
+	}
 
 	/**
 	 * @see JDPattern#ok()
@@ -169,40 +209,28 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		String nomParticipantA = this.jcb_participantA.getSelectedIndex() == this.jcb_participantA.getItemCount()-1 ? null : (String)this.jcb_participantA.getSelectedItem();
 		String nomParticipantB = this.jcb_participantB.getSelectedIndex() == this.jcb_participantB.getItemCount()-1 ? null : (String)this.jcb_participantB.getSelectedItem();
 		int resultatA = 0;
-		switch(this.jcb_resultatA.getSelectedIndex()) {
-			case 0:
-				resultatA = InfosModelParticipation.RESULTAT_ATTENTE;
-				break;
-			case 1:
-				resultatA = InfosModelParticipation.RESULTAT_VICTOIRE;
-				break;
-			case 2:
-				resultatA = InfosModelParticipation.RESULTAT_EGALITE;
-				break;
-			case 3:
-				resultatA = InfosModelParticipation.RESULTAT_DEFAITE;
-				break;
-			case 4:
-				resultatA = InfosModelParticipation.RESULTAT_FORFAIT;
-				break;
+		if(this.jcb_resultatA.getSelectedIndex() == this.index_attente) {
+			resultatA = InfosModelParticipation.RESULTAT_ATTENTE;
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_victoire) {
+			resultatA = InfosModelParticipation.RESULTAT_VICTOIRE;
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_egalite) {
+			resultatA = InfosModelParticipation.RESULTAT_EGALITE;
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_defaite) {
+			resultatA = InfosModelParticipation.RESULTAT_DEFAITE;
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_forfait) {
+			resultatA = InfosModelParticipation.RESULTAT_FORFAIT;
 		}
 		int resultatB = 0;
-		switch(this.jcb_resultatB.getSelectedIndex()) {
-			case 0:
-				resultatB = InfosModelParticipation.RESULTAT_ATTENTE;
-				break;
-			case 1:
-				resultatB = InfosModelParticipation.RESULTAT_VICTOIRE;
-				break;
-			case 2:
-				resultatB = InfosModelParticipation.RESULTAT_EGALITE;
-				break;
-			case 3:
-				resultatB = InfosModelParticipation.RESULTAT_DEFAITE;
-				break;
-			case 4:
-				resultatB = InfosModelParticipation.RESULTAT_FORFAIT;
-				break;
+		if(this.jcb_resultatB.getSelectedIndex() == this.index_attente) {
+			resultatB = InfosModelParticipation.RESULTAT_ATTENTE;
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_victoire) {
+			resultatB = InfosModelParticipation.RESULTAT_VICTOIRE;
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_egalite) {
+			resultatB = InfosModelParticipation.RESULTAT_EGALITE;
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_defaite) {
+			resultatB = InfosModelParticipation.RESULTAT_DEFAITE;
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_forfait) {
+			resultatB = InfosModelParticipation.RESULTAT_FORFAIT;
 		}
 		String details = this.jta_details.getText().trim();
 		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
@@ -214,15 +242,15 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		if(nomParticipantA == null && nomParticipantB == null || nomParticipantA != null && nomParticipantA.equals(nomParticipantB)) {
 			// Erreur
 			erreur = true;
-			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
+			ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe ne peut pas avoir un match avec elle même." : "Un joueur ne peut pas avoir un match avec lui même.");
 		} else if(this instanceof JDMatchPhasesQualifsCreer) {
 			if(ContestOrg.get().getCtrlPhasesQualificatives().isParticipantPhaseQualif(this.nomCategorie,this.nomPoule,this.numeroPhase,nomParticipantA)) {
-				if(!ViewHelper.confirmation(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomParticipantA+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
+				if(!ViewHelper.confirmation(this, (ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomParticipantA+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
 					erreur = true;
 				}
 			}
 			if(!erreur && ContestOrg.get().getCtrlPhasesQualificatives().isParticipantPhaseQualif(this.nomCategorie,this.nomPoule,this.numeroPhase,nomParticipantB)) {
-				if(!ViewHelper.confirmation(this, (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomParticipantB+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
+				if(!ViewHelper.confirmation(this, (ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "L'équipe" : "Le joueur")+" "+nomParticipantB+" participe déjà à la phase qualificative. Désirez-vous continuer ?")) {
 					erreur = true;
 				}
 			}
@@ -280,25 +308,22 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			// Modifier la liste non modifiée si nécéssaire
 			JComboBox<String> jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
 			JComboBox<String> jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
-			switch(jcb_event.getSelectedIndex()) {
-				case 0: // Attente
-					jcb_other.setSelectedIndex(0);
-					break;
-				case 1: // Victoire
-					if(jcb_other.getSelectedIndex() == 0) {
-						jcb_other.setSelectedIndex(3);
-					}
-					break;
-				case 2: // Egalite
-					jcb_other.setSelectedIndex(2);
-					break;
-				case 3: // Defaite
-					if(jcb_other.getSelectedIndex() == 0) {
-						jcb_other.setSelectedIndex(1);
-					}
-					break;
-				case 4: // Forfait
-					break;
+			if(jcb_event.getSelectedIndex() == this.index_attente) {
+				jcb_other.setSelectedIndex(this.index_attente);
+			} else if(jcb_event.getSelectedIndex() == this.index_victoire) {
+				if(jcb_other.getSelectedIndex() == this.index_victoire || jcb_other.getSelectedIndex() == this.index_attente || jcb_other.getSelectedIndex() == this.index_egalite) {
+					jcb_other.setSelectedIndex(this.index_defaite);
+				}
+			} else if(jcb_event.getSelectedIndex() == this.index_egalite) {
+				jcb_other.setSelectedIndex(this.index_egalite);
+			} else if(jcb_event.getSelectedIndex() == this.index_defaite) {
+				if(jcb_other.getSelectedIndex() == this.index_attente || jcb_other.getSelectedIndex() == this.index_egalite) {
+					jcb_other.setSelectedIndex(this.index_victoire);
+				}
+			} else if(jcb_event.getSelectedIndex() == this.index_forfait) {
+				if(jcb_other.getSelectedIndex() == this.index_attente || jcb_other.getSelectedIndex() == this.index_egalite) {
+					jcb_other.setSelectedIndex(this.index_victoire);
+				}
 			}
 		}
 	}

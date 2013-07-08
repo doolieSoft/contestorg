@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat : victoire à 0 pts, égalité à 0 pts, défaite à 0 pts, forfait à 0 pts</li>
+			<li>Objectifs : Full Ippon, points</li>
+			<li>Critères de classement : nombre de victoires, résultat des rencontres directes, le plus d'objectif "Full Ippon", points</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante fichier="Judo.co" />
+	</variantes>
+</configuration>

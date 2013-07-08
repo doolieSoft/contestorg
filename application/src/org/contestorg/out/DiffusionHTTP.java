@@ -86,9 +86,9 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 			try {
 				// Générer les ressources
 				this.fireMessage("Génération des ressources ...");
-				ArrayList<RessourceAbstract> ressources;
+				ArrayList<ThemeRessourceAbstract> ressources;
 				try {
-					ressources = RessourceAbstract.getRessources(theme,true);
+					ressources = ThemeRessourceAbstract.getRessources(theme,true);
 				} catch (ContestOrgWarningException e) {
 					this.echec(e.getMessage());
 					return;
@@ -113,7 +113,7 @@ public class DiffusionHTTP extends DiffusionAbstract implements IOperationListen
 				
 				// Ajouter les ressouces du thème
 				this.fireMessage("Ajout des ressources dans le serveur HTTP ...");
-				for(RessourceAbstract ressource : ressources) {
+				for(ThemeRessourceAbstract ressource : ressources) {
 					// Ajouter la ressource
 					server.addRessource(ressource);
 				}

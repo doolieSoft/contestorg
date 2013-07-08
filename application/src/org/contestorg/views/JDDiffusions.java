@@ -199,7 +199,7 @@ public class JDDiffusions extends JDPattern implements IEndListener
 		CtrlOut ctrl = ContestOrg.get().getCtrlOut();
 		
 		// Récupérer les diffusions
-		ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions = ctrl.getDiffusions();
+		ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions = ctrl.getListeDiffusions();
 		
 		// Modifier le statut et les boutons de controle et d'affichage
 		for(int i=0;i<diffusions.size();i++) {

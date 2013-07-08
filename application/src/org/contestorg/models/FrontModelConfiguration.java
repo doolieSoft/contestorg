@@ -7,7 +7,7 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.infos.InfosModelChemin;
-import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
+import org.contestorg.infos.InfosModelCritereClassementAbstract;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
@@ -40,7 +40,7 @@ public class FrontModelConfiguration
 	 * Configurer le concours
 	 * @param infos informations du concours
 	 * @param objectifs liste des objectifs
-	 * @param comparateurs liste des comparateurs
+	 * @param criteresClassement liste des critères de classement
 	 * @param exportations liste des exportations
 	 * @param publication indice de l'exportation qui fait office de publication
 	 * @param diffusions liste des diffusions
@@ -49,7 +49,7 @@ public class FrontModelConfiguration
 	 * @param proprietes liste des propriétés
 	 * @throws ContestOrgErrorException
 	 */
-	public void configurerConcours (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCompPhasesQualifsAbstract> comparateurs, TrackableList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion, InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) throws ContestOrgErrorException {
+	public void configurerConcours (InfosModelConcours infos, TrackableList<InfosModelObjectif> objectifs, TrackableList<InfosModelCritereClassementAbstract> criteresClassement, TrackableList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> exportations, int publication, TrackableList<Pair<InfosModelDiffusion, InfosModelTheme>> diffusions, TrackableList<InfosModelPrix> prix, TrackableList<Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>>> lieux, TrackableList<InfosModelPropriete> proprietes) throws ContestOrgErrorException {
 		// Démarrer l'action de configuration
 		this.frontModel.getHistory().start("Configuration du concours");
 		
@@ -58,7 +58,7 @@ public class FrontModelConfiguration
 		
 		// Mettre à jour les données du concours
 		this.frontModel.getConcours().updateObjectifs(objectifs);
-		this.frontModel.getConcours().updateCompPhasesQualifs(comparateurs);
+		this.frontModel.getConcours().updateCriteresClassement(criteresClassement);
 		this.frontModel.getConcours().updateExportations(exportations);
 		this.frontModel.getConcours().setPublication(publication == -1 ? null : this.frontModel.getConcours().getExportations().get(publication));
 		this.frontModel.getConcours().updateDiffusions(diffusions);
@@ -179,15 +179,15 @@ public class FrontModelConfiguration
 	}
 	
 	/**
-	 * Récupérer la liste des comparateurs
-	 * @return liste des comparateurs
+	 * Récupérer la liste des critères de classement
+	 * @return liste des critères de classement
 	 */
-	public ArrayList<InfosModelCompPhasesQualifsAbstract> getListeComparateurs () {
-		ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs = new ArrayList<InfosModelCompPhasesQualifsAbstract>();
-		for (ModelCompPhasesQualifsAbstract comparateur : this.frontModel.getConcours().getCompsPhasesQualifs()) {
-			comparateurs.add(comparateur.getInfos());
+	public ArrayList<InfosModelCritereClassementAbstract> getListeCriteresClassement () {
+		ArrayList<InfosModelCritereClassementAbstract> criteresClassement = new ArrayList<InfosModelCritereClassementAbstract>();
+		for (ModelCritereClassementAbstract critereClassement : this.frontModel.getConcours().getCriteresClassement()) {
+			criteresClassement.add(critereClassement.getInfos());
 		}
-		return comparateurs;
+		return criteresClassement;
 	}
 	
 	// Récupérer des validateurs de listes
@@ -201,11 +201,11 @@ public class FrontModelConfiguration
 	}
 	
 	/**
-	 * Récupérer validateur de liste de comparateurs
-	 * @return validateur de liste de comparateurs
+	 * Récupérer validateur de liste de critères de classement
+	 * @return validateur de liste de critères de classement
 	 */
-	public ITrackableListValidator<InfosModelCompPhasesQualifsAbstract> getComparateursValidator () {
-		return new ModelCompPhasesQualifsAbstract.ValidatorForConcours();
+	public ITrackableListValidator<InfosModelCritereClassementAbstract> getCriteresClassementValidator () {
+		return new ModelCritereClassementAbstract.ValidatorForConcours();
 	}
 	
 	/**

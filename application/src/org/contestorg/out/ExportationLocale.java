@@ -56,7 +56,7 @@ public class ExportationLocale extends ExportationAbstract
 	private class Export extends OperationRunnableAbstract
 	{
 		/** Ressources */
-		private ArrayList<RessourceAbstract> ressources;
+		private ArrayList<ThemeRessourceAbstract> ressources;
 		
 		/**
 		 * @see Runnable#run()
@@ -66,7 +66,7 @@ public class ExportationLocale extends ExportationAbstract
 			// Générer les ressources
 			this.fireMessage("Génération des ressources ...");
 			try {
-				this.ressources = RessourceAbstract.getRessources(theme,false);
+				this.ressources = ThemeRessourceAbstract.getRessources(theme,false);
 			} catch (ContestOrgWarningException e) {
 				this.echec(e.getMessage());
 				return;
@@ -136,7 +136,7 @@ public class ExportationLocale extends ExportationAbstract
 		protected void clean () {
 			// Nettoyer les ressources
 			if(this.ressources != null) {
-				for (RessourceAbstract ressource : this.ressources) {
+				for (ThemeRessourceAbstract ressource : this.ressources) {
 					ressource.clean();
 				}
 			}

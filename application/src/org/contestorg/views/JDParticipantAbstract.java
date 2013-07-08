@@ -62,10 +62,23 @@ public abstract class JDParticipantAbstract extends JDPattern
 	protected JTextField[] jtfs_proprietes;
 	
 	/** Anciens prix */
-	protected TrackableList<String> prix = new TrackableList<String>();
+	protected TrackableList<String> anciensPrix = new TrackableList<String>();
 	
 	/** Anciennes propriétés possédées */
-	protected TrackableList<Pair<String, InfosModelProprietePossedee>> proprietesPossedees = new TrackableList<Pair<String,InfosModelProprietePossedee>>();
+	protected TrackableList<Pair<String, InfosModelProprietePossedee>> anciennesProprietesPossedees = new TrackableList<Pair<String,InfosModelProprietePossedee>>();
+	
+	// Index des statuts
+	
+	/** Absent */
+	protected int index_absent;
+	/** Présent */
+	protected int index_present;
+	/** Homologué */
+	protected int index_homologue;
+	/** Disqualifié */
+	protected int index_disqualifie;
+	/** Forfait */
+	protected int index_forfait;
 
 	/**
 	 * Constructeur
@@ -84,11 +97,32 @@ public abstract class JDParticipantAbstract extends JDPattern
 		this.jp_contenu.add(this.jp_categoriePoule);
 		
 		// Informations sur le participant
-		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Informations sur l'équipe" : "Informations sur le joueur", ViewHelper.H1));
+		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Informations sur l'équipe" : "Informations sur le joueur", ViewHelper.H1));
 		
-		for(InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
-			this.jcb_statut.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur());
+		boolean isTypeParticipantEquipe = ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES;
+		if(!ContestOrg.get().getCtrlParticipants().isStatutHomologueActive()) {
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.ABSENT.getNomEquipe() : InfosModelParticipant.Statut.ABSENT.getNomJoueur());
+			this.index_absent = 0;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.PRESENT.getNomEquipe() : InfosModelParticipant.Statut.PRESENT.getNomJoueur());
+			this.index_present = 1;
+			this.index_homologue = -1;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.FORFAIT.getNomEquipe() : InfosModelParticipant.Statut.FORFAIT.getNomJoueur());
+			this.index_forfait = 2;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.DISQUALIFIE.getNomEquipe() : InfosModelParticipant.Statut.DISQUALIFIE.getNomJoueur());
+			this.index_disqualifie = 3;
+		} else {
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.ABSENT.getNomEquipe() : InfosModelParticipant.Statut.ABSENT.getNomJoueur());
+			this.index_absent = 0;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.PRESENT.getNomEquipe() : InfosModelParticipant.Statut.PRESENT.getNomJoueur());
+			this.index_present = 1;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.HOMOLOGUE.getNomEquipe() : InfosModelParticipant.Statut.HOMOLOGUE.getNomJoueur());
+			this.index_homologue = 2;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.FORFAIT.getNomEquipe() : InfosModelParticipant.Statut.FORFAIT.getNomJoueur());
+			this.index_forfait = 3;
+			this.jcb_statut.addItem(isTypeParticipantEquipe ? InfosModelParticipant.Statut.DISQUALIFIE.getNomEquipe() : InfosModelParticipant.Statut.DISQUALIFIE.getNomJoueur());
+			this.index_disqualifie = 4;
 		}
+				
 		
 		this.jta_details.setLineWrap(true);
 		this.jta_details.setWrapStyleWord(true);
@@ -136,6 +170,16 @@ public abstract class JDParticipantAbstract extends JDPattern
 	}
 	
 	/**
+	 * Ajouter le statut "homologué" (dans le cas où le statut "homologué" est désactivé et si l'on souhaite quand même en disposer)
+	 */
+	protected void addStatutHomologue() {
+		this.jcb_statut.insertItemAt(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? InfosModelParticipant.Statut.HOMOLOGUE.getNomEquipe() : InfosModelParticipant.Statut.HOMOLOGUE.getNomJoueur(),2);
+		this.index_homologue = 2;
+		this.index_forfait = 3;
+		this.index_disqualifie = 4;
+	}
+	
+	/**
 	 * @see Window#setVisible(boolean)
 	 */
 	@Override
@@ -163,7 +207,18 @@ public abstract class JDParticipantAbstract extends JDPattern
 		String nom = this.jtf_nom.getText().trim();
 		String stand = this.jtf_stand.getText().trim();
 		String ville = this.jtf_ville.getText().trim();
-		InfosModelParticipant.Statut statut = InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()];
+		InfosModelParticipant.Statut statut;
+		if(this.jcb_statut.getSelectedIndex() == this.index_absent) {
+			statut = InfosModelParticipant.Statut.ABSENT; 
+		} else if(this.jcb_statut.getSelectedIndex() == this.index_present) {
+			statut = InfosModelParticipant.Statut.PRESENT; 
+		} else if(this.jcb_statut.getSelectedIndex() == this.index_homologue) {
+			statut = InfosModelParticipant.Statut.HOMOLOGUE; 
+		} else if(this.jcb_statut.getSelectedIndex() == this.index_forfait) {
+			statut = InfosModelParticipant.Statut.FORFAIT; 
+		} else {
+			statut = InfosModelParticipant.Statut.DISQUALIFIE;
+		}
 		String details = this.jta_details.getText().trim();
 		
 		// Vérifier les données
@@ -171,11 +226,11 @@ public abstract class JDParticipantAbstract extends JDPattern
 		if(nom.isEmpty()) {
 			// Message d'erreur
 			erreur = true;
-			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Le nom de l'équipe n'est pas précisé." : "Le nom du joueur n'est pas précisé.");
+			ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Le nom de l'équipe n'est pas précisé." : "Le nom du joueur n'est pas précisé.");
 		} else if(!this.checkNomParticipant()) {
 			// Erreur
 			erreur = true;
-			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe existante possède déjà le même nom." : "Un joueur existant possède déjà le même nom.");
+			ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Une équipe existante possède déjà le même nom." : "Un joueur existant possède déjà le même nom.");
 		}
 
 		// Vérifier les propriétés de participant
@@ -217,7 +272,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 				
 				// Vérifier si la propriété été déjà donnée
 				boolean ancien = false; int index = 0;
-				for(Pair<String, InfosModelProprietePossedee> proprietePossedee : this.proprietesPossedees) {
+				for(Pair<String, InfosModelProprietePossedee> proprietePossedee : this.anciennesProprietesPossedees) {
 					if(proprietePossedee.getFirst().equals(proprietesDisponibles.get(i).getNom())) {
 						ancien = true;
 					} else if(!ancien) {
@@ -229,14 +284,14 @@ public abstract class JDParticipantAbstract extends JDPattern
 				if(!valeur.isEmpty()) {
 					if(!ancien) {
 						// Ajouter la propriété de participant
-						this.proprietesPossedees.add(new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
+						this.anciennesProprietesPossedees.add(new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
 					} else {
 						// Modifier la propriété de participant
-						this.proprietesPossedees.update(index, new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
+						this.anciennesProprietesPossedees.update(index, new Pair<String, InfosModelProprietePossedee>(proprietesDisponibles.get(i).getNom(), new InfosModelProprietePossedee(valeur)));
 					}
 				} else if(ancien) {
 					// Supprimer la propriété de participant
-					this.proprietesPossedees.remove(index);
+					this.anciennesProprietesPossedees.remove(index);
 				}
 			}
 
@@ -248,7 +303,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 				
 				// Vérifier si le prix été déjà séléctionné
 				boolean ancien = false; int index = 0;
-				for(String prix : this.prix) {
+				for(String prix : this.anciensPrix) {
 					if(prixDisponibles.get(i).equals(prix)) {
 						ancien = true;
 					} else if(!ancien) {
@@ -259,15 +314,15 @@ public abstract class JDParticipantAbstract extends JDPattern
 				// Ajouter/Supprimer le prix
 				if(nouveau && !ancien) {
 					// Ajouter le prix
-					this.prix.add(prixDisponibles.get(i).getNom());
+					this.anciensPrix.add(prixDisponibles.get(i).getNom());
 				} else if(!nouveau && ancien) {
 					// Supprimer le prix
-					this.prix.remove(index);
+					this.anciensPrix.remove(index);
 				}
 			}
 			
 			// Transmettre les données au collector
-			this.collector.collect(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprietePossedee>>, TrackableList<String>>(this.jp_categoriePoule.getNomCategorie(), this.jp_categoriePoule.getNomPoule(), new InfosModelParticipant(stand, nom, ville, statut, details), this.proprietesPossedees, this.prix));
+			this.collector.collect(new Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String,InfosModelProprietePossedee>>, TrackableList<String>>(this.jp_categoriePoule.getNomCategorie(), this.jp_categoriePoule.getNomPoule(), new InfosModelParticipant(stand, nom, ville, statut, details), this.anciennesProprietesPossedees, this.anciensPrix));
 		}
 	}
 	

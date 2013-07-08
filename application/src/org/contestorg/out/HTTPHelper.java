@@ -128,7 +128,7 @@ public class HTTPHelper
 		private boolean started = false;
 		
 		/** Ressources */
-		private ArrayList<RessourceAbstract> ressources = new ArrayList<RessourceAbstract>();
+		private ArrayList<ThemeRessourceAbstract> ressources = new ArrayList<ThemeRessourceAbstract>();
 		
 		/**
 		 * Constructeur
@@ -160,7 +160,7 @@ public class HTTPHelper
 		 * Ajouter une ressource au serveur HTTP
 		 * @param ressource ressource
 		 */
-		public void addRessource (RessourceAbstract ressource) {
+		public void addRessource (ThemeRessourceAbstract ressource) {
 			// Retenir la ressources
 			this.ressources.add(ressource);
 			
@@ -210,7 +210,7 @@ public class HTTPHelper
 			}
 			
 			// Nettoyer toutes les ressources
-			for (RessourceAbstract ressource : this.ressources) {
+			for (ThemeRessourceAbstract ressource : this.ressources) {
 				ressource.clean();
 			}
 		}
@@ -222,13 +222,13 @@ public class HTTPHelper
 	public static class Handler implements HttpHandler
 	{
 		/** Ressource */
-		private RessourceAbstract ressource;
+		private ThemeRessourceAbstract ressource;
 		
 		/**
 		 * Constructeur
 		 * @param ressource ressource
 		 */
-		public Handler(RessourceAbstract ressource) {
+		public Handler(ThemeRessourceAbstract ressource) {
 			// Retenir la ressource
 			this.ressource = ressource;
 		}
@@ -428,7 +428,7 @@ public class HTTPHelper
 				
 				// Capture de l'adresse
 				this.fireMessage("Ajout de la ressource de test au serveur ...");
-				this.server.addRessource(new RessourceFichier("/test", false, null, null, this.testFile));
+				this.server.addRessource(new ThemeRessourceFichier("/test", false, null, null, this.testFile));
 				this.fireMessage("Ressource de test ajoutée");
 				this.fireAvancement(0.3); // Avancement à 30%
 				

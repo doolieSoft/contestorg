@@ -60,6 +60,10 @@ public class JPConfigurationGeneral extends JPConfigurationAbstract
 	protected JRadioButton jrb_qualifications_phases = new JRadioButton("Phases", true);
 	/** Type des qualificatiions "Grille" */
 	protected JRadioButton jrb_qualifications_grille = new JRadioButton("Grille");
+	/** Statut "homologué" activé */
+	protected JRadioButton jrb_statut_homologue_active = new JRadioButton("Activé");
+	/** Statut "homologué" desactivé */
+	protected JRadioButton jrb_statut_homologue_desactive = new JRadioButton("Désactivé", true);
 
 	/**
 	 * Constructeur
@@ -103,12 +107,16 @@ public class JPConfigurationGeneral extends JPConfigurationAbstract
 		JPanel jp_qualifications = new JPanel(new GridLayout(1, 2));
 		jp_qualifications.add(this.jrb_qualifications_phases);
 		jp_qualifications.add(this.jrb_qualifications_grille);
+		
+		ButtonGroup bg_statut_homologue_active = new ButtonGroup();
+		bg_statut_homologue_active.add(this.jrb_statut_homologue_active);
+		bg_statut_homologue_active.add(this.jrb_statut_homologue_desactive);
+		JPanel jp_statut_homologue_active = new JPanel(new GridLayout(1, 2));
+		jp_statut_homologue_active.add(this.jrb_statut_homologue_active);
+		jp_statut_homologue_active.add(this.jrb_statut_homologue_desactive);
 
-		// FIXME Prendre en charge les qualifications en mode grille
-		//JLabel[] jls_divers = { new JLabel("Participants : "), new JLabel("Qualifications : ") };
-		//JComponent[] jcs_divers = { jp_participants, jp_qualifications };
-		JLabel[] jls_divers = { new JLabel("Participants : ") };
-		JComponent[] jcs_divers = { jp_participants };
+		JLabel[] jls_divers = { new JLabel("Type des participants : ")/*, new JLabel("Type des qualifications : ")*/, new JLabel("Statut \"homologué\" : ") };
+		JComponent[] jcs_divers = { jp_participants/*, jp_qualifications*/, jp_statut_homologue_active };
 		this.jp_contenu.add(ViewHelper.inputs(jls_divers, jcs_divers));
 	}
 
@@ -226,6 +234,14 @@ public class JPConfigurationGeneral extends JPConfigurationAbstract
 		return this.jrb_qualifications_phases.isSelected() ? InfosModelConcours.QUALIFICATIONS_PHASES : InfosModelConcours.QUALIFICATIONS_GRILLE;
 	}
 	
+	/**
+	 * Savoir si le statut "homologué" est activé
+	 * @return statut "homologué" activé ?
+	 */
+	public boolean isStatutHomologueActive() {
+		return this.jrb_statut_homologue_active.isSelected();
+	}
+	
 	// Setters
 	
 	/**
@@ -340,6 +356,15 @@ public class JPConfigurationGeneral extends JPConfigurationAbstract
 	public void setTypeQualifications(int type) {
 		this.jrb_qualifications_phases.setSelected(type == InfosModelConcours.QUALIFICATIONS_PHASES);
 		this.jrb_qualifications_grille.setSelected(type == InfosModelConcours.QUALIFICATIONS_GRILLE);
+	}
+	
+	/**
+	 * Définir si le statut "homologué" est activé
+	 * @param statutHomologueActive statut "homologué" activé ?
+	 */
+	public void setIsStatutHomologueeActive(boolean statutHomologueActive) {
+		this.jrb_statut_homologue_active.setSelected(statutHomologueActive);
+		this.jrb_statut_homologue_desactive.setSelected(!statutHomologueActive);
 	}
 	
 	/**

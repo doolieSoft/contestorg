@@ -105,6 +105,15 @@ public class ModelExportation extends ModelAbstract
 		return this.chemin;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelExportation getInfos () {
+		InfosModelExportation infos = new InfosModelExportation(this.nom, this.auto);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -162,15 +171,6 @@ public class ModelExportation extends ModelAbstract
 	 */
 	protected ModelExportation clone (ModelConcours concours, ModelCheminAbstract chemin, ModelTheme theme) {
 		return new ModelExportation(concours, chemin, theme, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelExportation getInfos () {
-		InfosModelExportation infos = new InfosModelExportation(this.nom, this.auto);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -241,7 +241,7 @@ public class ModelExportation extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelExportation exportation, Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> infos) {
+		public ModelExportation update (ModelExportation exportation, Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme> infos) {
 			try {
 				exportation.setInfos(infos.getFirst());
 				exportation.setChemin(ModelCheminAbstract.create(infos.getSecond()));
@@ -249,6 +249,7 @@ public class ModelExportation extends ModelAbstract
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'une exportation.",e);
 			}
+			return null;
 		}
 		
 	}

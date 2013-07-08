@@ -51,7 +51,7 @@ public class JPObjectifs extends JPanel
 			this.objectifsDisponibles.add(objectifDisponible.getNom());
 		}
 		if(objectifsDisponibles.size() != 0) {
-			this.add(ViewHelper.title("Objectifs remportés", ViewHelper.H1));
+			//this.add(ViewHelper.title("Objectifs remportés", ViewHelper.H1));
 
 			JLabel[] jls_objectifsA = new JLabel[objectifsDisponibles.size()];
 			JLabel[] jls_objectifsB = new JLabel[objectifsDisponibles.size()];

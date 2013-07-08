@@ -209,7 +209,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	private void quit () {
 		if (ViewHelper.confirmation(this, !ContestOrg.get().is(ContestOrg.STATE_SAVE) && ContestOrg.get().is(ContestOrg.STATE_EDIT) ?  "En quittant ContestOrg, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?" : "Désirez vous vraiment quitter ContestOrg ?", !ContestOrg.get().is(ContestOrg.STATE_SAVE) && ContestOrg.get().is(ContestOrg.STATE_EDIT))) {
 			// Quitter le programme
-			ContestOrg.get().quit();
+			ContestOrg.get().quitter();
 		}
 	}
 
@@ -236,14 +236,15 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	public void actionPerformed (ActionEvent event) {
 		if (event.getSource() == this.jb_nouveau) {
 			if(!ContestOrg.get().is(ContestOrg.STATE_OPEN) || ContestOrg.get().is(ContestOrg.STATE_SAVE) || ViewHelper.confirmation(this, "En créant un nouveau concours, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?", true)) {
-				ContestOrg.get().procedureConcoursNouveauDemarrer();
+				JDModeles dialog = new JDModeles(this);
+				dialog.setVisible(true);
 			}
 		} else if (event.getSource() == this.jb_ouvrir) {
 			if(!ContestOrg.get().is(ContestOrg.STATE_OPEN) || ContestOrg.get().is(ContestOrg.STATE_SAVE) || ViewHelper.confirmation(this, "En ouvrant un autre concours, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?", true)) {
-				ContestOrg.get().procedureConcoursOuvrirDemarrer();
+				ContestOrg.get().concoursOuvrir();
 			}
 		} else if (event.getSource() == this.jb_sauvegarder) {
-			ContestOrg.get().procedureConcoursSauvegarderDemarrer(); 
+			ContestOrg.get().concoursSauvegarder();
 		} else if (event.getSource() == this.jb_exporter) {
 			JDExportations dialog = new JDExportations(this);
 			dialog.setVisible(true);
@@ -257,13 +258,25 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 				ViewHelper.dwarning(this, "La publication n'a pas encore été définie. Rendez-vous dans \"Configurer > Exportations et diffusions\".");
 			}
 		} else if (event.getSource() == this.jb_diffuser) {
-			JDDiffusions dialog = new JDDiffusions(this,ContestOrg.get().getCtrlOut().getDiffusions());
+			JDDiffusions dialog = new JDDiffusions(this,ContestOrg.get().getCtrlOut().getListeDiffusions());
 			dialog.setVisible(true);
-		} else if (event.getSource() == this.jb_configurer) {
-			ContestOrg.get().procedureConcoursConfigurerDemarrer();
+		} else if (event.getSource() == this.jb_configurer) {			
+			JDConcoursEditer dialog = new JDConcoursEditer(
+				this,
+				ContestOrg.get().getConcours(),
+				ContestOrg.get().getListeObjectifs(),
+				ContestOrg.get().getCtrlPhasesQualificatives().getListeCriteresClassement(),
+				ContestOrg.get().getCtrlOut().getListeExportations(),
+				ContestOrg.get().getCtrlOut().getPublicationIndex(),
+				ContestOrg.get().getCtrlOut().getListeDiffusions(),
+				ContestOrg.get().getCtrlParticipants().getListePrix(),
+				ContestOrg.get().getListeLieuxEmplacements(),
+				ContestOrg.get().getCtrlParticipants().getListeProprietes()
+			);
+			dialog.setVisible(true);
 		} else if (event.getSource() == this.jb_fermer) {
 			if(ContestOrg.get().is(ContestOrg.STATE_SAVE) || ViewHelper.confirmation(this, "En fermant ce concours, vous perdrez toutes les modifications non sauvegardées. Désirez-vous continuer ?", true)) {
-				ContestOrg.get().procedureConcoursFermer();
+				ContestOrg.get().concoursFermer();
 			}
 		} else if (event.getSource() == this.jb_aide) {
 			try {
@@ -287,38 +300,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 				"ContestOrg est un logiciel d’organisation de tournois. Celui-ci est\n" +
 				"particulièrement bien adapté aux tournois sportifs (football, judo,\n" +
 				"rugby…) mais peut également convenir pour d'autres types de\n" +
-				"tournois (jeux vidéo, jeux de société, robotique...).\n" +
-				"\n" +
-				"<font size=+1>Packs d'icones utilisés</font>\n" +
-				"<ul>" +
-				"<li>Farm, <a href=\"#\">http://www.fatcow.com/</a></li>" +
-				"</ul>" +
-				"\n" +
-				"<font size=+1>Outils utilisés</font>\n" +
-				"<ul>" +
-				"<li>Eclipse, <a href=\"#\">http://www.eclipse.org/</a></li>" +
-				"<li>Google Code, <a href=\"#\">http://code.google.com/</a></li>" +
-				"<li>TopCased, <a href=\"#\">http://www.topcased.org/</a></li>" +
-				"<li>DocBook, <a href=\"#\">http://www.docbook.org/</a></li>" +
-				"<li>XMLMind, <a href=\"#\">http://www.xmlmind.com/xmleditor/</a></li>" +
-				"<li>Launch4j, <a href=\"#\">http://launch4j.sourceforge.net/</a></li>" +
-				"<li>Pencil, <a href=\"#\">http://pencil.evolus.vn/</a></li>" +
-				"<li>Inkscape, <a href=\"#\">http://inkscape.org/</a></li>" +
-				"<li>OptiPNG, <a href=\"#\">http://optipng.sourceforge.net/</a></li>" +
-				"<li>Pngnq, <a href=\"#\">[http://pngnq.sourceforge.net</a></li>" +
-				"</ul>" +
-				"\n" +
-				"<font size=+1>Librairies utilisées</font>\n" +
-				"<ul>" +
-				"<li>jGraph, <a href=\"#\">http://www.jgraph.com/</a></li>" +
-				"<li>jDom, <a href=\"#\">http://www.jdom.org/</a></li>" +
-				"<li>jUnit, <a href=\"#\">http://www.junit.org/</a></li>" +
-				"<li>FOP, <a href=\"#\">http://xmlgraphics.apache.org/fop/</a></li>" +
-				"<li>HttpComponents, <a href=\"#\">http://hc.apache.org/</a></li>" +
-				"<li>Commons Net, <a href=\"#\">http://commons.apache.org/net/</a></li>" +
-				"<li>Log4J, <a href=\"#\">http://logging.apache.org/log4j/</a></li>" +
-				"<li>Saxon, <a href=\"#\">http://saxon.sourceforge.net/</a></li>" +
-				"</ul>");
+				"tournois (jeux vidéo, jeux de société, robotique...).");
 		} else if (event.getSource() == this.jb_quitter) {
 			this.quit();
 		}
@@ -340,8 +322,8 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		
 		// Changer le nom de l'onglet des participants
 		if(moody.is(ContestOrg.STATE_OPEN)) {
-			this.jtb_onglets.setTitleAt(0, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
-			this.jtb_onglets.setToolTipTextAt(0, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Créer, éditer et supprimer des équipes" : "Créer, éditer et supprimer des joueurs");
+			this.jtb_onglets.setTitleAt(0, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs");
+			this.jtb_onglets.setToolTipTextAt(0, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Créer, éditer et supprimer des équipes" : "Créer, éditer et supprimer des joueurs");
 		}
 	}
 }

@@ -134,7 +134,7 @@ public class FrontModel
 	 */
 	public void nouveauConcours (ModelConcours concours) throws ContestOrgErrorException {
 		// Démarrer l'action de création
-		this.history.start("Chargement du concours");
+		this.history.start("Création du concours");
 		
 		// Retenir le nouveau concours
 		this.concours = concours;

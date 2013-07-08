@@ -42,6 +42,8 @@ public class InfosModelConcours extends InfosModelAbstract
 	private int typeQualifications;
 	/** Type de participants */
 	private int typeParticipants;
+	/** Statut "homologué" activé ? */
+	private boolean statutHomologueActive;
 	
 	// Informations sur les points
 
@@ -49,8 +51,12 @@ public class InfosModelConcours extends InfosModelAbstract
 	private double pointsVictoire;
 	/** Points d'égalité */
 	private double pointsEgalite;
+	/** Egalité activée ? */
+	private boolean egaliteActivee;
 	/** Points de défaite */
 	private double pointsDefaite;
+	/** Points de forfait */
+	private double pointsForfait;
 	
 	// Informations de programmation
 
@@ -91,14 +97,17 @@ public class InfosModelConcours extends InfosModelAbstract
 	 * @param organisateurDescription description de l'organisateur
 	 * @param typeQualifications type des qualifications
 	 * @param typeParticipants type des participants
+	 * @param statutHomologueActive statut "homologué" activé ?
 	 * @param pointsVictoire points de victoire
 	 * @param pointsEgalite points d'égalité
+	 * @param egaliteActivee égalité activée ?
 	 * @param pointsDefaite points de défaite
+	 * @param pointsForfait points de forfait
 	 * @param programmationDuree durée d'un match (en minutes)
 	 * @param programmationInterval interval minimal entre deux matchs (en minutes)
 	 * @param programmationPause pause minimal d'un participant entre deux matchs (en minutes)
 	 */
-	public InfosModelConcours(String concoursNom, String concoursSite, String concoursLieu, String concoursEmail, String concoursTelephone, String concoursDescription, String organisateurNom, String organisateurSite, String organisateurLieu, String organisateurEmail, String organisateurTelephone, String organisateurDescription, int typeQualifications, int typeParticipants, double pointsVictoire, double pointsEgalite, double pointsDefaite, Double programmationDuree, Double programmationInterval, Double programmationPause) {
+	public InfosModelConcours(String concoursNom, String concoursSite, String concoursLieu, String concoursEmail, String concoursTelephone, String concoursDescription, String organisateurNom, String organisateurSite, String organisateurLieu, String organisateurEmail, String organisateurTelephone, String organisateurDescription, int typeQualifications, int typeParticipants, boolean statutHomologueActive, double pointsVictoire, double pointsEgalite, boolean egaliteActivee, double pointsDefaite, double pointsForfait, Double programmationDuree, Double programmationInterval, Double programmationPause) {
 		this.concoursNom = concoursNom;
 		this.concoursSite = concoursSite;
 		this.concoursEmail = concoursEmail;
@@ -115,10 +124,13 @@ public class InfosModelConcours extends InfosModelAbstract
 
 		this.typeQualifications = typeQualifications;
 		this.typeParticipants = typeParticipants;
+		this.statutHomologueActive = statutHomologueActive;
 
 		this.pointsVictoire = pointsVictoire;
 		this.pointsEgalite = pointsEgalite;
+		this.egaliteActivee = egaliteActivee;
 		this.pointsDefaite = pointsDefaite;
+		this.pointsForfait = pointsForfait;
 
 		this.programmationDuree = programmationDuree;
 		this.programmationInterval = programmationInterval;
@@ -236,6 +248,14 @@ public class InfosModelConcours extends InfosModelAbstract
 	public int getTypeParticipants () {
 		return this.typeParticipants;
 	}
+	
+	/**
+	 * Savoir si le statut "homologué" est activé
+	 * @return statut "homologué" est activé ?
+	 */
+	public boolean isStatutHomologueActive() {
+		return this.statutHomologueActive;
+	}
 
 	/**
 	 * Récupérer les points de victoire
@@ -254,11 +274,27 @@ public class InfosModelConcours extends InfosModelAbstract
 	}
 	
 	/**
+	 * Savoir si l'égalité est activée
+	 * @return égalité activée ?
+	 */
+	public boolean isEgaliteActivee() {
+		return this.egaliteActivee;
+	}
+	
+	/**
 	 * Récupérer les points de défaite
 	 * @return points de défaite
 	 */
 	public double getPointsDefaite () {
 		return this.pointsDefaite;
+	}
+	
+	/**
+	 * Récupérer les points de forfait
+	 * @return points de forfait
+	 */
+	public double getPointsForfait () {
+		return this.pointsForfait;
 	}
 
 	/**
@@ -283,14 +319,6 @@ public class InfosModelConcours extends InfosModelAbstract
 	 */
 	public Double getProgrammationPause () {
 		return this.programmationPause;
-	}
-
-	/**
-	 * Récupérer les données par défaut
-	 * @return données par défaut
-	 */
-	public static InfosModelConcours defaut () {
-		return new InfosModelConcours("", "", "", "", "", "", "", "", "", "", "", "", InfosModelConcours.QUALIFICATIONS_PHASES, InfosModelConcours.PARTICIPANTS_EQUIPES, 4, 2, 1, null, null, null);
 	}
 
 }

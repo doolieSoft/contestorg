@@ -84,6 +84,15 @@ public class ModelObjectifRemporte extends ModelAbstract
 		return this.objectif;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelObjectifRemporte getInfos () {
+		InfosModelObjectifRemporte infos = new InfosModelObjectifRemporte(this.quantite);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -121,15 +130,6 @@ public class ModelObjectifRemporte extends ModelAbstract
 	 */
 	protected ModelObjectifRemporte clone (ModelParticipation participation, ModelObjectif objectif) {
 		return new ModelObjectifRemporte(participation, objectif, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelObjectifRemporte getInfos () {
-		InfosModelObjectifRemporte infos = new InfosModelObjectifRemporte(this.quantite);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -207,7 +207,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelObjectifRemporte objectifRemporte, Pair<String, InfosModelObjectifRemporte> infos) {
+		public ModelObjectifRemporte update (ModelObjectifRemporte objectifRemporte, Pair<String, InfosModelObjectifRemporte> infos) {
 			try {
 				// Changer l'objectif si nécéssaire
 				if(!objectifRemporte.getObjectif().getNom().equals(infos.getFirst())) {
@@ -219,6 +219,7 @@ public class ModelObjectifRemporte extends ModelAbstract
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un objectif remporté.",e);
 			}
+			return null;
 		}
 		
 	}

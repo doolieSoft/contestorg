@@ -260,9 +260,9 @@ public class TableModelParticipants implements TableModel, IClosableTableModel, 
 			case 4:
 				return this.participants.get(index).getRangPhasesQualifs();
 			case 5:
-				return this.participants.get(index).getPoints();
+				return this.participants.get(index).getPoints(false,true,-1);
 			case 6:
-				return this.participants.get(index).getNbVictoires();
+				return this.participants.get(index).getNbVictoires(false,true,-1);
 			case 7:
 				return this.participants.get(index).getVille();
 			case 8:

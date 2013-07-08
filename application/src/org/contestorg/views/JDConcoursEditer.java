@@ -7,7 +7,7 @@ import org.contestorg.common.Pair;
 import org.contestorg.common.Triple;
 import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelChemin;
-import org.contestorg.infos.InfosModelCompPhasesQualifsAbstract;
+import org.contestorg.infos.InfosModelCritereClassementAbstract;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
@@ -31,7 +31,7 @@ public class JDConcoursEditer extends JDConcoursAbstract
 	 * @param w_parent fenêtre parent
 	 * @param infos informations du concours
 	 * @param objectifs liste des objectifs
-	 * @param comparateurs liste des comparateurs
+	 * @param criteresClassement liste des critères de classement
 	 * @param exportations liste des exportations
 	 * @param publication indice de l'exportation qui fait office de publication
 	 * @param diffusions liste des diffusion
@@ -39,7 +39,7 @@ public class JDConcoursEditer extends JDConcoursAbstract
 	 * @param lieux liste des lieux
 	 * @param proprietes liste des propriétés
 	 */
-	public JDConcoursEditer(Window w_parent, InfosModelConcours infos, ArrayList<InfosModelObjectif> objectifs, ArrayList<InfosModelCompPhasesQualifsAbstract> comparateurs, ArrayList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, ArrayList<InfosModelPrix> prix, ArrayList<Triple<InfosModelLieu,ArrayList<InfosModelEmplacement>,ArrayList<InfosModelHoraire>>> lieux, ArrayList<InfosModelPropriete> proprietes) {
+	public JDConcoursEditer(Window w_parent, InfosModelConcours infos, ArrayList<InfosModelObjectif> objectifs, ArrayList<InfosModelCritereClassementAbstract> criteresClassement, ArrayList<Triple<InfosModelExportation,InfosModelChemin,InfosModelTheme>> exportations, int publication, ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> diffusions, ArrayList<InfosModelPrix> prix, ArrayList<Triple<InfosModelLieu,ArrayList<InfosModelEmplacement>,ArrayList<InfosModelHoraire>>> lieux, ArrayList<InfosModelPropriete> proprietes) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Configurer le concours");
 
@@ -62,13 +62,16 @@ public class JDConcoursEditer extends JDConcoursAbstract
 		// Remplir les types de participants et de qualifications
 		this.jp_general.setTypeParticipants(infos.getTypeParticipants());
 		this.jp_general.setTypeQualifications(infos.getTypeQualifications());
+		this.jp_general.setIsStatutHomologueeActive(infos.isStatutHomologueActive());
 		
 		// Remplir les informations de points
 		this.jp_points.setPointsVictoire(infos.getPointsVictoire());
 		this.jp_points.setPointsEgalite(infos.getPointsEgalite());
+		this.jp_points.setIsEgaliteActivee(infos.isEgaliteActivee());
 		this.jp_points.setPointsDefaite(infos.getPointsDefaite());
+		this.jp_points.setPointsForfait(infos.getPointsForfait());
 		this.jp_points.setObjectifs(objectifs);
-		this.jp_points.setComparateurs(comparateurs);
+		this.jp_points.setCriteresClassement(criteresClassement);
 		
 		// Remplir les informations d'exportations
 		this.jp_exportations.setExportations(exportations);
@@ -98,11 +101,14 @@ public class JDConcoursEditer extends JDConcoursAbstract
 		// Vérifier les validité des données
 		if (this.check()) {
 			// Demander la configuration du concours
-			ContestOrg.get().procedureConcoursConfigurer(
+			ContestOrg.get().concoursConfigurer(
 				this.getInfosModelConcours(), this.jp_points.getObjectifs(), this.jp_points.getComparacteurs(),
 				this.jp_exportations.getExportations(), this.jp_exportations.getPublication(), this.jp_exportations.getDiffusions(),
 				this.jp_prix.getPrix(), this.jp_lieux.getLieux(), this.jp_proprietes.getProprietes()
 			);
+			
+			// Fermer la boîte de dialogue
+			this.setVisible(false);
 		}
 	}
 
@@ -111,8 +117,8 @@ public class JDConcoursEditer extends JDConcoursAbstract
 	 */
 	@Override
 	protected void quit () {
-		// Demander l'annulation de la procédure de configuration de concours
-		ContestOrg.get().procedureConcoursConfigurerAnnuler();
+		// Fermer la boîte de dialogue
+		this.setVisible(false);
 	}
 
 }

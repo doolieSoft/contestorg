@@ -16,7 +16,7 @@ import org.contestorg.log.Log;
 /**
  * Participant
  */
-public class ModelParticipant extends ModelMatchable
+public class ModelParticipant extends ModelAbstract
 {
 	
 	// Attributs objets
@@ -157,7 +157,7 @@ public class ModelParticipant extends ModelMatchable
 	 * @return rang aux phases qualificatives
 	 */
 	public int getRangPhasesQualifs () {
-		return this.poule.getRangPhasesQualifs(this);
+		return this.poule.getRang(this);
 	}
 	
 	/**
@@ -178,23 +178,6 @@ public class ModelParticipant extends ModelMatchable
 	}
 	
 	/**
-	 * Récupérer le nombre de victoires aux phases qualificatives
-	 * @return nombre de victoire aux phases qualificatives
-	 */
-	public int getNbVictoires () {
-		return this.getNbVictoires(false, true, -1);
-	}
-	
-	/**
-	 * Récupérer le nombre de victoires aux phases qualificatives
-	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
-	 * @return nombre de victoire aux phases qualificatives
-	 */
-	public int getNbVictoires (int phaseQualifMax) {
-		return this.getNbVictoires(false, true, phaseQualifMax);
-	}
-	
-	/**
 	 * Récupérer le nombre de victoires
 	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
 	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
@@ -202,10 +185,55 @@ public class ModelParticipant extends ModelMatchable
 	 * @return nombre de victoires
 	 */
 	public int getNbVictoires (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
-		// Initialiser le nombre de victoires
-		int nbVictoires = 0;
+		return this.getNbParticipationsParResultat(phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_VICTOIRE);
+	}
+	
+	/**
+	 * Récupérer le nombre d'égalités
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre d'égalités
+	 */
+	public int getNbEgalites (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultat(phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_EGALITE);
+	}
+	
+	/**
+	 * Récupérer le nombre de défaites
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de défaites
+	 */
+	public int getNbDefaites (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultat(phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_DEFAITE);
+	}
+	
+	/**
+	 * Récupérer le nombre de forfaits
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de forfaits
+	 */
+	public int getNbForfaits (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultat(phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_FORFAIT);
+	}
+	
+	/**
+	 * Récupérer le nombre de participations pour un résultat donné
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @param resultat résultat
+	 * @return nombre de participations correspondant au résultat
+	 */
+	public int getNbParticipationsParResultat (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax, int resultat) {
+		// Initialiser le nombre de participations
+		int nbParticipations = 0;
 		
-		// Comptabiliser les victoires
+		// Comptabiliser les participations
 		for (ModelParticipation participation : this.participations) {
 			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
 			boolean comptabiliser = true;
@@ -221,50 +249,211 @@ public class ModelParticipant extends ModelMatchable
 				comptabiliser = false;
 			}
 			
-			// Comptabiliser le nombre de victoires
-			if (comptabiliser) {
-				if (participation.getResultat() == InfosModelParticipation.RESULTAT_VICTOIRE) {
-					nbVictoires++;
-				}
+			// Comptabiliser la participation
+			if (comptabiliser && participation.getResultat() == resultat) {
+				nbParticipations++;
 			}
 		}
 		
-		// Retourner le nombre de victoires
-		return nbVictoires;
+		// Retourner le nombre de participations
+		return nbParticipations;
 	}
 	
 	/**
-	 * Récupérer le nombre d'objectifs remportés aux phases qualificatives
-	 * @param objectif objectif
-	 * @return nombre d'objectifs remportés aux phases qualificatives
-	 */
-	public int getQuantiteObjectif (ModelObjectif objectif) {
-		return this.getQuantiteObjectifs(objectif, false, true, -1);
-	}
-	
-	/**
-	 * Récupérer le nombre d'objectifs remportés aux phases qualificatives
-	 * @param objectif objectif
+	 * Récupérer le nombre de victoires d'un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
 	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
-	 * @return nombre d'objectifs remportés aux phases qualificatives
+	 * @return nombre de victoires de l'adversaire
 	 */
-	public int getQuantiteObjectif (ModelObjectif objectif, int phaseQualifMax) {
-		return this.getQuantiteObjectifs(objectif, false, true, phaseQualifMax);
+	public int getNbVictoiresParAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatParAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_VICTOIRE);
 	}
 	
 	/**
-	 * Récupérer le nombre d'objectifs remportés
+	 * Récupérer le nombre d'égalités d'un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre d'égalités de l'adversaire
+	 */
+	public int getNbEgalitesParAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatParAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_EGALITE);
+	}
+	
+	/**
+	 * Récupérer le nombre de défaites d'un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de défaites de l'adversaire
+	 */
+	public int getNbDefaitesParAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatParAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_DEFAITE);
+	}
+	
+	/**
+	 * Récupérer le nombre de forfaits d'un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de forfaits de l'adversaire
+	 */
+	public int getNbForfaitsParAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatParAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_FORFAIT);
+	}
+	
+	/**
+	 * Récupérer le nombre de participations pour un résultat donné d'un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @param resultat résultat
+	 * @return nombre de participations correspondant au résultat de l'adversaire
+	 */
+	public int getNbParticipationsParResultatParAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax, int resultat) {
+		// Initialiser le nombre de participations
+		int nbParticipations = 0;
+		
+		// Comptabiliser les participations
+		for (ModelParticipation participation : this.participations) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			ModelParticipation participationAdversaire = participation.getMatch().getAdversaire(participation.getParticipant());
+			if(comptabiliser && (adversaire == null && participationAdversaire.getParticipant() != null || adversaire != null && !adversaire.equals(participationAdversaire.getParticipant()))) {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser la participation
+			if (comptabiliser && participationAdversaire.getResultat() == resultat) {
+				nbParticipations++;
+			}
+		}
+		
+		// Retourner le nombre de participations
+		return nbParticipations;
+	}
+	
+	/**
+	 * Récupérer le nombre de victoires contre un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de victoires contre l'adversaire
+	 */
+	public int getNbVictoiresContreAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatContreAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_VICTOIRE);
+	}
+	
+	/**
+	 * Récupérer le nombre d'égalités contre un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre d'égalités contre l'adversaire
+	 */
+	public int getNbEgalitesContreAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatContreAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_EGALITE);
+	}
+	
+	/**
+	 * Récupérer le nombre de défaites contre un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de défaites contre l'adversaire
+	 */
+	public int getNbDefaitesContreAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatContreAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_DEFAITE);
+	}
+	
+	/**
+	 * Récupérer le nombre de forfaits contre un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de forfaits contre l'adversaire
+	 */
+	public int getNbForfaitsContreAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		return this.getNbParticipationsParResultatContreAdversaire(adversaire, phasesEliminatoires, phasesQualificatives, phaseQualifMax, InfosModelParticipation.RESULTAT_FORFAIT);
+	}
+	
+	/**
+	 * Récupérer le nombre de participations pour un résultat donné contre un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @param resultat résultat
+	 * @return nombre de participations correspondant au résultat contre l'adversaire
+	 */
+	public int getNbParticipationsParResultatContreAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax, int resultat) {
+		// Initialiser le nombre de participations
+		int nbParticipations = 0;
+		
+		// Comptabiliser les participations
+		for (ModelParticipation participation : this.participations) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			ModelParticipation participationAdversaire = participation.getMatch().getAdversaire(participation.getParticipant());
+			if(comptabiliser && (adversaire == null && participationAdversaire.getParticipant() != null || adversaire != null && !adversaire.equals(participationAdversaire.getParticipant()))) {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser la participation
+			if (comptabiliser && participation.getResultat() == resultat) {
+				nbParticipations++;
+			}
+		}
+		
+		// Retourner le nombre de participations
+		return nbParticipations;
+	}
+	
+	/**
+	 * Récupérer la quantité d'un objectif remportée
 	 * @param objectif objectif
 	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
 	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
 	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
-	 * @return nombre d'objectifs remportés
+	 * @return quantité d'un objectif remportée
 	 */
-	public int getQuantiteObjectifs (ModelObjectif objectif, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
-		// Initialiser la quantite
+	public int getQuantiteObjectifRemportee (ModelObjectif objectif, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser la quantité
 		int quantite = 0;
 		
-		// Comptabiliser les quantites
+		// Comptabiliser les quantités
 		for (ModelParticipation participation : this.getParticipations()) {
 			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
 			boolean comptabiliser = true;
@@ -289,36 +478,142 @@ public class ModelParticipant extends ModelMatchable
 			}
 		}
 		
-		// Retourner la quantite
+		// Retourner la quantité
 		return quantite;
 	}
 	
 	/**
-	 * Récupérer le nombre de points remportés aux phases qualificatives
-	 * @return nombre de points remportés aux phases qualificatives
-	 */
-	public double getPoints () {
-		return this.getPoints(false, true, -1);
-	}
-	
-	/**
-	 * Récupérer le nombre de points remportés aux phases qualificatives
-	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
-	 * @return nombre de points remportés aux phases qualificatives
-	 */
-	public double getPoints (int phaseQualifMax) {
-		return this.getPoints(false, true, phaseQualifMax);
-	}
-	
-	/**
-	 * Récupérer le nombre de points remportés
+	 * Récupérer la quantité d'un objectif remportée par les adversaires
+	 * @param objectif objectif
 	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
 	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
-	 * @return nombre de points remportés
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return quantité de l'objectif remportée par les adversaires
 	 */
-	public double getPoints (boolean phasesEliminatoires, boolean phasesQualificatives) {
-		return this.getPoints(phasesEliminatoires, phasesQualificatives, -1);
-	}	
+	public int getQuantiteObjectifRemporteeAdversaires (ModelObjectif objectif, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser la quantité
+		int quantite = 0;
+		
+		// Comptabiliser les quantités
+		for (ModelParticipation participation : this.getParticipations()) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser le nombre d'objectifs remportés de l'adversaire
+			if (comptabiliser) {
+				ModelObjectifRemporte objectifRemporte = participation.getMatch().getAdversaire(participation.getParticipant()).getObjectifRemporte(objectif);
+				if (objectifRemporte != null) {
+					quantite += objectifRemporte.getQuantite();
+				}
+			}
+		}
+		
+		// Retourner la quantité
+		return quantite;
+	}
+	
+	/**
+	 * Récupérer la quantité d'un objectif remportée contre un adversaire
+	 * @param adversaire adversaire
+	 * @param objectif objectif
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return quantité de l'objectif remportée contre un adversaire
+	 */
+	public int getQuantiteObjectifRemporteeContreAdversaire (ModelParticipant adversaire, ModelObjectif objectif, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser la quantité
+		int quantite = 0;
+		
+		// Comptabiliser les quantités
+		for (ModelParticipation participation : this.getParticipations()) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			ModelParticipation participationAdversaire = participation.getMatch().getAdversaire(participation.getParticipant());
+			if(comptabiliser && (adversaire == null && participationAdversaire.getParticipant() != null || adversaire != null && !adversaire.equals(participationAdversaire.getParticipant()))) {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser le nombre d'objectifs remportés de l'adversaire
+			if (comptabiliser) {
+				ModelObjectifRemporte objectifRemporte = participation.getObjectifRemporte(objectif);
+				if (objectifRemporte != null) {
+					quantite += objectifRemporte.getQuantite();
+				}
+			}
+		}
+		
+		// Retourner la quantité
+		return quantite;
+	}
+	
+	/**
+	 * Récupérer la quantité d'un objectif remportée par un adversaire
+	 * @param adversaire adversaire
+	 * @param objectif objectif
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return quantité de l'objectif remportée par un adversaire
+	 */
+	public int getQuantiteObjectifRemporteeParAdversaire (ModelParticipant adversaire, ModelObjectif objectif, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser la quantité
+		int quantite = 0;
+		
+		// Comptabiliser les quantités
+		for (ModelParticipation participation : this.getParticipations()) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			ModelParticipation participationAdversaire = participation.getMatch().getAdversaire(participation.getParticipant());
+			if(comptabiliser && (adversaire == null && participationAdversaire.getParticipant() != null || adversaire != null && !adversaire.equals(participationAdversaire.getParticipant()))) {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser le nombre d'objectifs remportés de l'adversaire
+			if (comptabiliser) {
+				ModelObjectifRemporte objectifRemporte = participationAdversaire.getObjectifRemporte(objectif);
+				if (objectifRemporte != null) {
+					quantite += objectifRemporte.getQuantite();
+				}
+			}
+		}
+		
+		// Retourner la quantité
+		return quantite;
+	}
 	
 	/**
 	 * Récupérer le nombre de points remportés
@@ -358,12 +653,124 @@ public class ModelParticipant extends ModelMatchable
 	}
 	
 	/**
-	 * Récupérer le nombre de rencontres avec un participant aux phases qualificatives
-	 * @param participant participant
-	 * @return nombre de rencontres avec le participant aux phases qualificatives
+	 * Récupérer le nombre de points remportés par les adversaires
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de points remportés par les adversaires
 	 */
-	public int getNbRencontres (ModelParticipant participant) {
-		return this.getNbRencontres(participant, false, true);
+	public double getPointsAdversaires (boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser le compteur de points
+		double points = 0;
+		
+		// Comptabiliser les points
+		for (ModelParticipation participation : this.participations) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser le nombre de points
+			if (comptabiliser) {
+				points += participation.getMatch().getAdversaire(participation.getParticipant()).getPoints();
+			}
+		}
+		
+		// Retourner le nombre de points
+		return points;
+	}
+	
+	/**
+	 * Récupérer le nombre de points remportés contre un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de points remportés contre l'adversaire
+	 */
+	public double getPointsContreAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser le compteur de points
+		double points = 0;
+		
+		// Comptabiliser les points
+		for (ModelParticipation participation : this.participations) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			ModelParticipation participationAdversaire = participation.getMatch().getAdversaire(participation.getParticipant());
+			if(comptabiliser && (adversaire == null && participationAdversaire.getParticipant() != null || adversaire != null && !adversaire.equals(participationAdversaire.getParticipant()))) {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser le nombre de points
+			if (comptabiliser) {
+				points += participation.getPoints();
+			}
+		}
+		
+		// Retourner le nombre de points
+		return points;
+	}
+	
+	/**
+	 * Récupérer le nombre de points remportés par un adversaire
+	 * @param adversaire adversaire
+	 * @param phasesEliminatoires prendre en compte les matchs des phases éliminatoires ?
+	 * @param phasesQualificatives prendre en compte les matchs des phases qualificatives ?
+	 * @param phaseQualifMax numéro de phase qualificative à ne pas dépasser (-1 pour ignorer le numéro de phase)
+	 * @return nombre de points remportés par l'adversaire
+	 */
+	public double getPointsParAdversaire (ModelParticipant adversaire, boolean phasesEliminatoires, boolean phasesQualificatives, int phaseQualifMax) {
+		// Initialiser le compteur de points
+		double points = 0;
+		
+		// Comptabiliser les points
+		for (ModelParticipation participation : this.participations) {
+			// Initialiser le booléen indiquant s'il faut prendre en compte la participation
+			boolean comptabiliser = true;
+			
+			// Vérifier s'il faut prendre en compte la participation
+			if (phasesEliminatoires && phasesQualificatives || !phasesEliminatoires && participation.getMatch() instanceof ModelMatchPhasesQualifs || !phasesQualificatives && participation.getMatch() instanceof ModelMatchPhasesElims) {
+				if (participation.getMatch() instanceof ModelMatchPhasesQualifs && phaseQualifMax != -1) {
+					if (((ModelMatchPhasesQualifs)participation.getMatch()).getPhaseQualificative().getNumero() > phaseQualifMax) {
+						comptabiliser = false;
+					}
+				}
+			} else {
+				comptabiliser = false;
+			}
+			ModelParticipation participationAdversaire = participation.getMatch().getAdversaire(participation.getParticipant());
+			if(comptabiliser && (adversaire == null && participationAdversaire.getParticipant() != null || adversaire != null && !adversaire.equals(participationAdversaire.getParticipant()))) {
+				comptabiliser = false;
+			}
+			
+			// Comptabiliser le nombre de points
+			if (comptabiliser) {
+				points += participationAdversaire.getPoints();
+			}
+		}
+		
+		// Retourner le nombre de points
+		return points;
 	}
 	
 	/**
@@ -396,6 +803,15 @@ public class ModelParticipant extends ModelMatchable
 		
 		// Retourner le nombre de rencontres
 		return nbRencontres;
+	}
+	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelParticipant getInfos () {
+		InfosModelParticipant infos = new InfosModelParticipant(this.stand, this.nom, this.ville, this.statut, this.details);
+		infos.setId(this.getId());
+		return infos;
 	}
 	
 	// Setters
@@ -581,29 +997,12 @@ public class ModelParticipant extends ModelMatchable
 	}
 	
 	/**
-	 * @see ModelMatchable#toStrings()
-	 */
-	protected String[] toStrings () {
-		String[] strings = { this.nom, this.stand, this.ville, this.details };
-		return strings;
-	}
-	
-	/**
 	 * Cloner le participant
 	 * @param poule poule
 	 * @return clone du participant
 	 */
 	protected ModelParticipant clone (ModelPoule poule) {
 		return new ModelParticipant(poule, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelParticipant getInfos () {
-		InfosModelParticipant infos = new InfosModelParticipant(this.stand, this.nom, this.ville, this.statut, this.details);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -688,7 +1087,7 @@ public class ModelParticipant extends ModelMatchable
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelParticipant participant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) {
+		public ModelParticipant update (ModelParticipant participant, Quintuple<String, String, InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>> infos) {
 			try {
 				// Récupérer la poule
 				ModelPoule poule = this.concours.getCategorieByNom(infos.getFirst()).getPouleByNom(infos.getSecond());
@@ -703,6 +1102,7 @@ public class ModelParticipant extends ModelMatchable
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal(e.getMessage());
 			}
+			return null;
 		}
 	}
 	

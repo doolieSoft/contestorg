@@ -18,6 +18,7 @@ public interface IUpdater<I,O>
 	 * Mettre à jour un objet à partir d'informations 
 	 * @param objet objet à mettre à jour
 	 * @param infos informations
+	 * @return nouvel objet si l'objet ne peut pas être modifié sans être recréé
 	 */
-	public void update(O objet, I infos);
+	public O update(O objet, I infos);
 }

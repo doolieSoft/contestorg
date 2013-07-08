@@ -11,7 +11,7 @@ import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelPhaseQualificative;
 import org.contestorg.infos.InfosModelPoule;
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 import org.contestorg.interfaces.IChangeableListener;
 
 /**
@@ -42,7 +42,7 @@ public class JPParametrePhase extends JPParametreAbstract implements IChangeable
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametrePhase(Parametre parametre) {
+	public JPParametrePhase(InfosThemeParametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports" image="image.png">
+	<description><![CDATA[
+		<ul>
+		    <li>En simple :
+				<ul>
+					<li>Points en fonction du résultat : victoire à 2 pts, égalité désactivée, défaite à 0 pts, forfait à 0 pts</li>
+					<li>Objectifs : manches remportées</li>
+					<li>Critères de classement : points, résultat des rencontres directes, goal-average général par division des manches remportées, goal-average général par division des points</li>
+				</ul>
+			</li>
+			<li>En double :
+				<ul>
+					<li>Points en fonction du résultat : victoire à 3 pts, égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</li>
+					<li>Objectifs : manches remportées, jeux remportés</li>
+					<li>Critères de classement : points, goal-average particulier par division des points, goal-average général par division des manches remportées, goal-average général par division des jeux remportés</li>
+				</ul>
+			</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante nom="Ping pong en simple" fichier="Ping pong en simple.co" />
+		<variante nom="Ping pong en double" fichier="Ping pong en double.co" />
+	</variantes>
+</configuration>

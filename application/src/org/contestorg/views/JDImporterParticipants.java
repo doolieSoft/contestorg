@@ -56,7 +56,7 @@ public class JDImporterParticipants extends JDPattern
 	 */
 	public JDImporterParticipants(Window w_parent, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du panret
-		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer des équipes" : "Importer des joueurs");
+		super(w_parent, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer des équipes" : "Importer des joueurs");
 		
 		// Nom de la catégorie et de la poule
 		this.jp_contenu.add(this.jp_categoriePoule);
@@ -70,7 +70,7 @@ public class JDImporterParticipants extends JDPattern
 		this.jb_fichier.addActionListener(this);
 		
 		// Participants trouvés
-		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes trouvées" : "Joueurs trouvés", ViewHelper.H1));
+		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes trouvées" : "Joueurs trouvés", ViewHelper.H1));
 		
 		this.jp_participants = new JPanel();
 		this.jp_participants.setLayout(new BoxLayout(this.jp_participants, BoxLayout.Y_AXIS));
@@ -175,9 +175,9 @@ public class JDImporterParticipants extends JDPattern
 		// Mettre à jour la liste des participants
 		this.cs_participants.clear();
 		if(this.participants == null) {
-			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Erreur lors de l'importation des équipes" : "Erreur lors de l'importation des joueurs");
+			ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Erreur lors de l'importation des équipes" : "Erreur lors de l'importation des joueurs");
 		} else if(this.participants.size() == 0) {
-			ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'a été trouvé" : "Aucun joueur n'a été trouvé");
+			ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Aucune équipe n'a été trouvé" : "Aucun joueur n'a été trouvé");
 		} else {
 			// Noms des participants ajoutés
 			ArrayList<String> noms = new ArrayList<String>();

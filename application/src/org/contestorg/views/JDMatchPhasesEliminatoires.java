@@ -75,7 +75,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.collector = collector;
 		
 		// Participants
-		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
+		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
 		JPanel jp_participants = new JPanel(new GridLayout(1,2));
 		
 		JComboBox<String> jcb_participantA = new JComboBox<String>();

@@ -32,7 +32,7 @@ public class JDParticipantEditer extends JDParticipantAbstract
 	 */
 	public JDParticipantEditer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant, TrackableList<Pair<String, InfosModelProprietePossedee>>, TrackableList<String>>> collector, Quintuple<String,String,InfosModelParticipant,ArrayList<Pair<String,InfosModelProprietePossedee>>,ArrayList<String>> infos) {
 		// Appeller le constructeur du parent
-		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer une équipe" : "Editer un joueur", collector);
+		super(w_parent, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer une équipe" : "Editer un joueur", collector);
 		
 		// Retenir l'ancien nom du participant
 		this.ancienNomParticipant = infos.getThird().getNom();
@@ -44,7 +44,20 @@ public class JDParticipantEditer extends JDParticipantAbstract
 		this.jtf_nom.setText(infos.getThird().getNom());
 		this.jtf_stand.setText(infos.getThird().getStand());
 		this.jtf_ville.setText(infos.getThird().getVille());
-		this.jcb_statut.setSelectedIndex(infos.getThird().getStatut().ordinal());
+		if(infos.getThird().getStatut() == InfosModelParticipant.Statut.ABSENT) {
+			this.jcb_statut.setSelectedIndex(this.index_absent);
+		} else if(infos.getThird().getStatut() == InfosModelParticipant.Statut.PRESENT) {
+			this.jcb_statut.setSelectedIndex(this.index_present);
+		} else if(infos.getThird().getStatut() == InfosModelParticipant.Statut.HOMOLOGUE) {
+			if(this.index_homologue == -1) {
+				this.addStatutHomologue();
+			}
+			this.jcb_statut.setSelectedIndex(this.index_homologue);
+		} else if(infos.getThird().getStatut() == InfosModelParticipant.Statut.FORFAIT) {
+			this.jcb_statut.setSelectedIndex(this.index_forfait);
+		} else {
+			this.jcb_statut.setSelectedIndex(this.index_disqualifie);
+		}
 		this.jta_details.setText(infos.getThird().getDetails());
 		
 		// Séléctionner les prix
@@ -60,7 +73,7 @@ public class JDParticipantEditer extends JDParticipantAbstract
 			}
 			this.jl_prix.setSelectedIndices(indexes);
 		}
-		this.prix.fill(infos.getFifth());
+		this.anciensPrix.fill(infos.getFifth());
 		
 		// Remplir les propriétés
 		ArrayList<InfosModelPropriete> proprietesDisponibles = ContestOrg.get().getCtrlParticipants().getListeProprietes();
@@ -71,7 +84,7 @@ public class JDParticipantEditer extends JDParticipantAbstract
 				}
 			}
 		}
-		this.proprietesPossedees.fill(infos.getFourth());
+		this.anciennesProprietesPossedees.fill(infos.getFourth());
 	}
 
 	/**

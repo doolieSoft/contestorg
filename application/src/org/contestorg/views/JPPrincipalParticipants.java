@@ -36,7 +36,7 @@ import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
-import org.contestorg.infos.Theme;
+import org.contestorg.infos.InfosTheme;
 import org.contestorg.interfaces.IClosableTableModel;
 import org.contestorg.interfaces.IMoody;
 import org.contestorg.interfaces.IMoodyListener;
@@ -84,6 +84,19 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 	
 	/** Bouton supprimer */
 	private JButton jb_supprimer;
+	
+	// Index des statuts
+	
+	/** Absent */
+	protected int index_absent;
+	/** Présent */
+	protected int index_present;
+	/** Homologué */
+	protected int index_homologue;
+	/** Disqualifié */
+	protected int index_disqualifie;
+	/** Forfait */
+	protected int index_forfait;
 	
 	/**
 	 * Constructeur
@@ -150,9 +163,16 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		
 		// Panneau du bas
 		this.jcb_statut = new JComboBox<String>();
-		for (InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
-			this.jcb_statut.addItem(statut.getNomEquipe());
-		}
+		this.jcb_statut.addItem(InfosModelParticipant.Statut.ABSENT.getNomEquipe());
+		this.index_absent = 0;
+		this.jcb_statut.addItem(InfosModelParticipant.Statut.PRESENT.getNomEquipe());
+		this.index_present = 1;
+		this.jcb_statut.addItem(InfosModelParticipant.Statut.HOMOLOGUE.getNomEquipe());
+		this.index_homologue = 2;
+		this.jcb_statut.addItem(InfosModelParticipant.Statut.FORFAIT.getNomEquipe());
+		this.index_forfait = 3;
+		this.jcb_statut.addItem(InfosModelParticipant.Statut.DISQUALIFIE.getNomEquipe());
+		this.index_disqualifie = 4;
 		this.jb_editer = new JButton("Editer équipe", new ImageIcon("img/farm/16x16/pencil.png"));
 		this.jb_supprimer = new JButton("Supprimer équipes", new ImageIcon("img/farm/16x16/delete.png"));
 		
@@ -189,30 +209,25 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		// Rafraichir les boutons
 		this.refreshButtons();
 		
-		// Changer le nom de de certains bouton en fonction du type de participants
+		// Changer l'interface en fonction des paramètres du concours
 		if (moody.is(ContestOrg.STATE_OPEN)) {
 			// Equipe/Joueur
-			this.jb_nouveau.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nouvelle équipe" : "Nouveau joueur");
-			this.jb_importer.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer équipes" : "Importer joueurs");
+			this.jb_nouveau.setText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nouvelle équipe" : "Nouveau joueur");
+			this.jb_importer.setText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer équipes" : "Importer joueurs");
 
-			this.jb_nouveau.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur");
-			this.jb_importer.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer une liste d'équipes" : "Importer une liste de joueurs");
-			this.jb_exporter.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Exporter des informations sur les équipes" : "Exporter des informations sur les joueurs");
+			this.jb_nouveau.setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur");
+			this.jb_importer.setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Importer une liste d'équipes" : "Importer une liste de joueurs");
+			this.jb_exporter.setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Exporter des informations sur les équipes" : "Exporter des informations sur les joueurs");
 
-			this.jb_editer.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer équipe" : "Editer joueur");
-			this.jb_supprimer.setText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Supprimer équipes" : "Supprimer joueurs");
+			this.jb_editer.setText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer équipe" : "Editer joueur");
+			this.jb_supprimer.setText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Supprimer équipes" : "Supprimer joueurs");
 			
-			this.jcb_statut.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Modifier le statut des équipes séléctionnées" : "Modifier le statut des joueurs séléctionnés");
-			this.jb_editer.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer l'équipe séléctionnée" : "Editer le joueur séléctionné");
-			this.jb_supprimer.setToolTipText(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Supprimer les équipes séléctionnées" : "Supprimer les joueurs séléctionnés");
+			this.jcb_statut.setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Modifier le statut des équipes séléctionnées" : "Modifier le statut des joueurs séléctionnés");
+			this.jb_editer.setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Editer l'équipe séléctionnée" : "Editer le joueur séléctionné");
+			this.jb_supprimer.setToolTipText(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Supprimer les équipes séléctionnées" : "Supprimer les joueurs séléctionnés");
 			
-			// Statuts de participant
-			this.jcb_statut.removeItemListener(this);
-			this.jcb_statut.removeAllItems();
-			for (InfosModelParticipant.Statut statut : InfosModelParticipant.Statut.values()) {
-				this.jcb_statut.addItem(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur());
-			}
-			this.jcb_statut.addItemListener(this);
+			// Rafraichir la liste des statuts
+			this.refreshStatuts(true);
 		}
 	}
 	
@@ -273,12 +288,8 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		// Rafraichir les boutons
 		this.refreshButtons();
 		
-		// Changer le statut de la liste
-		if (this.jtable.getSelectedRow() != -1) {
-			this.jcb_statut.removeItemListener(this);
-			this.jcb_statut.setSelectedIndex(((InfosModelParticipant.Statut)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()), this.jtable.getModel().getColumnCount() - 1)).ordinal());
-			this.jcb_statut.addItemListener(this);
-		}
+		// Rafraichir la liste des statuts
+		this.refreshStatuts(false);
 	}
 	
 	/**
@@ -315,7 +326,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 			Pair<String,String> selection = this.getSelection();
 
 			// Créer et afficher la fenêtre de gestion d'exportation
-			new JDExporter(this.w_parent, Theme.CATEGORIE_PARTICIPANTS, selection.getFirst(), selection.getSecond(), null).setVisible(true);
+			new JDExporter(this.w_parent, InfosTheme.CATEGORIE_PARTICIPANTS, selection.getFirst(), selection.getSecond(), null).setVisible(true);
 		} else if (event.getSource() == this.jb_editer) {
 			// Vérifier s'il y a une ligne de séléctionnée
 			if (this.jtable.getSelectedRow() != -1) {
@@ -329,7 +340,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 				jd_participant.setVisible(true);
 			} else {
 				// Message d'erreur
-				ViewHelper.derror(this.w_parent, "Veuillez sélectionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez éditer.");
+				ViewHelper.derror(this.w_parent, "Veuillez sélectionner "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez éditer.");
 			}
 		} else if (event.getSource() == this.jb_supprimer) {
 			// Vérifier s'il y a une ligne de séléctionnée
@@ -339,7 +350,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 					String nomParticipant = this.getNomParticipant();
 					
 					// Demander la suppression du participant
-					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" \"" + nomParticipant + "\" ?")) {
+					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" \"" + nomParticipant + "\" ?")) {
 						ContestOrg.get().getCtrlParticipants().removeParticipant(nomParticipant);
 					}
 				} else {
@@ -350,13 +361,13 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 					}
 					
 					// Demander la suppression des participants
-					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "les équipe séléctionnées" : "les joueurs séléctionnés")+" ?")) {
+					if (ViewHelper.confirmation(this.w_parent, "Désirez-vous vraiment supprimer "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "les équipe séléctionnées" : "les joueurs séléctionnés")+" ?")) {
 						ContestOrg.get().getCtrlParticipants().removeParticipants(nomParticipants);
 					}
 				}
 			} else {
 				// Message d'erreur
-				ViewHelper.derror(this.w_parent, "Veuillez sélectionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez supprimer.");
+				ViewHelper.derror(this.w_parent, "Veuillez sélectionner "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez supprimer.");
 			}
 		}
 		
@@ -370,12 +381,27 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 	@Override
 	public void itemStateChanged (ItemEvent event) {
 		if (event.getStateChange() == ItemEvent.SELECTED) {
+			// Récupérer le statut sélectionné
+			InfosModelParticipant.Statut statut;
+			if(this.jcb_statut.getSelectedIndex() == this.index_absent) {
+				statut = InfosModelParticipant.Statut.ABSENT;
+			} else if(this.jcb_statut.getSelectedIndex() == this.index_present) {
+				statut = InfosModelParticipant.Statut.PRESENT;
+			} else if(this.jcb_statut.getSelectedIndex() == this.index_homologue) {
+				statut = InfosModelParticipant.Statut.HOMOLOGUE;
+			} else if(this.jcb_statut.getSelectedIndex() == this.index_forfait) {
+				statut = InfosModelParticipant.Statut.FORFAIT;
+			} else {
+				statut = InfosModelParticipant.Statut.DISQUALIFIE;
+			}
+			
+			// Un/Plusieurs participants sélectionnés
 			if (this.jtable.getSelectedRowCount() == 1) {
 				// Récupérer le nom du participant séléctionné
 				String nomParticipant = this.getNomParticipant();
 				
 				// Demander la modification du statut du participant
-				ContestOrg.get().getCtrlParticipants().updateParticipant(nomParticipant, InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()]);
+				ContestOrg.get().getCtrlParticipants().updateParticipant(nomParticipant, statut);
 			} else {
 				// Récupérer les noms des participants séléctionnés
 				ArrayList<String> nomParticipants = new ArrayList<String>();
@@ -384,7 +410,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 				}
 				
 				// Demander la modification du statut du participant
-				ContestOrg.get().getCtrlParticipants().updateParticipants(nomParticipants, InfosModelParticipant.Statut.values()[this.jcb_statut.getSelectedIndex()]);
+				ContestOrg.get().getCtrlParticipants().updateParticipants(nomParticipants, statut);
 			}
 		}
 	}
@@ -393,9 +419,6 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 	 * Rafraichir les boutons
 	 */
 	private void refreshButtons() {
-		// Récupérer la catégorie et la poule séléctionnées
-		Pair<String,String> selection = this.getSelection();
-		
 		// Activer/Desactiver les boutons
 		this.jcb_statut.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() != 0);
 		this.jb_editer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
@@ -405,6 +428,87 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jb_poules.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_nouveau.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_importer.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
+	}
+	
+	/**
+	 * Rafraichir la liste des statuts
+	 * @param reconstruireListe forcer la reconstruction de la liste
+	 */
+	private void refreshStatuts(boolean reconstruireListe) {
+		if(ContestOrg.get().is(ContestOrg.STATE_OPEN)) {
+			// Ne plus écouter les évenements sur la liste des statuts
+			this.jcb_statut.removeItemListener(this);
+			
+			// Déterminer s'il faut inclure ou non le statut "homologué"
+			boolean isStatutHomologueActive = ContestOrg.get().getCtrlParticipants().isStatutHomologueActive();
+			if (this.jtable.getSelectedRow() != -1) {
+				// Récupérer le statut du participant sélectionné
+				InfosModelParticipant.Statut statut = (InfosModelParticipant.Statut)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()), this.jtable.getModel().getColumnCount() - 1);
+				
+				// Reconstruire la liste des statuts ?
+				if(statut == InfosModelParticipant.Statut.HOMOLOGUE) {
+					if(this.index_homologue == -1) {
+						reconstruireListe = true;
+						isStatutHomologueActive = true;
+					}
+				} else if(this.index_homologue != -1 && !ContestOrg.get().getCtrlParticipants().isStatutHomologueActive()) {
+					reconstruireListe = true;
+					isStatutHomologueActive = false;
+				}
+			}
+			
+			// Recontruire la liste des statuts
+			if(reconstruireListe) {
+				this.jcb_statut.removeAllItems();
+				boolean typeParticipantEquipe = ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES;
+				if(isStatutHomologueActive) {
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.ABSENT.getNomEquipe() : InfosModelParticipant.Statut.ABSENT.getNomJoueur());
+					this.index_absent = 0;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.PRESENT.getNomEquipe() : InfosModelParticipant.Statut.PRESENT.getNomJoueur());
+					this.index_present = 1;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.HOMOLOGUE.getNomEquipe() : InfosModelParticipant.Statut.HOMOLOGUE.getNomJoueur());
+					this.index_homologue = 2;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.FORFAIT.getNomEquipe() : InfosModelParticipant.Statut.FORFAIT.getNomJoueur());
+					this.index_forfait = 3;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.DISQUALIFIE.getNomEquipe() : InfosModelParticipant.Statut.DISQUALIFIE.getNomJoueur());
+					this.index_disqualifie = 4;
+				} else {
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.ABSENT.getNomEquipe() : InfosModelParticipant.Statut.ABSENT.getNomJoueur());
+					this.index_absent = 0;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.PRESENT.getNomEquipe() : InfosModelParticipant.Statut.PRESENT.getNomJoueur());
+					this.index_present = 1;
+					this.index_homologue = -1;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.FORFAIT.getNomEquipe() : InfosModelParticipant.Statut.FORFAIT.getNomJoueur());
+					this.index_forfait = 2;
+					this.jcb_statut.addItem(typeParticipantEquipe ? InfosModelParticipant.Statut.DISQUALIFIE.getNomEquipe() : InfosModelParticipant.Statut.DISQUALIFIE.getNomJoueur());
+					this.index_disqualifie = 3;
+				}
+			}
+		
+			// Sélectionné le statut correspondant au participant sélectionné dans le tableau
+			if (this.jtable.getSelectedRow() != -1) {
+				// Récupérer le statut du participant sélectionné
+				InfosModelParticipant.Statut statut = (InfosModelParticipant.Statut)this.jtable.getModel().getValueAt(this.jtable.getRowSorter().convertRowIndexToModel(this.jtable.getSelectedRow()), this.jtable.getModel().getColumnCount() - 1);
+				
+				// Sélectionner le statut du participant dans la liste des statut
+				if(statut == InfosModelParticipant.Statut.ABSENT) {
+					this.jcb_statut.setSelectedIndex(this.index_absent);
+				} else if(statut == InfosModelParticipant.Statut.PRESENT) {
+					this.jcb_statut.setSelectedIndex(this.index_present);
+				} else if(statut == InfosModelParticipant.Statut.HOMOLOGUE) {
+					this.jcb_statut.setSelectedIndex(this.index_homologue);
+				} else if(statut == InfosModelParticipant.Statut.FORFAIT) {
+					this.jcb_statut.setSelectedIndex(this.index_forfait);
+				} else {
+					this.jcb_statut.setSelectedIndex(this.index_disqualifie);
+				}
+			} else {
+				this.jcb_statut.setSelectedIndex(this.index_absent);
+			}
+			
+			// Ecouter à nouveau les évenemtns sur la liste des statuts
+			this.jcb_statut.addItemListener(this);
+		}
 	}
 	
 	/**

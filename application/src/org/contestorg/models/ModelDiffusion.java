@@ -97,6 +97,15 @@ public class ModelDiffusion extends ModelAbstract
 		return this.concours;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelDiffusion getInfos () {
+		InfosModelDiffusion infos = new InfosModelDiffusion(this.nom,this.port);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -134,15 +143,6 @@ public class ModelDiffusion extends ModelAbstract
 	 */
 	protected ModelDiffusion clone (ModelConcours concours, ModelTheme theme) {
 		return new ModelDiffusion(concours, theme, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelDiffusion getInfos () {
-		InfosModelDiffusion infos = new InfosModelDiffusion(this.nom,this.port);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -195,9 +195,10 @@ public class ModelDiffusion extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelDiffusion diffusion, Pair<InfosModelDiffusion, InfosModelTheme> infos) {
+		public ModelDiffusion update (ModelDiffusion diffusion, Pair<InfosModelDiffusion, InfosModelTheme> infos) {
 			diffusion.setInfos(infos.getFirst());
 			diffusion.getTheme().setInfos(infos.getSecond());
+			return null;
 		}
 		
 	}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concours version="2.4.0" id="1" nom="Pétanque en simple" participants="joueurs" qualifications="phases" statutHomologueActive="non">
+  <!--Liste des points remportés en fonction du résultat des matchs-->
+  <points victoire="3.0" egalite="2.0" egaliteActivee="oui" defaite="1.0" forfait="0.0" />
+  <!--Liste des critère de classement-->
+  <listeCriteres>
+    <critere id="2" inverse="non">
+      <critereNbPoints />
+    </critere>
+    <critere id="5" inverse="non">
+      <critereGoalAverage type="particulier" methode="difference" donnee="quantiteObjectif" refObjectif="8" />
+    </critere>
+    <critere id="6" inverse="non">
+      <critereGoalAverage type="general" methode="difference" donnee="quantiteObjectif" refObjectif="8" />
+    </critere>
+    <critere id="7" inverse="non">
+      <critereNbVictoires />
+    </critere>
+  </listeCriteres>
+  <!--Liste des objectifs à remporter au cours des matchs-->
+  <listeObjectifs>
+    <objectif id="8">
+      <objectifNul nom="Score" />
+    </objectif>
+  </listeObjectifs>
+  <!--Liste des catégories-->
+  <listeCategories>
+    <categorie id="0" nom="Défaut">
+      <listePoules>
+        <poule id="4" nom="Défaut" />
+      </listePoules>
+    </categorie>
+  </listeCategories>
+</concours>
+

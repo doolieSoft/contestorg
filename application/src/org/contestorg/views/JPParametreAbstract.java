@@ -2,7 +2,7 @@ package org.contestorg.views;
 
 import javax.swing.JPanel;
 
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 
 /**
  * Panel d'un paramètre de thème d'exportation/diffusion
@@ -15,28 +15,28 @@ public abstract class JPParametreAbstract extends JPanel
 	 * @param parametre paramètre
 	 * @return panel du paramètre
 	 */
-	public static JPParametreAbstract create (Parametre parametre) {
+	public static JPParametreAbstract create (InfosThemeParametre parametre) {
 		switch(parametre.getType()) {
-			case Parametre.TYPE_ENTIER: return new JPParametreEntier(parametre);
-			case Parametre.TYPE_REEL: return new JPParametreReel(parametre);
-			case Parametre.TYPE_TEXTE: return new JPParametreTexte(parametre);
-			case Parametre.TYPE_CATEGORIE: return new JPParametreCategorie(parametre);
-			case Parametre.TYPE_POULE: return new JPParametrePoule(parametre);
-			case Parametre.TYPE_PHASE: return new JPParametrePhase(parametre);
-			case Parametre.TYPE_MOTDEPASSE: return new JPParametreMotDePasse(parametre);
-			case Parametre.TYPE_BOOLEEN: return new JPParametreBooleen(parametre);
+			case InfosThemeParametre.TYPE_ENTIER: return new JPParametreEntier(parametre);
+			case InfosThemeParametre.TYPE_REEL: return new JPParametreReel(parametre);
+			case InfosThemeParametre.TYPE_TEXTE: return new JPParametreTexte(parametre);
+			case InfosThemeParametre.TYPE_CATEGORIE: return new JPParametreCategorie(parametre);
+			case InfosThemeParametre.TYPE_POULE: return new JPParametrePoule(parametre);
+			case InfosThemeParametre.TYPE_PHASE: return new JPParametrePhase(parametre);
+			case InfosThemeParametre.TYPE_MOTDEPASSE: return new JPParametreMotDePasse(parametre);
+			case InfosThemeParametre.TYPE_BOOLEEN: return new JPParametreBooleen(parametre);
 		}
 		return null;
 	}
 	
 	/** Parametre associé au panel */
-	protected Parametre parametre;
+	protected InfosThemeParametre parametre;
 	
 	/**
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametreAbstract(Parametre parametre) {
+	public JPParametreAbstract(InfosThemeParametre parametre) {
 		// Retenir le parametre
 		this.parametre = parametre;
 	}

@@ -49,6 +49,15 @@ public class ModelCheminLocal extends ModelCheminAbstract
 		return this.chemin;
 	}
 	
+	/**
+	 * @see ModelCheminAbstract#getInfos()
+	 */
+	public InfosModelCheminLocal getInfos () {
+		InfosModelCheminLocal infos = new InfosModelCheminLocal(this.chemin);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -72,15 +81,6 @@ public class ModelCheminLocal extends ModelCheminAbstract
 	 */
 	protected ModelCheminLocal clone () {
 		return new ModelCheminLocal(this);
-	}
-	
-	/**
-	 * @see ModelCheminAbstract#getInfos()
-	 */
-	public InfosModelCheminLocal getInfos () {
-		InfosModelCheminLocal infos = new InfosModelCheminLocal(this.chemin);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**

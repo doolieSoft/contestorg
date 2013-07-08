@@ -185,6 +185,15 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 		return this.equals(this.phasesEliminatoires.getPetiteFinale());
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelMatchPhasesElims getInfos () {
+		InfosModelMatchPhasesElims infos = new InfosModelMatchPhasesElims(this.getDate(), this.getDetails());
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -246,15 +255,6 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 	 */
 	protected ModelMatchPhasesElims clone (ModelPhasesEliminatoires phasesEliminatoires, ModelEmplacement emplacement, ModelMatchPhasesElims matchPrecedantA, ModelMatchPhasesElims matchPrecedantB) {
 		return new ModelMatchPhasesElims(phasesEliminatoires, emplacement, matchPrecedantA, matchPrecedantB, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelMatchPhasesElims getInfos () {
-		InfosModelMatchPhasesElims infos = new InfosModelMatchPhasesElims(this.getDate(), this.getDetails());
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -327,7 +327,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelMatchPhasesElims match, Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos) {
+		public ModelMatchPhasesElims update (ModelMatchPhasesElims match, Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos) {
 			try {
 				// Modifier le match
 				match.setInfos(infos.getFourth());
@@ -479,6 +479,7 @@ public class ModelMatchPhasesElims extends ModelMatchAbstract
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un match de phases éliminatoires.",e);
 			}
+			return null;
 		}
 		
 	}

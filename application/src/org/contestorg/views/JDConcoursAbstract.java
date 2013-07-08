@@ -76,7 +76,7 @@ abstract public class JDConcoursAbstract extends JDPattern
 		jtb_onglets.addTab("Propriétés des participants", new ImageIcon("img/farm/16x16/group.png"), new JScrollPane(this.jp_proprietes),"Configurer les propriétés que peuvent posséder les participants");
 
 		// Redimensionner la zone des onglets
-		jtb_onglets.setPreferredSize(new Dimension(600, jtb_onglets.getPreferredSize().height+20));
+		jtb_onglets.setPreferredSize(new Dimension(600, jtb_onglets.getPreferredSize().height));
 
 		// Pack
 		this.pack();
@@ -90,8 +90,8 @@ abstract public class JDConcoursAbstract extends JDPattern
 		return new InfosModelConcours(
 			this.jp_general.getConcoursNom(), this.jp_general.getConcoursSite(), this.jp_general.getConcoursLieu(), this.jp_general.getConcoursEmail(), this.jp_general.getConcoursTelephone(), this.jp_general.getConcoursDescription(),
 			this.jp_general.getOrganismeNom(), this.jp_general.getOrganismeSite(), this.jp_general.getOrganismeLieu(), this.jp_general.getOrganismeEmail(), this.jp_general.getOrganismeTelephone(), this.jp_general.getOrganismeDescription(),
-			this.jp_general.getTypeQualifications(), this.jp_general.getTypeParticipants(),
-			this.jp_points.getPointsVictoire(), this.jp_points.getPointsEgalite(), this.jp_points.getPointsDefaite(),
+			this.jp_general.getTypeQualifications(), this.jp_general.getTypeParticipants(), this.jp_general.isStatutHomologueActive(),
+			this.jp_points.getPointsVictoire(), this.jp_points.getPointsEgalite(), this.jp_points.isEgaliteActivee(), this.jp_points.getPointsDefaite(), this.jp_points.getPointsForfait(),
 			this.jp_programmation.getProgrammationDuree(), this.jp_programmation.getProgrammationInterval(), this.jp_programmation.getProgrammationPause()
 		);
 	}

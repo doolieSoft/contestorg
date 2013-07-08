@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports" image="image.png">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat :</b> victoire à 1 pts, égalité désactivée, défaite à 0 pts, forfait à -1 pts</li>
+			<li>Objectifs : jeux remportés, points remportés</li>
+			<li>Critères de classement : points, résultat des rencontres directes, goal-average général par différence des jeux remportés, résultat des rencontres directes, goal-average général par différence de l'objectif "points remportés"</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante nom="Badminton en simple" fichier="Badminton en simple.co" />
+		<variante nom="Badminton en double" fichier="Badminton en double.co" />
+	</variantes>
+</configuration>

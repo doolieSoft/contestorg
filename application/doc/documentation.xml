@@ -13,9 +13,9 @@
       <surname>Perrin</surname>
     </author>
 
-    <date>3 juin 2012</date>
+    <date>4 juin 2013</date>
 
-    <releaseinfo>2.3.1</releaseinfo>
+    <releaseinfo>2.4.0</releaseinfo>
 
     <subtitle>Logiciel d'organisation de tournois</subtitle>
   </bookinfo>
@@ -51,6 +51,9 @@
       L'année qui suit fut dédiée à la récolte d'avis des utilisateurs et
       c'est au printemps 2012 que <application>ContestOrg 2</application> est
       enfin disponible en version finale.</para>
+
+      <para>Depuis ContestOrg s'améliore au fil du temps grâce aux nombreux
+      retours de ses utilisateurs.</para>
     </section>
 
     <section>
@@ -104,7 +107,7 @@
       les personnes qui m'ont soutenus et qui me soutiennent encore : ma
       fiancée Gaëlle, mes deux frères Luke et Allan, ma soeur Céline et mes
       deux parents Etienne et Pascale. J'en profite pour remercier également
-      tous utilisateurs qui m'ont envoyé leurs réactions ainsi que tous les
+      tous utilisateurs qui m'ont envoyé leurs retours ainsi que tous les
       développeurs qui sont à l'origine des librairies que l'application
       réutilise.</para>
     </section>
@@ -114,9 +117,9 @@
     <title>Introduction</title>
 
     <para><application>ContestOrg</application> est une application visant à
-    organiser n'importe quel type de tournois. Celle-ci a été pensée et
+    organiser n'importe quel type de tournoi. Celle-ci a été pensée et
     développée de manière générique, c'est à dire qu'aucune spécificité lié à
-    un type de tournois en particulier n'est présente. Ainsi, les usages que
+    un type de tournoi en particulier n'est présente. Ainsi, les usages que
     l'on peut avoir de <application>ContestOrg</application> différent selon
     des besoins des utilisateurs.</para>
 
@@ -143,18 +146,19 @@
       </listitem>
     </itemizedlist>
 
-    <para>A ces trois grandes parties viennent se greffer différents
+    <para>A ces trois grandes parties viennent s'ajouter différents
     utilitaires :</para>
 
     <itemizedlist>
       <listitem>
-        <para><link linkend="exporter">Exportations</link> : permettent
-        d'obtenir des fichiers tirés des données du tournois</para>
+        <para><link linkend="exporter">Exportations</link> : permettent de
+        générer des fichiers (PDF, HTML, ...) à partir des données du
+        tournoi</para>
       </listitem>
 
       <listitem>
         <para><link linkend="diffuser">Diffusions</link> : permettent
-        d'afficher sur des écrans distants des informations du tournois</para>
+        d'afficher sur des écrans distants des informations du tournoi</para>
       </listitem>
     </itemizedlist>
 
@@ -181,17 +185,18 @@
     <application>ContestOrg</application>.</para>
 
     <para>Pour lancer l'application sous Windows, il vous faut double cliquer
-    sur <filename>ContestOrg.exe</filename>. Sous Linux et Mac OS, il vous
-    faut lancer le terminal et exécuter la ligne suivante : <command>$ java
-    -jar ContestOrg.jar</command>.</para>
+    sur <filename>ContestOrg.exe</filename>. Il s'agit d'un fichier JAR
+    encapsulé dans un fichier EXE. Sous Linux et Mac OS, il vous faut lancer
+    le terminal et exécuter la ligne suivante : <command>java -jar
+    ContestOrg.jar</command>.</para>
 
     <remark>ContestOrg doit être lancé depuis sont répertoire d'installation.
     Si vous désirez créer un script de lancement, vous ne pourrez donc pas
-    effectuer directement la ligne suivante : <command>$ java -jar
+    effectuer directement la ligne suivante : <command>java -jar
     /chemin/de/contestorg/ContestOrg.jar</command>. Il vous faudra d'abord
-    effectuer la ligne suivante : <command>$ cd
-    /chemin/de/contestorg</command>, puis la ligne suivante : <command>$ java
-    -jar ContestOrg.jar</command>.</remark>
+    effectuer la ligne suivante : <command>cd /chemin/de/contestorg</command>,
+    puis la ligne suivante : <command>java -jar
+    ContestOrg.jar</command>.</remark>
   </chapter>
 
   <chapter>
@@ -202,17 +207,18 @@
 
       <para>Lorsque vous lancez <application>ContestOrg</application>, nous
       pouvons observer sur la gauche une barre latérale composée de différents
-      boutons. Cette barre latérale est divisée en trois zones : une zone de
-      création/chargement de tournois, une zone dédiée au tournois courant et
-      une zone dédiée à l'application.</para>
+      boutons. Cette barre latérale est divisée en trois zones : une zone
+      dediée à la création et au chargement de tournoi, une zone dédiée au
+      tournoi courant et une zone dédiée à l'application.</para>
 
       <screenshot>
         <screeninfo>Aperçu de l'interface générale</screeninfo>
 
         <mediaobject>
           <imageobject>
-            <imagedata scalefit="1" width="100%" contentdepth="100%"
-                       fileref="images/ecrans/interface-generale.png" />
+            <imagedata contentdepth="100%"
+                       fileref="images/ecrans/interface-generale.png"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -222,22 +228,12 @@
       <itemizedlist>
         <listitem>
           <para><guibutton>Nouveau</guibutton> : créer un nouveau
-          tournois</para>
+          tournoi</para>
         </listitem>
 
         <listitem>
           <para><guibutton>Ouvrir</guibutton> : ouvrir un fichier de
-          tournois</para>
-        </listitem>
-
-        <listitem>
-          <para><guibutton>Connexion</guibutton> : se connecter à un serveur
-          (pas encore disponible)</para>
-        </listitem>
-
-        <listitem>
-          <para><guibutton>Éditer</guibutton> : prendre le jeton d'édition
-          (pas encore disponible)</para>
+          tournoi</para>
         </listitem>
 
         <listitem>
@@ -265,8 +261,7 @@
         </listitem>
 
         <listitem>
-          <para><guibutton>Aide</guibutton> : afficher l'aide
-          <acronym>PDF</acronym></para>
+          <para><guibutton>Aide</guibutton> : ouvrir l'aide</para>
         </listitem>
 
         <listitem>
@@ -284,15 +279,16 @@
       </itemizedlist>
 
       <para>Sur la zone de droite, nous retrouvons les trois grandes parties
-      de l'application (<link linkend="participants">équipes/joueurs</link>,
-      <link linkend="phases-qualificatives">phases qualificatives</link> et
-      <link linkend="phases-eliminatoires">phases éliminatoires</link>)
-      disponibles sous la forme d'onglets. Chacune de ces trois parties est
-      divisée en quatre zones : une zone dédiée à l'arborescence
-      catégories/poules, une zone dédiée aux données de l'onglet courant, une
-      zone dédiée aux actions sur l'arborescence, une zone dédiée aux actions
-      sur les données. Notez que la zone dédiée aux données de l'onglet
-      courant dépendent de la sélection effectuée dans l'arborescence.</para>
+      de l'application sous la forme d'onglets (<link
+      linkend="participants">équipes/joueurs</link>, <link
+      linkend="phases-qualificatives">phases qualificatives</link> et <link
+      linkend="phases-eliminatoires">phases éliminatoires</link>). Chacune de
+      ces trois parties est divisée en quatre zones : une zone dédiée à
+      l'arborescence catégories/poules (à gauche), une zone dédiée aux données
+      de l'onglet courant (au centre), une zone dédiée aux actions sur
+      l'arborescence (en haut), une zone dédiée aux actions sur les données (à
+      droite). Notez que la zone dédiée aux données de l'onglet courant
+      dépendent de la sélection effectuée dans l'arborescence.</para>
     </section>
 
     <section>
@@ -317,24 +313,375 @@
 
       <para>Dans la barre latérale de gauche, cliquez sur
       <guibutton>Nouveau</guibutton> ou <guibutton>Configurer</guibutton> pour
-      lancer la fenêtre de création/configuration du tournois.</para>
+      lancer la fenêtre de création/configuration du tournoi.</para>
+
+      <section>
+        <title>Ouvrir un modèle</title>
+
+        <para>Au clic sur le bouton <guibutton>Nouveau</guibutton>, la fenêtre
+        des modèles de concours s'affiche. Nous y retrouvons la liste des
+        modèles de concours ainsi qu'un bouton pour créer son propre concours
+        avec ses propres paramètres. Les modèles de concours possèdent des
+        paramètres préétablis qu'il est possible de modifier suite à la
+        sélection du modèle via le bouton
+        <guibutton>Configurer</guibutton>.</para>
+
+        <screenshot>
+          <screeninfo>Liste des modèles</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/ecrans/modeles.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <remark>Rendez-vous dans le chapitre <link linkend="modeles">Créer des
+        modèles de tournois</link> pour se documenter sur la création et
+        l'édition de modèles.</remark>
+
+        <para>Ci-dessous la liste des modèles de concours :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Badminton :</para>
+
+            <itemizedlist>
+              <listitem>
+                <para>Points en fonction du résultat : victoire à 1 pts,
+                égalité désactivée, défaite à 0 pts, forfait à -1 pts</para>
+              </listitem>
+
+              <listitem>
+                <para>Objectifs : jeux remportés, points remportés</para>
+              </listitem>
+
+              <listitem>
+                <para>Critères de classement : points, résultat des rencontres
+                directes, goal-average général par différence des jeux
+                remportés, résultat des rencontres directes, goal-average
+                général par différence de l'objectif "points remportés"</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para>Basketball :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 2 pts,
+                  égalité désactivée, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score, pénalité</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average
+                  particulier par différence du score, goal-average
+                  particulier inversé par différence du nombre d'objectif
+                  "pénalité", goal-average général par différence du score, le
+                  moins d'objectifs "pénalité"</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Billiard :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 3 pts,
+                  égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : manches remportées</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average
+                  particulier par différence des points, goal-average général
+                  par différence des manches remportés, nombre de
+                  victoires</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Echecs :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 1 pts,
+                  égalité à 0.5 pts, défaite à 0 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : -</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Football :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 4 pts,
+                  égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score, pénalité</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average général
+                  par différence du score, le plus d'objectifs "score", le
+                  moins d'objectifs "pénalité"</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Football américain :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 3 pts,
+                  égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average
+                  particulier par différence du score</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Handball :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 3 pts,
+                  égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average
+                  particulier par différence des points, goal-average
+                  particulier par différence du score, goal-average général
+                  par différence du score, le plus d'objectif "score"</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Jeu de go :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 1 pts,
+                  égalité à 0.5 pts, défaite à 0 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : -</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Judo :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 0 pts,
+                  égalité à 0 pts, défaite à 0 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : Full Ippon, points</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : nombre de victoires, résultat
+                  des rencontres directes, le plus d'objectif "Full Ippon",
+                  points</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Pétanque :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 3 pts,
+                  égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average
+                  particulier par différence du score, goal-average général
+                  par différence du score, le plus de victoires</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Ping pong :<itemizedlist>
+                <listitem>
+                  <para>En simple :</para>
+
+                  <itemizedlist>
+                    <listitem>
+                      <para>Points en fonction du résultat : victoire à 2 pts,
+                      égalité désactivée, défaite à 0 pts, forfait à 0
+                      pts</para>
+                    </listitem>
+
+                    <listitem>
+                      <para>Objectifs : manches remportées</para>
+                    </listitem>
+
+                    <listitem>
+                      <para>Critères de classement : points, résultat des
+                      rencontres directes, goal-average général par division
+                      des manches remportées, goal-average général par
+                      division des points</para>
+                    </listitem>
+                  </itemizedlist>
+                </listitem>
+
+                <listitem>
+                  <para>En double :</para>
+
+                  <itemizedlist>
+                    <listitem>
+                      <para>Points en fonction du résultat : victoire à 3 pts,
+                      égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</para>
+                    </listitem>
+
+                    <listitem>
+                      <para>Objectifs : manches remportées, jeux
+                      remportés</para>
+                    </listitem>
+
+                    <listitem>
+                      <para>Critères de classement : points, goal-average
+                      particulier par division des points, goal-average
+                      général par division des manches remportées,
+                      goal-average général par division des jeux
+                      remportés</para>
+                    </listitem>
+                  </itemizedlist>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Rugby :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 4 pts,
+                  égalité à 2 pts, défaite à 0 pts, forfait à -2 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score, essais, marque au moins 3 essais de
+                  plus que son adversaire (1 pts), a perdu avec un écart de 7
+                  pts ou moins (1 pts)</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average
+                  particulier par différence du score, goal-average général
+                  par différence du score, goal-average général par différence
+                  des essais, le plus d'objectif "score", le plus d'objectifs
+                  "essais", le moins de forfaits</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Tennis :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 2 pts,
+                  égalité désactivée, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : manches remportées, jeux remportés</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average général
+                  par différence des manches remportées, goal-average général
+                  par différence des jeux remportés, goal-average particulier
+                  par différence des manches remportées, goal-average
+                  particulier par différence des jeux remportés</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+
+          <listitem>
+            <para>Volley-ball :<itemizedlist>
+                <listitem>
+                  <para>Points en fonction du résultat : victoire à 2 pts,
+                  égalité désactivée, défaite à 1 pts, forfait à 0 pts</para>
+                </listitem>
+
+                <listitem>
+                  <para>Objectifs : score, manches remportées</para>
+                </listitem>
+
+                <listitem>
+                  <para>Critères de classement : points, goal-average général
+                  par division des manches remportées, goal-average général
+                  par division du score</para>
+                </listitem>
+              </itemizedlist></para>
+          </listitem>
+        </itemizedlist>
+
+        <remark>Les paramètres ci-dessus s'inspirent des règles officielles.
+        Cependant, certaines règles officielles ne sont pas implémentés dans
+        <application>ContestOrg</application>. Il se peut donc que le
+        classement donné par <application>ContestOrg</application> ne soit pas
+        correct vis-à-vis de ces règles officielles.</remark>
+      </section>
 
       <section>
         <title>Onglet "Informations générales"</title>
 
         <para>Dans cet onglet, nous retrouvons la configuration générale du
-        tournois, à savoir : les informations du tournois, les informations de
-        l'organisme et le type de participant. Le type de participant permet
-        de définir si ce sont des équipes ou des joueurs qui participent au
-        tournois.</para>
+        tournoi, à savoir : les informations du tournoi, les informations de
+        l'organisme et les informations diverses. Dans les informations
+        diverses, nous pouvons choisir le type des participants et si le
+        statut "Homologué" est activé ou non.</para>
+
+        <remark>Le statut "Homologué" est généralement obtenu par les
+        participants lors d'une étape, les homologations, qui précéde le
+        tournoi. Cette étape permet de vérifier que les participants
+        respectent bien le cahier des charges imposé par l'équipe
+        d'organisation du tournoi. Si le statut "Homologé" est activé, seul
+        les participants qui ont ce statut pourront participer aux
+        matchs.</remark>
 
         <screenshot>
           <screeninfo>Onglet "Informations générales"</screeninfo>
 
           <mediaobject>
             <imageobject>
-              <imagedata fileref="images/ecrans/configurer-general.png"
-                         scalefit="1" width="100%" contentdepth="100%" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-general.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -346,6 +693,20 @@
           <para>Au football, il s'agira d'un tournoi d'équipes, au judo, il
           s'agira d'un tournoi de joueurs.</para>
         </example>
+
+        <example>
+          <title>Exemple d'utilisation du statut "Homologué"</title>
+
+          <para>Au cours de la Coupe de France de Robotique, les équipes
+          doivent passer deux types d'homologations avant de pouvoir
+          participer aux matchs. Il s'agit de l'homologation statique et de
+          l'homologation dynamique. La première vérifie que les robots
+          respectent le règlement (dimensions, sécurité, ...). La deuxième
+          vérifie que les robots sont capables de se déplacer et de marquer
+          des points. Une fois ces deux homologations passées, les équipes
+          obtiennent le statut "Homologué" et peuvent désormais participer aux
+          matchs.</para>
+        </example>
       </section>
 
       <section id="configurer-points-classement">
@@ -356,24 +717,25 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata fileref="images/ecrans/configurer-points-classement.png"
-                         scalefit="1" width="100%" contentdepth="100%" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-points-classement.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
 
         <section>
-          <title>Points</title>
+          <title>En fonction du résultat</title>
 
           <para>Cette zone permet de spécifier le nombre de points remportés
-          en cas de victoire, d'égalité ou de défaite. Il n'y a aucun point de
-          remporté si le participant est déclaré forfait au match. Si votre
-          tournois n'attribue aucun points en fonction du résultat d'un match,
-          spécifiez <quote>0</quote> dans chacune des entrées.</para>
+          en cas de victoire, d'égalité, de défaite et de forfait. Si votre
+          tournoi n'attribue aucun points en fonction du résultat d'un match,
+          spécifiez <quote>0</quote> dans chacune des entrées. Si l'égalité
+          est impossible dans votre tournoi, désactiver l'égalité.</para>
         </section>
 
         <section>
-          <title>Objectifs</title>
+          <title>Liste des objectifs</title>
 
           <para>Cette zone permet de spécifier la liste des objectifs qu'un
           participant peut remporter au cours d'un match. Trois types
@@ -382,14 +744,34 @@
           est important dans l'attribution des points.</para>
 
           <section>
-            <title>Objectifs à points</title>
+            <title>Objectifs sans modification du score</title>
+
+            <para>Ce type d'objectif ne rapport rien au participant qui le
+            remporte.</para>
+
+            <screenshot>
+              <screeninfo>Fenêtre de création/édition d'un objectif
+              nul</screeninfo>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata contentdepth="100%"
+                             fileref="images/ecrans/configurer-objectif-nul.png"
+                             scalefit="1" width="100%" />
+                </imageobject>
+              </mediaobject>
+            </screenshot>
+          </section>
+
+          <section>
+            <title>Objectifs avec ajout de points au score</title>
 
             <para>Ce type d'objectif rapporte un certain nombre de points au
             participant qui le remporte. Il est possible de définir une borne
             de participation que le nombre de points remportés au cours du
             match ne pourra par dépasser. Notez qu'il est possible de
             spécifier un nombre de points négatif (pour les pénalités par
-            exemple), il en va de même pour la borne de participation.</para>
+            exemple).</para>
 
             <programlisting>// Calcul des points remportés via un objectif à points
 PROCEDURE OBJECTIF_POINTS (
@@ -398,12 +780,12 @@ PROCEDURE OBJECTIF_POINTS (
    borne_participation
 )
 DEBUT PROCEDURE
-   // Incrémenter les points de la participation du nombre de points de l'objectif
+   // Incrémenter le nombre de points de la participation
    points_participation = points_participation + points_objectif;
 
-   // Vérifier si les points de la participation a dépassé la borne de participation
+   // Vérifier si le nombre de points de la participation a dépassé la borne de participation
    SI
-      DEFINI(borne_score) ET (
+      EST_DEFINI(borne_score) ET (
          (points_objectif &lt; 0 ET points_participation &lt; borne_participation)
          OU
          (points_objectif &gt; 0 ET points_participation &gt; borne_participation)
@@ -412,7 +794,7 @@ DEBUT PROCEDURE
       points_participation = borne_participation;
    FIN SI;
 
-   // Retourner les points de la participation
+   // Retourner le nombre de points de la participation
    RETOURNER points_participation;
 FIN PROCEDURE;</programlisting>
 
@@ -422,45 +804,16 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata scalefit="1" width="100%" contentdepth="100%"
-                             fileref="images/ecrans/configurer-objectif-points.png" />
+                  <imagedata contentdepth="100%"
+                             fileref="images/ecrans/configurer-objectif-points.png"
+                             scalefit="1" width="100%" />
                 </imageobject>
               </mediaobject>
             </screenshot>
-
-            <example>
-              <title>Exemple de mise en place d'un objectif à points</title>
-
-              <para>Dans le cadre d'un tournoi de judo, le responsable de
-              l'organisation du tournois a définit 4 objectifs à points
-              :</para>
-
-              <itemizedlist>
-                <listitem>
-                  <para>Koka : 3 points</para>
-                </listitem>
-
-                <listitem>
-                  <para>Yuko : 5 points</para>
-                </listitem>
-
-                <listitem>
-                  <para>Wazari : 7 points</para>
-                </listitem>
-
-                <listitem>
-                  <para>Ippon : 10 points</para>
-                </listitem>
-              </itemizedlist>
-
-              <para>Lorsqu'un joueur remporte un de ces objectifs, son score
-              est crédité du nombre de points associé à l'objectif
-              remporté.</para>
-            </example>
           </section>
 
           <section>
-            <title>Objectifs à pourcentage</title>
+            <title>Objectifs avec ajout d'un pourcentage au score</title>
 
             <para>Ce type d'objectif rapporte au participant qui le remporte
             un certain pourcentage du nombre de points gagnés au cours du
@@ -469,8 +822,7 @@ FIN PROCEDURE;</programlisting>
             pourra pas dépasser. Il est possible de définir une borne de
             participation que le nombre de points gagnés au cours du match ne
             pourra par dépasser. Notez qu'il est possible de spécifier un
-            pourcentage négatif (pour les pénalités par exemple), il en va de
-            même pour les bornes d'augmentation et de participation.</para>
+            pourcentage négatif (pour les pénalités par exemple).</para>
 
             <programlisting>// Calcul des points remportés via un objectif à pourcentage
 PROCEDURE OBJECTIF_POURCENTAGE (
@@ -485,7 +837,7 @@ DEBUT PROCEDURE
 
    // Vérifier si l'augmentation n'a pas dépassé la borne d'augmentation
    SI
-      DEFINI(borne_augmentation) ET (
+      EST_DEFINI(borne_augmentation) ET (
          (pourcentage_objectif &lt; 0 ET augmentation &lt; borne_augmentation)
          OU
          (pourcentage_objectif &gt; 0 ET augmentation &gt; borne_augmentation)
@@ -494,12 +846,12 @@ DEBUT PROCEDURE
       augmentation = borne_augmentation;
    FIN SI;
 
-   // Incrémenter les points de la participation de l'augmentation
+   // Incrémenter les points de la participation
    points_participation = points_participation + augmentation;
 
-   // Vérifier si les points de la participation n'a pas dépassé la borne de participation
+   // Vérifier si le nombre de points de la participation n'a pas dépassé la borne de participation
    SI
-      DEFINI(borne_score_objectif) ET (
+      EST_DEFINI(borne_score_objectif) ET (
          (pourcentage_objectif &lt; 0 ET points_participation &lt; borne_participation)
          OU
          (pourcentage_objectif &gt; 0 ET points_participation &gt; borne_participation)
@@ -508,7 +860,7 @@ DEBUT PROCEDURE
       points_participation = borne_participation;
    FIN SI;
 
-   // Retourner les points de la participation
+   // Retourner le nombre de points de la participation
    RETOURNER points_participation;
 FIN PROCEDURE;</programlisting>
 
@@ -518,47 +870,9 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata scalefit="1" width="100%" contentdepth="100%"
-                             fileref="images/ecrans/configurer-objectif-pourcentage.png" />
-                </imageobject>
-              </mediaobject>
-            </screenshot>
-
-            <example>
-              <title>Exemple de mise en place d'un objectif à
-              pourcentage</title>
-
-              <para>Dans le cadre d'un tournoi de robotique, le responsable de
-              l'organisation du tournois à définit une pénalité à pourcentage
-              :</para>
-
-              <itemizedlist>
-                <listitem>
-                  <para>Pénalité : -15%, borne de score : 0 points</para>
-                </listitem>
-              </itemizedlist>
-
-              <para>Lorsqu'un participant reçoit cette pénalité, son nombre de
-              points remportés au cours du match est diminué de 15%. Si ce
-              nombre de points devient négatif, celui-ci est ramené à
-              zéro.</para>
-            </example>
-          </section>
-
-          <section>
-            <title>Objectifs nuls</title>
-
-            <para>Ce type d'objectif ne rapport rien au participant qui le
-            remporte.</para>
-
-            <screenshot>
-              <screeninfo>Fenêtre de création/édition d'un objectif
-              nul</screeninfo>
-
-              <mediaobject>
-                <imageobject>
-                  <imagedata scalefit="1" width="100%" contentdepth="100%"
-                             fileref="images/ecrans/configurer-objectif-nul.png" />
+                  <imagedata contentdepth="100%"
+                             fileref="images/ecrans/configurer-objectif-pourcentage.png"
+                             scalefit="1" width="100%" />
                 </imageobject>
               </mediaobject>
             </screenshot>
@@ -569,177 +883,89 @@ FIN PROCEDURE;</programlisting>
           <title>Critères de classement</title>
 
           <para>Cette zone permet de spécifier l'ordre des critères de
-          classement. Trois types de critères de classement sont disponibles :
-          nombre de points, nombre de victoires et nombre d'un type d'objectif
-          donné remportés. Les critères situés en haut du tableau ont le poids
-          le plus fort.</para>
+          classement. Pour établir le classement, le première critère sera
+          utilisé. S'il existe des ex-aequos avec le première critère, le
+          deuxième critère critère sera utilisé pour les départager. S'il
+          existe à nouveau des ex-aequos, ce sera le troisième critère qui
+          sera utilisé et ainsi de suite. Il existe plusieurs types de
+          critères de classement :</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Nombre de points : les meilleurs participants seront ceux
+              qui ont le plus grand nombre de points</para>
+            </listitem>
+
+            <listitem>
+              <para>Nombre de victoires : les meilleurs participants seront
+              ceux qui ont le plus grand nombre de victoires</para>
+            </listitem>
+
+            <listitem>
+              <para>Nombre d'égalités : les meilleurs participants seront ceux
+              qui ont le plus grand nombre d'égalités</para>
+            </listitem>
+
+            <listitem>
+              <para>Nombre de défaites : les meilleurs participants seront
+              ceux qui ont le plus grand nombre de défaites (il est conseillé
+              d'inverser ce critère)</para>
+            </listitem>
+
+            <listitem>
+              <para>Nombre de forfaits : les meilleurs participants seront
+              ceux qui ont le plus grand nombre de forfaits (il est conseillé
+              d'inverser ce critère)</para>
+            </listitem>
+
+            <listitem>
+              <para>Résultats des rencontres directes : ce critère départage
+              deux ex-aequos (et seulement deux) et considère le meilleur
+              participant comme étant celui-ci qui a eu le plus de victoires
+              au cours des rencontres entre les deux participants</para>
+            </listitem>
+
+            <listitem>
+              <para>Quantité remportée d'un objectif : les meilleurs
+              participants seront ceux qui ont remportés la plus grande
+              quantité de l'objectif renseigné</para>
+            </listitem>
+
+            <listitem>
+              <para>Goal-Average :<itemizedlist>
+                  <listitem>
+                    <para>Type : général ou particulier (départage deux
+                    ex-aequos et seulement deux)</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>Méthode : méthode utilisée pour le calcul du
+                    goal-average</para>
+                  </listitem>
+
+                  <listitem>
+                    <para>Donnée : donnée utilisée pour le calcul du
+                    goal-average</para>
+                  </listitem>
+                </itemizedlist></para>
+            </listitem>
+          </itemizedlist>
+
+          <remark>Pour chacun des critères de classement, il est possible
+          d'inverser son effet. Il conseillé de le faire pour les critères de
+          classement "Nombre de défaites" et "Nombre de forfaits" car un
+          participant qui a plus de défaites ou de forfaits qu'un autre est
+          généralement moins bien positionné que celui-ci. Ce paramètre est
+          également utile pour prendre en compte le nombre de pénalités dans
+          le classement (ajout d'un critère de classement inversé "Quantité
+          remporté d'un objectif" associé à un objectif "Pénalité").</remark>
+
+          <section>
+            <title>Cas particulier du goal-average</title>
+
+            <para>Le goal-average</para>
+          </section>
         </section>
-      </section>
-
-      <section>
-        <title>Onglet "Lieux et emplacements"</title>
-
-        <para>Dans cet onglet, nous retrouvons la configuration des lieux et
-        emplacements dédiés aux matchs du tournois. Un lieu est une collection
-        d'horaires et d'emplacements. Les horaires permettent de déterminer à
-        quelle heures les lieux sont disponibles les matchs. Les emplacements
-        permettent de déterminer à quels endroits il est possible d'effectuer
-        un match.</para>
-
-        <screenshot>
-          <screeninfo>Onglet "Lieux et emplacements"</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-lieux-emplacements.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-
-        <para>Cliquez sur le bouton <guibutton>Nouveau</guibutton> ou
-        <guibutton>Éditer</guibutton> pour créer/editer un lieu. Un lieu doit
-        comprendre au moins un emplacement.</para>
-
-        <screenshot>
-          <screeninfo>Fenêtre de création/édition d'un lieu</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-lieu.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-
-        <para>Cliquez sur le bouton <guibutton>Nouveau</guibutton> ou
-        <guibutton>Éditer</guibutton> de la zone <guilabel>Horaires</guilabel>
-        pour créer/éditer un horaire. Dans la fenêtre de création/édition
-        d'horaire, il est possible de sélectionner plusieurs jours en
-        maintenant la touche <keycode>CTRL</keycode> enfoncée.</para>
-
-        <screenshot>
-          <screeninfo>Fenêtre de création/édition d'un horaire</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-lieu-horaire.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-
-        <para>Cliquez sur le bouton <guibutton>Nouveau</guibutton> ou
-        <guibutton>Éditer</guibutton> de la zone
-        <guilabel>Emplacements</guilabel> pour créer/éditer un
-        emplacement.</para>
-
-        <screenshot>
-          <screeninfo>Fenêtre de création/edition d'un
-          emplacement</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-lieu-emplacement.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-
-        <example>
-          <title>Exemple d'utilisation des lieux, horaires et
-          emplacements</title>
-
-          <para>Dans le cadre d'un tournoi de rugby, le responsable de
-          l'organisation du tournois désire fournir sur le site Web les
-          informations sur le lieu où se déroule le tournoi. Pour cela, il
-          ajout le lieu <quote>Complexe sportif</quote>. Celui-ci possède les
-          horaires <quote>Samedi de 9h à 12h</quote>, <quote>Samedi de 14h à
-          18h</quote> et <quote>Dimanche de 15h à 18h</quote> ainsi que les
-          emplacements <quote>Terrain 1</quote>, <quote>Terrain 2</quote> et
-          <quote>Terrain 3</quote>.</para>
-
-          <para><remark>Rendez-vous dans l'<link
-          linkend="configurer-exportations-diffusions">onglet "Exportations et
-          diffusions"</link> pour configurer la publication des données sur un
-          site Web.</remark></para>
-        </example>
-      </section>
-
-      <section id="configurer-prix">
-        <title>Onglet "Prix"</title>
-
-        <para>Dans cet onglet, nous retrouvons la configuration des prix que
-        peuvent recevoir les participants.</para>
-
-        <screenshot>
-          <screeninfo>Onglet "Prix"</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-prix.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-      </section>
-
-      <section>
-        <title>Onglet "Programmation des matchs"</title>
-
-        <para>Dans cet onglet, nous retrouvons la configuration des
-        informations de programmation des matchs telles que : la durée d'un
-        match, la durée de pause minimale d'un participant entre chaque match
-        et la durée minimale qui sépare chaque match sur un même
-        emplacement.</para>
-
-        <screenshot>
-          <screeninfo>Onglet "Programmation des matchs"</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-programmation-matchs.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-
-        <remark>Les informations de programmation sont définis purement à
-        titre informatif et ne sont pas pris en compte par
-        <application>ContestOrg</application> pour une programmation
-        automatique des matchs.</remark>
-      </section>
-
-      <section id="configurer-proprietes-participant">
-        <title>Onglet "Propriétés des participant"</title>
-
-        <para>Dans cet onglet, nous retrouvons la configuration des propriétés
-        des participant. L'objectif est de pouvoir palier au manque de
-        propriétés proposées par défaut lors de la création d'un participant.
-        Une propriété possède trois paramètres : son nom, son type (nombre
-        entier, nombre décimal et texte) et s'il s'agit d'une propriété
-        obligatoire.</para>
-
-        <screenshot>
-          <screeninfo>Onglet "Propriétés des participant"</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-proprietes-participant.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
-
-        <example>
-          <title>Exemple d'utilisation des propriétés de participant</title>
-
-          <para>Dans le cadre d'un tournoi de judo, le responsable de
-          l'organisation du tournois désire pouvoir renseigner le poids de
-          chaque participant. Pour cela, il crée une propriété
-          <quote>Poids</quote> de type <quote>Nombre décimal</quote>. Ainsi, à
-          la création d'un participant, son poids est demandé.</para>
-        </example>
       </section>
 
       <section id="configurer-exportations-diffusions">
@@ -750,8 +976,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/configurer-exportations-diffusions.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-exportations-diffusions.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -763,14 +990,14 @@ FIN PROCEDURE;</programlisting>
           prédéfinies disponibles depuis la <link
           linkend="exportations-predefinies">fenêtre des exportations</link>.
           L'intérêt est de pouvoir définir à l'avance les exportations que
-          vous serez amener à utiliser au cours du tournois.</para>
+          vous serez amener à utiliser au cours du tournoi.</para>
 
           <example>
             <title>Exemple d'utilisation des exportations prédéfinies</title>
 
             <para>Dans le cadre d'un tournoi quelconque, le responsable
             d'organisation désire informer les participants, visiteurs et
-            journalistes des informations relative au tournois. Pour cela, il
+            journalistes des informations relative au tournoi. Pour cela, il
             crée l'exportation ayant pour thème <quote>Site Web</quote> et
             pour emplacement <quote>Serveur <acronym>FTP</acronym></quote>.
             Après avoir renseigné les informations nécessaires, il valide le
@@ -812,16 +1039,17 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata scalefit="1" width="100%" contentdepth="100%"
-                             fileref="images/ecrans/configurer-exportation.png" />
+                  <imagedata contentdepth="100%"
+                             fileref="images/ecrans/configurer-exportation.png"
+                             scalefit="1" width="100%" />
                 </imageobject>
               </mediaobject>
             </screenshot>
 
             <para><remark>Rendez-vous dans le chapitre <link
-            linkend="themes">Thèmes des exportations</link> et des diffusions
-            pour se documenter sur la création et l'édition de
-            thèmes.</remark></para>
+            linkend="themes">Créer des thèmes d'exportations et de
+            diffusions</link> pour se documenter sur la création et l'édition
+            de thèmes.</remark></para>
           </section>
         </section>
 
@@ -839,7 +1067,7 @@ FIN PROCEDURE;</programlisting>
           <para>Cette zone permet de spécifier la liste des diffusions
           disponibles depuis la <link linkend="diffuser">fenêtre des
           diffusions</link>. L'intérêt est de pouvoir diffuser des
-          informations du tournois mises à jour en temps réel sur des écrans
+          informations du tournoi mises à jour en temps réel sur des écrans
           distants. Tous les thèmes de base permettent le défilement
           automatique si jamais la hauteur de l'écran ne permet pas d'afficher
           toutes les données d'un coup.</para>
@@ -854,7 +1082,7 @@ FIN PROCEDURE;</programlisting>
 
             <para>Dans le cadre d'un tournoi quelconque, le responsable
             d'organisation désire afficher sur plusieurs écrans dispersés à
-            travers tout le lieu du tournois le classement actuel des
+            travers tout le lieu du tournoi le classement actuel des
             participants. Pour cela il crée une diffusion ayant pour port
             <quote>8080</quote> et pour thème <quote>Classement des
             participants aux phases qualificatives</quote>. Il se rend ensuite
@@ -890,18 +1118,192 @@ FIN PROCEDURE;</programlisting>
 
               <mediaobject>
                 <imageobject>
-                  <imagedata scalefit="1" width="100%" contentdepth="100%"
-                             fileref="images/ecrans/configurer-diffusion.png" />
+                  <imagedata contentdepth="100%"
+                             fileref="images/ecrans/configurer-diffusion.png"
+                             scalefit="1" width="100%" />
                 </imageobject>
               </mediaobject>
             </screenshot>
 
             <para><remark>Rendez-vous dans le chapitre <link
-            linkend="themes">Thèmes des exportations et des diffusions</link>
-            pour se documenter sur la création et l'édition de
-            thèmes.</remark></para>
+            linkend="themes">Créer des thèmes d'exportations et de
+            diffusions</link> pour se documenter sur la création et l'édition
+            de thèmes.</remark></para>
           </section>
         </section>
+      </section>
+
+      <section id="configurer-prix">
+        <title>Onglet "Prix"</title>
+
+        <para>Dans cet onglet, nous retrouvons la configuration des prix que
+        peuvent recevoir les participants.</para>
+
+        <screenshot>
+          <screeninfo>Onglet "Prix"</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-prix.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+      </section>
+
+      <section>
+        <title>Onglet "Lieux et emplacements"</title>
+
+        <para>Dans cet onglet, nous retrouvons la configuration des lieux et
+        emplacements dédiés aux matchs du tournoi. Un lieu est une collection
+        d'horaires et d'emplacements. Les horaires permettent de déterminer à
+        quelle heures les lieux sont disponibles les matchs. Les emplacements
+        permettent de déterminer à quels endroits il est possible d'effectuer
+        un match.</para>
+
+        <screenshot>
+          <screeninfo>Onglet "Lieux et emplacements"</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieux-emplacements.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para>Cliquez sur le bouton <guibutton>Nouveau</guibutton> ou
+        <guibutton>Éditer</guibutton> pour créer/editer un lieu. Un lieu doit
+        comprendre au moins un emplacement.</para>
+
+        <screenshot>
+          <screeninfo>Fenêtre de création/édition d'un lieu</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieu.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para>Cliquez sur le bouton <guibutton>Nouveau</guibutton> ou
+        <guibutton>Éditer</guibutton> de la zone <guilabel>Horaires</guilabel>
+        pour créer/éditer un horaire. Dans la fenêtre de création/édition
+        d'horaire, il est possible de sélectionner plusieurs jours en
+        maintenant la touche <keycode>CTRL</keycode> enfoncée.</para>
+
+        <screenshot>
+          <screeninfo>Fenêtre de création/édition d'un horaire</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieu-horaire.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para>Cliquez sur le bouton <guibutton>Nouveau</guibutton> ou
+        <guibutton>Éditer</guibutton> de la zone
+        <guilabel>Emplacements</guilabel> pour créer/éditer un
+        emplacement.</para>
+
+        <screenshot>
+          <screeninfo>Fenêtre de création/edition d'un
+          emplacement</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-lieu-emplacement.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <example>
+          <title>Exemple d'utilisation des lieux, horaires et
+          emplacements</title>
+
+          <para>Dans le cadre d'un tournoi de rugby, le responsable de
+          l'organisation du tournoi désire fournir sur le site Web les
+          informations sur le lieu où se déroule le tournoi. Pour cela, il
+          ajoute le lieu <quote>Complexe sportif</quote>. Celui-ci possède les
+          horaires <quote>Samedi de 9h à 12h</quote>, <quote>Samedi de 14h à
+          18h</quote> et <quote>Dimanche de 15h à 18h</quote> ainsi que les
+          emplacements <quote>Terrain 1</quote>, <quote>Terrain 2</quote> et
+          <quote>Terrain 3</quote>.</para>
+
+          <para><remark>Rendez-vous dans l'<link
+          linkend="configurer-exportations-diffusions">onglet "Exportations et
+          diffusions"</link> pour configurer la publication des données sur un
+          site Web.</remark></para>
+        </example>
+      </section>
+
+      <section>
+        <title>Onglet "Programmation des matchs"</title>
+
+        <para>Dans cet onglet, nous retrouvons la configuration des
+        informations de programmation des matchs telles que : la durée d'un
+        match, la durée de pause minimale d'un participant entre chaque match
+        et la durée minimale qui sépare chaque match sur un même
+        emplacement.</para>
+
+        <screenshot>
+          <screeninfo>Onglet "Programmation des matchs"</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-programmation-matchs.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <remark>Les informations de programmation sont définis purement à
+        titre informatif et ne sont pas pris en compte par
+        <application>ContestOrg</application> pour une programmation
+        automatique des matchs.</remark>
+      </section>
+
+      <section id="configurer-proprietes-participant">
+        <title>Onglet "Propriétés des participant"</title>
+
+        <para>Dans cet onglet, nous retrouvons la configuration des propriétés
+        des participants. L'objectif est de pouvoir palier au manque de
+        propriétés proposées par défaut lors de la création d'un participant.
+        Une propriété possède trois paramètres : son nom, son type (nombre
+        entier, nombre décimal et texte) et s'il s'agit d'une propriété
+        obligatoire.</para>
+
+        <screenshot>
+          <screeninfo>Onglet "Propriétés des participant"</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/configurer-proprietes-participant.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <example>
+          <title>Exemple d'utilisation des propriétés de participant</title>
+
+          <para>Dans le cadre d'un tournoi de judo, le responsable de
+          l'organisation du tournoi désire pouvoir renseigner le poids de
+          chaque participant. Pour cela, il crée une propriété obligatoire
+          <quote>Poids</quote> de type <quote>Nombre décimal</quote>. Ainsi, à
+          la création d'un participant, son poids est demandé.</para>
+        </example>
       </section>
     </section>
 
@@ -931,8 +1333,9 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata scalefit="1" width="100%" contentdepth="100%"
-                       fileref="images/ecrans/onglet-participants.png" />
+            <imagedata contentdepth="100%"
+                       fileref="images/ecrans/onglet-participants.png"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -948,19 +1351,20 @@ FIN PROCEDURE;</programlisting>
         <guibutton>Supprimer</guibutton>. Les catégories définissent des
         groupes de participants qui ne pourront pas jouer ensemble.</para>
 
-        <para>Notez qu'aucune opération ne peut être effectué sur la catégorie
-        <quote>Défaut</quote>. Il s'agit d'une catégorie neutre dans laquelle
-        pourront être placées les participants qui ne sont pas encore affectés
-        à une catégorie. Cette catégorie peut également servir de catégorie
-        unique si votre tournois de comprend pas de catégorie.</para>
+        <para>Notez qu'aucune opération ne peut être effectuée sur la
+        catégorie <quote>Défaut</quote>. Il s'agit d'une catégorie neutre dans
+        laquelle pourront être placées les participants qui ne sont pas encore
+        affectés à une catégorie. Cette catégorie peut également servir de
+        catégorie unique si votre tournoi de comprend pas de catégorie.</para>
 
         <screenshot>
           <screeninfo>Fenêtre de gestion des catégories</screeninfo>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/gerer-categories.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/gerer-categories.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -969,7 +1373,7 @@ FIN PROCEDURE;</programlisting>
           <title>Exemple de catégories</title>
 
           <para>Dans le cadre d'un tournoi de judo, le responsable de
-          l'organisation du tournois doit mettre en place différentes
+          l'organisation du tournoi doit mettre en place différentes
           catégories de joueurs qui ne joueront pas ensemble. Pour cela, il
           crée différentes catégories : <quote>-50kgs</quote>,
           <quote>50-60kgs</quote>, <quote>60-70kgs</quote>,
@@ -983,19 +1387,17 @@ FIN PROCEDURE;</programlisting>
         <para>Pour gérer les poules, cliquez sur le bouton
         <guibutton>Poules</guibutton>. Dans cette fenêtre, nous retrouvons
         deux zones : la zone <guilabel>Catégorie</guilabel> dédiée au choix de
-        la catégorie (optionnel), la zone <guilabel>Création des
-        poules</guilabel> dédiée à la création des poules et la zone
-        <guilabel>Affectation des équipes</guilabel>/<guilabel>Affectation des
-        joueurs</guilabel> dédiée à l'affectation des participants au sein des
-        poules.</para>
+        la catégorie, la zone <guilabel>Création des poules</guilabel> dédiée
+        à la création des poules et la zone <guilabel>Affectation des
+        équipes</guilabel>/<guilabel>Affectation des joueurs</guilabel> dédiée
+        à l'affectation des participants au sein des poules.</para>
 
         <screenshot>
           <screeninfo>Fenêtre de gestion des poules</screeninfo>
 
           <mediaobject>
             <imageobject>
-              <imagedata fileref="images/ecrans/gerer-poules.png"
-                         width="400" />
+              <imagedata fileref="images/ecrans/gerer-poules.png" width="400" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1017,7 +1419,7 @@ FIN PROCEDURE;</programlisting>
           <quote>Défaut</quote>. Il s'agit d'une poule neutre dans laquelle
           pourront être placés les participants qui ne sont pas encore
           affectés à une poule. Cette poule peut également servir de poule
-          unique si votre tournois de comprend pas de poule.</para>
+          unique si votre tournoi de comprend pas de poule.</para>
         </section>
 
         <section>
@@ -1054,16 +1456,15 @@ FIN PROCEDURE;</programlisting>
         ligne dans la liste des participants. Dans la fenêtre de
         création/édition, nous retrouvons plusieurs zones : la zone
         <guilabel>Catégorie et poule</guilabel> concernant le choix de la
-        catégorie et de la poule de destination (optionnel), la zone
+        catégorie et de la poule de destination, la zone
         <guilabel>Informations de l'équipe</guilabel>/<guilabel>Informations
         du joueur</guilabel> concernant les informations propres au
         participant, la zone <guilabel>Propriétés personnalisées</guilabel>
-        concernant les propriétés personnalisées (optionnel) et la zone
-        <guilabel>Prix</guilabel> concernant les prix remportés (optionnel).
-        Pour sélectionner plusieurs prix, sélectionner les prix en maintenant
-        la touche <keycode>CTRL</keycode> enfoncée. Notez qu'un participant
-        doit avoir le statut homologuée pour pouvoir participer à un
-        match.</para>
+        concernant les propriétés personnalisées et la zone
+        <guilabel>Prix</guilabel> concernant les prix remportés. Pour
+        sélectionner plusieurs prix, sélectionner les prix en maintenant la
+        touche <keycode>CTRL</keycode> enfoncée. Notez qu'un participant doit
+        avoir le statut homologuée pour pouvoir participer à un match.</para>
 
         <para><remark>Rendez-vous dans l'<link
         linkend="configurer-proprietes-participant">onglet "Propriétés de
@@ -1079,8 +1480,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/creer-editer-participant.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/creer-editer-participant.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1094,9 +1496,9 @@ FIN PROCEDURE;</programlisting>
         joueurs</guibutton>. Dans la fenêtre d'importation des participants
         nous retrouvons trois zones : la zone <guilabel>Catégorie et
         poule</guilabel> dédiée au choix de la catégorie et de la poule de
-        destination (optionnel), la zone <guilabel>Choix du fichier</guilabel>
-        dédiée au choix du fichier contenant la liste des participants et la
-        zone <guilabel>Équipes trouvées</guilabel>/<guilabel>Joueurs
+        destination, la zone <guilabel>Choix du fichier</guilabel> dédiée au
+        choix du fichier contenant la liste des participants et la zone
+        <guilabel>Équipes trouvées</guilabel>/<guilabel>Joueurs
         trouvés</guilabel> dédiée à la liste des participants trouvées dans le
         fichier spécifié. Notez que dans la liste des participants trouvés,
         vous pouvez déselectionner ceux que vous ne désirez pas
@@ -1119,8 +1521,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/importer-participants.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/importer-participants.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1149,8 +1552,9 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata scalefit="1" width="100%" contentdepth="100%"
-                       fileref="images/ecrans/onglet-phases-qualificatives.png" />
+            <imagedata contentdepth="100%"
+                       fileref="images/ecrans/onglet-phases-qualificatives.png"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1194,8 +1598,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/creer-editer-phase-qualificative.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/creer-editer-phase-qualificative.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1214,7 +1619,7 @@ FIN PROCEDURE;</programlisting>
             possibles. Dès que l'algorithme remonte une meilleure
             configuration que celle précédemment trouvée, celle-ci apparaît
             dans le cadre <guilabel>Meilleure configuration
-            trouvée</guilabel>. Au delà de 8 participants, le temps de
+            trouvée</guilabel>. Au delà de 12 participants, le temps de
             génération devient exponentiellement long. Vous pouvez arrêter la
             génération à tout moment et considérer la meilleure configuration
             trouvée jusque là.</para>
@@ -1277,7 +1682,7 @@ FIN PROCEDURE;</programlisting>
         le choix des deux participants, la zone <guilabel>Résultats</guilabel>
         concernant les résultats des deux participants, la zone
         <guilabel>Objectifs remportés</guilabel> concernant la liste des
-        objectifs remportés par les deux participants (optionnel), la zone
+        objectifs remportés par les deux participants, la zone
         <guilabel>Date</guilabel> concernant le date du match, la zone
         <guilabel>Lieu et emplacement</guilabel> concernant le lieu du match
         et la zone <guilabel>Détails</guilabel> concernant d'éventuels
@@ -1289,8 +1694,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/creer-editer-match-phases-qualificatives.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/creer-editer-match-phases-qualificatives.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1324,8 +1730,9 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata scalefit="1" width="100%" contentdepth="100%"
-                       fileref="images/ecrans/onglet-phases-eliminatoires.png" />
+            <imagedata contentdepth="100%"
+                       fileref="images/ecrans/onglet-phases-eliminatoires.png"
+                       scalefit="1" width="100%" />
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -1344,7 +1751,20 @@ FIN PROCEDURE;</programlisting>
         dans la liste qui apparaît. Si le match qui suit est renseigné, il
         n'est plus possible d'éditer ce participant.</para>
 
-        <para>Lors de la génération des phases éliminatoires, ContestOrg
+        <screenshot>
+          <screeninfo>Liste déroulante de choix d'un participant aux phases
+          éliminatoires</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/editer-participant-phases-eliminatoires.png"
+                         scalefit="1" width="100%" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <remark>Lors de la génération des phases éliminatoires, ContestOrg
         n'effectue par un tirage au sort. Il prend en compte le rang des
         participants aux phases qualificatives lors de sa génération. C'est à
         dire que l'algorithme de génération crée les matchs de manière à ce
@@ -1352,19 +1772,7 @@ FIN PROCEDURE;</programlisting>
         inférieur, celui-ci obtient le même rang obtenu lors des phases
         qualificatives. Imaginez que le participant de premier et de deuxième
         rang se rencontrent dès le début des phases éliminatoires, cela
-        n'aurait pas de sens.</para>
-
-        <screenshot>
-          <screeninfo>Liste déroulante de choix d'un participant aux phases
-          éliminatoires</screeninfo>
-
-          <mediaobject>
-            <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/editer-participant-phases-eliminatoires.png" />
-            </imageobject>
-          </mediaobject>
-        </screenshot>
+        n'aurait pas de sens.</remark>
       </section>
 
       <section>
@@ -1373,11 +1781,11 @@ FIN PROCEDURE;</programlisting>
         <para>Pour renseigner les résultats d'un match, cliquez sur la case
         bleue associée au match. Dans la fenêtre d'édition du match, nous
         retrouvons six zones : la zone
-        <guilabel>Équipes</guilabel>/<guibutton>Joueurs</guibutton> concernant
+        <guilabel>Équipes</guilabel>/<guilabel>Joueurs</guilabel> concernant
         les deux participants, la zone <guilabel>Résultats</guilabel>
         concernant les résultats des deux participants, la zone
         <guilabel>Objectifs remportés</guilabel> concernant la liste des
-        objectifs remportés par les deux participants (optionnel), la zone
+        objectifs remportés par les deux participants, la zone
         <guilabel>Date</guilabel> concernant le date du match, la zone
         <guilabel>Lieu et emplacement</guilabel> concernant le lieu du match
         et la zone <guilabel>Détails</guilabel> concernant d'éventuels
@@ -1395,8 +1803,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/editer-match-phases-eliminatoires.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/editer-match-phases-eliminatoires.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1427,8 +1836,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/exportations-predefinies.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/exportations-predefinies.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1437,10 +1847,10 @@ FIN PROCEDURE;</programlisting>
       <section id="exportations-volee">
         <title>Exportations à la volée</title>
 
-        <para>Vous n'avez pas besoin de défininr à l'avance une exportation
+        <para>Il n'est pas nécessaire de définir à l'avance une exportation
         pour la lancer. Pour cela, rendez-vous dans l'onglet de votre choix
-        (participants/Joueurs, Phases qualificatives ou Phases éliminatoires)
-        puis cliquez sur le bouton <guibutton>Exporter</guibutton>. Les
+        (Joueurs/Equipes, Phases qualificatives ou Phases éliminatoires) puis
+        cliquez sur le bouton <guibutton>Exporter</guibutton>. Les
         exportations affichées concernent l'onglet courant. Si vous désirez
         changer la catégorie du thème, il vous suffit de la séléctionner dans
         la liste prévue à cet effet. Choisissez le thème de votre choix,
@@ -1453,8 +1863,9 @@ FIN PROCEDURE;</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata scalefit="1" width="100%" contentdepth="100%"
-                         fileref="images/ecrans/exportations-volee.png" />
+              <imagedata contentdepth="100%"
+                         fileref="images/ecrans/exportations-volee.png"
+                         scalefit="1" width="100%" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -1487,21 +1898,24 @@ FIN PROCEDURE;</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata scalefit="1" width="100%" contentdepth="100%" fileref="images/ecrans/diffuser.png" />
+            <imagedata contentdepth="100%"
+                       fileref="images/ecrans/diffuser.png" scalefit="1"
+                       width="100%" />
           </imageobject>
         </mediaobject>
       </screenshot>
     </section>
 
     <section id="themes">
-      <title>Thèmes des exportations et des diffusions</title>
+      <title>Créer des thèmes d'exportations et de diffusions</title>
 
       <para>La possibilité de personnaliser entièrement les thèmes des
       exportations et des diffusions est l'une des forces de
       <application>ContestOrg</application>. Les thèmes des exportations sont
       présents dans le répertoire <filename>themes/exportations</filename> et
       ceux des diffusions dans le répertoire
-      <filename>themes/diffusions</filename>.</para>
+      <filename>themes/diffusions</filename>. Chaque répertoire représente un
+      thème.</para>
 
       <remark>Pour mieux comprendre la construction d'un thème, n'hésitez pas
       à prendre exemple sur les thèmes déjà existants.</remark>
@@ -1515,13 +1929,25 @@ FIN PROCEDURE;</programlisting>
         <acronym>DTD</acronym> est disponible dans le fichier
         <filename>dtds/configuration-theme.dtd</filename> ou à l'adresse
         <uri>http://www.elfangels.fr/contestorg/data/dtds/configuration-theme.dtd</uri>.
-        Nous retrouvons dans ce fichier de configuration la liste des fichiers
-        à fournir dans l'exportation ou la diffusion ainsi que la liste des
-        paramètres à demander à l'utilisateur.</para>
+        Nous retrouvons dans ce fichier de configuration :</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>La catégorie du thème (optionnelle)</para>
+          </listitem>
+
+          <listitem>
+            <para>La liste des fichiers exportés ou diffusés</para>
+          </listitem>
+
+          <listitem>
+            <para>Les paramètres du thème demandés à l'utilisateur</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section>
-        <title>Données à fournir</title>
+        <title>Transformations XSLT</title>
 
         <para>Les différents fichiers définis dans le fichier de configuration
         peuvent subir une transformation. La transformation est effectuée via
@@ -1536,26 +1962,42 @@ FIN PROCEDURE;</programlisting>
         <acronym>XSL</acronym>.</para>
       </section>
     </section>
-  </chapter>
 
-  <chapter>
-    <title>FAQ</title>
+    <section id="modeles">
+      <title>Créer des modèles de tournois</title>
 
-    <para>Ce chapitre contient une liste des questions fréquemment
-    posées.</para>
+      <para>Il est possible de créer ses propres modèles de tournois et de
+      modifier les modèles de tournois existant. Les modèles de tournois sont
+      présents dans le répertoire <filename>templates</filename>. Chaque
+      répertoire représente un modèle de tournoi dans lequel doit être
+      obligatoirement présent un fichier
+      <filename>configuration.xml</filename>. Ce fichier est écrit en
+      <acronym>XML</acronym> et sa <acronym>DTD</acronym> est disponible dans
+      le fichier <filename>dtds/configuration-modele.dtd</filename> ou à
+      l'adresse
+      <uri>http://www.elfangels.fr/contestorg/data/dtds/configuration-modele.dtd</uri>.
+      Nous y retrouvons :</para>
 
-    <section>
-      <title>Je n'arrive pas à créer une phase qualificative</title>
+      <itemizedlist>
+        <listitem>
+          <para>La description du modèle</para>
+        </listitem>
 
-      <para>Solution : appliquer le statut "Homologué" à deux participants au
-      moins.</para>
-    </section>
+        <listitem>
+          <para>La catégorie du modèle (optionnelle)</para>
+        </listitem>
 
-    <section>
-      <title>Je ne vois pas les icones de l'application</title>
+        <listitem>
+          <para>L'image du modèle (optionnelle)</para>
+        </listitem>
 
-      <para>Solution : lancer l'application depuis son répertoire
-      d'installation.</para>
+        <listitem>
+          <para>La liste des variantes proposés à l'utilisateur</para>
+        </listitem>
+      </itemizedlist>
+
+      <remark>Pour mieux comprendre la construction d'un modèle, n'hésitez pas
+      à prendre exemple sur les modèles déjà existants.</remark>
     </section>
   </chapter>
 
@@ -1606,7 +2048,7 @@ FIN PROCEDURE;</programlisting>
       <para>Pour un tournoi sportif, vous aurez besoin de salles de sport et
       de matériel. Il vous faudra donc obtenir des autorisations selon le lieu
       de votre événement. Vous choisir des créneaux horaires disponibles pour
-      effectuer votre tournois et vous assurer de disposer de suffisemment de
+      effectuer votre tournoi et vous assurer de disposer de suffisemment de
       temps pour mettre en place les différents dispositifs et remettre dans
       l'état la salle après le tournoi.</para>
 
@@ -1619,7 +2061,7 @@ FIN PROCEDURE;</programlisting>
     <section>
       <title>Assurer votre événement</title>
 
-      <para>Comme tous les événements sportifs, votre tournois doit être
+      <para>Comme tous les événements sportifs, votre tournoi doit être
       couvert par une assurance. Les assurances sportives sont spécifiques car
       vos participants doivent être couverts individuellement.</para>
     </section>
@@ -1687,7 +2129,7 @@ FIN PROCEDURE;</programlisting>
     <section>
       <title>La remise des prix</title>
 
-      <para>Un bon tournois se termine toujours par une remise des prix : une
+      <para>Un bon tournoi se termine toujours par une remise des prix : une
       coupe ou des cadeaux données par vos partneaires pour les participants
       en haut du podium. Il est également possible d'attribuer des prix
       spéciaux pour les participants portant des valeurs notables telles que
