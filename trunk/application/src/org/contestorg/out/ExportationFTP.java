@@ -52,7 +52,7 @@ public class ExportationFTP extends ExportationAbstract
 	private class Export extends OperationRunnableAbstract
 	{
 		/** Ressources */
-		private ArrayList<RessourceAbstract> ressources;
+		private ArrayList<ThemeRessourceAbstract> ressources;
 		
 		/** Client FTP */
 		private FTPHelper.Client client;
@@ -68,7 +68,7 @@ public class ExportationFTP extends ExportationAbstract
 			// Générer les ressources
 			this.fireMessage("Génération des ressources ...");
 			try {
-				this.ressources = RessourceAbstract.getRessources(theme,false);
+				this.ressources = ThemeRessourceAbstract.getRessources(theme,false);
 			} catch (ContestOrgWarningException e) {
 				this.echec(e.getMessage());
 				return;
@@ -201,7 +201,7 @@ public class ExportationFTP extends ExportationAbstract
 			
 			// Nettoyer les ressources
 			if(this.ressources != null) {
-				for (RessourceAbstract ressource : this.ressources) {
+				for (ThemeRessourceAbstract ressource : this.ressources) {
 					ressource.clean();
 				}
 			}

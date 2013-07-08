@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports" image="image.png">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat : victoire à 3 pts, égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</li>
+			<li>Objectifs : score</li>
+			<li>Critères de classement : points, goal-average particulier par différence du score</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante fichier="Football américain.co" />
+	</variantes>
+</configuration>

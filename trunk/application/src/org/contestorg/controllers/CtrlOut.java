@@ -17,7 +17,8 @@ import org.contestorg.infos.InfosModelExportation;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelProprietePossedee;
 import org.contestorg.infos.InfosModelTheme;
-import org.contestorg.infos.Theme;
+import org.contestorg.infos.InfosModele;
+import org.contestorg.infos.InfosTheme;
 import org.contestorg.interfaces.IEventListener;
 import org.contestorg.interfaces.IOperation;
 import org.contestorg.interfaces.IStartStopListener;
@@ -25,13 +26,14 @@ import org.contestorg.log.Log;
 import org.contestorg.models.FrontModel;
 import org.contestorg.models.ModelDiffusion;
 import org.contestorg.models.ModelExportation;
+import org.contestorg.out.ConfigurationModele;
+import org.contestorg.out.ConfigurationTheme;
 import org.contestorg.out.DiffusionHTTP;
 import org.contestorg.out.ExportationAbstract;
 import org.contestorg.out.ExportationLocale;
 import org.contestorg.out.FTPHelper;
 import org.contestorg.out.HTTPHelper;
 import org.contestorg.out.PersistanceXML;
-import org.contestorg.out.RessourceAbstract;
 
 /**
  * Controleur pour les traitements avec l'extérieur (exportations, importations, ...)
@@ -50,13 +52,38 @@ public class CtrlOut
 		return PersistanceXML.loadParticipants(chemin);
 	}
 	
+	// ==== Modèles
+	
+	/**
+	 * Récupérer la liste des modèles
+	 * @return liste des modèles
+	 */
+	public ArrayList<InfosModele> getModeles() {
+		return this.getModeles(null);
+	}
+	
+	/**
+	 * Récupérer la liste des modèles d'une catégorie
+	 * @param categorie catégorie
+	 * @return liste des modèles de la catégorie
+	 */
+	public ArrayList<InfosModele> getModeles(String categorie) {
+		// Retourner les modèles disponibles
+		try {
+			return ConfigurationModele.getModeles("templates",categorie);
+		} catch (Exception e) {
+			Log.getLogger().error("Erreur lors de la récupération des modèles disponibles.",e);
+			return null; 
+		}
+	}
+	
 	// ==== Exportations
 	
 	/**
 	 * Récupérer la liste des exportations
 	 * @return liste des exportations
 	 */
-	public ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getExportations() {
+	public ArrayList<Triple<InfosModelExportation, InfosModelChemin, InfosModelTheme>> getListeExportations() {
 		return FrontModel.get().getFrontModelConfiguration().getListeExportations();
 	}
 	
@@ -74,7 +101,7 @@ public class CtrlOut
 	}
 	
 	/**
-	 * Lancer une exportation locale
+	 * Lancer une exportation à la volée
 	 * @param chemin chemin du répertoire de destination
 	 * @param theme informations sur le thème d'exportation
 	 * @return opération de lancement de l'exportation
@@ -98,7 +125,7 @@ public class CtrlOut
 	 * Récupérer la liste des thèmes d'exportation disponibles
 	 * @return liste des thèmes d'exportation disponibles
 	 */
-	public ArrayList<Theme> getThemesExportation () {
+	public ArrayList<InfosTheme> getThemesExportation () {
 		return this.getThemesExportation(null);
 	}
 	
@@ -107,10 +134,10 @@ public class CtrlOut
 	 * @param categorie catégorie
 	 * @return liste des thèmes d'exportation disponibles pour la catégorie
 	 */
-	public ArrayList<Theme> getThemesExportation (String categorie) {
+	public ArrayList<InfosTheme> getThemesExportation (String categorie) {
 		// Retourner les thèmes disponibles
 		try {
-			return RessourceAbstract.getThemes("themes/exportations",categorie);
+			return ConfigurationTheme.getThemes("themes/exportations",categorie);
 		} catch (Exception e) {
 			Log.getLogger().error("Erreur lors de la récupération des thèmes disponibles pour les exportations.",e);
 			return null; 
@@ -151,6 +178,14 @@ public class CtrlOut
 	}
 	
 	/**
+	 * Récupérer l'indice de l'exportation qui fait office de publication
+	 * @return indice de l'exportation qui fait office de publication
+	 */
+	public int getPublicationIndex() {
+		return FrontModel.get().getFrontModelConfiguration().getPublicationIndex();
+	}
+	
+	/**
 	 * Lancer la publication
 	 * @return opération de lancement de la publication
 	 */
@@ -167,7 +202,7 @@ public class CtrlOut
 	 * Récupérer la liste des diffusions
 	 * @return liste des diffusions
 	 */
-	public ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> getDiffusions() {
+	public ArrayList<Pair<InfosModelDiffusion,InfosModelTheme>> getListeDiffusions() {
 		return FrontModel.get().getFrontModelConfiguration().getListeDiffusions();
 	}
 	
@@ -254,10 +289,10 @@ public class CtrlOut
 	 * Récupérer la liste des thèmes de diffusion disponibles
 	 * @return liste des thèmes de diffusion disponibles
 	 */
-	public ArrayList<Theme> getThemesDiffusion () {
+	public ArrayList<InfosTheme> getThemesDiffusion () {
 		// Retourner les thèmes disponibles
 		try {
-			return RessourceAbstract.getThemes("themes/diffusions");
+			return ConfigurationTheme.getThemes("themes/diffusions");
 		} catch (ContestOrgWarningException e) {
 			Log.getLogger().error("Erreur lors de la récupération des thèmes disponibles pour les diffusions.",e);
 			return null;

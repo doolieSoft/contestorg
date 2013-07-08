@@ -189,6 +189,15 @@ public class ModelCategorie extends ModelAbstract
 		return this.concours.getCategories().indexOf(this);
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelCategorie getInfos () {
+		InfosModelCategorie infos = new InfosModelCategorie(this.nom);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -315,15 +324,6 @@ public class ModelCategorie extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelCategorie getInfos () {
-		InfosModelCategorie infos = new InfosModelCategorie(this.nom);
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
@@ -398,8 +398,9 @@ public class ModelCategorie extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelCategorie categorie, InfosModelCategorie infos) {
+		public ModelCategorie update (ModelCategorie categorie, InfosModelCategorie infos) {
 			categorie.setInfos(infos);
+			return null;
 		}
 	}
 	

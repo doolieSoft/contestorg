@@ -9,8 +9,8 @@ import org.contestorg.common.ContestOrgWarningException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quintuple;
 import org.contestorg.common.TrackableList;
-import org.contestorg.infos.Configuration;
-import org.contestorg.infos.Couple;
+import org.contestorg.infos.InfosConfiguration;
+import org.contestorg.infos.InfosConfigurationCouple;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelConcours;
 import org.contestorg.infos.InfosModelParticipant;
@@ -80,9 +80,9 @@ public class FrontModelParticipants
 	 * @param configuration configuration
 	 * @return nombre de villes communes au sein de la configuration
 	 */
-	public int getNbVillesCommunes(Configuration<String> configuration) {
+	public int getNbVillesCommunes(InfosConfiguration<String> configuration) {
 		int nbVillesCommunes = 0;
-		for(Couple<String> couple : configuration.getCouples()) {
+		for(InfosConfigurationCouple<String> couple : configuration.getCouples()) {
 			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
 				ModelParticipant participantA = this.frontModel.getConcours().getParticipantByNom(couple.getParticipantA());
 				ModelParticipant participantB = this.frontModel.getConcours().getParticipantByNom(couple.getParticipantB());

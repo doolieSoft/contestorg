@@ -70,6 +70,15 @@ public class ModelProprietePossedee extends ModelAbstract
 		return this.participant;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelProprietePossedee getInfos () {
+		InfosModelProprietePossedee infos = new InfosModelProprietePossedee(this.valeur);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -95,15 +104,6 @@ public class ModelProprietePossedee extends ModelAbstract
 	 */
 	protected ModelProprietePossedee clone (ModelPropriete propriete, ModelParticipant participant) {
 		return new ModelProprietePossedee(propriete, participant, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelProprietePossedee getInfos () {
-		InfosModelProprietePossedee infos = new InfosModelProprietePossedee(this.valeur);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -180,9 +180,10 @@ public class ModelProprietePossedee extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelProprietePossedee proprieteParticipant, Pair<String, InfosModelProprietePossedee> infos) {
+		public ModelProprietePossedee update (ModelProprietePossedee proprieteParticipant, Pair<String, InfosModelProprietePossedee> infos) {
 			// Mettre à jour les information de la propriété de participant
 			proprieteParticipant.setInfos(infos.getSecond());
+			return null;
 		}
 	}
 	

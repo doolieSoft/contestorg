@@ -83,6 +83,15 @@ public class ModelPrix extends ModelAbstract
 		return new ArrayList<ModelParticipant>(this.participants);
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPrix getInfos () {
+		InfosModelPrix infos = new InfosModelPrix(this.nom);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -150,15 +159,6 @@ public class ModelPrix extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelPrix getInfos () {
-		InfosModelPrix infos = new InfosModelPrix(this.nom);
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
@@ -218,8 +218,9 @@ public class ModelPrix extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelPrix prix, InfosModelPrix infos) {
+		public ModelPrix update (ModelPrix prix, InfosModelPrix infos) {
 			prix.setInfos(infos);
+			return null;
 		}
 		
 	}

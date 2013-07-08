@@ -2,11 +2,13 @@ package org.contestorg.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Map;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.common.Pair;
 import org.contestorg.common.TrackableList;
+import org.contestorg.comparators.CompPhasesQualifs;
+import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
 import org.contestorg.interfaces.ITrackableListValidator;
 import org.contestorg.interfaces.IUpdater;
@@ -145,8 +147,11 @@ public class ModelPoule extends ModelAbstract
 	@SuppressWarnings("unchecked")
 	public ArrayList<ModelParticipant> getClassementPhasesQualifs () {
 		// Trier et retourner la liste des participants
-		Collections.sort(this.participants, this.categorie.getConcours().getComparateurPhasesQualificatives());
-		return this.participants;
+		ArrayList<ModelParticipant> participants = this.getParticipants();
+		CompPhasesQualifs comparateur = this.categorie.getConcours().getComparateurPhasesQualificatives();
+		comparateur.etablirClassement(participants);
+		Collections.sort(participants, comparateur);
+		return participants;
 	}
 	
 	/**
@@ -154,7 +159,7 @@ public class ModelPoule extends ModelAbstract
 	 * @param participant participant
 	 * @return rang du participant aux phases qualificatives
 	 */
-	public int getRangPhasesQualifs (ModelParticipant participant) {
+	public int getRang (ModelParticipant participant) {
 		return this.getRang(participant, -1);
 	}
 	
@@ -164,28 +169,23 @@ public class ModelPoule extends ModelAbstract
 	 * @param phaseQualifMax numéro de la phase qualificative maximale (-1 pour toutes les phases qualificatives)
 	 * @return rang du participant aux phases qualificatives
 	 */
-	@SuppressWarnings("unchecked")
 	public int getRang (ModelParticipant participant, int phaseQualifMax) {
+		// Récupérer les participants
+		ArrayList<ModelParticipant> participants = this.getParticipants();
+		
 		// Retourner -1 si le participant ne fait pas partie de la poule
-		if (!this.participants.contains(participant)) {
+		if (!participants.contains(participant)) {
 			return -1;
 		}
 		
-		// Initialiser le rang
-		int rang = 1;
-		
 		// Récupérer le comparateur des phases qualificatives
-		Comparator<ModelParticipant> comparateur = this.categorie.getConcours().getComparateurPhasesQualificatives(phaseQualifMax);
+		CompPhasesQualifs comparateur = this.categorie.getConcours().getComparateurPhasesQualificatives(phaseQualifMax);
 		
-		// Comptabiliser le nombre de participants ayant un rang supérieur au participant spécifié
-		for (ModelParticipant concurrent : this.participants) {
-			if (comparateur.compare(participant, concurrent) < 0) {
-				rang++;
-			}
-		}
+		// Etablir le classement
+		Map<ModelParticipant, Integer> classement = comparateur.etablirClassement(participants);
 		
 		// Retourner le rang
-		return rang;
+		return classement.get(participant);
 	}
 	
 	/**
@@ -193,16 +193,19 @@ public class ModelPoule extends ModelAbstract
 	 * @return liste des participants qui peuvent participer
 	 */
 	public ArrayList<ModelParticipant> getParticipantsParticipants () {
+		// Vérifier si le statut homologué est activé
+		boolean statutHomologueActive = this.categorie.getConcours().isStatutHomologueActive();
+		
 		// Créer la liste des participants qui peuvent participer
-		ArrayList<ModelParticipant> participantes = new ArrayList<ModelParticipant>();
+		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 		for (ModelParticipant participant : this.participants) {
-			if (participant.getStatut().isParticipation()) {
-				participantes.add(participant);
+			if (!statutHomologueActive && participant.getStatut() == InfosModelParticipant.Statut.PRESENT || participant.getStatut() == InfosModelParticipant.Statut.HOMOLOGUE) {
+				participants.add(participant);
 			}
 		}
 		
 		// Retourner la liste des participants
-		return participantes;
+		return participants;
 	}
 	
 	/**
@@ -211,6 +214,15 @@ public class ModelPoule extends ModelAbstract
 	 */
 	public int getNumero () {
 		return this.categorie.getPoules().indexOf(this);
+	}
+	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPoule getInfos () {
+		InfosModelPoule infos = new InfosModelPoule(this.nom);
+		infos.setId(this.getId());
+		return infos;
 	}
 	
 	// Setters
@@ -316,15 +328,6 @@ public class ModelPoule extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelPoule getInfos () {
-		InfosModelPoule infos = new InfosModelPoule(this.nom);
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	@Override
@@ -413,7 +416,7 @@ public class ModelPoule extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelPoule poule, Pair<InfosModelPoule, ArrayList<String>> infos) {
+		public ModelPoule update (ModelPoule poule, Pair<InfosModelPoule, ArrayList<String>> infos) {
 			try {
 				// Modifier la poule
 				poule.setInfos(infos.getFirst());
@@ -427,6 +430,7 @@ public class ModelPoule extends ModelAbstract
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'une poule.",e);
 			}
+			return null;
 		}
 		
 	}

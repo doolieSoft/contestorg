@@ -71,6 +71,15 @@ public class ModelTheme extends ModelAbstract
 		return this.fichiers == null ? null : new HashMap<String, String>(this.fichiers);
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelTheme getInfos () {
+		InfosModelTheme infos = new InfosModelTheme(this.chemin, this.parametres, this.fichiers);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -95,15 +104,6 @@ public class ModelTheme extends ModelAbstract
 	 */
 	protected ModelTheme clone () {
 		return new ModelTheme(this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelTheme getInfos () {
-		InfosModelTheme infos = new InfosModelTheme(this.chemin, this.parametres, this.fichiers);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**

@@ -27,7 +27,7 @@ public class JDParticipantCreer extends JDParticipantAbstract
 	 */
 	public JDParticipantCreer(Window w_parent, ICollector<Quintuple<String,String,InfosModelParticipant,TrackableList<Pair<String,InfosModelProprietePossedee>>,TrackableList<String>>> collector, String nomCategorie, String nomPoule) {
 		// Appeller le constructeur du parent
-		super(w_parent, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur",collector);
+		super(w_parent, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Ajouter une équipe" : "Ajouter un joueur",collector);
 		
 		// Séléctionner la catégorie et la poule si nécéssaire
 		if(nomCategorie != null) {

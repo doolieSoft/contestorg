@@ -11,8 +11,8 @@ import org.contestorg.common.Quadruple;
 import org.contestorg.common.TrackableList;
 import org.contestorg.common.Triple;
 import org.contestorg.comparators.CompGenerationPhasesQualifs;
-import org.contestorg.infos.Configuration;
-import org.contestorg.infos.Couple;
+import org.contestorg.infos.InfosConfiguration;
+import org.contestorg.infos.InfosConfigurationCouple;
 import org.contestorg.infos.InfosModelMatchPhasesQualifs;
 import org.contestorg.infos.InfosModelObjectifRemporte;
 import org.contestorg.infos.InfosModelParticipation;
@@ -60,7 +60,7 @@ public class FrontModelPhasesQualificatives
 	 * @return nombre de rencontres entre deux participants
 	 */
 	public int getNbRencontres(String nomParticipantA, String nomParticipantB) {
-		return nomParticipantA != null ? this.frontModel.getConcours().getParticipantByNom(nomParticipantA).getNbRencontres(this.frontModel.getConcours().getParticipantByNom(nomParticipantB)) : (nomParticipantB == null ? 0 : this.frontModel.getConcours().getParticipantByNom(nomParticipantB).getNbRencontres(this.frontModel.getConcours().getParticipantByNom(nomParticipantA)));
+		return nomParticipantA != null ? this.frontModel.getConcours().getParticipantByNom(nomParticipantA).getNbRencontres(this.frontModel.getConcours().getParticipantByNom(nomParticipantB),false,true) : (nomParticipantB == null ? 0 : this.frontModel.getConcours().getParticipantByNom(nomParticipantB).getNbRencontres(this.frontModel.getConcours().getParticipantByNom(nomParticipantA),false,true));
 	}
 	
 	/**
@@ -101,13 +101,13 @@ public class FrontModelPhasesQualificatives
 	 * @param configuration configuration
 	 * @return nombre de matchs déjà joués au sein de la configuration
 	 */
-	public int getNbMatchDejaJoues(Configuration<String> configuration) {
+	public int getNbMatchDejaJoues(InfosConfiguration<String> configuration) {
 		int nbMatchDejaJoues = 0;
-		for(Couple<String> couple : configuration.getCouples()) {
+		for(InfosConfigurationCouple<String> couple : configuration.getCouples()) {
 			if(couple.getParticipantA() != null && couple.getParticipantB() != null) {
 				ModelParticipant participantA = this.frontModel.getConcours().getParticipantByNom(couple.getParticipantA());
 				ModelParticipant participantB = this.frontModel.getConcours().getParticipantByNom(couple.getParticipantB());
-				nbMatchDejaJoues += participantA.getNbRencontres(participantB);
+				nbMatchDejaJoues += participantA.getNbRencontres(participantB,false,true);
 			}
 		}
 		return nbMatchDejaJoues;
@@ -256,16 +256,16 @@ public class FrontModelPhasesQualificatives
 	 * @param numeroPhase numéro de la phase qualificative
 	 * @return informations sur la phase qualificative
 	 */
-	public Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> getInfosPhaseQualif(String nomCategorie,String nomPoule,int numeroPhase) {
+	public Triple<InfosConfiguration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> getInfosPhaseQualif(String nomCategorie,String nomPoule,int numeroPhase) {
 		// Récupérer la phase qualificative
 		ModelPhaseQualificative phase = this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPouleByNom(nomPoule).getPhasesQualificatives().get(numeroPhase);
 
 		// Construire la configuration
-		Configuration<String> configuration = new Configuration<String>(phase.getMatchs().size());
+		InfosConfiguration<String> configuration = new InfosConfiguration<String>(phase.getMatchs().size());
 		for(ModelMatchPhasesQualifs match : phase.getMatchs()) {
 			ModelParticipant participantA = match.getParticipationA().getParticipant();
 			ModelParticipant participantB = match.getParticipationB().getParticipant();
-			configuration.addCouple(new Couple<String>(participantA == null ? null : participantA.getNom(), participantB == null ? null : participantB.getNom()));
+			configuration.addCouple(new InfosConfigurationCouple<String>(participantA == null ? null : participantA.getNom(), participantB == null ? null : participantB.getNom()));
 		}
 		
 		// Récupérer les informations de la phase qualificative
@@ -275,7 +275,7 @@ public class FrontModelPhasesQualificatives
 		InfosModelMatchPhasesQualifs infosMatchs = new InfosModelMatchPhasesQualifs(null,null);
 		
 		// Assembler les informations demandées et les retourner
-		return new Triple<Configuration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(configuration, infosPhase, infosMatchs);
+		return new Triple<InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(configuration, infosPhase, infosMatchs);
 	}
 	
 	// Ajouter/Modifier/Supprimer une phase qualificative
@@ -288,7 +288,7 @@ public class FrontModelPhasesQualificatives
 	 * @return génération de phase qualificative en mode avancé
 	 */
 	@SuppressWarnings("unchecked")
-	public IGeneration<Configuration<String>> getGenerationAvance (String nomCategorie, String nomPoule, ArrayList<String> nomParticipants) {
+	public IGeneration<InfosConfiguration<String>> getGenerationAvance (String nomCategorie, String nomPoule, ArrayList<String> nomParticipants) {
 		// Récupérer les participants
 		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 		for(String nomParticipant : nomParticipants) {
@@ -301,7 +301,7 @@ public class FrontModelPhasesQualificatives
 		}
 		
 		// Récupérer la génération
-		IGeneration<Configuration<ModelParticipant>> generation = ModelPhaseQualificative.genererConfigurationAvance(participants.toArray(new ModelParticipant[participants.size()]), new CompGenerationPhasesQualifs(this.frontModel.getConcours().getComparateurPhasesQualificatives()));
+		IGeneration<InfosConfiguration<ModelParticipant>> generation = ModelPhaseQualificative.genererConfigurationAvance(participants.toArray(new ModelParticipant[participants.size()]), new CompGenerationPhasesQualifs(this.frontModel.getConcours().getComparateurPhasesQualificatives()));
 		
 		// Retourner le résultat de la génération
 		return this.transformGeneration(generation);
@@ -315,7 +315,7 @@ public class FrontModelPhasesQualificatives
 	 * @return génération de phase qualificative en mode basique
 	 */
 	@SuppressWarnings("unchecked")
-	public IGeneration<Configuration<String>> getGenerationBasique (String nomCategorie, String nomPoule, ArrayList<String> nomParticipants) {
+	public IGeneration<InfosConfiguration<String>> getGenerationBasique (String nomCategorie, String nomPoule, ArrayList<String> nomParticipants) {
 		// Récupérer les participants
 		ArrayList<ModelParticipant> participants = new ArrayList<ModelParticipant>();
 		for(String nomParticipant : nomParticipants) {
@@ -328,7 +328,7 @@ public class FrontModelPhasesQualificatives
 		}
 
 		// Récupérer la génération		
-		IGeneration<Configuration<ModelParticipant>> generation = ModelPhaseQualificative.genererConfigurationBasique(participants.toArray(new ModelParticipant[participants.size()]), new CompGenerationPhasesQualifs(this.frontModel.getConcours().getComparateurPhasesQualificatives()));
+		IGeneration<InfosConfiguration<ModelParticipant>> generation = ModelPhaseQualificative.genererConfigurationBasique(participants.toArray(new ModelParticipant[participants.size()]), new CompGenerationPhasesQualifs(this.frontModel.getConcours().getComparateurPhasesQualificatives()));
 		
 		// Retourner le résultat de la génération
 		return this.transformGeneration(generation);
@@ -339,11 +339,11 @@ public class FrontModelPhasesQualificatives
 	 * @param generation génération
 	 * @return génération de configuration de noms de participants
 	 */
-	private IGeneration<Configuration<String>> transformGeneration(IGeneration<Configuration<ModelParticipant>> generation) {
+	private IGeneration<InfosConfiguration<String>> transformGeneration(IGeneration<InfosConfiguration<ModelParticipant>> generation) {
 		// Transformeur
-		ITransformer<Configuration<ModelParticipant>, Configuration<String>> transformer = new ITransformer<Configuration<ModelParticipant>, Configuration<String>>() {	
+		ITransformer<InfosConfiguration<ModelParticipant>, InfosConfiguration<String>> transformer = new ITransformer<InfosConfiguration<ModelParticipant>, InfosConfiguration<String>>() {	
 			@Override
-			public Configuration<String> transform (Configuration<ModelParticipant> configuration) {
+			public InfosConfiguration<String> transform (InfosConfiguration<ModelParticipant> configuration) {
 				return configuration.transform(new ITransformer<ModelParticipant, String>() {
 					@Override
 					public String transform (ModelParticipant participant) {
@@ -354,7 +354,7 @@ public class FrontModelPhasesQualificatives
 		};
 		
 		// Appliquer le décorateur et retourner la génération
-		return new GenerationDecorator<Configuration<ModelParticipant>, Configuration<String>>(generation, transformer);
+		return new GenerationDecorator<InfosConfiguration<ModelParticipant>, InfosConfiguration<String>>(generation, transformer);
 	}
 	
 	/**
@@ -364,7 +364,7 @@ public class FrontModelPhasesQualificatives
 	 * @param infos informations de la phase qualificative
 	 * @throws ContestOrgErrorException
 	 */
-	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
+	public void addPhaseQualif (String nomCategorie, String nomPoule, Triple<InfosConfiguration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
 		// Démarrer l'action d'ajout
 		this.frontModel.getHistory().start("Ajout d'une phase qualificative dans la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -386,7 +386,7 @@ public class FrontModelPhasesQualificatives
 	 * @param infos nouvelles informations de la phase qualificative
 	 * @throws ContestOrgErrorException
 	 */
-	public void updatePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<Configuration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
+	public void updatePhaseQualif (String nomCategorie, String nomPoule, int numeroPhase, Triple<InfosConfiguration<String>,InfosModelPhaseQualificative,InfosModelMatchPhasesQualifs> infos) throws ContestOrgErrorException {
 		// Démarrer l'action de modification
 		this.frontModel.getHistory().start("Modification de la phase qualificative " + numeroPhase + " de la poule \"" + nomCategorie + " > " + nomPoule + "\"");
 		
@@ -406,7 +406,7 @@ public class FrontModelPhasesQualificatives
 	 * @param configuration configuration de noms de participants
 	 * @return configuration de participants
 	 */
-	private Configuration<ModelParticipant> transformConfiguration(Configuration<String> configuration) {
+	private InfosConfiguration<ModelParticipant> transformConfiguration(InfosConfiguration<String> configuration) {
 		// Placer le concours en variable local finale
 		final ModelConcours concours = this.frontModel.getConcours();
 		

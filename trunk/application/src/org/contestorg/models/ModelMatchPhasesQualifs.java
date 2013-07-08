@@ -72,6 +72,15 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 		return this.phaseQualificative.getMatchs().indexOf(this);
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelMatchPhasesQualifs getInfos () {
+		InfosModelMatchPhasesQualifs infos = new InfosModelMatchPhasesQualifs(this.getDate(), this.getDetails());
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -94,15 +103,6 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 	 */
 	protected ModelMatchPhasesQualifs clone (ModelPhaseQualificative phaseQualificative, ModelEmplacement emplacement) {
 		return new ModelMatchPhasesQualifs(phaseQualificative, emplacement, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelMatchPhasesQualifs getInfos () {
-		InfosModelMatchPhasesQualifs infos = new InfosModelMatchPhasesQualifs(this.getDate(), this.getDetails());
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelMatchPhasesQualifs match, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,Pair<String,String>,InfosModelMatchPhasesQualifs> infos) {
+		public ModelMatchPhasesQualifs update (ModelMatchPhasesQualifs match, Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>,Pair<String,String>,InfosModelMatchPhasesQualifs> infos) {
 			try {
 				// Modifier le match
 				match.setInfos(infos.getFourth());
@@ -255,6 +255,7 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un match de phases qualificatives.",e);
 			}
+			return null;
 		}
 		
 	}

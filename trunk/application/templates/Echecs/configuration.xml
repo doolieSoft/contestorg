@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="jeuxDeSociete" image="image.png">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat : victoire à 1 pts, égalité à 0.5 pts, défaite à 0 pts, forfait à 0 pts</li>
+			<li>Objectifs : -</li>
+			<li>Critères de classement : points</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante fichier="Echecs.co" />
+	</variantes>
+</configuration>

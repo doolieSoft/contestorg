@@ -28,7 +28,7 @@ public class ModelObjectif extends ModelAbstract
 	private ArrayList<ModelObjectifRemporte> objectifsRemportes = new ArrayList<ModelObjectifRemporte>();
 	
 	/** Liste des critères de classement */
-	private ArrayList<ModelCompPhasesQualifsObjectif> compsPhasesQualifs = new ArrayList<ModelCompPhasesQualifsObjectif>();
+	private ArrayList<ModelCritereClassementAbstract> compsPhasesQualifs = new ArrayList<ModelCritereClassementAbstract>();
 	
 	// Types d'objectifs possible
 	
@@ -125,11 +125,31 @@ public class ModelObjectif extends ModelAbstract
 	}
 	
 	/**
-	 * Récupérer la liste des critères de classement des phases qualificatives
-	 * @return liste des critères de classement des phases qualificatives
+	 * Récupérer la liste des critères de classement
+	 * @return liste des critères de classement
 	 */
-	public ArrayList<ModelCompPhasesQualifsObjectif> getCompPhasesQualifs () {
-		return new ArrayList<ModelCompPhasesQualifsObjectif>(this.compsPhasesQualifs);
+	public ArrayList<ModelCritereClassementAbstract> getCompPhasesQualifs () {
+		return new ArrayList<ModelCritereClassementAbstract>(this.compsPhasesQualifs);
+	}
+	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelObjectif getInfos () {
+		InfosModelObjectif infos = null;
+		switch (this.type) {
+			case TYPE_POINTS:
+				infos = new InfosModelObjectifPoints(this.nom, this.points_points, this.points_borneParticipation);
+				break;
+			case TYPE_POURCENTAGE:
+				infos = new InfosModelObjectifPourcentage(this.nom, this.pourcentage_pourcentage, this.pourcentage_borneParticipation, this.pourcentage_borneAugmentation);
+				break;
+			case TYPE_NUL:
+				infos = new InfosModelObjectifNul(this.nom);
+				break;
+		}
+		infos.setId(this.getId());
+		return infos;
 	}
 	
 	// Setters
@@ -181,11 +201,11 @@ public class ModelObjectif extends ModelAbstract
 	}
 	
 	/**
-	 * Ajouter un critère de classement des phases qualificatives
-	 * @param compPhasesQualifs critère de classement des phases qualificatives
+	 * Ajouter un critère de classement
+	 * @param compPhasesQualifs critère de classement
 	 * @throws ContestOrgErrorException
 	 */
-	public void addCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgErrorException {
+	public void addCompPhasesQualifs (ModelCritereClassementAbstract compPhasesQualifs) throws ContestOrgErrorException {
 		if (!this.compsPhasesQualifs.contains(compPhasesQualifs)) {
 			// Ajouter l'objectif remporte
 			this.compsPhasesQualifs.add(compPhasesQualifs);
@@ -193,7 +213,7 @@ public class ModelObjectif extends ModelAbstract
 			// Fire add
 			this.fireAdd(compPhasesQualifs, this.compsPhasesQualifs.size() - 1);
 		} else {
-			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives existe déjà dans l'objectif");
+			throw new ContestOrgErrorException("Le critère de classement existe déjà dans l'objectif");
 		}
 	}
 	
@@ -219,11 +239,11 @@ public class ModelObjectif extends ModelAbstract
 	}
 	
 	/**
-	 * Supprimer un critère de classement des phases qualificatives
-	 * @param compPhasesQualifs critère de classement des phases qualificatives
+	 * Supprimer un critère de classement
+	 * @param compPhasesQualifs critère de classement
 	 * @throws ContestOrgErrorException
 	 */
-	protected void removeCompPhasesQualifs (ModelCompPhasesQualifsObjectif compPhasesQualifs) throws ContestOrgErrorException {
+	protected void removeCompPhasesQualifs (ModelCritereClassementAbstract compPhasesQualifs) throws ContestOrgErrorException {
 		// Retirer l'objectif remporte
 		int index;
 		if ((index = this.compsPhasesQualifs.indexOf(compPhasesQualifs)) != -1) {
@@ -233,7 +253,7 @@ public class ModelObjectif extends ModelAbstract
 			// Fire remove
 			this.fireRemove(compPhasesQualifs, index);
 		} else {
-			throw new ContestOrgErrorException("Le comparateur pour phases qualificatives n'existe pas dans l'objectif");
+			throw new ContestOrgErrorException("Le critère de classement n'existe pas dans l'objectif");
 		}
 	}
 	
@@ -244,26 +264,6 @@ public class ModelObjectif extends ModelAbstract
 	 */
 	protected ModelObjectif clone (ModelConcours concours) {
 		return new ModelObjectif(concours, this.getInfos());
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelObjectif getInfos () {
-		InfosModelObjectif infos = null;
-		switch (this.type) {
-			case TYPE_POINTS:
-				infos = new InfosModelObjectifPoints(this.nom, this.points_points, this.points_borneParticipation);
-				break;
-			case TYPE_POURCENTAGE:
-				infos = new InfosModelObjectifPourcentage(this.nom, this.pourcentage_pourcentage, this.pourcentage_borneParticipation, this.pourcentage_borneAugmentation);
-				break;
-			case TYPE_NUL:
-				infos = new InfosModelObjectifNul(this.nom);
-				break;
-		}
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -337,14 +337,14 @@ public class ModelObjectif extends ModelAbstract
 			this.objectifsRemportes.clear();
 			this.fireClear(ModelParticipation.class);
 			
-			// Supprimer les comparateurs
-			for (ModelCompPhasesQualifsObjectif compPhasesQualifs : this.compsPhasesQualifs) {
+			// Supprimer les critères de classement
+			for (ModelCritereClassementAbstract compPhasesQualifs : this.compsPhasesQualifs) {
 				if (!removers.contains(compPhasesQualifs)) {
 					compPhasesQualifs.delete(removers);
 				}
 			}
 			this.compsPhasesQualifs.clear();
-			this.fireClear(ModelCompPhasesQualifsObjectif.class);
+			this.fireClear(ModelCritereClassementAbstract.class);
 			
 			// Fire delete
 			this.fireDelete();
@@ -379,8 +379,9 @@ public class ModelObjectif extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelObjectif objectif, InfosModelObjectif infos) {
+		public ModelObjectif update (ModelObjectif objectif, InfosModelObjectif infos) {
 			objectif.setInfos(infos);
+			return null;
 		}
 	}
 	

@@ -50,7 +50,7 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Récupérer les lieux et leurs emplacements
-		this.lieuxEmplacements = ContestOrg.get().getListeLieuxEmplacement();
+		this.lieuxEmplacements = ContestOrg.get().getListeLieuxEmplacements();
 		
 		// Remplir les listes
 		int nbLieux = 0; int nbEmplacements = 0;

@@ -13,7 +13,7 @@ import org.contestorg.controllers.ContestOrg;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelParticipant;
 import org.contestorg.infos.InfosModelPoule;
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 import org.contestorg.interfaces.IChangeable;
 import org.contestorg.interfaces.IChangeableListener;
 
@@ -36,7 +36,7 @@ public class JPParametreCategorie extends JPParametreAbstract implements IChange
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametreCategorie(Parametre parametre) {
+	public JPParametreCategorie(InfosThemeParametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		

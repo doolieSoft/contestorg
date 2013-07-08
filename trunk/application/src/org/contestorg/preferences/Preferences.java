@@ -35,7 +35,7 @@ public class Preferences
 			this.preferences = new Properties();
 			this.preferences.load(new FileInputStream("conf/preferences.ini"));
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors du chargement des préférences", e);
+			ContestOrg.get().erreur("Erreur lors du chargement des préférences", e);
 		}
 	}
 	
@@ -180,7 +180,7 @@ public class Preferences
 			FileOutputStream out = new FileOutputStream("conf/preferences.ini");
 			this.preferences.store(out, null);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la modification des préférences", e);
+			ContestOrg.get().erreur("Erreur lors de la modification des préférences", e);
 		}
 	}
 	

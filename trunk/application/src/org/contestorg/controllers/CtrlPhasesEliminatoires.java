@@ -109,7 +109,7 @@ public class CtrlPhasesEliminatoires
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().genererPhasesElims(nomCategorie, nbPhases, infosMatchs, infosPhaseEliminatoire);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la génération des phases éliminatoires", e);
+			ContestOrg.get().erreur("Erreur lors de la génération des phases éliminatoires", e);
 		}
 	}
 	
@@ -121,7 +121,7 @@ public class CtrlPhasesEliminatoires
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().resetPhasesElims(nomCategorie);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors du reset des phases éliminatoires", e);
+			ContestOrg.get().erreur("Erreur lors du reset des phases éliminatoires", e);
 		}
 	}
 	
@@ -135,7 +135,7 @@ public class CtrlPhasesEliminatoires
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().setParticipant(nomCategorie, numeroCellule, nomParticipant);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors du changement d'un participant dans les phases éliminatoires", e);
+			ContestOrg.get().erreur("Erreur lors du changement d'un participant dans les phases éliminatoires", e);
 		}
 	}
 	
@@ -149,7 +149,7 @@ public class CtrlPhasesEliminatoires
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().updateMatch(nomCategorie, numeroMatch, infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors du changement d'un match dans les phases éliminatoires", e);
+			ContestOrg.get().erreur("Erreur lors du changement d'un match dans les phases éliminatoires", e);
 		}
 	}
 	
@@ -162,7 +162,7 @@ public class CtrlPhasesEliminatoires
 		try {
 			FrontModel.get().getFrontModelPhasesEliminatoires().updateMatchPetiteFinale(nomCategorie, infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors du changement de la petite finale dans les phases éliminatoires", e);
+			ContestOrg.get().erreur("Erreur lors du changement de la petite finale dans les phases éliminatoires", e);
 		}
 	}
 

@@ -105,6 +105,15 @@ public class ModelCheminFTP extends ModelCheminAbstract
 		return this.mode;
 	}
 	
+	/**
+	 * @see ModelCheminAbstract#getInfos()
+	 */
+	public InfosModelCheminFTP getInfos () {
+		InfosModelCheminFTP infos = new InfosModelCheminFTP(new InfosConnexionFTP(this.host, this.port, this.username, this.password, this.path, this.mode));
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -132,15 +141,6 @@ public class ModelCheminFTP extends ModelCheminAbstract
 	 */
 	protected ModelCheminFTP clone () {
 		return new ModelCheminFTP(this);
-	}
-	
-	/**
-	 * @see ModelCheminAbstract#getInfos()
-	 */
-	public InfosModelCheminFTP getInfos () {
-		InfosModelCheminFTP infos = new InfosModelCheminFTP(new InfosConnexionFTP(this.host, this.port, this.username, this.password, this.path, this.mode));
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**

@@ -127,6 +127,21 @@ abstract public class ModelMatchAbstract extends ModelAbstract
 	}
 	
 	/**
+	 * Récupérer l'adversaire d'un participant
+	 * @param participant participant
+	 * @return adversaire d'un participant
+	 */
+	public ModelParticipation getAdversaire(ModelParticipant participant) {
+		if(this.getParticipationA() != null && participant.equals(this.getParticipationA().getParticipant())) {
+			return this.getParticipationB();
+		}
+		if(this.getParticipationB() != null && participant.equals(this.getParticipationB().getParticipant())) {
+			return this.getParticipationA();
+		}
+		return null;
+	}
+	
+	/**
 	 * Savoir si le match a été effectué
 	 * @return match effectué ?
 	 */

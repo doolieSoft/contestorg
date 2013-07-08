@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports" image="image.png">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat : victoire à 3 pts, égalité à 2 pts, défaite à 1 pts, forfait à 0 pts</li>
+			<li>Objectifs : manches remportées</li>
+			<li>Critères de classement : points, goal-average particulier par différence des points, goal-average général par différence des manches remportés, nombre de victoires</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante nom="Billard en simple" fichier="Billard en simple.co" />
+		<variante nom="Billard en équipe" fichier="Billard en équipe.co" />
+	</variantes>
+</configuration>

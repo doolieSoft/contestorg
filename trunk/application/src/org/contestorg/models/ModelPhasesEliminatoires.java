@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.contestorg.common.ContestOrgErrorException;
 import org.contestorg.comparators.CompPhasesElims;
+import org.contestorg.comparators.CompPhasesQualifs;
 import org.contestorg.infos.InfosModelMatchPhasesElims;
 import org.contestorg.infos.InfosModelParticipation;
 import org.contestorg.infos.InfosModelPhasesEliminatoires;
@@ -235,6 +236,15 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		return null;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelPhasesEliminatoires getInfos () {
+		InfosModelPhasesEliminatoires infos = new InfosModelPhasesEliminatoires();
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -284,14 +294,12 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	 * @return phases éliminatoires
 	 * @throws ContestOrgErrorException
 	 */
-	@SuppressWarnings("unchecked")
 	protected static ModelPhasesEliminatoires genererPhasesEliminatoires (ModelCategorie categorie, int nbPhases, InfosModelMatchPhasesElims infosMatchs, InfosModelPhasesEliminatoires infosPhaseEliminatoire) throws ContestOrgErrorException {
 		// Récupérer la liste des participants pour chaque poule triée d'après leur rang aux phases qualificatives
 		int nbParticipants = 0;
 		List<List<ModelParticipant>> participantsPoules = new ArrayList<List<ModelParticipant>>();
 		for(ModelPoule poule : categorie.getPoules()) {
-			List<ModelParticipant> participantsPoule = poule.getParticipantsParticipants();
-			Collections.sort(participantsPoule, categorie.getConcours().getComparateurPhasesQualificatives()); 
+			List<ModelParticipant> participantsPoule = poule.getClassementPhasesQualifs();
 			participantsPoules.add(participantsPoule);
 			nbParticipants += participantsPoule.size();
 		}
@@ -428,8 +436,12 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 			// Récupérer la liste des participants de la poule
 			List<ModelParticipant> participants = poules.get(i).getParticipantsParticipants();
 			
+			// Récupérer le comparateur et établir le classement
+			CompPhasesQualifs comparateur = categorie.getConcours().getComparateurPhasesQualificatives();
+			comparateur.etablirClassement(participants);
+			
 			// Trier d'après leur rang aux phases qualificatives
-			Collections.sort(participants, categorie.getConcours().getComparateurPhasesQualificatives());
+			Collections.sort(participants, comparateur);
 			
 			// Inverser la liste pour avoir les meilleurs participants en premier
 			Collections.reverse(participants);
@@ -468,15 +480,6 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 	 */
 	protected ModelPhasesEliminatoires clone (ModelCategorie categorie) {
 		return new ModelPhasesEliminatoires(categorie, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelPhasesEliminatoires getInfos () {
-		InfosModelPhasesEliminatoires infos = new InfosModelPhasesEliminatoires();
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**

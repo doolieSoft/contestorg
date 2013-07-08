@@ -149,8 +149,8 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		// Automatique
 		this.jtf_nbParticipantsCategorie.setEditable(false);
 		JLabel[] jls_creation = {
-			new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nombre d'équipes de la catégorie : " : "Nombre de joueurs de la catégorie : "),
-			new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nombre d'équipes maximal par poule : " : "Nombre de joueurs maximal par poule : "),
+			new JLabel(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nombre d'équipes de la catégorie : " : "Nombre de joueurs de la catégorie : "),
+			new JLabel(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Nombre d'équipes maximal par poule : " : "Nombre de joueurs maximal par poule : "),
 			new JLabel("Nombre de poules dans la catégorie : ")
 		};
 		JComponent[] jcs_creation = {this.jtf_nbParticipantsCategorie, this.js_nbParticipantsMaxPoule, this.js_nbPoulesCategorie };
@@ -173,7 +173,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		});
 		
 		// Affectation des participants
-		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Affectation des équipes" : "Affectation des joueurs", ViewHelper.H1));
+		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Affectation des équipes" : "Affectation des joueurs", ViewHelper.H1));
 		
 		// Automatique
 		this.jp_contenu.add(ViewHelper.left(this.jb_affecterParticipants,this.jb_definirPoids));
@@ -195,7 +195,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		JPanel jp_participantsDisponibles = new JPanel();
 		jp_participantsDisponibles.setBorder(new EmptyBorder(0, 0, 0, 2));
 		jp_participantsDisponibles.setLayout(new BoxLayout(jp_participantsDisponibles, BoxLayout.Y_AXIS));
-		jp_participantsDisponibles.add(ViewHelper.title((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" disponibles", ViewHelper.H2));
+		jp_participantsDisponibles.add(ViewHelper.title((ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" disponibles", ViewHelper.H2));
 		jp_participantsDisponibles.add(new JScrollPane(this.jt_participantsDisponibles));
 		jp_participantsDisponibles.add(Box.createVerticalStrut(5));
 		jp_participantsDisponibles.add(ViewHelper.left(this.jb_ajouterParticipant));
@@ -204,7 +204,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 		JPanel jp_participantsPoule = new JPanel();
 		jp_participantsPoule.setBorder(new EmptyBorder(0, 2, 0, 0));
 		jp_participantsPoule.setLayout(new BoxLayout(jp_participantsPoule, BoxLayout.Y_AXIS));
-		jp_participantsPoule.add(ViewHelper.title((ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" de la poule", ViewHelper.H2));
+		jp_participantsPoule.add(ViewHelper.title((ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs")+" de la poule", ViewHelper.H2));
 		jp_participantsPoule.add(new JScrollPane(this.jt_participantsPoule));
 		jp_participantsPoule.add(Box.createVerticalStrut(5));
 		jp_participantsPoule.add(ViewHelper.left(this.jb_retirerParticipant));
@@ -437,7 +437,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 					this.refreshBottom();
 				} else {
 					// Erreur
-					ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a aucune équipe dans la catégorie." : "Il n'y a aucun joueur dans la catégorie.");
+					ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a aucune équipe dans la catégorie." : "Il n'y a aucun joueur dans la catégorie.");
 				}
 			} else {
 				// Erreur
@@ -473,7 +473,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				jd_poulesPoidsParticipants.setVisible(true);
 			} else {
 				// Erreur
-				ViewHelper.derror(this, ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a aucune équipe dans la catégorie." : "Il n'y a aucun joueur dans la catégorie.");
+				ViewHelper.derror(this, ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Il n'y a aucune équipe dans la catégorie." : "Il n'y a aucun joueur dans la catégorie.");
 			}
 		} else if(event.getSource() == this.jb_ajouterParticipant) {
 			// Vérifier le nombre de lignes séléctionnées
@@ -503,7 +503,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				}
 			} else {
 				// Erreur
-				ViewHelper.derror(this, "Veuillez séléctionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez ajouter.");
+				ViewHelper.derror(this, "Veuillez séléctionner "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez ajouter.");
 			}
 		} else if(event.getSource() == this.jb_retirerParticipant) {
 			// Vérifier le nombre de lignes séléctionnées
@@ -527,7 +527,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 				}
 			} else {
 				// Erreur
-				ViewHelper.derror(this, "Veuillez séléctionner "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez retirer.");
+				ViewHelper.derror(this, "Veuillez séléctionner "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "l'équipe" : "le joueur")+" que vous désirez retirer.");
 			}
 		} else {
 			// Appeller le actionPerformed du parent

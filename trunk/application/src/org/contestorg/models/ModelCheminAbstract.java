@@ -30,6 +30,15 @@ public abstract class ModelCheminAbstract extends ModelAbstract
 		return null;
 	}
 	
+	// Getters
+	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public abstract InfosModelChemin getInfos ();
+	
+	// Setters
+	
 	/**
 	 * Définir les informations
 	 * @param infos informations
@@ -47,11 +56,6 @@ public abstract class ModelCheminAbstract extends ModelAbstract
 	 * @return clone du chemin d'exportation
 	 */
 	protected abstract ModelCheminAbstract clone ();
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public abstract InfosModelChemin getInfos ();
 	
 	/**
 	 * @see ModelAbstract#delete(ArrayList)

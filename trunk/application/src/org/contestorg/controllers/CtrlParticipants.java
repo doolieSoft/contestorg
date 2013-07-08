@@ -31,6 +31,22 @@ public class CtrlParticipants
 	// Récupérer des données sur le concours
 	
 	/**
+	 * Récupérer le type des participants
+	 * @return type des participants
+	 */
+	public int getTypeParticipants() {
+		return FrontModel.get().getConcours().getTypeParticipants();
+	}
+	
+	/**
+	 * Savoir si le statut "homologué" est activé
+	 * @return statut "homologué" activé ?
+	 */
+	public boolean isStatutHomologueActive() {
+		return FrontModel.get().getConcours().isStatutHomologueActive();
+	}
+	
+	/**
 	 * Récupérer la liste des propriétés
 	 * @return liste des propriétés
 	 */
@@ -139,7 +155,7 @@ public class CtrlParticipants
 		try {
 			FrontModel.get().getFrontModelParticipants().addParticipant(infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la création d'un participant", e);
+			ContestOrg.get().erreur("Erreur lors de la création d'un participant", e);
 		}
 	}
 	
@@ -152,7 +168,7 @@ public class CtrlParticipants
 		try {
 			FrontModel.get().getFrontModelParticipants().updateParticipant(nomParticipant, infos);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la modification d'un participant", e);
+			ContestOrg.get().erreur("Erreur lors de la modification d'un participant", e);
 		}
 	}
 	
@@ -184,7 +200,7 @@ public class CtrlParticipants
 		} catch (ContestOrgWarningException e) {
 			ViewHelper.derror(ContestOrg.get().getFenetrePrincipale(), e.getMessage());
 		} catch (ContestOrgErrorException e) {
-			ContestOrg.get().error("Erreur lors de la modification d'un participant", e);
+			ContestOrg.get().erreur("Erreur lors de la modification d'un participant", e);
 		}
 	}
 	
@@ -198,7 +214,7 @@ public class CtrlParticipants
 		} catch (ContestOrgWarningException e) {
 			ViewHelper.derror(ContestOrg.get().getFenetrePrincipale(), e.getMessage());
 		} catch (ContestOrgErrorException e) {
-			ContestOrg.get().error("Erreur lors de la modification de plusieurs participants", e);
+			ContestOrg.get().erreur("Erreur lors de la modification de plusieurs participants", e);
 		}	
 	}
 		
@@ -212,7 +228,7 @@ public class CtrlParticipants
 		try {
 			FrontModel.get().getFrontModelParticipants().updateCategories(categories);
 		} catch (Exception e) {
-			ContestOrg.get().error("Erreur lors de la modification des catégories", e);
+			ContestOrg.get().erreur("Erreur lors de la modification des catégories", e);
 		}
 	}
 
@@ -226,7 +242,7 @@ public class CtrlParticipants
 		try {
 			FrontModel.get().getFrontModelParticipants().updatePoules(categoriesPoules);
 		} catch(Exception e) {
-			ContestOrg.get().error("Erreur lors de la modification des poules des catégories", e);
+			ContestOrg.get().erreur("Erreur lors de la modification des poules des catégories", e);
 		}
 	}
 	

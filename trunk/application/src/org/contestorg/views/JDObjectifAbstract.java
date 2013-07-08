@@ -34,19 +34,22 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 
 	// Labels
 	
+	/** Objectif sans modification du score */
+	protected final static String LABEL_OBJECTIF_NUL = "Objectif sans modification du score";
+	
 	/** Objectif à points */
-	protected final static String LABEL_OBJECTIF_POINTS = "Points";
+	protected final static String LABEL_OBJECTIF_POINTS = "Objectif avec ajout de points au score";
 	
 	/** Objectif à pourcentage */
-	protected final static String LABEL_OBJECTIF_POURCENTAGE = "Pourcentage";
-	
-	/** Objectif nul */
-	protected final static String LABEL_OBJECTIF_NUL = "Nul";
+	protected final static String LABEL_OBJECTIF_POURCENTAGE = "Objectif avec ajout d'un pourcentage au score";
 
 	// Entrées
 	
 	/** Liste des types */
 	protected JComboBox<String> jcb_types;
+
+	/** Nom de l'objectif nul */
+	protected JTextField jtf_objectif_nul_nom = new JTextField();
 
 	/** Nom de l'objectif à points */
 	protected JTextField jtf_objectif_points_nom = new JTextField();
@@ -64,9 +67,6 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 	/** Borne d'augmentation de l'objectif à pourcentage */
 	protected JTextField jtf_objectif_pourcentage_borneAugmentation = new JTextField();
 
-	/** Nom de l'objectif nul */
-	protected JTextField jtf_objectif_nul_nom = new JTextField();
-
 	/**
 	 * Constructeur
 	 * @param w_parent fenêtre parent
@@ -82,7 +82,7 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 
 		// Type d'objectif
 		this.jp_contenu.add(ViewHelper.title("Type d'objectif", ViewHelper.H1));
-		String[] types = { JDObjectifAbstract.LABEL_OBJECTIF_POINTS, JDObjectifAbstract.LABEL_OBJECTIF_POURCENTAGE, JDObjectifAbstract.LABEL_OBJECTIF_NUL };
+		String[] types = { JDObjectifAbstract.LABEL_OBJECTIF_NUL, JDObjectifAbstract.LABEL_OBJECTIF_POINTS, JDObjectifAbstract.LABEL_OBJECTIF_POURCENTAGE };
 		this.jcb_types = new JComboBox<String>(types);
 		this.jp_contenu.add(this.jcb_types);
 
@@ -90,6 +90,16 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 		this.jp_contenu.add(ViewHelper.title("Informations de l'objectif", ViewHelper.H1));
 		this.jp_informations = new JPanel(new CardLayout());
 		this.jp_contenu.add(this.jp_informations);
+
+		// Objectif sans modification du score
+		JPanel jp_objectif_nul = new JPanel();
+		jp_objectif_nul.setLayout(new BoxLayout(jp_objectif_nul, BoxLayout.Y_AXIS));
+		JLabel[] jls_objectif_nul = { new JLabel("Nom : ") };
+		JComponent[] jcs_objectif_nul = { this.jtf_objectif_nul_nom };
+		jp_objectif_nul.add(ViewHelper.inputs(jls_objectif_nul, jcs_objectif_nul));
+		JPanel jp_objectif_nul_hauteur = new JPanel(new BorderLayout());
+		jp_objectif_nul_hauteur.add(jp_objectif_nul, BorderLayout.NORTH);
+		this.jp_informations.add(jp_objectif_nul_hauteur, JDObjectifAbstract.LABEL_OBJECTIF_NUL);
 
 		// Objectif de points
 		JPanel jp_objectif_points = new JPanel();
@@ -111,40 +121,28 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 		jp_objectif_pourcentage_hauteur.add(jp_objectif_pourcentage, BorderLayout.NORTH);
 		this.jp_informations.add(jp_objectif_pourcentage_hauteur, JDObjectifAbstract.LABEL_OBJECTIF_POURCENTAGE);
 
-		// Objectif nul
-		JPanel jp_objectif_nul = new JPanel();
-		jp_objectif_nul.setLayout(new BoxLayout(jp_objectif_nul, BoxLayout.Y_AXIS));
-		JLabel[] jls_objectif_nul = { new JLabel("Nom : ") };
-		JComponent[] jcs_objectif_nul = { this.jtf_objectif_nul_nom };
-		jp_objectif_nul.add(ViewHelper.inputs(jls_objectif_nul, jcs_objectif_nul));
-		JPanel jp_objectif_nul_hauteur = new JPanel(new BorderLayout());
-		jp_objectif_nul_hauteur.add(jp_objectif_nul, BorderLayout.NORTH);
-		this.jp_informations.add(jp_objectif_nul_hauteur, JDObjectifAbstract.LABEL_OBJECTIF_NUL);
-
 		// Bouton d'aide
 		this.addButton(new JBHelperButton(this) {
 			// Message d'aide
 			@Override
 			protected String getMessage () {
-				return "<font size=+1>Objectif à points :</font>\n" +
-				       "Ajout d'un nombre de points au score du participant\n" +
+				return "<font size=+1>"+JDObjectifAbstract.LABEL_OBJECTIF_NUL+" :</font>\n" +
+					       "Aucun effet sur le score.\n" +
+					       "\n" +
+					   "<font size=+1>"+JDObjectifAbstract.LABEL_OBJECTIF_POINTS+" :</font>\n" +
+				       "Ajout d'un nombre de points au score du participant.\n" +
 				       "Informations :\n" +
-				       "  - nom : nom de l'objectif\n" +
-				       "  - points : nombre de points à créditer sur le score\n" +
+				       "  - points : nombre de points à créditer sur le score.\n" +
 				       "  - borne de score : borne que le score ne doit pas dépasser après crédit des points\n" +
 				       "\n" +
-				       "<font size=+1>Objectif à pourcentage :</font>\n" +
-				       "Ajout d'un pourcentage au score du participant\n" +
+				       "<font size=+1>"+JDObjectifAbstract.LABEL_OBJECTIF_POURCENTAGE+" :</font>\n" +
+				       "Ajout d'un pourcentage au score du participant.\n" +
 				       "Informations :\n" +
-				       "  - nom : nom de l'objectif\n" +
 				       "  - pourcentage : pourcentage du score à ajouter au score\n" +
 				       "  - borne de score : borne que le score ne doit pas dépasser après crédit des points\n" +
 				       "  - borne d'augmentation : borne que l'augmentation du score ne doit pas dépasser\n" +
 				       "\n" +
-				       "<font size=+1>Objectif nul :</font>\n" +
-				       "Aucun effet sur le score\n" +
-				       "Informations :\n" +
-				       "  - nom : nom de l'objectif";
+				       "<i>Pour plus d'information, rendez-vous dans l'aide.</i>";
 			}
 		});
 

@@ -61,36 +61,42 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 		}
 		switch(infos.getFirst().getThird().getResultat()) {
 			case InfosModelParticipation.RESULTAT_ATTENTE:
-				this.jcb_resultatA.setSelectedIndex(0);
+				this.jcb_resultatA.setSelectedIndex(this.index_attente);
 				break;
 			case InfosModelParticipation.RESULTAT_VICTOIRE:
-				this.jcb_resultatA.setSelectedIndex(1);
+				this.jcb_resultatA.setSelectedIndex(this.index_victoire);
 				break;
 			case InfosModelParticipation.RESULTAT_EGALITE:
-				this.jcb_resultatA.setSelectedIndex(2);
+				if(this.index_egalite == -1) {
+					this.addResultatEgalite();
+				}
+				this.jcb_resultatA.setSelectedIndex(this.index_egalite);
 				break;
 			case InfosModelParticipation.RESULTAT_DEFAITE:
-				this.jcb_resultatA.setSelectedIndex(3);
+				this.jcb_resultatA.setSelectedIndex(this.index_defaite);
 				break;
 			case InfosModelParticipation.RESULTAT_FORFAIT:
-				this.jcb_resultatA.setSelectedIndex(4);
+				this.jcb_resultatA.setSelectedIndex(this.index_forfait);
 				break;
 		}
 		switch(infos.getSecond().getThird().getResultat()) {
 			case InfosModelParticipation.RESULTAT_ATTENTE:
-				this.jcb_resultatB.setSelectedIndex(0);
+				this.jcb_resultatB.setSelectedIndex(this.index_attente);
 				break;
 			case InfosModelParticipation.RESULTAT_VICTOIRE:
-				this.jcb_resultatB.setSelectedIndex(1);
+				this.jcb_resultatB.setSelectedIndex(this.index_victoire);
 				break;
 			case InfosModelParticipation.RESULTAT_EGALITE:
-				this.jcb_resultatB.setSelectedIndex(2);
+				if(this.index_egalite == -1) {
+					this.addResultatEgalite();
+				}
+				this.jcb_resultatB.setSelectedIndex(this.index_egalite);
 				break;
 			case InfosModelParticipation.RESULTAT_DEFAITE:
-				this.jcb_resultatB.setSelectedIndex(3);
+				this.jcb_resultatB.setSelectedIndex(this.index_defaite);
 				break;
 			case InfosModelParticipation.RESULTAT_FORFAIT:
-				this.jcb_resultatB.setSelectedIndex(4);
+				this.jcb_resultatB.setSelectedIndex(this.index_forfait);
 				break;
 		}
 		if(infos.getFourth().getDate() != null) {

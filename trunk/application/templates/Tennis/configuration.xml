@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="sports" image="image.png">
+	<description><![CDATA[
+		<ul>
+			<li>Points en fonction du résultat : victoire à 2 pts, égalité désactivée, défaite à 1 pts, forfait à 0 pts</li>
+			<li>Objectifs : manches remportées, jeux remportés</li>
+			<li>Critères de classement : points, goal-average général par différence des manches remportées, goal-average général par différence des jeux remportés, goal-average particulier par différence des manches remportées, goal-average particulier par différence des jeux remportés</li>
+		</ul>
+	]]></description>
+	<variantes>
+		<variante nom="Tennis en simple" fichier="Tennis en simple.co" />
+		<variante nom="Tennis en double" fichier="Tennis en double.co" />
+	</variantes>
+</configuration>

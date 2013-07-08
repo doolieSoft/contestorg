@@ -110,7 +110,7 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 	 */
 	public static JComponent getRenderComponent(ICelluleModel<InfosModelCategorie,InfosModelParticipant> model) {
 		// Créer le label
-		JLabel label = new JLabel("",new ImageIcon(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/32x32/group.png" : "img/farm/32x32/user_green.png"),SwingConstants.LEFT);
+		JLabel label = new JLabel("",new ImageIcon(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/32x32/group.png" : "img/farm/32x32/user_green.png"),SwingConstants.LEFT);
 		label.setOpaque(true);
 		label.setBackground(new Color(119,171,243));
 		label.setBorder(new LineBorder(new Color(119,171,243), 5));

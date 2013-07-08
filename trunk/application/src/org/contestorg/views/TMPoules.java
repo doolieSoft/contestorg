@@ -52,7 +52,7 @@ public class TMPoules extends TMAbstract<Pair<InfosModelPoule, ArrayList<String>
 		// Demander la confirmation à l'utilisateur
 		if (ViewHelper.confirmation(
 				this.w_parent,
-				"En supprimant la poule \"" + infos.getFirst().getNom() + "\", "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "toutes les équipes qu'elle contient seront réaffectées" : "tous les joueurs qu'elle contient seront réaffectés")+" au sein\nde la poule \""+ this.get(0).getFirst().getNom() +"\" et les matchs qu'elle contient seront supprimés. Désirez-vous continuer ?",
+				"En supprimant la poule \"" + infos.getFirst().getNom() + "\", "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "toutes les équipes qu'elle contient seront réaffectées" : "tous les joueurs qu'elle contient seront réaffectés")+" au sein\nde la poule \""+ this.get(0).getFirst().getNom() +"\" et les matchs qu'elle contient seront supprimés. Désirez-vous continuer ?",
 				true)) {
 			return true;
 		} else {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<concours version="2.4.0" id="1" nom="Badminton en simple" participants="joueurs" qualifications="phases" statutHomologueActive="non">
+  <!--Liste des points remportés en fonction du résultat des matchs-->
+  <points victoire="1.0" egalite="0.0" egaliteActivee="non" defaite="0.0" forfait="-1.0" />
+  <!--Liste des critère de classement-->
+  <listeCriteres>
+    <critere id="15" inverse="non">
+      <critereNbPoints />
+    </critere>
+    <critere id="11" inverse="non">
+      <critereRencontresDirectes />
+    </critere>
+    <critere id="13" inverse="non">
+      <critereGoalAverage type="general" methode="difference" donnee="quantiteObjectif" refObjectif="9" />
+    </critere>
+    <critere id="12" inverse="non">
+      <critereRencontresDirectes />
+    </critere>
+    <critere id="14" inverse="non">
+      <critereGoalAverage type="general" methode="difference" donnee="quantiteObjectif" refObjectif="10" />
+    </critere>
+  </listeCriteres>
+  <!--Liste des objectifs à remporter au cours des matchs-->
+  <listeObjectifs>
+    <objectif id="9">
+      <objectifNul nom="Jeux remportés" />
+    </objectif>
+    <objectif id="10">
+      <objectifNul nom="Points remportés" />
+    </objectif>
+  </listeObjectifs>
+  <!--Liste des catégories-->
+  <listeCategories>
+    <categorie id="0" nom="Défaut">
+      <listePoules>
+        <poule id="4" nom="Défaut" />
+      </listePoules>
+    </categorie>
+  </listeCategories>
+</concours>
+

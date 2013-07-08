@@ -93,6 +93,15 @@ public class ModelEmplacement extends ModelAbstract
 		return this.matchs;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelEmplacement getInfos () {
+		InfosModelEmplacement infos = new InfosModelEmplacement(this.nom, this.description);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -161,15 +170,6 @@ public class ModelEmplacement extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelEmplacement getInfos () {
-		InfosModelEmplacement infos = new InfosModelEmplacement(this.nom, this.description);
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
@@ -228,8 +228,9 @@ public class ModelEmplacement extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelEmplacement emplacement, InfosModelEmplacement infos) {
+		public ModelEmplacement update (ModelEmplacement emplacement, InfosModelEmplacement infos) {
 			emplacement.setInfos(infos);
+			return null;
 		}
 		
 	}

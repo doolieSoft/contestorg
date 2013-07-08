@@ -45,7 +45,7 @@ public class TMCategories extends TMAbstract<InfosModelCategorie>
 	@Override
 	public boolean acceptDelete (InfosModelCategorie infos) {
 		// Demander la confirmation à l'utilisateur
-		if (ViewHelper.confirmation(this.w_parent, "En supprimant la catégorie \""+infos.getNom()+"\", vous supprimerez toutes les poules, "+(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" et matchs qu'elle contient. Désirez-vous continuer ?", true)) {
+		if (ViewHelper.confirmation(this.w_parent, "En supprimant la catégorie \""+infos.getNom()+"\", vous supprimerez toutes les poules, "+(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "équipes" : "joueurs")+" et matchs qu'elle contient. Désirez-vous continuer ?", true)) {
 			return true;
 		} else {
 			return false;

@@ -29,7 +29,7 @@ public class TableCellRenderers
 		 */
 		@Override
 		public Component getTableCellRendererComponent (JTable table, Object object, boolean isSelected, boolean hasFocus, int row, int column) {
-			JLabel label = new JLabel(object == null ? (ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : (String)object);
+			JLabel label = new JLabel(object == null ? (ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome") : (String)object);
 			if(isSelected) {
 				label.setBackground(new Color(184,207,229));
 				label.setOpaque(true);
@@ -102,13 +102,15 @@ public class TableCellRenderers
 		@Override
 		public Component getTableCellRendererComponent (JTable table, Object object, boolean isSelected, boolean hasFocus, int row, int column) {
 			InfosModelParticipant.Statut statut = (InfosModelParticipant.Statut)object;
-			ImageIcon icon = null;
+			ImageIcon icon;
 			if(statut == InfosModelParticipant.Statut.DISQUALIFIE || statut == InfosModelParticipant.Statut.FORFAIT) {
 				icon = new ImageIcon("img/farm/16x16/bullet_black.png");
+			} else if(!ContestOrg.get().getCtrlParticipants().isStatutHomologueActive() && statut == InfosModelParticipant.Statut.PRESENT || statut == InfosModelParticipant.Statut.HOMOLOGUE) {
+				icon = new ImageIcon("img/farm/16x16/bullet_green.png");
 			} else {
-				icon = new ImageIcon(statut.isParticipation() ? "img/farm/16x16/bullet_green.png" : "img/farm/16x16/bullet_red.png");
+				icon = new ImageIcon("img/farm/16x16/bullet_red.png");
 			}
-			JLabel label = new JLabel(ContestOrg.get().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur(),icon,SwingConstants.LEFT);
+			JLabel label = new JLabel(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? statut.getNomEquipe() : statut.getNomJoueur(),icon,SwingConstants.LEFT);
 			if(isSelected) {
 				label.setBackground(new Color(184,207,229));
 				label.setOpaque(true);

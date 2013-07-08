@@ -28,11 +28,14 @@ public class JDConcoursCreer extends JDConcoursAbstract
 		// Vérifier les validité des données
 		if (this.check()) {
 			// Demander la creation de concours
-			ContestOrg.get().procedureConcoursNouveau(
+			ContestOrg.get().concoursCreer(
 				this.getInfosModelConcours(), this.jp_points.getObjectifs(), this.jp_points.getComparacteurs(),
 				this.jp_exportations.getExportations(), this.jp_exportations.getPublication(), this.jp_exportations.getDiffusions(),
 				this.jp_prix.getPrix(), this.jp_lieux.getLieux(), this.jp_proprietes.getProprietes()
 			);
+			
+			// Fermer la boîte de dialogue
+			this.setVisible(false);
 		}
 	}
 
@@ -41,8 +44,8 @@ public class JDConcoursCreer extends JDConcoursAbstract
 	 */
 	@Override
 	public void quit () {
-		// Demander l'annulation de la procédure de création de concours
-		ContestOrg.get().procedureConcoursNouveauAnnuler();
+		// Fermer la boîte de dialogue
+		this.setVisible(false);
 	}
 
 }

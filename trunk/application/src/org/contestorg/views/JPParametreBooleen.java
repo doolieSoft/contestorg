@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JComboBox;
 
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 
 /**
  * Panel d'un paramètre de thème d'exportation/diffusion de type "Booléen"
@@ -19,7 +19,7 @@ public class JPParametreBooleen extends JPParametreAbstract
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametreBooleen(Parametre parametre) {
+	public JPParametreBooleen(InfosThemeParametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		

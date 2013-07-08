@@ -146,6 +146,15 @@ public class ModelLieu extends ModelAbstract
 		return null;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelLieu getInfos () {
+		InfosModelLieu infos = new InfosModelLieu(this.nom, this.lieu, this.telephone, this.email, this.description);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -275,15 +284,6 @@ public class ModelLieu extends ModelAbstract
 	}
 	
 	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelLieu getInfos () {
-		InfosModelLieu infos = new InfosModelLieu(this.nom, this.lieu, this.telephone, this.email, this.description);
-		infos.setId(this.getId());
-		return infos;
-	}
-	
-	/**
 	 * @see ModelAbstract#delete(ArrayList)
 	 */
 	protected void delete (ArrayList<ModelAbstract> removers) throws ContestOrgErrorException {
@@ -360,7 +360,7 @@ public class ModelLieu extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelLieu lieu, Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>> infos) {
+		public ModelLieu update (ModelLieu lieu, Triple<InfosModelLieu, TrackableList<InfosModelEmplacement>, TrackableList<InfosModelHoraire>> infos) {
 			try {
 				// Configurer le lieu
 				lieu.setInfos(infos.getFirst());
@@ -369,6 +369,7 @@ public class ModelLieu extends ModelAbstract
 			} catch (ContestOrgErrorException e) {
 				Log.getLogger().fatal("Erreur lors de la modification d'un lieu.",e);
 			}
+			return null;
 		}
 	}
 	

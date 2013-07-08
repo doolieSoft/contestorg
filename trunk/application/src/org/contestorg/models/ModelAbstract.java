@@ -86,7 +86,7 @@ public abstract class ModelAbstract
 	 * Définir les informations
 	 * @param infos nouvelles informations
 	 */
-	protected void setInfos (InfosModelAbstract infos) {	
+	protected void setInfos (InfosModelAbstract infos) {
 	}
 	
 	// Listeners
@@ -273,7 +273,12 @@ public abstract class ModelAbstract
 			for (int after = 0; after < source.getCorrespondances().size(); after++) {
 				if (source.getCorrespondances().get(after) == before) {
 					// Modifier le modèle
-					updater.update(target.get(before), source.get(after));
+					M modele = updater.update(target.get(before), source.get(after));
+					if(modele != null) {
+						target.get(before).delete(); // Supprimer l'ancien modèle
+						target.add(before,modele); // Ajouter le nouveau modèle
+						this.fireAdd(modele,before); // Fire
+					}
 				}
 			}
 		}

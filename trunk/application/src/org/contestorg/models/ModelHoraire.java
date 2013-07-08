@@ -92,6 +92,15 @@ public class ModelHoraire extends ModelAbstract
 		return this.lieu;
 	}
 	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelHoraire getInfos () {
+		InfosModelHoraire infos = new InfosModelHoraire(this.jours, this.debut, this.fin);
+		infos.setId(this.getId());
+		return infos;
+	}
+	
 	// Setters
 	
 	/**
@@ -118,15 +127,6 @@ public class ModelHoraire extends ModelAbstract
 	 */
 	protected ModelHoraire clone (ModelLieu lieu) {
 		return new ModelHoraire(lieu, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelHoraire getInfos () {
-		InfosModelHoraire infos = new InfosModelHoraire(this.jours, this.debut, this.fin);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
@@ -179,8 +179,9 @@ public class ModelHoraire extends ModelAbstract
 		 * @see IUpdater#update(Object, Object)
 		 */
 		@Override
-		public void update (ModelHoraire horaire, InfosModelHoraire infos) {
+		public ModelHoraire update (ModelHoraire horaire, InfosModelHoraire infos) {
 			horaire.setInfos(infos);
+			return null;
 		}
 	}
 	

@@ -23,10 +23,15 @@ import org.contestorg.infos.InfosConnexionFTP;
 import org.contestorg.infos.InfosModelCategorie;
 import org.contestorg.infos.InfosModelCheminFTP;
 import org.contestorg.infos.InfosModelCheminLocal;
-import org.contestorg.infos.InfosModelCompPhasesQualifsObjectif;
-import org.contestorg.infos.InfosModelCompPhasesQualifsPoints;
-import org.contestorg.infos.InfosModelCompPhasesQualifsVictoires;
 import org.contestorg.infos.InfosModelConcours;
+import org.contestorg.infos.InfosModelCritereClassementGoalAverage;
+import org.contestorg.infos.InfosModelCritereClassementNbDefaites;
+import org.contestorg.infos.InfosModelCritereClassementNbEgalites;
+import org.contestorg.infos.InfosModelCritereClassementNbForfaits;
+import org.contestorg.infos.InfosModelCritereClassementNbPoints;
+import org.contestorg.infos.InfosModelCritereClassementNbVictoires;
+import org.contestorg.infos.InfosModelCritereClassementQuantiteObjectif;
+import org.contestorg.infos.InfosModelCritereClassementRencontresDirectes;
 import org.contestorg.infos.InfosModelDiffusion;
 import org.contestorg.infos.InfosModelEmplacement;
 import org.contestorg.infos.InfosModelExportation;
@@ -56,11 +61,16 @@ import org.contestorg.models.ModelCategorie;
 import org.contestorg.models.ModelCheminAbstract;
 import org.contestorg.models.ModelCheminFTP;
 import org.contestorg.models.ModelCheminLocal;
-import org.contestorg.models.ModelCompPhasesQualifsAbstract;
-import org.contestorg.models.ModelCompPhasesQualifsObjectif;
-import org.contestorg.models.ModelCompPhasesQualifsPoints;
-import org.contestorg.models.ModelCompPhasesQualifsVictoires;
 import org.contestorg.models.ModelConcours;
+import org.contestorg.models.ModelCritereClassementAbstract;
+import org.contestorg.models.ModelCritereClassementGoalAverage;
+import org.contestorg.models.ModelCritereClassementNbDefaites;
+import org.contestorg.models.ModelCritereClassementNbEgalites;
+import org.contestorg.models.ModelCritereClassementNbForfaits;
+import org.contestorg.models.ModelCritereClassementNbPoints;
+import org.contestorg.models.ModelCritereClassementNbVictoires;
+import org.contestorg.models.ModelCritereClassementQuantiteObjectif;
+import org.contestorg.models.ModelCritereClassementRencontresDirectes;
 import org.contestorg.models.ModelDiffusion;
 import org.contestorg.models.ModelEmplacement;
 import org.contestorg.models.ModelExportation;
@@ -145,12 +155,15 @@ public class PersistanceXML extends PersistanceAbstract
 			// Récupérer les données sur le type de qualifications/participants
 			int typeQualifications = root.getAttributeValue("qualifications").equals("phases") ? InfosModelConcours.QUALIFICATIONS_PHASES : InfosModelConcours.QUALIFICATIONS_GRILLE;
 			int typeParticipants = root.getAttributeValue("participants").equals("equipes") ? InfosModelConcours.PARTICIPANTS_EQUIPES : InfosModelConcours.PARTICIPANTS_JOUEURS;
+			boolean statutHomologueActive = root.getAttribute("statutHomologueActive") != null && "oui".equals(root.getAttributeValue("statutHomologueActive"));
 			
 			// Récupérer les données sur les points
 			Element elementPoints = root.getChild("points");
 			double pointsVictoire = Double.parseDouble(elementPoints.getAttributeValue("victoire"));
-			double pointsEgalite = Double.parseDouble(elementPoints.getAttributeValue("egalite"));
+			double pointsEgalite = elementPoints.getAttribute("egalite") == null ? 0 : Double.parseDouble(elementPoints.getAttributeValue("egalite"));
+			boolean egaliteActivee = elementPoints.getAttribute("egaliteActivee") == null || "oui".equals(elementPoints.getAttributeValue("egaliteActivee"));
 			double pointsDefaite = Double.parseDouble(elementPoints.getAttributeValue("defaite"));
+			double pointsForfait = Double.parseDouble(elementPoints.getAttributeValue("forfait"));
 			
 			// Récupérer les données de programmation
 			Element elementProgrammation = root.getChild("programmation");
@@ -159,7 +172,7 @@ public class PersistanceXML extends PersistanceAbstract
 			Double programmationPause = elementProgrammation == null || elementProgrammation.getAttributeValue("pause") == null ? null : Double.parseDouble(elementProgrammation.getAttributeValue("pause"));
 			
 			// Construire le concours
-			ModelConcours concours = new ModelConcours(new InfosModelConcours(concoursNom, concoursSite, concoursLieu, concoursEmail, concoursTelephone, concoursDescription, organismeNom, organismeSite, organismeLieu, organismeEmail, organismeTelephone, organismeDescription, typeQualifications, typeParticipants, pointsVictoire, pointsEgalite, pointsDefaite, programmationDuree, programmationInterval, programmationPause));
+			ModelConcours concours = new ModelConcours(new InfosModelConcours(concoursNom, concoursSite, concoursLieu, concoursEmail, concoursTelephone, concoursDescription, organismeNom, organismeSite, organismeLieu, organismeEmail, organismeTelephone, organismeDescription, typeQualifications, typeParticipants, statutHomologueActive, pointsVictoire, pointsEgalite, egaliteActivee, pointsDefaite, pointsForfait, programmationDuree, programmationInterval, programmationPause));
 			concours.setId(Integer.parseInt(root.getAttributeValue("id")));
 			
 			// Ajouter les objectifs
@@ -190,20 +203,69 @@ public class PersistanceXML extends PersistanceAbstract
 				Iterator iteratorCriteres = root.getChild("listeCriteres").getChildren("critere").iterator();
 				while (iteratorCriteres.hasNext()) {
 					Element elementCritere = (Element)iteratorCriteres.next();
+					int id = Integer.parseInt(elementCritere.getAttributeValue("id"));
+					boolean isInverse = "oui".equals(elementCritere.getAttributeValue("inverse"));
 					if (elementCritere.getChild("critereNbPoints") != null) {
-						ModelCompPhasesQualifsPoints comparateur = new ModelCompPhasesQualifsPoints(concours, new InfosModelCompPhasesQualifsPoints());
-						comparateur.setId(Integer.parseInt(elementCritere.getAttributeValue("id")));
-						concours.addCompPhasesQualifs(comparateur);
+						ModelCritereClassementNbPoints critere = new ModelCritereClassementNbPoints(concours, new InfosModelCritereClassementNbPoints(isInverse));
+						critere.setId(id);
+						concours.addCritereClassement(critere);
 					} else if (elementCritere.getChild("critereNbVictoires") != null) {
-						ModelCompPhasesQualifsVictoires comparateur = new ModelCompPhasesQualifsVictoires(concours, new InfosModelCompPhasesQualifsVictoires());
-						comparateur.setId(Integer.parseInt(elementCritere.getAttributeValue("id")));
-						concours.addCompPhasesQualifs(comparateur);
-					} else if (elementCritere.getChild("critereNbObjectifs") != null) {
-						ModelObjectif objectif = (ModelObjectif)ModelAbstract.search(Integer.parseInt(elementCritere.getChild("critereNbObjectifs").getAttributeValue("refObjectif")));
-						ModelCompPhasesQualifsObjectif comparateur = new ModelCompPhasesQualifsObjectif(concours, objectif, new InfosModelCompPhasesQualifsObjectif(null));
-						comparateur.setId(Integer.parseInt(elementCritere.getAttributeValue("id")));
-						concours.addCompPhasesQualifs(comparateur);
-						objectif.addCompPhasesQualifs(comparateur);
+						ModelCritereClassementNbVictoires critereClassement = new ModelCritereClassementNbVictoires(concours, new InfosModelCritereClassementNbVictoires(isInverse));
+						critereClassement.setId(id);
+						concours.addCritereClassement(critereClassement);
+					} else if (elementCritere.getChild("critereNbEgalites") != null) {
+						ModelCritereClassementNbEgalites critereClassement = new ModelCritereClassementNbEgalites(concours, new InfosModelCritereClassementNbEgalites(isInverse));
+						critereClassement.setId(Integer.parseInt(elementCritere.getAttributeValue("id")));
+						concours.addCritereClassement(critereClassement);
+					} else if (elementCritere.getChild("critereNbDefaites") != null) {
+						ModelCritereClassementNbDefaites critereClassement = new ModelCritereClassementNbDefaites(concours, new InfosModelCritereClassementNbDefaites(isInverse));
+						critereClassement.setId(id);
+						concours.addCritereClassement(critereClassement);
+					} else if (elementCritere.getChild("critereNbForfaits") != null) {
+						ModelCritereClassementNbForfaits critereClassement = new ModelCritereClassementNbForfaits(concours, new InfosModelCritereClassementNbForfaits(isInverse));
+						critereClassement.setId(id);
+						concours.addCritereClassement(critereClassement);
+					} else if (elementCritere.getChild("critereRencontresDirectes") != null) {
+						ModelCritereClassementRencontresDirectes critereClassement = new ModelCritereClassementRencontresDirectes(concours, new InfosModelCritereClassementRencontresDirectes(isInverse));
+						critereClassement.setId(id);
+						concours.addCritereClassement(critereClassement);
+					} else if (elementCritere.getChild("critereQuantiteObjectif") != null) {
+						ModelObjectif objectif = (ModelObjectif)ModelAbstract.search(Integer.parseInt(elementCritere.getChild("critereQuantiteObjectif").getAttributeValue("refObjectif")));
+						ModelCritereClassementQuantiteObjectif critereClassement = new ModelCritereClassementQuantiteObjectif(concours, objectif, new InfosModelCritereClassementQuantiteObjectif(isInverse,null));
+						critereClassement.setId(id);
+						concours.addCritereClassement(critereClassement);
+						objectif.addCompPhasesQualifs(critereClassement);
+					} else if (elementCritere.getChild("critereGoalAverage") != null) {
+						Element critereGoalAverageDifference = elementCritere.getChild("critereGoalAverage");
+						int type;
+						switch(Tools.stringCase(critereGoalAverageDifference.getAttributeValue("type"), "general", "particulier")) {
+							case 0: type = InfosModelCritereClassementGoalAverage.TYPE_GENERAL; break;
+							case 1: type = InfosModelCritereClassementGoalAverage.TYPE_PARTICULIER; break;
+							default: type = InfosModelCritereClassementGoalAverage.TYPE_GENERAL;
+						}
+						int methode;
+						switch(Tools.stringCase(critereGoalAverageDifference.getAttributeValue("methode"), "difference", "division")) {
+							case 0: methode = InfosModelCritereClassementGoalAverage.METHODE_DIFFERENCE; break;
+							case 1: methode = InfosModelCritereClassementGoalAverage.METHODE_DIVISION; break;
+							default: methode = InfosModelCritereClassementGoalAverage.METHODE_DIFFERENCE;
+						}
+						int donnee;
+						ModelObjectif objectif = null;
+						switch(Tools.stringCase(critereGoalAverageDifference.getAttributeValue("donnee"), "points", "resultat", "quantiteObjectif")) {
+							case 0: donnee = InfosModelCritereClassementGoalAverage.DONNEE_POINTS; break;
+							case 1: donnee = InfosModelCritereClassementGoalAverage.DONNEE_RESULTAT; break;
+							case 2:
+								donnee = InfosModelCritereClassementGoalAverage.DONNEE_QUANTITE_OBJECTIF;
+								objectif = (ModelObjectif)ModelAbstract.search(Integer.parseInt(critereGoalAverageDifference.getAttributeValue("refObjectif")));
+								break;
+							default: donnee = InfosModelCritereClassementGoalAverage.DONNEE_POINTS;
+						}
+						ModelCritereClassementGoalAverage critereClassement = new ModelCritereClassementGoalAverage(concours, objectif, new InfosModelCritereClassementGoalAverage(isInverse,type,methode,donnee));
+						critereClassement.setId(id);
+						concours.addCritereClassement(critereClassement);
+						if(objectif != null) {
+							objectif.addCompPhasesQualifs(critereClassement);
+						}
 					}
 				}
 			}
@@ -548,7 +610,7 @@ public class PersistanceXML extends PersistanceAbstract
 			// Retourner le concours
 			return concours;
 		} catch (Exception e) {
-			Log.getLogger().error("Erreur lors du chargement d'un fichier de tournois.",e);
+			Log.getLogger().error("Erreur lors du chargement d'un fichier de tournoi.",e);
 			return null;
 		}
 	}
@@ -777,6 +839,7 @@ public class PersistanceXML extends PersistanceAbstract
 			root.setAttribute("description", concours.getConcoursDescription());
 		root.setAttribute("participants", concours.getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "equipes" : "joueurs");
 		root.setAttribute("qualifications", concours.getTypePhasesQualificatives() == InfosModelConcours.QUALIFICATIONS_PHASES ? "phases" : "grille");
+		root.setAttribute("statutHomologueActive", concours.isStatutHomologueActive() ? "oui" : "non");
 		
 		// Ajouter les informations de l'organisateur
 		if (concours.getOrganisateurNom() != null && !concours.getOrganisateurNom().isEmpty()) {
@@ -800,8 +863,12 @@ public class PersistanceXML extends PersistanceAbstract
 		root.addContent(new Comment("Liste des points remportés en fonction du résultat des matchs"));
 		Element elementPoints = new Element("points");
 		elementPoints.setAttribute("victoire", String.valueOf(concours.getPointsVictoire()));
-		elementPoints.setAttribute("egalite", String.valueOf(concours.getPointsEgalite()));
+		if(concours.isEgaliteActivee()) {
+			elementPoints.setAttribute("egalite", String.valueOf(concours.getPointsEgalite()));
+		}
+		elementPoints.setAttribute("egaliteActivee", concours.isEgaliteActivee() ? "oui" : "non");
 		elementPoints.setAttribute("defaite", String.valueOf(concours.getPointsDefaite()));
+		elementPoints.setAttribute("forfait", String.valueOf(concours.getPointsForfait()));
 		root.addContent(elementPoints);
 		
 		// Ajouter les informations de programmation
@@ -819,17 +886,57 @@ public class PersistanceXML extends PersistanceAbstract
 		// Ajouter les critères de classement
 		root.addContent(new Comment("Liste des critère de classement"));
 		Element listeCriteres = new Element("listeCriteres");
-		for (ModelCompPhasesQualifsAbstract comparateur : concours.getCompsPhasesQualifs()) {
+		for (ModelCritereClassementAbstract critereClassement : concours.getCriteresClassement()) {
 			Element elementCritere = new Element("critere");
-			elementCritere.setAttribute("id", String.valueOf(comparateur.getId()));
-			if (comparateur instanceof ModelCompPhasesQualifsPoints) {
+			elementCritere.setAttribute("id", String.valueOf(critereClassement.getId()));
+			elementCritere.setAttribute("inverse", critereClassement.isInverse() ? "oui" : "non");
+			if (critereClassement instanceof ModelCritereClassementNbPoints) {
 				elementCritere.addContent(new Element("critereNbPoints"));
-			} else if (comparateur instanceof ModelCompPhasesQualifsVictoires) {
+			} else if (critereClassement instanceof ModelCritereClassementNbVictoires) {
 				elementCritere.addContent(new Element("critereNbVictoires"));
-			} else if (comparateur instanceof ModelCompPhasesQualifsObjectif) {
-				Element elementCritereNbObjectifs = new Element("critereNbObjectifs");
-				elementCritereNbObjectifs.setAttribute("refObjectif", String.valueOf(((ModelCompPhasesQualifsObjectif)comparateur).getObjectif().getId()));
-				elementCritere.addContent(elementCritereNbObjectifs);
+			} else if (critereClassement instanceof ModelCritereClassementNbEgalites) {
+				elementCritere.addContent(new Element("critereNbEgalites"));
+			} else if (critereClassement instanceof ModelCritereClassementNbDefaites) {
+				elementCritere.addContent(new Element("critereNbDefaites"));
+			} else if (critereClassement instanceof ModelCritereClassementNbForfaits) {
+				elementCritere.addContent(new Element("critereNbForfaits"));
+			} else if (critereClassement instanceof ModelCritereClassementRencontresDirectes) {
+				elementCritere.addContent(new Element("critereRencontresDirectes"));
+			} else if (critereClassement instanceof ModelCritereClassementQuantiteObjectif) {
+				Element elementCritereQuantiteObjectif = new Element("critereQuantiteObjectif");
+				elementCritereQuantiteObjectif.setAttribute("refObjectif", String.valueOf(((ModelCritereClassementQuantiteObjectif)critereClassement).getObjectif().getId()));
+				elementCritere.addContent(elementCritereQuantiteObjectif);
+			} else if (critereClassement instanceof ModelCritereClassementGoalAverage) {
+				Element elementCritereGoalAverage = new Element("critereGoalAverage");
+				switch(((ModelCritereClassementGoalAverage)critereClassement).getType()) {
+					case InfosModelCritereClassementGoalAverage.TYPE_GENERAL:
+						elementCritereGoalAverage.setAttribute("type", "general");
+						break;
+					case InfosModelCritereClassementGoalAverage.TYPE_PARTICULIER:
+						elementCritereGoalAverage.setAttribute("type", "particulier");
+						break;
+				}
+				switch(((ModelCritereClassementGoalAverage)critereClassement).getMethode()) {
+					case InfosModelCritereClassementGoalAverage.METHODE_DIFFERENCE:
+						elementCritereGoalAverage.setAttribute("methode", "difference");
+						break;
+					case InfosModelCritereClassementGoalAverage.METHODE_DIVISION:
+						elementCritereGoalAverage.setAttribute("methode", "division");
+						break;
+				}
+				switch(((ModelCritereClassementGoalAverage)critereClassement).getDonnee()) {
+					case InfosModelCritereClassementGoalAverage.DONNEE_POINTS:
+						elementCritereGoalAverage.setAttribute("donnee", "points");
+						break;
+					case InfosModelCritereClassementGoalAverage.DONNEE_RESULTAT:
+						elementCritereGoalAverage.setAttribute("donnee", "resultat");
+						break;
+					case InfosModelCritereClassementGoalAverage.DONNEE_QUANTITE_OBJECTIF:
+						elementCritereGoalAverage.setAttribute("donnee", "quantiteObjectif");
+						elementCritereGoalAverage.setAttribute("refObjectif", String.valueOf(((ModelCritereClassementGoalAverage)critereClassement).getObjectif().getId()));
+						break;
+				}
+				elementCritere.addContent(elementCritereGoalAverage);
 			}
 			listeCriteres.addContent(elementCritere);
 		}
@@ -880,7 +987,7 @@ public class PersistanceXML extends PersistanceAbstract
 		
 		// Ajouter les objectifs
 		if (concours.getObjectifs().size() != 0) {
-			root.addContent(new Comment("Liste des objectifs à remporter au cours matchs"));
+			root.addContent(new Comment("Liste des objectifs à remporter au cours des matchs"));
 			Element listeObjectifs = new Element("listeObjectifs");
 			for (ModelObjectif objectif : concours.getObjectifs()) {
 				Element elementObjectif = new Element("objectif");
@@ -1087,6 +1194,7 @@ public class PersistanceXML extends PersistanceAbstract
 				// Ajouter le classement des phases qualificatives pour la catégorie
 				if (participantsCategorie.size() != 0) {
 					// Trier les participants
+					compPhasesQualifs.etablirClassement(participantsCategorie);
 					Collections.sort(participantsCategorie, compPhasesQualifs);
 					Collections.reverse(participantsCategorie);
 					Element elementClassement = new Element("classementCategoriePhasesQualificatives");
@@ -1127,9 +1235,9 @@ public class PersistanceXML extends PersistanceAbstract
 									elementParticipant.setAttribute("details", participant.getDetails());
 								}
 								elementParticipant.setAttribute("rangPhasesQualifs", String.valueOf(participant.getRangPhasesQualifs()));
-								elementParticipant.setAttribute("pointsPhasesQualifs", String.valueOf(String.valueOf(participant.getPoints(false, true))));
+								elementParticipant.setAttribute("pointsPhasesQualifs", String.valueOf(String.valueOf(participant.getPoints(false, true, -1))));
 								elementParticipant.setAttribute("rangPhasesElims", String.valueOf(participant.getRangPhasesElims()));
-								elementParticipant.setAttribute("pointsPhasesElims", String.valueOf(participant.getPoints(true, false)));
+								elementParticipant.setAttribute("pointsPhasesElims", String.valueOf(participant.getPoints(true, false, -1)));
 								
 								if (participant.getProprietesPossedees().size() != 0) {
 									Element listeProprietesPossedees = new Element("listeProprietesPossedees");
@@ -1164,6 +1272,7 @@ public class PersistanceXML extends PersistanceAbstract
 						// Ajouter le classement des phases qualificatives pour la poule
 						if (participantsPoule.size() != 0) {
 							// Trier les participants
+							compPhasesQualifs.etablirClassement(participantsPoule);
 							Collections.sort(participantsPoule, compPhasesQualifs);
 							Collections.reverse(participantsPoule);
 							Element elementClassement = new Element("classementPoulePhasesQualificatives");
@@ -1192,6 +1301,7 @@ public class PersistanceXML extends PersistanceAbstract
 								// Ajouter le classement pour la phase qualificative
 								if (participantsPoule.size() != 0) {
 									// Trier les participants
+									compPhaseQualif.etablirClassement(participantsPoule);
 									Collections.sort(participantsPoule, compPhaseQualif);
 									Collections.reverse(participantsPoule);
 									Element elementClassement = new Element("classementPhaseQualificative");

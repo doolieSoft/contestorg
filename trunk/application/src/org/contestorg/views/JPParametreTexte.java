@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JTextField;
 
-import org.contestorg.infos.Parametre;
+import org.contestorg.infos.InfosThemeParametre;
 
 /**
  * Panel d'un paramètre de thème d'exportation/diffusion de type "Texte"
@@ -20,7 +20,7 @@ public class JPParametreTexte extends JPParametreAbstract
 	 * Constructeur
 	 * @param parametre paramètre
 	 */
-	public JPParametreTexte(Parametre parametre) {
+	public JPParametreTexte(InfosThemeParametre parametre) {
 		// Appel du constructeur parent
 		super(parametre);
 		

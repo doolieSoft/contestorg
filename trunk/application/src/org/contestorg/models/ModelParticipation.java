@@ -137,27 +137,34 @@ public class ModelParticipation extends ModelAbstract
 			}
 		}
 		
-		// Points de victoire, d'égalité et de défaite
-		ModelConcours concours = FrontModel.get().getConcours();
-		double pvictoire = concours.getPointsVictoire();
-		double pegalite = concours.getPointsEgalite();
-		double pdefaite = concours.getPointsDefaite();
-		
 		// Comptabiliser les points du résultat
+		ModelConcours concours = FrontModel.get().getConcours();
 		switch (this.getResultat()) {
 			case InfosModelParticipation.RESULTAT_VICTOIRE:
-				points += pvictoire;
+				points += concours.getPointsVictoire();
 				break;
 			case InfosModelParticipation.RESULTAT_EGALITE:
-				points += pegalite;
+				points += concours.getPointsEgalite();
 				break;
 			case InfosModelParticipation.RESULTAT_DEFAITE:
-				points += pdefaite;
+				points += concours.getPointsDefaite();
+				break;
+			case InfosModelParticipation.RESULTAT_FORFAIT:
+				points += concours.getPointsForfait();
 				break;
 		}
 		
 		// Retourner le nombre de points
 		return points;
+	}
+	
+	/**
+	 * @see ModelAbstract#getInfos()
+	 */
+	public InfosModelParticipation getInfos () {
+		InfosModelParticipation infos = new InfosModelParticipation(this.resultat);
+		infos.setId(this.getId());
+		return infos;
 	}
 	
 	// Setters
@@ -254,15 +261,6 @@ public class ModelParticipation extends ModelAbstract
 	 */
 	protected ModelParticipation clone (ModelParticipant participant, ModelMatchAbstract match) {
 		return new ModelParticipation(participant, match, this);
-	}
-	
-	/**
-	 * @see ModelAbstract#getInfos()
-	 */
-	public InfosModelParticipation getInfos () {
-		InfosModelParticipation infos = new InfosModelParticipation(this.resultat);
-		infos.setId(this.getId());
-		return infos;
 	}
 	
 	/**
