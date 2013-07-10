@@ -1,5 +1,6 @@
 package org.contestorg.views;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
@@ -7,14 +8,18 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.SpinnerDateModel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -78,16 +83,20 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.jp_contenu.add(ViewHelper.title(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipes" : "Joueurs", ViewHelper.H1));
 		JPanel jp_participants = new JPanel(new GridLayout(1,2));
 		
-		JComboBox<String> jcb_participantA = new JComboBox<String>();
-		jcb_participantA.addItem(infos.getFirst().getFirst());
-		jcb_participantA.setEnabled(false);
+		JLabel jl_participantA = new JLabel(infos.getFirst().getFirst());
+		jl_participantA.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JPanel jp_participantA = new JPanel(new BorderLayout());
+		jp_participantA.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		jp_participantA.add(jl_participantA, BorderLayout.CENTER);
 		
-		JComboBox<String> jcb_participantB = new JComboBox<String>();
-		jcb_participantB.addItem(infos.getSecond().getFirst());
-		jcb_participantB.setEnabled(false);
+		JLabel jl_participantB = new JLabel(infos.getSecond().getFirst());
+		jl_participantB.setBorder(new EmptyBorder(5, 5, 5, 5));
+		JPanel jp_participantB = new JPanel(new BorderLayout());
+		jp_participantB.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		jp_participantB.add(jl_participantB, BorderLayout.CENTER);
 		
-		jp_participants.add(jcb_participantA);
-		jp_participants.add(jcb_participantB);
+		jp_participants.add(jp_participantA);
+		jp_participants.add(jp_participantB);
 		
 		this.jp_contenu.add(jp_participants);
 		
