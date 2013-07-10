@@ -9,23 +9,30 @@
 			body {
 				font-family: arial, helvetica, sans-serif;
 				font-size: 1em;
-				min-width:768px;
+				min-width:800px;
 				background-color:#EEEEEE;
 			}
 			
 			/* Page */
 			#page {
-				width:768px;
+				width:800px;
 				margin-left:auto;
 				margin-right:auto;
+				background-color: #D3E4F7;
+				padding:20px;
+				padding-top:0px;
 			}
 			
 			/* Header */
 			#header h1 {
 				margin-top:0px;
+				margin-left:-20px;
+				margin-right:-20px;
 				margin-bottom:0px;
 			}
 			#bar {
+				margin-left:-20px;
+				margin-right:-20px;
 				overflow:hidden;
 			}
 			#bar div {
@@ -44,48 +51,6 @@
 			#colorI { background-color: #FD6768; }
 			#colorJ { background-color: #98AED3; }
 			
-			/* Menu */
-			#menu {
-				list-style:none;
-				overflow:hidden;
-				background-color:#D3E4F7;
-				margin:0px;
-				margin-bottom:10px;
-				padding:0px;
-			}
-			#menu li {
-				float:left;
-				margin-right:10px;
-			}
-			#menu li a {
-				background-color:#BDD6F3;
-				text-decoration:none;
-				padding:5px;
-				padding-left:10px;
-				padding-right:10px;
-				display:block;
-			}
-			#menu li a:hover {
-				background-color:#A2C5EE;
-			}
-			
-			/* Blocs */
-			.bloc {
-				background-color: #D3E4F7;
-				color: #000000;
-				padding: 8px;
-				margin-bottom: 8px;
-				font-size:0.9em;
-			}
-			
-			/* Footer */
-			#footer {
-				padding:20px;
-				font-style: italic;
-				font-size: 9px;
-				text-align: center;
-			}
-			
 			/* Liens */
 			a { color: #000000; outline: none; }
 			a:hover { text-decoration: none; }
@@ -95,7 +60,7 @@
 				background-color: #6085B0;
 				color: #FFFFFF;
 				font-weight:bold;
-				font-size: 1.4em;
+				font-size: 2em;
 				padding: 12px;
 				margin-bottom: 10px;
 			}
@@ -105,18 +70,19 @@
 			h2 {
 				background-color: #669EB7;
 				color: #FFFFFF;
-				font-weight: bold;
-				font-size: 1.2em;
+				display: block;
+				font-size: 1.6em;
+				margin-left: -20px;
+				margin-right: -20px;
 				padding: 8px;
-				margin-bottom: 8px;
 			}
 			h3 {
 				background-color: #9CCA30;
 				color: #FFFFFF;
-				font-weight: bold;
-				font-size: 1.1em;
+				font-size: 1.4em;
+				margin-left: -20px;
+				margin-right: -20px;
 				padding: 6px;
-				margin-bottom: 8px;
 			}
 			
 			/* Listes */
@@ -137,6 +103,14 @@
 			}
 			table.cute, table.cute th, table.cute td {
 				border:2px solid #A5C6D5;
+			}
+			
+			/* Lignes de commande */
+			.command {
+				background-color: #000000;
+				color: #FFFFFF;
+				padding-left: 5px;
+				padding-right: 5px;
 			}
 			
 			/* Modifications */
@@ -175,20 +149,39 @@
 			
 			<!-- Présentation -->
 			<h2>Présentation</h2>
-			<div class="bloc">
-				<b>ContestOrg</b> est un logiciel d'organisation de tournois. Pour plus d'informations, rendez-vous :
+			<div>
+				<p><b>ContestOrg</b> est un logiciel d'organisation de tournois. Pour plus d'informations, rendez-vous :</p>
 				<ul>
 					<li>dans l'aide en cliquant <a href="doc/documentation.html">ici</a></li>
 					<li>sur le site web en cliquant <a href="http://www.elfangels.fr/contestorg/">ici</a></li>
 				</ul>
-				Vous pouvez également vous rendre sur l'espace de développement Google Code en cliquant <a href="http://code.google.com/p/contestorg/">ici</a>.
+				<p><i>Vous pouvez également vous rendre sur l'espace de développement Google Code en cliquant <a href="http://code.google.com/p/contestorg/">ici</a>.</i></p>
+			</div>
+			
+			<!-- Lancer ContestOrg -->
+			<h2>Lancer ContestOrg</h2>
+			<div>
+				<p><b>Sous Windows :</b> double-cliquer sur <b>ContestOrg.exe</b></p>
+				<p><b>Sous Linux et Mac-OS :</b></p>
+				<ul>
+					<li>Vérifier si Java est installé : exécuter <span class="command">java -version</span> ce qui doit afficher la version de Java s'il est installé</li>
+					<li>Installer Java (s'il n'est pas déjà installé) : suivre la <a href="http://www.java.com/fr/download/help/download_options.xml" target="_blank">procédure d'installation</a> en fonction de votre plateforme</li>
+					<li>Exécuter <span class="command">java -jar ContestOrg.jar</span> (depuis le répertoire de ContestOrg)</li>
+				</ul>
+			</div>
+			
+			<!-- Licence -->
+			<h2>Licence</h2>
+			<div>
+				<b>ContestOrg</b> est publié sous la licence <b>GNU GPLv3</b>.
+				Pour plus d'information sur cette licence cliquez <a href="http://www.gnu.org/licenses/gpl.html">ici</a>.
 			</div>
 			
 			<!-- Versions -->
 			<h2>Versions</h2>
 			
 			<h3>Version 2.3.1</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 12/06/2012<br/>
 				<b>Modifications :</b>
 				<ul>
@@ -203,7 +196,7 @@
 			</div>
 			
 			<h3>Version 2.3.0</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 11/06/2012<br/>
 				<b>Modifications :</b>
 				<ul>
@@ -236,7 +229,7 @@
 			</div>
 			
 			<h3>Version 2.0.0</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 26/03/2012<br/>
 				<b>Modifications :</b>
 				<ul>
@@ -287,7 +280,7 @@
 			</div>
 			
 			<h3>Version 2.0.0b</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 15/05/2011<br/>
 				<b>Modifications :</b>
 				<ul>
@@ -318,7 +311,7 @@
 			</div>
 			
 			<h3>Version 2.0.0a</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 26/04/2011<br/>
 				<b>Téléchargements :</b><br/>
 				<ul>
@@ -328,17 +321,8 @@
 			</div>
 			
 			<h3>Version 1.1</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 17/03/2010<br/><br/>
-				<b>Modifications :</b>
-				<ul>
-					<li>
-						Anomalies :
-						<ul class="defaults">
-							<li>Correction d'un bogue lors de l'édition d'une phase qualificative s'il y a un nombre impaire de participants</li>
-						</ul>
-					</li>
-				</ul>
 				<b>Téléchargements :</b><br/>
 				<ul>
 					<li>Version EXE : 4844</li>
@@ -347,7 +331,7 @@
 			</div>
 			
 			<h3>Version 1.0</h3>
-			<div class="bloc">
+			<div>
 				<b>Date de publication :</b> 05/10/2009<br/>
 				<b>Téléchargements :</b><br/>
 				<ul>
@@ -356,19 +340,12 @@
 				</ul>
 			</div>
 			
-			<!-- Licence -->
-			<h2>Licence</h2>
-			<div class="bloc">
-				<b>ContestOrg</b> est publié sous la licence <b>GNU GPLv3</b>.
-				Pour plus d'information sur cette licence cliquez <a href="http://www.gnu.org/licenses/gpl.html">ici</a>.
-			</div>
-			
 			<!-- Crédits -->
 			<h2>Crédits</h2>
 			
 			<!-- Membres de l'équipe -->
 			<h3>Membres de l'équipe</h3>
-			<div class="bloc">
+			<div>
 				<table class="cute" style="width:100%;">
 					<thead>
 						<tr>
@@ -387,7 +364,7 @@
 			
 			<!-- Donateurs -->
 			<h3>Donateurs</h3>
-			<div class="bloc">
+			<div>
 				<table class="cute" style="width:100%;">
 					<thead>
 						<tr>
@@ -408,7 +385,7 @@
 			
 			<!-- Contributeurs occasionnels -->
 			<h3>Contributeurs occasionnels</h3>
-			<div class="bloc">
+			<div>
 				<table class="cute" style="width:100%;">
 					<thead>
 						<tr>
@@ -427,7 +404,7 @@
 			
 			<!-- Packs d'icônes utilisés -->
 			<h3>Packs d'icônes utilisés</h3>
-			<div class="bloc">
+			<div>
 				<table class="cute" style="width:100%;">
 					<thead>
 						<tr>
@@ -448,7 +425,7 @@
 			
 			<!-- Outils utilisés -->
 			<h3>Outils utilisés</h3>
-			<div class="bloc">
+			<div>
 				<table class="cute" style="width:100%;">
 					<thead>
 						<tr>
@@ -459,23 +436,18 @@
 					</thead>
 					<tbody>
 						<tr>
+							<td>Google Code</td>
+							<td>Plateforme de développement collaboratif</td>
+							<td><a href="http://code.google.com/" target="_blank">Cliquez-ici</a></td>
+						</tr>
+						<tr>
 							<td>Eclipse</td>
 							<td>Environnement de développement intégré</td>
 							<td><a href="http://www.eclipse.org/" target="_blank">Cliquez-ici</a></td>
 						</tr>
 						<tr>
-							<td>Google Code</td>
-							<td>Plateforme de développement collaboratif</td>
-							<td><a href="" target="_blank">Cliquez-ici</a></td>
-						</tr>
-						<tr>
-							<td>TopCased</td>
-							<td>Outil de modélisation basé sur Eclipse	</td>
-							<td><a href="http://www.topcased.org/" target="_blank">Cliquez-ici</a></td>
-						</tr>
-						<tr>
 							<td>DocBook</td>
-							<td>Langage à destination de documentation technique</td>
+							<td>Langage pour réaliser de la documentation technique</td>
 							<td><a href="http://www.docbook.org/" target="_blank">Cliquez-ici</a></td>
 						</tr>
 						<tr>
@@ -487,11 +459,6 @@
 							<td>Launch4j</td>
 							<td>Encapsuleur EXE pour JAR à destination de Windows</td>
 							<td><a href="http://launch4j.sourceforge.net/" target="_blank">Cliquez-ici</a></td>
-						</tr>
-						<tr>
-							<td>Pencil</td>
-							<td>Logiciel de maquettes d'interfaces graphiques</td>
-							<td><a href="http://pencil.evolus.vn/" target="_blank">Cliquez-ici</a></td>
 						</tr>
 						<tr>
 							<td>Inkscape</td>
@@ -514,7 +481,7 @@
 			
 			<!-- Librairies utilisées -->
 			<h3>Librairies utilisées</h3>
-			<div class="bloc">
+			<div>
 				<table class="cute" style="width:100%;">
 					<thead>
 						<tr>
@@ -535,7 +502,7 @@
 							<td>jDom</td>
 							<td>Manipulation du DOM XML</td>
 							<td><a href="http://www.jdom.org/" target="_blank">Cliquez-ici</a></td>
-							<td>~Apache License</td>
+							<td>Apache License</td>
 						</tr>
 						<tr>
 							<td>jUnit</td>
