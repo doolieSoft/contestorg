@@ -330,7 +330,7 @@
 							}
 							echo '</xsl:text></select></td><xsl:text disable-output-escaping="yes">',
 							     '</xsl:text><td><xsl:text disable-output-escaping="yes">',
-							     '</xsl:text><a onclick="var nom = window.prompt(\'Nom du statut :\',\'',$statut->getAttribute('nom'),'\'); if(nom != null) window.location = \'actions.php?action=statut-modifier-nom&amp;statut=',$statut->getAttribute('id'),'&amp;nom=\'+nom; return false;" href="#" title="Renommer le statut">Renommer</a><xsl:text disable-output-escaping="yes"> - ',
+							     '</xsl:text><a onclick="var nom = window.prompt(\'Nom du statut :\',\'',str_replace('\'','\\\'',str_replace('\\','\\\\',$statut->getAttribute('nom'))),'\'); if(nom != null) window.location = \'actions.php?action=statut-modifier-nom&amp;statut=',$statut->getAttribute('id'),'&amp;nom=\'+nom; return false;" href="#" title="Renommer le statut">Renommer</a><xsl:text disable-output-escaping="yes"> - ',
 							     '</xsl:text><a onclick="return window.confirm(\'Désirez-vous vraiment supprimer ce statut ?\');" href="actions.php?action=statut-supprimer&amp;statut=',$statut->getAttribute('id'),'" title="Supprimer le statut">Supprimer</a><xsl:text disable-output-escaping="yes">',
 							     '</xsl:text></td><xsl:text disable-output-escaping="yes">',
 							     '</xsl:text></tr><xsl:text disable-output-escaping="yes">';
