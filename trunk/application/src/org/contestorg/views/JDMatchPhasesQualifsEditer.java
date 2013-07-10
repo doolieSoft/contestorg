@@ -101,10 +101,10 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 		}
 		if(infos.getFourth().getDate() != null) {
 			this.jcb_date.setSelected(true);
-			this.js_date.setValue(infos.getFourth().getDate());
+			this.dm_date.setValue(infos.getFourth().getDate());
 		} else {
 			this.jcb_date.setSelected(false);
-			this.js_date.setEnabled(false);
+			this.setDateVisible(false);
 		}
 		if(infos.getThird() != null) {
 			this.jp_lieuEmplacement.setNomLieu(infos.getThird().getFirst());

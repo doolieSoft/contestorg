@@ -1,6 +1,7 @@
 package org.contestorg.views;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
@@ -12,16 +13,19 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import net.sourceforge.jdatepicker.DateModel;
+import net.sourceforge.jdatepicker.JDateComponentFactory;
+import net.sourceforge.jdatepicker.JDatePanel;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
@@ -56,8 +60,11 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	/** Spécifier la date du match ? */
 	protected JCheckBox jcb_date;
 	
-	/** Date */
-	private JSpinner js_date;
+	/** Panel de la date */
+	protected JDatePanel jdp_date;
+	
+	/** Modèle de la date */
+	protected DateModel<Date> dm_date;
 	
 	/** Lieu et emplacement */
 	protected JPLieuEmplacement jp_lieuEmplacement;
@@ -72,6 +79,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 * @param infos informations du match
 	 * @param resultatsEditable résultats éditables ?
 	 */
+	@SuppressWarnings("unchecked")
 	public JDMatchPhasesEliminatoires(Window w_parent, ICollector<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims>> collector, Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos, boolean resultatsEditable) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un match");
@@ -152,17 +160,19 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		// Date
 		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
 		
-		this.jcb_date = new JCheckBox("Spécifier la date du match ?");
-		this.jcb_date.setSelected(infos.getFourth().getDate() != null);
+		this.jcb_date = new JCheckBox("Définir la date du match ?");
+		this.jcb_date.setSelected(false);
 		this.jcb_date.addChangeListener(this);
-
 		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
 		
-		this.js_date = new JSpinner(new SpinnerDateModel());
-		this.js_date.setEditor(new JSpinner.DateEditor(this.js_date, "dd/MM/yyyy  HH:mm"));
-		this.js_date.setValue(infos.getFourth().getDate() != null ? infos.getFourth().getDate() : new Date());
-		this.js_date.setEnabled(infos.getFourth().getDate() != null);
-		this.jp_contenu.add(this.js_date);
+		this.dm_date = (DateModel<Date>)JDateComponentFactory.createDateModel(Date.class);
+		this.jdp_date = JDateComponentFactory.createJDatePanel(this.dm_date);
+		
+		this.jp_contenu.add((Component)jdp_date);
+		
+		((JComponent)this.jdp_date).setVisible(infos.getFourth().getDate() != null);
+		this.dm_date.setValue(infos.getFourth().getDate());
+		this.jcb_date.setSelected(infos.getFourth().getDate() != null);
 		
 		// Lieu et emplacement
 		this.jp_lieuEmplacement = new JPLieuEmplacement();
@@ -216,7 +226,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 				break;
 		}
 		String details = this.jta_details.getText().trim();
-		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
+		Date date = this.jcb_date.isSelected() ? this.dm_date.getValue() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
 		
@@ -236,6 +246,11 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			// Erreur
 			erreur = true;
 			ViewHelper.derror(this, "Il ne peut pas y avoir une double défaite dans les matchs des phases éliminatoires.");
+		}
+		if(this.jcb_date.isSelected() && date == null) {
+			// Erreur
+			erreur = true;
+			ViewHelper.derror(this, "La date du match n'a pas été définie.");
 		}
 		
 		// Transmettre les données au collector
@@ -298,7 +313,8 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		this.js_date.setEnabled(this.jcb_date.isSelected());
+		((JComponent)this.jdp_date).setVisible(this.jcb_date.isSelected());
+		this.pack();
 	}
 	
 }
