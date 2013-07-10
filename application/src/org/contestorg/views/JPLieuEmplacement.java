@@ -78,7 +78,7 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 		if(nbLieux > 1) {
 			// Ajouter la case à cocher
 			this.add(ViewHelper.title("Lieu et emplacement", ViewHelper.H1));
-			this.jcb_lieuEmplacement.setText("Spécifier le lieu et l'emplacement ?");
+			this.jcb_lieuEmplacement.setText("Définir le lieu et l'emplacement ?");
 			this.jcb_lieuEmplacement.setEnabled(true);
 			this.add(ViewHelper.left(this.jcb_lieuEmplacement));
 			this.jcb_lieuEmplacement.addChangeListener(this);
@@ -90,7 +90,7 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 		} else  if(nbEmplacements >= 1) {
 			// Ajouter la case à coucher
 			this.add(ViewHelper.title("Emplacement", ViewHelper.H1));
-			this.jcb_lieuEmplacement.setText("Spécifier l'emplacement ?");
+			this.jcb_lieuEmplacement.setText("Définir l'emplacement ?");
 			this.jcb_lieuEmplacement.setEnabled(true);
 			this.add(ViewHelper.left(this.jcb_lieuEmplacement));
 			this.jcb_lieuEmplacement.addChangeListener(this);
