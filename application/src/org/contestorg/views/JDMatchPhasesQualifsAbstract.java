@@ -1,5 +1,6 @@
 package org.contestorg.views;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
@@ -10,13 +11,16 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.SpinnerDateModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import net.sourceforge.jdatepicker.DateModel;
+import net.sourceforge.jdatepicker.JDateComponentFactory;
+import net.sourceforge.jdatepicker.JDatePanel;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
@@ -67,8 +71,11 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	/** Spécifier la date du match ? */
 	protected JCheckBox jcb_date;
 	
-	/** Date */
-	protected JSpinner js_date;
+	/** Panel de la date */
+	protected JDatePanel jdp_date;
+	
+	/** Modèle de la date */
+	protected DateModel<Date> dm_date;
 	
 	/** Lieu et emplacement */
 	protected JPLieuEmplacement jp_lieuEmplacement;
@@ -86,7 +93,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	protected int index_egalite;
 	/** Défaite */
 	protected int index_defaite;
-	/** FORFAIT */
+	/** Forfait */
 	protected int index_forfait;
 	
 	/**
@@ -98,6 +105,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 * @param nomPoule nom de la poule de destination
 	 * @param numeroPhase numéro de la phase qualificative de destination
 	 */
+	@SuppressWarnings("unchecked")
 	public JDMatchPhasesQualifsAbstract(Window w_parent, String titre, ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -160,17 +168,15 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		// Date
 		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
 		
-		this.jcb_date = new JCheckBox("Spécifier la date du match ?");
+		this.jcb_date = new JCheckBox("Définir la date du match ?");
 		this.jcb_date.setSelected(false);
 		this.jcb_date.addChangeListener(this);
-
 		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
 		
-		this.js_date = new JSpinner(new SpinnerDateModel());
-		this.js_date.setEditor(new JSpinner.DateEditor(this.js_date, "dd/MM/yyyy  HH:mm"));
-		this.js_date.setValue(new Date());
-		this.js_date.setEnabled(false);
-		this.jp_contenu.add(this.js_date);
+		this.dm_date = (DateModel<Date>)JDateComponentFactory.createDateModel(Date.class);
+		this.jdp_date = JDateComponentFactory.createJDatePanel(this.dm_date);
+		((JComponent)this.jdp_date).setVisible(false);
+		this.jp_contenu.add((Component)jdp_date);
 		
 		// Lieu et emplacement
 		this.jp_lieuEmplacement = new JPLieuEmplacement();
@@ -233,7 +239,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			resultatB = InfosModelParticipation.RESULTAT_FORFAIT;
 		}
 		String details = this.jta_details.getText().trim();
-		Date date = this.jcb_date.isSelected() ? (Date)this.js_date.getValue() : null;
+		Date date = this.jcb_date.isSelected() ? this.dm_date.getValue() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
 		
@@ -268,6 +274,11 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			// Erreur
 			erreur = true;
 			ViewHelper.derror(this, "Il ne peut y avoir qu'un seul vainqueur.");
+		}
+		if(this.jcb_date.isSelected() && date == null) {
+			// Erreur
+			erreur = true;
+			ViewHelper.derror(this, "La date du match n'a pas été définie.");
 		}
 		
 		// Transmettre les données au collector
@@ -333,7 +344,16 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		this.js_date.setEnabled(this.jcb_date.isSelected());
+		this.setDateVisible(this.jcb_date.isSelected());
+	}
+	
+	/**
+	 * Définir si le calendrier est visible ou non
+	 * @param visible calendrier visible ?
+	 */
+	protected void setDateVisible(boolean visible) {
+		((JComponent)this.jdp_date).setVisible(visible);
+		this.pack();
 	}
 	
 }
