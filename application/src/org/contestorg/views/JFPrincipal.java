@@ -51,6 +51,8 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 
 	/** Bouton "Sauvegarder" */
 	private JButton jb_sauvegarder;
+	/** Bouton "Sauvegarder sous" */
+	private JButton jb_sauvegarder_sous;
 	/** Bouton "Exporter" */
 	private JButton jb_exporter;
 	/** Bouton "Publier" */
@@ -106,6 +108,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_nouveau = new JButton("Nouveau", new ImageIcon("img/farm/32x32/add.png"));
 		this.jb_ouvrir = new JButton("Ouvrir", new ImageIcon("img/farm/32x32/folder.png"));
 		this.jb_sauvegarder = new JButton("Sauvegarder", new ImageIcon("img/farm/16x16/disk.png"));
+		this.jb_sauvegarder_sous = new JButton("Sauvegarder sous");
 		this.jb_exporter = new JButton("Exporter", new ImageIcon("img/farm/16x16/application_go.png"));
 		this.jb_publier = new JButton("Publier", new ImageIcon("img/farm/16x16/world_go.png"));
 		this.jb_diffuser = new JButton("Diffuser", new ImageIcon("img/farm/16x16/monitor_go.png"));
@@ -119,6 +122,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_nouveau.setToolTipText("Créer un nouveau concours");
 		this.jb_ouvrir.setToolTipText("Ouvrir un concours existant");
 		this.jb_sauvegarder.setToolTipText("Sauvegarder les modifications");
+		this.jb_sauvegarder_sous.setToolTipText("Sauvegarder le tournoi dans un autre fichier");
 		this.jb_exporter.setToolTipText("Lancer des exportations prédéfinies");
 		this.jb_publier.setToolTipText("Lancer l'exportation choisie pour la publication");
 		this.jb_diffuser.setToolTipText("Démarrer des diffusions d'informations sur le réseau");
@@ -130,36 +134,38 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_quitter.setToolTipText("Quitter le programme");
 
 		this.jb_sauvegarder.setEnabled(false);
+		this.jb_sauvegarder_sous.setEnabled(false);
 		this.jb_exporter.setEnabled(false);
 		this.jb_publier.setEnabled(false);
 		this.jb_diffuser.setEnabled(false);
 		this.jb_configurer.setEnabled(false);
 		this.jb_fermer.setEnabled(false);
 
-		this.addButton(jp_gauche, this.jb_nouveau);
-		this.addButton(jp_gauche, this.jb_ouvrir);
+		this.addButton(jp_gauche, this.jb_nouveau, true);
+		this.addButton(jp_gauche, this.jb_ouvrir, true);
 
 		JSeparator js_sep1 = new JSeparator();
 		js_sep1.setMaximumSize(new Dimension(280, 12));
 		jp_gauche.add(js_sep1);
 		jp_gauche.add(Box.createVerticalStrut(5));
 
-		this.addButton(jp_gauche, this.jb_sauvegarder);
-		this.addButton(jp_gauche, this.jb_exporter);
-		this.addButton(jp_gauche, this.jb_publier);
-		this.addButton(jp_gauche, this.jb_diffuser);
-		this.addButton(jp_gauche, this.jb_configurer);
-		this.addButton(jp_gauche, this.jb_fermer);
+		this.addButton(jp_gauche, this.jb_sauvegarder, true);
+		this.addButton(jp_gauche, this.jb_sauvegarder_sous, false);
+		this.addButton(jp_gauche, this.jb_exporter, true);
+		this.addButton(jp_gauche, this.jb_publier, true);
+		this.addButton(jp_gauche, this.jb_diffuser, true);
+		this.addButton(jp_gauche, this.jb_configurer, true);
+		this.addButton(jp_gauche, this.jb_fermer, true);
 
 		JSeparator js_sep2 = new JSeparator();
 		js_sep2.setMaximumSize(new Dimension(280, 12));
 		jp_gauche.add(js_sep2);
 		jp_gauche.add(Box.createVerticalStrut(5));
 
-		this.addButton(jp_gauche, this.jb_aide);
-		this.addButton(jp_gauche, this.jb_web);
-		this.addButton(jp_gauche, this.jb_apropos);
-		this.addButton(jp_gauche, this.jb_quitter);
+		this.addButton(jp_gauche, this.jb_aide, true);
+		this.addButton(jp_gauche, this.jb_web, true);
+		this.addButton(jp_gauche, this.jb_apropos, true);
+		this.addButton(jp_gauche, this.jb_quitter, true);
 
 		// Panel à onglets
 		JPanel jp_participants = new JPPrincipalParticipants(this);
@@ -177,6 +183,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		this.jb_nouveau.addActionListener(this);
 		this.jb_ouvrir.addActionListener(this);
 		this.jb_sauvegarder.addActionListener(this);
+		this.jb_sauvegarder_sous.addActionListener(this);
 		this.jb_exporter.addActionListener(this);
 		this.jb_publier.addActionListener(this);
 		this.jb_diffuser.addActionListener(this);
@@ -195,10 +202,16 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	 * Ajouter un bouton au panneau
 	 * @param panel panel du panneau
 	 * @param button boutton
+	 * @param resizeHeight redimensionner le bouton ?
 	 */
-	private void addButton (JPanel panel, JButton button) {
+	private void addButton (JPanel panel, JButton button, boolean resizeHeight) {
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button.setMaximumSize(new Dimension(280, 40));
+		Dimension maxSize = button.getMaximumSize();
+		maxSize.width = 280;
+		if(resizeHeight) {
+				maxSize.height = 40;
+		}
+		button.setMaximumSize(maxSize);
 		panel.add(button);
 		panel.add(Box.createVerticalStrut(5));
 	}
@@ -245,6 +258,8 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 			}
 		} else if (event.getSource() == this.jb_sauvegarder) {
 			ContestOrg.get().concoursSauvegarder();
+		} else if (event.getSource() == this.jb_sauvegarder_sous) {
+			ContestOrg.get().concoursSauvegarderSous();
 		} else if (event.getSource() == this.jb_exporter) {
 			JDExportations dialog = new JDExportations(this);
 			dialog.setVisible(true);
@@ -313,6 +328,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 	public void moodyChanged (IMoody moody) {
 		// Mettre à jour l'état de certains boutons
 		this.jb_sauvegarder.setEnabled(moody.is(ContestOrg.STATE_EDIT) && !moody.is(ContestOrg.STATE_SAVE));
+		this.jb_sauvegarder_sous.setEnabled(moody.is(ContestOrg.STATE_EDIT));
 		this.setTitle(!moody.is(ContestOrg.STATE_OPEN) || moody.is(ContestOrg.STATE_SAVE) ? this.titre : this.titre+" *");
 		this.jb_exporter.setEnabled(moody.is(ContestOrg.STATE_OPEN));
 		this.jb_publier.setEnabled(moody.is(ContestOrg.STATE_OPEN));
