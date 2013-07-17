@@ -522,6 +522,26 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	}
 	
 	/**
+	 * Sauvegarder le concours sous
+	 */
+	public void concoursSauvegarderSous() {
+		// Demander à l'utilisateur le chemin de sauvegarde
+		this.chemin = ViewHelper.sauvegarder(this.jf_general, "Sauvegarder le concours sous", FiltreFichier.ext_co, FiltreFichier.des_co);
+		
+		// Si un fichier a bien été donné
+		if (this.chemin != null) {
+			// Sauvegarder le concours
+			if(new PersistanceXML(chemin).save()) {
+				// Ajouter l'état sauvegardé
+				this.addState(STATE_SAVE);
+			} else {
+				// Message d'erreur
+				ViewHelper.derror(this.jf_general, "Une erreur est survenue lors de la sauvegarde du concours.");
+			}
+		}
+	}
+	
+	/**
 	 * Lancer la procédure de fermeture du concours
 	 */
 	public void concoursFermer() {

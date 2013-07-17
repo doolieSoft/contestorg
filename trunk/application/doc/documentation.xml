@@ -237,7 +237,17 @@
         </listitem>
 
         <listitem>
-          <para><guibutton>Exportations</guibutton> : afficher la fenêtre des
+          <para><guibutton>Sauvegarder</guibutton> : sauvegarder les
+          modifications du tournoi</para>
+        </listitem>
+
+        <listitem>
+          <para><guibutton>Sauvegarder sous</guibutton> : sauvegarder le
+          tournoi dans un autre fichier</para>
+        </listitem>
+
+        <listitem>
+          <para><guibutton>Exporter</guibutton> : afficher la fenêtre des
           exportations</para>
         </listitem>
 
@@ -270,7 +280,7 @@
         </listitem>
 
         <listitem>
-          <para><guibutton>Crédits</guibutton> : afficher les crédits</para>
+          <para><guibutton>A propos</guibutton> : afficher l'à propos</para>
         </listitem>
 
         <listitem>
