@@ -63,7 +63,7 @@
 <!ATTLIST critereGoalAverage 	type		(general,particulier) 				"general">
 <!ATTLIST critereGoalAverage 	methode		(difference,division) 				"difference">
 <!ATTLIST critereGoalAverage 	donnee 		(points,resultat,quantiteObjectif) 	"points">
-<!ATTLIST critereGoalAverage 	refObjectif IDREF 								#IMPLIED> <!-- Référence de l'objectif associé au critère de classement (si le type est "quantiteObjectif") -->
+<!ATTLIST critereGoalAverage 	refObjectif IDREF 								#IMPLIED> <!-- Référence de l'objectif associé au critère de classement (si la donnee est "quantiteObjectif") -->
 
 <!-- Liste des lieux, emplacements et horaires -->
 <!ELEMENT listeLieux (lieu*)>
