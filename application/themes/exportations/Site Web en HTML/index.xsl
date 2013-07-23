@@ -483,6 +483,7 @@
 		<xsl:choose>
 			<xsl:when test="$id != ''">
 				<a href="#participant-{$id}" title="Se rendre sur la fiche du participant">
+					<xsl:if test="//participant[@id=$id]/@stand != ''"><xsl:value-of select="//participant[@id=$id]/@stand" /> - </xsl:if>
 					<xsl:value-of select="//participant[@id=$id]/@nom" />
 				</a>
 			</xsl:when>
@@ -504,6 +505,9 @@
 	
 		<!-- Nom -->
 		<h3>
+			<xsl:if test="./@stand != ''">
+				<xsl:value-of select="./@stand" /> - 
+			</xsl:if>
 			<xsl:value-of select="./@nom" />
 			<xsl:if test="./@ville != ''">
 				(<xsl:value-of select="./@ville" />)

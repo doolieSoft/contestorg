@@ -171,6 +171,7 @@
 	<!-- Template d'un participant -->
 	<xsl:template name="participant">
 		<xsl:param name="id" />
+		<xsl:if test="//participant[@id=$id]/@stand != ''"><xsl:value-of select="//participant[@id=$id]/@stand" /> - </xsl:if>
 		<xsl:value-of select="//participant[@id=$id]/@nom" />
 	</xsl:template>
 </xsl:stylesheet>

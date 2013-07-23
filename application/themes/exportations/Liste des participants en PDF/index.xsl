@@ -169,7 +169,10 @@
 	<xsl:template match="participant">
 		<fo:table-row>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block><xsl:value-of select="./@nom" /></fo:block>
+				<fo:block>
+					<xsl:if test="./@stand != ''"><xsl:value-of select="./@stand" /> - </xsl:if>
+					<xsl:value-of select="./@nom" />
+				</fo:block>
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
 				<fo:block><xsl:value-of select="./@ville" /></fo:block>

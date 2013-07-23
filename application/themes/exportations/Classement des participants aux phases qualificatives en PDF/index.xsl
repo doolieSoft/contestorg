@@ -182,7 +182,10 @@
 				<fo:block><xsl:value-of select="./@rang" /></fo:block>
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block><xsl:value-of select="//participant[@id=$id]/@nom" /></fo:block>
+				<fo:block>
+					<xsl:if test="//participant[@id=$id]/@stand != ''"><xsl:value-of select="//participant[@id=$id]/@stand" /> - </xsl:if>
+					<xsl:value-of select="//participant[@id=$id]/@nom" />
+				</fo:block>
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
 				<fo:block><xsl:value-of select="//participant[@id=$id]/@pointsPhasesQualifs" /></fo:block>
