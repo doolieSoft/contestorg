@@ -153,6 +153,7 @@
 	<xsl:template match="participant">
 		<tr>
 			<td class="td-nom">
+				<xsl:if test="./@stand != ''"><xsl:value-of select="./@stand" /> - </xsl:if>
 				<xsl:value-of select="./@nom" />
 			</td>
 			<td class="td-ville">

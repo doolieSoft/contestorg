@@ -92,6 +92,7 @@
 			<td class="td-participantA">
 				<xsl:choose>
 					<xsl:when test="$idA != ''">
+						<xsl:if test="//participant[@id=$idA]/@stand != ''"><xsl:value-of select="//participant[@id=$idA]/@stand" /> - </xsl:if>
 						<xsl:value-of select="//participant[@id=$idA]/@nom" />
 					</xsl:when>
 					<xsl:otherwise>
@@ -109,6 +110,7 @@
 			<td class="td-participantB">
 				<xsl:choose>
 					<xsl:when test="$idB != ''">
+						<xsl:if test="//participant[@id=$idB]/@stand != ''"><xsl:value-of select="//participant[@id=$idB]/@stand" /> - </xsl:if>
 						<xsl:value-of select="//participant[@id=$idB]/@nom" />
 					</xsl:when>
 					<xsl:otherwise>

@@ -240,6 +240,7 @@
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
 				<fo:block>
+					<xsl:if test="//participant[@id=$refParticipant]/@stand != ''"><xsl:value-of select="//participant[@id=$refParticipant]/@stand" /> - </xsl:if>
 					<xsl:value-of select="//participant[@id=$refParticipant]/@nom" />
 				</fo:block>
 			</fo:table-cell>

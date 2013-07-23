@@ -119,7 +119,10 @@
 		<xsl:variable name="id" select="./@refParticipant" />
 		<tr>
 			<td class="td-rang"><xsl:value-of select="./@rang" /></td>
-			<td class="td-participant"><xsl:value-of select="//participant[@id=$id]/@nom" /></td>
+			<td class="td-participant">
+				<xsl:if test="//participant[@id=$id]/@stand != ''"><xsl:value-of select="//participant[@id=$id]/@stand" /> - </xsl:if>
+				<xsl:value-of select="//participant[@id=$id]/@nom" />
+			</td>
 		</tr>
 	</xsl:template>
 </xsl:stylesheet>
