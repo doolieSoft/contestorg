@@ -28,7 +28,7 @@
 		<fo:block text-align="center" font-weight="bold"><xsl:value-of select="$titre" /></fo:block>
 	</xsl:template>
 	<xsl:template name="pdf-pied">
-		<fo:block>
+		<fo:block padding-top="15pt">
 			<fo:table width="100%">
 				<fo:table-column column-width="20%" />
 				<fo:table-column column-width="60%" />
