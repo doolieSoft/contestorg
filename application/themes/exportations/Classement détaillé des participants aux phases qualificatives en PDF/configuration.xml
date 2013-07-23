@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration categorie="participants">
+	<fichiers>
+		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Classement détaillé des participants aux phases qualificative.pdf" transformation="fop-pdf" principal="oui" />
+	</fichiers>
+	<parametres>
+		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" optionnel="oui" />
+		<parametre id="idPoule" nom="Poule" type="idPoule" optionnel="oui" dependance="idCategorie" />
+	</parametres>
+</configuration>
