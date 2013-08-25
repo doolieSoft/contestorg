@@ -440,9 +440,6 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 			// Trier d'après leur rang aux phases qualificatives
 			Collections.sort(participants, comparateur);
 			
-			// Inverser la liste pour avoir les meilleurs participants en premier
-			Collections.reverse(participants);
-			
 			// Récupérer le nombre de participants
 			int nbParticipantsPoule = participants.size();
 			
