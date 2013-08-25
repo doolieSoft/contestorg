@@ -299,7 +299,7 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 		int nbParticipants = 0;
 		List<List<ModelParticipant>> participantsPoules = new ArrayList<List<ModelParticipant>>();
 		for(ModelPoule poule : categorie.getPoules()) {
-			List<ModelParticipant> participantsPoule = poule.getClassementPhasesQualifs();
+			List<ModelParticipant> participantsPoule = poule.getClassementPhasesQualifs(false);
 			participantsPoules.add(participantsPoule);
 			nbParticipants += participantsPoule.size();
 		}
@@ -314,9 +314,6 @@ public class ModelPhasesEliminatoires extends ModelAbstract
 				}
 			}
 		}
-		
-		// Inverser la liste pour avoir les meilleurs participants en premier
-		Collections.reverse(participants);
 		
 		// Garder les participants qualifiés aux phases éliminatoires
 		int nbParticipantsQualifies = (int)Math.pow(2, nbPhases);

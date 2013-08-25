@@ -142,16 +142,25 @@ public class ModelPoule extends ModelAbstract
 	
 	/**
 	 * Récupérer le classement des participants aux phases qualificatives
+	 * @param inclureParticipantsNonParticipants inclure les participants non participants ?
 	 * @return classement des participants aux phases qualificatives
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<ModelParticipant> getClassementPhasesQualifs () {
+	public ArrayList<ModelParticipant> getClassementPhasesQualifs (boolean inclureParticipantsNonParticipants) {
 		// Trier et retourner la liste des participants
-		ArrayList<ModelParticipant> participants = this.getParticipants();
+		ArrayList<ModelParticipant> participants = inclureParticipantsNonParticipants ? this.getParticipants() : this.getParticipantsParticipants();
 		CompPhasesQualifs comparateur = this.categorie.getConcours().getComparateurPhasesQualificatives();
 		comparateur.etablirClassement(participants);
 		Collections.sort(participants, comparateur);
 		return participants;
+	}
+	
+	/**
+	 * Récupérer le classement des participants aux phases qualificatives
+	 * @return classement des participants aux phases qualificatives
+	 */
+	public ArrayList<ModelParticipant> getClassementPhasesQualifs () {
+		return this.getClassementPhasesQualifs(true);
 	}
 	
 	/**
