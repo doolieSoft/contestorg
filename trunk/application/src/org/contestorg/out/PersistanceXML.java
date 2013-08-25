@@ -1196,13 +1196,12 @@ public class PersistanceXML extends PersistanceAbstract
 					// Trier les participants
 					compPhasesQualifs.etablirClassement(participantsCategorie);
 					Collections.sort(participantsCategorie, compPhasesQualifs);
-					Collections.reverse(participantsCategorie);
 					Element elementClassement = new Element("classementCategoriePhasesQualificatives");
 					Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
 					for (ModelParticipant participant : participantsCategorie) {
 						Element elementParticipant = new Element("classementParticipant");
 						elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
-						elementParticipant.setAttribute("rang", String.valueOf(participant.getRangPhasesQualifs()));
+						elementParticipant.setAttribute("rang", String.valueOf(compPhasesQualifs.getClassement().get(participant)));
 						elementlisteClassementParticipants.addContent(elementParticipant);
 					}
 					elementClassement.addContent(elementlisteClassementParticipants);
@@ -1274,13 +1273,12 @@ public class PersistanceXML extends PersistanceAbstract
 							// Trier les participants
 							compPhasesQualifs.etablirClassement(participantsPoule);
 							Collections.sort(participantsPoule, compPhasesQualifs);
-							Collections.reverse(participantsPoule);
 							Element elementClassement = new Element("classementPoulePhasesQualificatives");
 							Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
 							for (ModelParticipant participant : participantsPoule) {
 								Element elementParticipant = new Element("classementParticipant");
 								elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
-								elementParticipant.setAttribute("rang", String.valueOf(participant.getRangPhasesQualifs()));
+								elementParticipant.setAttribute("rang", String.valueOf(compPhasesQualifs.getClassement().get(participant)));
 								elementlisteClassementParticipants.addContent(elementParticipant);
 							}
 							elementClassement.addContent(elementlisteClassementParticipants);
@@ -1303,13 +1301,12 @@ public class PersistanceXML extends PersistanceAbstract
 									// Trier les participants
 									compPhaseQualif.etablirClassement(participantsPoule);
 									Collections.sort(participantsPoule, compPhaseQualif);
-									Collections.reverse(participantsPoule);
 									Element elementClassement = new Element("classementPhaseQualificative");
 									Element elementlisteClassementParticipants = new Element("listeClassementParticipants");
 									for (ModelParticipant participant : participantsPoule) {
 										Element elementParticipant = new Element("classementParticipant");
 										elementParticipant.setAttribute("refParticipant", String.valueOf(participant.getId()));
-										elementParticipant.setAttribute("rang", String.valueOf(participant.getRangPhasesQualifs(phase.getNumero())));
+										elementParticipant.setAttribute("rang", String.valueOf(compPhaseQualif.getClassement().get(participant)));
 										elementlisteClassementParticipants.addContent(elementParticipant);
 									}
 									elementClassement.addContent(elementlisteClassementParticipants);

@@ -73,7 +73,7 @@ abstract public class CompPhasesQualifs implements Comparator
 		if(this.getMaxParticipants() != -1 && participants.size() > this.getMaxParticipants()) {
 			// Vérifier s'il y a un comparateur suivant
 			if(this.comparateurSuivant == null) {
-				// Considérer tous les participants comme ex-aequos 
+				// Considérer tous les participants comme ex-aequos
 				for(ModelParticipant participant : participants) {
 					this.classement.put(participant, 1);
 				}
@@ -153,8 +153,9 @@ abstract public class CompPhasesQualifs implements Comparator
 				int rangA = participantA.getRangPhasesQualifs();
 				int rangB = participantB.getRangPhasesQualifs();
 				if (rangA != rangB) {
-					return rangA > rangB ? -1 : 1;
+					return rangA > rangB ? 1 : -1;
 				}
+				return 0;
 			}
 	
 			// Comparer les deux participants
