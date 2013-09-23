@@ -344,7 +344,9 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		this.setDateVisible(this.jcb_date.isSelected());
+		if(this.jcb_date.isSelected() != ((JComponent)this.jdp_date).isVisible()) {
+			this.setDateVisible(this.jcb_date.isSelected());
+		}
 	}
 	
 	/**
