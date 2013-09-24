@@ -10,6 +10,7 @@
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
+	<xsl:param name="afficherPoints" />
 
 	<!-- Template principal -->
 	<xsl:template match="/">
@@ -140,8 +141,15 @@
 		<fo:block>
 			<fo:table width="100%" border="0.5pt solid black">
 				<fo:table-column column-width="15%" />
-				<fo:table-column column-width="70%" />
-				<fo:table-column column-width="15%" />
+				<xsl:choose>
+					<xsl:when test="$afficherPoints = 1">
+						<fo:table-column column-width="70%" />
+						<fo:table-column column-width="15%" />
+					</xsl:when>
+					<xsl:otherwise>
+						<fo:table-column column-width="85%" />
+					</xsl:otherwise>
+				</xsl:choose>
 
 				<fo:table-header>
 					<fo:table-row>
@@ -160,9 +168,11 @@
 								</xsl:choose>
 							</fo:block>
 						</fo:table-cell>
-						<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
-							<fo:block font-weight="bold">Points</fo:block>
-						</fo:table-cell>
+						<xsl:if test="$afficherPoints = 1">
+							<fo:table-cell border="0.5pt solid black" background-color="#CCCCCC" padding="2mm">
+								<fo:block font-weight="bold">Points</fo:block>
+							</fo:table-cell>
+						</xsl:if>
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
@@ -187,9 +197,11 @@
 					<xsl:value-of select="//participant[@id=$id]/@nom" />
 				</fo:block>
 			</fo:table-cell>
-			<fo:table-cell border="0.5pt solid black" padding="2mm">
-				<fo:block><xsl:value-of select="//participant[@id=$id]/@pointsPhasesQualifs" /></fo:block>
-			</fo:table-cell>
+			<xsl:if test="$afficherPoints = 1">
+				<fo:table-cell border="0.5pt solid black" padding="2mm">
+					<fo:block><xsl:value-of select="//participant[@id=$id]/@pointsPhasesQualifs" /></fo:block>
+				</fo:table-cell>
+			</xsl:if>
 		</fo:table-row>
 	</xsl:template>
 </xsl:stylesheet>
