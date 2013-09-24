@@ -7,5 +7,7 @@
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" />
 		<parametre id="idPoule" nom="Poule" type="idPoule" dependance="idCategorie" />
 		<parametre id="idPhase" nom="Phase" type="idPhase" dependance="idPoule" />
+		<parametre id="afficherPoints" nom="Afficher les points" type="booleen" defaut="1" />
+		<parametre id="resultatsDetailles" nom="Résultats détaillés" type="booleen" defaut="0" />
 	</parametres>
 </configuration>

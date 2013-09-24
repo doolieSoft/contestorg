@@ -117,6 +117,7 @@
 	</xsl:template>
 	<xsl:template name="pdf-participation-resultat">
 		<xsl:param name="id" />
+		<xsl:param name="afficherPoints" />
 		<xsl:choose>
 			<xsl:when test="//participation[@id = $id]/@resultat = 'attente'">
 				<fo:inline color="grey">Attente</fo:inline>
@@ -134,7 +135,9 @@
 				<fo:inline color="black">Forfait</fo:inline>
 			</xsl:when>
 		</xsl:choose>
-		(<xsl:value-of select="//participation[@id = $id]/@points" /> pts)
+		<xsl:if test="$afficherPoints = 1">
+			(<xsl:value-of select="//participation[@id = $id]/@points" /> pts)
+		</xsl:if>
 	</xsl:template>
 	
 	<!-- Templates pour documents HTML -->
