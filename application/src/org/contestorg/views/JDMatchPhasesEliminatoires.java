@@ -313,8 +313,10 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		((JComponent)this.jdp_date).setVisible(this.jcb_date.isSelected());
-		this.pack();
+		if(this.jcb_date.isSelected() != ((JComponent)this.jdp_date).isVisible()) {
+			((JComponent)this.jdp_date).setVisible(this.jcb_date.isSelected());
+			this.pack();
+		}
 	}
 	
 }
