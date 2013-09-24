@@ -54,6 +54,9 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 
 	/** Panel du bas */
 	private JPanel jp_bas;
+	
+	/** Fenêtre déjà centrée ? */
+	private boolean isDejaCentree = false;
 
 	// Constructeurs
 	
@@ -145,24 +148,30 @@ abstract public class JDPattern extends JDialog implements ActionListener, Windo
 	public void pack() {
 		// Appeller le pack du parent
 		super.pack();
-		
-		// Récupérer les dimensions de l'écran
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-		// Points/Dimensions de référence
-		int x = 0, y = 0, height, width;
-		if(this.w_parent != null) {
-			x = this.w_parent.getX();
-			y = this.w_parent.getY();
-			width = this.w_parent.getWidth();
-			height = this.w_parent.getHeight();
-		} else {
-			width = screenSize.width;
-			height = screenSize.height;
+		// Fenêtre déjà centrée ?
+		if(!this.isDejaCentree) {		
+			// Récupérer les dimensions de l'écran
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	
+			// Points/Dimensions de référence
+			int x = 0, y = 0, height, width;
+			if(this.w_parent != null) {
+				x = this.w_parent.getX();
+				y = this.w_parent.getY();
+				width = this.w_parent.getWidth();
+				height = this.w_parent.getHeight();
+			} else {
+				width = screenSize.width;
+				height = screenSize.height;
+			}
+			
+			// Positionner la fenêtre au milieu
+			this.setLocation((width-this.getWidth())/2+x,(height-this.getHeight())/2+y);
+			
+			// Fenêtre centrée
+			this.isDejaCentree = true;
 		}
-		
-		// Positionner la fenêtre au milieu
-		this.setLocation((width-this.getWidth())/2+x,(height-this.getHeight())/2+y);
 	}
 
 	/**
