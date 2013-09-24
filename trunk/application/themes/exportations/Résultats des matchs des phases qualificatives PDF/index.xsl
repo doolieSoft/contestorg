@@ -10,6 +10,8 @@
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
+	<xsl:param name="resultatsDetailles" />
+	<xsl:param name="afficherPoints" />
 
 	<!-- Template principal -->
 	<xsl:template match="/">
@@ -209,12 +211,46 @@
 				<fo:block text-align="center">
 					<xsl:call-template name="pdf-participation-resultat">
 					  <xsl:with-param name="id" select="./participation[1]/@id" />
+					  <xsl:with-param name="afficherPoints" select="$afficherPoints" />
 					</xsl:call-template>
 					/
 					<xsl:call-template name="pdf-participation-resultat">
 					  <xsl:with-param name="id" select="./participation[2]/@id" />
+					  <xsl:with-param name="afficherPoints" select="$afficherPoints" />
 					</xsl:call-template>
 				</fo:block>
+				<xsl:variable name="idParticipationA" select="./participation[1]/@id" />
+				<xsl:variable name="idParticipationB" select="./participation[2]/@id" />
+				<xsl:if test="$resultatsDetailles = 1">
+					<fo:block text-align="center" font-size="9pt" margin-top="4pt">
+						<xsl:for-each select="/concours/listeObjectifs/objectif">
+							<xsl:variable name="idObjectif" select="./@id" />
+						
+							<xsl:value-of select="./objectifPoints/@nom" />
+							<xsl:value-of select="./objectifPourcentage/@nom" />
+							<xsl:value-of select="./objectifNul/@nom" />
+							:
+							<xsl:choose>
+								<xsl:when test="count(//participation[@id=$idParticipationA]/objectifRempli[@refObjectif=$idObjectif]) = 1">
+									<xsl:value-of select="//participation[@id=$idParticipationA]/objectifRempli[@refObjectif=$idObjectif]/@quantite" />
+								</xsl:when>
+								<xsl:otherwise>
+									0
+								</xsl:otherwise>
+							</xsl:choose>
+							/
+							<xsl:choose>
+								<xsl:when test="count(//participation[@id=$idParticipationB]/objectifRempli[@refObjectif=$idObjectif]) = 1">
+									<xsl:value-of select="//participation[@id=$idParticipationB]/objectifRempli[@refObjectif=$idObjectif]/@quantite" />
+								</xsl:when>
+								<xsl:otherwise>
+									0
+								</xsl:otherwise>
+							</xsl:choose>
+							;
+						</xsl:for-each>
+					</fo:block>
+				</xsl:if>
 			</fo:table-cell>
 			<fo:table-cell border="0.5pt solid black" padding="2mm">
 				<fo:block text-align="right">
