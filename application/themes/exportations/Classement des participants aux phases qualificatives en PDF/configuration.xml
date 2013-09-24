@@ -6,5 +6,6 @@
 	<parametres>
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" optionnel="oui" />
 		<parametre id="idPoule" nom="Poule" type="idPoule" optionnel="oui" dependance="idCategorie" />
+		<parametre id="afficherPoints" nom="Afficher les points" type="booleen" defaut="1" />
 	</parametres>
 </configuration>
