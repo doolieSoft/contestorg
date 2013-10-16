@@ -190,9 +190,6 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		this.jta_details.setWrapStyleWord(true);
 		this.jta_details.setRows(5);
 		this.jp_contenu.add(new JScrollPane(this.jta_details));
-		
-		// Pack
-		this.pack();
 	}
 	
 	/**
