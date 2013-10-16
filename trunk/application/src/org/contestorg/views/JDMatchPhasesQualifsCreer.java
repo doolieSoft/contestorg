@@ -29,6 +29,9 @@ public class JDMatchPhasesQualifsCreer extends JDMatchPhasesQualifsAbstract
 	public JDMatchPhasesQualifsCreer(Window w_parent, ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Ajouter un match", collector, nomCategorie, nomPoule, numeroPhase);
+		
+		// Pack
+		this.pack();
 	}
 	
 }

@@ -111,6 +111,9 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 			this.jp_lieuEmplacement.setNomEmplacement(infos.getThird().getSecond());
 		}
 		this.jta_details.setText(infos.getFourth().getDetails());
+		
+		// Pack
+		this.pack();
 	}
 	
 }
