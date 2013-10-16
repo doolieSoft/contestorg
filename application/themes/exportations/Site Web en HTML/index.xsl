@@ -94,7 +94,20 @@
 						<!-- Participants -->
 						<xsl:for-each select="./phaseEliminatoire">
 							<xsl:sort select="@numero" data-type="number" />
-							<th width="{100 div (count(../phaseEliminatoire)+1)}%">Phase <xsl:value-of select="./@numero+1" /></th>
+							<th width="{100 div (count(../phaseEliminatoire)+1)}%">
+								<xsl:variable name="power"><xsl:value-of select="count(../phaseEliminatoire) - ./@numero - 1" /></xsl:variable>
+								<xsl:choose>
+									<xsl:when test="$power = 0">
+										Finale
+									</xsl:when>
+									<xsl:otherwise>
+										1/<xsl:call-template name="power">
+											<xsl:with-param name="base">2</xsl:with-param>
+											<xsl:with-param name="power" select="$power" />
+										</xsl:call-template>
+									</xsl:otherwise>
+								</xsl:choose>
+							</th>
 						</xsl:for-each>
 					</tr>
 				</thead>
@@ -182,7 +195,26 @@
 	</xsl:template>
 	<xsl:template match="phaseEliminatoire" mode="liste">
 		<!-- Titre -->
-		<h3>Phase éliminatoire <xsl:value-of select="./@numero+1" /></h3>
+		<h3>
+			<xsl:variable name="power"><xsl:value-of select="count(../phaseEliminatoire) - ./@numero - 1" /></xsl:variable>
+			<xsl:choose>
+				<xsl:when test="$power = 0">
+					Finale
+				</xsl:when>
+				<xsl:when test="$power = 1">
+					Demi-finales
+				</xsl:when>
+				<xsl:when test="$power = 2">
+					Quarts de finale
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="power">
+						<xsl:with-param name="base">2</xsl:with-param>
+						<xsl:with-param name="power" select="$power" />
+					</xsl:call-template>ème de finale
+				</xsl:otherwise>
+			</xsl:choose>
+		</h3>
 		
 		<!-- Liste des matchs -->
 		<div class="bloc">
@@ -303,7 +335,7 @@
 			
 			<!-- Date/Emplacement -->
 			<xsl:if test="$timestamp != '' or $refEmplacement != ''">
-				<p class="comment" style="margin-top:0px;">
+				<p class="comment" style="margin:0px;">
 					Match joué
 				
 					<!-- Date -->
@@ -318,6 +350,13 @@
 					<xsl:if test="$refEmplacement != ''">
 						sur l'emplacement "<xsl:value-of select="//emplacement[@id=$refEmplacement]/@nom"></xsl:value-of>" du lieu "<xsl:value-of select="//emplacement[@id=$refEmplacement]/../../@nom"></xsl:value-of>"
 					</xsl:if>
+				</p>
+			</xsl:if>
+			
+			<!-- Détails -->
+			<xsl:if test="./@details != ''">
+				<p class="comment" style="margin:0px;">
+					<b>Détails :</b>&#160;<xsl:value-of select="./@details" />
 				</p>
 			</xsl:if>
 		</li>
@@ -457,7 +496,7 @@
 			
 			<!-- Date/Emplacement -->
 			<xsl:if test="$timestamp != '' or $refEmplacement != ''">
-				<p class="comment" style="margin-top:0px;">
+				<p class="comment" style="margin:0px;">
 					Match joué
 				
 					<!-- Date -->
@@ -472,6 +511,13 @@
 					<xsl:if test="$refEmplacement != ''">
 						sur l'emplacement "<xsl:value-of select="//emplacement[@id=$refEmplacement]/@nom"></xsl:value-of>" du lieu "<xsl:value-of select="//emplacement[@id=$refEmplacement]/../../@nom"></xsl:value-of>"
 					</xsl:if>
+				</p>
+			</xsl:if>
+			
+			<!-- Détails -->
+			<xsl:if test="./@details != ''">
+				<p class="comment" style="margin:0px;">
+					<b>Détails :</b>&#160;<xsl:value-of select="./@details" />
 				</p>
 			</xsl:if>
 		</li>
@@ -529,9 +575,9 @@
 				<br/>
 			</xsl:if>
 			
-			<!-- Details -->
+			<!-- Détails -->
 			<xsl:if test="./@details != ''">
-				<b>Stand :</b>&#160;<xsl:value-of select="./@details" />
+				<b>Détails :</b>&#160;<xsl:value-of select="./@details" />
 				<br/>
 			</xsl:if>
 			
