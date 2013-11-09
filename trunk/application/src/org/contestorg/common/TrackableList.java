@@ -67,7 +67,7 @@ public class TrackableList<T> implements Iterable<T>
 		// Vérifier que la liste ne soit pas null
 		if(list != null) {
 			// Remplir la liste avec les ts d'origine
-			this.fill(list);
+			this.fill(list,true,true);
 		}
 	}
 	
@@ -150,18 +150,10 @@ public class TrackableList<T> implements Iterable<T>
 	/**
 	 * Initialisation la liste
 	 * @param list liste d'initialisation
+	 * @param changeValidors utiliser les validateurs de la liste d'initialisation ?
+	 * @param changeListeners utilisateur les listeners de la liste d'initialisation ?
 	 */
-	public void fill(TrackableList<T> list) {
-		this.fill(list, true, true);
-	}
-	
-	/**
-	 * Initialisation la liste
-	 * @param list liste d'initialisation
-	 * @param keepValidors garder les validateurs ?
-	 * @param keepListeners garder les listeners ?
-	 */
-	public void fill(TrackableList<T> list, boolean keepValidors, boolean keepListeners) {
+	public void fill(TrackableList<T> list, boolean changeValidors, boolean changeListeners) {
 		// Fires de suppression
 		int row = this.tsModifies.size()-1;
 		while(row >= 0) {
@@ -177,12 +169,12 @@ public class TrackableList<T> implements Iterable<T>
 		this.modifications = new ArrayList<Integer>(list.modifications);
 		
 		// Recopier les valideurs si nécéssaire
-		if(!keepValidors) {
+		if(changeValidors) {
 			this.validators = new ArrayList<ITrackableListValidator<T>>(list.validators);
 		}
 		
 		// Recoper les listeners si nécéssaire
-		if(!keepListeners) {
+		if(changeListeners) {
 			this.listeners = new ArrayList<ITrackableListListener<T>>(list.listeners);
 		}
 		
