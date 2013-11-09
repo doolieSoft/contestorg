@@ -119,7 +119,8 @@
 <!ATTLIST propriete	id			ID								#REQUIRED>	<!-- Identifiant de la propriété -->
 <!ATTLIST propriete	nom			CDATA							#REQUIRED>	<!-- Nom de la propriété -->
 <!ATTLIST propriete	type		(entier|decimal|texte) 			"entier">	<!-- Type de la propriété -->
-<!ATTLIST propriete	obligatoire	(oui|non) 						"oui">		<!-- S'agit-il d'un propriété obligatoire ? -->
+<!ATTLIST propriete	obligatoire	(oui|non) 						"oui">		<!-- S'agit-il d'une propriété obligatoire ? -->
+<!ATTLIST propriete	publique	(oui|non) 						"non">		<!-- S'agit-il d'une propriété qui peut être affichée publiquement ? -->
 
 <!-- Liste des exportations -->
 <!ELEMENT listeExportations (exportation*)>

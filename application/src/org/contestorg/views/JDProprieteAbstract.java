@@ -46,6 +46,12 @@ public abstract class JDProprieteAbstract extends JDPattern
 	/** Propriété non obligatoire */
 	protected JRadioButton jrb_obligatoire_non = new JRadioButton("Non");
 	
+	/** Propriété pouvant être affichée publiquement */
+	protected JRadioButton jrb_publique_oui = new JRadioButton("Oui");
+	
+	/** Propriété ne devant pas être affichée publiquement */
+	protected JRadioButton jrb_publique_non = new JRadioButton("Non", true);
+	
 	/** Liste des types */
 	protected JComboBox<String> jcb_types;
 
@@ -71,12 +77,19 @@ public abstract class JDProprieteAbstract extends JDPattern
 		ButtonGroup bg_obligatoire = new ButtonGroup();
 		bg_obligatoire.add(this.jrb_obligatoire_oui);
 		bg_obligatoire.add(this.jrb_obligatoire_non);
-		JPanel jp_automatique = new JPanel(new GridLayout(1, 2));
-		jp_automatique.add(this.jrb_obligatoire_oui);
-		jp_automatique.add(this.jrb_obligatoire_non);
+		JPanel jp_obligatoire = new JPanel(new GridLayout(1, 2));
+		jp_obligatoire.add(this.jrb_obligatoire_oui);
+		jp_obligatoire.add(this.jrb_obligatoire_non);
 		
-		JLabel[] jls = {new JLabel("Nom : "),new JLabel("Obligatoire : "),new JLabel("Type : ")};
-		JComponent[] jcs = {this.jtf_nom,jp_automatique,this.jcb_types};
+		ButtonGroup bg_publique = new ButtonGroup();
+		bg_publique.add(this.jrb_publique_oui);
+		bg_publique.add(this.jrb_publique_non);
+		JPanel jp_publique = new JPanel(new GridLayout(1, 2));
+		jp_publique.add(this.jrb_publique_oui);
+		jp_publique.add(this.jrb_publique_non);
+		
+		JLabel[] jls = {new JLabel("Nom : "),new JLabel("Obligatoire : "),new JLabel("Publique : "),new JLabel("Type : ")};
+		JComponent[] jcs = {this.jtf_nom,jp_obligatoire,jp_publique,this.jcb_types};
 		this.jp_contenu.add(ViewHelper.inputs(jls, jcs));
 		
 		// Pack
@@ -95,6 +108,7 @@ public abstract class JDProprieteAbstract extends JDPattern
 		else if(this.jcb_types.getSelectedItem().equals(JDProprieteAbstract.LABEL_TYPE_FLOAT)) { type = InfosModelPropriete.TYPE_FLOAT; }
 		else if(this.jcb_types.getSelectedItem().equals(JDProprieteAbstract.LABEL_TYPE_STRING)) { type = InfosModelPropriete.TYPE_STRING; }
 		boolean obligatoire = this.jrb_obligatoire_oui.isSelected();
+		boolean publique = this.jrb_publique_oui.isSelected();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -106,7 +120,7 @@ public abstract class JDProprieteAbstract extends JDPattern
 		
 		// Envoyer les données au collector
 		if(!erreur) {
-			this.collector.collect(new InfosModelPropriete(nom, type, obligatoire));
+			this.collector.collect(new InfosModelPropriete(nom, type, obligatoire, publique));
 		}
 	}
 

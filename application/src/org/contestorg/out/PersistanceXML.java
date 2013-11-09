@@ -328,7 +328,14 @@ public class PersistanceXML extends PersistanceAbstract
 							type = InfosModelPropriete.TYPE_STRING;
 							break;
 					}
-					ModelPropriete propriete = new ModelPropriete(concours, new InfosModelPropriete(elementPropriete.getAttributeValue("nom"), type, elementPropriete.getAttributeValue("obligatoire").equals("oui")));
+					ModelPropriete propriete = new ModelPropriete(
+							concours,
+							new InfosModelPropriete(elementPropriete.getAttributeValue("nom"),
+								type,
+								elementPropriete.getAttributeValue("obligatoire") != null && elementPropriete.getAttributeValue("obligatoire").equals("oui"),
+								elementPropriete.getAttributeValue("publique") != null && elementPropriete.getAttributeValue("publique").equals("oui")
+							)
+					);
 					propriete.setId(Integer.parseInt(elementPropriete.getAttributeValue("id")));
 					concours.addPropriete(propriete);
 				}
@@ -1054,6 +1061,7 @@ public class PersistanceXML extends PersistanceAbstract
 				}
 				elementPropriete.setAttribute("type", type);
 				elementPropriete.setAttribute("obligatoire", propriete.isObligatoire() ? "oui" : "non");
+				elementPropriete.setAttribute("publique", propriete.isPublique() ? "oui" : "non");
 				listeProprietes.addContent(elementPropriete);
 			}
 			root.addContent(listeProprietes);

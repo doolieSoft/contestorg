@@ -14,6 +14,9 @@ public class InfosModelPropriete extends InfosModelAbstract
 	
 	/** Obligatoire */
 	private boolean obligatoire;
+	
+	/** Publique */
+	private boolean publique;
 
 	// Types de propriété
 	
@@ -31,11 +34,13 @@ public class InfosModelPropriete extends InfosModelAbstract
 	 * @param nom nom
 	 * @param type type
 	 * @param obligatoire obligatoire
+	 * @param publique publique
 	 */
-	public InfosModelPropriete(String nom, int type, boolean obligatoire) {
+	public InfosModelPropriete(String nom, int type, boolean obligatoire, boolean publique) {
 		this.nom = nom;
 		this.type = type;
 		this.obligatoire = obligatoire;
+		this.publique = publique;
 	}
 
 	/**
@@ -61,12 +66,20 @@ public class InfosModelPropriete extends InfosModelAbstract
 	public boolean isObligatoire () {
 		return this.obligatoire;
 	}
+	
+	/**
+	 * Savoir si la propriété peut être affichée publiquement ?
+	 * @return propriété pouvant être affichée publiquement ?
+	 */
+	public boolean isPublique () {
+		return this.publique;
+	}
 
 	/**
 	 * Récupérer les données par défaut
 	 * @return données par défaut
 	 */
 	public static InfosModelPropriete defaut () {
-		return new InfosModelPropriete("", InfosModelPropriete.TYPE_INT, false);
+		return new InfosModelPropriete("", InfosModelPropriete.TYPE_INT, false, false);
 	}
 }
