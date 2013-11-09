@@ -177,12 +177,12 @@ public class TrackableList<T> implements Iterable<T>
 		this.modifications = new ArrayList<Integer>(list.modifications);
 		
 		// Recopier les valideurs si nécéssaire
-		if(keepValidors) {
+		if(!keepValidors) {
 			this.validators = new ArrayList<ITrackableListValidator<T>>(list.validators);
 		}
 		
 		// Recoper les listeners si nécéssaire
-		if(keepListeners) {
+		if(!keepListeners) {
 			this.listeners = new ArrayList<ITrackableListListener<T>>(list.listeners);
 		}
 		

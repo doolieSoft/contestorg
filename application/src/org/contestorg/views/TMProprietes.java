@@ -65,7 +65,7 @@ public class TMProprietes extends TMAbstract<InfosModelPropriete>
 	 */
 	@Override
 	public int getColumnCount () {
-		return 2;
+		return 4;
 	}
 	
 	/**
@@ -76,6 +76,8 @@ public class TMProprietes extends TMAbstract<InfosModelPropriete>
 		switch(column) {
 			case 0: return "Nom";
 			case 1: return "Type";
+			case 2: return "Obligatoire ?";
+			case 3: return "Publique ?";
 		}
 		return null;
 	}
@@ -93,6 +95,8 @@ public class TMProprietes extends TMAbstract<InfosModelPropriete>
 					case InfosModelPropriete.TYPE_FLOAT: return "Nombre décimal";
 					case InfosModelPropriete.TYPE_STRING: return "Texte";
 				}
+			case 2: return this.get(row).isObligatoire() ? "Oui" : "Non";
+			case 3: return this.get(row).isPublique() ? "Oui" : "Non";
 		}
 		return null;
 	}

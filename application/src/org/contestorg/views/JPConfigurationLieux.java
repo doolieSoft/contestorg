@@ -32,7 +32,7 @@ public class JPConfigurationLieux extends JPConfigurationAbstract
 		this.jp_contenu.add(ViewHelper.title("Liste des lieux", ViewHelper.H1));
 		this.tm_lieux = new TMLieux(this.w_parent);
 		this.tm_lieux.addValidator(ContestOrg.get().getLieuxValidator());
-		this.jp_contenu.add(new JPTable<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>>(this.w_parent, this.tm_lieux));
+		this.jp_contenu.add(new JPTable<Triple<InfosModelLieu,TrackableList<InfosModelEmplacement>,TrackableList<InfosModelHoraire>>>(this.w_parent, this.tm_lieux, true, true, true, true, true));
 	}
 	
 	/**

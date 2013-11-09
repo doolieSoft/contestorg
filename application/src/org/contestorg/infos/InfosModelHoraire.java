@@ -237,8 +237,8 @@ public class InfosModelHoraire extends InfosModelAbstract
 		return
 			(this.getJours() & horaire.getJours()) > 0 && // Il y a des jours en commun entre les deux horaires
 			(
-				this.getDebut() <= horaire.getDebut() && horaire.getDebut() <= this.getFin() ||	// Début de l'horaire "horaire" compris dans l'horaire "this"
-				this.getDebut() <= horaire.getFin() && horaire.getFin() <= this.getFin() ||		// Fin de l'horaire "horaire" compris dans l'horaire "this"
+				this.getDebut() < horaire.getDebut() && horaire.getDebut() < this.getFin() ||	// Début de l'horaire "horaire" compris dans l'horaire "this"
+				this.getDebut() < horaire.getFin() && horaire.getFin() < this.getFin() ||		// Fin de l'horaire "horaire" compris dans l'horaire "this"
 				horaire.getDebut() <= this.getDebut() && this.getFin() <= horaire.getFin()		// Horaire "this" compris dans l'horaire "horaire" 
 			);
 	}
