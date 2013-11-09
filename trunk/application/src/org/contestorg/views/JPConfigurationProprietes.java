@@ -28,7 +28,7 @@ public class JPConfigurationProprietes extends JPConfigurationAbstract
 		this.jp_contenu.add(ViewHelper.title("Liste des propriétés des participants", ViewHelper.H1));
 		this.tm_proprietes = new TMProprietes(this.w_parent);
 		this.tm_proprietes.addValidator(ContestOrg.get().getProprietesValidator());
-		this.jp_contenu.add(new JPTable<InfosModelPropriete>(this.w_parent, this.tm_proprietes));
+		this.jp_contenu.add(new JPTable<InfosModelPropriete>(this.w_parent, this.tm_proprietes, true, true, true, true, true));
 	}
 	
 	/**

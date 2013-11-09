@@ -125,8 +125,13 @@
 			<xsl:if test="count(./listeHoraires/horaire) > 0">
 				<b>Horaires :</b>
 				<ul>
-					<xsl:apply-templates select="./listeHoraires/horaire">
-					</xsl:apply-templates>
+					<li>Lundi : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="1" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
+					<li>Mardi : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="2" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
+					<li>Mercredi : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="4" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
+					<li>Jeudi : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="8" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
+					<li>Vendredi : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="16" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
+					<li>Samedi : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="32" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
+					<li>Dimanche : <xsl:call-template name="horaire"><xsl:with-param name="jour" select="64" /><xsl:with-param name="refLieu" select="@id" /></xsl:call-template></li>
 				</ul>
 			</xsl:if>
 			
@@ -139,25 +144,32 @@
 		</div>
 	</xsl:template>
 	
-	<!-- Template pour un horaire -->
-	<xsl:template match="horaire">
-		<li>
-			<!-- Heure de début -->
-			<xsl:call-template name="heure">
-				<xsl:with-param name="timestamp"><xsl:number value="./@debut" /></xsl:with-param>
-			</xsl:call-template>
-			-
-			<!-- Heure de fin -->
-			<xsl:call-template name="heure">
-				<xsl:with-param name="timestamp"><xsl:number value="./@fin" /></xsl:with-param>
-			</xsl:call-template>
-			:
-			<!-- Jours concernés -->
-			<xsl:call-template name="jours">
-				<xsl:with-param name="valeur"><xsl:number value="./@jours" /></xsl:with-param>
-				<xsl:with-param name="jour"><xsl:number value="1" /></xsl:with-param>
-			</xsl:call-template>
-		</li>
+	<!-- Template pour une liste d'horaires -->
+	<xsl:template name="horaire">
+		<!-- Paramètres -->
+		<xsl:param name="jour" />
+		<xsl:param name="refLieu" />
+		
+		<!-- Pour chacun des horaires -->
+		<xsl:choose>
+			<xsl:when test="count(/concours/listeLieux/lieu[@id = $refLieu]/listeHoraires/horaire[floor(@jours div $jour) mod 2 = 1]) &gt; 0">
+				<xsl:for-each select="/concours/listeLieux/lieu[@id = $refLieu]/listeHoraires/horaire[floor(@jours div $jour) mod 2 = 1]">
+					<!-- Heure de début -->
+					<xsl:call-template name="heure">
+						<xsl:with-param name="timestamp"><xsl:number value="./@debut" /></xsl:with-param>
+					</xsl:call-template>
+					-
+					<!-- Heure de fin -->
+					<xsl:call-template name="heure">
+						<xsl:with-param name="timestamp"><xsl:number value="./@fin" /></xsl:with-param>
+					</xsl:call-template>
+
+					<!-- Virgule -->
+					<xsl:if test="position() != last()">, </xsl:if>
+				</xsl:for-each>
+			</xsl:when>
+			<xsl:otherwise>-</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<!-- Template pour une heure -->
@@ -171,39 +183,6 @@
 		
 		<!-- Heures et minutes -->
 		<xsl:if test="10 > $heures">0</xsl:if><xsl:value-of select="$heures" />h<xsl:if test="10 > $minutes">0</xsl:if><xsl:value-of select="$minutes" />
-	</xsl:template>
-	
-	<!-- Template pour une liste de jours -->
-	<xsl:template name="jours">
-		<xsl:param name="valeur" />
-		<xsl:param name="jour" />
-		<xsl:choose>
-			<xsl:when test="($valeur mod ($jour * 2)) - ($valeur mod ($jour * 1))">
-				<xsl:choose>
-					<xsl:when test="$jour = 1">lundi</xsl:when>
-					<xsl:when test="$jour = 2">mardi</xsl:when>
-					<xsl:when test="$jour = 4">mercredi</xsl:when>
-					<xsl:when test="$jour = 8">jeudi</xsl:when>
-					<xsl:when test="$jour = 16">vendredi</xsl:when>
-					<xsl:when test="$jour = 32">samedi</xsl:when>
-					<xsl:when test="$jour = 64">dimanche</xsl:when>
-				</xsl:choose>
-				<xsl:variable name="valeur"><xsl:value-of select="$valeur - $jour" /></xsl:variable>
-				<xsl:if test="$valeur != 0">
-					,
-					<xsl:call-template name="jours">
-						<xsl:with-param name="valeur"><xsl:value-of select="$valeur" /></xsl:with-param>
-						<xsl:with-param name="jour"><xsl:value-of select="$jour*2" /></xsl:with-param>
-					</xsl:call-template>
-				</xsl:if>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="jours">
-					<xsl:with-param name="valeur"><xsl:value-of select="$valeur" /></xsl:with-param>
-					<xsl:with-param name="jour"><xsl:value-of select="$jour*2" /></xsl:with-param>
-				</xsl:call-template>
-			</xsl:otherwise>
-		</xsl:choose>
 	</xsl:template>
 	
 	<!-- Template pour un emplacement -->
