@@ -75,7 +75,7 @@
 <!ATTLIST lieu email		CDATA	#IMPLIED> 	<!-- Email de contact pour le lieu -->
 <!ATTLIST lieu description	CDATA	#IMPLIED> 	<!-- Description du lieu -->
 
-<!ELEMENT listeHoraires (horaire)>
+<!ELEMENT listeHoraires (horaire*)>
 <!ELEMENT horaire EMPTY>
 <!ATTLIST horaire id 	ID 		#REQUIRED>	<!-- Identifiant de l'horaire -->
 <!ATTLIST horaire debut	CDATA 	#REQUIRED> 	<!-- Nombre de minutes depuis le début de la journée -->
