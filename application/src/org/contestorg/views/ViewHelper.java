@@ -118,6 +118,7 @@ public class ViewHelper
 	 */
 	public static JPanel left(JComponent... components) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
+		panel.setOpaque(false);
 		for(int i=0;i<components.length;i++) {
 			if(i != 0) {
 				panel.add(Box.createHorizontalStrut(5));
@@ -134,6 +135,7 @@ public class ViewHelper
 	 */
 	public static JPanel center(JComponent... components) {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+		panel.setOpaque(false);
 		for(int i=0;i<components.length;i++) {
 			if(i != 0) {
 				panel.add(Box.createHorizontalStrut(5));

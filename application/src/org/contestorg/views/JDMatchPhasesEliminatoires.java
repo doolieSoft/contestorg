@@ -1,7 +1,6 @@
 package org.contestorg.views;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
@@ -13,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,10 +20,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import net.sourceforge.jdatepicker.DateModel;
-import net.sourceforge.jdatepicker.JDateComponentFactory;
-import net.sourceforge.jdatepicker.JDatePanel;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
@@ -61,10 +55,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	protected JCheckBox jcb_date;
 	
 	/** Panel de la date */
-	protected JDatePanel jdp_date;
-	
-	/** Modèle de la date */
-	protected DateModel<Date> dm_date;
+	protected JPDatePicker jp_datePicker;
 	
 	/** Lieu et emplacement */
 	protected JPLieuEmplacement jp_lieuEmplacement;
@@ -165,13 +156,13 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.jcb_date.addChangeListener(this);
 		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
 		
-		this.dm_date = (DateModel<Date>)JDateComponentFactory.createDateModel(Date.class);
-		this.jdp_date = JDateComponentFactory.createJDatePanel(this.dm_date);
+		this.jp_datePicker = new JPDatePicker();
+		this.jp_contenu.add(this.jp_datePicker);
 		
-		this.jp_contenu.add((Component)jdp_date);
-		
-		((JComponent)this.jdp_date).setVisible(infos.getFourth().getDate() != null);
-		this.dm_date.setValue(infos.getFourth().getDate());
+		this.jp_datePicker.setVisible(infos.getFourth().getDate() != null);
+		if(infos.getFourth().getDate() != null) {
+			this.jp_datePicker.setDate(infos.getFourth().getDate());
+		}
 		this.jcb_date.setSelected(infos.getFourth().getDate() != null);
 		
 		// Lieu et emplacement
@@ -226,7 +217,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 				break;
 		}
 		String details = this.jta_details.getText().trim();
-		Date date = this.jcb_date.isSelected() ? this.dm_date.getValue() : null;
+		Date date = this.jcb_date.isSelected() ? this.jp_datePicker.getDate() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
 		
@@ -313,8 +304,8 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		if(this.jcb_date.isSelected() != ((JComponent)this.jdp_date).isVisible()) {
-			((JComponent)this.jdp_date).setVisible(this.jcb_date.isSelected());
+		if(this.jcb_date.isSelected() != this.jp_datePicker.isVisible()) {
+			this.jp_datePicker.setVisible(this.jcb_date.isSelected());
 			this.pack();
 		}
 	}
