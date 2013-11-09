@@ -1,6 +1,5 @@
 package org.contestorg.views;
 
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ItemEvent;
@@ -11,16 +10,11 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
-import net.sourceforge.jdatepicker.DateModel;
-import net.sourceforge.jdatepicker.JDateComponentFactory;
-import net.sourceforge.jdatepicker.JDatePanel;
 
 import org.contestorg.common.Pair;
 import org.contestorg.common.Quadruple;
@@ -72,10 +66,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	protected JCheckBox jcb_date;
 	
 	/** Panel de la date */
-	protected JDatePanel jdp_date;
-	
-	/** Modèle de la date */
-	protected DateModel<Date> dm_date;
+	protected JPDatePicker jp_datePicker;
 	
 	/** Lieu et emplacement */
 	protected JPLieuEmplacement jp_lieuEmplacement;
@@ -105,7 +96,6 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 * @param nomPoule nom de la poule de destination
 	 * @param numeroPhase numéro de la phase qualificative de destination
 	 */
-	@SuppressWarnings("unchecked")
 	public JDMatchPhasesQualifsAbstract(Window w_parent, String titre, ICollector<Quadruple<Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesQualifs>> collector, String nomCategorie, String nomPoule, int numeroPhase) {
 		// Appeller le constructeur du parent
 		super(w_parent, titre);
@@ -173,11 +163,9 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		this.jcb_date.addChangeListener(this);
 		this.jp_contenu.add(ViewHelper.left(this.jcb_date));
 		
-		this.dm_date = (DateModel<Date>)JDateComponentFactory.createDateModel(Date.class);
-		this.jdp_date = JDateComponentFactory.createJDatePanel(this.dm_date);
-		((JComponent)this.jdp_date).setVisible(false);
-		this.jp_contenu.add((Component)jdp_date);
-		
+		this.jp_datePicker = new JPDatePicker();
+		this.jp_contenu.add(this.jp_datePicker);
+        
 		// Lieu et emplacement
 		this.jp_lieuEmplacement = new JPLieuEmplacement();
 		this.jp_contenu.add(this.jp_lieuEmplacement);
@@ -236,7 +224,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			resultatB = InfosModelParticipation.RESULTAT_FORFAIT;
 		}
 		String details = this.jta_details.getText().trim();
-		Date date = this.jcb_date.isSelected() ? this.dm_date.getValue() : null;
+		Date date = this.jcb_date.isSelected() ? this.jp_datePicker.getDate() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
 		
@@ -341,7 +329,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		if(this.jcb_date.isSelected() != ((JComponent)this.jdp_date).isVisible()) {
+		if(this.jcb_date.isSelected() != this.jp_datePicker.isVisible()) {
 			this.setDateVisible(this.jcb_date.isSelected());
 		}
 	}
@@ -351,7 +339,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 * @param visible calendrier visible ?
 	 */
 	protected void setDateVisible(boolean visible) {
-		((JComponent)this.jdp_date).setVisible(visible);
+		this.jp_datePicker.setVisible(visible);
 		this.pack();
 	}
 	

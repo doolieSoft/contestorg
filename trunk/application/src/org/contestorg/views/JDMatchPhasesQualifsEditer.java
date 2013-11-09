@@ -101,7 +101,7 @@ public class JDMatchPhasesQualifsEditer extends JDMatchPhasesQualifsAbstract
 		}
 		if(infos.getFourth().getDate() != null) {
 			this.jcb_date.setSelected(true);
-			this.dm_date.setValue(infos.getFourth().getDate());
+			this.jp_datePicker.setDate(infos.getFourth().getDate());
 		} else {
 			this.jcb_date.setSelected(false);
 			this.setDateVisible(false);
