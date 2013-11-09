@@ -70,7 +70,6 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 * @param infos informations du match
 	 * @param resultatsEditable résultats éditables ?
 	 */
-	@SuppressWarnings("unchecked")
 	public JDMatchPhasesEliminatoires(Window w_parent, ICollector<Quadruple<Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String, String>, InfosModelMatchPhasesElims>> collector, Quadruple<Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Triple<String, ArrayList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation>, Pair<String,String>, InfosModelMatchPhasesElims> infos, boolean resultatsEditable) {
 		// Appeller le constructeur du parent
 		super(w_parent, "Editer un match");
