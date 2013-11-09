@@ -34,8 +34,8 @@ public class JDLieuEditer extends JDLieuAbstract
 		this.jta_lieu_description.setText(infos.getFirst().getDescription());
 		
 		// Remplir les TableModel des horaires et des emplacements
-		this.tm_horaires.fill(infos.getThird());
-		this.tm_emplacements.fill(infos.getSecond());
+		this.tm_horaires.fill(infos.getThird(), false, false);
+		this.tm_emplacements.fill(infos.getSecond(), false, false);
 	}
 
 }
