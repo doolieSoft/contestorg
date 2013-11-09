@@ -575,6 +575,15 @@
 				<br/>
 			</xsl:if>
 			
+			<!-- Priorités personnalisées -->
+			<xsl:for-each select="listeProprietesPossedees/proprietePossedee">
+				<xsl:variable name="refPropriete" select="@refPropriete" />
+				<xsl:if test="count(/concours/listeProprietes/propriete[@id=$refPropriete][@publique = 'oui']) = 1">
+					<b><xsl:value-of select="/concours/listeProprietes/propriete[@id=$refPropriete]/@nom" /> :</b>&#160;<xsl:value-of select="./@valeur" />
+					<br/>
+				</xsl:if>
+			</xsl:for-each>
+			
 			<!-- Détails -->
 			<xsl:if test="./@details != ''">
 				<b>Détails :</b>&#160;<xsl:value-of select="./@details" />

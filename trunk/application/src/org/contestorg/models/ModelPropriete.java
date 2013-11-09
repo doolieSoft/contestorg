@@ -33,6 +33,9 @@ public class ModelPropriete extends ModelAbstract
 	/** Propriété obligatoire ? */
 	private boolean obligatoire;
 	
+	/** Propriété pouvant être affichée publiquement ? */
+	private boolean publique;
+	
 	// Constructeurs
 	
 	/**
@@ -88,6 +91,14 @@ public class ModelPropriete extends ModelAbstract
 	}
 	
 	/**
+	 * Savoir si la propriété peut être affichée publiquement ?
+	 * @return propriété pouvant être affichée publiquement ?
+	 */
+	public boolean isPublique () {
+		return this.publique;
+	}
+	
+	/**
 	 * Récupérer la liste des propriétés possédées
 	 * @return liste des propriétés possédées
 	 */
@@ -99,7 +110,7 @@ public class ModelPropriete extends ModelAbstract
 	 * @see ModelAbstract#getInfos()
 	 */
 	public InfosModelPropriete getInfos () {
-		InfosModelPropriete infos = new InfosModelPropriete(this.nom, this.type, this.obligatoire);
+		InfosModelPropriete infos = new InfosModelPropriete(this.nom, this.type, this.obligatoire, this.publique);
 		infos.setId(this.getId());
 		return infos;
 	}
@@ -118,6 +129,7 @@ public class ModelPropriete extends ModelAbstract
 		this.nom = infos.getNom();
 		this.type = infos.getType();
 		this.obligatoire = infos.isObligatoire();
+		this.publique = infos.isPublique();
 		
 		// Fire update
 		this.fireUpdate();

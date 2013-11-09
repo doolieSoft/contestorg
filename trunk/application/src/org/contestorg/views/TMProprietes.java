@@ -110,7 +110,7 @@ public class TMProprietes extends TMAbstract<InfosModelPropriete>
 	 */
 	@Override
 	public void setValueAt (Object object, int row, int column) {
-		this.update(row, new InfosModelPropriete((String)object, this.get(row).getType(), this.get(row).isObligatoire()));
+		this.update(row, new InfosModelPropriete((String)object, this.get(row).getType(), this.get(row).isObligatoire(), this.get(row).isPublique()));
 	}
 
 }

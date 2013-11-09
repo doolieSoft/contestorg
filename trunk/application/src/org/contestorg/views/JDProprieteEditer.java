@@ -26,6 +26,8 @@ public class JDProprieteEditer extends JDProprieteAbstract
 		this.jtf_nom.setText(infos.getNom());
 		this.jrb_obligatoire_oui.setSelected(infos.isObligatoire());
 		this.jrb_obligatoire_non.setSelected(!infos.isObligatoire());
+		this.jrb_publique_oui.setSelected(infos.isPublique());
+		this.jrb_publique_non.setSelected(!infos.isPublique());
 		switch(infos.getType()) {
 			case InfosModelPropriete.TYPE_INT: this.jcb_types.setSelectedItem(JDProprieteAbstract.LABEL_TYPE_INT); break;
 			case InfosModelPropriete.TYPE_FLOAT: this.jcb_types.setSelectedItem(JDProprieteAbstract.LABEL_TYPE_FLOAT); break;
