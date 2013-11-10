@@ -11,5 +11,6 @@
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" optionnel="oui" />
 		<parametre id="idPoule" nom="Poule" type="idPoule" dependance="idCategorie" optionnel="oui" />
 		<parametre id="uniquementMatchsNonJoues" nom="Afficher uniquement les matchs non joués" type="booleen" defaut="0" />
+		<parametre id="decalage" nom="Décalage" type="entier" description="Décalage depuis la dernière phase qualificative" defaut="0" />
 	</parametres>
 </configuration>
