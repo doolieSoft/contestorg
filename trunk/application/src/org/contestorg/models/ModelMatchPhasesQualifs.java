@@ -117,9 +117,6 @@ public class ModelMatchPhasesQualifs extends ModelMatchAbstract
 			if (this.phaseQualificative != null) {
 				if (!removers.contains(this.phaseQualificative)) {
 					this.phaseQualificative.removeMatch(this);
-					if(this.phaseQualificative.getMatchs().size() == 0) {
-						this.phaseQualificative.delete(removers);
-					}
 				}
 				this.phaseQualificative = null;
 				this.fireClear(ModelPhaseQualificative.class);
