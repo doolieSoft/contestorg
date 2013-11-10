@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <configuration categorie="phasesQualificatives">
 	<fichiers>
-		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Liste des matchs des dernières phases qualificatives.pdf" transformation="fop-pdf" principal="oui" />
+		<fichier id="pdf" nom="Fichier PDF" source="index.xsl" cible="Liste des matchs des prochaines phases qualificatives.pdf" transformation="fop-pdf" principal="oui" />
 	</fichiers>
 	<parametres>
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" optionnel="oui" />
 		<parametre id="idPoule" nom="Poule" type="idPoule" dependance="idCategorie" optionnel="oui" />
+		<parametre id="uniquementMatchsNonJoues" nom="Afficher uniquement les matchs non joués" type="booleen" defaut="0" />
 		<parametre id="decalage" nom="Décalage" type="entier" description="Décalage depuis la dernière phase qualificative" defaut="0" />
 	</parametres>
 </configuration>

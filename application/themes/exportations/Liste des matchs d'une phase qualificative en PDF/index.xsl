@@ -11,6 +11,7 @@
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
 	<xsl:param name="idPhase" />
+	<xsl:param name="uniquementMatchsNonJoues" />
 
 	<!-- Template principal -->
 	<xsl:template match="/">
@@ -107,7 +108,7 @@
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
-					<xsl:apply-templates select="./matchPhaseQualificative">
+					<xsl:apply-templates select="./matchPhaseQualificative[$uniquementMatchsNonJoues = 0 or count(participation[@resultat = 'attente']) != 0]">
 					</xsl:apply-templates>
 				</fo:table-body>
 			</fo:table>
