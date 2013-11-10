@@ -350,7 +350,7 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 				erreur = true;
 			}
 			
-			// Transformer la informations au collector
+			// Transférer les informations au collector
 			if(!erreur) {
 				this.collector.collect(new Quintuple<String, String, InfosConfiguration<String>, InfosModelPhaseQualificative, InfosModelMatchPhasesQualifs>(this.jp_categoriePoule.getNomCategorie(),this.jp_categoriePoule.getNomPoule(),this.getConfiguration(), new InfosModelPhaseQualificative(), new InfosModelMatchPhasesQualifs(null,null)));
 			}

@@ -57,6 +57,9 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 	/** Bouton "Nouvelle phase" */
 	private JButton jb_nouvellePhase;
 	
+	/** Bouton "Générer phase" */
+	private JButton jb_genererPhase;
+	
 	/** Bouton "Editer phase" */
 	private JButton jb_editerPhase;
 	
@@ -98,24 +101,28 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		
 		// Panneau du haut
 		this.jb_nouvellePhase = new JButton("Nouvelle phase", new ImageIcon("img/farm/16x16/add.png"));
+		this.jb_genererPhase = new JButton("Générer phase", new ImageIcon("img/farm/16x16/arrow_refresh.png"));
 		this.jb_nouveauMatch = new JButton("Nouveau match", new ImageIcon("img/farm/16x16/add.png"));
 		this.jb_editerPhase = new JButton("Editer phase", new ImageIcon("img/farm/16x16/pencil.png"));
 		this.jb_supprimerPhase = new JButton("Supprimer phase", new ImageIcon("img/farm/16x16/delete.png"));
 		this.jb_exporter = new JButton("Exporter", new ImageIcon("img/farm/16x16/application_go.png"));
-		
+
 		this.jb_nouvellePhase.setEnabled(false);
+		this.jb_genererPhase.setEnabled(false);
 		this.jb_nouveauMatch.setEnabled(false);
 		this.jb_editerPhase.setEnabled(false);
 		this.jb_supprimerPhase.setEnabled(false);
 		this.jb_exporter.setEnabled(false);
-		
+
 		this.jb_nouvellePhase.setToolTipText("Ajouter une phase qualificative dans la poule séléctionnée");
+		this.jb_genererPhase.setToolTipText("Générer une phase qualificative dans la poule séléctionnée");
 		this.jb_nouveauMatch.setToolTipText("Ajouter un match dans la phase qualificative séléctionnée");
 		this.jb_editerPhase.setToolTipText("Editer la phase qualificative séléctionnée");
 		this.jb_supprimerPhase.setToolTipText("Supprimer la phase qualificative séléctionnée");
 		this.jb_exporter.setToolTipText("Exporter des informations sur les phases qualificatives");
-		
+
 		this.jp_haut.add(this.jb_nouvellePhase);
+		this.jp_haut.add(this.jb_genererPhase);
 		this.jp_haut.add(this.jb_nouveauMatch);
 		this.jp_haut.add(this.jb_editerPhase);
 		this.jp_haut.add(this.jb_supprimerPhase);
@@ -168,6 +175,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		
 		// Ecouter les boutons
 		this.jb_nouvellePhase.addActionListener(this);
+		this.jb_genererPhase.addActionListener(this);
 		this.jb_nouveauMatch.addActionListener(this);
 		this.jb_editerPhase.addActionListener(this);
 		this.jb_supprimerPhase.addActionListener(this);
@@ -261,6 +269,21 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		TreePath path = this.jtree.getSelectionPath();
 		
 		if (event.getSource() == this.jb_nouvellePhase) {
+			// Récupérer la catégorie et la poule séléctionnées
+			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
+			
+			// Vérifier si la séléction est suffisante pour ne pas afficher la fenêtre de séléction
+			if(selection.getFirst() == null || selection.getSecond() == null) {
+				// Créer et afficher la fenêtre de création
+				CollectorPhaseQualifVideCreer collector = new CollectorPhaseQualifVideCreer();
+				JDialog jd_phase = new JDPhaseQualifVideCreer(this.w_parent, collector, selection.getFirst());
+				collector.setWindow(jd_phase);
+				jd_phase.setVisible(true);
+			} else {
+				// Créer la phase qualificative vide
+				ContestOrg.get().getCtrlPhasesQualificatives().addPhaseQualifVide(selection.getFirst(), selection.getSecond(), new InfosModelPhaseQualificative());
+			}
+		} else if (event.getSource() == this.jb_genererPhase) {
 			// Récupérer la catégorie et la poule séléctionnées
 			Triple<String, String, Integer> selection = this.getSelection(-1, null, true);
 			
@@ -433,7 +456,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 	
 	/**
 	 * Récupérer la catégorie, la poule et la phase qualificative séléctionnées
-	 * @param level niveau désiré (1 = catégorie, 2 = poule, 3 = phase qualificative)
+	 * @param level niveau désiré (1 = catégorie, 2 = poule, 3 = phase qualificative, -1 pour pas de niveau désiré)
 	 * @param message message d'erreur affiché si la séléction de l'utilisateur n'est pas suffisante
 	 * @param implicite deviner au possible la séléction au niveau désiré si la séléction de l'utilisateur n'est pas suffisante
 	 * @return catégorie, la poule et la phase qualificative séléctionnées
@@ -521,6 +544,7 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		// Rafraichir les boutons
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_nouvellePhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
+		this.jb_genererPhase.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT));
 		this.jb_editerMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
 		this.jb_supprimerMatch.setEnabled(ContestOrg.get().is(ContestOrg.STATE_EDIT) && this.jtable.getSelectedRowCount() == 1);
 		this.jb_exporter.setEnabled(ContestOrg.get().is(ContestOrg.STATE_OPEN));

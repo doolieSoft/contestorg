@@ -82,7 +82,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 		super(titre);
 		this.setResizable(true); // Redimensionnable
 		this.setPreferredSize(new Dimension(1000, 700)); // Dimensions
-		this.setMinimumSize(new Dimension(1000, 600)); // Dimensions au minimum
+		this.setMinimumSize(new Dimension(1000, 650)); // Dimensions au minimum
 		this.setLocation(50, 50); // Localisation
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); // Ne rien faire si echap
 		this.setIconImage(new ImageIcon("img/farm/32x32/sport.png").getImage()); // Icone de la fenêtre

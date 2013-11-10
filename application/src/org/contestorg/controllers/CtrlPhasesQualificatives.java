@@ -218,6 +218,20 @@ public class CtrlPhasesQualificatives
 			ContestOrg.get().erreur("Erreur lors de la création d'une phase qualificative", e);
 		}
 	}
+
+	/**
+	 * Ajouter une phase qualificative vide
+	 * @param nomCategorie nom de la catégorie
+	 * @param nomPoule nom de la poule
+	 * @param infos informations de la phase qualificative
+	 */
+	public void addPhaseQualifVide (String nomCategorie, String nomPoule, InfosModelPhaseQualificative infos) {
+		try {
+			FrontModel.get().getFrontModelPhasesQualificatives().addPhaseQualifVide(nomCategorie, nomPoule, infos);
+		} catch (Exception e) {
+			ContestOrg.get().erreur("Erreur lors de la création d'une phase qualificative vide", e);
+		}
+	}
 	
 	/**
 	 * Modifier une phase qualificative

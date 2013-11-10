@@ -377,6 +377,27 @@ public class FrontModelPhasesQualificatives
 		// Fermer l'action d'ajout
 		this.frontModel.getHistory().close();
 	}
+
+	/**
+	 * Ajouter une phase qualificative vide
+	 * @param nomCategorie nom de la catégorie
+	 * @param nomPoule nom de la poule
+	 * @param infos informations de la phase qualificative
+	 * @throws ContestOrgErrorException
+	 */
+	public void addPhaseQualifVide (String nomCategorie, String nomPoule, InfosModelPhaseQualificative infos) throws ContestOrgErrorException {
+		// Démarrer l'action d'ajout
+		this.frontModel.getHistory().start("Ajout d'une phase qualificative vide dans la poule \"" + nomCategorie + " > " + nomPoule + "\"");
+		
+		// Récupérer la poule
+		ModelPoule poule = this.frontModel.getConcours().getCategorieByNom(nomCategorie).getPouleByNom(nomPoule);
+		
+		// Ajouter la phase qualificative
+		poule.addPhaseQualificative(new ModelPhaseQualificative(poule,infos));
+		
+		// Fermer l'action d'ajout
+		this.frontModel.getHistory().close();
+	}
 	
 	/**
 	 * Modifier une phase qualificative
