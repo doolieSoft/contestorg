@@ -124,7 +124,8 @@ public class JPPrincipalPhasesQualificatives extends JPPrincipalAbstract impleme
 		this.jp_haut.add(this.jb_nouvellePhase);
 		this.jp_haut.add(this.jb_genererPhase);
 		this.jp_haut.add(this.jb_nouveauMatch);
-		this.jp_haut.add(this.jb_editerPhase);
+		// Suppression du bouton en attendant une amélioration de la fonctionnalité (pas de suppression de la phase mais seulement des matchs)
+		// this.jp_haut.add(this.jb_editerPhase);
 		this.jp_haut.add(this.jb_supprimerPhase);
 		this.jp_haut.add(this.jb_exporter);
 		
