@@ -11,5 +11,6 @@
 		<parametre id="idCategorie" nom="Catégorie" type="idCategorie" />
 		<parametre id="idPoule" nom="Poule" type="idPoule" dependance="idCategorie" />
 		<parametre id="idPhase" nom="Phase" type="idPhase" dependance="idPoule" />
+		<parametre id="uniquementMatchsNonJoues" nom="Afficher uniquement les matchs non joués" type="booleen" defaut="0" />
 	</parametres>
 </configuration>

@@ -10,6 +10,7 @@
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
+	<xsl:param name="uniquementMatchsJoues" />
 	<xsl:param name="decalage" />
   
 	<!-- Template principal -->
@@ -17,7 +18,7 @@
 		<html>
 			<!-- Head -->
 			<head>
-				<title>Résultats des dernières phases qualificatives</title>
+				<title>Résultats des matchs des dernières phases qualificatives</title>
 				<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 				<link href="common.css" rel="stylesheet" type="text/css" />
 				<link href="style.css" rel="stylesheet" type="text/css" />
@@ -26,7 +27,7 @@
 			<!-- Body -->
 			<body onload="setTimeout('scrollit()', 3000);">
 				<!-- Titre -->
-				<h1>Résultats des dernières phases qualificatives</h1>
+				<h1>Résultats des matchs des dernières phases qualificatives</h1>
 			
 				<!-- Liste des catégories -->
 				<xsl:apply-templates select="/concours/listeCategories">
@@ -57,7 +58,7 @@
 	
 	<!-- Template d'une catégorie -->
 	<xsl:template match="categorie">
-		<xsl:if test="count(./listePoules/poule[count(./listePhasesQualificatives/phaseQualificative) > $decalage]) != 0">
+		<xsl:if test="count(./listePoules/poule[count(./listePhasesQualificatives/phaseQualificative) > $decalage]/listePhasesQualificatives/phaseQualificative[position() = last()]/matchPhaseQualificative[$uniquementMatchsJoues = 0 or count(participation[@resultat != 'attente']) != 0]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../categorie) != 1">
 				<h2><xsl:value-of select="./@nom" /></h2>
@@ -91,7 +92,7 @@
 	
 	<!-- Template d'une poule -->
 	<xsl:template match="poule">
-		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative) != 0">
+		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative[position() = last() - $decalage]/matchPhaseQualificative[$uniquementMatchsJoues = 0 or count(participation[@resultat != 'attente']) != 0]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../poule) != 1">
 				<h3><xsl:value-of select="./@nom" /></h3>
@@ -132,7 +133,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<xsl:apply-templates select="./matchPhaseQualificative">
+				<xsl:apply-templates select="./matchPhaseQualificative[$uniquementMatchsJoues = 0 or count(participation[@resultat != 'attente']) != 0]">
 				</xsl:apply-templates>
 			</tbody>
 		</table>

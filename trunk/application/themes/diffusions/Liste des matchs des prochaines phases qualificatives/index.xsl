@@ -11,13 +11,14 @@
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
 	<xsl:param name="uniquementMatchsNonJoues" />
+	<xsl:param name="decalage" />
   
 	<!-- Template principal -->
 	<xsl:template match="/">
 		<html>
 			<!-- Head -->
 			<head>
-				<title>Matchs des prochaines phases qualificatives</title>
+				<title>Matchs des matchs des prochaines phases qualificatives</title>
 				<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 				<link href="common.css" rel="stylesheet" type="text/css" />
 				<link href="style.css" rel="stylesheet" type="text/css" />
@@ -26,7 +27,7 @@
 			<!-- Body -->
 			<body onload="setTimeout('scrollit()', 3000);">
 				<!-- Titre -->
-				<h1>Matchs des prochaines phases qualificatives</h1>
+				<h1>Matchs des matchs des prochaines phases qualificatives</h1>
 			
 				<!-- Liste des catégories -->
 				<xsl:apply-templates select="/concours/listeCategories">
@@ -57,7 +58,7 @@
 	
 	<!-- Template d'une catégorie -->
 	<xsl:template match="categorie">
-		<xsl:if test="count(./listePoules/poule//listePhasesQualificatives/phaseQualificative[position() = last()]/matchPhaseQualificative[$uniquementMatchsNonJoues = 0 or count(participation[@resultat = 'attente']) != 0]) != 0">
+		<xsl:if test="count(./listePoules/poule[count(./listePhasesQualificatives/phaseQualificative) > $decalage]/listePhasesQualificatives/phaseQualificative[position() = last()]/matchPhaseQualificative[$uniquementMatchsNonJoues = 0 or count(participation[@resultat = 'attente']) != 0]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../categorie) != 1">
 				<h2><xsl:value-of select="./@nom" /></h2>
@@ -91,14 +92,14 @@
 	
 	<!-- Template d'une poule -->
 	<xsl:template match="poule">
-		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative[position() = last()]/matchPhaseQualificative[$uniquementMatchsNonJoues = 0 or count(participation[@resultat = 'attente']) != 0]) != 0">
+		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative[position() = last() - $decalage]/matchPhaseQualificative[$uniquementMatchsNonJoues = 0 or count(participation[@resultat = 'attente']) != 0]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../poule) != 1">
 				<h3><xsl:value-of select="./@nom" /></h3>
 			</xsl:if>
 			
 			<!-- Prochaine phase qualificative -->
-			<xsl:apply-templates select="./listePhasesQualificatives/phaseQualificative[position() = last()]">
+			<xsl:apply-templates select="./listePhasesQualificatives/phaseQualificative[position() = last() - $decalage]">
 			</xsl:apply-templates>
 		</xsl:if>
 	</xsl:template>
