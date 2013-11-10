@@ -12,6 +12,7 @@
 	<xsl:param name="idPoule" />
 	<xsl:param name="resultatsDetailles" />
 	<xsl:param name="afficherPoints" />
+	<xsl:param name="uniquementMatchsJoues" />
 
 	<!-- Template principal -->
 	<xsl:template match="/">
@@ -79,7 +80,7 @@
 	
 	<!-- Template d'une catégorie -->
 	<xsl:template match="categorie">
-		<xsl:if test="count(./listePoules/poule/listePhasesQualificatives/phaseQualificative) != 0">
+		<xsl:if test="count(./listePoules/poule/listePhasesQualificatives/phaseQualificative/matchPhaseQualificative[$uniquementMatchsJoues = 0 or count(participation[@resultat != 'attente']) != 0]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../categorie) != 1">
 				<xsl:call-template name="pdf-titre-h1">
@@ -117,7 +118,7 @@
 	
 	<!-- Template d'une poule -->
 	<xsl:template match="poule">
-		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative) != 0">
+		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative/matchPhaseQualificative[$uniquementMatchsJoues = 0 or count(participation[@resultat != 'attente']) != 0]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../poule) != 1">
 				<xsl:call-template name="pdf-titre-h2">
@@ -175,7 +176,7 @@
 					</fo:table-row>
 				</fo:table-header>
 				<fo:table-body>
-					<xsl:apply-templates select="./matchPhaseQualificative">
+					<xsl:apply-templates select="./matchPhaseQualificative[$uniquementMatchsJoues = 0 or count(participation[@resultat != 'attente']) != 0]">
 					</xsl:apply-templates>
 				</fo:table-body>
 			</fo:table>

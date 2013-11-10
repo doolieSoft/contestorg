@@ -9,5 +9,6 @@
 		<parametre id="idPhase" nom="Phase" type="idPhase" dependance="idPoule" />
 		<parametre id="afficherPoints" nom="Afficher les points" type="booleen" defaut="1" />
 		<parametre id="resultatsDetailles" nom="Résultats détaillés" type="booleen" defaut="0" />
+		<parametre id="uniquementMatchsJoues" nom="Afficher uniquement les matchs joués" type="booleen" defaut="0" />
 	</parametres>
 </configuration>
