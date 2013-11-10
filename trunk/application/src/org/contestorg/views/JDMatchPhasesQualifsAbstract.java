@@ -165,6 +165,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		
 		this.jp_datePicker = new JPDatePicker();
 		this.jp_contenu.add(this.jp_datePicker);
+		this.jp_datePicker.setVisible(false);
         
 		// Lieu et emplacement
 		this.jp_lieuEmplacement = new JPLieuEmplacement();
