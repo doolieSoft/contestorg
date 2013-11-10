@@ -10,7 +10,7 @@
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
-	<xsl:param name="decalage" select="0" />
+	<xsl:param name="decalage" />
 	<xsl:param name="resultatsDetailles" />
 	<xsl:param name="afficherPoints" />
 

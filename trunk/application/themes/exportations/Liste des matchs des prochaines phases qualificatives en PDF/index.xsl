@@ -10,7 +10,7 @@
 	<!-- Paramètres-->
 	<xsl:param name="idCategorie" />
 	<xsl:param name="idPoule" />
-	<xsl:param name="decalage" select="0" />
+	<xsl:param name="decalage" />
 
 	<!-- Template principal -->
 	<xsl:template match="/">
@@ -31,7 +31,7 @@
 					<xsl:call-template name="pdf-entete">
 						<xsl:with-param name="titre">
 							<!-- Titre -->
-							Liste des matchs des dernières phases qualificatives
+							Liste des matchs des prochaines phases qualificatives
 						</xsl:with-param>
 					</xsl:call-template>
 				</fo:static-content>
@@ -116,7 +116,7 @@
 	
 	<!-- Template d'une poule -->
 	<xsl:template match="poule">
-		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative) != 0">
+		<xsl:if test="count(./listePhasesQualificatives/phaseQualificative[position() = last() - $decalage]) != 0">
 			<!-- Titre -->
 			<xsl:if test="count(../poule) != 1">
 				<xsl:call-template name="pdf-titre-h2">
@@ -124,7 +124,7 @@
 				</xsl:call-template>
 			</xsl:if>
 			
-			<!-- Dernière phase qualificative -->
+			<!-- Prochaine phase qualificative -->
 			<xsl:apply-templates select="./listePhasesQualificatives/phaseQualificative[position() = last() - $decalage]">
 			</xsl:apply-templates>
 		</xsl:if>
