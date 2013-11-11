@@ -13,7 +13,7 @@
       <surname>Perrin</surname>
     </author>
 
-    <date>4 juin 2013</date>
+    <date>10 novembre 2013</date>
 
     <releaseinfo>2.4.0</releaseinfo>
 
@@ -1019,8 +1019,7 @@ FIN PROCEDURE;</programlisting>
             <para><remark>Pour obtenir un serveur <acronym>FTP</acronym>, il
             vous faut souscrire à une offre d'hébergement : <ulink
             url="http://www.ovh.com">OVH</ulink>, <ulink
-            url="http://www.gandi.net/">Gandi</ulink>, <ulink
-            url="http://www.infomaniak.com/">Infomaniak</ulink>...</remark></para>
+            url="http://www.gandi.net/">Gandi</ulink>, ...</remark></para>
           </example>
 
           <section>
@@ -1545,13 +1544,14 @@ FIN PROCEDURE;</programlisting>
 
       <para>Dans cette fenêtre, nous avons le bandeau du haut et le bandeau du
       bas de disponibles. Dans le bandeau du haut, nous retrouvons les boutons
-      <guibutton>Nouvelle phase</guibutton>, <guibutton>Nouveau
-      match</guibutton>, <guibutton>Éditer phase</guibutton>,
-      <guibutton>Supprimer phase</guibutton> et
-      <guibutton>Exporter</guibutton>. Dans le bandeau du bas, nous retrouvons
-      les boutons <guibutton>Résultats du match</guibutton> et
-      <guibutton>Supprimer match</guibutton>. Sur la zone dédiée aux données,
-      nous retrouvons la liste des matchs de la sélection courante.</para>
+      <guibutton>Nouvelle phase</guibutton>, <guibutton>Générer
+      phase</guibutton>, <guibutton>Nouveau match</guibutton>,
+      <guibutton>Éditer phase</guibutton>, <guibutton>Supprimer
+      phase</guibutton> et <guibutton>Exporter</guibutton>. Dans le bandeau du
+      bas, nous retrouvons les boutons <guibutton>Résultats du
+      match</guibutton> et <guibutton>Supprimer match</guibutton>. Sur la zone
+      dédiée aux données, nous retrouvons la liste des matchs de la sélection
+      courante.</para>
 
       <remark>Pour l'utilisation du bouton <guibutton>Exporter</guibutton>,
       rendez-vous dans le chapitre <link
@@ -1570,19 +1570,21 @@ FIN PROCEDURE;</programlisting>
       </screenshot>
 
       <section>
-        <title>Créer/Editer une phase</title>
+        <title>Créer/Générer/Editer une phase</title>
 
-        <para>Pour créer/éditer une phase qualificative, cliquez sur le bouton
-        <guibutton>Nouvelle phase</guibutton> ou <guibutton>Éditer
-        phase</guibutton>. Lors de la création d'une phase qualificative,
-        pensez à sélectionner la poule de destination au préalable. Dans la
-        fenêtre de création de phase qualificative, nous retrouvons trois
-        zones : la zone <guilabel>Paramètres de la génération</guilabel>
-        dédiée aux paramètres utilisés pour la génération, la zone
-        <guilabel>Avancement de la génération</guilabel> dédiée à l'exécution
-        de la génération et la zone <guilabel>Meilleure configuration
-        trouvée</guilabel> dédiée à retourner les informations de la meilleure
-        configuration trouvée.</para>
+        <para>Pour générer/éditer une phase qualificative, cliquez sur le
+        bouton <guibutton>Générer phase</guibutton> ou <guibutton>Éditer
+        phase</guibutton>. Pour créer une phase qualificative vide, cliquez
+        sur le bouton <guibutton>Nouvelle phase</guibutton>. Lors de la
+        création d'une phase qualificative, pensez à sélectionner la poule de
+        destination au préalable. Dans la fenêtre de création de phase
+        qualificative, nous retrouvons trois zones : la zone
+        <guilabel>Paramètres de la génération</guilabel> dédiée aux paramètres
+        utilisés pour la génération, la zone <guilabel>Avancement de la
+        génération</guilabel> dédiée à l'exécution de la génération et la zone
+        <guilabel>Meilleure configuration trouvée</guilabel> dédiée à
+        retourner les informations de la meilleure configuration
+        trouvée.</para>
 
         <para>ContestOrg, quelque soit le mode de génération utilisé, prend en
         compte trois critères pour trouver la meilleure configuration :</para>
@@ -2192,11 +2194,17 @@ FIN PROCEDURE;</programlisting>
 
       <para>Pas besoin de s'engager pour contribuer au projet. Il est tout à
       faire possible de contribuer occasionnellement. Il suffit de nous
-      contacter pour <ulink
+      contacter si vous désirez <ulink
+      url="http://www.elfangels.fr/contestorg/contribuer/index/">faire un
+      retour d'expérience</ulink>, <ulink
       url="http://www.elfangels.fr/contestorg/contribuer/index/">signaler des
-      erreurs</ulink> ou <ulink
+      erreurs</ulink>, <ulink
       url="http://www.elfangels.fr/contestorg/contribuer/index/">proposer des
-      améliorations</ulink>.</para>
+      améliorations</ulink> ou <ulink
+      url="http://www.elfangels.fr/contestorg/contribuer/index/">promouvoir le
+      projet</ulink>. Sachez que vous pouvez également <ulink
+      url="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=YNQVH5WQCFHQL">contribuer
+      financièrement</ulink> au projet.</para>
     </section>
   </chapter>
 
@@ -2383,8 +2391,8 @@ FIN PROCEDURE;</programlisting>
             <row>
               <entry><application>Launch4j</application></entry>
 
-              <entry>Encapsuleur <acronym>EXE</acronym> pour
-              <acronym>JAR</acronym> à destination de Windows</entry>
+              <entry>Encapsuleur <acronym>EXE</acronym> de
+              <acronym>JAR</acronym> pour la plateforme Windows</entry>
 
               <entry><ulink
               url="http://launch4j.sourceforge.net/">Cliquez-ici</ulink></entry>
@@ -2453,7 +2461,7 @@ FIN PROCEDURE;</programlisting>
             <row>
               <entry>jGraph</entry>
 
-              <entry>Réalisation de graphes</entry>
+              <entry>Affichage de graphes</entry>
 
               <entry><ulink
               url="http://www.jgraph.com/">Cliquez-ici</ulink></entry>
@@ -2470,7 +2478,7 @@ FIN PROCEDURE;</programlisting>
               <entry><ulink
               url="http://www.jdom.org/">Cliquez-ici</ulink></entry>
 
-              <entry>~Apache License</entry>
+              <entry>Apache License</entry>
             </row>
 
             <row>
