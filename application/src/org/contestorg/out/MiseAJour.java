@@ -102,7 +102,7 @@ public class MiseAJour
 				String numero = elementVersion.getAttributeValue("numero");
 				
 				// Vérifier si la dernière version est supérieure à la version actuelle
-				if(comparateurVersions.compare(numero, ContestOrg.VERSION) > 0) {
+				if(comparateurVersions.compare(numero, ContestOrg.VERSION) <= 0) {
 					// Message de log
 					Log.getLogger().info("Pas de nouvelles mises à jour depuis la "+ContestOrg.VERSION);
 					
