@@ -76,7 +76,7 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 	protected JRadioButton jrb_automatique_non = new JRadioButton("Non", true);
 
 	/** Liste des chemins */
-	protected JComboBox<String> jcb_chemins;
+	protected JComboBox jcb_chemins;
 
 	/** Chemin du chemin local */
 	protected JTextField jtf_chemin_local_chemin = new JTextField(10);
@@ -145,7 +145,7 @@ public abstract class JDExportationAbstract extends JDPattern implements ItemLis
 		// Informations sur le chemin
 		this.jp_contenu.add(ViewHelper.title("Chemin", ViewHelper.H1));
 		String[] chemins = { JDExportationAbstract.LABEL_CHEMIN_LOCAL, JDExportationAbstract.LABEL_CHEMIN_FTP };
-		this.jcb_chemins = new JComboBox<String>(chemins);
+		this.jcb_chemins = new JComboBox(chemins);
 		this.jp_contenu.add(this.jcb_chemins);
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		this.jp_chemins = new JPanel(new CardLayout());

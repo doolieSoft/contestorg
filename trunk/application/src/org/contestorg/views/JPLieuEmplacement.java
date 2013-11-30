@@ -34,10 +34,10 @@ public class JPLieuEmplacement extends JPanel implements ItemListener, ChangeLis
 	// Entrées
 	
 	/** Lieu */
-	protected JComboBox<String> jcb_lieu = new JComboBox<String>();
+	protected JComboBox jcb_lieu = new JComboBox();
 	
 	/** Emplacement */
-	protected JComboBox<String> jcb_emplacement = new JComboBox<String>();
+	protected JComboBox jcb_emplacement = new JComboBox();
 	
 	/** Spécifier le lieu et l'emplacement ? */
 	protected JCheckBox jcb_lieuEmplacement = new JCheckBox();

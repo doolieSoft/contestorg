@@ -48,16 +48,16 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	private int numeroPhase;
 	
 	/** Participant A */
-	protected JComboBox<String> jcb_participantA;
+	protected JComboBox jcb_participantA;
 	
 	/** Participant B */
-	protected JComboBox<String> jcb_participantB;
+	protected JComboBox jcb_participantB;
 	
 	/** Résultat du participant A */
-	protected JComboBox<String> jcb_resultatA;
+	protected JComboBox jcb_resultatA;
 	
 	/** Résultat du participant B */
-	protected JComboBox<String> jcb_resultatB;
+	protected JComboBox jcb_resultatB;
 	
 	/** Panel des objectifs remportés */
 	protected JPObjectifs jp_objectifs;
@@ -111,9 +111,9 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		
 		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesQualificatives().getListeParticipantsParticipants(this.nomCategorie,this.nomPoule);
 		JPanel jp_participants = new JPanel(new GridLayout(1,2));
-		this.jcb_participantA = new JComboBox<String>(participants.toArray(new String[participants.size()]));
+		this.jcb_participantA = new JComboBox(participants.toArray(new String[participants.size()]));
 		this.jcb_participantA.addItem(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
-		this.jcb_participantB = new JComboBox<String>(participants.toArray(new String[participants.size()]));
+		this.jcb_participantB = new JComboBox(participants.toArray(new String[participants.size()]));
 		this.jcb_participantB.addItem(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "Equipe fantome" : "Joueur fantome");
 		jp_participants.add(this.jcb_participantA);
 		jp_participants.add(this.jcb_participantB);
@@ -126,8 +126,8 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		JPanel jp_resultat = new JPanel(new GridLayout(1,2));
 		if(ContestOrg.get().getCtrlPhasesQualificatives().isEgaliteActivee()) {
 			String[] resultats = { "Attente", "Victoire", "Egalité", "Défaite", "Forfait" };
-			this.jcb_resultatA = new JComboBox<String>(resultats);
-			this.jcb_resultatB = new JComboBox<String>(resultats);
+			this.jcb_resultatA = new JComboBox(resultats);
+			this.jcb_resultatB = new JComboBox(resultats);
 			this.index_attente = 0;
 			this.index_victoire = 1;
 			this.index_egalite = 2;
@@ -135,8 +135,8 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			this.index_forfait = 4;
 		} else {
 			String[] resultats = { "Attente", "Victoire", "Défaite", "Forfait" };
-			this.jcb_resultatA = new JComboBox<String>(resultats);
-			this.jcb_resultatB = new JComboBox<String>(resultats);
+			this.jcb_resultatA = new JComboBox(resultats);
+			this.jcb_resultatB = new JComboBox(resultats);
 			this.index_attente = 0;
 			this.index_victoire = 1;
 			this.index_egalite = -1;
@@ -303,8 +303,8 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	public void itemStateChanged (ItemEvent event) {
 		if(event.getStateChange() == ItemEvent.SELECTED) {
 			// Modifier la liste non modifiée si nécéssaire
-			JComboBox<String> jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
-			JComboBox<String> jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
+			JComboBox jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
+			JComboBox jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
 			if(jcb_event.getSelectedIndex() == this.index_attente) {
 				jcb_other.setSelectedIndex(this.index_attente);
 			} else if(jcb_event.getSelectedIndex() == this.index_victoire) {

@@ -27,7 +27,7 @@ public class JDExporter extends JDPattern implements ItemListener
 	protected JPTheme jp_theme;
 	
 	/** Liste des catégories */
-	private JComboBox<String> jcb_categorie = new JComboBox<String>();
+	private JComboBox jcb_categorie = new JComboBox();
 	
 	/**
 	 * Constructeur

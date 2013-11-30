@@ -24,7 +24,7 @@ import org.contestorg.interfaces.IChangeableListener;
 public class JPParametrePoule extends JPParametreAbstract implements IChangeable<Pair<Integer,Integer>>, IChangeableListener<Integer>, ItemListener
 {
 	/** Poule */
-	private JComboBox<String> jcb_poule = new JComboBox<String>();
+	private JComboBox jcb_poule = new JComboBox();
 	
 	/** Couleur par défaut de la liste */
 	private Color color;

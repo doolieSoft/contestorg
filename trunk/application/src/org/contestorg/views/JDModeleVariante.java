@@ -16,7 +16,7 @@ public class JDModeleVariante extends JDPattern
 {
 	
 	/** Liste des variantes */
-	private JComboBox<String> jcb_variantes;
+	private JComboBox jcb_variantes;
 
 	/** Collecteur de la variante */
 	private ICollector<Integer> collector;
@@ -36,7 +36,7 @@ public class JDModeleVariante extends JDPattern
 		
 		// Ajouter la liste des variantes
 		this.jp_contenu.add(ViewHelper.title("Variante",ViewHelper.H1));
-		this.jcb_variantes = new JComboBox<String>();
+		this.jcb_variantes = new JComboBox();
 		this.jp_contenu.add(this.jcb_variantes);
 		
 		// Ajouter les variantes

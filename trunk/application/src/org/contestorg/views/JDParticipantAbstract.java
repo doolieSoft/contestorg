@@ -50,13 +50,13 @@ public abstract class JDParticipantAbstract extends JDPattern
 	protected JTextField jtf_ville = new JTextField();
 	
 	/** Statut */
-	protected JComboBox<String> jcb_statut = new JComboBox<String>();
+	protected JComboBox jcb_statut = new JComboBox();
 	
 	/** Détails */
 	protected JTextArea jta_details = new JTextArea();
 	
 	/** Prix */
-	protected JList<String> jl_prix;
+	protected JList jl_prix;
 	
 	/** Propriétés */
 	protected JTextField[] jtfs_proprietes;
@@ -157,7 +157,7 @@ public abstract class JDParticipantAbstract extends JDPattern
 			for(int i=0;i<prixDisponibles.size();i++) {
 				noms[i] = prixDisponibles.get(i).getNom();
 			}
-			this.jl_prix = new JList<String>(noms);
+			this.jl_prix = new JList(noms);
 			this.jl_prix.setVisibleRowCount(4);
 			this.jl_prix.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.jp_contenu.add(new JScrollPane(this.jl_prix));

@@ -75,7 +75,7 @@ public abstract class JDCritereClassementAbstract extends JDPattern implements I
 	// Entrées
 	
 	/** Liste des types de critères de classement */
-	protected JComboBox<String> jcb_types;
+	protected JComboBox jcb_types;
 	
 	/** Est-ce que le critère est inversé ? */
 	protected JCheckBox jcb_isInverse;
@@ -83,7 +83,7 @@ public abstract class JDCritereClassementAbstract extends JDPattern implements I
 	// Entrées pour le critère "quantité remportée d'un objectif"
 	
 	/** Liste des objectifs */
-	protected JComboBox<String> jcb_quantiteobjectif_objectifs;
+	protected JComboBox jcb_quantiteobjectif_objectifs;
 	
 	// Entrées pour le critère "goal-average"
 
@@ -102,7 +102,7 @@ public abstract class JDCritereClassementAbstract extends JDPattern implements I
 	/** Bouton radio pour séléctionner la donnée "quantité remportée d'un objectif" */
 	protected JRadioButton jrb_goalaverage_donnee_quantiteobjectif;
 	/** Liste des objectifs */
-	protected JComboBox<String> jcb_goalaverage_objectifs;
+	protected JComboBox jcb_goalaverage_objectifs;
 	
 	/**
 	 * Constructeur
@@ -131,7 +131,7 @@ public abstract class JDCritereClassementAbstract extends JDPattern implements I
 			JDCritereClassementAbstract.LABEL_CRITERE_CLASSEMENT_QUANTITE_OBJECTIF,
 			JDCritereClassementAbstract.LABEL_CRITERE_CLASSEMENT_GOALAVERAGE,
 		};
-		this.jcb_types = new JComboBox<String>(types);
+		this.jcb_types = new JComboBox(types);
 		this.jp_contenu.add(this.jcb_types);
 
 		// Informations du critère de classement
@@ -206,7 +206,7 @@ public abstract class JDCritereClassementAbstract extends JDPattern implements I
 		JPanel jp_quantiteobjectif = new JPanel();
 		jp_quantiteobjectif.setLayout(new BoxLayout(jp_quantiteobjectif, BoxLayout.Y_AXIS));
 		
-		this.jcb_quantiteobjectif_objectifs = new JComboBox<String>();
+		this.jcb_quantiteobjectif_objectifs = new JComboBox();
 		if(this.objectifs.size() > 0) {
 			for(InfosModelObjectif objectif : this.objectifs) {
 				this.jcb_quantiteobjectif_objectifs.addItem(objectif.getNom());
@@ -267,7 +267,7 @@ public abstract class JDCritereClassementAbstract extends JDPattern implements I
 		jp_goalaverage_donnee.add(this.jrb_goalaverage_donnee_resultat);
 		jp_goalaverage_donnee.add(this.jrb_goalaverage_donnee_quantiteobjectif);
 		
-		this.jcb_goalaverage_objectifs = new JComboBox<String>();
+		this.jcb_goalaverage_objectifs = new JComboBox();
 		this.jcb_goalaverage_objectifs.setEnabled(false);
 		if(this.objectifs.size() > 0) {
 			for(InfosModelObjectif objectif : this.objectifs) {

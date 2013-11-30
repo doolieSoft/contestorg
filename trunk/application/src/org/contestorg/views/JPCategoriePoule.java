@@ -30,10 +30,10 @@ public class JPCategoriePoule extends JPanel implements ItemListener
 	// Entrées
 	
 	/** Catégorie */
-	protected JComboBox<String> jcb_categorie = new JComboBox<String>();
+	protected JComboBox jcb_categorie = new JComboBox();
 	
 	/** Poule */
-	protected JComboBox<String> jcb_poule = new JComboBox<String>();
+	protected JComboBox jcb_poule = new JComboBox();
 	
 	/**
 	 * Constructeur

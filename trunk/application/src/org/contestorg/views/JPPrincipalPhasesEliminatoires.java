@@ -44,7 +44,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 	// Panneau du haut
 	
 	/** Liste des participants */
-	private JComboBox<String> jcb_participants;
+	private JComboBox jcb_participants;
 	
 	/** Bouton "Générer" */
 	private JButton jb_generer;
@@ -78,7 +78,7 @@ public class JPPrincipalPhasesEliminatoires extends JPPrincipalAbstract implemen
 		ContestOrg.get().addListener(this);
 
 		// Panneau du haut
-		this.jcb_participants = new JComboBox<String>();
+		this.jcb_participants = new JComboBox();
 		this.jb_generer = new JButton("Générer", new ImageIcon("img/farm/16x16/arrow_refresh.png"));
 		this.jb_reinitialiser = new JButton("Réinitialiser", new ImageIcon("img/farm/16x16/arrow_undo.png"));
 		this.jb_exporter = new JButton("Exporter", new ImageIcon("img/farm/16x16/application_go.png"));

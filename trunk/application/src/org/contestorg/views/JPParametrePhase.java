@@ -21,7 +21,7 @@ import org.contestorg.interfaces.IChangeableListener;
 public class JPParametrePhase extends JPParametreAbstract implements IChangeableListener<Pair<Integer,Integer>>
 {
 	/** Phase qualificative */
-	private JComboBox<String> jcb_phase = new JComboBox<String>();
+	private JComboBox jcb_phase = new JComboBox();
 	
 	/** Couleur par défaut de la liste */
 	private Color color;

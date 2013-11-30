@@ -50,7 +50,7 @@ public class JDMiseAJour extends JDPattern implements MouseListener
 	// Entrées
 	
 	/** Choix du téléchargement */
-	private JComboBox<String> jcb_telechargement = new JComboBox<String>();
+	private JComboBox jcb_telechargement = new JComboBox();
 	
 	/** Vérifier les mises à jour */
 	private JCheckBox jcb_verifier = new JCheckBox("Vérifier les mises à jour ?",true);

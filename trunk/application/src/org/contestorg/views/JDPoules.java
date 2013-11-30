@@ -57,7 +57,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	// Entrées
 	
 	/** Catégorie */
-	private JComboBox<String> jcb_categorie = new JComboBox<String>();
+	private JComboBox jcb_categorie = new JComboBox();
 	
 	/** Nombre de participants de la catégorie */
 	private JTextField jtf_nbParticipantsCategorie = new JTextField(5);
@@ -69,7 +69,7 @@ public class JDPoules extends JDPattern implements ItemListener, ChangeListener
 	private JSpinner js_nbPoulesCategorie = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1));
 	
 	/** Poule */
-	private JComboBox<String> jcb_poule = new JComboBox<String>();
+	private JComboBox jcb_poule = new JComboBox();
 	
 	// Tableaux
 	
