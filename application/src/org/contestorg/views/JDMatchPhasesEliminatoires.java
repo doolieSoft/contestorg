@@ -43,10 +43,10 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	
 	
 	/** Résultat du participant A */
-	private JComboBox<String> jcb_resultatA;
+	private JComboBox jcb_resultatA;
 	
 	/** Résultat du participant B */
-	private JComboBox<String> jcb_resultatB;
+	private JComboBox jcb_resultatB;
 	
 	/** Panel des objectifs remportés */
 	private JPObjectifs jp_prix;
@@ -104,8 +104,8 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		
 		JPanel jp_resultat = new JPanel(new GridLayout(1,2));
 		String[] resultats = { "Attente", "Victoire", "Défaite" };
-		this.jcb_resultatA = new JComboBox<String>(resultats);
-		this.jcb_resultatB = new JComboBox<String>(resultats);
+		this.jcb_resultatA = new JComboBox(resultats);
+		this.jcb_resultatB = new JComboBox(resultats);
 		jp_resultat.add(this.jcb_resultatA);
 		jp_resultat.add(this.jcb_resultatB);
 		this.jp_contenu.add(jp_resultat);
@@ -280,8 +280,8 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		if(event.getStateChange() == ItemEvent.SELECTED) {
 			if(event.getSource() == this.jcb_resultatA || event.getSource() == this.jcb_resultatB) {
 				// Modifier la liste non modifiée si nécéssaire
-				JComboBox<String> jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
-				JComboBox<String> jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
+				JComboBox jcb_event = event.getSource() == this.jcb_resultatA ? this.jcb_resultatA : this.jcb_resultatB;
+				JComboBox jcb_other = event.getSource() == this.jcb_resultatA ? this.jcb_resultatB : this.jcb_resultatA;
 				switch(jcb_event.getSelectedIndex()) {
 					case 0: // Attente
 						jcb_other.setSelectedIndex(0);

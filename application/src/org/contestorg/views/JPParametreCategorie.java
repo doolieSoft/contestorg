@@ -24,7 +24,7 @@ import org.contestorg.interfaces.IChangeableListener;
 public class JPParametreCategorie extends JPParametreAbstract implements IChangeable<Integer>, ItemListener
 {
 	/** Catégorie */
-	private JComboBox<String> jcb_categorie = new JComboBox<String>();
+	private JComboBox jcb_categorie = new JComboBox();
 
 	/** Listeners */
 	private ArrayList<IChangeableListener<Integer>> listeners = new ArrayList<IChangeableListener<Integer>>();

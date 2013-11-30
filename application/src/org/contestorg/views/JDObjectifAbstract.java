@@ -46,7 +46,7 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 	// Entrées
 	
 	/** Liste des types */
-	protected JComboBox<String> jcb_types;
+	protected JComboBox jcb_types;
 
 	/** Nom de l'objectif nul */
 	protected JTextField jtf_objectif_nul_nom = new JTextField();
@@ -83,7 +83,7 @@ public abstract class JDObjectifAbstract extends JDPattern implements ItemListen
 		// Type d'objectif
 		this.jp_contenu.add(ViewHelper.title("Type d'objectif", ViewHelper.H1));
 		String[] types = { JDObjectifAbstract.LABEL_OBJECTIF_NUL, JDObjectifAbstract.LABEL_OBJECTIF_POINTS, JDObjectifAbstract.LABEL_OBJECTIF_POURCENTAGE };
-		this.jcb_types = new JComboBox<String>(types);
+		this.jcb_types = new JComboBox(types);
 		this.jp_contenu.add(this.jcb_types);
 
 		// Informations de l'objectif

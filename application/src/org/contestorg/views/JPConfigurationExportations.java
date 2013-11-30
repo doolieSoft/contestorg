@@ -30,7 +30,7 @@ public class JPConfigurationExportations extends JPConfigurationAbstract impleme
 	private TMDiffusions tm_diffusions;
 
 	/** Exportation qui fait office de publication */
-	private JComboBox<String> jcb_publication;
+	private JComboBox jcb_publication;
 
 	/**
 	 * Constructeur
@@ -48,7 +48,7 @@ public class JPConfigurationExportations extends JPConfigurationAbstract impleme
 
 		// Exportation par défaut pour la publication
 		this.jp_contenu.add(ViewHelper.title("Exportation pour la publication", ViewHelper.H1));
-		this.jcb_publication = new JComboBox<String>();
+		this.jcb_publication = new JComboBox();
 		this.jcb_publication.addItem("Pas de publication");
 		this.jp_contenu.add(this.jcb_publication);
 		this.jp_contenu.add(Box.createVerticalStrut(5));

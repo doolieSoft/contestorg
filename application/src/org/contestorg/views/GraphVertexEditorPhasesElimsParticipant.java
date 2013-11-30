@@ -38,7 +38,7 @@ public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor 
 	private JPanel jp_edition;
 	
 	/** Liste d'édition */
-	private JComboBox<String> jcb_edition;
+	private JComboBox jcb_edition;
 	
 	/**
 	 * Constructeur
@@ -74,7 +74,7 @@ public class GraphVertexEditorPhasesElimsParticipant extends AbstractCellEditor 
 		
 		ArrayList<String> participants = ContestOrg.get().getCtrlPhasesEliminatoires().getListeParticipants(this.model.getGraph().getObject().getNom());
 		
-		this.jcb_edition = new JComboBox<String>(participants.toArray(new String[participants.size()]));
+		this.jcb_edition = new JComboBox(participants.toArray(new String[participants.size()]));
 		this.jp_edition.add(this.jcb_edition,contrainte_liste);
 		
 		if(participants.contains(this.model.getObject().getNom())) {

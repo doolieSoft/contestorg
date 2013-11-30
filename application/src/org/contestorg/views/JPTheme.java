@@ -37,7 +37,7 @@ public class JPTheme extends JPanel implements ItemListener
 	private JPanel jp_themes;
 	
 	/** Liste des thèmes */
-	protected JComboBox<String> jcb_themes = new JComboBox<String>();
+	protected JComboBox jcb_themes = new JComboBox();
 	
 	/** Paramètres des thèmes */
 	protected HashMap<String,Pair<HashMap<String,JPParametreAbstract>,HashMap<String,JTextField>>> jcs_themes_parametres_cibles = new HashMap<String, Pair<HashMap<String,JPParametreAbstract>,HashMap<String,JTextField>>>();
@@ -86,7 +86,7 @@ public class JPTheme extends JPanel implements ItemListener
 		// Vérifier s'il y a des thèmes disponibles
 		if(themes != null && themes.size() != 0) {
 			// Créer la liste et le panel des thèmes
-			this.jcb_themes = new JComboBox<String>();
+			this.jcb_themes = new JComboBox();
 			this.add(this.jcb_themes);
 			this.add(Box.createVerticalStrut(5));
 			this.jp_themes = new JPanel(new CardLayout());

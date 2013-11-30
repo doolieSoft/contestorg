@@ -53,7 +53,7 @@ public abstract class JDProprieteAbstract extends JDPattern
 	protected JRadioButton jrb_publique_non = new JRadioButton("Non", true);
 	
 	/** Liste des types */
-	protected JComboBox<String> jcb_types;
+	protected JComboBox jcb_types;
 
 	/**
 	 * Constructeur
@@ -72,7 +72,7 @@ public abstract class JDProprieteAbstract extends JDPattern
 		this.jp_contenu.add(ViewHelper.title("Informations sur la propriété", ViewHelper.H1));
 		
 		String[] types = {JDProprieteAbstract.LABEL_TYPE_INT,JDProprieteAbstract.LABEL_TYPE_FLOAT,JDProprieteAbstract.LABEL_TYPE_STRING};
-		this.jcb_types = new JComboBox<String>(types);
+		this.jcb_types = new JComboBox(types);
 		
 		ButtonGroup bg_obligatoire = new ButtonGroup();
 		bg_obligatoire.add(this.jrb_obligatoire_oui);

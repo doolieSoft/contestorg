@@ -17,7 +17,7 @@ import org.contestorg.infos.InfosModelPoule;
 /**
  * Modèle de données pour un tableau de poules
  */
-public class TMPoules extends TMAbstract<Pair<InfosModelPoule, ArrayList<String>>> implements ComboBoxModel<String> {
+public class TMPoules extends TMAbstract<Pair<InfosModelPoule, ArrayList<String>>> implements ComboBoxModel {
 
 	/**
 	 * Constructeur

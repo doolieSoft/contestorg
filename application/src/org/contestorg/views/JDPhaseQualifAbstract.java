@@ -128,11 +128,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 	private JPanel jp_resultat;
 	
 	/** Listes des participants A */
-	@SuppressWarnings("rawtypes")
 	private JComboBox[] jcbs_participantsA;
 	
 	/** Listes des participants B */
-	@SuppressWarnings("rawtypes")
 	private JComboBox[] jcbs_participantsB;
 	
 	/**
@@ -544,9 +542,9 @@ public class JDPhaseQualifAbstract extends JDPattern implements ItemListener, IG
 		for (int i = 0; i < nbMatchs; i++) {
 			JPanel jp_match = new JPanel(new GridLayout(1, 2));
 			
-			this.jcbs_participantsA[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsA[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
 			this.jcbs_participantsA[i].setSelectedIndex(i * 2);
-			this.jcbs_participantsB[i] = new JComboBox<String>(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
+			this.jcbs_participantsB[i] = new JComboBox(this.getParticipantsSelectionnes(true).toArray(new String[this.getParticipantsSelectionnes().size()]));
 			this.jcbs_participantsB[i].setSelectedIndex(i * 2 + 1);
 			
 			jp_match.add(this.jcbs_participantsA[i]);

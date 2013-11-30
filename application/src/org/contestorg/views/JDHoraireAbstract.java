@@ -32,7 +32,7 @@ public class JDHoraireAbstract extends JDPattern
 	protected JTextField jtf_heure_fin = new JTextField();
 	
 	/** Liste des jours */
-	protected JList<String> jl_jours;
+	protected JList jl_jours;
 
 	/**
 	 * Constructeur
@@ -54,7 +54,7 @@ public class JDHoraireAbstract extends JDPattern
 		this.jtf_heure_fin.setToolTipText("Heure de fin de l'horaire doit être de la forme \"??h??\" ou \"??h\"");
 		
 		String[] jours = {"Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"};
-		this.jl_jours = new JList<String>(jours);
+		this.jl_jours = new JList(jours);
 		this.jl_jours.setVisibleRowCount(7);
 		this.jl_jours.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		JLabel[] jls = {new JLabel("Heure de début : "), new JLabel("Heure de fin : "), new JLabel("Jours : ")};

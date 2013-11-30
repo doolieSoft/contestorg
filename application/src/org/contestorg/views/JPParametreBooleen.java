@@ -13,7 +13,7 @@ import org.contestorg.infos.InfosThemeParametre;
 public class JPParametreBooleen extends JPParametreAbstract
 {
 	/** Choix */
-	private JComboBox<String> jcb_choix = new JComboBox<String>();
+	private JComboBox jcb_choix = new JComboBox();
 	
 	/**
 	 * Constructeur

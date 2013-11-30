@@ -140,7 +140,12 @@ abstract public class CompPhasesQualifs implements Comparator
 	public final int compare (ModelParticipant participantA, ModelParticipant participantB) {
 		// Vérifier si le classement a déjà été établi
 		if(isClassementEtabli) {
-			return Integer.compare(this.classement.get(participantA), this.classement.get(participantB));
+			int classementA = this.classement.get(participantA);
+			int classementB = this.classement.get(participantB);
+			if(classementA != classementB) {
+				return classementA > classementB ? 1 : -1;
+			}
+			return 0;
 		} else {
 			// Vérifier si l'un des deux participants n'est pas null
 			if (participantA == null || participantB == null) {

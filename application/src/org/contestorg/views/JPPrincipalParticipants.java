@@ -77,7 +77,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 	// Panneau du bas
 	
 	/** Liste des statuts */
-	private JComboBox<String> jcb_statut;
+	private JComboBox jcb_statut;
 	
 	/** Bouton "Editer" */
 	private JButton jb_editer;
@@ -162,7 +162,7 @@ public class JPPrincipalParticipants extends JPPrincipalAbstract implements Tree
 		this.jp_contenu.add(new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jsp, new JScrollPane(this.jtable)));
 		
 		// Panneau du bas
-		this.jcb_statut = new JComboBox<String>();
+		this.jcb_statut = new JComboBox();
 		this.jcb_statut.addItem(InfosModelParticipant.Statut.ABSENT.getNomEquipe());
 		this.index_absent = 0;
 		this.jcb_statut.addItem(InfosModelParticipant.Statut.PRESENT.getNomEquipe());

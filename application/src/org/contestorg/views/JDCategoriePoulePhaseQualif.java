@@ -29,7 +29,7 @@ public class JDCategoriePoulePhaseQualif extends JDPattern
 	protected JPCategoriePoule jp_categoriePoule = new JPCategoriePoule();
 	
 	/** Phase qualificative */
-	protected JComboBox<String> jcb_phaseQualif = new JComboBox<String>();
+	protected JComboBox jcb_phaseQualif = new JComboBox();
 
 	/**
 	 * Constructeur
