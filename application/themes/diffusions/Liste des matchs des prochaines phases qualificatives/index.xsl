@@ -18,7 +18,7 @@
 		<html>
 			<!-- Head -->
 			<head>
-				<title>Matchs des matchs des prochaines phases qualificatives</title>
+				<title>Matchs des prochaines phases qualificatives</title>
 				<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 				<link href="common.css" rel="stylesheet" type="text/css" />
 				<link href="style.css" rel="stylesheet" type="text/css" />
@@ -27,7 +27,7 @@
 			<!-- Body -->
 			<body onload="setTimeout('scrollit()', 3000);">
 				<!-- Titre -->
-				<h1>Matchs des matchs des prochaines phases qualificatives</h1>
+				<h1>Matchs des prochaines phases qualificatives</h1>
 			
 				<!-- Liste des catégories -->
 				<xsl:apply-templates select="/concours/listeCategories">
