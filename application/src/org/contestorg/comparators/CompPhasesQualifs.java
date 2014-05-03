@@ -90,28 +90,48 @@ abstract public class CompPhasesQualifs implements Comparator
 			ModelParticipant dernierParticipant = null;
 			List<ModelParticipant> participantsExAequos = new ArrayList<ModelParticipant>();
 			for(ModelParticipant participant : participants) {
+				// Comparer le dernier participant avec le participant courant
 				if(dernierParticipant != null) {
+					// Si le dernier participant n'est pas ex-aequo avec le participant courant
 					if(this.compare(participant, dernierParticipant) != 0) {
-						if(this.comparateurSuivant != null && participantsExAequos.size() != 0) {
-							for(Entry<ModelParticipant, Integer> classementComparateurSuivant : this.comparateurSuivant.etablirClassement(participantsExAequos).entrySet()) {
-								this.classement.put(classementComparateurSuivant.getKey(), classementComparateurSuivant.getValue().intValue()+classement-1);
+						// Si la liste d'ex-aequos n'est pas vide
+						if(participantsExAequos.size() != 0) {
+							// Si le comparateur suivant existe
+							if(this.comparateurSuivant != null) {
+								// Trier les ex-aequos avec le comparateur suivant
+								for(Entry<ModelParticipant, Integer> classementComparateurSuivant : this.comparateurSuivant.etablirClassement(participantsExAequos).entrySet()) {
+									this.classement.put(classementComparateurSuivant.getKey(), classementComparateurSuivant.getValue().intValue()+classement-1);
+								}
 							}
+							
+							// Décaler le classement
 							classement += participantsExAequos.size();
+							
+							// Vider la liste des ex-aequos
 							participantsExAequos.clear();
 						} else {
+							// Décaler le classement
 							classement++;
 						}
-					} else if(this.comparateurSuivant != null) {
+					} else {
+						// Si la liste des ex-aequos est vide
 						if(participantsExAequos.size() == 0) {
 							participantsExAequos.add(dernierParticipant);
 						}
+						
+						// Ajouter le participant
 						participantsExAequos.add(participant);
 					}
 				}
+				
+				// Ajouter le classement du participant courant
 				this.classement.put(participant, classement);
+				
+				// Retenir le participant courant
 				dernierParticipant = participant;
 			}
 			if(this.comparateurSuivant != null && participantsExAequos.size() != 0) {
+				// Trier les ex-aequos avec le comparateur suivant
 				for(Entry<ModelParticipant, Integer> classementComparateurSuivant : this.comparateurSuivant.etablirClassement(participantsExAequos).entrySet()) {
 					this.classement.put(classementComparateurSuivant.getKey(), classementComparateurSuivant.getValue().intValue()+classement-1);
 				}
