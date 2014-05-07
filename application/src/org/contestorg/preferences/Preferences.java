@@ -2,6 +2,7 @@ package org.contestorg.preferences;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 import org.contestorg.controllers.ContestOrg;
@@ -11,6 +12,8 @@ import org.contestorg.controllers.ContestOrg;
  */
 public class Preferences
 {
+	/** Unique instance des préférences */
+	private static Preferences instance;
 	
 	/** Préférences */
 	private Properties preferences;
@@ -25,17 +28,41 @@ public class Preferences
 	
 	/** Date de la dernière vérification des mises à jour */
 	public static final String DERNIERE_VERIFICATION_MISES_A_JOUR = "derniereVerificationMisesAJour";
+
+	/**
+	 * Récupérer l'unique instance des préférences
+	 * @return unique instance des préférences
+	 */
+	public synchronized static Preferences getInstance () {
+		// Créer l'unique instance des préférences si nécessaire
+		if (Preferences.instance == null) {
+			Preferences.instance = new Preferences();
+		}
+		
+		// Retourner l'unique instance des préférences
+		return Preferences.instance;
+	}
 	
 	/**
 	 * Constructeur 
 	 */
-	public Preferences() {
+	private Preferences() {
+		FileInputStream inputStream = null;
 		try {
 			// Charger les préférences
+			inputStream = new FileInputStream("conf/preferences.ini");
 			this.preferences = new Properties();
-			this.preferences.load(new FileInputStream("conf/preferences.ini"));
+			this.preferences.load(inputStream);
 		} catch (Exception e) {
 			ContestOrg.get().erreur("Erreur lors du chargement des préférences", e);
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					ContestOrg.get().erreur("Erreur lors du chargement des préférences", e);
+				}
+			}
 		}
 	}
 	
@@ -174,13 +201,22 @@ public class Preferences
 	/**
 	 * Sauvegarder les préférences
 	 */
-	public void save() {
+	public synchronized void save() {
+		FileOutputStream outputStream = null;
 		try {
 			// Sauvegarder les préférences
-			FileOutputStream out = new FileOutputStream("conf/preferences.ini");
-			this.preferences.store(out, null);
+			outputStream = new FileOutputStream("conf/preferences.ini");
+			this.preferences.store(outputStream, null);
 		} catch (Exception e) {
 			ContestOrg.get().erreur("Erreur lors de la modification des préférences", e);
+		} finally {
+			if (outputStream != null) {
+				try {
+					outputStream.close();
+				} catch (IOException e) {
+					ContestOrg.get().erreur("Erreur lors de la modification des préférences", e);
+				}
+			}
 		}
 	}
 	
