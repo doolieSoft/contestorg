@@ -228,6 +228,7 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		Date date = this.jcb_date.isSelected() ? this.jp_datePicker.getDate() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
+		this.jp_objectifs.collect();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -266,14 +267,17 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			erreur = true;
 			ViewHelper.derror(this, "La date du match n'a pas été définie.");
 		}
+		if ((resultatA == InfosModelParticipation.RESULTAT_ATTENTE || resultatB == InfosModelParticipation.RESULTAT_ATTENTE) && (this.jp_objectifs.isObjectifsRemportesA() || this.jp_objectifs.isObjectifsRemportesB())) {
+			// Demande de confirmation
+			erreur = !ViewHelper.confirmation(this, "Vous n'avez pas renseigné le résultat du match alors que vous avez défini des objectifs remportés. Désirez-vous continuer ?", true);
+		}
+		
 		
 		// Transmettre les données au collector
 		if(!erreur) {
 			// Récupérer la liste des prix remportés
 			if(resultatA == InfosModelParticipation.RESULTAT_ATTENTE || resultatB == InfosModelParticipation.RESULTAT_ATTENTE) {
 				this.jp_objectifs.clear();
-			} else {
-				this.jp_objectifs.collect();
 			}
 			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = this.jp_objectifs.getObjectifsRemportesA();
 			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = this.jp_objectifs.getObjectifsRemportesB();
