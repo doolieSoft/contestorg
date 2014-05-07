@@ -135,6 +135,22 @@ public class JPObjectifs extends JPanel
 	}
 	
 	/**
+	 * Vérifier si le participant A a remporté des objectifs
+	 * @return le participant A a remporté des objectifs ?
+	 */
+	public boolean isObjectifsRemportesA() {
+		return this.objectifsRemportesA.size() != 0;
+	}
+	
+	/**
+	 * Vérifier si le participant B a remporté des objectifs
+	 * @return le participant B a remporté des objectifs ?
+	 */
+	public boolean isObjectifsRemportesB() {
+		return this.objectifsRemportesB.size() != 0;
+	}
+	
+	/**
 	 * Récupérer la liste des objectifs remportés par le participant A
 	 * @return liste des objectifs remportés par le participant A
 	 */
