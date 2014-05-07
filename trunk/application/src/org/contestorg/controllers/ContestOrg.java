@@ -48,7 +48,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	/** Version de ContestOrg ([évolution majeure].[évolution mineure].[correction]) */
 	public static final String VERSION = "2.4.2";
 
-	/** Instance unique de ContestOrg */
+	/** Unique instance de ContestOrg */
 	private static ContestOrg contestOrg;
 	
 	// Etats possibles
@@ -93,9 +93,9 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	 * Constructeur
 	 */
 	private ContestOrg() {
-		// Vérifier si l'application a bien été lancé
+		// Vérifier si l'application a bien été lancé depuis son répertoire d'installation
 		if(new File("conf").exists()) {
-			// Retenir l'instance ContestOrg
+			// Retenir l'unique instance de ContestOrg
 			ContestOrg.contestOrg = this;
 			
 			// Configurer le logger
@@ -105,7 +105,7 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 			Log.getLogger().info("Lancement de l'application");
 	
 			// Charger les préférences
-			this.preferences = new Preferences();
+			this.preferences = Preferences.getInstance();
 	
 			// Créer les différents controleurs
 			this.ctrl_participants = new CtrlParticipants();
@@ -138,16 +138,16 @@ public class ContestOrg extends MoodyAbstract implements IHistoryListener
 	}
 
 	/**
-	 * Récupérer l'instance de ContestOrg
-	 * @return instance de ContestOrg
+	 * Récupérer l'unique instance de ContestOrg
+	 * @return unique instance de ContestOrg
 	 */
 	public static ContestOrg get () {
-		// Créer l'instance de ContestOrg si nécéssaire
+		// Créer l'unique instance de ContestOrg si nécéssaire
 		if (ContestOrg.contestOrg == null) {
 			new ContestOrg();
 		}
 
-		// Retourner l'instance de ContestOrg
+		// Retourner l'unique instance de ContestOrg
 		return ContestOrg.contestOrg;
 	}
 	
