@@ -131,13 +131,18 @@
 										<fo:block text-align="center">
 											<fo:block font-size="9pt">
 												<xsl:choose>
-													<xsl:when test="/concours/points/@victoire = 0 and /concours/points/@egalite = 0 and /concours/points/@defaite = 0">
-														Victoire / Egalité / Défaite *
+													<xsl:when test="/concours/points/@victoire = 0 and (/concours/points/@egaliteActivee != 'oui' or /concours/points/@egalite = 0) and /concours/points/@defaite = 0 and /concours/points/@forfait = 0">
+														Victoire <xsl:if test="/concours/points/@egaliteActivee = 'oui'">/ Egalité</xsl:if> / Défaite / Forfait
 													</xsl:when>
 													<xsl:otherwise>
-														Victoire (<xsl:value-of select="/concours/points/@victoire" />pts) / Egalité (<xsl:value-of select="/concours/points/@egalite" />pts) / Défaite (<xsl:value-of select="/concours/points/@defaite" />pts) *
+													   Victoire (<xsl:value-of select="/concours/points/@victoire" />pts)
+														<xsl:if test="/concours/points/@egaliteActivee = 'oui'">
+															/ Egalité (<xsl:value-of select="/concours/points/@egalite" />pts)
+														</xsl:if>
+														/ Défaite  (<xsl:value-of select="/concours/points/@defaite" />pts)
+														/ Forfait  (<xsl:value-of select="/concours/points/@forfait" />pts)
 													</xsl:otherwise>
-												</xsl:choose>
+												</xsl:choose> *
 											</fo:block>
 											<fo:block font-size="8pt" font-style="italic" margin-top="4pt">* entourer le résultat</fo:block>
 										</fo:block>
@@ -146,13 +151,18 @@
 										<fo:block text-align="center">
 											<fo:block font-size="9pt">
 												<xsl:choose>
-													<xsl:when test="/concours/points/@victoire = 0 and /concours/points/@egalite = 0 and /concours/points/@defaite = 0">
-														Victoire / Egalité / Défaite *
+													<xsl:when test="/concours/points/@victoire = 0 and (/concours/points/@egaliteActivee != 'oui' or /concours/points/@egalite = 0) and /concours/points/@defaite = 0 and /concours/points/@forfait = 0">
+														Victoire <xsl:if test="/concours/points/@egaliteActivee = 'oui'">/ Egalité</xsl:if> / Défaite / Forfait
 													</xsl:when>
 													<xsl:otherwise>
-														Victoire (<xsl:value-of select="/concours/points/@victoire" />pts) / Egalité (<xsl:value-of select="/concours/points/@egalite" />pts) / Défaite (<xsl:value-of select="/concours/points/@defaite" />pts) *
+													   Victoire (<xsl:value-of select="/concours/points/@victoire" />pts)
+														<xsl:if test="/concours/points/@egaliteActivee = 'oui'">
+															/ Egalité (<xsl:value-of select="/concours/points/@egalite" />pts)
+														</xsl:if>
+														/ Défaite  (<xsl:value-of select="/concours/points/@defaite" />pts)
+														/ Forfait  (<xsl:value-of select="/concours/points/@forfait" />pts)
 													</xsl:otherwise>
-												</xsl:choose>
+												</xsl:choose> *
 											</fo:block>
 											<fo:block font-size="8pt" font-style="italic" margin-top="4pt">* entourer le résultat</fo:block>
 										</fo:block>
