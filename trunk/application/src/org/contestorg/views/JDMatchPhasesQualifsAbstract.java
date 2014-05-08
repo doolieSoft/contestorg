@@ -272,7 +272,6 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 			erreur = !ViewHelper.confirmation(this, "Vous n'avez pas renseigné le résultat du match alors que vous avez défini des objectifs remportés. Désirez-vous continuer ?", true);
 		}
 		
-		
 		// Transmettre les données au collector
 		if(!erreur) {
 			// Récupérer la liste des prix remportés

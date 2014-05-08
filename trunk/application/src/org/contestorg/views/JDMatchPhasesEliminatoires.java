@@ -49,7 +49,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	private JComboBox jcb_resultatB;
 	
 	/** Panel des objectifs remportés */
-	private JPObjectifs jp_prix;
+	private JPObjectifs jp_objectifs;
 	
 	/** Spécifier la date du match ? */
 	protected JCheckBox jcb_date;
@@ -141,11 +141,11 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		
 		// Prix remportés
 		this.jp_contenu.add(Box.createVerticalStrut(5));
-		this.jp_prix = new JPObjectifs();
-		this.jp_contenu.add(this.jp_prix);
+		this.jp_objectifs = new JPObjectifs();
+		this.jp_contenu.add(this.jp_objectifs);
 		
-		this.jp_prix.setObjectifsRemportesA(infos.getFirst().getSecond());
-		this.jp_prix.setObjectifsRemportesB(infos.getSecond().getSecond());
+		this.jp_objectifs.setObjectifsRemportesA(infos.getFirst().getSecond());
+		this.jp_objectifs.setObjectifsRemportesB(infos.getSecond().getSecond());
 		
 		// Date
 		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
@@ -219,6 +219,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		Date date = this.jcb_date.isSelected() ? this.jp_datePicker.getDate() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
+		this.jp_objectifs.collect();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -242,17 +243,19 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			erreur = true;
 			ViewHelper.derror(this, "La date du match n'a pas été définie.");
 		}
+		if ((resultatA == InfosModelParticipation.RESULTAT_ATTENTE || resultatB == InfosModelParticipation.RESULTAT_ATTENTE) && (this.jp_objectifs.isObjectifsRemportesA() || this.jp_objectifs.isObjectifsRemportesB())) {
+			// Demande de confirmation
+			erreur = !ViewHelper.confirmation(this, "Vous n'avez pas renseigné le résultat du match alors que vous avez défini des objectifs remportés. Désirez-vous continuer ?", true);
+		}
 		
 		// Transmettre les données au collector
 		if(!erreur) {
 			// Récupérer la liste des prix remportés
 			if(resultatA == InfosModelParticipation.RESULTAT_ATTENTE || resultatB == InfosModelParticipation.RESULTAT_ATTENTE) {
-				this.jp_prix.clear();
-			} else {
-				this.jp_prix.collect();
+				this.jp_objectifs.clear();
 			}
-			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = this.jp_prix.getObjectifsRemportesA();
-			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = this.jp_prix.getObjectifsRemportesB();
+			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesA = this.jp_objectifs.getObjectifsRemportesA();
+			TrackableList<Pair<String, InfosModelObjectifRemporte>> objectifsRemportesB = this.jp_objectifs.getObjectifsRemportesB();
 			
 			// Créer les informations de participation
 			Pair<TrackableList<Pair<String, InfosModelObjectifRemporte>>, InfosModelParticipation> participationA = new Pair<TrackableList<Pair<String,InfosModelObjectifRemporte>>, InfosModelParticipation>(objectifsRemportesA, new InfosModelParticipation(resultatA));
