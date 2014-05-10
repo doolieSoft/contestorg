@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -61,6 +62,12 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	
 	/** Panel des objectifs remportés */
 	protected JPObjectifs jp_objectifs;
+	
+	/** Points remportés par le participant A */
+	private JTextField jtf_pointsA;
+
+	/** Points remportés par le participant B */
+	private JTextField jtf_pointsB;
 	
 	/** Spécifier la date du match ? */
 	protected JCheckBox jcb_date;
@@ -153,7 +160,23 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		// Objectifs remportés
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		this.jp_objectifs = new JPObjectifs();
+		this.jp_objectifs.addChangeListener(this);
 		this.jp_contenu.add(this.jp_objectifs);
+		
+		// Points
+		this.jp_contenu.add(ViewHelper.title("Points", ViewHelper.H1));
+
+		this.jtf_pointsA = new JTextField(String.format("%.2f", (double)0));
+		this.jtf_pointsB = new JTextField(String.format("%.2f", (double)0));
+
+		this.jtf_pointsA.setEditable(false);
+		this.jtf_pointsB.setEditable(false);
+		
+		JPanel jp_points = new JPanel(new GridLayout(1,2));
+		jp_points.add(this.jtf_pointsA);
+		jp_points.add(this.jtf_pointsB);
+		
+		this.jp_contenu.add(jp_points);
 		
 		// Date
 		this.jp_contenu.add(ViewHelper.title("Date", ViewHelper.H1));
@@ -228,7 +251,6 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 		Date date = this.jcb_date.isSelected() ? this.jp_datePicker.getDate() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
-		this.jp_objectifs.collect();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -325,6 +347,10 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 					jcb_other.setSelectedIndex(this.index_victoire);
 				}
 			}
+			
+			// Modifier les points remportés
+			this.jtf_pointsA.setText(String.format("%.2f", this.getPointsA()));
+			this.jtf_pointsB.setText(String.format("%.2f", this.getPointsB()));
 		}
 	}
 
@@ -333,8 +359,15 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		if(this.jcb_date.isSelected() != this.jp_datePicker.isVisible()) {
-			this.setDateVisible(this.jcb_date.isSelected());
+		if(event.getSource() == this.jcb_date) {
+			// Afficher/Masquer la date
+			if(this.jcb_date.isSelected() != this.jp_datePicker.isVisible()) {
+				this.setDateVisible(this.jcb_date.isSelected());
+			}
+		} else if (event.getSource() == this.jp_objectifs) {
+			// Modifier les points remportés
+			this.jtf_pointsA.setText(String.format("%.2f", this.getPointsA()));
+			this.jtf_pointsB.setText(String.format("%.2f", this.getPointsB()));
 		}
 	}
 	
@@ -345,6 +378,46 @@ public abstract class JDMatchPhasesQualifsAbstract extends JDPattern implements 
 	protected void setDateVisible(boolean visible) {
 		this.jp_datePicker.setVisible(visible);
 		this.pack();
+	}
+	
+	/**
+	 * Récupérer les points remportés par le participant A
+	 * @return points remportés par le participant A
+	 */
+	private double getPointsA() {
+		double points = this.jp_objectifs.getPointsA();
+		if(this.jcb_resultatA.getSelectedIndex() == this.index_attente) {
+			points = 0;
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_victoire) {
+			points += ContestOrg.get().getConcours().getPointsVictoire();
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_egalite) {
+			points += ContestOrg.get().getConcours().getPointsEgalite();
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_defaite) {
+			points += ContestOrg.get().getConcours().getPointsDefaite();
+		} else if(this.jcb_resultatA.getSelectedIndex() == this.index_forfait) {
+			points += ContestOrg.get().getConcours().getPointsForfait();
+		}
+		return points;
+	}
+
+	/**
+	 * Récupérer les points remportés par le participant B
+	 * @return points remportés par le participant B
+	 */
+	private double getPointsB() {
+		double points = this.jp_objectifs.getPointsB();
+		if(this.jcb_resultatB.getSelectedIndex() == this.index_attente) {
+			points = 0;
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_victoire) {
+			points += ContestOrg.get().getConcours().getPointsVictoire();
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_egalite) {
+			points += ContestOrg.get().getConcours().getPointsEgalite();
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_defaite) {
+			points += ContestOrg.get().getConcours().getPointsDefaite();
+		} else if(this.jcb_resultatB.getSelectedIndex() == this.index_forfait) {
+			points += ContestOrg.get().getConcours().getPointsForfait();
+		}
+		return points;
 	}
 	
 }
