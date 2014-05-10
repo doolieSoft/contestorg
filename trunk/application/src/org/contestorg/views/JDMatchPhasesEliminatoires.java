@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
@@ -50,6 +51,12 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	
 	/** Panel des objectifs remportés */
 	private JPObjectifs jp_objectifs;
+	
+	/** Points remportés par le participant A */
+	private JTextField jtf_pointsA;
+
+	/** Points remportés par le participant B */
+	private JTextField jtf_pointsB;
 	
 	/** Spécifier la date du match ? */
 	protected JCheckBox jcb_date;
@@ -103,7 +110,7 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.jp_contenu.add(ViewHelper.title("Résultats", ViewHelper.H1));
 		
 		JPanel jp_resultat = new JPanel(new GridLayout(1,2));
-		String[] resultats = { "Attente", "Victoire", "Défaite" };
+		String[] resultats = { "Attente", "Victoire", "Défaite", "Forfait" };
 		this.jcb_resultatA = new JComboBox(resultats);
 		this.jcb_resultatB = new JComboBox(resultats);
 		jp_resultat.add(this.jcb_resultatA);
@@ -120,6 +127,9 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			case InfosModelParticipation.RESULTAT_DEFAITE:
 				this.jcb_resultatA.setSelectedIndex(2);
 				break;
+			case InfosModelParticipation.RESULTAT_FORFAIT:
+				this.jcb_resultatA.setSelectedIndex(3);
+				break;
 		}
 		switch(infos.getSecond().getThird().getResultat()) {
 			case InfosModelParticipation.RESULTAT_ATTENTE:
@@ -131,6 +141,9 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			case InfosModelParticipation.RESULTAT_DEFAITE:
 				this.jcb_resultatB.setSelectedIndex(2);
 				break;
+			case InfosModelParticipation.RESULTAT_FORFAIT:
+				this.jcb_resultatB.setSelectedIndex(3);
+				break;
 		}
 
 		this.jcb_resultatA.addItemListener(this);
@@ -139,11 +152,28 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 		this.jcb_resultatA.setEnabled(resultatsEditable);
 		this.jcb_resultatB.setEnabled(resultatsEditable);
 		
-		// Prix remportés
+		// Objectifs remportés
 		this.jp_contenu.add(Box.createVerticalStrut(5));
 		this.jp_objectifs = new JPObjectifs();
+		this.jp_objectifs.addChangeListener(this);
 		this.jp_contenu.add(this.jp_objectifs);
 		
+		// Points
+		this.jp_contenu.add(ViewHelper.title("Points", ViewHelper.H1));
+
+		this.jtf_pointsA = new JTextField(String.format("%.2f", (double)0));
+		this.jtf_pointsB = new JTextField(String.format("%.2f", (double)0));
+
+		this.jtf_pointsA.setEditable(false);
+		this.jtf_pointsB.setEditable(false);
+		
+		JPanel jp_points = new JPanel(new GridLayout(1,2));
+		jp_points.add(this.jtf_pointsA);
+		jp_points.add(this.jtf_pointsB);
+		
+		this.jp_contenu.add(jp_points);
+		
+		// Définir les objectifs remportés
 		this.jp_objectifs.setObjectifsRemportesA(infos.getFirst().getSecond());
 		this.jp_objectifs.setObjectifsRemportesB(infos.getSecond().getSecond());
 		
@@ -202,6 +232,9 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			case 2:
 				resultatA = InfosModelParticipation.RESULTAT_DEFAITE;
 				break;
+			case 3:
+				resultatA = InfosModelParticipation.RESULTAT_DEFAITE;
+				break;
 		}
 		int resultatB = 0;
 		switch(this.jcb_resultatB.getSelectedIndex()) {
@@ -214,12 +247,14 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 			case 2:
 				resultatB = InfosModelParticipation.RESULTAT_DEFAITE;
 				break;
+			case 3:
+				resultatB = InfosModelParticipation.RESULTAT_DEFAITE;
+				break;
 		}
 		String details = this.jta_details.getText().trim();
 		Date date = this.jcb_date.isSelected() ? this.jp_datePicker.getDate() : null;
 		String nomLieu = this.jp_lieuEmplacement.getNomLieu();
 		String nomEmplacement = this.jp_lieuEmplacement.getNomEmplacement();
-		this.jp_objectifs.collect();
 		
 		// Vérifier les données
 		boolean erreur = false;
@@ -295,9 +330,15 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 					case 2: // Défaite
 						jcb_other.setSelectedIndex(1);
 						break;
-						
+					case 3: // Forfait
+						jcb_other.setSelectedIndex(1);
+						break;
 				}
 			}
+			
+			// Modifier les points remportés
+			this.jtf_pointsA.setText(String.format("%.2f", this.getPointsA()));
+			this.jtf_pointsB.setText(String.format("%.2f", this.getPointsB()));
 		}
 	}
 
@@ -306,10 +347,71 @@ public class JDMatchPhasesEliminatoires extends JDPattern implements ItemListene
 	 */
 	@Override
 	public void stateChanged (ChangeEvent event) {
-		if(this.jcb_date.isSelected() != this.jp_datePicker.isVisible()) {
-			this.jp_datePicker.setVisible(this.jcb_date.isSelected());
-			this.pack();
+		if(event.getSource() == this.jcb_date) {
+			// Afficher/Masquer la date
+			if(this.jcb_date.isSelected() != this.jp_datePicker.isVisible()) {
+				this.setDateVisible(this.jcb_date.isSelected());
+			}
+		} else if (event.getSource() == this.jp_objectifs) {
+			// Modifier les points remportés
+			this.jtf_pointsA.setText(String.format("%.2f", this.getPointsA()));
+			this.jtf_pointsB.setText(String.format("%.2f", this.getPointsB()));
 		}
+	}
+	
+	/**
+	 * Définir si le calendrier est visible ou non
+	 * @param visible calendrier visible ?
+	 */
+	protected void setDateVisible(boolean visible) {
+		this.jp_datePicker.setVisible(visible);
+		this.pack();
+	}
+	
+	/**
+	 * Récupérer les points remportés par le participant A
+	 * @return points remportés par le participant A
+	 */
+	private double getPointsA() {
+		double points = this.jp_objectifs.getPointsA();
+		switch(this.jcb_resultatA.getSelectedIndex()) {
+			case 0: // Attente
+				points = 0;
+				break;
+			case 1: // Victoire
+				points += ContestOrg.get().getConcours().getPointsVictoire();
+				break;
+			case 2: // Defaite
+				points += ContestOrg.get().getConcours().getPointsDefaite();
+				break;
+			case 3: // Forfait
+				points += ContestOrg.get().getConcours().getPointsForfait();
+				break;
+		}
+		return points;
+	}
+
+	/**
+	 * Récupérer les points remportés par le participant B
+	 * @return points remportés par le participant B
+	 */
+	private double getPointsB() {
+		double points = this.jp_objectifs.getPointsB();
+		switch(this.jcb_resultatB.getSelectedIndex()) {
+			case 0: // Attente
+				points = 0;
+				break;
+			case 1: // Victoire
+				points += ContestOrg.get().getConcours().getPointsVictoire();
+				break;
+			case 2: // Defaite
+				points += ContestOrg.get().getConcours().getPointsDefaite();
+				break;
+			case 3: // Forfait
+				points += ContestOrg.get().getConcours().getPointsForfait();
+				break;
+		}
+		return points;
 	}
 	
 }

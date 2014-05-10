@@ -298,7 +298,7 @@ public class TrackableList<T> implements Iterable<T>
 	 * @return suppression effectuée ?
 	 */
 	public boolean remove (int row) {
-		// Vérifier si les validateurs acceptent l'ajout
+		// Vérifier si les validateurs acceptent la suppression
 		if(this.validateDelete(row)) {
 			// Retirer l'élément
 			T t = this.tsModifies.remove(row);
