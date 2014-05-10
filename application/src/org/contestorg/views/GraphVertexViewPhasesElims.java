@@ -112,8 +112,6 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 		// Créer le label
 		JLabel label = new JLabel("",new ImageIcon(ContestOrg.get().getCtrlParticipants().getTypeParticipants() == InfosModelConcours.PARTICIPANTS_EQUIPES ? "img/farm/32x32/group.png" : "img/farm/32x32/user_green.png"),SwingConstants.LEFT);
 		label.setOpaque(true);
-		label.setBackground(new Color(119,171,243));
-		label.setBorder(new LineBorder(new Color(119,171,243), 5));
 		
 		// Raraichir le label
 		GraphVertexViewPhasesElims.refreshRenderComponent(label, model);
@@ -130,6 +128,24 @@ public class GraphVertexViewPhasesElims extends VertexView implements ICelluleMo
 	private static void refreshRenderComponent(JLabel label,ICelluleModel<InfosModelCategorie,InfosModelParticipant> model) {
 		// Mettre à jour le label
 		label.setText(model.getObject() == null ? "   ...   " : model.getObject().getNom());
+		if(model.getObject() != null && model.getGraph().indexOf(model) < model.getGraph().size()) {
+			int nbParticipantsSimilaires = 0;
+			for (int i=0;i<model.getGraph().size();i++) {
+				if (model.getGraph().getCellule(i).getObject() != null && model.getGraph().getCellule(i).getObject().getNom().equals(model.getObject().getNom())) {
+					nbParticipantsSimilaires++;
+				}
+			}
+			if(nbParticipantsSimilaires > 1) {
+				label.setBackground(new Color(250, 90, 90));
+				label.setBorder(new LineBorder(new Color(250, 90, 90), 5));
+			} else {
+				label.setBackground(new Color(119,171,243));
+				label.setBorder(new LineBorder(new Color(119,171,243), 5));
+			}
+		} else {
+			label.setBackground(new Color(119,171,243));
+			label.setBorder(new LineBorder(new Color(119,171,243), 5));
+		}
 	}
 	
 	/**
