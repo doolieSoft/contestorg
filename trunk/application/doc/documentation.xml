@@ -965,16 +965,11 @@ FIN PROCEDURE;</programlisting>
           d'inverser son effet. Il conseillé de le faire pour les critères de
           classement "Nombre de défaites" et "Nombre de forfaits" car un
           participant qui a plus de défaites ou de forfaits qu'un autre est
-          généralement moins bien positionné que celui-ci. Ce paramètre est
-          également utile pour prendre en compte le nombre de pénalités dans
-          le classement (ajout d'un critère de classement inversé "Quantité
-          remporté d'un objectif" associé à un objectif "Pénalité").</remark>
-
-          <section>
-            <title>Cas particulier du goal-average</title>
-
-            <para>Le goal-average</para>
-          </section>
+          généralement moins bien positionné dans le classement que celui-ci.
+          Ce paramètre est également utile pour prendre en compte le nombre de
+          pénalités dans le classement (ajout d'un critère de classement
+          inversé "Quantité remporté d'un objectif" associé à un objectif
+          "Pénalité").</remark>
         </section>
       </section>
 
@@ -1007,7 +1002,7 @@ FIN PROCEDURE;</programlisting>
 
             <para>Dans le cadre d'un tournoi quelconque, le responsable
             d'organisation désire informer les participants, visiteurs et
-            journalistes des informations relative au tournoi. Pour cela, il
+            journalistes des informations relatives au tournoi. Pour cela, il
             crée l'exportation ayant pour thème <quote>Site Web</quote> et
             pour emplacement <quote>Serveur <acronym>FTP</acronym></quote>.
             Après avoir renseigné les informations nécessaires, il valide le
