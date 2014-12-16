@@ -301,7 +301,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 			}
 		} else if (event.getSource() == this.jb_web) {
 			try {
-				Desktop.getDesktop().browse(new URI("http://www.elfangels.fr/contestorg/"));
+				Desktop.getDesktop().browse(new URI("http://www.cyrilperrin.fr/contestorg/"));
 			} catch (Exception e) {
 				ViewHelper.derror(this, "Erreur lors de l'ouverture du site web de ContestOrg.");
 			}
@@ -310,7 +310,7 @@ public class JFPrincipal extends JFrame implements ActionListener, WindowListene
 				this, "A propos",
 				"<font size=+1>Informations générales</font>\n" +
 				"Version : "+ContestOrg.VERSION+"\n" +
-				"Site web : <a href=\"#\">http://www.elfangels.fr/contestorg/</a>\n" +
+				"Site web : <a href=\"#\">http://www.cyrilperrin.fr/contestorg/</a>\n" +
 				"\n" +
 				"ContestOrg est un logiciel d’organisation de tournois. Celui-ci est\n" +
 				"particulièrement bien adapté aux tournois sportifs (football, judo,\n" +
