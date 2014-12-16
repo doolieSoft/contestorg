@@ -91,7 +91,7 @@ public class Report
 			
 			// Envoie du rapport d'erreur
 			HTTPHelper.Browser browser = new HTTPHelper.Browser();
-			browser.post("http://www.elfangels.fr", 80, "/contestorg/api/error", parameters, files);
+			browser.post("http://www.cyrilperrin.fr", 80, "/contestorg/api/error", parameters, files);
 			
 			// Avancement
 			this.fireAvancement(1.0);

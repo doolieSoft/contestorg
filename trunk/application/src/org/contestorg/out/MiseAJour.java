@@ -62,7 +62,7 @@ public class MiseAJour
 				
 				// Récupérer la liste des mises à jour
 				HTTPHelper.Browser browser = new HTTPHelper.Browser();
-				HttpResponse response = browser.get("http://www.elfangels.fr", 80, "/contestorg/api/versions");
+				HttpResponse response = browser.get("http://www.cyrilperrin.fr", 80, "/contestorg/api/versions");
 				
 				// Vérifier si la requête a réussie
 				if(response == null || response.getStatusLine() == null || response.getStatusLine().getStatusCode() != 200) {
