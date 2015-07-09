@@ -1,0 +1,3 @@
+ContestOrg est un logiciel d’organisation de tournois. Celui-ci est particulièrement bien adapté aux tournois sportifs (football, judo, rugby…) mais peut également convenir pour d'autres types de tournois (jeux vidéo, jeux de société, robotique...).
+
+Doté d'une interface agréable et fonctionelle, vous pourrez en quelques clics créer les équipes, générer les séries de matchs et renseigner les résultats. Pas besoin de connaissance particulière en informatique !
